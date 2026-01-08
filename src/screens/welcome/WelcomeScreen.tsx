@@ -49,18 +49,10 @@ function pos(frameX: number, frameY: number) {
 export const WelcomeScreen = () => {
   const { w: vw, h: vh } = useViewport();
 
-  // Масштабируем так, чтобы весь экран влез (по меньшему из коэффициентов)
-  const scale = useMemo(() => {
-    const scaleW = vw / DESIGN_W;
-    const scaleH = vh / DESIGN_H;
-    return Math.min(scaleW, scaleH);
-  }, [vw, vh]);
+  // Масштабируем по ширине, заполняем весь экран без пустот
+  const scale = useMemo(() => vw / DESIGN_W, [vw]);
 
-  const offsetX = useMemo(() => {
-    const scaledW = DESIGN_W * scale;
-    return (vw - scaledW) / 2;
-  }, [vw, scale]);
-
+  // offsetX = 0, т.к. заполняем всю ширину
   const offsetY = useMemo(() => {
     const scaledH = DESIGN_H * scale;
     return (vh - scaledH) / 2;
@@ -80,7 +72,7 @@ export const WelcomeScreen = () => {
       <div
         className="absolute"
         style={{
-          left: offsetX,
+          left: 0,
           top: offsetY,
           width: DESIGN_W,
           height: DESIGN_H,
