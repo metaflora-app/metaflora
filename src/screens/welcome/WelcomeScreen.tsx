@@ -49,24 +49,21 @@ function pos(frameX: number, frameY: number) {
 export const WelcomeScreen = () => {
   const { w: vw, h: vh } = useViewport();
 
-  // Строго как референс: макет заполняет ширину (без боковых полей).
+  // Масштабируем по ширине
   const scale = useMemo(() => {
-    const sW = vw / DESIGN_W;
-    return Math.min(1, Math.max(0.1, sW));
+    return vw / DESIGN_W;
   }, [vw]);
 
-  // Центрируем сцену по X через вычисляемый left, без translate (так надёжнее в iOS WebView).
+  // Центрируем по X
   const offsetX = useMemo(() => {
     const scaledW = DESIGN_W * scale;
     return Math.round((vw - scaledW) / 2);
   }, [vw, scale]);
 
-  // По Y: якорим сцену по НИЗУ (как на референсе). Так не будет пустого места снизу,
-  // и если сцена выше окна — она сдвинется вверх ровно настолько, чтобы низ был виден.
+  // По Y: центрируем вертикально
   const offsetY = useMemo(() => {
     const scaledH = DESIGN_H * scale;
-    const deltaPx = vh - scaledH; // >0: можем опустить вниз; <0: нужно поднять вверх
-    return Math.round(deltaPx / scale);
+    return Math.round((vh - scaledH) / 2);
   }, [vh, scale]);
 
   return (
@@ -81,12 +78,13 @@ export const WelcomeScreen = () => {
       />
 
       <div
-        className="absolute top-0"
+        className="absolute"
         style={{
           left: offsetX,
+          top: offsetY,
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: `translateY(${offsetY}px) scale(${scale})`,
+          transform: `scale(${scale})`,
           transformOrigin: 'top left',
         }}
       >
