@@ -11,10 +11,14 @@ export default defineConfig({
   preview: {
     port: parseInt(process.env.PORT || '4173'),
     host: '0.0.0.0',
+    allowedHosts: [
+      'web-production-fc84.up.railway.app',
+      '.railway.app',
+      '.up.railway.app',
+    ],
   },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
   },
 });
-
