@@ -49,16 +49,28 @@ function pos(frameX: number, frameY: number) {
 export const WelcomeScreen = () => {
   const { w: vw, h: vh } = useViewport();
 
-  // Масштабируем по ширине
+  // Масштабируем так, чтобы весь экран влез (по меньшему из коэффициентов)
   const scale = useMemo(() => {
-    return vw / DESIGN_W;
-  }, [vw]);
+    const scaleW = vw / DESIGN_W;
+    const scaleH = vh / DESIGN_H;
+    return Math.min(scaleW, scaleH);
+  }, [vw, vh]);
+
+  const offsetX = useMemo(() => {
+    const scaledW = DESIGN_W * scale;
+    return (vw - scaledW) / 2;
+  }, [vw, scale]);
+
+  const offsetY = useMemo(() => {
+    const scaledH = DESIGN_H * scale;
+    return (vh - scaledH) / 2;
+  }, [vh, scale]);
 
   return (
-    <div className="relative w-screen h-screen overflow-y-auto overflow-x-hidden bg-[#020101]">
+    <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
       {/* dotted background */}
       <div
-        className="fixed inset-0 -z-10"
+        className="absolute inset-0"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
@@ -66,12 +78,14 @@ export const WelcomeScreen = () => {
       />
 
       <div
-        className="relative mx-auto"
+        className="absolute"
         style={{
+          left: offsetX,
+          top: offsetY,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
-          transformOrigin: 'top center',
+          transformOrigin: 'top left',
         }}
       >
         {/* small logo (bbox: x=505 y=187 w=177 h=128) */}
