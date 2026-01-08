@@ -109,12 +109,13 @@ export const WelcomeScreen = () => {
             height: 40,
             color: '#fff',
             fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
-            fontWeight: 400,
             fontSize: 20,
             lineHeight: '20px',
           }}
         >
-          написать <br />в поддержку
+          <span style={{ fontWeight: 300 }}>написать</span>
+          <br />
+          <span style={{ fontWeight: 700 }}>в поддержку</span>
         </div>
 
         {/* title (bbox: x=94 y=337 w=938 h=160 Inter ExtraBold 80 lh80) */}
@@ -132,7 +133,7 @@ export const WelcomeScreen = () => {
             lineHeight: '80px',
           }}
         >
-          {'добро пожаловать\nв метафлору*'}
+          {'добро пожаловать\nв МЕТАФЛОРУ*'}
         </div>
 
         {/* description (bbox: x=94 y=522 w=922 h=120 Gotham Pro Regular 40 lh40) */}
@@ -150,9 +151,8 @@ export const WelcomeScreen = () => {
             lineHeight: '40px',
           }}
         >
-          {/* NOTE: Figma has bold emphasis on "с метафлорой*". */}
           обучайтесь AI прямо в Telegram{'\n'}
-          <span style={{ fontWeight: 700 }}>с метафлорой*</span>: академия, лаба, цех{'\n'}
+          <span style={{ fontWeight: 700 }}>с МЕТАФЛОРОЙ*</span>: академия, лаба, цех{'\n'}
           и другие сервисы
         </div>
 
