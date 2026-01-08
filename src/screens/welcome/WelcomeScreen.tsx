@@ -54,18 +54,6 @@ export const WelcomeScreen = () => {
     return vw / DESIGN_W;
   }, [vw]);
 
-  // Центрируем по X
-  const offsetX = useMemo(() => {
-    const scaledW = DESIGN_W * scale;
-    return Math.round((vw - scaledW) / 2);
-  }, [vw, scale]);
-
-  // По Y: центрируем вертикально
-  const offsetY = useMemo(() => {
-    const scaledH = DESIGN_H * scale;
-    return Math.round((vh - scaledH) / 2);
-  }, [vh, scale]);
-
   return (
     <div className="relative w-screen h-screen overflow-y-auto overflow-x-hidden bg-[#020101]">
       {/* dotted background */}
