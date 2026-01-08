@@ -12,7 +12,7 @@ import footerLogo from '../../assets/welcome/footer-logo.png';
 import socialsImg from '../../assets/welcome/socials.png';
 
 const DESIGN_W = 1180;
-const DESIGN_H = 2550;
+const DESIGN_H = 2400;
 
 function useViewport() {
   const get = () => {
@@ -409,17 +409,6 @@ export const WelcomeScreen = () => {
           }}
         />
 
-        {/* home indicator (bbox: x=384 y=2510 w=412 h=19 r=33) */}
-        <div
-          style={{
-            position: 'absolute',
-            ...pos(384, 2510),
-            width: 412,
-            height: 19,
-            borderRadius: 33,
-            backgroundColor: '#fffdfe',
-          }}
-        />
       </div>
 
       {/* Safe area pad */}
