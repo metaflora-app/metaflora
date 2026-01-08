@@ -47,17 +47,13 @@ function pos(frameX: number, frameY: number) {
  * Важно: 1:1 по типографике будет только если подключены шрифты из Figma.
  */
 export const WelcomeScreen = () => {
-  const { w: vw, h: vh } = useViewport();
+  const { w: vw } = useViewport();
 
-  // Масштабируем по ширине, но не больше чем влезает по высоте
-  const scale = useMemo(() => {
-    const scaleW = vw / DESIGN_W;
-    const scaleH = vh / DESIGN_H;
-    return Math.min(scaleW, scaleH);
-  }, [vw, vh]);
+  // Масштабируем по ширине, заполняем весь экран без пустот
+  const scale = useMemo(() => vw / DESIGN_W, [vw]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#020101]" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+    <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
       {/* dotted background */}
       <div
         className="absolute inset-0"
@@ -68,12 +64,14 @@ export const WelcomeScreen = () => {
       />
 
       <div
-        className="relative"
+        className="absolute"
         style={{
+          left: 0,
+          top: 0,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
-          transformOrigin: 'center',
+          transformOrigin: 'top left',
         }}
       >
         {/* small logo (bbox: x=505 y=89 w=177 h=128) */}
