@@ -247,49 +247,18 @@ export const WelcomeScreen = () => {
             width: 892,
             height: 139,
             borderRadius: 62,
-            backgroundColor: 'rgba(0,0,0,0.90)',
-            border: '4px solid rgba(255,255,255,0.30)',
+            background: 'linear-gradient(90deg, #00e8ff 0%, #00dff5 18%, #f0d825 50%, #b6ff3c 78%, #00e8ff 100%)',
+            border: '5px solid rgba(255,255,255,0.35)',
             overflow: 'hidden',
           }}
         >
-          {/* Градиентные круги с ЯРКИМ blur */}
+          {/* Виньетка по краям для затемнения */}
           <div
             style={{
               position: 'absolute',
-              left: 145 - 128,
-              top: -189.57 - 2057,
-              width: 575.78,
-              height: 423.34,
-              borderRadius: '50%',
-              backgroundColor: '#37ecf7',
-              filter: 'blur(140px)',
-              opacity: 1,
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              left: 523.16 - 128,
-              top: -203.51 - 2057,
-              width: 283.01,
-              height: 343.11,
-              borderRadius: '50%',
-              backgroundColor: '#f0d825',
-              filter: 'blur(140px)',
-              opacity: 1,
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              left: 403.64 - 128,
-              top: 73.04 - 2057,
-              width: 317.09,
-              height: 286.96,
-              borderRadius: '50%',
-              backgroundColor: '#d5fc44',
-              filter: 'blur(140px)',
-              opacity: 1,
+              inset: 0,
+              background: 'linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.6) 100%)',
+              pointerEvents: 'none',
             }}
           />
         </div>
