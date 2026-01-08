@@ -12,7 +12,6 @@ import paginationImg from '../../assets/welcome/pagination.png';
 
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
-const VIEWPORT_PAD = 60; // px (target ~55–60)
 
 function useViewport() {
   const get = () => {
@@ -49,22 +48,27 @@ function pos(frameX: number, frameY: number) {
 export const WelcomeScreen = () => {
   const { w: vw, h: vh } = useViewport();
 
-  // Требование: сверху и снизу оставить ~55–60px.
-  // Поэтому масштабируем так, чтобы макет ВЛЕЗ по высоте внутри (vh - 2*VIEWPORT_PAD),
-  // и по ширине внутри vw. Это даёт гарантированные отступы сверху/снизу.
+  // Строго как референс: макет заполняет ширину (без боковых полей).
+  // Высоты в Telegram может не хватать — поэтому позиционируем по Y (центровка),
+  // но НЕ уменьшаем scale по высоте.
   const scale = useMemo(() => {
     const sW = vw / DESIGN_W;
-    const safeH = Math.max(0, vh - VIEWPORT_PAD * 2);
-    const sH = safeH / DESIGN_H;
-    const s = Math.min(sW, sH);
-    return Math.min(1, Math.max(0.1, s));
-  }, [vw, vh]);
+    return Math.min(1, Math.max(0.1, sW));
+  }, [vw]);
 
   // Центрируем сцену по X через вычисляемый left, без translate (так надёжнее в iOS WebView).
   const offsetX = useMemo(() => {
     const scaledW = DESIGN_W * scale;
     return Math.round((vw - scaledW) / 2);
   }, [vw, scale]);
+
+  // Вертикальная центровка сцены внутри видимой области.
+  // Если сцена выше вьюпорта — поднимем её на половину переполнения (как на референсе).
+  const offsetY = useMemo(() => {
+    const scaledH = DESIGN_H * scale;
+    const delta = vh - scaledH; // >0: место снизу/сверху; <0: не влезаем
+    return Math.round((delta / 2) / scale);
+  }, [vh, scale]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
@@ -78,13 +82,12 @@ export const WelcomeScreen = () => {
       />
 
       <div
-        className="absolute"
+        className="absolute top-0"
         style={{
           left: offsetX,
-          top: VIEWPORT_PAD,
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: `scale(${scale})`,
+          transform: `translateY(${offsetY}px) scale(${scale})`,
           transformOrigin: 'top left',
         }}
       >
