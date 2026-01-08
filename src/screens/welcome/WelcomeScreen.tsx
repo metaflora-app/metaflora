@@ -60,13 +60,12 @@ export const WelcomeScreen = () => {
     return Math.round((vw - scaledW) / 2);
   }, [vw, scale]);
 
-  // По Y: НЕ центрируем. Двигаем вверх ТОЛЬКО если сцена не влезает по высоте,
-  // чтобы низ не обрезался. Если сцена влезает — offsetY = 0 (чтобы не было пустого низа).
+  // По Y: якорим сцену по НИЗУ (как на референсе). Так не будет пустого места снизу,
+  // и если сцена выше окна — она сдвинется вверх ровно настолько, чтобы низ был виден.
   const offsetY = useMemo(() => {
     const scaledH = DESIGN_H * scale;
-    const deltaPx = vh - scaledH;
-    if (deltaPx >= 0) return 0;
-    return Math.round(deltaPx / scale); // отрицательное значение (поднимаем)
+    const deltaPx = vh - scaledH; // >0: можем опустить вниз; <0: нужно поднять вверх
+    return Math.round(deltaPx / scale);
   }, [vh, scale]);
 
   return (
