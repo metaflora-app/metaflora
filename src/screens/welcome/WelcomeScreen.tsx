@@ -130,10 +130,9 @@ export const WelcomeScreen = () => {
             fontWeight: 800,
             fontSize: 80,
             lineHeight: '80px',
-            textTransform: 'uppercase',
           }}
         >
-          {'добро пожаловать\nв МЕТАФЛОРУ*'}
+          {'добро пожаловать\nв метафлору*'}
         </div>
 
         {/* description (bbox: x=94 y=522 w=922 h=120 Gotham Pro Regular 40 lh40) */}
@@ -151,7 +150,10 @@ export const WelcomeScreen = () => {
             lineHeight: '40px',
           }}
         >
-          {'обучайтесь AI прямо в Telegram\nс МЕТАФЛОРОЙ*: академия, лаба, цех\nи другие сервисы'}
+          {/* NOTE: Figma has bold emphasis on "с метафлорой*". */}
+          обучайтесь AI прямо в Telegram{'\n'}
+          <span style={{ fontWeight: 700 }}>с метафлорой*</span>: академия, лаба, цех{'\n'}
+          и другие сервисы
         </div>
 
         {/* carousel images */}
