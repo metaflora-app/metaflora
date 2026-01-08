@@ -14,11 +14,18 @@ const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
 function useViewport() {
-  const [vp, setVp] = useState(() => ({ w: window.innerWidth, h: window.innerHeight }));
+  const get = () => {
+    const w = window.visualViewport?.width ?? window.innerWidth;
+    const h = window.visualViewport?.height ?? window.innerHeight;
+    return { w, h };
+  };
+
+  const [vp, setVp] = useState(get);
 
   useEffect(() => {
-    const onResize = () => setVp({ w: window.innerWidth, h: window.innerHeight });
+    const onResize = () => setVp(get());
     window.addEventListener('resize', onResize);
+    window.visualViewport?.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
@@ -39,13 +46,15 @@ function pos(frameX: number, frameY: number) {
  * Важно: 1:1 по типографике будет только если подключены шрифты из Figma.
  */
 export const WelcomeScreen = () => {
-  const { w: vw } = useViewport();
+  const { w: vw, h: vh } = useViewport();
 
-  // Figma кадр сделан под 1180px ширины (≈3x от 390). Чтобы не ломать пропорции — масштабируем по ширине.
+  // Масштабируем по ширине И по высоте (Telegram WebView съедает часть высоты, поэтому только vw недостаточно).
   const scale = useMemo(() => {
-    const s = vw / DESIGN_W;
+    const sW = vw / DESIGN_W;
+    const sH = vh / DESIGN_H;
+    const s = Math.min(sW, sH);
     return Math.min(1, Math.max(0.1, s));
-  }, [vw]);
+  }, [vw, vh]);
 
   // Центрируем сцену по X через вычисляемый left, без translate (так надёжнее в iOS WebView).
   const offsetX = useMemo(() => {
