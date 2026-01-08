@@ -13,22 +13,8 @@ const DESIGN_H = 2550;
 
 export const WelcomeScreen = () => {
   const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  
-  // Масштаб чтобы ВЕСЬ фрейм влез (Math.min)
-  const scale = useMemo(() => {
-    const scaleW = vw / DESIGN_W;
-    const scaleH = vh / DESIGN_H;
-    return Math.min(scaleW, scaleH);
-  }, [vw, vh]);
-  
-  // Размеры после масштабирования
-  const scaledW = DESIGN_W * scale;
-  const scaledH = DESIGN_H * scale;
-  
-  // Центрирование (отступы по бокам если scaleH меньше)
-  const offsetX = (vw - scaledW) / 2;
-  const offsetY = (vh - scaledH) / 2;
+  // Масштаб строго по ширине, как в Figma (без вертикального центрирования)
+  const scale = useMemo(() => vw / DESIGN_W, [vw]);
 
   // Вспомогательная функция для позиционирования
   const pos = (x: number, y: number) => ({ left: x, top: y });
@@ -36,11 +22,6 @@ export const WelcomeScreen = () => {
   return (
     <div 
       className="relative w-screen h-screen overflow-hidden bg-[#020101]"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
     >
       {/* Фон с точками (из Figma) */}
       <div
@@ -55,8 +36,8 @@ export const WelcomeScreen = () => {
       <div
         className="absolute"
         style={{
-          left: offsetX,
-          top: offsetY,
+          left: 0,
+          top: 0,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
@@ -140,84 +121,48 @@ export const WelcomeScreen = () => {
             lineHeight: '40px',
           }}
         >
-          {'обучайтесь AI прямо в Telegram \nс МЕТАФЛОРОЙ*: академия, лаба, цех \nи другие сервисы'}
+          {'обучайтесь AI прямо в Telegram \nс '}
+          <span style={{ fontWeight: 800 }}>МЕТАФЛОРОЙ*</span>
+          {': академия, лаба, цех \nи другие сервисы'}
         </p>
 
-        {/* Carousel - горизонтальный скролл */}
-        <div
+        {/* Carousel — фиксированные позиции по Figma */}
+        <img
+          src={carousel1}
+          alt=""
           style={{
             position: 'absolute',
-            left: 0,
-            top: 789,
-            width: DESIGN_W,
+            ...pos(-203, 789),
+            width: 609,
             height: 973,
-            overflowX: 'auto',
-            overflowY: 'hidden',
-            WebkitOverflowScrolling: 'touch',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
+            borderRadius: 40,
+            objectFit: 'cover',
           }}
-        >
-          <div
-            style={{
-              position: 'relative',
-              width: 1586, // от -203+203=0 до 774+203+609=1586
-              height: 973,
-            }}
-          >
-            {/* Carousel левый (x=-203 y=789 w=609 h=972.65) */}
-            <img
-              src={carousel1}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: 203,
-                top: 0,
-                width: 609,
-                height: 973,
-                borderRadius: 40,
-                objectFit: 'cover',
-              }}
-            />
-
-            {/* Carousel центральный (x=325 y=789 w=530 h=930) */}
-            <img
-              src={carousel2}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: 325 + 203,
-                top: 0,
-                width: 530,
-                height: 930,
-                borderRadius: 40,
-                objectFit: 'cover',
-              }}
-            />
-
-            {/* Carousel правый (x=774 y=789 w=609 h=972.65) */}
-            <img
-              src={carousel3}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: 774 + 203,
-                top: 0,
-                width: 609,
-                height: 973,
-                borderRadius: 40,
-                objectFit: 'cover',
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Скрыть scrollbar для carousel */}
-        <style>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+        />
+        <img
+          src={carousel2}
+          alt=""
+          style={{
+            position: 'absolute',
+            ...pos(325, 789),
+            width: 530,
+            height: 930,
+            borderRadius: 40,
+            objectFit: 'cover',
+          }}
+        />
+        <img
+          src={carousel3}
+          alt=""
+          style={{
+            position: 'absolute',
+            ...pos(774, 789),
+            width: 609,
+            height: 973,
+            borderRadius: 40,
+            objectFit: 'cover',
+          }}
+        />
 
         {/* Pagination (x=531 y=1790 w=119 h=17) */}
         <img
