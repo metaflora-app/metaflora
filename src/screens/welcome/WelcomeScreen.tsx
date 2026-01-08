@@ -20,7 +20,11 @@ try {
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
-export const WelcomeScreen = () => {
+type Props = {
+  onGoTour?: () => void;
+};
+
+export const WelcomeScreen = ({ onGoTour }: Props) => {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   // Масштаб строго по ширине, как в Figma (без вертикального центрирования)
@@ -213,6 +217,8 @@ export const WelcomeScreen = () => {
 
         {/* Кнопка "экскурсия по платформе" (x=128 y=1899 w=892 h=139) */}
         <div
+          onClick={onGoTour}
+          role="button"
           style={{
             position: 'absolute',
             ...pos(128, 1899),
@@ -220,9 +226,12 @@ export const WelcomeScreen = () => {
             height: 139,
             borderRadius: 62,
             border: '4px solid rgba(255,255,255,0.30)',
+            cursor: onGoTour ? 'pointer' : 'default',
           }}
         />
         <div
+          onClick={onGoTour}
+          role="button"
           style={{
             position: 'absolute',
             ...pos(303, 1949),
@@ -234,6 +243,7 @@ export const WelcomeScreen = () => {
             fontWeight: 500,
             fontSize: 40,
             lineHeight: '40px',
+            cursor: onGoTour ? 'pointer' : 'default',
           }}
         >
           экскурсия по платформе
