@@ -47,16 +47,10 @@ function pos(frameX: number, frameY: number) {
  * Важно: 1:1 по типографике будет только если подключены шрифты из Figma.
  */
 export const WelcomeScreen = () => {
-  const { w: vw, h: vh } = useViewport();
+  const { w: vw } = useViewport();
 
   // Масштабируем по ширине, заполняем весь экран без пустот
   const scale = useMemo(() => vw / DESIGN_W, [vw]);
-
-  // offsetX = 0, т.к. заполняем всю ширину
-  const offsetY = useMemo(() => {
-    const scaledH = DESIGN_H * scale;
-    return (vh - scaledH) / 2;
-  }, [vh, scale]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
@@ -73,31 +67,31 @@ export const WelcomeScreen = () => {
         className="absolute"
         style={{
           left: 0,
-          top: offsetY,
+          top: 0,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
           transformOrigin: 'top left',
         }}
       >
-        {/* small logo (bbox: x=505 y=187 w=177 h=128) */}
+        {/* small logo (bbox: x=505 y=89 w=177 h=128) */}
         <img
           src={logo}
           alt="Метафлора"
           style={{
             position: 'absolute',
-            ...pos(505, 187),
+            ...pos(505, 89),
             width: 177,
             height: 128,
             objectFit: 'contain',
           }}
         />
 
-        {/* support button bg (bbox: x=850 y=237 w=205 h=78 radius=62 fill 10% stroke 30%) */}
+        {/* support button bg (bbox: x=850 y=139 w=205 h=78 radius=62 fill 10% stroke 30%) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(850, 237),
+            ...pos(850, 139),
             width: 205,
             height: 78,
             borderRadius: 62,
@@ -106,11 +100,11 @@ export const WelcomeScreen = () => {
           }}
         />
 
-        {/* support button text (bbox: x=888 y=255 w=145 h=40 font Gotham Pro Light 20 lh20) */}
+        {/* support button text (bbox: x=888 y=157 w=145 h=40 font Gotham Pro Light 20 lh20) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(888, 255),
+            ...pos(888, 157),
             width: 145,
             height: 40,
             color: '#fff',
@@ -124,11 +118,11 @@ export const WelcomeScreen = () => {
           <span style={{ fontWeight: 700 }}>в поддержку</span>
         </div>
 
-        {/* title (bbox: x=94 y=337 w=938 h=160 Inter ExtraBold 80 lh80) */}
+        {/* title (bbox: x=94 y=283 w=938 h=160 Inter ExtraBold 80 lh80) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(94, 337),
+            ...pos(94, 283),
             width: 938,
             height: 160,
             color: '#fff',
@@ -142,11 +136,11 @@ export const WelcomeScreen = () => {
           {'добро пожаловать\nв МЕТАФЛОРУ*'}
         </div>
 
-        {/* description (bbox: x=94 y=522 w=922 h=120 Gotham Pro Regular 40 lh40) */}
+        {/* description (bbox: x=94 y=468 w=922 h=120 Gotham Pro Regular 40 lh40) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(94, 522),
+            ...pos(94, 468),
             width: 922,
             height: 120,
             color: '#fff',
@@ -163,7 +157,7 @@ export const WelcomeScreen = () => {
         </div>
 
         {/* carousel images */}
-        <div style={{ position: 'absolute', ...pos(0, 789), width: DESIGN_W, height: 980, overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', ...pos(0, 691), width: DESIGN_W, height: 980, overflow: 'hidden' }}>
           {/* left (bbox: x=-203 y=0 w=609.038 h=972.654 r=40) */}
           <img
             src={carousel1}
@@ -208,24 +202,24 @@ export const WelcomeScreen = () => {
           />
         </div>
 
-        {/* pagination (bbox: x=531 y=1790 w=119 h=17) */}
+        {/* pagination (bbox: x=531 y=1692 w=119 h=17) */}
         <img
           src={paginationImg}
           alt=""
-          style={{ position: 'absolute', ...pos(531, 1790), width: 119, height: 17 }}
+          style={{ position: 'absolute', ...pos(531, 1692), width: 119, height: 17 }}
         />
 
-        {/* tour button bg (bbox: x=128 y=1899 w=892 h=139 r=62) */}
+        {/* tour button bg (bbox: x=128 y=1801 w=892 h=139 r=62) */}
         <img
           src={buttonTourBg}
           alt=""
-          style={{ position: 'absolute', ...pos(128, 1899), width: 892, height: 139 }}
+          style={{ position: 'absolute', ...pos(128, 1801), width: 892, height: 139 }}
         />
-        {/* tour text (bbox: x=303 y=1949 w=542 h=40 Gotham Pro Medium 40 lh40 align center) */}
+        {/* tour text (bbox: x=303 y=1851 w=542 h=40 Gotham Pro Medium 40 lh40 align center) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(303, 1949),
+            ...pos(303, 1851),
             width: 542,
             height: 40,
             color: '#fff',
@@ -239,11 +233,11 @@ export const WelcomeScreen = () => {
           экскурсия по платформе
         </div>
 
-        {/* try button (bbox: x=128 y=2057 w=892 h=139 r=62, with gradient overlay) */}
+        {/* try button (bbox: x=128 y=1959 w=892 h=139 r=62, with gradient overlay) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(128, 2057),
+            ...pos(128, 1959),
             width: 892,
             height: 139,
             borderRadius: 62,
@@ -301,11 +295,11 @@ export const WelcomeScreen = () => {
             />
           </div>
         </div>
-        {/* try text (bbox: x=311 y=2106 w=527 h=40 Gotham Pro Medium 40 lh40 align center) */}
+        {/* try text (bbox: x=311 y=2008 w=527 h=40 Gotham Pro Medium 40 lh40 align center) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(311, 2106),
+            ...pos(311, 2008),
             width: 527,
             height: 40,
             color: '#fff',
@@ -319,11 +313,11 @@ export const WelcomeScreen = () => {
           попробовать бесплатно
         </div>
 
-        {/* legal left (bbox: x=137 y=2225 w=399 h=60 Gotham Pro Light 20 lh20) */}
+        {/* legal left (bbox: x=137 y=2127 w=399 h=60 Gotham Pro Light 20 lh20) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(137, 2225),
+            ...pos(137, 2127),
             width: 399,
             height: 60,
             color: '#fff',
@@ -338,11 +332,11 @@ export const WelcomeScreen = () => {
           {'нажимая на кнопку, вы соглашаетесь\nс политикой конфиденциальности МЕТАФЛОРА*'}
         </div>
 
-        {/* legal right (bbox: x=601 y=2225 w=428 h=60 Gotham Pro Light 20 lh20 align right) */}
+        {/* legal right (bbox: x=601 y=2127 w=428 h=60 Gotham Pro Light 20 lh20 align right) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(601, 2225),
+            ...pos(601, 2127),
             width: 428,
             height: 60,
             color: '#fff',
@@ -358,24 +352,24 @@ export const WelcomeScreen = () => {
           {'нажимая на кнопку, вы соглашаетесь\nна получение информационной\nи рекламной рассылки МЕТАФЛОРА*'}
         </div>
 
-        {/* footer logo (bbox: x=125 y=2295 w=587 h=125) */}
+        {/* footer logo (bbox: x=125 y=2197 w=587 h=125) */}
         <img
           src={footerLogo}
           alt=""
           style={{
             position: 'absolute',
-            ...pos(125, 2295),
+            ...pos(125, 2197),
             width: 587,
             height: 125,
             objectFit: 'contain',
           }}
         />
 
-        {/* copyright (bbox: x=136 y=2400 w=282 h=40 Gotham Pro Light 20 lh20) */}
+        {/* copyright (bbox: x=136 y=2302 w=282 h=40 Gotham Pro Light 20 lh20) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(136, 2400),
+            ...pos(136, 2302),
             width: 282,
             height: 40,
             color: '#fff',
@@ -390,11 +384,11 @@ export const WelcomeScreen = () => {
           {'Copyright ©\nВсе права защищены.'}
         </div>
 
-        {/* socials bg (bbox: x=830 y=2319 w=230 h=78 r=62 fill 10% stroke 30%) */}
+        {/* socials bg (bbox: x=830 y=2221 w=230 h=78 r=62 fill 10% stroke 30%) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(830, 2319),
+            ...pos(830, 2221),
             width: 230,
             height: 78,
             borderRadius: 62,
@@ -402,13 +396,13 @@ export const WelcomeScreen = () => {
             border: '4px solid rgba(255,255,255,0.30)',
           }}
         />
-        {/* socials icons (bbox: x=847 y=2333 w=196 h=51) */}
+        {/* socials icons (bbox: x=847 y=2235 w=196 h=51) */}
         <img
           src={socialsImg}
           alt=""
           style={{
             position: 'absolute',
-            ...pos(847, 2333),
+            ...pos(847, 2235),
             width: 196,
             height: 51,
             objectFit: 'contain',
