@@ -62,8 +62,8 @@ export const WelcomeScreen = () => {
       <div
         className="fixed inset-0 -z-10"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18) 1.5px, transparent 1.5px)',
-          backgroundSize: '40px 40px',
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1.2px, transparent 1.2px)',
+          backgroundSize: '32px 32px',
         }}
       />
 
@@ -262,8 +262,8 @@ export const WelcomeScreen = () => {
               height: 423.34,
               borderRadius: '50%',
               backgroundColor: '#37ecf7',
-              filter: 'blur(120px)',
-              opacity: 0.9,
+              filter: 'blur(140px)',
+              opacity: 1,
             }}
           />
           <div
@@ -275,8 +275,8 @@ export const WelcomeScreen = () => {
               height: 343.11,
               borderRadius: '50%',
               backgroundColor: '#f0d825',
-              filter: 'blur(120px)',
-              opacity: 0.9,
+              filter: 'blur(140px)',
+              opacity: 1,
             }}
           />
           <div
@@ -288,8 +288,8 @@ export const WelcomeScreen = () => {
               height: 286.96,
               borderRadius: '50%',
               backgroundColor: '#d5fc44',
-              filter: 'blur(120px)',
-              opacity: 0.9,
+              filter: 'blur(140px)',
+              opacity: 1,
             }}
           />
         </div>
