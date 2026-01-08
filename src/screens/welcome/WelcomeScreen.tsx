@@ -67,10 +67,10 @@ export const WelcomeScreen = () => {
   }, [vh, scale]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
-      {/* dotted background (CSS, чтобы не тащить картинку) */}
+    <div className="relative w-screen h-screen overflow-y-auto overflow-x-hidden bg-[#020101]">
+      {/* dotted background */}
       <div
-        className="absolute inset-0"
+        className="fixed inset-0 -z-10"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
@@ -78,14 +78,12 @@ export const WelcomeScreen = () => {
       />
 
       <div
-        className="absolute"
+        className="relative mx-auto"
         style={{
-          left: offsetX,
-          top: offsetY,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
-          transformOrigin: 'top left',
+          transformOrigin: 'top center',
         }}
       >
         {/* small logo (bbox: x=505 y=187 w=177 h=128) */}
