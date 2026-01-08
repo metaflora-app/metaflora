@@ -47,12 +47,11 @@ export const WelcomeScreen = () => {
     return Math.min(1, Math.max(0.1, s));
   }, [vw]);
 
-  // Центрируем сцену по X, по Y держим сверху (как в макете). Если по высоте не влезает — будет скейл по ширине,
-  // а лишнее по Y обрежется (как в Telegram).
-  const stageTransform = useMemo(() => {
-    // сдвиг на половину ширины сцены
-    return `translateX(-${DESIGN_W / 2}px) scale(${scale})`;
-  }, [scale]);
+  // Центрируем сцену по X через вычисляемый left, без translate (так надёжнее в iOS WebView).
+  const offsetX = useMemo(() => {
+    const scaledW = DESIGN_W * scale;
+    return Math.round((vw - scaledW) / 2);
+  }, [vw, scale]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
@@ -66,11 +65,12 @@ export const WelcomeScreen = () => {
       />
 
       <div
-        className="absolute top-0 left-1/2"
+        className="absolute top-0"
         style={{
+          left: offsetX,
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: stageTransform,
+          transform: `scale(${scale})`,
           transformOrigin: 'top left',
         }}
       >
