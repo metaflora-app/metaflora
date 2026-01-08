@@ -48,19 +48,28 @@ function pos(frameX: number, frameY: number) {
 export const WelcomeScreen = () => {
   const { w: vw, h: vh } = useViewport();
 
-  // Масштабируем по ширине И по высоте (Telegram WebView съедает часть высоты, поэтому только vw недостаточно).
+  // ВАЖНО: макет должен заполнять ширину (как в Figma). Поэтому scale считаем ТОЛЬКО по ширине.
+  // Чтобы низ влезал в Telegram WebView — поднимаем всю сцену вверх (translateY), а не уменьшаем scale.
   const scale = useMemo(() => {
     const sW = vw / DESIGN_W;
-    const sH = vh / DESIGN_H;
-    const s = Math.min(sW, sH);
-    return Math.min(1, Math.max(0.1, s));
-  }, [vw, vh]);
+    return Math.min(1, Math.max(0.1, sW));
+  }, [vw]);
 
   // Центрируем сцену по X через вычисляемый left, без translate (так надёжнее в iOS WebView).
   const offsetX = useMemo(() => {
     const scaledW = DESIGN_W * scale;
     return Math.round((vw - scaledW) / 2);
   }, [vw, scale]);
+
+  // Поднимаем сцену вверх так, чтобы нижняя часть помещалась в видимую область Telegram.
+  // Если всё и так помещается — offsetY = 0.
+  const offsetY = useMemo(() => {
+    const scaledH = DESIGN_H * scale;
+    const overflow = scaledH - vh;
+    if (overflow <= 0) return 0;
+    // переводим overflow из экранных пикселей в координаты макета
+    return -Math.round(overflow / scale);
+  }, [vh, scale]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
@@ -79,7 +88,7 @@ export const WelcomeScreen = () => {
           left: offsetX,
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: `scale(${scale})`,
+          transform: `translateY(${offsetY}px) scale(${scale})`,
           transformOrigin: 'top left',
         }}
       >
