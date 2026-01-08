@@ -7,17 +7,52 @@ import paginationImg from '../../assets/welcome/pagination.png';
 import footerLogo from '../../assets/welcome/footer-logo.png';
 import socialsImg from '../../assets/welcome/socials.png';
 
+// Опциональный полный кадр из Figma (положи файл в assets/welcome/full-frame.png)
+let fullFrameSrc: string | undefined;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  fullFrameSrc = require('../../assets/welcome/full-frame.png');
+} catch (e) {
+  fullFrameSrc = undefined;
+}
+
 // Размеры фрейма Figma "экран приветствия"
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
 export const WelcomeScreen = () => {
   const vw = window.innerWidth;
+  const vh = window.innerHeight;
   // Масштаб строго по ширине, как в Figma (без вертикального центрирования)
   const scale = useMemo(() => vw / DESIGN_W, [vw]);
 
+  // Для варианта с одной картинкой: масштаб по min, чтобы влезало целиком
+  const fullScale = useMemo(() => Math.min(vw / DESIGN_W, vh / DESIGN_H), [vw, vh]);
+  const fullOffsetX = (vw - DESIGN_W * fullScale) / 2;
+  const fullOffsetY = (vh - DESIGN_H * fullScale) / 2;
+
   // Вспомогательная функция для позиционирования
   const pos = (x: number, y: number) => ({ left: x, top: y });
+
+  if (fullFrameSrc) {
+    return (
+      <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
+        <img
+          src={fullFrameSrc}
+          alt="МЕТАФЛОРА"
+          style={{
+            position: 'absolute',
+            left: fullOffsetX,
+            top: fullOffsetY,
+            width: DESIGN_W,
+            height: DESIGN_H,
+            transform: `scale(${fullScale})`,
+            transformOrigin: 'top left',
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div 
