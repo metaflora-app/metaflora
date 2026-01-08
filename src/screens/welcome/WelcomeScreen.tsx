@@ -49,8 +49,6 @@ export const WelcomeScreen = () => {
   const { w: vw, h: vh } = useViewport();
 
   // Строго как референс: макет заполняет ширину (без боковых полей).
-  // Высоты в Telegram может не хватать — поэтому позиционируем по Y (центровка),
-  // но НЕ уменьшаем scale по высоте.
   const scale = useMemo(() => {
     const sW = vw / DESIGN_W;
     return Math.min(1, Math.max(0.1, sW));
@@ -62,12 +60,13 @@ export const WelcomeScreen = () => {
     return Math.round((vw - scaledW) / 2);
   }, [vw, scale]);
 
-  // Вертикальная центровка сцены внутри видимой области.
-  // Если сцена выше вьюпорта — поднимем её на половину переполнения (как на референсе).
+  // По Y: НЕ центрируем. Двигаем вверх ТОЛЬКО если сцена не влезает по высоте,
+  // чтобы низ не обрезался. Если сцена влезает — offsetY = 0 (чтобы не было пустого низа).
   const offsetY = useMemo(() => {
     const scaledH = DESIGN_H * scale;
-    const delta = vh - scaledH; // >0: место снизу/сверху; <0: не влезаем
-    return Math.round((delta / 2) / scale);
+    const deltaPx = vh - scaledH;
+    if (deltaPx >= 0) return 0;
+    return Math.round(deltaPx / scale); // отрицательное значение (поднимаем)
   }, [vh, scale]);
 
   return (
