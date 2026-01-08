@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
-import { SplashScreen } from './screens/splash';
+// import { SplashScreen } from './screens/splash';
+import { WelcomeScreen } from './screens/welcome';
 
 function App() {
   useEffect(() => {
@@ -18,7 +19,7 @@ function App() {
     WebApp.setBackgroundColor('#000000');
   }, []);
 
-  return <SplashScreen />;
+  return <WelcomeScreen />;
 }
 
 export default App;
