@@ -12,7 +12,7 @@ import footerLogo from '../../assets/welcome/footer-logo.png';
 import socialsImg from '../../assets/welcome/socials.png';
 
 const DESIGN_W = 1180;
-const DESIGN_H = 2200;
+const DESIGN_H = 2550;
 
 function useViewport() {
   const get = () => {
