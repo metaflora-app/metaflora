@@ -16,7 +16,11 @@ const videoPlaceholder =
 
 export const TourScreen = () => {
   const vw = window.innerWidth;
-  const scale = useMemo(() => vw / DESIGN_W, [vw]);
+  const vh = window.innerHeight;
+  // Масштаб по min, чтобы весь фрейм влез без обрезки
+  const scale = useMemo(() => Math.min(vw / DESIGN_W, vh / DESIGN_H), [vw, vh]);
+  const offsetX = (vw - DESIGN_W * scale) / 2;
+  const offsetY = (vh - DESIGN_H * scale) / 2;
   const pos = (x: number, y: number) => ({ left: x, top: y });
 
   return (
@@ -34,12 +38,13 @@ export const TourScreen = () => {
       <div
         className="absolute"
         style={{
-          left: 0,
-          top: 0,
+          left: offsetX,
+          top: offsetY,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
           transformOrigin: 'top left',
+          overflow: 'hidden',
         }}
       >
         {/* header image (x=5 y=-12 w=1180 h=148) */}
@@ -61,16 +66,30 @@ export const TourScreen = () => {
             width: 81,
             height: 64,
             borderRadius: 30,
-            backgroundColor: 'rgba(255,255,255,0.10)',
+            backgroundColor: '#ffffff',
             border: '4px solid rgba(255,255,255,0.30)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#fff',
-            fontSize: 28,
           }}
         >
-          ←
+          <div
+            style={{
+              width: 47,
+              height: 47,
+              maskImage:
+                'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 141 141\'%3E%3Ccircle cx=\'70.5\' cy=\'70.5\' r=\'70.5\' fill=\'%23000\'/%3E%3Cpath d=\'M88 41.8 58.5 70.5 88 99.2\' stroke=\'%23fff\' stroke-width=\'18\' stroke-linecap=\'square\' fill=\'none\'/%3E%3Cline x1=\'88\' y1=\'70.5\' x2=\'46\' y2=\'70.5\' stroke=\'%23fff\' stroke-width=\'18\' stroke-linecap=\'square\'/%3E%3C/svg%3E")',
+              WebkitMaskImage:
+                'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 141 141\'%3E%3Ccircle cx=\'70.5\' cy=\'70.5\' r=\'70.5\' fill=\'%23000\'/%3E%3Cpath d=\'M88 41.8 58.5 70.5 88 99.2\' stroke=\'%23fff\' stroke-width=\'18\' stroke-linecap=\'square\' fill=\'none\'/%3E%3Cline x1=\'88\' y1=\'70.5\' x2=\'46\' y2=\'70.5\' stroke=\'%23fff\' stroke-width=\'18\' stroke-linecap=\'square\'/%3E%3C/svg%3E")',
+              backgroundColor: '#000',
+              maskSize: 'contain',
+              WebkitMaskSize: 'contain',
+              maskRepeat: 'no-repeat',
+              WebkitMaskRepeat: 'no-repeat',
+              maskPosition: 'center',
+              WebkitMaskPosition: 'center',
+            }}
+          />
         </div>
 
         {/* support button (x=1106 y=238 w=205 h=78) */}
@@ -238,7 +257,7 @@ export const TourScreen = () => {
               height: 423.34,
               borderRadius: '50%',
               backgroundColor: '#37ecf7',
-              filter: 'blur(120px)',
+              filter: 'blur(140px)',
             }}
           />
           <div
@@ -250,7 +269,7 @@ export const TourScreen = () => {
               height: 343.11,
               borderRadius: '50%',
               backgroundColor: '#f0d825',
-              filter: 'blur(120px)',
+              filter: 'blur(140px)',
             }}
           />
           <div
@@ -262,7 +281,7 @@ export const TourScreen = () => {
               height: 286.96,
               borderRadius: '50%',
               backgroundColor: '#d5fc44',
-              filter: 'blur(120px)',
+              filter: 'blur(140px)',
             }}
           />
         </div>
