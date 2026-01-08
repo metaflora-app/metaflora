@@ -1,60 +1,35 @@
-import { useEffect, useMemo, useState } from 'react';
-
+import { useMemo } from 'react';
 import logo from '../../assets/logo.png';
-
 import carousel1 from '../../assets/welcome/carousel-1.png';
 import carousel2 from '../../assets/welcome/carousel-2.png';
 import carousel3 from '../../assets/welcome/carousel-3.png';
-
-import buttonTourBg from '../../assets/welcome/button-tour.png';
 import paginationImg from '../../assets/welcome/pagination.png';
 import footerLogo from '../../assets/welcome/footer-logo.png';
 import socialsImg from '../../assets/welcome/socials.png';
 
+// Viewport hook
+const useViewport = () => {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  return { w, h };
+};
+
+// Размеры фрейма Figma "экран приветствия"
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
-function useViewport() {
-  const get = () => {
-    const w = window.visualViewport?.width ?? window.innerWidth;
-    const h = window.visualViewport?.height ?? window.innerHeight;
-    return { w, h };
-  };
-
-  const [vp, setVp] = useState(get);
-
-  useEffect(() => {
-    const onResize = () => setVp(get());
-    window.addEventListener('resize', onResize);
-    window.visualViewport?.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-
-  return vp;
-}
-
-function pos(frameX: number, frameY: number) {
-  return {
-    left: frameX,
-    top: frameY,
-  } as const;
-}
-
-/**
- * WelcomeScreen
- * 
- * Пиксельная раскладка по Figma: рисуем в "пространстве" 1180x2550 и масштабируем под экран.
- * Важно: 1:1 по типографике будет только если подключены шрифты из Figma.
- */
 export const WelcomeScreen = () => {
   const { w: vw } = useViewport();
 
-  // Масштабируем по ширине, заполняем весь экран без пустот
+  // Масштабируем по ширине (заполняем всю ширину без отступов)
   const scale = useMemo(() => vw / DESIGN_W, [vw]);
+
+  // Вспомогательная функция для позиционирования
+  const pos = (x: number, y: number) => ({ left: x, top: y });
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
-      {/* dotted background */}
+      {/* Фон с точками (паттерн) */}
       <div
         className="absolute inset-0"
         style={{
@@ -63,6 +38,7 @@ export const WelcomeScreen = () => {
         }}
       />
 
+      {/* Контейнер с масштабированием */}
       <div
         className="absolute"
         style={{
@@ -74,24 +50,24 @@ export const WelcomeScreen = () => {
           transformOrigin: 'top left',
         }}
       >
-        {/* small logo (bbox: x=505 y=89 w=177 h=128) */}
+        {/* Лого маленькое (x=505 y=187 w=177 h=128) */}
         <img
           src={logo}
           alt="Метафлора"
           style={{
             position: 'absolute',
-            ...pos(505, 89),
+            ...pos(505, 187),
             width: 177,
             height: 128,
             objectFit: 'contain',
           }}
         />
 
-        {/* support button bg (bbox: x=850 y=139 w=205 h=78 radius=62 fill 10% stroke 30%) */}
+        {/* Кнопка "написать в поддержку" (x=824 y=237 w=205 h=78) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(850, 139),
+            ...pos(824, 237),
             width: 205,
             height: 78,
             borderRadius: 62,
@@ -99,133 +75,136 @@ export const WelcomeScreen = () => {
             border: '4px solid rgba(255,255,255,0.30)',
           }}
         />
-
-        {/* support button text (bbox: x=888 y=157 w=145 h=40 font Gotham Pro Light 20 lh20) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(888, 157),
+            ...pos(862, 255),
             width: 145,
             height: 40,
             color: '#fff',
-            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            whiteSpace: 'pre-line',
+            fontFamily: '"Gotham Pro", system-ui, sans-serif',
+            fontWeight: 300,
             fontSize: 20,
             lineHeight: '20px',
           }}
         >
-          <span style={{ fontWeight: 300 }}>написать</span>
-          <br />
-          <span style={{ fontWeight: 700 }}>в поддержку</span>
+          {'написать \nв поддержку'}
         </div>
 
-        {/* title (bbox: x=94 y=283 w=938 h=160 Inter ExtraBold 80 lh80) */}
-        <div
+        {/* Заголовок "добро пожаловать в МЕТАФЛОРУ*" (x=94 y=337 w=938 h=160) */}
+        <h1
           style={{
             position: 'absolute',
-            ...pos(94, 283),
+            ...pos(94, 337),
             width: 938,
             height: 160,
+            margin: 0,
             color: '#fff',
             whiteSpace: 'pre-line',
-            fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontFamily: 'Inter, system-ui, sans-serif',
             fontWeight: 800,
             fontSize: 80,
             lineHeight: '80px',
           }}
         >
-          {'добро пожаловать\nв МЕТАФЛОРУ*'}
-        </div>
+          {'добро пожаловать \nв МЕТАФЛОРУ*'}
+        </h1>
 
-        {/* description (bbox: x=94 y=468 w=922 h=120 Gotham Pro Regular 40 lh40) */}
-        <div
+        {/* Описание (x=94 y=522 w=922 h=120) */}
+        <p
           style={{
             position: 'absolute',
-            ...pos(94, 468),
+            ...pos(94, 522),
             width: 922,
             height: 120,
+            margin: 0,
             color: '#fff',
             whiteSpace: 'pre-line',
-            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontFamily: '"Gotham Pro", system-ui, sans-serif',
             fontWeight: 400,
             fontSize: 40,
             lineHeight: '40px',
           }}
         >
-          обучайтесь AI прямо в Telegram{'\n'}
-          <span style={{ fontWeight: 700 }}>с МЕТАФЛОРОЙ*</span>: академия, лаба, цех{'\n'}
-          и другие сервисы
-        </div>
+          {'обучайтесь AI прямо в Telegram \nс МЕТАФЛОРОЙ*: академия, лаба, цех \nи другие сервисы'}
+        </p>
 
-        {/* carousel images */}
-        <div style={{ position: 'absolute', ...pos(0, 691), width: DESIGN_W, height: 980, overflow: 'hidden' }}>
-          {/* left (bbox: x=-203 y=0 w=609.038 h=972.654 r=40) */}
-          <img
-            src={carousel1}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: -203,
-              top: 0,
-              width: 609.038,
-              height: 972.6536,
-              borderRadius: 40,
-              objectFit: 'cover',
-            }}
-          />
-          {/* center (bbox: x=325 y=0 w=530 h=930 r=40) */}
-          <img
-            src={carousel2}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: 325,
-              top: 0,
-              width: 530,
-              height: 930,
-              borderRadius: 40,
-              objectFit: 'cover',
-            }}
-          />
-          {/* right (bbox: x=775 y=0 w=609.038 h=972.654 r=40) */}
-          <img
-            src={carousel3}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: 775,
-              top: 0,
-              width: 609.038,
-              height: 972.6536,
-              borderRadius: 40,
-              objectFit: 'cover',
-            }}
-          />
-        </div>
+        {/* Carousel левый (x=-203 y=789 w=530 h=930) */}
+        <img
+          src={carousel1}
+          alt=""
+          style={{
+            position: 'absolute',
+            ...pos(-203, 789),
+            width: 530,
+            height: 930,
+            borderRadius: 40,
+            objectFit: 'cover',
+          }}
+        />
 
-        {/* pagination (bbox: x=531 y=1692 w=119 h=17) */}
+        {/* Carousel центральный (x=325 y=789 w=530 h=930) */}
+        <img
+          src={carousel2}
+          alt=""
+          style={{
+            position: 'absolute',
+            ...pos(325, 789),
+            width: 530,
+            height: 930,
+            borderRadius: 40,
+            objectFit: 'cover',
+          }}
+        />
+
+        {/* Carousel правый (x=1383 y=789 w=530 h=930) */}
+        <img
+          src={carousel3}
+          alt=""
+          style={{
+            position: 'absolute',
+            ...pos(1383, 789),
+            width: 530,
+            height: 930,
+            borderRadius: 40,
+            objectFit: 'cover',
+          }}
+        />
+
+        {/* Pagination (x=531 y=1790 w=119 h=17) */}
         <img
           src={paginationImg}
           alt=""
-          style={{ position: 'absolute', ...pos(531, 1692), width: 119, height: 17 }}
+          style={{
+            position: 'absolute',
+            ...pos(531, 1790),
+            width: 119,
+            height: 17,
+          }}
         />
 
-        {/* tour button bg (bbox: x=128 y=1801 w=892 h=139 r=62) */}
-        <img
-          src={buttonTourBg}
-          alt=""
-          style={{ position: 'absolute', ...pos(128, 1801), width: 892, height: 139 }}
-        />
-        {/* tour text (bbox: x=303 y=1851 w=542 h=40 Gotham Pro Medium 40 lh40 align center) */}
+        {/* Кнопка "экскурсия по платформе" (x=128 y=1899 w=892 h=139) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(303, 1851),
+            ...pos(128, 1899),
+            width: 892,
+            height: 139,
+            borderRadius: 62,
+            border: '4px solid rgba(255,255,255,0.30)',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(303, 1949),
             width: 542,
             height: 40,
             color: '#fff',
             textAlign: 'center',
-            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
-            fontWeight: 400,
+            fontFamily: '"Gotham Pro", system-ui, sans-serif',
+            fontWeight: 500,
             fontSize: 40,
             lineHeight: '40px',
           }}
@@ -233,11 +212,11 @@ export const WelcomeScreen = () => {
           экскурсия по платформе
         </div>
 
-        {/* try button (bbox: x=128 y=1959 w=892 h=139 r=62, with gradient overlay) */}
+        {/* Кнопка "попробовать бесплатно" с градиентом (x=128 y=2057 w=892 h=139) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(128, 1959),
+            ...pos(128, 2057),
             width: 892,
             height: 139,
             borderRadius: 62,
@@ -246,137 +225,127 @@ export const WelcomeScreen = () => {
             overflow: 'hidden',
           }}
         >
-          {/* Gradient overlay (colors group) - positioned to create blur effect */}
+          {/* Градиентные круги с blur */}
           <div
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '50%',
-              width: 655,
-              height: 563.5,
-              transform: 'translate(-50%, -50%)',
-              opacity: 0.15,
-              filter: 'blur(60px)',
-              pointerEvents: 'none',
+              left: 145 - 128,
+              top: -189.57 - 2057,
+              width: 575.78,
+              height: 423.34,
+              borderRadius: '50%',
+              backgroundColor: '#37ecf7',
+              filter: 'blur(80px)',
+              opacity: 0.6,
             }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                top: 13.9,
-                width: 575.78,
-                height: 423.34,
-                borderRadius: 1568.56,
-                background: '#37ecf7',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                left: 143.97,
-                top: 0,
-                width: 511.03,
-                height: 309.53,
-                borderRadius: 1568.56,
-                background: '#f0d825',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                left: 337.64,
-                top: 276.55,
-                width: 317.09,
-                height: 286.96,
-                borderRadius: 1568.56,
-                background: '#d5fc44',
-              }}
-            />
-          </div>
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 523.16 - 128,
+              top: -203.51 - 2057,
+              width: 283.01,
+              height: 343.11,
+              borderRadius: '50%',
+              backgroundColor: '#f0d825',
+              filter: 'blur(80px)',
+              opacity: 0.6,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 403.64 - 128,
+              top: 73.04 - 2057,
+              width: 317.09,
+              height: 286.96,
+              borderRadius: '50%',
+              backgroundColor: '#d5fc44',
+              filter: 'blur(80px)',
+              opacity: 0.6,
+            }}
+          />
         </div>
-        {/* try text (bbox: x=311 y=2008 w=527 h=40 Gotham Pro Medium 40 lh40 align center) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(311, 2008),
+            ...pos(311, 2106),
             width: 527,
             height: 40,
             color: '#fff',
             textAlign: 'center',
-            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
-            fontWeight: 400,
+            fontFamily: '"Gotham Pro", system-ui, sans-serif',
+            fontWeight: 500,
             fontSize: 40,
             lineHeight: '40px',
+            zIndex: 1,
           }}
         >
           попробовать бесплатно
         </div>
 
-        {/* legal left (bbox: x=137 y=2127 w=399 h=60 Gotham Pro Light 20 lh20) */}
+        {/* Legal тексты (y=2225) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(137, 2127),
+            ...pos(137, 2225),
             width: 399,
             height: 60,
             color: '#fff',
             opacity: 0.6,
             whiteSpace: 'pre-line',
-            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontFamily: '"Gotham Pro", system-ui, sans-serif',
             fontWeight: 300,
             fontSize: 20,
             lineHeight: '20px',
           }}
         >
-          {'нажимая на кнопку, вы соглашаетесь\nс политикой конфиденциальности МЕТАФЛОРА*'}
+          {'нажимая на кнопку, вы соглашаетесь \nс политикой конфиденциальности МЕТАФЛОРА*'}
         </div>
-
-        {/* legal right (bbox: x=601 y=2127 w=428 h=60 Gotham Pro Light 20 lh20 align right) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(601, 2127),
+            ...pos(601, 2225),
             width: 428,
             height: 60,
             color: '#fff',
             opacity: 0.6,
             whiteSpace: 'pre-line',
             textAlign: 'right',
-            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontFamily: '"Gotham Pro", system-ui, sans-serif',
             fontWeight: 300,
             fontSize: 20,
             lineHeight: '20px',
           }}
         >
-          {'нажимая на кнопку, вы соглашаетесь\nна получение информационной\nи рекламной рассылки МЕТАФЛОРА*'}
+          {'нажимая на кнопку, вы соглашаетесь \nна получение информационной \nи рекламной рассылки МЕТАФЛОРА*'}
         </div>
 
-        {/* footer logo (bbox: x=125 y=2197 w=587 h=125) */}
+        {/* Footer logo (x=125 y=2295 w=587 h=125) */}
         <img
           src={footerLogo}
           alt=""
           style={{
             position: 'absolute',
-            ...pos(125, 2197),
+            ...pos(125, 2295),
             width: 587,
             height: 125,
             objectFit: 'contain',
           }}
         />
 
-        {/* copyright (bbox: x=136 y=2302 w=282 h=40 Gotham Pro Light 20 lh20) */}
+        {/* Copyright (x=136 y=2400 w=282 h=40) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(136, 2302),
+            ...pos(136, 2400),
             width: 282,
             height: 40,
             color: '#fff',
             opacity: 0.6,
             whiteSpace: 'pre-line',
-            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
-            fontWeight: 400,
+            fontFamily: '"Gotham Pro", system-ui, sans-serif',
+            fontWeight: 300,
             fontSize: 20,
             lineHeight: '20px',
           }}
@@ -384,11 +353,11 @@ export const WelcomeScreen = () => {
           {'Copyright ©\nВсе права защищены.'}
         </div>
 
-        {/* socials bg (bbox: x=830 y=2221 w=230 h=78 r=62 fill 10% stroke 30%) */}
+        {/* Соцсети background (x=799 y=2318 w=230 h=78) */}
         <div
           style={{
             position: 'absolute',
-            ...pos(830, 2221),
+            ...pos(799, 2318),
             width: 230,
             height: 78,
             borderRadius: 62,
@@ -396,23 +365,20 @@ export const WelcomeScreen = () => {
             border: '4px solid rgba(255,255,255,0.30)',
           }}
         />
-        {/* socials icons (bbox: x=847 y=2235 w=196 h=51) */}
+        {/* Соцсети icons (x=816 y=2332 w=196 h=51) */}
         <img
           src={socialsImg}
           alt=""
           style={{
             position: 'absolute',
-            ...pos(847, 2235),
+            ...pos(816, 2332),
             width: 196,
             height: 51,
             objectFit: 'contain',
+            opacity: 0.6,
           }}
         />
-
       </div>
-
-      {/* Safe area pad */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 'env(safe-area-inset-bottom)' }} />
     </div>
   );
 };
