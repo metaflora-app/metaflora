@@ -7,14 +7,16 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "railway": "npx railway"
   },
   "dependencies": {
+    "@twa-dev/sdk": "^7.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@twa-dev/sdk": "^7.0.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@railway/cli": "^4.17.1",
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
@@ -31,4 +33,3 @@
     "vite": "^5.0.11"
   }
 }
-
