@@ -1,120 +1,391 @@
-import React from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
 import logo from '../../assets/logo.png';
-import carousel1 from '../../assets/carousel-1.png';
-import carousel2 from '../../assets/carousel-2.png';
-import carousel3 from '../../assets/carousel-3.png';
+
+import carousel1 from '../../assets/welcome/carousel-1.png';
+import carousel2 from '../../assets/welcome/carousel-2.png';
+import carousel3 from '../../assets/welcome/carousel-3.png';
+
+import buttonTourBg from '../../assets/welcome/button-tour.png';
+import buttonTryBg from '../../assets/welcome/button-try.png';
+import paginationImg from '../../assets/welcome/pagination.png';
+
+const DESIGN_W = 1180;
+const DESIGN_H = 2550;
+
+function useViewport() {
+  const [vp, setVp] = useState(() => ({ w: window.innerWidth, h: window.innerHeight }));
+
+  useEffect(() => {
+    const onResize = () => setVp({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  return vp;
+}
+
+function pos(frameX: number, frameY: number) {
+  return {
+    left: frameX,
+    top: frameY,
+  } as const;
+}
 
 /**
- * WelcomeScreen Component
+ * WelcomeScreen
  * 
- * Идеальная верстка по размерам из Figma (1180px baseline)
+ * Пиксельная раскладка по Figma: рисуем в "пространстве" 1180x2550 и масштабируем под экран.
+ * Важно: 1:1 по типографике будет только если подключены шрифты из Figma.
  */
-export const WelcomeScreen: React.FC = () => {
+export const WelcomeScreen = () => {
+  const { w: vw } = useViewport();
+
+  // Figma кадр сделан под 1180px ширины (≈3x от 390). Чтобы не ломать пропорции — масштабируем по ширине.
+  const scale = useMemo(() => {
+    const s = vw / DESIGN_W;
+    return Math.min(1, Math.max(0.1, s));
+  }, [vw]);
+
+  // Центрируем сцену по X, по Y держим сверху (как в макете). Если по высоте не влезает — будет скейл по ширине,
+  // а лишнее по Y обрежется (как в Telegram).
+  const stageTransform = useMemo(() => {
+    // сдвиг на половину ширины сцены
+    return `translateX(-${DESIGN_W / 2}px) scale(${scale})`;
+  }, [scale]);
+
   return (
-    <div className="relative flex flex-col w-full min-h-screen bg-[#020101] overflow-x-hidden font-sans select-none">
-      {/* Точечный фон */}
-      <div 
-        className="absolute inset-0 z-0 opacity-30 pointer-events-none"
+    <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
+      {/* dotted background (CSS, чтобы не тащить картинку) */}
+      <div
+        className="absolute inset-0"
         style={{
-          backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
         }}
       />
 
-      {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-8 pt-12 pb-6">
-        <div className="w-[59px] h-[43px]">
-          <img src={logo} alt="Лого" className="w-full h-auto object-contain" />
-        </div>
-        
-        <button className="flex items-center justify-center w-[68px] h-[26px] bg-white/10 border-[1.3px] border-white/30 rounded-[20px] text-left px-2">
-          <span className="text-[7px] leading-[8px] text-white font-light uppercase tracking-tight">
-            написать<br/>в поддержку
-          </span>
-        </button>
-      </header>
+      <div
+        className="absolute top-0 left-1/2"
+        style={{
+          width: DESIGN_W,
+          height: DESIGN_H,
+          transform: stageTransform,
+          transformOrigin: 'top left',
+        }}
+      >
+        {/* small logo (bbox: x=505 y=187 w=177 h=128) */}
+        <img
+          src={logo}
+          alt="Метафлора"
+          style={{
+            position: 'absolute',
+            ...pos(505, 187),
+            width: 177,
+            height: 128,
+            objectFit: 'contain',
+          }}
+        />
 
-      {/* Main Content */}
-      <main className="relative z-10 flex flex-col px-8">
-        <h1 className="text-[32px] font-[800] text-white leading-[0.95] tracking-tighter mb-4 uppercase">
-          добро пожаловать<br/>в МЕТАФЛОРУ*
-        </h1>
-        
-        <p className="text-[13px] text-white/90 leading-[1.2] font-normal mb-8 tracking-tight">
-          обучайтесь AI прямо в Telegram<br/>
-          с <span className="font-black">МЕТАФЛОРОЙ*</span>: академия, лэба, цех<br/>
-          и другие сервисы
-        </p>
+        {/* support button bg (bbox: x=850 y=237 w=205 h=78 radius=62 fill 10% stroke 30%) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(850, 237),
+            width: 205,
+            height: 78,
+            borderRadius: 62,
+            backgroundColor: 'rgba(255,255,255,0.10)',
+            border: '4px solid rgba(255,255,255,0.30)',
+          }}
+        />
 
-        {/* Carousel - Пропорции из макета 1180px */}
-        <div className="relative flex justify-center items-center h-[340px] my-6">
-          {/* Левая карта */}
-          <div className="absolute left-[-50px] w-[203px] h-[324px] rounded-[13px] overflow-hidden opacity-40 rotate-[-4deg] scale-95 blur-[0.5px]">
-            <img src={carousel1} className="w-full h-full object-cover" alt="prev" />
-            <div className="absolute inset-0 bg-gradient-to-b from-green-500/20 to-black/60" />
-          </div>
-
-          {/* Центральная карта */}
-          <div className="relative z-20 w-[177px] h-[310px] rounded-[13px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/5">
-            <img src={carousel2} className="w-full h-full object-cover" alt="current" />
-          </div>
-
-          {/* Правая карта */}
-          <div className="absolute right-[-50px] w-[203px] h-[324px] rounded-[13px] overflow-hidden opacity-40 rotate-[4deg] scale-95 blur-[0.5px]">
-            <img src={carousel3} className="w-full h-full object-cover" alt="next" />
-            <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-black/60" />
-          </div>
-        </div>
-
-        {/* Пагинация (Крутилка) */}
-        <div className="flex justify-center items-center gap-2 mt-4 mb-10">
-          <div className="w-[6px] h-[6px] rounded-full bg-[#d6d6d6]/40" />
-          <div className="w-[24px] h-[6px] rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-          <div className="w-[6px] h-[6px] rounded-full bg-[#d6d6d6]/40" />
-        </div>
-
-        {/* Buttons */}
-        <div className="flex flex-col gap-4 mb-8">
-          <button className="w-full h-[48px] border-[1.5px] border-white/30 rounded-[22px] text-white text-[14px] font-medium uppercase tracking-wider bg-white/5 active:scale-[0.98] transition-transform">
-            экскурсия по платформе
-          </button>
-          
-          <button className="relative w-full h-[48px] bg-black border-[1.5px] border-white/30 rounded-[22px] overflow-hidden active:scale-[0.98] transition-transform shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            <div className="absolute inset-0 opacity-90 blur-2xl">
-              <div className="absolute top-[-60%] left-[-20%] w-[120%] h-[120%] bg-[#37ecf7] rounded-full opacity-60" />
-              <div className="absolute top-[-40%] right-[-10%] w-[100%] h-[100%] bg-[#f0d825] rounded-full opacity-60" />
-              <div className="absolute bottom-[-30%] left-[10%] w-[80%] h-[80%] bg-[#d5fc44] rounded-full opacity-60" />
-            </div>
-            <span className="relative z-10 text-white text-[14px] font-bold uppercase tracking-wider drop-shadow-md">
-              попробовать бесплатно
-            </span>
-          </button>
+        {/* support button text (bbox: x=888 y=255 w=145 h=40 font Gotham Pro Light 20 lh20) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(888, 255),
+            width: 145,
+            height: 40,
+            color: '#fff',
+            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 400,
+            fontSize: 20,
+            lineHeight: '20px',
+          }}
+        >
+          написать <br />в поддержку
         </div>
 
-        {/* Legal & Footer */}
-        <div className="flex justify-between items-start gap-4 mb-8">
-          <p className="text-[7px] text-white/40 leading-[1.3] font-bold">
-            нажимая на кнопку, вы соглашаетесь<br/>
-            с <span className="underline decoration-white/20">политикой конфиденциальности<br/>МЕТАФЛОРА*</span>
-          </p>
-          <p className="text-[7px] text-white/40 leading-[1.3] font-bold text-right">
-            нажимая на кнопку, вы соглашаетесь<br/>
-            на получение <span className="underline decoration-white/20">информационной<br/>и рекламной рассылки МЕТАФЛОРА*</span>
-          </p>
+        {/* title (bbox: x=94 y=337 w=938 h=160 Inter ExtraBold 80 lh80) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(94, 337),
+            width: 938,
+            height: 160,
+            color: '#fff',
+            whiteSpace: 'pre-line',
+            fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 800,
+            fontSize: 80,
+            lineHeight: '80px',
+            textTransform: 'uppercase',
+          }}
+        >
+          {'добро пожаловать\nв МЕТАФЛОРУ*'}
         </div>
 
-        <div className="flex items-center justify-between border-t border-white/10 pt-5 pb-10">
-          <div className="text-white text-[20px] font-black tracking-tighter uppercase">
-            МЕТА<span className="italic font-light lowercase">флора</span>*
-          </div>
-          <div className="flex gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
-             <span className="text-[12px] grayscale opacity-50">📱</span>
-             <span className="text-[12px] grayscale opacity-50">📷</span>
-             <span className="text-[12px] grayscale opacity-50">▶️</span>
-             <span className="text-[12px] grayscale opacity-50">🎵</span>
-          </div>
+        {/* description (bbox: x=94 y=522 w=922 h=120 Gotham Pro Regular 40 lh40) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(94, 522),
+            width: 922,
+            height: 120,
+            color: '#fff',
+            whiteSpace: 'pre-line',
+            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 400,
+            fontSize: 40,
+            lineHeight: '40px',
+          }}
+        >
+          {'обучайтесь AI прямо в Telegram\nс МЕТАФЛОРОЙ*: академия, лаба, цех\nи другие сервисы'}
         </div>
-      </main>
+
+        {/* carousel images */}
+        <div style={{ position: 'absolute', ...pos(0, 789), width: DESIGN_W, height: 980, overflow: 'hidden' }}>
+          {/* left (bbox: x=-203 y=0 w=609.038 h=972.654 r=40) */}
+          <img
+            src={carousel1}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: -203,
+              top: 0,
+              width: 609.038,
+              height: 972.6536,
+              borderRadius: 40,
+              objectFit: 'cover',
+            }}
+          />
+          {/* center (bbox: x=325 y=0 w=530 h=930 r=40) */}
+          <img
+            src={carousel2}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: 325,
+              top: 0,
+              width: 530,
+              height: 930,
+              borderRadius: 40,
+              objectFit: 'cover',
+            }}
+          />
+          {/* right (bbox: x=775 y=0 w=609.038 h=972.654 r=40) */}
+          <img
+            src={carousel3}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: 775,
+              top: 0,
+              width: 609.038,
+              height: 972.6536,
+              borderRadius: 40,
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+
+        {/* pagination (bbox: x=531 y=1790 w=119 h=17) */}
+        <img
+          src={paginationImg}
+          alt=""
+          style={{ position: 'absolute', ...pos(531, 1790), width: 119, height: 17 }}
+        />
+
+        {/* tour button bg (bbox: x=128 y=1899 w=892 h=139 r=62) */}
+        <img
+          src={buttonTourBg}
+          alt=""
+          style={{ position: 'absolute', ...pos(128, 1899), width: 892, height: 139 }}
+        />
+        {/* tour text (bbox: x=303 y=1949 w=542 h=40 Gotham Pro Medium 40 lh40 align center) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(303, 1949),
+            width: 542,
+            height: 40,
+            color: '#fff',
+            textAlign: 'center',
+            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 400,
+            fontSize: 40,
+            lineHeight: '40px',
+          }}
+        >
+          экскурсия по платформе
+        </div>
+
+        {/* try button bg (bbox: x=128 y=2057 w=892 h=139 r=62, fill black 90%, stroke white 30%) */}
+        <img
+          src={buttonTryBg}
+          alt=""
+          style={{ position: 'absolute', ...pos(128, 2057), width: 892, height: 139 }}
+        />
+        {/* try text (bbox: x=311 y=2106 w=527 h=40 Gotham Pro Medium 40 lh40 align center) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(311, 2106),
+            width: 527,
+            height: 40,
+            color: '#fff',
+            textAlign: 'center',
+            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 400,
+            fontSize: 40,
+            lineHeight: '40px',
+          }}
+        >
+          попробовать бесплатно
+        </div>
+
+        {/* legal left (bbox: x=137 y=2225 w=399 h=60 Milligram Macro Trial Bold 20 lh20) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(137, 2225),
+            width: 399,
+            height: 60,
+            color: '#fff',
+            opacity: 0.6,
+            whiteSpace: 'pre-line',
+            fontFamily: '"Milligram Macro Trial", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 700,
+            fontSize: 20,
+            lineHeight: '20px',
+          }}
+        >
+          {'нажимая на кнопку, вы соглашаетесь\nс политикой конфиденциальности МЕТАФЛОРА*'}
+        </div>
+
+        {/* legal right (bbox: x=601 y=2225 w=428 h=60 Milligram Macro Trial Bold 20 lh20 align right) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(601, 2225),
+            width: 428,
+            height: 60,
+            color: '#fff',
+            opacity: 0.6,
+            whiteSpace: 'pre-line',
+            textAlign: 'right',
+            fontFamily: '"Milligram Macro Trial", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 700,
+            fontSize: 20,
+            lineHeight: '20px',
+          }}
+        >
+          {'нажимая на кнопку, вы соглашаетесь\nна получение информационной\nи рекламной рассылки МЕТАФЛОРА*'}
+        </div>
+
+        {/* footer logo placeholder (bbox: x=125 y=2295 w=587 h=125)
+            TODO: для 1:1 нужно экспортнуть из Figma узел "лого в подвале" и положить в src/assets/welcome/footer-logo.png
+        */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(125, 2295),
+            width: 587,
+            height: 125,
+            display: 'flex',
+            alignItems: 'center',
+            color: '#fff',
+            opacity: 0.15,
+            fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 800,
+            fontSize: 80,
+            lineHeight: '80px',
+          }}
+        >
+          {/* simplest placeholder until asset is provided */}
+          МЕТАФЛОРА*
+        </div>
+
+        {/* copyright (bbox: x=136 y=2400 w=282 h=40 Gotham Pro Light 20 lh20) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(136, 2400),
+            width: 282,
+            height: 40,
+            color: '#fff',
+            opacity: 0.6,
+            whiteSpace: 'pre-line',
+            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 400,
+            fontSize: 20,
+            lineHeight: '20px',
+          }}
+        >
+          {'Copyright ©\nВсе права защищены.'}
+        </div>
+
+        {/* socials bg (bbox: x=830 y=2319 w=230 h=78 r=62 fill 10% stroke 30%) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(830, 2319),
+            width: 230,
+            height: 78,
+            borderRadius: 62,
+            backgroundColor: 'rgba(255,255,255,0.10)',
+            border: '4px solid rgba(255,255,255,0.30)',
+          }}
+        />
+        {/* socials icons placeholder (bbox: x=847 y=2333 w=196 h=51)
+            TODO: экспортнуть из Figma узел "соцсети" и положить в src/assets/welcome/socials.png
+        */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(847, 2333),
+            width: 196,
+            height: 51,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            color: '#fff',
+            opacity: 0.35,
+            fontSize: 26,
+          }}
+        >
+          <span>✈</span>
+          <span>◻</span>
+          <span>▶</span>
+          <span>♪</span>
+        </div>
+
+        {/* home indicator (bbox: x=384 y=2510 w=412 h=19 r=33) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(384, 2510),
+            width: 412,
+            height: 19,
+            borderRadius: 33,
+            backgroundColor: '#fffdfe',
+          }}
+        />
+      </div>
+
+      {/* Safe area pad */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 'env(safe-area-inset-bottom)' }} />
     </div>
   );
 };
