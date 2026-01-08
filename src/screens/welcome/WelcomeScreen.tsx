@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../../assets/logo.png';
 import carousel1 from '../../assets/carousel-1.png';
 import carousel2 from '../../assets/carousel-2.png';
@@ -10,9 +10,6 @@ import carousel3 from '../../assets/carousel-3.png';
  * Идеальная верстка по размерам из Figma (1180px baseline)
  */
 export const WelcomeScreen: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(1);
-  const slides = [carousel1, carousel2, carousel3];
-
   return (
     <div className="relative flex flex-col w-full min-h-screen bg-[#020101] overflow-x-hidden font-sans select-none">
       {/* Точечный фон */}
@@ -45,7 +42,7 @@ export const WelcomeScreen: React.FC = () => {
         
         <p className="text-[13px] text-white/90 leading-[1.2] font-normal mb-8 tracking-tight">
           обучайтесь AI прямо в Telegram<br/>
-          с <span className="font-black">МЕТАФЛОРОЙ*</span>: академия, лаба, цех<br/>
+          с <span className="font-black">МЕТАФЛОРОЙ*</span>: академия, лэба, цех<br/>
           и другие сервисы
         </p>
 
@@ -53,18 +50,18 @@ export const WelcomeScreen: React.FC = () => {
         <div className="relative flex justify-center items-center h-[340px] my-6">
           {/* Левая карта */}
           <div className="absolute left-[-50px] w-[203px] h-[324px] rounded-[13px] overflow-hidden opacity-40 rotate-[-4deg] scale-95 blur-[0.5px]">
-            <img src={carousel1} className="w-full h-full object-cover" />
+            <img src={carousel1} className="w-full h-full object-cover" alt="prev" />
             <div className="absolute inset-0 bg-gradient-to-b from-green-500/20 to-black/60" />
           </div>
 
           {/* Центральная карта */}
           <div className="relative z-20 w-[177px] h-[310px] rounded-[13px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/5">
-            <img src={carousel2} className="w-full h-full object-cover" />
+            <img src={carousel2} className="w-full h-full object-cover" alt="current" />
           </div>
 
           {/* Правая карта */}
           <div className="absolute right-[-50px] w-[203px] h-[324px] rounded-[13px] overflow-hidden opacity-40 rotate-[4deg] scale-95 blur-[0.5px]">
-            <img src={carousel3} className="w-full h-full object-cover" />
+            <img src={carousel3} className="w-full h-full object-cover" alt="next" />
             <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-black/60" />
           </div>
         </div>
@@ -83,7 +80,6 @@ export const WelcomeScreen: React.FC = () => {
           </button>
           
           <button className="relative w-full h-[48px] bg-black border-[1.5px] border-white/30 rounded-[22px] overflow-hidden active:scale-[0.98] transition-transform shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            {/* Анимированный/сложный градиентный фон */}
             <div className="absolute inset-0 opacity-90 blur-2xl">
               <div className="absolute top-[-60%] left-[-20%] w-[120%] h-[120%] bg-[#37ecf7] rounded-full opacity-60" />
               <div className="absolute top-[-40%] right-[-10%] w-[100%] h-[100%] bg-[#f0d825] rounded-full opacity-60" />
@@ -122,4 +118,3 @@ export const WelcomeScreen: React.FC = () => {
     </div>
   );
 };
-
