@@ -7,8 +7,9 @@ import carousel2 from '../../assets/welcome/carousel-2.png';
 import carousel3 from '../../assets/welcome/carousel-3.png';
 
 import buttonTourBg from '../../assets/welcome/button-tour.png';
-import buttonTryBg from '../../assets/welcome/button-try.png';
 import paginationImg from '../../assets/welcome/pagination.png';
+import footerLogo from '../../assets/welcome/footer-logo.png';
+import socialsImg from '../../assets/welcome/socials.png';
 
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
@@ -248,12 +249,68 @@ export const WelcomeScreen = () => {
           экскурсия по платформе
         </div>
 
-        {/* try button bg (bbox: x=128 y=2057 w=892 h=139 r=62, fill black 90%, stroke white 30%) */}
-        <img
-          src={buttonTryBg}
-          alt=""
-          style={{ position: 'absolute', ...pos(128, 2057), width: 892, height: 139 }}
-        />
+        {/* try button (bbox: x=128 y=2057 w=892 h=139 r=62, with gradient overlay) */}
+        <div
+          style={{
+            position: 'absolute',
+            ...pos(128, 2057),
+            width: 892,
+            height: 139,
+            borderRadius: 62,
+            backgroundColor: 'rgba(0,0,0,0.90)',
+            border: '4px solid rgba(255,255,255,0.30)',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Gradient overlay (colors group) - positioned to create blur effect */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: 655,
+              height: 563.5,
+              transform: 'translate(-50%, -50%)',
+              opacity: 0.15,
+              filter: 'blur(60px)',
+              pointerEvents: 'none',
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 13.9,
+                width: 575.78,
+                height: 423.34,
+                borderRadius: 1568.56,
+                background: '#37ecf7',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                left: 143.97,
+                top: 0,
+                width: 511.03,
+                height: 309.53,
+                borderRadius: 1568.56,
+                background: '#f0d825',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                left: 337.64,
+                top: 276.55,
+                width: 317.09,
+                height: 286.96,
+                borderRadius: 1568.56,
+                background: '#d5fc44',
+              }}
+            />
+          </div>
+        </div>
         {/* try text (bbox: x=311 y=2106 w=527 h=40 Gotham Pro Medium 40 lh40 align center) */}
         <div
           style={{
@@ -272,7 +329,7 @@ export const WelcomeScreen = () => {
           попробовать бесплатно
         </div>
 
-        {/* legal left (bbox: x=137 y=2225 w=399 h=60 Milligram Macro Trial Bold 20 lh20) */}
+        {/* legal left (bbox: x=137 y=2225 w=399 h=60 Gotham Pro Light 20 lh20) */}
         <div
           style={{
             position: 'absolute',
@@ -282,8 +339,8 @@ export const WelcomeScreen = () => {
             color: '#fff',
             opacity: 0.6,
             whiteSpace: 'pre-line',
-            fontFamily: '"Milligram Macro Trial", system-ui, -apple-system, Segoe UI, Roboto, Arial',
-            fontWeight: 700,
+            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 300,
             fontSize: 20,
             lineHeight: '20px',
           }}
@@ -291,7 +348,7 @@ export const WelcomeScreen = () => {
           {'нажимая на кнопку, вы соглашаетесь\nс политикой конфиденциальности МЕТАФЛОРА*'}
         </div>
 
-        {/* legal right (bbox: x=601 y=2225 w=428 h=60 Milligram Macro Trial Bold 20 lh20 align right) */}
+        {/* legal right (bbox: x=601 y=2225 w=428 h=60 Gotham Pro Light 20 lh20 align right) */}
         <div
           style={{
             position: 'absolute',
@@ -302,8 +359,8 @@ export const WelcomeScreen = () => {
             opacity: 0.6,
             whiteSpace: 'pre-line',
             textAlign: 'right',
-            fontFamily: '"Milligram Macro Trial", system-ui, -apple-system, Segoe UI, Roboto, Arial',
-            fontWeight: 700,
+            fontFamily: '"Gotham Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 300,
             fontSize: 20,
             lineHeight: '20px',
           }}
@@ -311,28 +368,18 @@ export const WelcomeScreen = () => {
           {'нажимая на кнопку, вы соглашаетесь\nна получение информационной\nи рекламной рассылки МЕТАФЛОРА*'}
         </div>
 
-        {/* footer logo placeholder (bbox: x=125 y=2295 w=587 h=125)
-            TODO: для 1:1 нужно экспортнуть из Figma узел "лого в подвале" и положить в src/assets/welcome/footer-logo.png
-        */}
-        <div
+        {/* footer logo (bbox: x=125 y=2295 w=587 h=125) */}
+        <img
+          src={footerLogo}
+          alt=""
           style={{
             position: 'absolute',
             ...pos(125, 2295),
             width: 587,
             height: 125,
-            display: 'flex',
-            alignItems: 'center',
-            color: '#fff',
-            opacity: 0.15,
-            fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial',
-            fontWeight: 800,
-            fontSize: 80,
-            lineHeight: '80px',
+            objectFit: 'contain',
           }}
-        >
-          {/* simplest placeholder until asset is provided */}
-          МЕТАФЛОРА*
-        </div>
+        />
 
         {/* copyright (bbox: x=136 y=2400 w=282 h=40 Gotham Pro Light 20 lh20) */}
         <div
@@ -365,28 +412,18 @@ export const WelcomeScreen = () => {
             border: '4px solid rgba(255,255,255,0.30)',
           }}
         />
-        {/* socials icons placeholder (bbox: x=847 y=2333 w=196 h=51)
-            TODO: экспортнуть из Figma узел "соцсети" и положить в src/assets/welcome/socials.png
-        */}
-        <div
+        {/* socials icons (bbox: x=847 y=2333 w=196 h=51) */}
+        <img
+          src={socialsImg}
+          alt=""
           style={{
             position: 'absolute',
             ...pos(847, 2333),
             width: 196,
             height: 51,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: '#fff',
-            opacity: 0.35,
-            fontSize: 26,
+            objectFit: 'contain',
           }}
-        >
-          <span>✈</span>
-          <span>◻</span>
-          <span>▶</span>
-          <span>♪</span>
-        </div>
+        />
 
         {/* home indicator (bbox: x=384 y=2510 w=412 h=19 r=33) */}
         <div
