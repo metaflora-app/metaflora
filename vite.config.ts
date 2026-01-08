@@ -7,17 +7,10 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
-    strictPort: false,
   },
   preview: {
     port: parseInt(process.env.PORT || '4173'),
     host: '0.0.0.0',
-    strictPort: false,
-    allowedHosts: [
-      'web-production-fc84.up.railway.app',
-      '.railway.app',
-      '.up.railway.app',
-    ],
   },
   build: {
     outDir: 'dist',
