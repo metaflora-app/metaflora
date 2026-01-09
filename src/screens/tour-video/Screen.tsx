@@ -4,12 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import bgDots from '../../assets/tour-video/elements/фон точки.png';
 import headerFooter from '../../assets/tour-video/elements/хэдер и подвал.png';
 import videoFrame from '../../assets/tour-video/elements/видео с обзором.png';
-import videoControls from '../../assets/tour-video/elements/Frame 2131330093.png';
 import backButton from '../../assets/tour-video/elements/выход.png';
 import buttonTryBg from '../../assets/tour-video/elements/кнопка попробовать бесплатно.png';
-import supportBg from '../../assets/tour-video/elements/написать в поддержку.png';
 
-// Размеры фрейма Figma
+// Размеры фрейма Figma "экран с экскурсией"
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
@@ -33,7 +31,7 @@ export default function TourVideoScreen() {
           position: 'relative',
         }}
       >
-        {/* Фон с точками */}
+        {/* Фон с точками (7:100) */}
         <img
           src={bgDots}
           alt=""
@@ -41,7 +39,7 @@ export default function TourVideoScreen() {
           className="pointer-events-none"
         />
 
-        {/* Хэдер и подвал */}
+        {/* Хэдер и подвал (7:154) */}
         <img
           src={headerFooter}
           alt=""
@@ -68,39 +66,22 @@ export default function TourVideoScreen() {
           экскурсия по платформе за 2 минуты
         </h1>
 
-        {/* Видео фрейм - PNG из Figma (7:131) */}
-        <div
+        {/* Видео фрейм (7:131, 7:132) */}
+        <img
+          src={videoFrame}
+          alt=""
           style={{
             position: 'absolute',
             left: 144,
             top: 556,
             width: 891,
             height: 1457,
+            borderRadius: 40,
           }}
-        >
-          <img
-            src={videoFrame}
-            alt=""
-            style={{ width: '100%', height: '100%' }}
-            className="pointer-events-none"
-          />
-          
-          {/* Контролы видео - PNG (7:132-7:142) */}
-          <img
-            src={videoControls}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '100%',
-              height: '100%',
-            }}
-            className="pointer-events-none"
-          />
-        </div>
+          className="pointer-events-none"
+        />
 
-        {/* Кнопка "выход" (назад) - PNG из Figma (7:144) */}
+        {/* Кнопка "выход" (назад) (7:144) */}
         <button
           onClick={() => navigate(-1)}
           style={{
@@ -118,7 +99,7 @@ export default function TourVideoScreen() {
           <img src={backButton} alt="" style={{ width: '100%', height: '100%' }} />
         </button>
 
-        {/* Кнопка "написать в поддержку" - PNG + текст КОД (7:152, 7:153) */}
+        {/* Кнопка "написать в поддержку" - фон прозрачный + текст КОД (7:152, 7:153) */}
         <button
           onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
           style={{
@@ -127,13 +108,13 @@ export default function TourVideoScreen() {
             top: 237,
             width: 205,
             height: 78,
-            background: 'transparent',
-            border: 'none',
+            borderRadius: 62,
+            backgroundColor: 'rgba(255,255,255,0.10)',
+            border: '4px solid rgba(255,255,255,0.30)',
             cursor: 'pointer',
             padding: 0,
           }}
         >
-          <img src={supportBg} alt="" style={{ width: '100%', height: '100%', position: 'absolute', left: 0, top: 0 }} />
           <span
             style={{
               position: 'absolute',
@@ -151,7 +132,7 @@ export default function TourVideoScreen() {
           </span>
         </button>
 
-        {/* Кнопка "попробовать бесплатно" - PNG + текст КОД (7:146, 7:151) */}
+        {/* Кнопка "попробовать бесплатно" - фон PNG + текст КОД (7:146, 7:151) */}
         <button
           onClick={() => navigate('/demo-access')}
           style={{
@@ -189,7 +170,7 @@ export default function TourVideoScreen() {
           </span>
         </button>
 
-        {/* Legal текст слева - КОД из Figma (7:127) */}
+        {/* Legal текст слева (7:127) */}
         <p
           style={{
             position: 'absolute',
@@ -200,7 +181,7 @@ export default function TourVideoScreen() {
             color: '#ffffff',
             opacity: 0.6,
             fontFamily: '"Gotham Pro", system-ui, sans-serif',
-            fontWeight: 300,
+            fontWeight: 700,
             fontSize: 20,
             lineHeight: '20px',
             margin: 0,
@@ -210,7 +191,7 @@ export default function TourVideoScreen() {
           с политикой конфиденциальности МЕТАФЛОРА*
         </p>
 
-        {/* Legal текст справа - КОД из Figma (7:128) */}
+        {/* Legal текст справа (7:128) */}
         <p
           style={{
             position: 'absolute',
@@ -221,7 +202,7 @@ export default function TourVideoScreen() {
             color: '#ffffff',
             opacity: 0.6,
             fontFamily: '"Gotham Pro", system-ui, sans-serif',
-            fontWeight: 300,
+            fontWeight: 700,
             fontSize: 20,
             lineHeight: '20px',
             textAlign: 'right',
