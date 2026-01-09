@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-// Импорт элементов (используем уже скопированные файлы)
+// Импорт элементов
 import bgImage from '../../assets/demo-access-elements/хэдер и подвал.png';
 import title from '../../assets/demo-access-elements/что входит в ваш демо-доступ.png';
 import description from '../../assets/demo-access-elements/course-description.png';
@@ -25,8 +25,13 @@ export const DemoAccessScreen = () => {
 
   return (
     <div 
-      className="relative w-full bg-[#020101]"
-      style={{ height: `${scaledHeight}px`, overflow: 'hidden' }}
+      style={{ 
+        position: 'relative',
+        width: '100%',
+        height: `${scaledHeight}px`,
+        overflow: 'hidden',
+        background: '#020101'
+      }}
     >
       {/* Контейнер с масштабированием */}
       <div
@@ -40,106 +45,195 @@ export const DemoAccessScreen = () => {
           transformOrigin: 'top left',
         }}
       >
-        <main className="bg-[#020101] w-full min-w-[1180px] h-[2550px] relative">
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            minWidth: "1180px",
+            height: "2550px",
+            background: "#020101",
+          }}
+        >
           <img
-            className="absolute top-0 left-0 w-[1180px] h-[2550px]"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "1180px",
+              height: "2550px",
+            }}
             alt="Background"
             src={bgImage}
           />
 
           <img
-            className="absolute w-[68.14%] h-[6.27%] top-[20.45%] left-[20.68%]"
+            style={{
+              position: "absolute",
+              width: "68.14%",
+              height: "6.27%",
+              top: "20.45%",
+              left: "20.68%",
+            }}
             alt=""
             src={title}
           />
 
           <img
-            className="absolute w-[71.61%] h-[7.84%] top-[29.09%] left-[20.92%]"
+            style={{
+              position: "absolute",
+              width: "71.61%",
+              height: "7.84%",
+              top: "29.09%",
+              left: "20.92%",
+            }}
             alt=""
             src={description}
           />
 
           <img
-            className="absolute top-[551px] left-[calc(50.00%_-_487px)] w-[98px] h-[98px]"
+            style={{
+              position: "absolute",
+              top: "551px",
+              left: "calc(50.00% - 487px)",
+              width: "98px",
+              height: "98px",
+            }}
             alt=""
             src={iconIncluded}
           />
 
           <img
-            className="absolute top-[959px] left-[21px] w-[1137px] h-[861px]"
+            style={{
+              position: "absolute",
+              top: "959px",
+              left: "21px",
+              width: "1137px",
+              height: "861px",
+            }}
             alt=""
             src={accessList}
           />
 
           <img
-            className="absolute w-[86.44%] h-[6.27%] top-[12.34%] left-[8.51%]"
+            style={{
+              position: "absolute",
+              width: "86.44%",
+              height: "6.27%",
+              top: "12.34%",
+              left: "8.51%",
+            }}
             alt=""
             src={bigLogo}
           />
 
-          {/* Button continue */}
           <button
             onClick={() => navigate('/main')}
-            className="absolute top-[1850px] left-[calc(50.00%_-_441px)] w-[891px] h-[139px]"
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
+            style={{
+              position: "absolute",
+              top: "1850px",
+              left: "calc(50.00% - 441px)",
+              width: "891px",
+              height: "139px",
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+            }}
           >
             <img
-              className="w-full h-full"
+              style={{ width: "100%", height: "100%" }}
               alt=""
               src={btnContinueBg}
             />
           </button>
 
           <img
-            className="absolute top-[793px] left-[calc(50.00%_-_488px)] w-[98px] h-[98px]"
+            style={{
+              position: "absolute",
+              top: "793px",
+              left: "calc(50.00% - 488px)",
+              width: "98px",
+              height: "98px",
+            }}
             alt=""
             src={iconNotIncluded}
           />
 
-          {/* Exit button */}
           <button
             onClick={() => navigate(-1)}
-            className="absolute top-[204px] left-[calc(50.00%_-_465px)] w-[81px] h-16"
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
+            style={{
+              position: "absolute",
+              top: "204px",
+              left: "calc(50.00% - 465px)",
+              width: "81px",
+              height: "64px",
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+            }}
           >
             <img
-              className="w-full h-full"
+              style={{ width: "100%", height: "100%" }}
               alt=""
               src={exitBtn}
             />
           </button>
 
-          {/* Button pay */}
           <button
             onClick={() => navigate('/pricing')}
-            className="absolute top-[2010px] left-[calc(50.00%_-_441px)] w-[891px] h-[139px]"
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
+            style={{
+              position: "absolute",
+              top: "2010px",
+              left: "calc(50.00% - 441px)",
+              width: "891px",
+              height: "139px",
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+            }}
           >
             <img
-              className="w-full h-full"
+              style={{ width: "100%", height: "100%" }}
               alt=""
               src={btnPayBg}
             />
-            <img
-              className="absolute top-[2060px] left-[341px] w-[508px] h-9"
-              alt=""
-              src={btnPayText}
-            />
           </button>
 
-          {/* Support button */}
+          <img
+            style={{
+              position: "absolute",
+              top: "2060px",
+              left: "341px",
+              width: "508px",
+              height: "36px",
+            }}
+            alt=""
+            src={btnPayText}
+          />
+
           <button
             onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
-            className="absolute top-[190px] left-[calc(50.00%_+_265px)] w-[205px] h-[78px]"
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
+            style={{
+              position: "absolute",
+              top: "190px",
+              left: "calc(50.00% + 265px)",
+              width: "205px",
+              height: "78px",
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+            }}
           >
             <img
-              className="w-full h-full"
+              style={{ width: "100%", height: "100%" }}
               alt=""
               src={supportBtn}
             />
           </button>
-        </main>
+        </div>
       </div>
     </div>
   );
