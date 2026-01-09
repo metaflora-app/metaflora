@@ -17,7 +17,11 @@ export const WelcomeScreen = () => {
   return (
     <div 
       className="relative w-full bg-[#020101]"
-      style={{ height: `${scaledHeight}px`, overflow: 'hidden' }}
+      style={{ 
+        height: `${scaledHeight}px`, 
+        overflow: 'hidden',
+        maxWidth: '100vw',
+      }}
     >
       {/* Полный PNG экрана */}
       <img
