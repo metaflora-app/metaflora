@@ -1,6 +1,6 @@
 /**
- * как выглядит статья (первая часть) (7:2090)
- * Article Part One Screen - 1180x2550px
+ * как выглядит статья (7:2090 + 7:2144 объединены)
+ * Article Screen - 1180x2550px - SCROLLABLE FULL CONTENT
  * 
  * Figma→Code mapping:
  * - материалы статьи (7:2128) → main heading

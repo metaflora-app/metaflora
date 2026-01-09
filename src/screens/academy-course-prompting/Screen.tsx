@@ -1,14 +1,16 @@
 /**
- * главный экран лаба (дубликат) (7:1387)
- * Laba Main Duplicate Screen - 1180x2550px
+ * внутри курса в академии - ПРОМПТИНГ
+ * Academy Course Prompting Screen - 1180x2550px
+ * Курс "Промптинг"
  */
 
 import React from 'react';
 import { ScreenRoot } from '../../components/layout';
 
-export default function LabaMainDuplicateScreen() {
+export default function AcademyCoursePromptingScreen() {
   return (
     <ScreenRoot className="bg-[#020101] relative overflow-hidden">
+      {/* Background pattern */}
       <div className="absolute inset-0 w-full h-full opacity-10">
         <div className="grid grid-cols-4 gap-0 w-full h-full">
           {Array.from({ length: 16 }).map((_, i) => (
@@ -18,6 +20,7 @@ export default function LabaMainDuplicateScreen() {
       </div>
 
       <div className="relative w-[1180px] h-[2550px] mx-auto">
+        {/* Top navigation */}
         <div className="absolute top-[251px] left-[120px] flex gap-[2px]">
           <button className="w-[81px] h-[64px] bg-white/10 backdrop-blur rounded-[30px] border border-white/30 flex items-center justify-center">
             <svg width="47" height="47" viewBox="0 0 47 47" fill="none">
@@ -39,18 +42,37 @@ export default function LabaMainDuplicateScreen() {
 
         <div className="absolute top-[187px] left-[505px] w-[177px] h-[128px] bg-white/10 rounded-lg" />
 
+        {/* Heading (7:2522) */}
         <h1 className="absolute top-[337px] left-[85px] text-white text-[80px] font-['Inter'] font-extrabold leading-[80px]">
-          главный экран лаба
+          уроки курса "система"
         </h1>
 
-        <div className="absolute top-[549px] left-[125px] w-[930px]">
-          <div className="grid grid-cols-2 gap-[30px]">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="w-[450px] h-[700px] rounded-[30px] bg-gradient-to-br from-pink-900/10 to-purple-900/10 border border-white/30" />
-            ))}
-          </div>
+        {/* Subtitle (7:2523) */}
+        <p className="absolute top-[434px] left-[85px] w-[792px] text-white text-[40px] font-['Graphik_LCG'] font-bold leading-[40px]">
+          научишься всем азам работы с нейронками в 2026 году: какие выбрать и зачем
+        </p>
+
+        {/* Progress indicator (7:2532) */}
+        <div className="absolute top-[595px] left-[127px] w-[38px] h-[38px] bg-white/10 backdrop-blur rounded-[30px] border border-white/30 flex items-center justify-center">
+          <div className="w-[16px] h-[16px] bg-[#d5fc44] rounded-[30px] border border-white/30" />
         </div>
 
+        {/* Lesson cards container - placeholder for actual lesson list */}
+        <div className="absolute top-[581px] left-[177px] w-[878px] space-y-[40px]">
+          {/* Sample lesson cards */}
+          {[1, 2, 3, 4].map((num) => (
+            <div key={num} className="w-full h-[249px] flex gap-[16px]">
+              <div className="w-[465px] h-[249px] rounded-[30px] bg-gradient-to-br from-purple-900/20 to-blue-900/20" />
+              <div className="w-[397px] h-[249px] bg-black rounded-[30px] border border-white/30 p-[36px]">
+                <p className="text-white text-[23px] font-['Gotham_Pro'] font-light leading-[23px] text-center">
+                  Курс «Система» — про то, как выстраивать процессы, а не тушить пожары.
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
         <footer className="absolute bottom-[44px] left-[125px] right-[125px]">
           <div className="mb-[20px]">
             <div className="w-[587px] h-[125px] bg-white/10 rounded-lg" />

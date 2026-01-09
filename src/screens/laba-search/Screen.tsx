@@ -1,6 +1,6 @@
 /**
- * экран прогрузки лаба (7:665)
- * Laba Loading Screen - 1180x2550px
+ * экран поиска лаба (7:665)
+ * Laba Search Screen - 1180x2550px - WITH SEARCH BAR
  * 
  * Figma→Code mapping:
  * - IMAGE 2025-12-26 07:06:48 1 (7:694) → left placeholder (449x1867)
@@ -13,7 +13,7 @@
 import React from 'react';
 import { ScreenRoot } from '../../components/layout';
 
-export default function LabaLoadingScreen() {
+export default function LabaSearchScreen() {
   return (
     <ScreenRoot className="bg-[#020101] relative overflow-hidden">
       {/* Background pattern */}

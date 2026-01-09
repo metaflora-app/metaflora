@@ -1,12 +1,12 @@
 /**
- * экран еще нет отслеживаемых лаба (7:1330)
- * Laba No Tracked Screen - 1180x2550px
+ * экран избранное лаба (7:1387)
+ * Laba Favorites Screen - 1180x2550px - WITHOUT SEARCH BAR
  */
 
 import React from 'react';
 import { ScreenRoot } from '../../components/layout';
 
-export default function LabaNoTrackedScreen() {
+export default function LabaFavoritesScreen() {
   return (
     <ScreenRoot className="bg-[#020101] relative overflow-hidden">
       <div className="absolute inset-0 w-full h-full opacity-10">
@@ -40,28 +40,15 @@ export default function LabaNoTrackedScreen() {
         <div className="absolute top-[187px] left-[505px] w-[177px] h-[128px] bg-white/10 rounded-lg" />
 
         <h1 className="absolute top-[337px] left-[85px] text-white text-[80px] font-['Inter'] font-extrabold leading-[80px]">
-          отслеживаемые
+          главный экран лаба
         </h1>
 
-        {/* Empty state */}
-        <div className="absolute top-[900px] left-[240px] w-[700px] text-center">
-          <p className="text-white text-[60px] font-['Inter'] font-bold leading-[60px] mb-[30px]">
-            пока нет отслеживаемых<br />аккаунтов
-          </p>
-          <p className="text-white text-[32px] font-['Gotham_Pro'] font-light leading-[32px] mb-[50px]">
-            начните анализировать контент,<br />чтобы добавить аккаунты в избранное
-          </p>
-          
-          {/* Button: начать отслеживание */}
-          <button className="w-[400px] h-[80px] bg-black/90 backdrop-blur rounded-[62px] border border-white/30 overflow-hidden mx-auto">
-            <div className="absolute inset-0">
-              <div className="absolute top-[-40px] left-[80px] w-[200px] h-[150px] bg-[#814cf3] rounded-full blur-[60px]" />
-              <div className="absolute top-[-50px] left-[150px] w-[180px] h-[110px] bg-[#d5fc44] rounded-full blur-[60px]" />
-            </div>
-            <span className="relative z-10 text-white text-[32px] font-['Gotham_Pro'] font-medium">
-              начать отслеживание
-            </span>
-          </button>
+        <div className="absolute top-[549px] left-[125px] w-[930px]">
+          <div className="grid grid-cols-2 gap-[30px]">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="w-[450px] h-[700px] rounded-[30px] bg-gradient-to-br from-pink-900/10 to-purple-900/10 border border-white/30" />
+            ))}
+          </div>
         </div>
 
         <footer className="absolute bottom-[44px] left-[125px] right-[125px]">

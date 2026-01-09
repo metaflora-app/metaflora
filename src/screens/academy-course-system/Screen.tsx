@@ -1,19 +1,13 @@
 /**
- * внутри курса в академии (7:2419)
- * Academy Course Inside Screen - 1180x2550px
- * 
- * Figma→Code mapping:
- * - уроки курса "система" (7:2522) → main heading
- * - научишься всем азам... (7:2523) → subtitle
- * - Frame 2131330093 (7:2524) → lesson cards container
- * - сайдбар (7:2532) → progress indicator
- * - Frame 2131330094 (7:2538) → support button container
+ * внутри курса в академии - СИСТЕМА (7:2419)
+ * Academy Course System Screen - 1180x2550px
+ * Курс "Система"
  */
 
 import React from 'react';
 import { ScreenRoot } from '../../components/layout';
 
-export default function AcademyCourseInsideScreen() {
+export default function AcademyCourseSystemScreen() {
   return (
     <ScreenRoot className="bg-[#020101] relative overflow-hidden">
       {/* Background pattern */}
