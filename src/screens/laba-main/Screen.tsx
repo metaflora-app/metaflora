@@ -3,7 +3,7 @@
  * Laba Main Screen - 1180x2550px
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function LabaMainScreen() {

@@ -14,7 +14,7 @@
  * - хэдер и подвал (7:468) → header/footer
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function AboutPromptScreen() {

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import carousel1 from '../../assets/welcome/carousel-1.png';
 import carousel2 from '../../assets/welcome/carousel-2.png';
@@ -20,11 +21,8 @@ try {
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
-type Props = {
-  onGoTour?: () => void;
-};
-
-export const WelcomeScreen = ({ onGoTour }: Props) => {
+export const WelcomeScreen = () => {
+  const navigate = useNavigate();
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   // Масштаб строго по ширине, как в Figma (без вертикального центрирования)
@@ -97,7 +95,9 @@ export const WelcomeScreen = ({ onGoTour }: Props) => {
         />
 
         {/* Кнопка "написать в поддержку" (x=824 y=237 w=205 h=78) */}
-        <div
+        <button
+          onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
+          className="cursor-pointer"
           style={{
             position: 'absolute',
             ...pos(824, 237),
@@ -216,9 +216,8 @@ export const WelcomeScreen = ({ onGoTour }: Props) => {
         />
 
         {/* Кнопка "экскурсия по платформе" (x=128 y=1899 w=892 h=139) */}
-        <div
-          onClick={onGoTour}
-          role="button"
+        <button
+          onClick={() => navigate('/tour-video')}
           style={{
             position: 'absolute',
             ...pos(128, 1899),
@@ -226,11 +225,12 @@ export const WelcomeScreen = ({ onGoTour }: Props) => {
             height: 139,
             borderRadius: 62,
             border: '4px solid rgba(255,255,255,0.30)',
-            cursor: onGoTour ? 'pointer' : 'default',
+            cursor: 'pointer',
+            background: 'transparent',
           }}
         />
         <div
-          onClick={onGoTour}
+          onClick={() => navigate('/tour-video')}
           role="button"
           style={{
             position: 'absolute',
@@ -243,7 +243,8 @@ export const WelcomeScreen = ({ onGoTour }: Props) => {
             fontWeight: 500,
             fontSize: 40,
             lineHeight: '40px',
-            cursor: onGoTour ? 'pointer' : 'default',
+            cursor: 'pointer',
+            pointerEvents: 'none',
           }}
         >
           экскурсия по платформе

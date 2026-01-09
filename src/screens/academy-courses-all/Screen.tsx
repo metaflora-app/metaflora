@@ -11,7 +11,7 @@
  * - ba72c2de... (7:2240) → large background image
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function AcademyCoursesAllScreen() {

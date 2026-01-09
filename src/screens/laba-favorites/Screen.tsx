@@ -3,7 +3,7 @@
  * Laba Favorites Screen - 1180x2550px - WITHOUT SEARCH BAR
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function LabaFavoritesScreen() {

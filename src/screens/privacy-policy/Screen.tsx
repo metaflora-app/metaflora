@@ -11,7 +11,7 @@
  * - Legal text (7:2903) → full privacy policy text
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function PrivacyPolicyScreen() {

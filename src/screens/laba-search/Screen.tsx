@@ -10,7 +10,7 @@
  * - Navigation labels (7:706-7:709) → button labels
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function LabaSearchScreen() {

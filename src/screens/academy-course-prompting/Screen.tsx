@@ -4,7 +4,7 @@
  * Курс "Промптинг"
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function AcademyCoursePromptingScreen() {

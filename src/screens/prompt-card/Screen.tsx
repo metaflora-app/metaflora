@@ -14,7 +14,7 @@
  * - Frame 12343462 (7:1923) → "вернуться к каталогу" button with gradient
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function PromptCardScreen() {

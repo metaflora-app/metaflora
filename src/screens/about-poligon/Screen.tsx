@@ -11,7 +11,7 @@
  * - Frame 12343458 (7:587) → CTA button with purple gradient
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function AboutPoligonScreen() {

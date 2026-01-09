@@ -12,7 +12,7 @@
  * - хэдер и подвал (7:154) → header/footer components
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function TourVideoScreen() {

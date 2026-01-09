@@ -10,7 +10,7 @@
  * - IMG_4322-Photoroom 1 (7:2339) → large background image
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function PoligonArticlesAllScreen() {

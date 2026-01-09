@@ -3,7 +3,7 @@
  * Laba Analysis Full Screen - 1180x2550px - EXPANDED VIEW
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function LabaAnalysisFullScreen() {

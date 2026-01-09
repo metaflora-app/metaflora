@@ -9,7 +9,7 @@
  * - Frame 12343458 (7:2711) → CTA button "купить метакоины"
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function MetacoinsScreen() {

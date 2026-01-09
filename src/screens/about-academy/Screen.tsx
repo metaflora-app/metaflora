@@ -13,7 +13,7 @@
  * - сайдбар (7:522, 7:523) → checkmark indicators
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function AboutAcademyScreen() {

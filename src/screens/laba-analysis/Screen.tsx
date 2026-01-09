@@ -16,7 +16,7 @@
  * - IMG_4326-Photoroom 1 (7:746) → large background image
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function LabaAnalysisScreen() {

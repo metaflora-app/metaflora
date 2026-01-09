@@ -13,7 +13,7 @@
  * - хэдер и подвал (7:1729) → footer
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function PromptFirstScreen() {

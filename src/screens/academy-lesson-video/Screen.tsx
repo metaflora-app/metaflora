@@ -11,7 +11,7 @@
  * - Frame 12343458 (7:1592) → CTA "получить материалы" with red gradient
  */
 
-import React from 'react';
+
 import { ScreenRoot } from '../../components/layout';
 
 export default function AcademyLessonVideoScreen() {
