@@ -11,23 +11,25 @@ export const WelcomeScreen = () => {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   
-  // Масштаб по min, чтобы весь фрейм влез без обрезки
-  const scale = useMemo(() => Math.min(vw / DESIGN_W, vh / DESIGN_H), [vw, vh]);
-  const offsetX = (vw - DESIGN_W * scale) / 2;
-  const offsetY = (vh - DESIGN_H * scale) / 2;
+  // Масштаб строго по ширине (как было раньше)
+  const scale = useMemo(() => vw / DESIGN_W, [vw]);
+  const scaledHeight = DESIGN_H * scale;
   
   const pos = (x: number, y: number) => ({ left: x, top: y });
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
+    <div 
+      className="relative w-full bg-[#020101]"
+      style={{ height: `${scaledHeight}px`, overflow: 'hidden' }}
+    >
       {/* PNG фона без кнопок */}
       <img
         src={welcomeScreenNoBtns}
         alt="МЕТАФЛОРА"
         style={{
           position: 'absolute',
-          left: offsetX,
-          top: offsetY,
+          left: 0,
+          top: 0,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
@@ -39,8 +41,8 @@ export const WelcomeScreen = () => {
       <div
         className="absolute"
         style={{
-          left: offsetX,
-          top: offsetY,
+          left: 0,
+          top: 0,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
