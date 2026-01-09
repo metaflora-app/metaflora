@@ -1,54 +1,29 @@
-import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import welcomeFullPng from '../../assets/screens/welcome-full.png';
 
-// Размеры фрейма Figma
-const DESIGN_W = 1180;
-const DESIGN_H = 2550;
-
 export const WelcomeScreen = () => {
   const navigate = useNavigate();
-  const vw = window.innerWidth;
-  
-  // Масштаб строго по ширине
-  const scale = useMemo(() => vw / DESIGN_W, [vw]);
-  const scaledHeight = DESIGN_H * scale;
 
   return (
-    <div 
-      className="relative w-full bg-[#020101]"
-      style={{ 
-        height: `${scaledHeight}px`, 
-        overflow: 'hidden',
-        maxWidth: '100vw',
-      }}
-    >
-      {/* Полный PNG экрана */}
+    <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
+      {/* PNG на весь экран БЕЗ масштабирования */}
       <img
         src={welcomeFullPng}
         alt="МЕТАФЛОРА"
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          width: DESIGN_W,
-          height: DESIGN_H,
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
-        }}
+        className="absolute inset-0 w-full h-full object-cover"
       />
 
-      {/* Невидимые кликабельные зоны поверх PNG */}
+      {/* Невидимые кликабельные зоны - позиции в процентах от экрана */}
       
-      {/* Кнопка "экскурсия по платформе" (x=128 y=1899 w=892 h=139) */}
+      {/* Кнопка "экскурсия по платформе" */}
       <button
         onClick={() => navigate('/tour-video')}
+        className="absolute"
         style={{
-          position: 'absolute',
-          left: 128 * scale,
-          top: 1899 * scale,
-          width: 892 * scale,
-          height: 139 * scale,
+          left: '12.5%',
+          bottom: '23%',
+          width: '75%',
+          height: '5.5%',
           background: 'transparent',
           border: 'none',
           cursor: 'pointer',
@@ -56,15 +31,15 @@ export const WelcomeScreen = () => {
         aria-label="экскурсия по платформе"
       />
 
-      {/* Кнопка "попробовать бесплатно" (x=128 y=2057 w=892 h=139) */}
+      {/* Кнопка "попробовать бесплатно" */}
       <button
         onClick={() => navigate('/demo-access')}
+        className="absolute"
         style={{
-          position: 'absolute',
-          left: 128 * scale,
-          top: 2057 * scale,
-          width: 892 * scale,
-          height: 139 * scale,
+          left: '12.5%',
+          bottom: '16.5%',
+          width: '75%',
+          height: '5.5%',
           background: 'transparent',
           border: 'none',
           cursor: 'pointer',
