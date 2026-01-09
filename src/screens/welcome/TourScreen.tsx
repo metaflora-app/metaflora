@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 
-// Импорт элементов
+// Импорт элементов из папки
+import bgImage from '../../assets/tour-elements/хэдер и подвал.png';
 import bgDots from '../../assets/tour-elements/фон точки.png';
-import headerFooter from '../../assets/tour-elements/хэдер и подвал.png';
+import title from '../../assets/tour-elements/экскурсия по платформе за 2 минуты.png';
 import videoPreview from '../../assets/tour-elements/видео с обзором.png';
 import exitBtn from '../../assets/tour-elements/выход.png';
 import supportBtn from '../../assets/tour-elements/Frame 2131330093.png';
-import title from '../../assets/tour-elements/экскурсия по платформе за 2 минуты.png';
 import btnTryBg from '../../assets/tour-elements/кнопка попробовать бесплатно.png';
 import btnTryText from '../../assets/tour-elements/попробовать бесплатно.png';
 
-// Размеры фрейма
+// Размеры дизайна
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
@@ -36,139 +36,119 @@ export const TourScreen = () => {
           transformOrigin: 'top left',
         }}
       >
-        {/* Фон черный */}
-        <div style={{
-          position: 'absolute',
-          width: 1180,
-          height: 2550,
-          background: '#000000',
-        }} />
-
-        {/* Фон с точками */}
+        {/* Background image */}
         <img
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 1180,
+            height: 2550,
+          }}
+          alt="Background"
+          src={bgImage}
+        />
+
+        {/* Dots background */}
+        <img
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 1180,
+            height: 2550,
+          }}
+          alt=""
           src={bgDots}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: 1180,
-            height: 2550,
-            pointerEvents: 'none',
-          }}
         />
 
-        {/* Хэдер и подвал */}
+        {/* Legal text left */}
+        <p
+          style={{
+            position: 'absolute',
+            height: '2.35%',
+            left: 'calc(50% - 446px)',
+            top: '85.57%',
+            width: 399,
+            color: '#ffffff',
+            fontFamily: 'Gotham Pro, Helvetica',
+            fontSize: 20,
+            fontWeight: 300,
+            lineHeight: '20px',
+            margin: 0,
+          }}
+        >
+          нажимая на кнопку, вы соглашаетесь<br />
+          <span style={{ fontWeight: 700 }}>с политикой конфиденциальности МЕТАФЛОРА*</span>
+        </p>
+
+        {/* Legal text right */}
+        <p
+          style={{
+            position: 'absolute',
+            height: '2.35%',
+            left: 'calc(50% + 9px)',
+            top: '85.57%',
+            width: 428,
+            color: '#ffffff',
+            fontFamily: 'Gotham Pro, Helvetica',
+            fontSize: 20,
+            fontWeight: 300,
+            lineHeight: '20px',
+            textAlign: 'right',
+            margin: 0,
+          }}
+        >
+          нажимая на кнопку, вы соглашаетесь<br />
+          <span style={{ fontWeight: 700 }}>на получение информационной<br />и рекламной рассылки МЕТАФЛОРА*</span>
+        </p>
+
+        {/* Title */}
         <img
-          src={headerFooter}
+          style={{
+            position: 'absolute',
+            height: '6.27%',
+            left: '7.99%',
+            top: '13.22%',
+            width: '87.03%',
+          }}
           alt=""
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: 1180,
-            height: 2550,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Кнопка выхода (слева вверху) */}
-        <button
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            left: 120,
-            top: 251,
-            width: 81,
-            height: 64,
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
-          }}
-        >
-          <img
-            src={exitBtn}
-            alt=""
-            style={{ width: '100%', height: '100%' }}
-          />
-        </button>
-
-        {/* Кнопка поддержки (справа вверху) */}
-        <button
-          onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
-          style={{
-            position: 'absolute',
-            left: 1106,
-            top: 238,
-            width: 205,
-            height: 78,
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
-          }}
-        >
-          <img
-            src={supportBtn}
-            alt=""
-            style={{ width: '100%', height: '100%' }}
-          />
-        </button>
-
-        {/* Заголовок */}
-        <img
           src={title}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: 94,
-            top: 337,
-            width: 1027,
-            height: 160,
-          }}
         />
 
-        {/* Видео превью (891x1457 по CSS) */}
+        {/* Video container (view) */}
         <div
           style={{
             position: 'absolute',
-            left: 144,
-            top: 556,
+            left: 'calc(50% - 448px)',
+            top: 513,
             width: 891,
             height: 1457,
+            backgroundImage: `url(${videoPreview})`,
+            backgroundPosition: '50% 50%',
+            backgroundSize: 'cover',
           }}
         >
-          <img
-            src={videoPreview}
-            alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: 40,
-              objectFit: 'cover',
-            }}
-          />
-          
-          {/* Overlay с рамкой */}
+          {/* Overlay frame */}
           <div
             style={{
               position: 'absolute',
-              inset: 0,
+              left: 'calc(50% - 446px)',
+              top: 0,
+              width: 891,
+              height: 1457,
               background: 'rgba(255, 255, 255, 0.1)',
               border: '4px solid rgba(255, 255, 255, 0.3)',
               borderRadius: 30,
-              pointerEvents: 'none',
             }}
           />
 
-          {/* Кнопка Play (по центру видео) */}
+          {/* Play button bottom */}
           <button
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
+              left: 'calc(50% - 46px)',
+              top: 728,
               width: 98,
               height: 98,
               background: 'rgba(0, 0, 0, 0.1)',
@@ -185,12 +165,34 @@ export const TourScreen = () => {
             ►
           </button>
 
-          {/* Кнопка Expand (правый нижний угол видео) */}
+          {/* Play button top */}
           <button
             style={{
               position: 'absolute',
-              right: 20,
-              bottom: 20,
+              left: 'calc(50% - 48px)',
+              top: 619,
+              width: 98,
+              height: 98,
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: 62,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              fontSize: 36,
+            }}
+          >
+            ►
+          </button>
+
+          {/* Expand button */}
+          <button
+            style={{
+              position: 'absolute',
+              left: 'calc(50% + 360px)',
+              top: 1368,
               width: 72,
               height: 72,
               background: 'rgba(0, 0, 0, 0.1)',
@@ -208,13 +210,35 @@ export const TourScreen = () => {
           </button>
         </div>
 
-        {/* Кнопка "попробовать бесплатно" (891x139 по CSS) */}
+        {/* Exit button */}
+        <button
+          onClick={() => navigate(-1)}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 464px)',
+            top: 200,
+            width: 81,
+            height: 64,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+          }}
+        >
+          <img
+            src={exitBtn}
+            alt=""
+            style={{ width: '100%', height: '100%' }}
+          />
+        </button>
+
+        {/* Try button background */}
         <button
           onClick={() => navigate('/demo-access')}
           style={{
             position: 'absolute',
-            left: 144,
-            top: 1068,
+            left: 'calc(50% - 448px)',
+            top: 2013,
             width: 891,
             height: 139,
             background: 'transparent',
@@ -226,13 +250,7 @@ export const TourScreen = () => {
           <img
             src={btnTryBg}
             alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              left: 0,
-              top: 0,
-            }}
+            style={{ width: '100%', height: '100%' }}
           />
           <img
             src={btnTryText}
@@ -242,85 +260,33 @@ export const TourScreen = () => {
               left: '50%',
               top: '50%',
               transform: 'translate(-50%, -50%)',
-              width: 527,
-              height: 40,
+              width: 496,
+              height: 35,
             }}
           />
         </button>
 
-        {/* Legal тексты (y=1244) */}
-        <div
+        {/* Support button */}
+        <button
+          onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
           style={{
             position: 'absolute',
-            left: 137,
-            top: 1244,
-            width: 399,
-            height: 60,
-            color: '#fff',
-            opacity: 0.6,
-            fontFamily: '"Gotham Pro", system-ui, sans-serif',
-            fontWeight: 300,
-            fontSize: 20,
-            lineHeight: '20px',
-          }}
-        >
-          нажимая на кнопку, вы соглашаетесь<br />
-          с политикой конфиденциальности МЕТАФЛОРА*
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            left: 601,
-            top: 1244,
-            width: 428,
-            height: 60,
-            color: '#fff',
-            opacity: 0.6,
-            fontFamily: '"Gotham Pro", system-ui, sans-serif',
-            fontWeight: 300,
-            fontSize: 20,
-            lineHeight: '20px',
-            textAlign: 'right',
-          }}
-        >
-          нажимая на кнопку, вы соглашаетесь<br />
-          на получение информационной<br />
-          и рекламной рассылки МЕТАФЛОРА*
-        </div>
-
-        {/* Copyright */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 136,
-            top: 1400,
-            width: 282,
-            height: 40,
-            color: '#fff',
-            opacity: 0.6,
-            fontFamily: '"Gotham Pro", system-ui, sans-serif',
-            fontWeight: 300,
-            fontSize: 20,
-            lineHeight: '20px',
-          }}
-        >
-          Copyright ©<br />
-          Все права защищены.
-        </div>
-
-        {/* Соцсети кнопка */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 799,
-            top: 1313,
-            width: 230,
+            left: 'calc(50% + 258px)',
+            top: 194,
+            width: 205,
             height: 78,
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: 62,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
           }}
-        />
+        >
+          <img
+            src={supportBtn}
+            alt=""
+            style={{ width: '100%', height: '100%' }}
+          />
+        </button>
       </div>
     </div>
   );
