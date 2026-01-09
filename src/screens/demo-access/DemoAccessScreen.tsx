@@ -195,23 +195,28 @@ export const DemoAccessScreen = () => {
             }}
           >
             <img
-              style={{ width: "100%", height: "100%" }}
+              style={{ 
+                width: "100%", 
+                height: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
               alt=""
               src={btnPayBg}
             />
+            <img
+              style={{
+                position: "absolute",
+                top: "50px",
+                left: "calc(50% - 254px)",
+                width: "508px",
+                height: "36px",
+              }}
+              alt=""
+              src={btnPayText}
+            />
           </button>
-
-          <img
-            style={{
-              position: "absolute",
-              top: "2060px",
-              left: "341px",
-              width: "508px",
-              height: "36px",
-            }}
-            alt=""
-            src={btnPayText}
-          />
 
           <button
             onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
