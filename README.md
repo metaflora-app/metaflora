@@ -1,87 +1,135 @@
-# Метафлора - Telegram Mini App
+# МЕТАФЛОРА* - Telegram Mini App
 
-Telegram Mini App, построенное на React + TypeScript + Tailwind CSS.
+AI-обучение прямо в Telegram: академия, лаба, цех и другие сервисы.
 
-## 🚀 Быстрый старт
+## 🚀 Deployment
 
-### 1. Установка зависимостей
+**Production URL:** https://web-production-fc84.up.railway.app
+
+**Telegram Bot:** t.me/metaflora_bot/app
+
+**Status:** ✅ Live (deployed 2026-01-09)
+
+---
+
+## 📱 Screens (34 total)
+
+### Onboarding (6):
+- Splash screen (auto-redirect)
+- Welcome screen
+- Tour video
+- Demo access info
+- Pricing plans
+- Main dashboards (free/premium)
+
+### Промпт/Цех (2):
+- About prompt (intro video)
+- Prompt catalog with filters
+- Prompt card detail
+
+### Академия (8):
+- About academy (intro video)
+- All courses library
+- 4 course screens (система, искусство, промптинг, автоматизация)
+- Lesson video player
+- Lesson materials
+
+### Полигон (3):
+- About poligon (intro video)
+- Articles catalog with search
+- Article detail (scrollable)
+
+### Лаба (7):
+- About laba (intro video)
+- Main feed (posts grid)
+- Search screen
+- Favorites feed
+- Tracked accounts list
+- Content analysis (collapsed/expanded)
+
+### Legal (2):
+- Privacy policy
+- Marketing consent
+
+---
+
+## 🛠️ Tech Stack
+
+- **React 18** + TypeScript
+- **Vite** (build tool)
+- **Tailwind CSS** (styling)
+- **React Router v6** (navigation)
+- **Telegram WebApp SDK** (@twa-dev/sdk)
+
+---
+
+## 📦 Features
+
+- ✅ Pixel-perfect Figma implementation (1180x2550px)
+- ✅ Responsive viewport scaling
+- ✅ Full navigation with React Router
+- ✅ First-time intro screens (localStorage)
+- ✅ UI state management (filters, tabs, selections)
+- ✅ Telegram integration (external links, haptic feedback)
+- ✅ Copy-to-clipboard for prompts
+- ✅ Payment placeholders (redirect to @mishchenko_is)
+- ✅ File download placeholders (Telegram bot integration pending)
+
+---
+
+## 🚀 Development
 
 ```bash
+# Install dependencies
 npm install
-```
 
-### 2. Запуск dev-сервера
-
-```bash
+# Run dev server
 npm run dev
-```
 
-Приложение запустится на `http://localhost:5173`
-
-### 3. Сборка для продакшена
-
-```bash
+# Build for production
 npm run build
+
+# Preview production build
+npm run preview
 ```
 
-## 📱 Тестирование в Telegram
+---
 
-### Вариант 1: Через ngrok (для локальной разработки)
+## 📐 Design Source
 
-1. Установите ngrok: https://ngrok.com/download
-2. Запустите dev-сервер: `npm run dev`
-3. В другом терминале: `ngrok http 5173`
-4. Скопируйте HTTPS URL (например, `https://abc123.ngrok.io`)
-5. Отправьте команду боту @BotFather:
-   ```
-   /newapp
-   /myapp
-   ```
-   И укажите ngrok URL
+All screens generated from Figma using MCP Talk-to-Figma plugin.
 
-### Вариант 2: Деплой на хостинг
+**Figma Page:** Page 1 (47 frames)  
+**Used:** 36 main screens (1180x2550px)  
+**Skipped:** UI components, system elements (iOS Status Bar, Home Indicator)
 
-После деплоя на GitHub Pages, Vercel, Netlify или другой хостинг:
+---
 
-1. Откройте @BotFather в Telegram
-2. Выберите вашего бота (@metaflora_bot)
-3. Команда: `/newapp` или `/editapp`
-4. Укажите URL вашего задеплоенного приложения
+## 🔐 External Links
 
-## 🏗️ Структура проекта
+- **Support:** @mishchenko_is
+- **Socials:** @mishchenko_is
+- **Legal:** Privacy Policy, Marketing Consent (in-app)
 
-```
-метафлора/
-├── src/
-│   ├── assets/         # Изображения и статические файлы
-│   │   └── logo.png
-│   ├── screens/        # Экраны приложения
-│   │   └── splash/     # Экран загрузки
-│   │       ├── SplashScreen.tsx
-│   │       └── index.ts
-│   ├── App.tsx         # Главный компонент с инициализацией Telegram WebApp
-│   ├── main.tsx        # Точка входа
-│   ├── index.css       # Глобальные стили + Tailwind
-│   └── vite-env.d.ts   # TypeScript декларации
-├── index.html
-├── package.json
-├── vite.config.ts
-├── tailwind.config.js
-└── tsconfig.json
-```
+---
 
-## 🛠️ Технологии
+## 📝 Navigation Map
 
-- **React 18** - UI библиотека
-- **TypeScript** - Типизация
-- **Vite** - Сборщик и dev-сервер
-- **Tailwind CSS** - Утилитарный CSS
-- **@twa-dev/sdk** - Telegram WebApp SDK
+See `NAVIGATION.md` for full navigation flow and button actions.
 
-## 📝 Доступные команды
+---
 
-- `npm run dev` - Запуск dev-сервера
-- `npm run build` - Сборка для продакшена
-- `npm run preview` - Предпросмотр production сборки
-- `npm run lint` - Проверка кода линтером
+## 🎯 Next Steps
 
+1. Test in Telegram WebView (iOS/Android)
+2. Connect PostgreSQL for user data
+3. Integrate Telegram Bot API for payments
+4. Add backend for AI features (laba analysis)
+5. Implement real file downloads via bot
+6. Add analytics tracking
+
+---
+
+## 📄 License
+
+© 2026 МЕТАФЛОРА. Все права защищены.
