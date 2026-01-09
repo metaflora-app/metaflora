@@ -103,10 +103,10 @@ export const WelcomeScreen = () => {
           alt=""
           style={{
             position: 'absolute',
-            left: -80,
+            left: -203,
             top: 789,
-            width: 530,
-            height: 930,
+            width: 609,
+            height: 973,
             borderRadius: 40,
           }}
         />
@@ -127,10 +127,10 @@ export const WelcomeScreen = () => {
           alt=""
           style={{
             position: 'absolute',
-            left: 730,
+            left: 774,
             top: 789,
-            width: 530,
-            height: 930,
+            width: 609,
+            height: 973,
             borderRadius: 40,
           }}
         />
