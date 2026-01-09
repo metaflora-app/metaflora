@@ -1,19 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 
-// Импорт всех элементов
-import headerFooter from '../../assets/welcome-elements/хэдер и подвал.png';
+// Импорт элементов из папки
+import bgImage from '../../assets/welcome-elements/хэдер и подвал.png';
 import carousel1 from '../../assets/welcome-elements/первое в карусели.png';
 import carousel2 from '../../assets/welcome-elements/второе в карусели.png';
 import carousel3 from '../../assets/welcome-elements/третье в карусели.png';
 import pagination from '../../assets/welcome-elements/крутилка.png';
-import btnTour from '../../assets/welcome-elements/кнопка экскурсия по платформе.png';
-import btnTry from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
-import supportBg from '../../assets/welcome-elements/написать в поддержку подложка.png';
-import supportText from '../../assets/welcome-elements/написать в поддержку.png';
+import btnTourBg from '../../assets/welcome-elements/кнопка экскурсия по платформе.png';
+import btnTryBg from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
+import supportBtn from '../../assets/welcome-elements/написать в поддержку подложка.png';
 import legalLeft from '../../assets/welcome-elements/нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности МЕТАФЛОРА_.png';
 import legalRight from '../../assets/welcome-elements/нажимая на кнопку, вы соглашаетесь на получение информационной и рекламной рассылки МЕТАФЛОРА_.png';
 
-// Размеры фрейма из CSS
+// Размеры дизайна
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
@@ -39,122 +38,121 @@ export const WelcomeScreen = () => {
           transformOrigin: 'top left',
         }}
       >
-        {/* Фон черный */}
-        <div style={{
-          position: 'absolute',
-          width: 1180,
-          height: 2550,
-          background: '#000000',
-        }} />
-
-        {/* Хэдер и подвал */}
+        {/* Background */}
         <img
-          src={headerFooter}
-          alt=""
           style={{
             position: 'absolute',
-            left: 0,
             top: 0,
+            left: 0,
             width: 1180,
             height: 2550,
-            pointerEvents: 'none',
           }}
+          alt="Background"
+          src={bgImage}
         />
 
         {/* Заголовок */}
-        <div
+        <h1
           style={{
             position: 'absolute',
-            left: 94,
-            top: 337,
-            width: 938,
-            color: '#ffffff',
-            fontFamily: 'Inter, system-ui, sans-serif',
+            width: '79.49%',
+            height: '6.27%',
+            top: '13.22%',
+            left: '7.97%',
+            fontFamily: 'Inter, Helvetica',
             fontWeight: 800,
+            color: 'white',
             fontSize: 80,
-            lineHeight: '100px',
+            lineHeight: '80px',
+            margin: 0,
           }}
         >
           добро пожаловать<br />в МЕТАФЛОРУ*
-        </div>
+        </h1>
 
         {/* Описание */}
-        <div
+        <p
           style={{
             position: 'absolute',
-            left: 94,
-            top: 522,
-            width: 922,
-            color: '#ffffff',
-            fontFamily: '"Gotham Pro", system-ui, sans-serif',
+            width: '78.14%',
+            height: '4.71%',
+            top: '20.47%',
+            left: '7.97%',
+            fontFamily: 'Gotham Pro, Helvetica',
             fontWeight: 400,
+            color: 'white',
             fontSize: 40,
             lineHeight: '40px',
+            margin: 0,
           }}
         >
           обучайтесь AI прямо в Telegram<br />
-          с <span style={{ fontWeight: 800 }}>МЕТАФЛОРОЙ*</span>: академия, лаба, цех<br />
+          <span style={{ fontWeight: 700 }}>с МЕТАФЛОРОЙ*:</span> академия, лаба, цех<br />
           и другие сервисы
-        </div>
+        </p>
 
-        {/* Карусель - 3 картинки (530x930 по CSS) */}
+        {/* Карусель - левая картинка */}
         <img
-          src={carousel1}
-          alt=""
           style={{
             position: 'absolute',
-            left: -203,
-            top: 789,
-            width: 609,
-            height: 973,
-            borderRadius: 40,
+            top: 753,
+            left: 0,
+            width: 403,
+            height: 966,
+            objectFit: 'cover',
           }}
-        />
-        <img
-          src={carousel2}
           alt=""
+          src={carousel1}
+        />
+
+        {/* Карусель - центральная картинка */}
+        <img
           style={{
             position: 'absolute',
+            top: 750,
             left: 325,
-            top: 789,
             width: 530,
             height: 930,
-            borderRadius: 40,
+            objectFit: 'cover',
           }}
-        />
-        <img
-          src={carousel3}
           alt=""
-          style={{
-            position: 'absolute',
-            left: 774,
-            top: 789,
-            width: 609,
-            height: 973,
-            borderRadius: 40,
-          }}
+          src={carousel2}
         />
 
-        {/* Pagination (крутилка) */}
+        {/* Карусель - правая картинка */}
         <img
-          src={pagination}
-          alt=""
           style={{
             position: 'absolute',
+            top: 753,
+            left: 777,
+            width: 403,
+            height: 966,
+            objectFit: 'cover',
+          }}
+          alt=""
+          src={carousel3}
+        />
+
+        {/* Pagination */}
+        <img
+          style={{
+            position: 'absolute',
+            top: 1751,
             left: 531,
-            top: 1790,
             width: 119,
             height: 17,
           }}
+          alt=""
+          src={pagination}
         />
 
-        {/* Кнопка "экскурсия по платформе" (892x139 по CSS) */}
+        {/* Кнопка "экскурсия по платформе" */}
         <button
           onClick={() => navigate('/tour-video')}
           style={{
             position: 'absolute',
-            left: 144,
-            top: 1899,
+            top: 1860,
+            left: 'calc(50% - 446px)',
             width: 892,
             height: 139,
             background: 'transparent',
@@ -164,15 +162,9 @@ export const WelcomeScreen = () => {
           }}
         >
           <img
-            src={btnTour}
+            src={btnTourBg}
             alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              left: 0,
-              top: 0,
-            }}
+            style={{ width: '100%', height: '100%' }}
           />
           <span
             style={{
@@ -181,11 +173,10 @@ export const WelcomeScreen = () => {
               top: '50%',
               transform: 'translate(-50%, -50%)',
               color: '#ffffff',
-              fontFamily: '"Gotham Pro", system-ui, sans-serif',
+              fontFamily: 'Gotham Pro, Helvetica',
               fontWeight: 500,
               fontSize: 40,
               lineHeight: '100px',
-              textAlign: 'center',
               whiteSpace: 'nowrap',
             }}
           >
@@ -193,13 +184,13 @@ export const WelcomeScreen = () => {
           </span>
         </button>
 
-        {/* Кнопка "попробовать бесплатно" (892x139 по CSS) */}
+        {/* Кнопка "попробовать бесплатно" */}
         <button
           onClick={() => navigate('/demo-access')}
           style={{
             position: 'absolute',
-            left: 144,
-            top: 2057,
+            top: 2018,
+            left: 'calc(50% - 446px)',
             width: 892,
             height: 139,
             background: 'transparent',
@@ -209,15 +200,9 @@ export const WelcomeScreen = () => {
           }}
         >
           <img
-            src={btnTry}
+            src={btnTryBg}
             alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              left: 0,
-              top: 0,
-            }}
+            style={{ width: '100%', height: '100%' }}
           />
           <span
             style={{
@@ -226,11 +211,10 @@ export const WelcomeScreen = () => {
               top: '50%',
               transform: 'translate(-50%, -50%)',
               color: '#ffffff',
-              fontFamily: '"Gotham Pro", system-ui, sans-serif',
+              fontFamily: 'Gotham Pro, Helvetica',
               fontWeight: 500,
               fontSize: 40,
               lineHeight: '100px',
-              textAlign: 'center',
               whiteSpace: 'nowrap',
             }}
           >
@@ -238,13 +222,13 @@ export const WelcomeScreen = () => {
           </span>
         </button>
 
-        {/* Кнопка "написать в поддержку" (205x78 по CSS) */}
+        {/* Кнопка поддержки */}
         <button
           onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
           style={{
             position: 'absolute',
-            left: 824,
-            top: 237,
+            top: 198,
+            left: 'calc(50% + 234px)',
             width: 205,
             height: 78,
             background: 'transparent',
@@ -254,56 +238,35 @@ export const WelcomeScreen = () => {
           }}
         >
           <img
-            src={supportBg}
+            src={supportBtn}
             alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              left: 0,
-              top: 0,
-            }}
-          />
-          <img
-            src={supportText}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 145,
-              height: 40,
-            }}
+            style={{ width: '100%', height: '100%' }}
           />
         </button>
 
-        {/* Legal текст слева */}
+        {/* Legal тексты */}
         <img
-          src={legalLeft}
-          alt=""
           style={{
             position: 'absolute',
-            left: 137,
-            top: 2225,
-            width: 399,
+            top: '87.25%',
+            left: 'calc(50% - 452px)',
+            width: 380,
             height: 60,
-            opacity: 0.6,
           }}
+          alt=""
+          src={legalLeft}
         />
 
-        {/* Legal текст справа */}
         <img
-          src={legalRight}
-          alt=""
           style={{
             position: 'absolute',
-            left: 601,
-            top: 2225,
-            width: 428,
+            top: '87.25%',
+            left: 'calc(50% + 72px)',
+            width: 395,
             height: 60,
-            opacity: 0.6,
           }}
+          alt=""
+          src={legalRight}
         />
       </div>
     </div>
