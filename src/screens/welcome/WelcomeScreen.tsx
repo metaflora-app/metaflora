@@ -8,15 +8,6 @@ import paginationImg from '../../assets/welcome/pagination.png';
 import footerLogo from '../../assets/welcome/footer-logo.png';
 import socialsImg from '../../assets/welcome/socials.png';
 
-// Опциональный полный кадр из Figma (положи файл в assets/welcome/full-frame.png)
-let fullFrameSrc: string | undefined;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  fullFrameSrc = require('../../assets/welcome/full-frame.png');
-} catch (e) {
-  fullFrameSrc = undefined;
-}
-
 // Размеры фрейма Figma "экран приветствия"
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
