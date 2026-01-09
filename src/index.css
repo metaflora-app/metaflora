@@ -26,3 +26,44 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Анимация переливающегося контура */
+@keyframes border-glow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-border {
+  position: relative;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 62px;
+  padding: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 232, 255, 0.8),
+    rgba(0, 223, 245, 0.8),
+    rgba(240, 216, 37, 0.8),
+    rgba(182, 255, 60, 0.8),
+    rgba(0, 232, 255, 0.8)
+  );
+  background-size: 200% 100%;
+  animation: border-glow 3s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+

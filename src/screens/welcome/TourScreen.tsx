@@ -237,6 +237,7 @@ export const TourScreen = () => {
 
         {/* CTA button try (x=144 y=1068? actual: frame x=-33780 y=-11482 => relative 144) */}
         <div
+          className="animated-border"
           style={{
             position: 'absolute',
             ...pos(144, 1068),
@@ -246,6 +247,7 @@ export const TourScreen = () => {
             backgroundColor: 'rgba(0,0,0,0.90)',
             border: '4px solid rgba(255,255,255,0.30)',
             overflow: 'hidden',
+            cursor: 'pointer',
           }}
         >
           <div
