@@ -24,57 +24,35 @@ const DESIGN_H = 2550;
 export const WelcomeScreen = () => {
   const navigate = useNavigate();
   const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  // Масштаб строго по ширине, как в Figma (без вертикального центрирования)
+  // Масштаб только по ширине
   const scale = useMemo(() => vw / DESIGN_W, [vw]);
-
-  // Для варианта с одной картинкой: масштаб по min, чтобы влезало целиком
-  const fullScale = useMemo(() => Math.min(vw / DESIGN_W, vh / DESIGN_H), [vw, vh]);
-  const fullOffsetX = (vw - DESIGN_W * fullScale) / 2;
-  const fullOffsetY = (vh - DESIGN_H * fullScale) / 2;
+  // Высота после масштабирования
+  const scaledHeight = DESIGN_H * scale;
 
   // Вспомогательная функция для позиционирования
   const pos = (x: number, y: number) => ({ left: x, top: y });
 
-  if (fullFrameSrc) {
-    return (
-      <div className="relative w-screen h-screen overflow-hidden bg-[#020101]">
-        <img
-          src={fullFrameSrc}
-          alt="МЕТАФЛОРА"
-          style={{
-            position: 'absolute',
-            left: fullOffsetX,
-            top: fullOffsetY,
-            width: DESIGN_W,
-            height: DESIGN_H,
-            transform: `scale(${fullScale})`,
-            transformOrigin: 'top left',
-          }}
-        />
-      </div>
-    );
-  }
-
   return (
     <div 
-      className="relative w-screen h-screen overflow-hidden bg-[#020101]"
+      className="relative w-full bg-[#020101]"
+      style={{
+        height: `${scaledHeight}px`,
+        overflow: 'hidden',
+      }}
     >
       {/* Фон с точками (из Figma) */}
       <div
         className="fixed inset-0 -z-10"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1.2px, transparent 1.2px)',
-          backgroundSize: '32px 32px',
+          backgroundSize: `${32 * scale}px ${32 * scale}px`,
         }}
       />
 
       {/* Контейнер с масштабированием */}
       <div
-        className="absolute"
+        className="relative"
         style={{
-          left: 0,
-          top: 0,
           width: DESIGN_W,
           height: DESIGN_H,
           transform: `scale(${scale})`,
@@ -230,8 +208,6 @@ export const WelcomeScreen = () => {
           }}
         />
         <div
-          onClick={() => navigate('/tour-video')}
-          role="button"
           style={{
             position: 'absolute',
             ...pos(303, 1949),
@@ -243,7 +219,6 @@ export const WelcomeScreen = () => {
             fontWeight: 500,
             fontSize: 40,
             lineHeight: '40px',
-            cursor: 'pointer',
             pointerEvents: 'none',
           }}
         >
