@@ -251,7 +251,8 @@ export const WelcomeScreen = () => {
         </div>
 
         {/* Кнопка "попробовать бесплатно" с ярким градиентом (x=128 y=2057 w=892 h=139) */}
-        <div
+        <button
+          onClick={() => navigate('/demo-access')}
           style={{
             position: 'absolute',
             ...pos(128, 2057),
@@ -261,6 +262,7 @@ export const WelcomeScreen = () => {
             background: 'linear-gradient(90deg, #00e8ff 0%, #00dff5 18%, #f0d825 50%, #b6ff3c 78%, #00e8ff 100%)',
             border: '5px solid rgba(255,255,255,0.35)',
             overflow: 'hidden',
+            cursor: 'pointer',
           }}
         >
           {/* Виньетка по краям для затемнения */}
@@ -272,7 +274,7 @@ export const WelcomeScreen = () => {
               pointerEvents: 'none',
             }}
           />
-        </div>
+        </button>
         <div
           style={{
             position: 'absolute',
