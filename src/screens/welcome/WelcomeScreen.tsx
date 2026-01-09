@@ -9,7 +9,6 @@ const DESIGN_H = 2550;
 export const WelcomeScreen = () => {
   const navigate = useNavigate();
   const vw = window.innerWidth;
-  const vh = window.innerHeight;
   
   // Масштаб строго по ширине (как было раньше)
   const scale = useMemo(() => vw / DESIGN_W, [vw]);
