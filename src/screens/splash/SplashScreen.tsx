@@ -1,35 +1,57 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+
+import patternDots from '../../assets/welcome-v2/pattern.png';
+import footerLogo from '../../assets/welcome-v2/footer-logo.png';
 
 export const SplashScreen = () => {
   const navigate = useNavigate();
+  const DELAY_MS = 4000;
 
   useEffect(() => {
-    // Auto-redirect to welcome after 2.5 seconds
+    // Auto-redirect to welcome after short delay
     const timer = setTimeout(() => {
       navigate('/welcome', { replace: true });
-    }, 2500);
+    }, DELAY_MS);
 
     return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen bg-[#020101]">
-      {/* Background pattern */}
+    <div
+      style={{
+        position: 'relative',
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#000',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <div
-        className="fixed inset-0 -z-10"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1.2px, transparent 1.2px)',
-          backgroundSize: '32px 32px',
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: '#000',
+          backgroundImage: `url(${patternDots})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+          opacity: 1,
         }}
       />
-      
-      {/* Logo */}
+
       <img
-        src={logo}
+        src={footerLogo}
         alt="МЕТАФЛОРА"
-        className="w-[300px] h-auto animate-pulse"
+        style={{
+          width: 340,
+          height: 'auto',
+          objectFit: 'contain',
+          animation: 'splashPulse 2.2s ease-in-out infinite',
+          zIndex: 1,
+        }}
       />
     </div>
   );
