@@ -1,20 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import patternDots from '../../assets/welcome-v2/pattern.png';
-import logoSmall from '../../assets/welcome-v2/logo-small.png';
-import cardCenter from '../../assets/welcome-v2/carousel-center.png';
-import cardLeft from '../../assets/welcome-v2/carousel-left.png';
-import cardRight from '../../assets/welcome-v2/carousel-right.png';
-import footerLogo from '../../assets/welcome-v2/footer-logo.png';
-import socialsImg from '../../assets/welcome/socials.png';
+// Ассеты из Figma
+import patternDots from '../../assets/figma-welcome/pattern.png';
+import logoSmall from '../../assets/figma-welcome/logo-small.png';
+import cardCenter from '../../assets/figma-welcome/carousel-center.png';
+import cardLeft from '../../assets/figma-welcome/carousel-left.png';
+import cardRight from '../../assets/figma-welcome/carousel-right.png';
+import footerLogo from '../../assets/figma-welcome/footer-logo.png';
+import socialsImg from '../../assets/figma-welcome/socials.png';
 
-// Размеры дизайна
+// Размеры дизайна из Figma
 const DESIGN_W = 1180;
 const DESIGN_H = 2550;
 
 export const WelcomeScreen = () => {
   const navigate = useNavigate();
+
   const computeScale = () => {
     if (typeof window === 'undefined') return 1;
     return Math.min(window.innerWidth / DESIGN_W, window.innerHeight / DESIGN_H);
@@ -35,12 +37,12 @@ export const WelcomeScreen = () => {
       style={{
         position: 'relative',
         width: '100%',
-        backgroundColor: '#020101',
+        backgroundColor: '#000',
         height: `${scaledHeight}px`,
         overflow: 'hidden',
       }}
     >
-      {/* Контейнер с масштабированием */}
+      {/* Контейнер с масштабированием - точные размеры из Figma */}
       <div
         style={{
           position: 'absolute',
@@ -50,13 +52,15 @@ export const WelcomeScreen = () => {
           height: DESIGN_H,
           transform: `scale(${scale})`,
           transformOrigin: 'top left',
+          overflow: 'hidden',
         }}
       >
         {/* Фон с паттерном точек */}
         <div
           style={{
             position: 'absolute',
-            inset: 0,
+            width: DESIGN_W,
+            height: DESIGN_H,
             backgroundColor: '#000',
             backgroundImage: `url(${patternDots})`,
             backgroundRepeat: 'repeat',
@@ -64,338 +68,575 @@ export const WelcomeScreen = () => {
           }}
         />
 
-        {/* Маленький логотип в хедере */}
-        <img
-          src={logoSmall}
-          alt="МЕТАФЛОРА"
+        {/* Маленький логотип - w-48 h-36 left-[479px] top-[138px] */}
+        <div
           style={{
             position: 'absolute',
-            top: 110,
-            left: '50%',
-            width: 190,
-            height: 138,
-            transform: 'translateX(-50%)',
-            objectFit: 'contain',
+            width: 192, // w-48 = 12rem = 192px
+            height: 144, // h-36 = 9rem = 144px
+            left: 479,
+            top: 138,
           }}
-        />
+        >
+          <img
+            src={logoSmall}
+            alt="МЕТАФЛОРА"
+            style={{
+              width: 190,
+              height: 138,
+              position: 'absolute',
+              left: 0,
+              top: 0,
+            }}
+          />
+        </div>
 
-        {/* Кнопка поддержки */}
+        {/* Кнопка поддержки - w-52 h-20 left-[824px] top-[198px] */}
         <button
           onClick={() => window.open('https://t.me/mishchenko_is', '_blank')}
           style={{
             position: 'absolute',
+            width: 208, // w-52 = 13rem = 208px
+            height: 80, // h-20 = 5rem = 80px
+            left: 824,
             top: 198,
-            left: 'calc(50% + 234px)',
-            width: 205,
-            height: 78,
             background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
             borderRadius: 62,
+            border: '4px solid rgba(255,255,255,0.3)',
             backdropFilter: 'blur(50px)',
-            color: '#fff',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontSize: 20,
-            fontWeight: 300,
-            lineHeight: '20px',
-            textAlign: 'center',
-            cursor: 'pointer',
-          }}
-          aria-label="Написать в поддержку"
-        >
-          <span style={{ display: 'block', fontWeight: 300 }}>написать</span>
-          <span style={{ display: 'block', fontWeight: 700 }}>в поддержку</span>
-        </button>
-
-        {/* Заголовок */}
-        <h1
-          style={{
-            position: 'absolute',
-            width: '79.49%',
-            height: '6.27%',
-            top: 337, // 13.22% of 2550
-            left: 94, // 7.97% of 1180
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 800,
-            color: 'white',
-            fontSize: 80,
-            lineHeight: '80px',
-            margin: 0,
-          }}
-        >
-          добро пожаловать
-          <br />
-          в МЕТАФЛОРУ*
-        </h1>
-
-        {/* Описание */}
-        <p
-          style={{
-            position: 'absolute',
-            width: 922, // 78.14% of 1180
-            top: 523, // 20.47% of 2550
-            left: 94,
-            fontFamily: 'Gotham Pro, Helvetica, sans-serif',
-            fontWeight: 400,
-            color: 'white',
-            fontSize: 40,
-            lineHeight: '40px',
-            margin: 0,
-          }}
-        >
-          обучайтесь AI прямо в Telegram
-          <br />
-          <span style={{ fontWeight: 700 }}>с МЕТАФЛОРОЙ*:</span> академия, лаба, цех
-          <br />
-          и другие сервисы
-        </p>
-
-        {/* Карусель - левая карточка */}
-        <img
-          src={cardLeft}
-          alt=""
-          style={{
-            position: 'absolute',
-            top: 753,
-            left: 0,
-            width: 403,
-            height: 966,
-            objectFit: 'cover',
-            borderRadius: 40,
-            transform: 'rotate(-5deg)',
-          }}
-        />
-
-        {/* Карусель - центральная карточка */}
-        <img
-          src={cardCenter}
-          alt=""
-          style={{
-            position: 'absolute',
-            top: 750,
-            left: 325,
-            width: 530,
-            height: 930,
-            objectFit: 'cover',
-            borderRadius: 40,
-          }}
-        />
-
-        {/* Карусель - правая карточка */}
-        <img
-          src={cardRight}
-          alt=""
-          style={{
-            position: 'absolute',
-            top: 753,
-            left: 777,
-            width: 403,
-            height: 966,
-            objectFit: 'cover',
-            borderRadius: 40,
-            transform: 'rotate(5deg)',
-          }}
-        />
-
-        {/* Pagination */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 1751,
-            left: 531,
-            width: 119,
-            height: 17,
-            display: 'flex',
-            gap: 11,
-            alignItems: 'center',
-            justifyContent: 'center',
-            transform: 'translateX(-1px)',
-          }}
-        >
-          <div
-            style={{
-              width: 17,
-              height: 17,
-              background: '#d6d6d6',
-              borderRadius: 33,
-            }}
-          />
-          <div
-            style={{
-              width: 63,
-              height: 17,
-              background: '#fffdfe',
-              borderRadius: 33,
-            }}
-          />
-          <div
-            style={{
-              width: 17,
-              height: 17,
-              background: '#d6d6d6',
-              borderRadius: 33,
-            }}
-          />
-        </div>
-
-        {/* Кнопка "экскурсия по платформе" */}
-        <button
-          onClick={() => navigate('/tour-video')}
-          style={{
-            position: 'absolute',
-            top: 1860,
-            left: 'calc(50% - 446px)',
-            width: 892,
-            height: 139,
-            background: 'rgba(0,0,0,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: 62,
-            backdropFilter: 'blur(50px)',
-            cursor: 'pointer',
-            color: '#fff',
-            fontFamily: 'Gotham Pro, Helvetica, sans-serif',
-            fontWeight: 500,
-            fontSize: 40,
-            lineHeight: '100px',
-            textAlign: 'center',
-            padding: 0,
-          }}
-          aria-label="Экскурсия по платформе"
-        >
-          экскурсия по платформе
-        </button>
-
-        {/* Кнопка "попробовать бесплатно" */}
-        <button
-          onClick={() => navigate('/demo-access')}
-          style={{
-            position: 'absolute',
-            top: 2018,
-            left: 'calc(50% - 446px)',
-            width: 892,
-            height: 139,
-            background: '#000',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: 62,
+            WebkitBackdropFilter: 'blur(50px)',
             overflow: 'hidden',
             cursor: 'pointer',
             padding: 0,
-            color: '#fff',
-            fontFamily: 'Gotham Pro, Helvetica, sans-serif',
-            fontWeight: 500,
-            fontSize: 40,
-            lineHeight: '100px',
-            textAlign: 'center',
           }}
-          aria-label="Попробовать бесплатно"
         >
           <div
             style={{
               position: 'absolute',
-              inset: 0,
-              background:
-                'radial-gradient(60% 80% at 35% 50%, rgba(55,236,247,1) 0%, rgba(55,236,247,0) 55%),' +
-                'radial-gradient(60% 80% at 55% 50%, rgba(240,216,37,1) 0%, rgba(240,216,37,0) 55%),' +
-                'radial-gradient(60% 80% at 70% 60%, rgba(213,252,68,1) 0%, rgba(213,252,68,0) 55%),' +
-                '#000',
-              filter: 'blur(0px)',
-            }}
-          />
-          <span
-            style={{
-              position: 'relative',
-              zIndex: 1,
+              width: 144, // w-36
+              left: 38,
+              top: 18,
+              textAlign: 'center',
             }}
           >
-            попробовать бесплатно
-          </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 400,
+                lineHeight: '20px',
+              }}
+            >
+              написать
+              <br />
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 700,
+                lineHeight: '20px',
+              }}
+            >
+              в поддержку
+            </span>
+          </div>
         </button>
 
-        {/* Legal тексты */}
+        {/* Заголовок - left-[94px] top-[298px] */}
         <div
           style={{
             position: 'absolute',
-            top: 2226, // 87.25% of 2550
-            left: 'calc(50% - 452px)',
-            width: 380,
-            height: 60,
-            color: '#ffffff',
-            fontFamily: 'Gotham Pro, Helvetica, sans-serif',
-            fontSize: 20,
-            fontWeight: 300,
-            lineHeight: '20px',
-            textAlign: 'left',
-          }}
-        >
-          <div style={{ margin: 0, padding: 0 }}>нажимая на кнопку, вы соглашаетесь</div>
-          <div style={{ margin: 0, padding: 0, fontWeight: 700 }}>
-            с политикой конфиденциальности
-          </div>
-          <div style={{ margin: 0, padding: 0, fontWeight: 700 }}>МЕТАФЛОРА*</div>
-        </div>
-
-        <div
-          style={{
-            position: 'absolute',
-            top: 2226,
-            left: 'calc(50% + 72px)',
-            width: 395,
-            height: 60,
-            color: '#ffffff',
-            fontFamily: 'Gotham Pro, Helvetica, sans-serif',
-            fontSize: 20,
-            fontWeight: 300,
-            lineHeight: '20px',
-            textAlign: 'right',
-          }}
-        >
-          <div style={{ margin: 0, padding: 0 }}>нажимая на кнопку, вы соглашаетесь</div>
-          <div style={{ margin: 0, padding: 0, fontWeight: 700 }}>
-            на получение информационной
-          </div>
-          <div style={{ margin: 0, padding: 0, fontWeight: 700 }}>
-            и рекламной рассылки МЕТАФЛОРА*
-          </div>
-        </div>
-
-        {/* Подвал: логотип */}
-        <img
-          src={footerLogo}
-          alt="МЕТАФЛОРА"
-          style={{
-            position: 'absolute',
-            top: 2186,
-            left: 125,
-            width: 904,
-            height: 195,
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Подвал: соцсети */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 2276,
-            left: 845,
-            width: 230,
-            height: 78,
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: 62,
-            backdropFilter: 'blur(50px)',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
+            left: 94,
+            top: 298,
+            display: 'inline-flex',
             justifyContent: 'center',
-            padding: '12px 20px',
-            boxSizing: 'border-box',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 72, // text-7xl
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 800,
+              lineHeight: '80px',
+            }}
+          >
+            добро пожаловать
+            <br />
+            в МЕТАФЛОРУ*
+          </div>
+        </div>
+
+        {/* Описание - left-[94px] top-[483px] */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 94,
+            top: 483,
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <div>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 36, // text-4xl
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 400,
+                lineHeight: '40px',
+              }}
+            >
+              обучайтесь AI прямо в Telegram
+              <br />
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 36,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 700,
+                lineHeight: '40px',
+              }}
+            >
+              с МЕТАФЛОРОЙ*:
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 36,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 400,
+                lineHeight: '40px',
+              }}
+            >
+              {' '}
+              академия, лаба, цех
+              <br />и другие сервисы
+            </span>
+          </div>
+        </div>
+
+        {/* Карусель - левая: left-[-213px] top-[740px] rotate-[-5deg] */}
+        <div
+          style={{
+            position: 'absolute',
+            left: -213,
+            top: 740,
+            padding: 10,
+            display: 'inline-flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            gap: 10,
           }}
         >
           <img
+            src={cardLeft}
+            alt=""
+            style={{
+              width: 530,
+              height: 930,
+              transformOrigin: 'top left',
+              transform: 'rotate(-5deg)',
+              borderRadius: 40,
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+
+        {/* Карусель - центр: left-[315px] top-[740px] */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 315,
+            top: 740,
+            padding: 10,
+            display: 'inline-flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <img
+            src={cardCenter}
+            alt=""
+            style={{
+              width: 530,
+              height: 930,
+              borderRadius: 40,
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+
+        {/* Карусель - правая: left-[764px] top-[740px] rotate-[-175deg] */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 764,
+            top: 740,
+            padding: 10,
+            display: 'inline-flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <img
+            src={cardRight}
+            alt=""
+            style={{
+              width: 530,
+              height: 930,
+              transformOrigin: 'top left',
+              transform: 'rotate(-175deg)',
+              borderRadius: 40,
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+
+        {/* Pagination - left-[531px] top-[1751px] */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 531,
+            top: 1751,
+            display: 'inline-flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <div
+            style={{
+              width: 16,
+              height: 16,
+              background: '#d4d4d4', // zinc-300
+              borderRadius: 33,
+            }}
+          />
+          <div
+            style={{
+              width: 64, // w-16
+              height: 16,
+              background: 'white',
+              borderRadius: 33,
+            }}
+          />
+          <div
+            style={{
+              width: 16,
+              height: 16,
+              background: '#d4d4d4',
+              borderRadius: 33,
+            }}
+          />
+        </div>
+
+        {/* Кнопка экскурсия - w-[892px] h-36 left-[147px] top-[1860px] */}
+        <button
+          onClick={() => navigate('/tour-video')}
+          style={{
+            position: 'absolute',
+            width: 892,
+            height: 144, // h-36 = 9rem = 144px
+            left: 147,
+            top: 1860,
+            padding: 10,
+            borderRadius: 62,
+            border: '4px solid rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(50px)',
+            WebkitBackdropFilter: 'blur(50px)',
+            background: 'transparent',
+            cursor: 'pointer',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            left: 320,
+            top: 1900,
+            padding: 10,
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 10,
+            pointerEvents: 'none',
+          }}
+        >
+          <div
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 36,
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 400,
+              lineHeight: '40px',
+            }}
+          >
+            экскурсия по платформе
+          </div>
+        </div>
+
+        {/* Кнопка попробовать бесплатно - w-[892px] h-36 left-[147px] top-[2018px] */}
+        <button
+          onClick={() => navigate('/demo-access')}
+          style={{
+            position: 'absolute',
+            width: 892,
+            height: 144,
+            left: 147,
+            top: 2018,
+            background: 'rgba(0,0,0,0.9)',
+            borderRadius: 62,
+            border: '4px solid rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(50px)',
+            WebkitBackdropFilter: 'blur(50px)',
+            overflow: 'hidden',
+            cursor: 'pointer',
+            padding: 0,
+          }}
+        >
+          {/* Цветные круги градиента */}
+          <div
+            style={{
+              position: 'absolute',
+              width: 575.78,
+              height: 384, // h-96
+              left: 145,
+              top: -189.57,
+              background: '#22d3ee', // cyan-400
+              borderRadius: 9999,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              width: 476.73,
+              height: 208, // h-52
+              left: 333.66,
+              top: -203.51,
+              transformOrigin: 'top left',
+              transform: 'rotate(12deg)',
+              background: '#facc15', // yellow-400
+              borderRadius: 9999,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              width: 320, // w-80
+              height: 288, // h-72
+              left: 403.64,
+              top: 73.04,
+              background: '#bef264', // lime-300
+              borderRadius: 9999,
+            }}
+          />
+        </button>
+        {/* Текст кнопки попробовать */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 332,
+            top: 2058,
+            padding: 10,
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 10,
+            pointerEvents: 'none',
+          }}
+        >
+          <div
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 36,
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 400,
+              lineHeight: '40px',
+            }}
+          >
+            попробовать бесплатно
+          </div>
+        </div>
+
+        {/* Подвал - w-[904px] h-48 left-[125px] top-[2186px] */}
+        <div
+          style={{
+            position: 'absolute',
+            width: 904,
+            height: 192, // h-48
+            left: 125,
+            top: 2186,
+          }}
+        >
+          {/* Лого в подвале - w-[587px] h-32 left-0 top-[70px] */}
+          <img
+            src={footerLogo}
+            alt="МЕТАФЛОРА"
+            style={{
+              position: 'absolute',
+              width: 587,
+              height: 128, // h-32
+              left: 0,
+              top: 70,
+            }}
+          />
+
+          {/* Подложка под соцсети - w-56 h-20 left-[674px] top-[93px] */}
+          <div
+            style={{
+              position: 'absolute',
+              width: 224, // w-56
+              height: 80, // h-20
+              left: 674,
+              top: 93,
+              background: 'rgba(255,255,255,0.1)',
+              borderRadius: 62,
+              border: '4px solid rgba(255,255,255,0.3)',
+              backdropFilter: 'blur(50px)',
+              WebkitBackdropFilter: 'blur(50px)',
+            }}
+          />
+
+          {/* Соцсети иконки */}
+          <img
             src={socialsImg}
             alt="Соцсети"
-            style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.8 }}
+            style={{
+              position: 'absolute',
+              width: 142,
+              height: 51,
+              left: 745,
+              top: 107,
+              opacity: 0.6,
+            }}
           />
+
+          {/* Legal левый - left-[22px] top-0 */}
+          <div
+            style={{
+              position: 'absolute',
+              width: 384, // w-96
+              left: 22,
+              top: 0,
+            }}
+          >
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 400,
+                lineHeight: '20px',
+              }}
+            >
+              нажимая на кнопку, вы соглашаетесь
+              <br />
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 700,
+                lineHeight: '20px',
+              }}
+            >
+              с политикой конфиденциальности
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 400,
+                lineHeight: '20px',
+              }}
+            >
+              {' '}
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 700,
+                lineHeight: '20px',
+              }}
+            >
+              МЕТАФЛОРА*
+            </span>
+          </div>
+
+          {/* Legal правый - left-[476px] top-0 text-right */}
+          <div
+            style={{
+              position: 'absolute',
+              width: 384,
+              left: 476,
+              top: 0,
+              textAlign: 'right',
+            }}
+          >
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 400,
+                lineHeight: '20px',
+              }}
+            >
+              нажимая на кнопку, вы соглашаетесь
+              <br />
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 700,
+                lineHeight: '20px',
+              }}
+            >
+              на получение информационной
+              <br />
+              и рекламной рассылки
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 400,
+                lineHeight: '20px',
+              }}
+            >
+              {' '}
+            </span>
+            <span
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 700,
+                lineHeight: '20px',
+              }}
+            >
+              МЕТАФЛОРА*
+            </span>
+          </div>
         </div>
       </div>
     </div>

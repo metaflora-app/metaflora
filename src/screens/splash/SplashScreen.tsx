@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import patternDots from '../../assets/welcome-v2/pattern.png';
-import footerLogo from '../../assets/welcome-v2/footer-logo.png';
+// Ассеты из Figma
+import patternDots from '../../assets/figma-welcome/pattern.png';
+import splashLogo from '../../assets/figma-welcome/splash-logo.png';
 
 export const SplashScreen = () => {
   const navigate = useNavigate();
@@ -23,27 +24,28 @@ export const SplashScreen = () => {
         position: 'relative',
         width: '100vw',
         height: '100vh',
-        backgroundColor: '#000',
+        backgroundColor: '#020101',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
+      {/* Фон с паттерном точек */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundColor: '#000',
+          backgroundColor: '#020101',
           backgroundImage: `url(${patternDots})`,
           backgroundRepeat: 'repeat',
           backgroundSize: 'auto',
-          opacity: 1,
         }}
       />
 
+      {/* Логотип с пульсацией */}
       <img
-        src={footerLogo}
+        src={splashLogo}
         alt="МЕТАФЛОРА"
         style={{
           width: 340,
