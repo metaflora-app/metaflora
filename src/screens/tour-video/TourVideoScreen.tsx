@@ -12,6 +12,7 @@ import pauseIcon from '../../assets/tour-video/pause-icon.png';
 import playIcon from '../../assets/tour-video/play-icon.png';
 import expandIcon from '../../assets/tour-video/expand-icon.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
 
 export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -317,68 +318,28 @@ export const TourVideoScreen: React.FC = () => {
             transform: 'translateX(-50%)',
             width: '892px',
             height: '140px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
+            border: 'none',
+            background: 'transparent',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            padding: 0,
           }}
         >
-          {/* Цветные блоки градиента */}
-          <div style={{
-            position: 'absolute',
-            left: '141px',
-            top: '-207.51px',
-          }}>
-            {/* Голубой блок */}
-            <div style={{
+          {/* PNG кнопка с градиентом под текстом */}
+          <img 
+            src={tryButtonBg}
+            alt=""
+            style={{
               position: 'absolute',
-              width: '575.775px',
-              height: '423.343px',
-              left: '145px',
-              top: '-189.57px',
-              background: '#37ecf7',
-              borderRadius: '1568.563px',
-              filter: 'blur(100px)',
-            }} />
-            
-            {/* Желтый блок (повернут) */}
-            <div style={{
-              position: 'absolute',
-              left: '288.97px',
-              top: '-203.51px',
-              width: '511.029px',
-              height: '309.527px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                transform: 'rotate(11.984deg) skewX(332.71deg)',
-                width: '283.008px',
-                height: '343.114px',
-                background: '#f0d825',
-                borderRadius: '1568.563px',
-                filter: 'blur(100px)',
-              }} />
-            </div>
-            
-            {/* Салатовый блок */}
-            <div style={{
-              position: 'absolute',
-              width: '317.086px',
-              height: '286.961px',
-              left: '403.64px',
-              top: '73.04px',
-              background: '#d5fc44',
-              borderRadius: '1568.563px',
-              filter: 'blur(100px)',
-            }} />
-          </div>
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'fill',
+              pointerEvents: 'none',
+            }}
+          />
 
           {/* Текст кнопки - поверх градиента */}
           <div style={{
