@@ -10,6 +10,7 @@ import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 import pattern from '../../assets/figma-welcome/pattern.png';
 import supportButton from '../../assets/welcome-elements/support-button.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
+import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -327,91 +328,40 @@ export const WelcomeScreen: React.FC = () => {
           top: '1902px',
           width: '892px',
           height: '140px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'clip',
+          border: 'none',
+          background: 'transparent',
           cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 0,
         }}
       >
-        {/* Цветные блоки для градиента */}
+        {/* PNG кнопка с градиентом под текстом */}
+        <img 
+          src={tryButtonBg}
+          alt=""
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'fill',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Текст кнопки - поверх градиента */}
         <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '-207.51px',
-        }}>
-          {/* Голубой блок */}
-          <div style={{
-            position: 'absolute',
-            width: '575.775px',
-            height: '423.343px',
-            left: '145px',
-            top: '-189.57px',
-            background: '#37ecf7',
-            borderRadius: '1568.563px',
-          }} />
-          
-          {/* Желтый блок (повернут) */}
-          <div style={{
-            position: 'absolute',
-            left: '288.97px',
-            top: '-203.51px',
-            width: '511.029px',
-            height: '309.527px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              transform: 'rotate(11.984deg) skewX(332.71deg)',
-              width: '283.008px',
-              height: '343.114px',
-              background: '#f0d825',
-              borderRadius: '1568.563px',
-            }} />
-          </div>
-          
-          {/* Салатовый блок */}
-          <div style={{
-            position: 'absolute',
-            width: '317.086px',
-            height: '286.961px',
-            left: '403.64px',
-            top: '73.04px',
-            background: '#d5fc44',
-            borderRadius: '1568.563px',
-          }} />
-        </div>
-        
-        {/* Текст кнопки */}
-        <div style={{
-          position: 'absolute',
-          left: '193px',
-          top: '40px',
-          width: '521px',
-          height: '60px',
+          position: 'relative',
           zIndex: 1,
+          fontFamily: 'Gotham Pro',
+          fontWeight: 500,
+          fontSize: '40px',
+          color: 'white',
+          textAlign: 'center',
         }}>
-          <div style={{
-            position: 'absolute',
-            left: '10px',
-            top: '10px',
-            width: '501px',
-            height: '40px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '40px',
-            lineHeight: '0',
-            color: 'white',
-            textAlign: 'center',
-            whiteSpace: 'nowrap',
-          }}>
-            <p style={{ margin: 0, lineHeight: 'normal' }}>попробовать бесплатно</p>
-          </div>
+          попробовать бесплатно
         </div>
       </button>
 
