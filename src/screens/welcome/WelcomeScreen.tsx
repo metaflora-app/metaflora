@@ -11,6 +11,7 @@ import pattern from '../../assets/figma-welcome/pattern.png';
 import supportButton from '../../assets/welcome-elements/support-button.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
+import policies from '../../assets/welcome-elements/policies.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -509,6 +510,19 @@ export const WelcomeScreen: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Политики - PNG */}
+        <img 
+          src={policies}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '93px',
+            top: '2078px',
+            width: '214px',
+            height: '110px',
+          }}
+        />
       </div>
     </div>
   );
