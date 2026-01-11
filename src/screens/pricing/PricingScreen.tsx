@@ -139,7 +139,7 @@ export const PricingScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '148px',
-          top: '566px',
+          top: '418px',
           width: '884px',
           height: '348px',
           borderRadius: '24px',
@@ -379,7 +379,7 @@ export const PricingScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '147px',
-          top: '1246px',
+          top: '1082px',
           width: '884px',
           height: '348px',
           borderRadius: '24px',
@@ -614,7 +614,7 @@ export const PricingScreen: React.FC = () => {
               alt="выгодно"
               style={{
                 position: 'absolute',
-                left: 'calc(50% + 360px)',
+                left: 'calc(50% + 415px)',
                 top: '40px',
                 width: '72px',
                 height: '35px',
