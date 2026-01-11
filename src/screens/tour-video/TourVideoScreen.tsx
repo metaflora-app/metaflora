@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import supportButton from '../../assets/welcome-elements/support-button.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
 import pauseIcon from '../../assets/tour-video/pause-icon.png';
 import playIcon from '../../assets/tour-video/play-icon.png';
 import expandIcon from '../../assets/tour-video/expand-icon.png';
+import supportButton from '../../assets/tour-video/support-button.png';
 
 export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -132,33 +132,18 @@ export const TourVideoScreen: React.FC = () => {
         </div>
 
         {/* Кнопка "написать в поддержку" */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% + 341.5px)',
-          top: '97px',
-          transform: 'translateX(-50%)',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          width: '205px',
-          height: '78px',
-          overflow: 'clip',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <img 
-            src={supportButton}
-            alt="написать в поддержку"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
+        <img 
+          src={supportButton}
+          alt="написать в поддержку"
+          style={{
+            position: 'absolute',
+            left: '829px',
+            top: '97px',
+            width: '205px',
+            height: '78px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Заголовок "экскурсия по платформе за 2 минуты" */}
         <div style={{
@@ -369,6 +354,9 @@ export const TourVideoScreen: React.FC = () => {
             borderRadius: '62px',
             overflow: 'clip',
             cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           {/* Цветные блоки градиента */}
@@ -422,34 +410,15 @@ export const TourVideoScreen: React.FC = () => {
 
           {/* Текст кнопки - поверх градиента */}
           <div style={{
-            position: 'absolute',
-            left: '330px',
-            top: '40px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '10px',
+            position: 'relative',
             zIndex: 1,
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '40px',
+            color: 'white',
+            textAlign: 'center',
           }}>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '40px',
-              lineHeight: '0',
-              color: 'white',
-              textAlign: 'center',
-              whiteSpace: 'nowrap',
-            }}>
-              <p style={{ 
-                margin: 0,
-                lineHeight: 'normal',
-              }}>
-                попробовать бесплатно
-              </p>
-            </div>
+            попробовать бесплатно
           </div>
         </button>
 
