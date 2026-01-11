@@ -412,15 +412,16 @@ export const WelcomeScreen: React.FC = () => {
         position: 'absolute',
         left: '141px',
         top: '2086px',
-        display: 'flex',
-        gap: '89px',
-        alignItems: 'center',
+        width: '888px',
+        height: '124px',
       }}>
           {/* Логотип в подвале */}
           <div style={{
+            position: 'absolute',
             width: '569px',
             height: '124px',
-            position: 'relative',
+            left: 0,
+            top: '-34px',
           }}>
             <div style={{
               position: 'absolute',
@@ -443,78 +444,110 @@ export const WelcomeScreen: React.FC = () => {
             </div>
           </div>
           
+          {/* Copyright текст */}
+          <div style={{
+            position: 'absolute',
+            left: 'calc(50% - 443px)',
+            top: '54.03%',
+            bottom: '29.84%',
+            width: '433px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            lineHeight: '0',
+            color: 'white',
+          }}>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
+          </div>
+          
           {/* Подложка под соцсети */}
           <div style={{
+            position: 'absolute',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '62px',
             height: '78px',
             width: '230px',
-            position: 'relative',
+            left: '658px',
+            top: '-11px',
+          }} />
+          
+          {/* Иконки соцсетей */}
+          <div style={{
+            position: 'absolute',
+            left: 'calc(50% + 329px)',
+            top: 'calc(50% - 34.5px)',
+            transform: 'translate(-50%, -50%)',
+            width: '196px',
+            height: '51px',
           }}>
-            {/* Иконки соцсетей */}
+            {/* Первая иконка соцсети */}
             <div style={{
               position: 'absolute',
-              left: '76.01%',
-              right: '1.91%',
-              top: '36px',
+              left: 0,
+              top: 0,
+              width: '50px',
+              height: '51px',
             }}>
               <div style={{
                 position: 'absolute',
-                aspectRatio: '697/251',
-                left: '82.09%',
-                right: '1.91%',
-                top: '36px',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  opacity: 0.6,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={socials}
-                    alt="Соцсети"
-                    style={{
-                      position: 'absolute',
-                      height: '339.84%',
-                      left: '-16.64%',
-                      top: '-118.33%',
-                      width: '183.64%',
-                      maxWidth: 'none',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={socials}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
               </div>
+            </div>
+            
+            {/* Группа из трёх иконок */}
+            <div style={{
+              position: 'absolute',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              height: '51px',
+            }}>
               <div style={{
                 position: 'absolute',
-                aspectRatio: '50/51',
-                left: '76.01%',
-                right: '18.36%',
-                top: '36px',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  opacity: 0.6,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={socials}
-                    alt="Соцсети"
-                    style={{
-                      position: 'absolute',
-                      height: '339.84%',
-                      left: '-377.92%',
-                      top: '-118.33%',
-                      width: '517.92%',
-                      maxWidth: 'none',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={socials}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
               </div>
             </div>
           </div>
