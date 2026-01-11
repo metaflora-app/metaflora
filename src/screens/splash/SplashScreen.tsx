@@ -62,7 +62,3 @@ export const SplashScreen: React.FC = () => {
     </div>
   );
 };
-
-    </div>
-  );
-};
