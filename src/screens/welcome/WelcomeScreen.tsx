@@ -517,8 +517,8 @@ export const WelcomeScreen: React.FC = () => {
           alt=""
           style={{
             position: 'absolute',
-            left: '93px',
-            top: '2078px',
+            left: '102px',
+            top: '65px',
             width: '214px',
             height: '110px',
           }}
