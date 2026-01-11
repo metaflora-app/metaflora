@@ -16,7 +16,7 @@ import payButtonBg from '../../assets/demo-access-elements/кнопка опла
 import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
-import badgeVygodno from '../../assets/pricing/кнопка выгодно.png';
+import badgeVygodno from '../../assets/pricing/выгодно кнопка.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -262,25 +262,13 @@ export const PricingScreen: React.FC = () => {
                 color: 'white',
                 whiteSpace: 'pre-wrap',
               }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
-                </p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* академия:</span></p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
-                </p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* лаба:</span></p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>контент-среда и личный креатор 24/7</p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* цех: </span>
-                </p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* цех:</span></p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
-                </p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* полигон:</span></p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы</p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
@@ -624,8 +612,8 @@ export const PricingScreen: React.FC = () => {
                 position: 'absolute',
                 left: 'calc(50% + 410px)',
                 top: '45px',
-                width: '71.629px',
-                height: '20.809px',
+                width: '72px',
+                height: '35px',
                 transform: 'rotate(11.089deg)',
                 zIndex: 100,
                 pointerEvents: 'none',
