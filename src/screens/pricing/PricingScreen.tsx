@@ -16,6 +16,7 @@ import payButtonBg from '../../assets/demo-access-elements/кнопка опла
 import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
+import badgeVygodno from '../../assets/pricing/выгодно кнопка.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -134,31 +135,6 @@ export const PricingScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Фоновое изображение для карточек */}
-        <div style={{
-          position: 'absolute',
-          left: '148px',
-          top: '566px',
-          width: '884px',
-          height: '348px',
-          borderRadius: '24px',
-        }}>
-          <img 
-            src={pricingBackground}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '24px',
-              maxWidth: 'none',
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
-
         {/* КАРТОЧКА ТАРИФ "1 МЕСЯЦ" */}
         <div style={{
           position: 'absolute',
@@ -177,10 +153,37 @@ export const PricingScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
           }}>
+            {/* Фоновое изображение ВНУТРИ карточки */}
+            <div style={{
+              position: 'absolute',
+              left: '4px',
+              top: '148px',
+              width: '884px',
+              height: '348px',
+              borderRadius: '24px',
+              pointerEvents: 'none',
+              zIndex: 0,
+            }}>
+              <img 
+                src={pricingBackground}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '24px',
+                  maxWidth: 'none',
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
             {/* Заголовок "1 месяц" */}
             <div style={{
               position: 'absolute',
               inset: 'calc(6.97% - 4px) calc(43.23% - 4px) calc(79.77% - 4px) calc(6.77% - 4px)',
+              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -207,6 +210,7 @@ export const PricingScreen: React.FC = () => {
                 transform: 'translateX(-50%)',
                 width: '275px',
                 height: '42px',
+                zIndex: 1,
               }}
             />
 
@@ -217,6 +221,7 @@ export const PricingScreen: React.FC = () => {
               left: 'calc(50% - 44px)',
               top: 'calc(3.48% - 4px)',
               width: '255px',
+              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -244,13 +249,15 @@ export const PricingScreen: React.FC = () => {
                 top: '42px',
                 width: '26px',
                 height: '26px',
+                zIndex: 1,
               }}
             />
 
-            {/* Текст описания тарифа (10 строк) */}
+            {/* Текст описания тарифа (8 строк) */}
             <div style={{
               position: 'absolute',
               inset: 'calc(24.54% - 4px) calc(8.17% - 4px) calc(9.12% - 4px) calc(6.77% - 4px)',
+              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -294,6 +301,7 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
+              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGray}
@@ -343,6 +351,7 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
+              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGreen}
@@ -486,7 +495,7 @@ export const PricingScreen: React.FC = () => {
               }}
             />
 
-            {/* Текст описания тарифа (10 строк) */}
+            {/* Текст описания тарифа (8 строк) */}
             <div style={{
               position: 'absolute',
               inset: 'calc(24.88% - 4px) calc(5.04% - 4px) calc(8.79% - 4px) calc(6.73% - 4px)',
@@ -504,8 +513,8 @@ export const PricingScreen: React.FC = () => {
                 <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</span>
                 </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</p>
                 <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
@@ -514,14 +523,14 @@ export const PricingScreen: React.FC = () => {
                 <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* цех: </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</span>
                 </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</p>
                 <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</span>
                 </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: чат, канал и другие бонусы</p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
               </div>
             </div>
@@ -615,42 +624,19 @@ export const PricingScreen: React.FC = () => {
             </div>
 
             {/* Плашка "ВЫГОДНО" - ПОВЕРХ зелёной кнопки */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 410px)',
-              top: '45px',
-              width: '68.812px',
-              height: '20.778px',
-              transform: 'rotate(11.549deg) skewX(0.902deg)',
-              zIndex: 100,
-              pointerEvents: 'none',
-            }}>
-              <div style={{
+            <img 
+              src={badgeVygodno}
+              alt="выгодно"
+              style={{
                 position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to right, #880709 0%, #e90004 52.404%, #880709 100%)',
-                borderRadius: '20px',
-              }} />
-              <div style={{
-                position: 'absolute',
-                inset: '20.32% 14.41% 25.18% 21.94%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{
-                  transform: 'rotate(11.456deg) skewX(0.895deg)',
-                  fontFamily: 'Inter',
-                  fontWeight: 700,
-                  fontSize: '10px',
-                  color: 'white',
-                  lineHeight: 0,
-                  whiteSpace: 'nowrap',
-                }}>
-                  выгодно
-                </div>
-              </div>
-            </div>
+                left: 'calc(50% + 405px)',
+                top: '40px',
+                width: '72px',
+                height: '35px',
+                zIndex: 100,
+                pointerEvents: 'none',
+              }}
+            />
           </div>
         </div>
 
