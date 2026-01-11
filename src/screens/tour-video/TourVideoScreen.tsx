@@ -71,33 +71,25 @@ export const TourVideoScreen: React.FC = () => {
               overflow: 'clip',
               cursor: 'pointer',
               position: 'relative',
-            }}
-          >
-            {/* Стрелка (повернута на 90°) */}
-            <div style={{
-              position: 'absolute',
-              left: '11px',
-              top: '10px',
-              width: '71px',
-              height: '71px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+            }}
+          >
+            {/* Стрелка */}
+            <div style={{
+              width: '71px',
+              height: '71px',
+              transform: 'rotate(90deg)',
             }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '71px',
-                height: '71px',
-              }}>
-                <img 
-                  src={exitArrow}
-                  alt="назад"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                  }}
-                />
-              </div>
+              <img 
+                src={exitArrow}
+                alt="назад"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              />
             </div>
           </button>
         </div>
@@ -229,34 +221,20 @@ export const TourVideoScreen: React.FC = () => {
             borderRadius: '62px',
             overflow: 'clip',
             cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            {/* Иконка плей */}
-            <div style={{
-              position: 'absolute',
-              top: 'calc(20.41% - 4px)',
-              right: 'calc(19.39% - 4px)',
-              bottom: 'calc(18.37% - 4px)',
-              left: 'calc(19.39% - 4px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                transform: 'rotate(90deg)',
-              }}>
-                <img 
-                  src={playIcon}
-                  alt="плей"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
+            {/* Иконка плей - 71% размера круга */}
+            <img 
+              src={playIcon}
+              alt="плей"
+              style={{
+                width: '71%',
+                height: '71%',
+                objectFit: 'contain',
+              }}
+            />
           </div>
 
           {/* Кнопка стоп (пауза) */}
@@ -276,13 +254,13 @@ export const TourVideoScreen: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            {/* Иконка паузы */}
+            {/* Иконка паузы - 71% размера круга */}
             <img 
               src={pauseIcon}
               alt="стоп"
               style={{
-                width: '80%',
-                height: '80%',
+                width: '71%',
+                height: '71%',
                 objectFit: 'contain',
               }}
             />
