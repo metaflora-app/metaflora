@@ -13,24 +13,36 @@ import pattern from '../../assets/figma-welcome/pattern.png';
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
 
+  // Calculate scale based on viewport width (design width: 1180px)
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
   return (
     <div style={{
       position: 'relative',
-      width: '100%',
-      height: '100%',
+      width: '100vw',
+      minHeight: '100vh',
       background: '#020101',
+      overflow: 'hidden',
     }}>
-      {/* Background pattern (фон точки) */}
+      {/* Scaled container */}
       <div style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
+        position: 'relative',
         width: '1180px',
-        height: '2550px',
-        backgroundImage: `url(${pattern})`,
-        backgroundRepeat: 'repeat',
-        backgroundSize: 'auto',
-      }} />
+        minHeight: '2550px',
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
+      }}>
+        {/* Background pattern (фон точки) */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          width: '1180px',
+          height: '2550px',
+          backgroundImage: `url(${pattern})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+        }} />
 
       {/* Логотип маленький (верхний) */}
       <div style={{
@@ -493,6 +505,7 @@ export const WelcomeScreen: React.FC = () => {
             }}
           />
         </div>
+      </div>
       </div>
     </div>
   );
