@@ -76,21 +76,17 @@ export const TourVideoScreen: React.FC = () => {
               justifyContent: 'center',
             }}
           >
-            {/* Стрелка */}
-            <div style={{
-              width: '71px',
-              height: '71px',
-              transform: 'rotate(90deg)',
-            }}>
-              <img 
-                src={exitArrow}
-                alt="назад"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-              />
-            </div>
+            {/* Стрелка - на полный размер кнопки */}
+            <img 
+              src={exitArrow}
+              alt="назад"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                transform: 'rotate(90deg)',
+              }}
+            />
           </button>
         </div>
 
@@ -225,13 +221,13 @@ export const TourVideoScreen: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            {/* Иконка плей - 71% размера круга */}
+            {/* Иконка плей - 100% размера круга */}
             <img 
               src={playIcon}
               alt="плей"
               style={{
-                width: '71%',
-                height: '71%',
+                width: '100%',
+                height: '100%',
                 objectFit: 'contain',
               }}
             />
@@ -254,13 +250,13 @@ export const TourVideoScreen: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            {/* Иконка паузы - 71% размера круга */}
+            {/* Иконка паузы - 100% размера круга */}
             <img 
               src={pauseIcon}
               alt="стоп"
               style={{
-                width: '71%',
-                height: '71%',
+                width: '100%',
+                height: '100%',
                 objectFit: 'contain',
               }}
             />
