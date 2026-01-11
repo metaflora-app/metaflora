@@ -1,5 +1,4 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Images
@@ -11,493 +10,404 @@ import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
 import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
 import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 
-const StyledBackgroundoverlay = styled.div`
-  width: 1180px;
-  height: 2550px;
-  background: black;
-`;
-
-const StyledWelcometextspan = styled.span`
-  color: white;
-  font-size: 80px;
-  font-family: Inter;
-  font-weight: 800;
-  line-height: 80px;
-  word-wrap: break-word;
-`;
-
-const StyledTelegramservicestextspan01 = styled.span`
-  color: white;
-  font-size: 40px;
-  font-family: Gotham Pro;
-  font-weight: 400;
-  line-height: 40px;
-  word-wrap: break-word;
-`;
-
-const StyledTelegramservicestextspan02 = styled.span`
-  color: white;
-  font-size: 40px;
-  font-family: Gotham Pro;
-  font-weight: 700;
-  line-height: 40px;
-  word-wrap: break-word;
-`;
-
-const StyledTelegramservicestextspan03 = styled.span`
-  color: white;
-  font-size: 40px;
-  font-family: Gotham Pro;
-  font-weight: 400;
-  line-height: 40px;
-  word-wrap: break-word;
-`;
-
-const StyledTourButtonDiv = styled.div`
-  width: 892px;
-  height: 139px;
-  padding: 10px;
-  left: 147px;
-  top: 1759px;
-  position: absolute;
-  border-radius: 62px;
-  border: 4px rgba(255, 255, 255, 0.30) solid;
-  backdrop-filter: blur(50px);
-`;
-
-const StyledPlatformtourbuttontextspan = styled.span`
-  color: white;
-  font-size: 40px;
-  font-family: Gotham Pro;
-  font-weight: 400;
-  line-height: 40px;
-  word-wrap: break-word;
-`;
-
-const StyledButtonbackground = styled.button`
-  align-self: stretch;
-  height: 136px;
-  border-radius: 62px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-`;
-
-const StyledColorblock = styled.div`
-  width: 575.78px;
-  height: 423.34px;
-  left: 145px;
-  top: -189.57px;
-  position: absolute;
-  background: #37ECF7;
-  border-radius: 1568.56px;
-  filter: blur(100px);
-`;
-
-const StyledColorblock01 = styled.div`
-  width: 476.73px;
-  height: 215.23px;
-  left: 333.66px;
-  top: -203.51px;
-  position: absolute;
-  transform: rotate(12deg);
-  transform-origin: top left;
-  background: #F0D825;
-  border-radius: 1568.56px;
-  filter: blur(100px);
-`;
-
-const StyledColorblock02 = styled.div`
-  width: 317.09px;
-  height: 286.96px;
-  left: 403.64px;
-  top: 73.04px;
-  position: absolute;
-  background: #D5FC44;
-  border-radius: 1568.56px;
-  filter: blur(100px);
-`;
-
-const StyledTryforfreebuttontextspan = styled.span`
-  color: white;
-  font-size: 40px;
-  font-family: Gotham Pro;
-  font-weight: 400;
-  line-height: 40px;
-  word-wrap: break-word;
-`;
-
-const StyledSupportbuttontextspan01 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 400;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledSupportbuttontextspan02 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 700;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledSupportButtonDiv = styled.div`
-  width: 205px;
-  height: 78px;
-  left: 824px;
-  top: 97px;
-  position: absolute;
-  background: rgba(255, 255, 255, 0.10);
-  overflow: hidden;
-  border-radius: 62px;
-  outline: 4px rgba(255, 255, 255, 0.30) solid;
-  outline-offset: -4px;
-  backdrop-filter: blur(50px);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledFooterdisclaimer2span01 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 400;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledFooterdisclaimer2span02 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 700;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledFooterdisclaimer2span04 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 700;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledFooterdisclaimer1span01 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 400;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledFooterdisclaimer1span02 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 700;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledFooterdisclaimer1span04 = styled.span`
-  color: white;
-  font-size: 20px;
-  font-family: Gotham Pro;
-  font-weight: 700;
-  line-height: 20px;
-  word-wrap: break-word;
-`;
-
-const StyledWelcomeTextDiv = styled.div`
-  left: 94px;
-  top: 197px;
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  display: inline-flex;
-`;
-
-const StyledAITelegram = styled.div`
-  left: 94px;
-  top: 382px;
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  display: inline-flex;
-`;
-
-const StyledTryFreeButtonDiv = styled.div`
-  width: 892px;
-  height: 139px;
-  left: 147px;
-  top: 1917px;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.90);
-  overflow: hidden;
-  border-radius: 62px;
-  outline: 4px rgba(255, 255, 255, 0.30) solid;
-  outline-offset: -4px;
-  backdrop-filter: blur(50px);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledPaginationDiv = styled.div`
-  left: 531px;
-  top: 1650px;
-  position: absolute;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 11px;
-  display: inline-flex;
-`;
-
-const StyledPaginationDot = styled.div<{ active?: boolean }>`
-  width: ${props => props.active ? '63px' : '17px'};
-  height: 17px;
-  border-radius: 33px;
-  background: ${props => props.active ? '#fffdfe' : '#d6d6d6'};
-`;
-
-const StyledLogoSmallImg = styled.img`
-  width: 189px;
-  height: 137px;
-  left: 492px;
-  top: 28px;
-  position: absolute;
-`;
-
-const StyledCarouselLeftFrame = styled.div`
-  padding: 10px;
-  left: -213px;
-  top: 639px;
-  position: absolute;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  display: inline-flex;
-`;
-
-const StyledCarouselLeftDiv = styled.div`
-  width: 530px;
-  height: 930px;
-  transform: rotate(-175deg);
-  transform-origin: top left;
-  border-radius: 40px;
-  overflow: hidden;
-`;
-
-const StyledCarouselRightFrame = styled.div`
-  padding: 10px;
-  left: 764px;
-  top: 639px;
-  position: absolute;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  display: inline-flex;
-`;
-
-const StyledCarouselRightDiv = styled.div`
-  width: 530px;
-  height: 930px;
-  border-radius: 40px;
-  overflow: hidden;
-  transform: scaleY(-1);
-`;
-
-const StyledCarouselCenterFrame = styled.div`
-  padding: 10px;
-  left: 315px;
-  top: 639px;
-  position: absolute;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  display: inline-flex;
-  z-index: 2;
-`;
-
-const StyledCarouselCenterDiv = styled.div`
-  width: 530px;
-  height: 930px;
-  border-radius: 40px;
-  overflow: hidden;
-`;
-
-const StyledFooterLogoDiv = styled.div`
-  width: 587px;
-  height: 125px;
-  left: 0px;
-  top: 70px;
-  position: absolute;
-`;
-
-const StyledSocialsImg = styled.img`
-  width: 142px;
-  height: 51px;
-  left: 745px;
-  top: 107px;
-  position: absolute;
-`;
-
-const StyledFooterDiv = styled.div`
-  width: 904px;
-  height: 195px;
-  left: 125px;
-  top: 2085px;
-  position: absolute;
-`;
-
-const StyledContentDiv = styled.div`
-  width: 1180px;
-  height: 2550px;
-  left: 0px;
-  top: 0px;
-  position: absolute;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  display: inline-flex;
-`;
-
-const StyledMainDiv = styled.div`
-  width: 1180px;
-  height: 2550px;
-  position: relative;
-  background: #020101;
-  overflow: hidden;
-  background-image: url(${bgPattern});
-  background-size: cover;
-  background-position: center;
-  background-repeat: repeat;
-`;
-
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <StyledMainDiv>
-      <StyledContentDiv>
-        <StyledBackgroundoverlay />
-        
-        {/* Logo */}
-        <StyledLogoSmallImg src={logoSmall} alt="МЕТАФЛОРА*" />
-        
-        {/* Support Button */}
-        <StyledSupportButtonDiv onClick={() => {/* TODO: Add support link */}}>
-          <StyledSupportbuttontextspan01>написать</StyledSupportbuttontextspan01>
-          <StyledSupportbuttontextspan02>в поддержку</StyledSupportbuttontextspan02>
-        </StyledSupportButtonDiv>
-        
-        {/* Welcome Text */}
-        <StyledWelcomeTextDiv>
-          <StyledWelcometextspan>
-            добро пожаловать<br />в МЕТАФЛОРУ*
-          </StyledWelcometextspan>
-        </StyledWelcomeTextDiv>
-        
-        {/* AI Telegram Text */}
-        <StyledAITelegram>
-          <div>
-            <StyledTelegramservicestextspan01>обучайтесь AI прямо в Telegram</StyledTelegramservicestextspan01>
+    <div
+      style={{
+        position: 'relative',
+        width: '100vw',
+        minHeight: '100vh',
+        background: '#020101',
+        overflow: 'auto',
+      }}
+    >
+      {/* Background pattern */}
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Content wrapper */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '20px',
+        }}
+      >
+        {/* Header */}
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '40px',
+            marginTop: '10px',
+          }}
+        >
+          {/* Logo */}
+          <img
+            src={logoSmall}
+            alt="МЕТАФЛОРА*"
+            style={{
+              width: '120px',
+              height: 'auto',
+              objectFit: 'contain',
+            }}
+          />
+
+          {/* Support button */}
+          <button
+            onClick={() => {
+              // TODO: Add support link
+            }}
+            style={{
+              width: 'auto',
+              minWidth: '140px',
+              height: '50px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(50px)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              color: 'white',
+              fontSize: '14px',
+              fontFamily: 'Gotham Pro',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              lineHeight: 1.2,
+              padding: '8px 16px',
+            }}
+          >
+            <span style={{ fontWeight: 300 }}>написать</span>
+            <span style={{ fontWeight: 700 }}>в поддержку</span>
+          </button>
+        </div>
+
+        {/* Main title */}
+        <div
+          style={{
+            width: '100%',
+            marginBottom: '30px',
+          }}
+        >
+          <h1
+            style={{
+              fontFamily: 'Inter',
+              fontWeight: 800,
+              fontSize: 'clamp(32px, 8vw, 80px)',
+              lineHeight: 1,
+              color: 'white',
+              margin: 0,
+              marginBottom: '15px',
+            }}
+          >
+            добро пожаловать
+            <br />в МЕТАФЛОРУ*
+          </h1>
+          <p
+            style={{
+              fontFamily: 'Gotham Pro',
+              fontSize: 'clamp(16px, 4vw, 40px)',
+              lineHeight: 1.2,
+              color: 'white',
+              margin: 0,
+            }}
+          >
+            обучайтесь AI прямо в Telegram
             <br />
-            <StyledTelegramservicestextspan02>с МЕТАФЛОРОЙ*:</StyledTelegramservicestextspan02>
-            {' '}
-            <StyledTelegramservicestextspan03>академия, лаба, цех</StyledTelegramservicestextspan03>
-            <br />
-            <StyledTelegramservicestextspan01>и другие сервисы</StyledTelegramservicestextspan01>
-          </div>
-        </StyledAITelegram>
-        
-        {/* Carousel Left */}
-        <StyledCarouselLeftFrame>
-          <StyledCarouselLeftDiv>
-            <img src={carouselLeft} alt="Carousel left" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </StyledCarouselLeftDiv>
-        </StyledCarouselLeftFrame>
-        
-        {/* Carousel Center */}
-        <StyledCarouselCenterFrame>
-          <StyledCarouselCenterDiv>
-            <img src={carouselCenter} alt="Carousel center" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </StyledCarouselCenterDiv>
-        </StyledCarouselCenterFrame>
-        
-        {/* Carousel Right */}
-        <StyledCarouselRightFrame>
-          <StyledCarouselRightDiv>
-            <img src={carouselRight} alt="Carousel right" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </StyledCarouselRightDiv>
-        </StyledCarouselRightFrame>
-        
-        {/* Pagination Dots */}
-        <StyledPaginationDiv>
-          <StyledPaginationDot />
-          <StyledPaginationDot active />
-          <StyledPaginationDot />
-        </StyledPaginationDiv>
-        
-        {/* Tour Button */}
-        <StyledTourButtonDiv>
-          <StyledButtonbackground onClick={() => navigate('/tour-video')}>
-            <StyledPlatformtourbuttontextspan>
-              экскурсия по платформе
-            </StyledPlatformtourbuttontextspan>
-          </StyledButtonbackground>
-        </StyledTourButtonDiv>
-        
-        {/* Try Free Button with Gradient */}
-        <StyledTryFreeButtonDiv onClick={() => navigate('/demo-access')}>
-          <StyledColorblock />
-          <StyledColorblock01 />
-          <StyledColorblock02 />
-          <StyledTryforfreebuttontextspan style={{ position: 'relative', zIndex: 1 }}>
+            <span style={{ fontWeight: 700 }}>с МЕТАФЛОРОЙ*:</span> академия, лаба, цех
+            <br />и другие сервисы
+          </p>
+        </div>
+
+        {/* Carousel */}
+        <div
+          style={{
+            width: '100%',
+            height: 'auto',
+            aspectRatio: '9/16',
+            maxHeight: '500px',
+            position: 'relative',
+            marginBottom: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Left card */}
+          <img
+            src={carouselLeft}
+            alt="Carousel left"
+            style={{
+              position: 'absolute',
+              left: '-10%',
+              width: '45%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '20px',
+              transform: 'rotate(-5deg)',
+              opacity: 0.7,
+            }}
+          />
+
+          {/* Center card */}
+          <img
+            src={carouselCenter}
+            alt="Carousel center"
+            style={{
+              position: 'relative',
+              width: '50%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '20px',
+              zIndex: 2,
+            }}
+          />
+
+          {/* Right card */}
+          <img
+            src={carouselRight}
+            alt="Carousel right"
+            style={{
+              position: 'absolute',
+              right: '-10%',
+              width: '45%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '20px',
+              transform: 'rotate(5deg) scaleY(-1)',
+              opacity: 0.7,
+            }}
+          />
+        </div>
+
+        {/* Pagination dots */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            alignItems: 'center',
+            marginBottom: '30px',
+          }}
+        >
+          <div
+            style={{
+              width: '12px',
+              height: '12px',
+              borderRadius: '50%',
+              background: '#d6d6d6',
+            }}
+          />
+          <div
+            style={{
+              width: '40px',
+              height: '12px',
+              borderRadius: '12px',
+              background: '#fffdfe',
+            }}
+          />
+          <div
+            style={{
+              width: '12px',
+              height: '12px',
+              borderRadius: '50%',
+              background: '#d6d6d6',
+            }}
+          />
+        </div>
+
+        {/* Tour button */}
+        <button
+          onClick={() => navigate('/tour-video')}
+          style={{
+            width: '90%',
+            maxWidth: '500px',
+            height: '70px',
+            background: 'transparent',
+            backdropFilter: 'blur(50px)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            color: 'white',
+            fontSize: 'clamp(16px, 4vw, 28px)',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            cursor: 'pointer',
+            marginBottom: '15px',
+          }}
+        >
+          экскурсия по платформе
+        </button>
+
+        {/* Try free button with gradient */}
+        <button
+          onClick={() => navigate('/demo-access')}
+          style={{
+            position: 'relative',
+            width: '90%',
+            maxWidth: '500px',
+            height: '70px',
+            background: 'rgba(0, 0, 0, 0.9)',
+            backdropFilter: 'blur(50px)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            color: 'white',
+            fontSize: 'clamp(16px, 4vw, 28px)',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            cursor: 'pointer',
+            marginBottom: '40px',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Gradient background */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '-100px',
+              left: '20%',
+              width: '200px',
+              height: '200px',
+              background: '#37ecf7',
+              borderRadius: '1568px',
+              filter: 'blur(80px)',
+              zIndex: 0,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: '-80px',
+              left: '40%',
+              width: '150px',
+              height: '150px',
+              background: '#f0d825',
+              borderRadius: '1568px',
+              transform: 'rotate(12deg)',
+              filter: 'blur(80px)',
+              zIndex: 0,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: '20px',
+              left: '50%',
+              width: '150px',
+              height: '150px',
+              background: '#d5fc44',
+              borderRadius: '1568px',
+              filter: 'blur(80px)',
+              zIndex: 0,
+            }}
+          />
+          <span style={{ position: 'relative', zIndex: 1 }}>
             попробовать бесплатно
-          </StyledTryforfreebuttontextspan>
-        </StyledTryFreeButtonDiv>
-        
+          </span>
+        </button>
+
         {/* Footer */}
-        <StyledFooterDiv>
-          <StyledFooterLogoDiv>
-            <img src={footerLogo} alt="МЕТАФЛОРА*" style={{ width: '100%', height: 'auto' }} />
-          </StyledFooterLogoDiv>
-          
-          <div style={{ position: 'absolute', left: '0px', top: '0px' }}>
-            <StyledFooterdisclaimer1span01>нажимая на кнопку, вы соглашаетесь</StyledFooterdisclaimer1span01>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px',
+            marginTop: '20px',
+            marginBottom: '40px',
+          }}
+        >
+          {/* Logo */}
+          <img
+            src={footerLogo}
+            alt="МЕТАФЛОРА*"
+            style={{
+              width: 'min(80%, 300px)',
+              height: 'auto',
+              objectFit: 'contain',
+            }}
+          />
+
+          {/* Privacy text */}
+          <p
+            style={{
+              fontFamily: 'Gotham Pro',
+              fontSize: 'clamp(10px, 2.5vw, 14px)',
+              lineHeight: 1.3,
+              color: 'white',
+              margin: 0,
+              textAlign: 'center',
+            }}
+          >
+            <span style={{ fontWeight: 300 }}>нажимая на кнопку, вы соглашаетесь</span>
             <br />
-            <StyledFooterdisclaimer1span02>с политикой конфиденциальности</StyledFooterdisclaimer1span02>
-            {' '}
-            <StyledFooterdisclaimer1span04>МЕТАФЛОРА*</StyledFooterdisclaimer1span04>
+            <span style={{ fontWeight: 700 }}>с политикой конфиденциальности</span>{' '}
+            <span style={{ fontWeight: 700 }}>МЕТАФЛОРА*</span>
+          </p>
+
+          {/* Socials button */}
+          <div
+            style={{
+              width: '80px',
+              height: '40px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(50px)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <img
+              src={socials}
+              alt="Social media"
+              style={{
+                width: '60%',
+                height: 'auto',
+                objectFit: 'contain',
+                opacity: 0.6,
+              }}
+            />
           </div>
-          
-          <StyledSocialsImg src={socials} alt="Social media" />
-          
-          <div style={{ position: 'absolute', right: '0px', top: '0px', textAlign: 'right' }}>
-            <StyledFooterdisclaimer2span01>нажимая на кнопку, вы соглашаетесь</StyledFooterdisclaimer2span01>
+
+          {/* Marketing text */}
+          <p
+            style={{
+              fontFamily: 'Gotham Pro',
+              fontSize: 'clamp(10px, 2.5vw, 14px)',
+              lineHeight: 1.3,
+              color: 'white',
+              margin: 0,
+              textAlign: 'center',
+            }}
+          >
+            <span style={{ fontWeight: 300 }}>нажимая на кнопку, вы соглашаетесь</span>
             <br />
-            <StyledFooterdisclaimer2span02>на получение информационной</StyledFooterdisclaimer2span02>
+            <span style={{ fontWeight: 700 }}>на получение информационной</span>
             <br />
-            <StyledFooterdisclaimer2span02>и рекламной рассылки</StyledFooterdisclaimer2span02>
-            {' '}
-            <StyledFooterdisclaimer2span04>МЕТАФЛОРА*</StyledFooterdisclaimer2span04>
-          </div>
-        </StyledFooterDiv>
-      </StyledContentDiv>
-    </StyledMainDiv>
+            <span style={{ fontWeight: 700 }}>и рекламной рассылки</span>{' '}
+            <span style={{ fontWeight: 700 }}>МЕТАФЛОРА*</span>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
