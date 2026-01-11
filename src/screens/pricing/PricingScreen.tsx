@@ -394,9 +394,9 @@ export const PricingScreen: React.FC = () => {
             {/* Фоновое изображение ВНУТРИ карточки */}
             <div style={{
               position: 'absolute',
-              left: '-8px',
+              left: '4px',
               top: '164px',
-              width: '900px',
+              width: '884px',
               height: '348px',
               borderRadius: '24px',
               pointerEvents: 'none',
