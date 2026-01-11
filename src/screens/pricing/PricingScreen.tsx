@@ -12,10 +12,9 @@ import pricingBackground from '../../assets/pricing/background.png';
 import pricingBackground2 from '../../assets/pricing/background2.png';
 import infoIcon from '../../assets/pricing/info-icon.png';
 import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
-import priceButton1990 from '../../assets/pricing/кнопка цена 1990.png';
-import priceButton2690 from '../../assets/pricing/кнопка цена 2690.png';
-import priceButton5490 from '../../assets/pricing/кнопка цена 5490.png';
-import priceButton8070 from '../../assets/pricing/кнопка цена 8070.png';
+import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
+import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
+import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
 import badgeVygodno from '../../assets/pricing/кнопка выгодно.png';
 
 export const PricingScreen: React.FC = () => {
@@ -301,35 +300,91 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Кнопка "2690 руб." (зачеркнутая) - готовая PNG */}
-            <img 
-              src={priceButton2690}
-              alt="2690 руб."
-              style={{
+            {/* Кнопка "2690 руб." (зачеркнутая) - серая плашка */}
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 172px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              cursor: 'pointer',
+            }}>
+              <img 
+                src={priceButtonGray}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+              {/* Текст цены */}
+              <div style={{
                 position: 'absolute',
-                left: 'calc(50% + 172px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}
-            />
+                inset: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+              }}>
+                2690 руб.
+              </div>
+              {/* Зачеркивание */}
+              <img 
+                src={strikethroughLine}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '110px',
+                }}
+              />
+            </div>
 
-            {/* Кнопка "1990 руб." - готовая PNG */}
-            <img 
-              src={priceButton1990}
-              alt="1990 руб."
-              style={{
+            {/* Кнопка "1990 руб." - зеленая плашка */}
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 348px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              cursor: 'pointer',
+            }}>
+              <img 
+                src={priceButtonGreen}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+              {/* Текст цены */}
+              <div style={{
                 position: 'absolute',
-                left: 'calc(50% + 348px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}
-            />
+                inset: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+              }}>
+                1990 руб.
+              </div>
+            </div>
           </div>
         </div>
 
@@ -511,35 +566,91 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Кнопка "8070 руб." (зачеркнутая) - готовая PNG */}
-            <img 
-              src={priceButton8070}
-              alt="8070 руб."
-              style={{
+            {/* Кнопка "8070 руб." (зачеркнутая) - серая плашка */}
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 172px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              cursor: 'pointer',
+            }}>
+              <img 
+                src={priceButtonGray}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+              {/* Текст цены */}
+              <div style={{
                 position: 'absolute',
-                left: 'calc(50% + 172px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}
-            />
+                inset: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+              }}>
+                8070 руб.
+              </div>
+              {/* Зачеркивание */}
+              <img 
+                src={strikethroughLine}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '110px',
+                }}
+              />
+            </div>
 
-            {/* Кнопка "5490 руб." - готовая PNG */}
-            <img 
-              src={priceButton5490}
-              alt="5490 руб."
-              style={{
+            {/* Кнопка "5490 руб." - зеленая плашка */}
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 348px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              cursor: 'pointer',
+            }}>
+              <img 
+                src={priceButtonGreen}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+              {/* Текст цены */}
+              <div style={{
                 position: 'absolute',
-                left: 'calc(50% + 348px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}
-            />
+                inset: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+              }}>
+                5490 руб.
+              </div>
+            </div>
           </div>
         </div>
 
