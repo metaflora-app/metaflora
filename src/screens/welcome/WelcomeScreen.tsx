@@ -75,18 +75,34 @@ export const WelcomeScreen: React.FC = () => {
       </div>
 
       {/* Кнопка "написать в поддержку" */}
-      <img 
-        src={supportButton}
-        alt="написать в поддержку"
-        style={{
+      <button style={{
+        position: 'absolute',
+        left: '829px',
+        top: '97px',
+        width: '205px',
+        height: '78px',
+        backdropFilter: 'blur(50px)',
+        background: 'rgba(255, 255, 255, 0.1)',
+        border: '4px solid rgba(255, 255, 255, 0.3)',
+        borderRadius: '62px',
+        overflow: 'hidden',
+        cursor: 'pointer',
+      }}>
+        <div style={{
           position: 'absolute',
-          left: '829px',
-          top: '97px',
-          width: '205px',
-          height: '78px',
-          cursor: 'pointer',
-        }}
-      />
+          left: '30px',
+          top: '19px',
+          display: 'flex',
+          flexDirection: 'column',
+          fontFamily: 'Gotham Pro',
+          fontSize: '20px',
+          lineHeight: '20px',
+          color: 'white',
+        }}>
+          <p style={{ marginBottom: 0, fontWeight: 300 }}>написать</p>
+          <p style={{ marginBottom: 0, fontWeight: 700 }}>в поддержку</p>
+        </div>
+      </button>
 
       {/* Заголовок "добро пожаловать в МЕТАФЛОРУ*" */}
       <div style={{
@@ -493,10 +509,10 @@ export const WelcomeScreen: React.FC = () => {
             alt="Соцсети"
             style={{
               position: 'absolute',
-              left: '681px',
-              top: '13px',
-              width: '196px',
-              height: '51px',
+              left: '675px',
+              top: '14px',
+              width: '210px',
+              height: '50px',
               opacity: 0.6,
             }}
           />
