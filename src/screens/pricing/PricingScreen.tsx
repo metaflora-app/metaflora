@@ -10,7 +10,8 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import pricingBackground from '../../assets/pricing/background.png';
 import pricingBackground2 from '../../assets/pricing/background2.png';
-import infoIcon from '../../assets/pricing/info-icon.png';
+import infoIconDetailed from '../../assets/pricing/info-icon-detailed.png';
+import outlineDetailed from '../../assets/pricing/outline-detailed.png';
 import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
 import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
@@ -196,17 +197,19 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Обводка для подсказки */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 81.5px)',
-              top: '6px',
-              transform: 'translateX(-50%)',
-              width: '275px',
-              height: '42px',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
+            {/* Обводка для подсказки - готовая PNG */}
+            <img 
+              src={outlineDetailed}
+              alt=""
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 81.5px)',
+                top: '6px',
+                transform: 'translateX(-50%)',
+                width: '275px',
+                height: '42px',
+              }}
+            />
 
             {/* Текст подсказки */}
             <div style={{
@@ -232,37 +235,20 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Иконка подробнее */}
-            <div style={{
-              position: 'absolute',
-              left: '372px',
-              top: '42px',
-              width: '26px',
-              height: '26px',
-            }}>
-              <div style={{
+            {/* Иконка подробнее - готовая PNG */}
+            <img 
+              src={infoIconDetailed}
+              alt="i"
+              style={{
+                position: 'absolute',
+                left: '372px',
+                top: '42px',
                 width: '26px',
                 height: '26px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '33px',
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <img 
-                  src={infoIcon}
-                  alt="i"
-                  style={{
-                    width: '11px',
-                    height: '11px',
-                  }}
-                />
-              </div>
-            </div>
+              }}
+            />
 
-            {/* Текст описания тарифа (8 строк) */}
+            {/* Текст описания тарифа (10 строк) */}
             <div style={{
               position: 'absolute',
               inset: 'calc(24.54% - 4px) calc(8.17% - 4px) calc(9.12% - 4px) calc(6.77% - 4px)',
@@ -276,27 +262,28 @@ export const PricingScreen: React.FC = () => {
                 color: 'white',
                 whiteSpace: 'pre-wrap',
               }}>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</span>
                 </p>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
                 </p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 300, marginBottom: 0 }}>контент-среда и личный креатор 24/7</p>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>контент-среда и личный креатор 24/7</p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* цех: </span>
                 </p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 300, marginBottom: 0 }}>промты для любой задачи</p>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
                 </p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 300, marginBottom: 0 }}>статьи с разборами ИИ-новинок</p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 700, margin: 0 }}>а также: общий чат, канал и бонусы каждый месяц</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
               </div>
             </div>
 
@@ -469,13 +456,17 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Обводка для подсказки */}
-            <div style={{
-              position: 'absolute',
-              inset: '1.33% 21.08% 91.71% 49.35%',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
+            {/* Обводка для подсказки - готовая PNG */}
+            <img 
+              src={outlineDetailed}
+              alt=""
+              style={{
+                position: 'absolute',
+                inset: '1.33% 21.08% 91.71% 49.35%',
+                width: '275px',
+                height: '42px',
+              }}
+            />
 
             {/* Текст подсказки */}
             <div style={{
@@ -498,36 +489,19 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Иконка подробнее */}
-            <div style={{
-              position: 'absolute',
-              inset: '7.63% 48.77% 88.06% 48.44%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
+            {/* Иконка подробнее - готовая PNG */}
+            <img 
+              src={infoIconDetailed}
+              alt="i"
+              style={{
+                position: 'absolute',
+                inset: '7.63% 48.77% 88.06% 48.44%',
                 width: '26px',
                 height: '26px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '33px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <img 
-                  src={infoIcon}
-                  alt="i"
-                  style={{
-                    width: '11px',
-                    height: '11px',
-                  }}
-                />
-              </div>
-            </div>
+              }}
+            />
 
-            {/* Текст описания тарифа (9 строк) */}
+            {/* Текст описания тарифа (10 строк) */}
             <div style={{
               position: 'absolute',
               inset: 'calc(24.88% - 4px) calc(5.04% - 4px) calc(8.79% - 4px) calc(6.73% - 4px)',
@@ -541,28 +515,28 @@ export const PricingScreen: React.FC = () => {
                 color: 'white',
                 whiteSpace: 'pre-wrap',
               }}>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</span>
                 </p>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
                 </p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 300, marginBottom: 0 }}>контент-среда и личный креатор 24/7</p>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>контент-среда и личный креатор 24/7</p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* цех: </span>
                 </p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 300, marginBottom: 0 }}>промты для любой задачи</p>
-                <p style={{ marginBottom: 0 }}>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
                 </p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 300, marginBottom: 0 }}>статьи с разборами ИИ-новинок</p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 700, marginBottom: 0 }}>а также: чат, канал и другие бонусы</p>
-                <p style={{ fontFamily: 'Gotham Pro', fontWeight: 700, margin: 0 }}>каждый месяц</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: чат, канал и другие бонусы</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
               </div>
             </div>
 
@@ -649,6 +623,24 @@ export const PricingScreen: React.FC = () => {
                 color: 'white',
               }}>
                 5490 руб.
+              </div>
+
+              {/* Плашка "ВЫГОДНО" - поверх зеленой плашки */}
+              <div style={{
+                position: 'absolute',
+                top: '-10px',
+                right: '-10px',
+                zIndex: 10,
+              }}>
+                <img 
+                  src={badgeVygodno}
+                  alt="выгодно"
+                  style={{
+                    width: '71.629px',
+                    height: '20.809px',
+                    transform: 'rotate(11.089deg)',
+                  }}
+                />
               </div>
             </div>
           </div>
