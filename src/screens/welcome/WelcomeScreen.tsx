@@ -330,16 +330,15 @@ export const WelcomeScreen: React.FC = () => {
         onClick={() => navigate('/tour-video')}
         style={{
           position: 'absolute',
-          left: 'calc(50% + 3px)',
-          top: '1917px',
-          transform: 'translateX(-50%)',
+          left: '143px',
+          top: '1902px',
           width: '892px',
-          height: '139px',
+          height: '140px',
           backdropFilter: 'blur(50px)',
           background: 'rgba(0, 0, 0, 0.9)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '62px',
-          overflow: 'hidden',
+          overflow: 'clip',
           cursor: 'pointer',
         }}
       >
@@ -394,16 +393,28 @@ export const WelcomeScreen: React.FC = () => {
         
         {/* Текст кнопки */}
         <div style={{
-          fontFamily: 'Gotham Pro',
-          fontWeight: 500,
-          fontSize: '40px',
-          lineHeight: '40px',
-          color: 'white',
-          textAlign: 'center',
-          position: 'relative',
+          position: 'absolute',
+          left: '336px',
+          top: '40px',
+          width: '521px',
+          height: '60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '10px',
           zIndex: 1,
         }}>
-          <p style={{ margin: 0 }}>попробовать бесплатно</p>
+          <div style={{
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '40px',
+            lineHeight: '0',
+            color: 'white',
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+          }}>
+            <p style={{ margin: 0, lineHeight: 'normal' }}>попробовать бесплатно</p>
+          </div>
         </div>
       </button>
 
@@ -411,7 +422,7 @@ export const WelcomeScreen: React.FC = () => {
       <div style={{
         position: 'absolute',
         left: '141px',
-        top: '2086px',
+        top: '2071px',
         width: '888px',
         height: '124px',
       }}>
