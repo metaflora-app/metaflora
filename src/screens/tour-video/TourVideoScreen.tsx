@@ -333,7 +333,6 @@ export const TourVideoScreen: React.FC = () => {
             position: 'absolute',
             left: '141px',
             top: '-207.51px',
-            filter: 'blur(80px)',
           }}>
             {/* Голубой блок */}
             <div style={{
@@ -344,6 +343,7 @@ export const TourVideoScreen: React.FC = () => {
               top: '-189.57px',
               background: '#37ecf7',
               borderRadius: '1568.563px',
+              filter: 'blur(100px)',
             }} />
             
             {/* Желтый блок (повернут) */}
@@ -363,6 +363,7 @@ export const TourVideoScreen: React.FC = () => {
                 height: '343.114px',
                 background: '#f0d825',
                 borderRadius: '1568.563px',
+                filter: 'blur(100px)',
               }} />
             </div>
             
@@ -375,6 +376,7 @@ export const TourVideoScreen: React.FC = () => {
               top: '73.04px',
               background: '#d5fc44',
               borderRadius: '1568.563px',
+              filter: 'blur(100px)',
             }} />
           </div>
 
