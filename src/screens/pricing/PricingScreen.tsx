@@ -10,17 +10,19 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import pricingBackground from '../../assets/pricing/background.png';
 import pricingBackground2 from '../../assets/pricing/background2.png';
-import infoIconDetailed from '../../assets/pricing/info-icon-detailed.png';
-import outlineDetailed from '../../assets/pricing/outline-detailed.png';
+import infoIcon from '../../assets/pricing/info-icon.png';
 import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
 import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
 import badgeVygodno from '../../assets/pricing/выгодно кнопка.png';
 import descriptionText from '../../assets/pricing/description-text.png';
+import tooltip from '../../assets/pricing/tooltip.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [showTooltip1, setShowTooltip1] = React.useState(false);
+  const [showTooltip2, setShowTooltip2] = React.useState(false);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -198,56 +200,38 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Обводка для подсказки - готовая PNG */}
+            {/* Иконка "i" - подробнее */}
             <img 
-              src={outlineDetailed}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: 'calc(50% + 81.5px)',
-                top: '6px',
-                transform: 'translateX(-50%)',
-                width: '275px',
-                height: '42px',
-              }}
-            />
-
-            {/* Текст подсказки */}
-            <div style={{
-              position: 'absolute',
-              bottom: 'calc(93.2% - 4px)',
-              left: 'calc(50% - 44px)',
-              top: 'calc(3.48% - 4px)',
-              width: '255px',
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '10px',
-                lineHeight: '1',
-                color: 'white',
-                whiteSpace: 'pre-wrap',
-              }}>
-                <p style={{ marginBottom: 0 }}>списание средств происходит ежемесячно. </p>
-                <p style={{ margin: 0 }}>Вы можете отменить подписку в любой момент</p>
-              </div>
-            </div>
-
-            {/* Иконка подробнее - готовая PNG */}
-            <img 
-              src={infoIconDetailed}
+              src={infoIcon}
               alt="i"
+              onClick={() => setShowTooltip1(!showTooltip1)}
               style={{
                 position: 'absolute',
                 left: '372px',
                 top: '42px',
                 width: '26px',
                 height: '26px',
+                cursor: 'pointer',
               }}
             />
+
+            {/* Всплывашка про списание - PNG (показывается по клику) */}
+            {showTooltip1 && (
+              <img 
+                src={tooltip}
+                alt=""
+                onClick={() => setShowTooltip1(false)}
+                style={{
+                  position: 'absolute',
+                  left: 'calc(50% + 73.5px)',
+                  top: '6px',
+                  transform: 'translateX(-50%)',
+                  width: '275px',
+                  height: '42px',
+                  cursor: 'pointer',
+                }}
+              />
+            )}
 
             {/* Текст описания тарифа - PNG */}
             <img 
@@ -413,50 +397,38 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Обводка для подсказки - готовая PNG */}
+            {/* Иконка "i" - подробнее */}
             <img 
-              src={outlineDetailed}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: '1.33% 21.08% 91.71% 49.35%',
-                width: '275px',
-                height: '42px',
-              }}
-            />
-
-            {/* Текст подсказки */}
-            <div style={{
-              position: 'absolute',
-              inset: '2.99% 21.61% 93.7% 50.97%',
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '10px',
-                lineHeight: '1',
-                color: 'white',
-                whiteSpace: 'pre-wrap',
-              }}>
-                <p style={{ marginBottom: 0 }}>списание средств происходит ежемесячно. </p>
-                <p style={{ margin: 0 }}>Вы можете отменить подписку в любой момент</p>
-              </div>
-            </div>
-
-            {/* Иконка подробнее - готовая PNG */}
-            <img 
-              src={infoIconDetailed}
+              src={infoIcon}
               alt="i"
+              onClick={() => setShowTooltip2(!showTooltip2)}
               style={{
                 position: 'absolute',
-                inset: '7.63% 48.77% 88.06% 48.44%',
+                left: '372px',
+                top: '42px',
                 width: '26px',
                 height: '26px',
+                cursor: 'pointer',
               }}
             />
+
+            {/* Всплывашка про списание - PNG (показывается по клику) */}
+            {showTooltip2 && (
+              <img 
+                src={tooltip}
+                alt=""
+                onClick={() => setShowTooltip2(false)}
+                style={{
+                  position: 'absolute',
+                  left: 'calc(50% + 73.5px)',
+                  top: '6px',
+                  transform: 'translateX(-50%)',
+                  width: '275px',
+                  height: '42px',
+                  cursor: 'pointer',
+                }}
+              />
+            )}
 
             {/* Текст описания тарифа (8 строк) */}
             <div style={{
