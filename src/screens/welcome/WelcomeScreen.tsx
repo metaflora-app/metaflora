@@ -285,19 +285,22 @@ export const WelcomeScreen: React.FC = () => {
       </div>
 
       {/* Кнопка "экскурсия по платформе" */}
-      <button style={{
-        position: 'absolute',
-        left: '143px',
-        top: '1744px',
-        width: '892px',
-        height: '139px',
-        backdropFilter: 'blur(50px)',
-        border: '4px solid rgba(255, 255, 255, 0.3)',
-        borderRadius: '62px',
-        overflow: 'clip',
-        background: 'transparent',
-        cursor: 'pointer',
-      }}>
+      <button
+        onClick={() => navigate('/tour-video')}
+        style={{
+          position: 'absolute',
+          left: '143px',
+          top: '1744px',
+          width: '892px',
+          height: '139px',
+          backdropFilter: 'blur(50px)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '62px',
+          overflow: 'clip',
+          background: 'transparent',
+          cursor: 'pointer',
+        }}
+      >
         <div style={{
           position: 'absolute',
           left: '442px',

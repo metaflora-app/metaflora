@@ -1,0 +1,604 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// Images
+import bgPattern from '../../assets/figma-welcome/pattern.png';
+import logoSmall from '../../assets/figma-welcome/logo-small.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
+import supportButton from '../../assets/welcome-elements/support-button.png';
+import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
+import pauseIcon from '../../assets/tour-video/pause-icon.png';
+import playIcon from '../../assets/tour-video/play-icon.png';
+import expandIcon from '../../assets/tour-video/expand-icon.png';
+
+export const TourVideoScreen: React.FC = () => {
+  const navigate = useNavigate();
+
+  // Calculate scale based on viewport width (design width: 1180px)
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  return (
+    <div style={{
+      position: 'relative',
+      width: '100vw',
+      minHeight: '100vh',
+      background: '#020101',
+      overflow: 'hidden',
+    }}>
+      {/* Scaled container */}
+      <div style={{
+        position: 'relative',
+        width: '1180px',
+        minHeight: '2550px',
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
+      }}>
+        {/* Background pattern (фон точки) */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          width: '1180px',
+          height: '2550px',
+          backgroundImage: `url(${bgPattern})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+        }} />
+
+        {/* Кнопка "выход" (стрелка назад) */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 452px)',
+          top: '75px',
+          width: '100px',
+          height: '100px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <button
+            onClick={() => navigate('/welcome')}
+            style={{
+              transform: 'rotate(270deg)',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              width: '100px',
+              height: '100px',
+              overflow: 'clip',
+              cursor: 'pointer',
+              position: 'relative',
+            }}
+          >
+            {/* Стрелка (повернута на 90°) */}
+            <div style={{
+              position: 'absolute',
+              left: '11px',
+              top: '10px',
+              width: '71px',
+              height: '71px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                transform: 'rotate(90deg)',
+                width: '71px',
+                height: '71px',
+              }}>
+                <img 
+                  src={exitArrow}
+                  alt="назад"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                  }}
+                />
+              </div>
+            </div>
+          </button>
+        </div>
+
+        {/* Логотип маленький (верхний) */}
+        <div style={{
+          position: 'absolute',
+          left: '500px',
+          top: '61px',
+          width: '186px',
+          height: '131px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={logoSmall}
+              alt="МЕТАФЛОРА*"
+              style={{
+                position: 'absolute',
+                height: '131.84%',
+                left: '-21.84%',
+                top: '-16.38%',
+                width: '143.34%',
+                maxWidth: 'none',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Кнопка "написать в поддержку" */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% + 341.5px)',
+          top: '97px',
+          transform: 'translateX(-50%)',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '62px',
+          width: '205px',
+          height: '78px',
+          overflow: 'clip',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <img 
+            src={supportButton}
+            alt="написать в поддержку"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+
+        {/* Заголовок "экскурсия по платформе за 2 минуты" */}
+        <div style={{
+          position: 'absolute',
+          left: '92px',
+          top: '197px',
+          width: '1027px',
+          height: '160px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Inter',
+            fontWeight: 800,
+            fontSize: '80px',
+            lineHeight: '0',
+            color: 'white',
+          }}>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              экскурсия по платформе за 2 минуты
+            </p>
+          </div>
+        </div>
+
+        {/* ВИДЕО БЛОК */}
+        <div style={{
+          position: 'absolute',
+          left: '142px',
+          top: '401px',
+          width: '891px',
+          height: '1457px',
+        }}>
+          {/* Фоновое изображение видео */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '40px',
+          }}>
+            <img 
+              src={videoThumbnail}
+              alt="Видео обзор"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '40px',
+                maxWidth: 'none',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+
+          {/* Blur слой на видео */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            overflow: 'clip',
+          }} />
+
+          {/* Кнопка плей */}
+          <div style={{
+            position: 'absolute',
+            top: '42.48%',
+            right: '44.33%',
+            bottom: '50.79%',
+            left: '44.67%',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            cursor: 'pointer',
+          }}>
+            {/* Иконка плей */}
+            <div style={{
+              position: 'absolute',
+              top: 'calc(20.41% - 4px)',
+              right: 'calc(19.39% - 4px)',
+              bottom: 'calc(18.37% - 4px)',
+              left: 'calc(19.39% - 4px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                width: '60px',
+                height: '60px',
+                transform: 'rotate(90deg)',
+              }}>
+                <img 
+                  src={playIcon}
+                  alt="плей"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Кнопка стоп (пауза) */}
+          <div style={{
+            position: 'absolute',
+            top: '49.97%',
+            right: '44.22%',
+            bottom: '43.31%',
+            left: '44.78%',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            cursor: 'pointer',
+          }}>
+            {/* Иконка паузы */}
+            <div style={{
+              position: 'absolute',
+              top: '20.41%',
+              right: '19.39%',
+              bottom: '18.37%',
+              left: '19.39%',
+            }}>
+              <img 
+                src={pauseIcon}
+                alt="стоп"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: 'none',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Кнопка развернуть видео */}
+          <div style={{
+            position: 'absolute',
+            top: '93.89%',
+            right: '1.57%',
+            bottom: '1.17%',
+            left: '90.35%',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            cursor: 'pointer',
+          }}>
+            {/* Иконка развернуть */}
+            <div style={{
+              position: 'absolute',
+              left: '11px',
+              top: '11px',
+              width: '42px',
+              height: '42px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={expandIcon}
+                  alt="развернуть"
+                  style={{
+                    position: 'absolute',
+                    height: '288.46%',
+                    left: '-164.28%',
+                    top: '-99.18%',
+                    width: '431.44%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Кнопка "попробовать бесплатно" (с градиентом) */}
+        <button
+          onClick={() => navigate('/demo-access')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 1px)',
+            top: '1902px',
+            transform: 'translateX(-50%)',
+            width: '892px',
+            height: '140px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            cursor: 'pointer',
+          }}
+        >
+          {/* Цветные блоки градиента */}
+          <div style={{
+            position: 'absolute',
+            left: '141px',
+            top: '-207.51px',
+          }}>
+            {/* Голубой блок */}
+            <div style={{
+              position: 'absolute',
+              width: '575.775px',
+              height: '423.343px',
+              left: '145px',
+              top: '-189.57px',
+              background: '#37ecf7',
+              borderRadius: '1568.563px',
+            }} />
+            
+            {/* Желтый блок (повернут) */}
+            <div style={{
+              position: 'absolute',
+              left: '288.97px',
+              top: '-203.51px',
+              width: '511.029px',
+              height: '309.527px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                transform: 'rotate(11.984deg) skewX(332.71deg)',
+                width: '283.008px',
+                height: '343.114px',
+                background: '#f0d825',
+                borderRadius: '1568.563px',
+              }} />
+            </div>
+            
+            {/* Салатовый блок */}
+            <div style={{
+              position: 'absolute',
+              width: '317.086px',
+              height: '286.961px',
+              left: '403.64px',
+              top: '73.04px',
+              background: '#d5fc44',
+              borderRadius: '1568.563px',
+            }} />
+          </div>
+
+          {/* Текст кнопки - поверх градиента */}
+          <div style={{
+            position: 'absolute',
+            left: '330px',
+            top: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '10px',
+            zIndex: 1,
+          }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '40px',
+              lineHeight: '0',
+              color: 'white',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+            }}>
+              <p style={{ 
+                margin: 0,
+                lineHeight: 'normal',
+              }}>
+                попробовать бесплатно
+              </p>
+            </div>
+          </div>
+        </button>
+
+        {/* Футер (лого + copyright + соцсети) */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 5px)',
+          top: '2071px',
+          transform: 'translateX(-50%)',
+          width: '888px',
+          height: '124px',
+        }}>
+          {/* Логотип в подвале */}
+          <div style={{
+            position: 'absolute',
+            width: '380px',
+            height: '83px',
+            left: '2px',
+            top: '-16px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={logoFooter}
+                alt="МЕТАФЛОРА*"
+                style={{
+                  position: 'absolute',
+                  height: '526.54%',
+                  left: '-37.89%',
+                  top: '-202.47%',
+                  width: '170.37%',
+                  maxWidth: 'none',
+                }}
+              />
+            </div>
+          </div>
+          
+          {/* Copyright текст */}
+          <div style={{
+            position: 'absolute',
+            left: '2px',
+            top: '56px',
+            width: '433px',
+            height: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            lineHeight: '0',
+            color: 'white',
+          }}>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
+          </div>
+          
+          {/* Подложка под соцсети */}
+          <div style={{
+            position: 'absolute',
+            left: '664px',
+            top: '-2px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            height: '78px',
+            width: '230px',
+          }} />
+          
+          {/* Иконки соцсетей */}
+          <div style={{
+            position: 'absolute',
+            left: '681px',
+            top: '13px',
+            width: '196px',
+            height: '51px',
+          }}>
+            {/* Первая иконка */}
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '50px',
+              height: '51px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIcons}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+            
+            {/* Группа иконок */}
+            <div style={{
+              position: 'absolute',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              height: '51px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIcons}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
