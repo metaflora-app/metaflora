@@ -20,302 +20,41 @@ export const SplashScreen: React.FC = () => {
   return (
     <div
       style={{
-        width: '1180px',
-        height: '2550px',
+        width: '100vw',
+        height: '100vh',
         position: 'relative',
         background: '#020101',
         overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      {/* Background pattern container */}
+      {/* Background pattern - full screen */}
       <div
         style={{
-          width: '1180px',
-          height: '2550px',
           position: 'absolute',
-          left: '0px',
-          top: '0px',
+          inset: 0,
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
         }}
-      >
-        {/* Black overlay */}
-        <div
-          style={{
-            width: '1180px',
-            height: '2550px',
-            position: 'absolute',
-            left: '0px',
-            top: '0px',
-            background: 'black',
-          }}
-        />
+      />
 
-        {/* Top row (y: 0) */}
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '263px',
-            height: '567px',
-            position: 'absolute',
-            left: '0px',
-            top: '0px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '279px',
-            top: '0px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '593px',
-            top: '0px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '285px',
-            height: '567px',
-            position: 'absolute',
-            left: '895px',
-            top: '0px',
-            objectFit: 'cover',
-          }}
-        />
-
-        {/* Second row (y: 575) */}
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '263px',
-            height: '567px',
-            position: 'absolute',
-            left: '0px',
-            top: '575px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '279px',
-            top: '575px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '593px',
-            top: '575px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '285px',
-            height: '567px',
-            position: 'absolute',
-            left: '895px',
-            top: '575px',
-            objectFit: 'cover',
-          }}
-        />
-
-        {/* Third row (y: 1108) */}
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '263px',
-            height: '567px',
-            position: 'absolute',
-            left: '0px',
-            top: '1108px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '279px',
-            top: '1108px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '593px',
-            top: '1108px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '285px',
-            height: '567px',
-            position: 'absolute',
-            left: '895px',
-            top: '1108px',
-            objectFit: 'cover',
-          }}
-        />
-
-        {/* Fourth row (y: 1683) */}
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '263px',
-            height: '567px',
-            position: 'absolute',
-            left: '0px',
-            top: '1683px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '279px',
-            top: '1683px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '567px',
-            position: 'absolute',
-            left: '593px',
-            top: '1683px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '285px',
-            height: '567px',
-            position: 'absolute',
-            left: '895px',
-            top: '1683px',
-            objectFit: 'cover',
-          }}
-        />
-
-        {/* Bottom row (y: 2261) */}
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '263px',
-            height: '289px',
-            position: 'absolute',
-            left: '0px',
-            top: '2261px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '295px',
-            height: '289px',
-            position: 'absolute',
-            left: '279px',
-            top: '2261px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '290.06px',
-            height: '289px',
-            position: 'absolute',
-            left: '593px',
-            top: '2261px',
-            objectFit: 'cover',
-          }}
-        />
-        <img
-          src={bgPattern}
-          alt=""
-          style={{
-            width: '290.06px',
-            height: '289px',
-            position: 'absolute',
-            left: '889.94px',
-            top: '2261px',
-            objectFit: 'cover',
-          }}
-        />
-      </div>
-
-      {/* Logo */}
+      {/* Logo - centered */}
       <div
         style={{
-          width: '592px',
-          height: '429px',
-          position: 'absolute',
-          left: '278px',
-          top: '927px',
+          position: 'relative',
+          zIndex: 10,
         }}
       >
         <img
           src={logo}
           alt="МЕТАФЛОРА*"
           style={{
-            width: '100%',
-            height: '100%',
+            width: 'min(80vw, 592px)',
+            height: 'auto',
             objectFit: 'contain',
           }}
         />
