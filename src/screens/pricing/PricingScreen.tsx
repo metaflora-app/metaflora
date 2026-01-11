@@ -375,31 +375,6 @@ export const PricingScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Фоновое изображение для карточки "3 месяца" */}
-        <div style={{
-          position: 'absolute',
-          left: '135px',
-          top: '1082px',
-          width: '900px',
-          height: '348px',
-          borderRadius: '24px',
-        }}>
-          <img 
-            src={pricingBackground2}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '24px',
-              maxWidth: 'none',
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
-
         {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
         <div style={{
           position: 'absolute',
@@ -418,21 +393,28 @@ export const PricingScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
           }}>
-            {/* Плашка "ВЫГОДНО" - готовая PNG */}
+            {/* Фоновое изображение ВНУТРИ карточки */}
             <div style={{
               position: 'absolute',
-              inset: '6.97% 0.61% 87.36% 91.4%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              left: '-8px',
+              top: '164px',
+              width: '900px',
+              height: '348px',
+              borderRadius: '24px',
+              pointerEvents: 'none',
             }}>
               <img 
-                src={badgeVygodno}
-                alt="выгодно"
+                src={pricingBackground2}
+                alt=""
                 style={{
-                  width: '71.629px',
-                  height: '20.809px',
-                  transform: 'rotate(11.089deg)',
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '24px',
+                  maxWidth: 'none',
+                  pointerEvents: 'none',
                 }}
               />
             </div>
@@ -535,7 +517,7 @@ export const PricingScreen: React.FC = () => {
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
                 </p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: чат, канал и другие бонусы</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы</p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
               </div>
             </div>
@@ -626,24 +608,21 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Плашка "ВЫГОДНО" - ПОВЕРХ ВСЕГО (вынесена из кнопки) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 410px)',
-              top: '45px',
-              zIndex: 100,
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={badgeVygodno}
-                alt="выгодно"
-                style={{
-                  width: '71.629px',
-                  height: '20.809px',
-                  transform: 'rotate(11.089deg)',
-                }}
-              />
-            </div>
+            {/* Плашка "ВЫГОДНО" - ПОВЕРХ зелёной кнопки */}
+            <img 
+              src={badgeVygodno}
+              alt="выгодно"
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 410px)',
+                top: '45px',
+                width: '71.629px',
+                height: '20.809px',
+                transform: 'rotate(11.089deg)',
+                zIndex: 100,
+                pointerEvents: 'none',
+              }}
+            />
           </div>
         </div>
 
