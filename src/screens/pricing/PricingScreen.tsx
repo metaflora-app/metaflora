@@ -223,11 +223,12 @@ export const PricingScreen: React.FC = () => {
                 onClick={() => setShowTooltip1(false)}
                 style={{
                   position: 'absolute',
-                  left: '303px',
-                  top: '8px',
+                  left: '210px',
+                  top: '-90px',
                   width: '287px',
                   height: '174px',
                   cursor: 'pointer',
+                  zIndex: 200,
                 }}
               />
             )}
@@ -418,11 +419,12 @@ export const PricingScreen: React.FC = () => {
                 onClick={() => setShowTooltip2(false)}
                 style={{
                   position: 'absolute',
-                  left: '303px',
-                  top: '8px',
+                  left: '305px',
+                  top: '535px',
                   width: '287px',
                   height: '174px',
                   cursor: 'pointer',
+                  zIndex: 200,
                 }}
               />
             )}
