@@ -15,6 +15,7 @@ import priceButton1990 from '../../assets/pricing/кнопка цена 1990.png
 import priceButton2690 from '../../assets/pricing/кнопка цена 2690.png';
 import priceButton5490 from '../../assets/pricing/кнопка цена 5490.png';
 import priceButton8070 from '../../assets/pricing/кнопка цена 8070.png';
+import badgeVygodno from '../../assets/pricing/кнопка выгодно.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -349,7 +350,7 @@ export const PricingScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
           }}>
-            {/* Плашка "ВЫГОДНО" */}
+            {/* Плашка "ВЫГОДНО" - готовая PNG */}
             <div style={{
               position: 'absolute',
               inset: '6.97% 0.61% 87.36% 91.4%',
@@ -357,26 +358,15 @@ export const PricingScreen: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <div style={{
-                width: '71.629px',
-                height: '20.809px',
-                transform: 'rotate(11.089deg)',
-                background: 'linear-gradient(to right, #880709, #e90004 52.404%, #880709)',
-                borderRadius: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                {/* Текст "выгодно" */}
-                <div style={{
-                  fontFamily: 'Inter',
-                  fontWeight: 700,
-                  fontSize: '10px',
-                  color: 'white',
-                }}>
-                  выгодно
-                </div>
-              </div>
+              <img 
+                src={badgeVygodno}
+                alt="выгодно"
+                style={{
+                  width: '71.629px',
+                  height: '20.809px',
+                  transform: 'rotate(11.089deg)',
+                }}
+              />
             </div>
 
             {/* Заголовок "3 месяца" */}
