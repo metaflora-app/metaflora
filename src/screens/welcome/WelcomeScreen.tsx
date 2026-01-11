@@ -520,7 +520,6 @@ export const WelcomeScreen: React.FC = () => {
           </div>
         </div>
       </div>
-      </div>
     </div>
   );
 };
