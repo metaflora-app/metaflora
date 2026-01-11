@@ -9,9 +9,12 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import pricingBackground from '../../assets/pricing/background.png';
-import strikethrough from '../../assets/pricing/strikethrough.png';
 import infoIcon from '../../assets/pricing/info-icon.png';
 import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
+import priceButton1990 from '../../assets/pricing/кнопка цена 1990.png';
+import priceButton2690 from '../../assets/pricing/кнопка цена 2690.png';
+import priceButton5490 from '../../assets/pricing/кнопка цена 5490.png';
+import priceButton8070 from '../../assets/pricing/кнопка цена 8070.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -160,7 +163,7 @@ export const PricingScreen: React.FC = () => {
           position: 'absolute',
           left: '131px',
           top: '418px',
-          width: '930px',
+          width: '904px',
           height: '603px',
         }}>
           {/* Внутренний контейнер карточки */}
@@ -296,108 +299,35 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Кнопка "2690 руб." (зачеркнутая) с белым градиентом */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 172px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.9)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-            }}>
-              {/* Белые блоки градиента */}
-              <div style={{ position: 'absolute', left: '47px', top: '-77px' }}>
-                <div style={{ position: 'absolute', width: '72.959px', height: '147.81px', left: '51px', top: '-68.13px', background: 'white', borderRadius: '1568.563px' }} />
-                <div style={{ position: 'absolute', left: '69.25px', top: '-73px', width: '64.754px', height: '108.071px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ transform: 'rotate(30.322deg) skewX(11.368deg)', width: '40.639px', height: '92.447px', background: 'white', borderRadius: '1568.563px' }} />
-                </div>
-                <div style={{ position: 'absolute', width: '40.179px', height: '100.192px', left: '83.77px', top: '23.56px', background: 'white', borderRadius: '1568.563px' }} />
-              </div>
-              {/* Текст "2690 руб." */}
-              <div style={{
+            {/* Кнопка "2690 руб." (зачеркнутая) - готовая PNG */}
+            <img 
+              src={priceButton2690}
+              alt="2690 руб."
+              style={{
                 position: 'absolute',
-                inset: 'calc(12.56% - 4px) calc(21.94% - 4px) calc(83.94% - 4px) calc(61.94% - 4px)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '23px',
-                lineHeight: 0,
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>2690 руб.</p>
-              </div>
-              {/* Зачеркивание */}
-              <div style={{
-                position: 'absolute',
-                inset: '14.26% 24.09% 85.74% 64.09%',
-              }}>
-                <img 
-                  src={strikethrough}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    inset: '-2px -1.87% 0 0',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Кнопка "1990 руб." с зелёным градиентом */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 348px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.9)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-            }}>
-              {/* Цветные блоки градиента */}
-              <div style={{ position: 'absolute', left: '52px', top: '-77px' }}>
-                <div style={{ position: 'absolute', width: '70.322px', height: '147.81px', left: '56px', top: '-68.13px', background: '#37ecf7', borderRadius: '1568.563px' }} />
-                <div style={{ position: 'absolute', left: '73.59px', top: '-73px', width: '62.414px', height: '108.071px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ transform: 'rotate(31.249deg) skewX(12.824deg)', width: '39.549px', height: '92.108px', background: '#f0d825', borderRadius: '1568.563px' }} />
-                </div>
-                <div style={{ position: 'absolute', width: '38.727px', height: '100.192px', left: '87.59px', top: '23.56px', background: '#d5fc44', borderRadius: '1568.563px' }} />
-              </div>
-              {/* Текст "1990 руб." */}
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(83.94% - 4px)',
-                top: 'calc(12.56% - 4px)',
-                left: '50%',
+                left: 'calc(50% + 172px)',
+                top: '53px',
                 transform: 'translateX(-50%)',
-                width: '150px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '23px',
-                lineHeight: 0,
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>1990 руб.</p>
-              </div>
-            </div>
+                width: '176px',
+                height: '57px',
+                cursor: 'pointer',
+              }}
+            />
+
+            {/* Кнопка "1990 руб." - готовая PNG */}
+            <img 
+              src={priceButton1990}
+              alt="1990 руб."
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 348px)',
+                top: '53px',
+                transform: 'translateX(-50%)',
+                width: '176px',
+                height: '57px',
+                cursor: 'pointer',
+              }}
+            />
           </div>
         </div>
 
@@ -406,7 +336,7 @@ export const PricingScreen: React.FC = () => {
           position: 'absolute',
           left: '131px',
           top: '1082px',
-          width: '930px',
+          width: '904px',
           height: '603px',
         }}>
           {/* Внутренний контейнер карточки */}
@@ -565,106 +495,31 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Кнопка "8070 руб." (зачеркнутая) с белым градиентом */}
-            <div style={{
-              position: 'absolute',
-              inset: '9.45% 20.86% 81.09% 60.22%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.9)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-            }}>
-              {/* Белые блоки градиента */}
-              <div style={{ position: 'absolute', left: '47px', top: '-77px' }}>
-                <div style={{ position: 'absolute', width: '72.959px', height: '147.81px', left: '51px', top: '-68.13px', background: 'white', borderRadius: '1568.563px' }} />
-                <div style={{ position: 'absolute', left: '69.25px', top: '-73px', width: '64.754px', height: '108.071px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ transform: 'rotate(30.322deg) skewX(11.368deg)', width: '40.639px', height: '92.447px', background: 'white', borderRadius: '1568.563px' }} />
-                </div>
-                <div style={{ position: 'absolute', width: '40.179px', height: '100.192px', left: '83.77px', top: '23.56px', background: 'white', borderRadius: '1568.563px' }} />
-              </div>
-              {/* Текст "8070 руб." */}
-              <div style={{
+            {/* Кнопка "8070 руб." (зачеркнутая) - готовая PNG */}
+            <img 
+              src={priceButton8070}
+              alt="8070 руб."
+              style={{
                 position: 'absolute',
-                bottom: 'calc(30.14% - 4px)',
-                top: 'calc(32.88% - 4px)',
-                left: 'calc(50% + 2.6px)',
-                transform: 'translateX(-50%)',
-                width: '150px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '23px',
-                lineHeight: 0,
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>8070 руб.</p>
-              </div>
-              {/* Зачеркивание */}
-              <div style={{
-                position: 'absolute',
-                left: '32px',
-                top: '25px',
-                width: '110px',
-                height: 0,
-              }}>
-                <img 
-                  src={strikethrough}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    inset: '-2px -1.82% 0 0',
-                    width: '100%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
+                inset: '9.45% 20.86% 81.09% 60.22%',
+                width: 'auto',
+                height: '100%',
+                cursor: 'pointer',
+              }}
+            />
 
-            {/* Кнопка "5490 руб." с зелёным градиентом */}
-            <div style={{
-              position: 'absolute',
-              inset: '9.45% 1.94% 81.09% 79.14%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.9)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-            }}>
-              {/* Цветные блоки градиента */}
-              <div style={{ position: 'absolute', left: '52px', top: '-77px' }}>
-                <div style={{ position: 'absolute', width: '70.322px', height: '147.81px', left: '56px', top: '-68.13px', background: '#37ecf7', borderRadius: '1568.563px' }} />
-                <div style={{ position: 'absolute', left: '73.59px', top: '-73px', width: '62.414px', height: '108.071px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ transform: 'rotate(31.249deg) skewX(12.824deg)', width: '39.549px', height: '92.108px', background: '#f0d825', borderRadius: '1568.563px' }} />
-                </div>
-                <div style={{ position: 'absolute', width: '38.727px', height: '100.192px', left: '87.59px', top: '23.56px', background: '#d5fc44', borderRadius: '1568.563px' }} />
-              </div>
-              {/* Текст "5490 руб." */}
-              <div style={{
+            {/* Кнопка "5490 руб." - готовая PNG */}
+            <img 
+              src={priceButton5490}
+              alt="5490 руб."
+              style={{
                 position: 'absolute',
-                bottom: 'calc(30.14% - 4px)',
-                top: 'calc(32.88% - 4px)',
-                left: 'calc(50% + 2.6px)',
-                transform: 'translateX(-50%)',
-                width: '150px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '23px',
-                lineHeight: 0,
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>5490 руб.</p>
-              </div>
-            </div>
+                inset: '9.45% 1.94% 81.09% 79.14%',
+                width: 'auto',
+                height: '100%',
+                cursor: 'pointer',
+              }}
+            />
           </div>
         </div>
 
