@@ -407,61 +407,15 @@ export const WelcomeScreen: React.FC = () => {
         </div>
       </button>
 
-      {/* Футер (подвал) */}
+      {/* Хэдер и подвал - новая структура из Figma */}
       <div style={{
         position: 'absolute',
-        left: '125px',
-        top: '2085px',
-        width: '904px',
-        height: '195px',
+        left: '141px',
+        top: '2086px',
+        display: 'flex',
+        gap: '89px',
+        alignItems: 'center',
       }}>
-        {/* Левый дисклеймер */}
-        <div style={{
-          position: 'absolute',
-          inset: '0 53.43% 69.23% 2.43%',
-          display: 'flex',
-          flexDirection: 'column',
-          fontFamily: 'Gotham Pro',
-          fontSize: '20px',
-          lineHeight: '20px',
-          color: 'white',
-        }}>
-          <p style={{ marginBottom: 0, fontWeight: 300 }}>нажимая на кнопку, вы соглашаетесь</p>
-          <p style={{ marginBottom: 0 }}>
-            <span style={{ fontWeight: 700 }}>с политикой конфиденциальности </span>
-            <span style={{ fontWeight: 700 }}>МЕТАФЛОРА*</span>
-          </p>
-        </div>
-        
-        {/* Правый дисклеймер */}
-        <div style={{
-          position: 'absolute',
-          inset: '0 0 69.23% 52.65%',
-          display: 'flex',
-          flexDirection: 'column',
-          fontFamily: 'Gotham Pro',
-          fontSize: '20px',
-          lineHeight: '20px',
-          textAlign: 'right',
-          color: 'white',
-        }}>
-          <p style={{ marginBottom: 0, fontWeight: 300 }}>нажимая на кнопку, вы соглашаетесь</p>
-          <p style={{ marginBottom: 0, fontWeight: 700 }}>на получение информационной</p>
-          <p style={{ marginBottom: 0 }}>
-            <span style={{ fontWeight: 700 }}>и рекламной рассылки </span>
-            <span style={{ fontWeight: 700 }}>МЕТАФЛОРА*</span>
-          </p>
-        </div>
-        
-        {/* Хэдер и подвал - новая структура из Figma */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '2086px',
-          display: 'flex',
-          gap: '89px',
-          alignItems: 'center',
-        }}>
           {/* Логотип в подвале */}
           <div style={{
             width: '569px',
