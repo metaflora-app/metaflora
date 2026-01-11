@@ -1,0 +1,13 @@
+import React from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
+// Images  
+import bgPattern from "../../assets/figma-welcome/pattern.png";
+import logoSmall from "../../assets/figma-welcome/logo-small.png";
+import footerLogo from "../../assets/figma-welcome/footer-logo.png";
+import socials from "../../assets/figma-welcome/socials.png";
+import carouselLeft from "../../assets/figma-welcome/carousel-left.png";
+import carouselCenter from "../../assets/figma-welcome/carousel-center.png";
+import carouselRight from "../../assets/figma-welcome/carousel-right.png";
+
