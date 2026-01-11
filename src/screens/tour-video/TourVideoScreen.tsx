@@ -162,15 +162,15 @@ export const TourVideoScreen: React.FC = () => {
             fontFamily: 'Inter',
             fontWeight: 800,
             fontSize: '80px',
-            lineHeight: '0',
+            lineHeight: 0,
             color: 'white',
           }}>
             <p style={{ 
               margin: 0,
-              lineHeight: 'normal',
+              lineHeight: '80px',
               whiteSpace: 'pre-wrap',
             }}>
-              экскурсия по платформе за 2 минуты
+              экскурсия по платформе{'\n'}за 2 минуты
             </p>
           </div>
         </div>
@@ -272,25 +272,20 @@ export const TourVideoScreen: React.FC = () => {
             borderRadius: '62px',
             overflow: 'clip',
             cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
             {/* Иконка паузы */}
-            <div style={{
-              position: 'absolute',
-              top: '20.41%',
-              right: '19.39%',
-              bottom: '18.37%',
-              left: '19.39%',
-            }}>
-              <img 
-                src={pauseIcon}
-                alt="стоп"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
+            <img 
+              src={pauseIcon}
+              alt="стоп"
+              style={{
+                width: '80%',
+                height: '80%',
+                objectFit: 'contain',
+              }}
+            />
           </div>
 
           {/* Кнопка развернуть видео */}
