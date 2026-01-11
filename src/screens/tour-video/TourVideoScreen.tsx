@@ -48,48 +48,21 @@ export const TourVideoScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Кнопка "выход" (стрелка назад) */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 452px)',
-          top: '75px',
-          width: '100px',
-          height: '100px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <button
-            onClick={() => navigate('/welcome')}
-            style={{
-              transform: 'rotate(270deg)',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              width: '100px',
-              height: '100px',
-              overflow: 'clip',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {/* Стрелка - на полный размер кнопки */}
-            <img 
-              src={exitArrow}
-              alt="назад"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                transform: 'rotate(90deg)',
-              }}
-            />
-          </button>
-        </div>
+        {/* Кнопка "выход" (стрелка назад) - готовая PNG */}
+        <img 
+          src={exitArrow}
+          alt="назад"
+          onClick={() => navigate('/welcome')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 452px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+            transform: 'rotate(270deg)',
+          }}
+        />
 
         {/* Логотип маленький (верхний) */}
         <div style={{
