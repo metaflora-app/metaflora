@@ -59,7 +59,6 @@ export const DemoAccessScreen: React.FC = () => {
             width: '100px',
             height: '100px',
             cursor: 'pointer',
-            transform: 'rotate(270deg)',
           }}
         />
 
@@ -233,33 +232,18 @@ export const DemoAccessScreen: React.FC = () => {
         </div>
 
         {/* Большое лого */}
-        <div style={{
-          position: 'absolute',
-          left: '45px',
-          top: '884px',
-          width: '1090px',
-          height: '814px',
-        }}>
-          <div style={{
+        <img 
+          src={bigLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={bigLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '209.5%',
-                left: '-28.23%',
-                top: '-52.5%',
-                width: '156.39%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </div>
+            left: '45px',
+            top: '884px',
+            width: '1090px',
+            height: '814px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* Кнопка "продолжить" (прозрачная) */}
         <button
