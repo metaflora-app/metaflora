@@ -9,7 +9,6 @@ import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
 import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
 import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 import pattern from '../../assets/figma-welcome/pattern.png';
-import supportButton from '../../assets/welcome-elements/написать в поддержку подложка.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
