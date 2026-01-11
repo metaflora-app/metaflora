@@ -3,6 +3,7 @@ import { SplashScreen } from './screens/splash';
 import { WelcomeScreen } from './screens/welcome';
 import { TourVideoScreen } from './screens/tour-video';
 import { DemoAccessScreen } from './screens/demo-access';
+import { PricingScreen } from './screens/pricing';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/pricing',
-    element: <PlaceholderScreen name="Pricing Screen" />,
+    element: <PricingScreen />,
   },
   {
     path: '/main-dashboard-free',
