@@ -60,7 +60,6 @@ export const TourVideoScreen: React.FC = () => {
             width: '100px',
             height: '100px',
             cursor: 'pointer',
-            transform: 'rotate(270deg)',
           }}
         />
 
