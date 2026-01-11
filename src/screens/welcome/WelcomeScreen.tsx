@@ -453,57 +453,117 @@ export const WelcomeScreen: React.FC = () => {
           </p>
         </div>
         
-        {/* Логотип в подвале */}
+        {/* Хэдер и подвал - новая структура из Figma */}
         <div style={{
           position: 'absolute',
-          left: 0,
-          right: '35.07%',
-          top: '70px',
-          aspectRatio: '587/125',
+          left: '125px',
+          top: '2155px',
+          display: 'flex',
+          gap: '89px',
+          alignItems: 'center',
         }}>
-          <img 
-            src={logoFooter}
-            alt="МЕТАФЛОРА*"
-            style={{
+          {/* Логотип в подвале */}
+          <div style={{
+            width: '569px',
+            height: '124px',
+            position: 'relative',
+          }}>
+            <div style={{
               position: 'absolute',
-              height: '526.54%',
-              left: '-35.73%',
-              top: '-202.47%',
-              width: '167.7%',
-            }}
-          />
-        </div>
-        
-        {/* Подложка под соцсети */}
-        <div style={{
-          position: 'absolute',
-          inset: '47.69% 0 12.31% 74.56%',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-        }} />
-        
-        {/* Иконки соцсетей */}
-        <div style={{
-          position: 'absolute',
-          left: '82.41%',
-          right: '1.88%',
-          top: '107px',
-          aspectRatio: '697/251',
-          opacity: 0.6,
-        }}>
-          <img 
-            src={socials}
-            alt="Соцсети"
-            style={{
+              inset: 0,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={logoFooter}
+                alt="МЕТАФЛОРА*"
+                style={{
+                  position: 'absolute',
+                  height: '526.54%',
+                  left: '-37.89%',
+                  top: '-202.47%',
+                  width: '170.37%',
+                  maxWidth: 'none',
+                }}
+              />
+            </div>
+          </div>
+          
+          {/* Подложка под соцсети */}
+          <div style={{
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            height: '78px',
+            width: '230px',
+            position: 'relative',
+          }}>
+            {/* Иконки соцсетей */}
+            <div style={{
               position: 'absolute',
-              height: '339.84%',
-              left: '-16.64%',
-              top: '-118.33%',
-              width: '183.64%',
-            }}
-          />
+              left: '76.01%',
+              right: '1.91%',
+              top: '36px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                aspectRatio: '697/251',
+                left: '82.09%',
+                right: '1.91%',
+                top: '36px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  opacity: 0.6,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={socials}
+                    alt="Соцсети"
+                    style={{
+                      position: 'absolute',
+                      height: '339.84%',
+                      left: '-16.64%',
+                      top: '-118.33%',
+                      width: '183.64%',
+                      maxWidth: 'none',
+                    }}
+                  />
+                </div>
+              </div>
+              <div style={{
+                position: 'absolute',
+                aspectRatio: '50/51',
+                left: '76.01%',
+                right: '18.36%',
+                top: '36px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  opacity: 0.6,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={socials}
+                    alt="Соцсети"
+                    style={{
+                      position: 'absolute',
+                      height: '339.84%',
+                      left: '-377.92%',
+                      top: '-118.33%',
+                      width: '517.92%',
+                      maxWidth: 'none',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       </div>
