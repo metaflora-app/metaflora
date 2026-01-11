@@ -297,31 +297,31 @@ export const WelcomeScreen: React.FC = () => {
       {/* Кнопка "экскурсия по платформе" */}
       <button style={{
         position: 'absolute',
-        left: 'calc(50% + 3px)',
-        top: '1759px',
-        transform: 'translateX(-50%)',
+        left: '143px',
+        top: '1744px',
         width: '892px',
         height: '139px',
         backdropFilter: 'blur(50px)',
         border: '4px solid rgba(255, 255, 255, 0.3)',
         borderRadius: '62px',
-        overflow: 'hidden',
+        overflow: 'clip',
         background: 'transparent',
         cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
       }}>
         <div style={{
+          position: 'absolute',
+          left: '442px',
+          top: '66px',
+          transform: 'translate(-50%, -50%)',
           fontFamily: 'Gotham Pro',
           fontWeight: 500,
           fontSize: '40px',
-          lineHeight: '40px',
+          lineHeight: '0',
           color: 'white',
           textAlign: 'center',
-          padding: '10px',
+          whiteSpace: 'nowrap',
         }}>
-          <p style={{ margin: 0 }}>экскурсия по платформе</p>
+          <p style={{ margin: 0, lineHeight: 'normal' }}>экскурсия по платформе</p>
         </div>
       </button>
 
