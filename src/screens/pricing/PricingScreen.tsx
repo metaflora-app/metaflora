@@ -9,6 +9,7 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import pricingBackground from '../../assets/pricing/background.png';
+import pricingBackground2 from '../../assets/pricing/background2.png';
 import infoIcon from '../../assets/pricing/info-icon.png';
 import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
 import priceButton1990 from '../../assets/pricing/кнопка цена 1990.png';
@@ -330,6 +331,31 @@ export const PricingScreen: React.FC = () => {
               }}
             />
           </div>
+        </div>
+
+        {/* Фоновое изображение для карточки "3 месяца" */}
+        <div style={{
+          position: 'absolute',
+          left: '135px',
+          top: '1082px',
+          width: '900px',
+          height: '348px',
+          borderRadius: '24px',
+        }}>
+          <img 
+            src={pricingBackground2}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '24px',
+              maxWidth: 'none',
+              pointerEvents: 'none',
+            }}
+          />
         </div>
 
         {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
