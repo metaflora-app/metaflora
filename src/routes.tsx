@@ -1,48 +1,20 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { SplashScreen } from './screens/splash';
-import { WelcomeScreen } from './screens/welcome';
-import TourVideoScreen from './screens/tour-video';
-import { DemoAccessScreen } from './screens/demo-access';
-import PricingScreen from './screens/pricing';
-import MainDashboardFreeScreen from './screens/main-dashboard-free';
-import MainDashboardPremiumScreen from './screens/main-dashboard-premium';
-import MetacoinsScreen from './screens/metacoins';
 
-// Intro screens
-import AboutPromptScreen from './screens/about-prompt';
-import AboutAcademyScreen from './screens/about-academy';
-import AboutLabaScreen from './screens/about-laba';
-import AboutPoligonScreen from './screens/about-poligon';
-
-// Prompt section
-import PromptFirstScreen from './screens/prompt-first';
-import PromptCardScreen from './screens/prompt-card';
-
-// Academy section
-import AcademyCoursesAllScreen from './screens/academy-courses-all';
-import AcademyCourseSystemScreen from './screens/academy-course-system';
-import AcademyCourseArtScreen from './screens/academy-course-art';
-import AcademyCoursePromptingScreen from './screens/academy-course-prompting';
-import AcademyCourseAutomationScreen from './screens/academy-course-automation';
-import AcademyLessonVideoScreen from './screens/academy-lesson-video';
-import AcademyLessonMaterialsScreen from './screens/academy-lesson-materials';
-
-// Poligon section
-import ArticlePartOneScreen from './screens/article-part-one';
-import PoligonArticlesAllScreen from './screens/poligon-articles-all';
-
-// Laba section
-import LabaMainScreen from './screens/laba-main';
-import LabaSearchScreen from './screens/laba-search';
-import LabaFavoritesScreen from './screens/laba-favorites';
-import LabaTrackedScreen from './screens/laba-tracked';
-import LabaNoTrackedScreen from './screens/laba-no-tracked';
-import LabaAnalysisScreen from './screens/laba-analysis';
-import LabaAnalysisFullScreen from './screens/laba-analysis-full';
-
-// Legal
-import PrivacyPolicyScreen from './screens/privacy-policy';
-import MarketingConsentScreen from './screens/marketing-consent';
+// Temporary placeholder component for deleted screens
+const PlaceholderScreen = ({ name }: { name: string }) => (
+  <div style={{ 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    height: '100vh',
+    background: '#000',
+    color: '#fff',
+    fontSize: '24px',
+    fontFamily: 'system-ui'
+  }}>
+    {name} - будет воссоздан через Figma MCP
+  </div>
+);
 
 export const router = createBrowserRouter([
   {
@@ -51,142 +23,142 @@ export const router = createBrowserRouter([
   },
   {
     path: '/splash',
-    element: <SplashScreen />,
+    element: <PlaceholderScreen name="Splash Screen" />,
   },
   {
     path: '/welcome',
-    element: <WelcomeScreen />,
+    element: <PlaceholderScreen name="Welcome Screen" />,
   },
   {
     path: '/tour-video',
-    element: <TourVideoScreen />,
+    element: <PlaceholderScreen name="Tour Video Screen" />,
   },
   {
     path: '/demo-access',
-    element: <DemoAccessScreen />,
+    element: <PlaceholderScreen name="Demo Access Screen" />,
   },
   {
     path: '/pricing',
-    element: <PricingScreen />,
+    element: <PlaceholderScreen name="Pricing Screen" />,
   },
   {
     path: '/main-dashboard-free',
-    element: <MainDashboardFreeScreen />,
+    element: <PlaceholderScreen name="Main Dashboard Free" />,
   },
   {
     path: '/main-dashboard-premium',
-    element: <MainDashboardPremiumScreen />,
+    element: <PlaceholderScreen name="Main Dashboard Premium" />,
   },
   {
     path: '/metacoins',
-    element: <MetacoinsScreen />,
+    element: <PlaceholderScreen name="Metacoins Screen" />,
   },
   
   // Intro screens
   {
     path: '/about-prompt',
-    element: <AboutPromptScreen />,
+    element: <PlaceholderScreen name="About Prompt" />,
   },
   {
     path: '/about-academy',
-    element: <AboutAcademyScreen />,
+    element: <PlaceholderScreen name="About Academy" />,
   },
   {
     path: '/about-laba',
-    element: <AboutLabaScreen />,
+    element: <PlaceholderScreen name="About Laba" />,
   },
   {
     path: '/about-poligon',
-    element: <AboutPoligonScreen />,
+    element: <PlaceholderScreen name="About Poligon" />,
   },
 
   // Prompt section
   {
     path: '/prompt-first',
-    element: <PromptFirstScreen />,
+    element: <PlaceholderScreen name="Prompt First" />,
   },
   {
     path: '/prompt-card',
-    element: <PromptCardScreen />,
+    element: <PlaceholderScreen name="Prompt Card" />,
   },
 
   // Academy section
   {
     path: '/academy-courses-all',
-    element: <AcademyCoursesAllScreen />,
+    element: <PlaceholderScreen name="Academy Courses All" />,
   },
   {
     path: '/academy-course-system',
-    element: <AcademyCourseSystemScreen />,
+    element: <PlaceholderScreen name="Academy Course System" />,
   },
   {
     path: '/academy-course-art',
-    element: <AcademyCourseArtScreen />,
+    element: <PlaceholderScreen name="Academy Course Art" />,
   },
   {
     path: '/academy-course-prompting',
-    element: <AcademyCoursePromptingScreen />,
+    element: <PlaceholderScreen name="Academy Course Prompting" />,
   },
   {
     path: '/academy-course-automation',
-    element: <AcademyCourseAutomationScreen />,
+    element: <PlaceholderScreen name="Academy Course Automation" />,
   },
   {
     path: '/academy-lesson-video',
-    element: <AcademyLessonVideoScreen />,
+    element: <PlaceholderScreen name="Academy Lesson Video" />,
   },
   {
     path: '/academy-lesson-materials',
-    element: <AcademyLessonMaterialsScreen />,
+    element: <PlaceholderScreen name="Academy Lesson Materials" />,
   },
 
   // Poligon section
   {
     path: '/article',
-    element: <ArticlePartOneScreen />,
+    element: <PlaceholderScreen name="Article" />,
   },
   {
     path: '/poligon-articles-all',
-    element: <PoligonArticlesAllScreen />,
+    element: <PlaceholderScreen name="Poligon Articles All" />,
   },
 
   // Laba section
   {
     path: '/laba-main',
-    element: <LabaMainScreen />,
+    element: <PlaceholderScreen name="Laba Main" />,
   },
   {
     path: '/laba-search',
-    element: <LabaSearchScreen />,
+    element: <PlaceholderScreen name="Laba Search" />,
   },
   {
     path: '/laba-favorites',
-    element: <LabaFavoritesScreen />,
+    element: <PlaceholderScreen name="Laba Favorites" />,
   },
   {
     path: '/laba-tracked',
-    element: <LabaTrackedScreen />,
+    element: <PlaceholderScreen name="Laba Tracked" />,
   },
   {
     path: '/laba-no-tracked',
-    element: <LabaNoTrackedScreen />,
+    element: <PlaceholderScreen name="Laba No Tracked" />,
   },
   {
     path: '/laba-analysis',
-    element: <LabaAnalysisScreen />,
+    element: <PlaceholderScreen name="Laba Analysis" />,
   },
   {
     path: '/laba-analysis-full',
-    element: <LabaAnalysisFullScreen />,
+    element: <PlaceholderScreen name="Laba Analysis Full" />,
   },
 
   // Legal
   {
     path: '/privacy-policy',
-    element: <PrivacyPolicyScreen />,
+    element: <PlaceholderScreen name="Privacy Policy" />,
   },
   {
     path: '/marketing-consent',
-    element: <MarketingConsentScreen />,
+    element: <PlaceholderScreen name="Marketing Consent" />,
   },
 ]);
