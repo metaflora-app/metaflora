@@ -20,36 +20,49 @@ export const SplashScreen: React.FC = () => {
   return (
     <div
       style={{
-        width: '1180px',
-        height: '2550px',
+        width: '100vw',
+        height: '100vh',
         position: 'relative',
         background: '#020101',
         overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      {/* Background pattern container */}
+      {/* Background pattern - full screen */}
       <div
         style={{
-          width: '1180px',
-          height: '2550px',
           position: 'absolute',
-          left: '0px',
-          top: '0px',
+          inset: 0,
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+        }}
+      />
+
+      {/* Logo - centered */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 10,
         }}
       >
-        {/* Black overlay */}
-        <div
+        <img
+          src={logo}
+          alt="МЕТАФЛОРА*"
           style={{
-            width: '1180px',
-            height: '2550px',
-            position: 'absolute',
-            left: '0px',
-            top: '0px',
-            background: 'black',
+            width: 'min(80vw, 592px)',
+            height: 'auto',
+            objectFit: 'contain',
           }}
         />
+      </div>
+    </div>
+  );
+};
 
-        {/* Top row (y: 0) */}
         <img
           src={bgPattern}
           alt=""
