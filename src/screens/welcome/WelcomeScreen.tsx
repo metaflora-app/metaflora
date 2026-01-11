@@ -511,18 +511,37 @@ export const WelcomeScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Политики - PNG */}
-        <img 
-          src={policies}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '102px',
-            top: '65px',
-            width: '214px',
-            height: '110px',
-          }}
-        />
+        {/* Политики - PNG с кликабельной областью */}
+        <div style={{
+          position: 'absolute',
+          left: '102px',
+          top: '65px',
+          width: '214px',
+          height: '110px',
+        }}>
+          <img 
+            src={policies}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          {/* Кликабельная область на "политика конфиденциальности" */}
+          <div
+            onClick={() => navigate('/privacy-policy')}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '46px',
+              width: '187px',
+              height: '30px',
+              cursor: 'pointer',
+            }}
+          />
+        </div>
       </div>
     </div>
   );
