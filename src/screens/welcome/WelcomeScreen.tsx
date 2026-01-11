@@ -529,6 +529,21 @@ export const WelcomeScreen: React.FC = () => {
               height: '100%',
             }}
           />
+          {/* Вертикальная линия внутри чекбокса */}
+          <div style={{
+            position: 'absolute',
+            left: '18.9px',
+            top: '5.6px',
+            width: '4.208px',
+            height: '22.962px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: '0 0 82.13% 0',
+              background: 'rgba(255, 255, 255, 0.3)',
+              borderRadius: '33px',
+            }} />
+          </div>
           {/* Кликабельная область на "политика конфиденциальности" */}
           <div
             onClick={() => navigate('/privacy-policy')}
