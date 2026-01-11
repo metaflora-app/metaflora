@@ -227,8 +227,9 @@ export const PricingScreen: React.FC = () => {
                   top: '6px',
                   transform: 'translateX(-50%)',
                   width: '275px',
-                  height: '42px',
+                  height: '167px',
                   cursor: 'pointer',
+                  objectFit: 'contain',
                 }}
               />
             )}
@@ -404,8 +405,7 @@ export const PricingScreen: React.FC = () => {
               onClick={() => setShowTooltip2(!showTooltip2)}
               style={{
                 position: 'absolute',
-                left: '372px',
-                top: '42px',
+                inset: '6.14% 46.86% 87.56% 48.88%',
                 width: '26px',
                 height: '26px',
                 cursor: 'pointer',
@@ -424,8 +424,9 @@ export const PricingScreen: React.FC = () => {
                   top: '6px',
                   transform: 'translateX(-50%)',
                   width: '275px',
-                  height: '42px',
+                  height: '167px',
                   cursor: 'pointer',
+                  objectFit: 'contain',
                 }}
               />
             )}
