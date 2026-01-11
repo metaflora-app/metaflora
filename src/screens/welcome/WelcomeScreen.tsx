@@ -47,22 +47,30 @@ export const WelcomeScreen: React.FC = () => {
       {/* Логотип маленький (верхний) */}
       <div style={{
         position: 'absolute',
-        left: '492px',
-        top: '28px',
-        width: '189px',
-        height: '137px',
+        left: '540px',
+        top: '97px',
+        width: '111px',
+        height: '78px',
       }}>
-        <img 
-          src={logoSmall}
-          alt="МЕТАФЛОРА*"
-          style={{
-            position: 'absolute',
-            height: '131.84%',
-            left: '-21.84%',
-            top: '-16.38%',
-            width: '143.34%',
-          }}
-        />
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          overflow: 'hidden',
+          pointerEvents: 'none',
+        }}>
+          <img 
+            src={logoSmall}
+            alt="МЕТАФЛОРА*"
+            style={{
+              position: 'absolute',
+              height: '131.84%',
+              left: '-21.84%',
+              top: '-16.38%',
+              width: '143.34%',
+              maxWidth: 'none',
+            }}
+          />
+        </div>
       </div>
 
       {/* Кнопка "написать в поддержку" */}
@@ -82,15 +90,16 @@ export const WelcomeScreen: React.FC = () => {
       }}>
         <div style={{
           position: 'absolute',
-          bottom: 'calc(25.64% - 4px)',
-          top: 'calc(23.08% - 4px)',
-          left: 'calc(50% - 68.5px)',
+          left: '38px',
+          top: '19px',
           width: '145px',
+          height: '40px',
           display: 'flex',
           flexDirection: 'column',
+          justifyContent: 'center',
           fontFamily: 'Gotham Pro',
           fontSize: '20px',
-          lineHeight: '20px',
+          lineHeight: 'normal',
           color: 'white',
         }}>
           <p style={{ marginBottom: 0, fontWeight: 300 }}>написать</p>
@@ -500,9 +509,8 @@ export const WelcomeScreen: React.FC = () => {
           {/* Иконки соцсетей */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% + 329px)',
-            top: 'calc(50% - 34.5px)',
-            transform: 'translate(-50%, -50%)',
+            left: '681px',
+            top: '14px',
             width: '196px',
             height: '51px',
           }}>
