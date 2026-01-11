@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 // Images
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socials from '../../assets/welcome-elements/socials-full.png';
 import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
 import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
 import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 import pattern from '../../assets/figma-welcome/pattern.png';
-import supportButton from '../../assets/welcome-elements/support-button-full.png';
+import supportButton from '../../assets/welcome-elements/support-button.png';
+import socials from '../../assets/welcome-elements/socials.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
