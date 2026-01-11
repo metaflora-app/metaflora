@@ -624,24 +624,25 @@ export const PricingScreen: React.FC = () => {
               }}>
                 5490 руб.
               </div>
+            </div>
 
-              {/* Плашка "ВЫГОДНО" - поверх зеленой плашки */}
-              <div style={{
-                position: 'absolute',
-                top: '-10px',
-                right: '-10px',
-                zIndex: 10,
-              }}>
-                <img 
-                  src={badgeVygodno}
-                  alt="выгодно"
-                  style={{
-                    width: '71.629px',
-                    height: '20.809px',
-                    transform: 'rotate(11.089deg)',
-                  }}
-                />
-              </div>
+            {/* Плашка "ВЫГОДНО" - ПОВЕРХ ВСЕГО (вынесена из кнопки) */}
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 410px)',
+              top: '45px',
+              zIndex: 100,
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={badgeVygodno}
+                alt="выгодно"
+                style={{
+                  width: '71.629px',
+                  height: '20.809px',
+                  transform: 'rotate(11.089deg)',
+                }}
+              />
             </div>
           </div>
         </div>
