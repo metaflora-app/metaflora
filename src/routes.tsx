@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { SplashScreen } from './screens/splash';
+import { WelcomeScreen } from './screens/welcome';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/welcome',
-    element: <PlaceholderScreen name="Welcome Screen" />,
+    element: <WelcomeScreen />,
   },
   {
     path: '/tour-video',
