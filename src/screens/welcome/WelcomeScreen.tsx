@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 // Images
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socials from '../../assets/figma-welcome/socials.png';
+import socials from '../../assets/welcome-elements/socials-full.png';
 import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
 import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
 import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 import pattern from '../../assets/figma-welcome/pattern.png';
+import supportButton from '../../assets/welcome-elements/support-button-full.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -74,34 +75,18 @@ export const WelcomeScreen: React.FC = () => {
       </div>
 
       {/* Кнопка "написать в поддержку" */}
-      <button style={{
-        position: 'absolute',
-        left: '829px',
-        top: '97px',
-        width: '205px',
-        height: '78px',
-        backdropFilter: 'blur(50px)',
-        background: 'rgba(255, 255, 255, 0.1)',
-        border: '4px solid rgba(255, 255, 255, 0.3)',
-        borderRadius: '62px',
-        overflow: 'hidden',
-        cursor: 'pointer',
-      }}>
-        <div style={{
+      <img 
+        src={supportButton}
+        alt="написать в поддержку"
+        style={{
           position: 'absolute',
-          left: '30px',
-          top: '19px',
-          display: 'flex',
-          flexDirection: 'column',
-          fontFamily: 'Gotham Pro',
-          fontSize: '20px',
-          lineHeight: '20px',
-          color: 'white',
-        }}>
-          <p style={{ marginBottom: 0, fontWeight: 300 }}>написать</p>
-          <p style={{ marginBottom: 0, fontWeight: 700 }}>в поддержку</p>
-        </div>
-      </button>
+          left: '829px',
+          top: '97px',
+          width: '205px',
+          height: '78px',
+          cursor: 'pointer',
+        }}
+      />
 
       {/* Заголовок "добро пожаловать в МЕТАФЛОРУ*" */}
       <div style={{
