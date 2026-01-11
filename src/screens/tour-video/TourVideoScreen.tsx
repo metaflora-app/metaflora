@@ -333,6 +333,7 @@ export const TourVideoScreen: React.FC = () => {
             position: 'absolute',
             left: '141px',
             top: '-207.51px',
+            filter: 'blur(80px)',
           }}>
             {/* Голубой блок */}
             <div style={{
