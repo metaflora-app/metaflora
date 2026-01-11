@@ -361,9 +361,9 @@ export const PricingScreen: React.FC = () => {
         {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
         <div style={{
           position: 'absolute',
-          left: '131px',
+          left: '143px',
           top: '1082px',
-          width: '904px',
+          width: '892px',
           height: '603px',
         }}>
           {/* Внутренний контейнер карточки */}
@@ -517,9 +517,11 @@ export const PricingScreen: React.FC = () => {
               alt="8070 руб."
               style={{
                 position: 'absolute',
-                inset: '9.45% 20.86% 81.09% 60.22%',
-                width: 'auto',
-                height: '100%',
+                left: 'calc(50% + 172px)',
+                top: '53px',
+                transform: 'translateX(-50%)',
+                width: '176px',
+                height: '57px',
                 cursor: 'pointer',
               }}
             />
@@ -530,9 +532,11 @@ export const PricingScreen: React.FC = () => {
               alt="5490 руб."
               style={{
                 position: 'absolute',
-                inset: '9.45% 1.94% 81.09% 79.14%',
-                width: 'auto',
-                height: '100%',
+                left: 'calc(50% + 348px)',
+                top: '53px',
+                transform: 'translateX(-50%)',
+                width: '176px',
+                height: '57px',
                 cursor: 'pointer',
               }}
             />
@@ -545,7 +549,7 @@ export const PricingScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
-            top: '1902px',
+            top: '1744px',
             transform: 'translateX(-50%)',
             width: '892px',
             height: '140px',
