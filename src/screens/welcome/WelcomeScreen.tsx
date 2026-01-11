@@ -9,6 +9,7 @@ import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
 import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
 import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 import pattern from '../../assets/figma-welcome/pattern.png';
+import supportButton from '../../assets/welcome-elements/написать в поддержку подложка.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -74,37 +75,18 @@ export const WelcomeScreen: React.FC = () => {
       </div>
 
       {/* Кнопка "написать в поддержку" */}
-      <button style={{
-        position: 'absolute',
-        left: '829px',
-        top: '97px',
-        width: '205px',
-        height: '78px',
-        backdropFilter: 'blur(50px)',
-        background: 'rgba(255, 255, 255, 0.1)',
-        border: '4px solid rgba(255, 255, 255, 0.3)',
-        borderRadius: '62px',
-        overflow: 'clip',
-        cursor: 'pointer',
-      }}>
-        <div style={{
+      <img 
+        src={supportButton}
+        alt="написать в поддержку"
+        style={{
           position: 'absolute',
-          left: '38px',
-          top: '19px',
-          width: '145px',
-          height: '40px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          fontFamily: 'Gotham Pro',
-          fontSize: '20px',
-          lineHeight: 'none',
-          color: 'white',
-        }}>
-          <p style={{ marginBottom: 0, fontWeight: 300 }}>написать </p>
-          <p style={{ marginBottom: 0, fontWeight: 700 }}>в поддержку</p>
-        </div>
-      </button>
+          left: '829px',
+          top: '97px',
+          width: '205px',
+          height: '78px',
+          cursor: 'pointer',
+        }}
+      />
 
       {/* Заголовок "добро пожаловать в МЕТАФЛОРУ*" */}
       <div style={{
@@ -506,73 +488,18 @@ export const WelcomeScreen: React.FC = () => {
           }} />
           
           {/* Иконки соцсетей */}
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            {/* Первая иконка соцсети */}
-            <div style={{
+          <img 
+            src={socials}
+            alt="Соцсети"
+            style={{
               position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
+              left: '681px',
+              top: '13px',
+              width: '196px',
               height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socials}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            {/* Группа из трёх иконок */}
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socials}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+              opacity: 0.6,
+            }}
+          />
         </div>
       </div>
     </div>
