@@ -47,10 +47,10 @@ export const WelcomeScreen: React.FC = () => {
       {/* Логотип маленький (верхний) */}
       <div style={{
         position: 'absolute',
-        left: '540px',
-        top: '97px',
-        width: '111px',
-        height: '78px',
+        left: '500px',
+        top: '61px',
+        width: '186px',
+        height: '131px',
       }}>
         <div style={{
           position: 'absolute',
@@ -76,7 +76,7 @@ export const WelcomeScreen: React.FC = () => {
       {/* Кнопка "написать в поддержку" */}
       <button style={{
         position: 'absolute',
-        left: 'calc(50% + 336.5px)',
+        left: '829px',
         top: '97px',
         width: '205px',
         height: '78px',
@@ -84,8 +84,7 @@ export const WelcomeScreen: React.FC = () => {
         background: 'rgba(255, 255, 255, 0.1)',
         border: '4px solid rgba(255, 255, 255, 0.3)',
         borderRadius: '62px',
-        overflow: 'hidden',
-        transform: 'translateX(-50%)',
+        overflow: 'clip',
         cursor: 'pointer',
       }}>
         <div style={{
@@ -99,10 +98,10 @@ export const WelcomeScreen: React.FC = () => {
           justifyContent: 'center',
           fontFamily: 'Gotham Pro',
           fontSize: '20px',
-          lineHeight: 'normal',
+          lineHeight: 'none',
           color: 'white',
         }}>
-          <p style={{ marginBottom: 0, fontWeight: 300 }}>написать</p>
+          <p style={{ marginBottom: 0, fontWeight: 300 }}>написать </p>
           <p style={{ marginBottom: 0, fontWeight: 700 }}>в поддержку</p>
         </div>
       </button>
@@ -510,7 +509,7 @@ export const WelcomeScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '681px',
-            top: '14px',
+            top: '13px',
             width: '196px',
             height: '51px',
           }}>
