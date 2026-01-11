@@ -17,6 +17,7 @@ import priceButtonGreen from '../../assets/pricing/кнопка цена зел�
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
 import badgeVygodno from '../../assets/pricing/выгодно кнопка.png';
+import descriptionText from '../../assets/pricing/description-text.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -248,44 +249,18 @@ export const PricingScreen: React.FC = () => {
               }}
             />
 
-            {/* Текст описания тарифа (10 строк) */}
-            <div style={{
-              position: 'absolute',
-              inset: 'calc(24.54% - 4px) calc(8.17% - 4px) calc(9.12% - 4px) calc(6.77% - 4px)',
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontSize: '40px',
-                lineHeight: '1',
-                color: 'white',
-                whiteSpace: 'pre-wrap',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>контент-среда и личный креатор 24/7</p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* цех: </span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
-              </div>
-            </div>
+            {/* Текст описания тарифа - PNG */}
+            <img 
+              src={descriptionText}
+              alt=""
+              style={{
+                position: 'absolute',
+                left: '52px',
+                top: '148px',
+                width: '802px',
+                height: '400px',
+              }}
+            />
 
             {/* Кнопка "2690 руб." (зачеркнутая) - серая плашка */}
             <div style={{
@@ -614,7 +589,7 @@ export const PricingScreen: React.FC = () => {
               alt="выгодно"
               style={{
                 position: 'absolute',
-                left: 'calc(50% + 415px)',
+                left: 'calc(50% + 390px)',
                 top: '40px',
                 width: '72px',
                 height: '35px',
