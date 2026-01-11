@@ -394,17 +394,21 @@ export const WelcomeScreen: React.FC = () => {
         {/* Текст кнопки */}
         <div style={{
           position: 'absolute',
-          left: '336px',
+          left: '193px',
           top: '40px',
           width: '521px',
           height: '60px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '10px',
           zIndex: 1,
         }}>
           <div style={{
+            position: 'absolute',
+            left: '10px',
+            top: '10px',
+            width: '501px',
+            height: '40px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
             fontFamily: 'Gotham Pro',
             fontWeight: 500,
             fontSize: '40px',
@@ -429,10 +433,10 @@ export const WelcomeScreen: React.FC = () => {
           {/* Логотип в подвале */}
           <div style={{
             position: 'absolute',
-            width: '569px',
-            height: '124px',
-            left: 0,
-            top: '-34px',
+            width: '380px',
+            height: '83px',
+            left: '2px',
+            top: '-16px',
           }}>
             <div style={{
               position: 'absolute',
@@ -458,10 +462,10 @@ export const WelcomeScreen: React.FC = () => {
           {/* Copyright текст */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% - 443px)',
-            top: '54.03%',
-            bottom: '29.84%',
+            left: '2px',
+            top: '56px',
             width: '433px',
+            height: '20px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
