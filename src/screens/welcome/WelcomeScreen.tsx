@@ -456,8 +456,8 @@ export const WelcomeScreen: React.FC = () => {
         {/* Хэдер и подвал - новая структура из Figma */}
         <div style={{
           position: 'absolute',
-          left: '125px',
-          top: '2155px',
+          left: '141px',
+          top: '2086px',
           display: 'flex',
           gap: '89px',
           alignItems: 'center',
