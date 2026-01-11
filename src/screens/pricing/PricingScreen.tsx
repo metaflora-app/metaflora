@@ -16,7 +16,6 @@ import payButtonBg from '../../assets/demo-access-elements/кнопка опла
 import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
-import badgeVygodno from '../../assets/pricing/выгодно кнопка.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -138,9 +137,9 @@ export const PricingScreen: React.FC = () => {
         {/* Фоновое изображение для карточек */}
         <div style={{
           position: 'absolute',
-          left: '135px',
-          top: '562px',
-          width: '900px',
+          left: '148px',
+          top: '566px',
+          width: '884px',
           height: '348px',
           borderRadius: '24px',
         }}>
@@ -163,9 +162,9 @@ export const PricingScreen: React.FC = () => {
         {/* КАРТОЧКА ТАРИФ "1 МЕСЯЦ" */}
         <div style={{
           position: 'absolute',
-          left: '131px',
+          left: '144px',
           top: '418px',
-          width: '904px',
+          width: '892px',
           height: '603px',
         }}>
           {/* Внутренний контейнер карточки */}
@@ -262,16 +261,27 @@ export const PricingScreen: React.FC = () => {
                 color: 'white',
                 whiteSpace: 'pre-wrap',
               }}>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* академия:</span></p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* лаба:</span></p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</span>
+                </p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
+                </p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>контент-среда и личный креатор 24/7</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* цех:</span></p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* цех: </span>
+                </p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к <span style={{ fontWeight: 700 }}>МЕТАФЛОРА* полигон:</span></p>
+                <p style={{ margin: 0, lineHeight: '1' }}>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
+                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
+                </p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы каждый месяц</p>
               </div>
             </div>
 
@@ -605,20 +615,42 @@ export const PricingScreen: React.FC = () => {
             </div>
 
             {/* Плашка "ВЫГОДНО" - ПОВЕРХ зелёной кнопки */}
-            <img 
-              src={badgeVygodno}
-              alt="выгодно"
-              style={{
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 410px)',
+              top: '45px',
+              width: '68.812px',
+              height: '20.778px',
+              transform: 'rotate(11.549deg) skewX(0.902deg)',
+              zIndex: 100,
+              pointerEvents: 'none',
+            }}>
+              <div style={{
                 position: 'absolute',
-                left: 'calc(50% + 410px)',
-                top: '45px',
-                width: '72px',
-                height: '35px',
-                transform: 'rotate(11.089deg)',
-                zIndex: 100,
-                pointerEvents: 'none',
-              }}
-            />
+                inset: 0,
+                background: 'linear-gradient(to right, #880709 0%, #e90004 52.404%, #880709 100%)',
+                borderRadius: '20px',
+              }} />
+              <div style={{
+                position: 'absolute',
+                inset: '20.32% 14.41% 25.18% 21.94%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <div style={{
+                  transform: 'rotate(11.456deg) skewX(0.895deg)',
+                  fontFamily: 'Inter',
+                  fontWeight: 700,
+                  fontSize: '10px',
+                  color: 'white',
+                  lineHeight: 0,
+                  whiteSpace: 'nowrap',
+                }}>
+                  выгодно
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
