@@ -402,6 +402,7 @@ export const PricingScreen: React.FC = () => {
               height: '348px',
               borderRadius: '24px',
               pointerEvents: 'none',
+              zIndex: 0,
             }}>
               <img 
                 src={pricingBackground2}
@@ -423,6 +424,7 @@ export const PricingScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               inset: 'calc(6.97% - 4px) calc(43.23% - 4px) calc(79.77% - 4px) calc(6.77% - 4px)',
+              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -447,6 +449,7 @@ export const PricingScreen: React.FC = () => {
                 inset: '1.33% 21.08% 91.71% 49.35%',
                 width: '275px',
                 height: '42px',
+                zIndex: 1,
               }}
             />
 
@@ -454,6 +457,7 @@ export const PricingScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               inset: '2.99% 21.61% 93.7% 50.97%',
+              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -480,6 +484,7 @@ export const PricingScreen: React.FC = () => {
                 inset: '7.63% 48.77% 88.06% 48.44%',
                 width: '26px',
                 height: '26px',
+                zIndex: 1,
               }}
             />
 
@@ -487,6 +492,7 @@ export const PricingScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               inset: 'calc(24.88% - 4px) calc(5.04% - 4px) calc(8.79% - 4px) calc(6.73% - 4px)',
+              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -531,6 +537,7 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
+              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGray}
@@ -580,6 +587,7 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
+              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGreen}
