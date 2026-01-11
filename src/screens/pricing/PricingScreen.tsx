@@ -139,7 +139,7 @@ export const PricingScreen: React.FC = () => {
           position: 'absolute',
           left: '135px',
           top: '562px',
-          width: '922px',
+          width: '900px',
           height: '348px',
           borderRadius: '24px',
         }}>
