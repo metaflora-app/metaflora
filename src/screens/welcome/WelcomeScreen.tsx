@@ -9,7 +9,7 @@ import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
 import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 import pattern from '../../assets/figma-welcome/pattern.png';
 import supportButton from '../../assets/welcome-elements/support-button.png';
-import socials from '../../assets/welcome-elements/socials.png';
+import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -477,29 +477,84 @@ export const WelcomeScreen: React.FC = () => {
           {/* Подложка под соцсети */}
           <div style={{
             position: 'absolute',
+            left: '664px',
+            top: '-2px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '62px',
             height: '78px',
             width: '230px',
-            left: '658px',
-            top: '-11px',
           }} />
           
           {/* Иконки соцсетей */}
-          <img 
-            src={socials}
-            alt="Соцсети"
-            style={{
+          <div style={{
+            position: 'absolute',
+            left: '681px',
+            top: '13px',
+            width: '196px',
+            height: '51px',
+          }}>
+            {/* Первая иконка */}
+            <div style={{
               position: 'absolute',
-              left: '675px',
-              top: '14px',
-              width: '210px',
-              height: '50px',
-              opacity: 0.6,
-            }}
-          />
+              left: 0,
+              top: 0,
+              width: '50px',
+              height: '51px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIcons}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+            
+            {/* Группа иконок */}
+            <div style={{
+              position: 'absolute',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              height: '51px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIcons}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
