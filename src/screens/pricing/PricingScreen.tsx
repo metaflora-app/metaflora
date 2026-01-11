@@ -135,6 +135,31 @@ export const PricingScreen: React.FC = () => {
           </div>
         </div>
 
+        {/* Фоновое изображение ПОД карточкой 1 месяц */}
+        <div style={{
+          position: 'absolute',
+          left: '148px',
+          top: '566px',
+          width: '884px',
+          height: '348px',
+          borderRadius: '24px',
+        }}>
+          <img 
+            src={pricingBackground}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '24px',
+              maxWidth: 'none',
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
+
         {/* КАРТОЧКА ТАРИФ "1 МЕСЯЦ" */}
         <div style={{
           position: 'absolute',
@@ -153,37 +178,10 @@ export const PricingScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
           }}>
-            {/* Фоновое изображение ВНУТРИ карточки */}
-            <div style={{
-              position: 'absolute',
-              left: '4px',
-              top: '148px',
-              width: '884px',
-              height: '348px',
-              borderRadius: '24px',
-              pointerEvents: 'none',
-              zIndex: 0,
-            }}>
-              <img 
-                src={pricingBackground}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '24px',
-                  maxWidth: 'none',
-                  pointerEvents: 'none',
-                }}
-              />
-            </div>
             {/* Заголовок "1 месяц" */}
             <div style={{
               position: 'absolute',
               inset: 'calc(6.97% - 4px) calc(43.23% - 4px) calc(79.77% - 4px) calc(6.77% - 4px)',
-              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -210,7 +208,6 @@ export const PricingScreen: React.FC = () => {
                 transform: 'translateX(-50%)',
                 width: '275px',
                 height: '42px',
-                zIndex: 1,
               }}
             />
 
@@ -221,7 +218,6 @@ export const PricingScreen: React.FC = () => {
               left: 'calc(50% - 44px)',
               top: 'calc(3.48% - 4px)',
               width: '255px',
-              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -249,15 +245,13 @@ export const PricingScreen: React.FC = () => {
                 top: '42px',
                 width: '26px',
                 height: '26px',
-                zIndex: 1,
               }}
             />
 
-            {/* Текст описания тарифа (8 строк) */}
+            {/* Текст описания тарифа (10 строк) */}
             <div style={{
               position: 'absolute',
               inset: 'calc(24.54% - 4px) calc(8.17% - 4px) calc(9.12% - 4px) calc(6.77% - 4px)',
-              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -271,8 +265,8 @@ export const PricingScreen: React.FC = () => {
                 <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</span>
                 </p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</p>
                 <p style={{ margin: 0, lineHeight: '1' }}>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
@@ -288,7 +282,8 @@ export const PricingScreen: React.FC = () => {
                   <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
                 </p>
                 <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы каждый месяц</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: общий чат, канал и бонусы</p>
+                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
               </div>
             </div>
 
@@ -301,7 +296,6 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
-              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGray}
@@ -351,7 +345,6 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
-              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGreen}
@@ -382,6 +375,31 @@ export const PricingScreen: React.FC = () => {
           </div>
         </div>
 
+        {/* Фоновое изображение ПОД карточкой 3 месяца */}
+        <div style={{
+          position: 'absolute',
+          left: '147px',
+          top: '1246px',
+          width: '884px',
+          height: '348px',
+          borderRadius: '24px',
+        }}>
+          <img 
+            src={pricingBackground2}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '24px',
+              maxWidth: 'none',
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
+
         {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
         <div style={{
           position: 'absolute',
@@ -400,38 +418,11 @@ export const PricingScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
           }}>
-            {/* Фоновое изображение ВНУТРИ карточки */}
-            <div style={{
-              position: 'absolute',
-              left: '4px',
-              top: '164px',
-              width: '884px',
-              height: '348px',
-              borderRadius: '24px',
-              pointerEvents: 'none',
-              zIndex: 0,
-            }}>
-              <img 
-                src={pricingBackground2}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '24px',
-                  maxWidth: 'none',
-                  pointerEvents: 'none',
-                }}
-              />
-            </div>
 
             {/* Заголовок "3 месяца" */}
             <div style={{
               position: 'absolute',
               inset: 'calc(6.97% - 4px) calc(43.23% - 4px) calc(79.77% - 4px) calc(6.77% - 4px)',
-              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -456,7 +447,6 @@ export const PricingScreen: React.FC = () => {
                 inset: '1.33% 21.08% 91.71% 49.35%',
                 width: '275px',
                 height: '42px',
-                zIndex: 1,
               }}
             />
 
@@ -464,7 +454,6 @@ export const PricingScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               inset: '2.99% 21.61% 93.7% 50.97%',
-              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -491,7 +480,6 @@ export const PricingScreen: React.FC = () => {
                 inset: '7.63% 48.77% 88.06% 48.44%',
                 width: '26px',
                 height: '26px',
-                zIndex: 1,
               }}
             />
 
@@ -499,7 +487,6 @@ export const PricingScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               inset: 'calc(24.88% - 4px) calc(5.04% - 4px) calc(8.79% - 4px) calc(6.73% - 4px)',
-              zIndex: 1,
             }}>
               <div style={{
                 display: 'flex',
@@ -544,7 +531,6 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
-              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGray}
@@ -594,7 +580,6 @@ export const PricingScreen: React.FC = () => {
               width: '176px',
               height: '57px',
               cursor: 'pointer',
-              zIndex: 1,
             }}>
               <img 
                 src={priceButtonGreen}
@@ -629,7 +614,7 @@ export const PricingScreen: React.FC = () => {
               alt="выгодно"
               style={{
                 position: 'absolute',
-                left: 'calc(50% + 405px)',
+                left: 'calc(50% + 360px)',
                 top: '40px',
                 width: '72px',
                 height: '35px',
