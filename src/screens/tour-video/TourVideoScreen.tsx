@@ -47,52 +47,21 @@ export const TourVideoScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Кнопка "выход" (стрелка назад) */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 452px)',
-          top: '75px',
-          width: '100px',
-          height: '100px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <button
-            onClick={() => navigate('/welcome')}
-            style={{
-              transform: 'rotate(270deg)',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              width: '100px',
-              height: '100px',
-              overflow: 'clip',
-              cursor: 'pointer',
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {/* Стрелка */}
-            <div style={{
-              width: '71px',
-              height: '71px',
-              transform: 'rotate(90deg)',
-            }}>
-              <img 
-                src={exitArrow}
-                alt="назад"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-              />
-            </div>
-          </button>
-        </div>
+        {/* Кнопка "выход" (стрелка назад) - готовая PNG */}
+        <img 
+          src={exitArrow}
+          alt="назад"
+          onClick={() => navigate('/welcome')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 452px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+            transform: 'rotate(270deg)',
+          }}
+        />
 
         {/* Логотип маленький (верхний) */}
         <div style={{
@@ -208,63 +177,39 @@ export const TourVideoScreen: React.FC = () => {
             overflow: 'clip',
           }} />
 
-          {/* Кнопка плей */}
-          <div style={{
-            position: 'absolute',
-            top: '42.48%',
-            right: '44.33%',
-            bottom: '50.79%',
-            left: '44.67%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Иконка плей - 71% размера круга */}
-            <img 
-              src={playIcon}
-              alt="плей"
-              style={{
-                width: '71%',
-                height: '71%',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
+          {/* Кнопка плей - готовая PNG */}
+          <img 
+            src={playIcon}
+            alt="плей"
+            style={{
+              position: 'absolute',
+              top: '42.48%',
+              right: '44.33%',
+              bottom: '50.79%',
+              left: '44.67%',
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              cursor: 'pointer',
+            }}
+          />
 
-          {/* Кнопка стоп (пауза) */}
-          <div style={{
-            position: 'absolute',
-            top: '49.97%',
-            right: '44.22%',
-            bottom: '43.31%',
-            left: '44.78%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Иконка паузы - 71% размера круга */}
-            <img 
-              src={pauseIcon}
-              alt="стоп"
-              style={{
-                width: '71%',
-                height: '71%',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
+          {/* Кнопка стоп (пауза) - готовая PNG */}
+          <img 
+            src={pauseIcon}
+            alt="стоп"
+            style={{
+              position: 'absolute',
+              top: '49.97%',
+              right: '44.22%',
+              bottom: '43.31%',
+              left: '44.78%',
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              cursor: 'pointer',
+            }}
+          />
 
           {/* Кнопка развернуть видео */}
           <div style={{
