@@ -172,63 +172,23 @@ export const AcademyCourseSystemScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Лого "люди на фоне" под карточками (32:556) */}
-        <div style={{
-          position: 'absolute',
-          inset: '38.43% 9.75% 23.65% 14.41%',
-        }}>
-          <div style={{
+        {/* Лого "люди на фоне" под карточками - как на academy courses */}
+        <img 
+          src={peopleLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={peopleLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '105.83%',
-                left: '-10.74%',
-                top: '-0.86%',
-                width: '113.22%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </div>
+            left: '145px',
+            top: '741px',
+            width: '890px',
+            height: '1166px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* 8 карточек уроков */}
         {lessons.map((lesson) => (
           <React.Fragment key={lesson.number}>
-            {/* Номер урока */}
-            <div style={{
-              position: 'absolute',
-              left: lesson.numberLeft,
-              top: lesson.numberTop,
-              transform: 'translateX(-50%)',
-              width: '56px',
-              height: '56px',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: lesson.number === 4 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Inter',
-                fontWeight: 700,
-                fontSize: '50px',
-                lineHeight: 0,
-                color: 'white',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>{lesson.number}</p>
-              </div>
-            </div>
-
             {/* Карточка урока */}
             <div style={{
               position: 'absolute',
@@ -243,10 +203,13 @@ export const AcademyCourseSystemScreen: React.FC = () => {
               borderRadius: '30px',
               overflow: 'clip',
             }}>
-              {/* Текст описания */}
+              {/* Текст описания - ниже */}
               <div style={{
                 position: 'absolute',
-                inset: '4.73% 4% 35.03% 4%',
+                top: '15px',
+                left: '18px',
+                right: '18px',
+                bottom: '96px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -262,7 +225,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                 </p>
               </div>
 
-              {/* Кнопка "перейти" */}
+              {/* Кнопка "перейти" - ниже */}
               <img 
                 src={goButton}
                 alt="перейти"
@@ -270,13 +233,42 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                 style={{
                   position: 'absolute',
                   left: '50%',
-                  top: '64.98%',
-                  transform: 'translate(-50%, -50%)',
+                  bottom: '32px',
+                  transform: 'translateX(-50%)',
                   width: '257px',
                   height: '73px',
                   cursor: 'pointer',
                 }}
               />
+            </div>
+
+            {/* Номер урока - ПОВЕРХ карточки */}
+            <div style={{
+              position: 'absolute',
+              left: lesson.numberLeft,
+              top: lesson.numberTop,
+              transform: 'translateX(-50%)',
+              width: '56px',
+              height: '56px',
+              backdropFilter: 'blur(50px)',
+              background: 'black',
+              border: lesson.number === 4 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 10,
+            }}>
+              <div style={{
+                fontFamily: 'Inter',
+                fontWeight: 700,
+                fontSize: '50px',
+                lineHeight: 0,
+                color: 'white',
+              }}>
+                <p style={{ margin: 0, lineHeight: '1' }}>{lesson.number}</p>
+              </div>
             </div>
           </React.Fragment>
         ))}
