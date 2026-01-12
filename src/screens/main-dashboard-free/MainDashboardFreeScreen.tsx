@@ -8,6 +8,8 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
+import bigLogo from '../../assets/demo-access-elements/лого большое в экране демо.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
 
 export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -86,21 +88,41 @@ export const MainDashboardFreeScreen: React.FC = () => {
           }}
         />
 
-        {/* Приветствие */}
+        {/* Кнопка "выход" */}
+        <img 
+          src={exitArrow}
+          alt="назад"
+          onClick={() => navigate('/demo-access')}
+          style={{
+            position: 'absolute',
+            left: '88px',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Приветствие "неопознанный бобёр" */}
         <div style={{
           position: 'absolute',
-          left: '80px',
-          top: '197px',
+          left: '85px',
+          top: '199px',
           width: '1020px',
-          height: '160px',
-          display: 'flex',
-          alignItems: 'center',
-          fontFamily: 'Inter',
-          fontWeight: 800,
-          fontSize: '80px',
-          color: 'white',
+          height: '80px',
         }}>
-          привет, Имя!
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Inter',
+            fontWeight: 800,
+            fontSize: '80px',
+            lineHeight: 0,
+            color: 'white',
+          }}>
+            <p style={{ margin: 0, lineHeight: '1' }}>неопознанный бобёр</p>
+          </div>
         </div>
 
         {/* Блок баланса и метакоины */}
@@ -278,111 +300,113 @@ export const MainDashboardFreeScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Карусель секций */}
+        {/* Карточка сервиса (составная) */}
         <div style={{
           position: 'absolute',
-          left: '80px',
-          top: '557px',
-          width: '1020px',
-          height: '400px',
-          display: 'flex',
-          gap: '20px',
-          overflowX: 'auto',
-          paddingBottom: '20px',
+          left: '141px',
+          top: '536px',
+          width: '894px',
+          height: '249px',
         }}>
-          {/* Card 1 - Промпт */}
+          {/* Левая часть - черная карточка с описанием */}
           <div style={{
-            minWidth: '240px',
-            height: '380px',
-            background: 'rgba(255, 255, 255, 0.1)',
+            position: 'absolute',
+            left: 0,
+            top: '5px',
+            width: '445px',
+            height: '244px',
             backdropFilter: 'blur(50px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '30px',
-            position: 'relative',
-            overflow: 'hidden',
+            overflow: 'clip',
           }}>
             <div style={{
               position: 'absolute',
-              bottom: '20px',
-              left: '20px',
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '24px',
+              inset: '8.43% 4% 8.43% 4%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '23px',
+              lineHeight: '1.1',
               color: 'white',
+              textAlign: 'center',
             }}>
-              ПРОМПТ
+              <p style={{ margin: 0 }}>
+                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе — рабочая система, которую можно повторять и масштабировать.
+              </p>
             </div>
           </div>
 
-          {/* Card 2 - Академия */}
+          {/* Правая верхняя часть - фоновое изображение */}
           <div style={{
-            minWidth: '240px',
-            height: '380px',
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(50px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            position: 'relative',
+            position: 'absolute',
+            left: '449px',
+            top: '5px',
+            width: '445px',
+            height: '119px',
+            borderRadius: '26px',
             overflow: 'hidden',
           }}>
+            {/* Placeholder for background image - will use Figma asset */}
             <div style={{
               position: 'absolute',
-              bottom: '20px',
-              left: '20px',
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '24px',
+              inset: 0,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            }} />
+          </div>
+
+          {/* Правая нижняя часть - темная карточка со стрелкой */}
+          <div style={{
+            position: 'absolute',
+            left: '449px',
+            top: '130px',
+            width: '445px',
+            height: '119px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            overflow: 'clip',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Стрелка вправо */}
+            <div style={{
+              fontSize: '60px',
               color: 'white',
             }}>
-              АКАДЕМИЯ
+              →
             </div>
           </div>
 
-          {/* Card 3 - Лаба */}
+          {/* Плашка "демо-курс" */}
           <div style={{
-            minWidth: '240px',
-            height: '380px',
-            background: 'rgba(255, 255, 255, 0.1)',
+            position: 'absolute',
+            left: '297px',
+            top: '19px',
+            width: '120px',
+            height: '26px',
             backdropFilter: 'blur(50px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            position: 'relative',
-            overflow: 'hidden',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
             <div style={{
-              position: 'absolute',
-              bottom: '20px',
-              left: '20px',
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '24px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '18px',
               color: 'white',
             }}>
-              ЛАБА
-            </div>
-          </div>
-
-          {/* Card 4 - Полигон */}
-          <div style={{
-            minWidth: '240px',
-            height: '380px',
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(50px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              position: 'absolute',
-              bottom: '20px',
-              left: '20px',
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '24px',
-              color: 'white',
-            }}>
-              ПОЛИГОН
+              демо-курс
             </div>
           </div>
         </div>
@@ -490,13 +514,192 @@ export const MainDashboardFreeScreen: React.FC = () => {
               оформить полный доступ
             </div>
           </button>
+
+          {/* Текст под кнопкой (7:220) */}
+          <div style={{
+            position: 'absolute',
+            left: '153px',
+            top: '686px',
+            width: '586px',
+            height: '64px',
+          }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro',
+              fontSize: '32px',
+              lineHeight: '1.1',
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              <p style={{ margin: 0, fontWeight: 300 }}>вы будете перенаправлены </p>
+              <p style={{ margin: 0 }}>
+                <span style={{ fontWeight: 300 }}>на страницу </span>
+                <span style={{ fontWeight: 700 }}>с выбором подписки</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Фон под карточку подписки (26:411) */}
+        <div style={{
+          position: 'absolute',
+          left: '141px',
+          top: '853px',
+          width: '894px',
+          height: '275px',
+          borderRadius: '30px',
+          overflow: 'hidden',
+        }}>
+          {/* Placeholder for background image - will use Figma asset */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, #4c1d95 0%, #1e1b4b 100%)',
+          }} />
+        </div>
+
+        {/* Блок подписки - белая подложка (26:410) */}
+        <div style={{
+          position: 'absolute',
+          left: '144px',
+          top: '847px',
+          width: '893px',
+          height: '1196px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+          overflow: 'clip',
+        }} />
+
+        {/* Большое лого (25:383) */}
+        <img 
+          src={bigLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
+            position: 'absolute',
+            left: '45px',
+            top: '1209px',
+            width: '1090px',
+            height: '814px',
+            objectFit: 'contain',
+          }}
+        />
+
+        {/* Кнопка "оплатить полный доступ" (7:237) */}
+        <button
+          onClick={() => navigate('/pricing')}
+          style={{
+            position: 'absolute',
+            left: '144px',
+            top: '1375px',
+            width: '887px',
+            height: '140px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 0,
+          }}
+        >
+          {/* Gradient colors */}
+          <div style={{
+            position: 'absolute',
+            left: '119px',
+            top: '-207.51px',
+            width: '700px',
+            height: '560px',
+            pointerEvents: 'none',
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '4px',
+              top: '18px',
+              width: '616.211px',
+              height: '423.343px',
+              background: '#fa002d',
+              borderRadius: '1568.563px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              left: '158.08px',
+              top: '4px',
+              width: '546.918px',
+              height: '309.527px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                width: '302.053px',
+                height: '354.544px',
+                background: '#f0d825',
+                borderRadius: '1568.563px',
+                transform: 'rotate(11.218deg) skewX(330.934deg)',
+              }} />
+            </div>
+            <div style={{
+              position: 'absolute',
+              left: '280.8px',
+              top: '280.55px',
+              width: '339.354px',
+              height: '286.961px',
+              background: '#d5fc44',
+              borderRadius: '1568.563px',
+            }} />
+          </div>
+          <div style={{
+            position: 'relative',
+            zIndex: 1,
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '40px',
+            color: 'white',
+            textAlign: 'center',
+            width: '527px',
+          }}>
+            оплатить полный доступ
+          </div>
+        </button>
+
+        {/* Текст под кнопкой - "вы будете перенаправлены" (7:220) */}
+        <div style={{
+          position: 'absolute',
+          left: '297px',
+          top: '1533px',
+          width: '586px',
+          height: '64px',
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontSize: '32px',
+            lineHeight: '1.1',
+            color: 'white',
+            textAlign: 'center',
+          }}>
+            <p style={{ margin: 0, fontWeight: 300 }}>вы будете перенаправлены </p>
+            <p style={{ margin: 0 }}>
+              <span style={{ fontWeight: 300 }}>на страницу </span>
+              <span style={{ fontWeight: 700 }}>с выбором подписки</span>
+            </p>
+          </div>
         </div>
 
         {/* Footer */}
         <div style={{
           position: 'absolute',
           left: 'calc(50% - 5px)',
-          top: '2400px',
+          top: '2071px',
           transform: 'translateX(-50%)',
           width: '888px',
           height: '124px',
