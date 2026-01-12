@@ -302,13 +302,15 @@ export const MainDashboardFreeScreen: React.FC = () => {
               top: '1112px',
               width: '892px',
               height: '140px',
-              border: 'none',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
               background: 'transparent',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               padding: 0,
+              overflow: 'hidden',
             }}
           >
             <img 
