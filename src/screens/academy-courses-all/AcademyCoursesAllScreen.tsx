@@ -13,6 +13,7 @@ import labaBg from '../../assets/main-dashboard/фон лаба.png';
 import tsekhBg from '../../assets/main-dashboard/фон цех.png';
 import poligonBg from '../../assets/main-dashboard/фон полигон.png';
 import studyButton from '../../assets/about-screens/кнопка открыть цех.png';
+import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 
 export const AcademyCoursesAllScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -152,7 +153,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Большое лого "люди на фоне" (29:548) - ПОД карточками */}
+        {/* Большое лого "люди на фоне" (29:548 / 7:2240) - ПОД карточками */}
         <div style={{
           position: 'absolute',
           left: '31px',
@@ -166,12 +167,18 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             overflow: 'hidden',
             pointerEvents: 'none',
           }}>
-            {/* Placeholder - нужен PNG "лого люди на фон" */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-            }} />
+            <img 
+              src={peopleLogo}
+              alt="МЕТАФЛОРА*"
+              style={{
+                position: 'absolute',
+                height: '105.83%',
+                left: '-10.74%',
+                top: '-0.86%',
+                width: '113.22%',
+                maxWidth: 'none',
+              }}
+            />
           </div>
         </div>
 
