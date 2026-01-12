@@ -101,7 +101,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           onClick={() => navigate('/demo-access')}
           style={{
             position: 'absolute',
-            left: '88px',
+            left: 'calc(50% - 452px)',
             top: '75px',
             width: '100px',
             height: '100px',
