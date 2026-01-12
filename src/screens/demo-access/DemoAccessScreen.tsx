@@ -247,7 +247,7 @@ export const DemoAccessScreen: React.FC = () => {
 
         {/* Кнопка "продолжить" (прозрачная) */}
         <button
-          onClick={() => navigate('/pricing')}
+          onClick={() => navigate('/main-dashboard-free')}
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
