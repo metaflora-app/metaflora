@@ -7,6 +7,7 @@ import { PricingScreen } from './screens/pricing';
 import { PrivacyPolicyScreen } from './screens/privacy-policy';
 import { MarketingConsentScreen } from './screens/marketing-consent';
 import { MainDashboardFreeScreen } from './screens/main-dashboard-free';
+import { MainDashboardPremiumScreen } from './screens/main-dashboard-premium';
 import { AboutPromptScreen } from './screens/about-prompt';
 
 // Temporary placeholder component for deleted screens
@@ -56,7 +57,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/main-dashboard-premium',
-    element: <PlaceholderScreen name="Main Dashboard Premium" />,
+    element: <MainDashboardPremiumScreen />,
   },
   {
     path: '/metacoins',
