@@ -516,8 +516,8 @@ export const WelcomeScreen: React.FC = () => {
           position: 'absolute',
           left: '102px',
           top: '65px',
-          width: '932px',
-          height: '330px',
+          width: '214px',
+          height: '110px',
         }}>
           <img 
             src={policies}
@@ -527,6 +527,7 @@ export const WelcomeScreen: React.FC = () => {
               inset: 0,
               width: '100%',
               height: '100%',
+              objectFit: 'contain',
             }}
           />
           {/* Кликабельная область на "политика конфиденциальности" */}
@@ -535,9 +536,9 @@ export const WelcomeScreen: React.FC = () => {
             style={{
               position: 'absolute',
               left: 0,
-              top: '140px',
-              width: '560px',
-              height: '90px',
+              top: '46px',
+              width: '187px',
+              height: '30px',
               cursor: 'pointer',
             }}
           />
