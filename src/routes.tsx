@@ -12,6 +12,7 @@ import { AboutPromptScreen } from './screens/about-prompt';
 import { AboutAcademyScreen } from './screens/about-academy';
 import { AboutLabaScreen } from './screens/about-laba';
 import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
+import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -118,7 +119,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/academy-lesson-video',
-    element: <PlaceholderScreen name="Academy Lesson Video" />,
+    element: <AcademyLessonVideoScreen />,
   },
   {
     path: '/academy-lesson-materials',
