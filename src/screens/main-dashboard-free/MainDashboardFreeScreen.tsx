@@ -103,26 +103,171 @@ export const MainDashboardFreeScreen: React.FC = () => {
           привет, Имя!
         </div>
 
-        {/* Блок баланса */}
+        {/* Блок баланса и метакоины */}
         <div style={{
           position: 'absolute',
           left: '80px',
-          top: '357px',
+          top: '327px',
           width: '1020px',
-          height: '160px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(50px)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-          display: 'flex',
-          alignItems: 'center',
-          paddingLeft: '40px',
-          fontFamily: 'Inter',
-          fontWeight: 800,
-          fontSize: '40px',
-          color: 'white',
+          height: '200px',
         }}>
-          ваш баланс: 0 МЕТАКОИНОВ*
+          {/* Аватар бобёр */}
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '159px',
+            height: '159px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              borderRadius: '79.5px',
+              overflow: 'hidden',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+            }}>
+              {/* Placeholder for beaver image - will be replaced with actual asset */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+              }} />
+            </div>
+          </div>
+
+          {/* Текст "гость" */}
+          <div style={{
+            position: 'absolute',
+            left: '193px',
+            top: '37px',
+            width: '135px',
+            height: '40px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 400,
+            fontSize: '40px',
+            lineHeight: 0,
+            color: 'white',
+          }}>
+            <p style={{ margin: 0, lineHeight: '1' }}>гость</p>
+          </div>
+
+          {/* Текст "демо-курс" */}
+          <div style={{
+            position: 'absolute',
+            left: '193px',
+            top: '76px',
+            width: '455px',
+            height: '40px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 700,
+            fontSize: '40px',
+            lineHeight: 0,
+            color: 'white',
+          }}>
+            <p style={{ margin: 0, lineHeight: '1' }}>демо-курс</p>
+          </div>
+
+          {/* Иконка метакоинов */}
+          <div style={{
+            position: 'absolute',
+            left: '551px',
+            top: '5px',
+            width: '109px',
+            height: '109px',
+            borderRadius: '54.5px',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            overflow: 'hidden',
+          }}>
+            {/* Placeholder for coin icon - will use actual Figma asset */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+            }} />
+          </div>
+
+          {/* Текст "150 метакоинов" */}
+          <div style={{
+            position: 'absolute',
+            left: '678px',
+            top: '35px',
+            width: '313px',
+            height: '45px',
+            fontFamily: 'TT Commons',
+            fontWeight: 700,
+            fontSize: '45px',
+            lineHeight: 0,
+            color: 'white',
+          }}>
+            <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
+          </div>
+
+          {/* Кнопка "пополнить" */}
+          <div style={{
+            position: 'absolute',
+            left: '679px',
+            top: '87px',
+            width: '176px',
+            height: '57px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Gradient colors behind */}
+            <div style={{
+              position: 'absolute',
+              left: '-37px',
+              top: '-77px',
+              width: '250px',
+              height: '250px',
+              pointerEvents: 'none',
+            }}>
+              <div style={{
+                position: 'absolute',
+                left: '4px',
+                top: '8.87px',
+                width: '87.902px',
+                height: '147.81px',
+                background: '#fa002d',
+                borderRadius: '1568.563px',
+              }} />
+              <div style={{
+                position: 'absolute',
+                left: '25.98px',
+                top: '4px',
+                width: '46.981px',
+                height: '94.573px',
+                background: '#f0d825',
+                borderRadius: '1568.563px',
+                transform: 'rotate(25.894deg) skewX(3.673deg)',
+              }} />
+              <div style={{
+                position: 'absolute',
+                left: '43.49px',
+                top: '100.56px',
+                width: '48.408px',
+                height: '100.192px',
+                background: '#d5fc44',
+                borderRadius: '1568.563px',
+              }} />
+            </div>
+            <div style={{
+              position: 'relative',
+              zIndex: 1,
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '23px',
+              color: 'white',
+            }}>
+              пополнить
+            </div>
+          </div>
         </div>
 
         {/* Карусель секций */}
