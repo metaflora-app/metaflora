@@ -12,11 +12,9 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import beaverAvatar from '../../assets/main-dashboard/бобер.png';
 import metacoinIcon from '../../assets/main-dashboard/кружок подарки.png';
 import cardBackground from '../../assets/main-dashboard/фон под карточку.png';
-import goButton from '../../assets/main-dashboard/кнопка перейти.png';
 import buttonBackground from '../../assets/main-dashboard/фон под кнопкой перейти.png';
 import topUpButton from '../../assets/main-dashboard/кнопка пополнить.png';
 import payButton from '../../assets/main-dashboard/оплатить полный доступ поменьше.png';
-import rightArrow from '../../assets/main-dashboard/шторка вправо.png';
 
 export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -192,9 +190,9 @@ export const MainDashboardFreeScreen: React.FC = () => {
             style={{
               position: 'absolute',
               left: '551px',
-              top: '5px',
-              width: '159px',
-              height: '159px',
+              top: '35px',
+              width: '109px',
+              height: '109px',
             }}
           />
 
@@ -205,13 +203,19 @@ export const MainDashboardFreeScreen: React.FC = () => {
             top: '35px',
             width: '313px',
             height: '45px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 700,
-            fontSize: '45px',
-            lineHeight: 0,
-            color: 'white',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontFamily: 'TT Commons',
+              fontWeight: 700,
+              fontSize: '45px',
+              lineHeight: 0,
+              color: 'white',
+            }}>
+              <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
+            </div>
           </div>
 
           {/* Кнопка "пополнить" - PNG */}
@@ -229,7 +233,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           />
         </div>
 
-        {/* Карточка сервиса (составная) */}
+        {/* Карточка сервиса (составная) - 894×249px */}
         <div style={{
           position: 'absolute',
           left: '141px',
@@ -237,15 +241,11 @@ export const MainDashboardFreeScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* ЛЕВАЯ половина - фон + кнопка перейти + шторка */}
+          {/* 1. ЛЕВАЯ половина - фон под кнопкой (26:417) */}
           <div style={{
             position: 'absolute',
-            left: 0,
-            top: '5px',
-            width: '445px',
-            height: '244px',
+            inset: '2.01% 49.78% 1.2% 0',
           }}>
-            {/* Фон под кнопкой */}
             <img 
               src={buttonBackground}
               alt=""
@@ -258,45 +258,12 @@ export const MainDashboardFreeScreen: React.FC = () => {
                 borderRadius: '26px',
               }}
             />
-            
-            {/* Шторка вправо */}
-            <img 
-              src={rightArrow}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '26px',
-                pointerEvents: 'none',
-              }}
-            />
-
-            {/* Кнопка перейти */}
-            <img 
-              src={goButton}
-              alt="перейти"
-              style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '257px',
-                height: '73px',
-                cursor: 'pointer',
-              }}
-            />
           </div>
 
-          {/* ПРАВАЯ половина - черная карточка с текстом */}
+          {/* 2. ПРАВАЯ половина - черная карточка с текстом (26:416) */}
           <div style={{
             position: 'absolute',
-            left: '449px',
-            top: '5px',
-            width: '445px',
-            height: '244px',
+            inset: '2.01% 0 0 50.22%',
             backdropFilter: 'blur(50px)',
             background: 'black',
             border: '4px solid rgba(255, 255, 255, 0.3)',
@@ -322,13 +289,121 @@ export const MainDashboardFreeScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Плашка "демо-курс" */}
+          {/* 3. Кнопка перейти (26:418) - над левой половиной */}
           <div style={{
             position: 'absolute',
-            left: '68px',
-            top: '19px',
-            width: '120px',
-            height: '26px',
+            inset: '34.94% 60.54% 35.74% 10.74%',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Белые градиентные круги */}
+            <div style={{
+              position: 'absolute',
+              left: '73px',
+              top: '-44px',
+              width: '200px',
+              height: '150px',
+              pointerEvents: 'none',
+            }}>
+              <div style={{
+                position: 'absolute',
+                left: '4px',
+                top: '7.54px',
+                width: '101.963px',
+                height: '107.431px',
+                background: 'white',
+                borderRadius: '1568.563px',
+              }} />
+              <div style={{
+                position: 'absolute',
+                left: '29.5px',
+                top: '4px',
+                width: '90.498px',
+                height: '78.548px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <div style={{
+                  width: '51.243px',
+                  height: '75.957px',
+                  background: 'white',
+                  borderRadius: '1568.563px',
+                  transform: 'rotate(16.918deg) skewX(344.434deg)',
+                }} />
+              </div>
+              <div style={{
+                position: 'absolute',
+                left: '49.8px',
+                top: '74.18px',
+                width: '56.152px',
+                height: '72.822px',
+                background: 'white',
+                borderRadius: '1568.563px',
+              }} />
+            </div>
+            <div style={{
+              position: 'relative',
+              zIndex: 1,
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '27px',
+              color: 'white',
+            }}>
+              перейти
+            </div>
+          </div>
+
+          {/* 4. Шторка вправо (7:233) - затемнение поверх */}
+          <div style={{
+            position: 'absolute',
+            inset: '0 0 0 63.07%',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            overflow: 'clip',
+            pointerEvents: 'none',
+          }}>
+            {/* Стрелка */}
+            <div style={{
+              position: 'absolute',
+              left: '121.18px',
+              top: '121px',
+              width: '80px',
+              height: '0px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: '-14.73px -2.5% 0 0',
+              }}>
+                {/* Arrow icon placeholder */}
+                <div style={{
+                  width: '100%',
+                  height: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '40px',
+                  color: 'white',
+                }}>
+                  →
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Плашка "демо-курс" (26:415) - поверх всего */}
+          <div style={{
+            position: 'absolute',
+            inset: '7.63% 51.12% 77.91% 33.33%',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -378,18 +453,33 @@ export const MainDashboardFreeScreen: React.FC = () => {
         }} />
 
         {/* Большое лого (25:383) - ПОД белой подложкой */}
-        <img 
-          src={bigLogo}
-          alt="МЕТАФЛОРА*"
-          style={{
+        <div style={{
+          position: 'absolute',
+          left: '45px',
+          top: '1209px',
+          width: '1090px',
+          height: '814px',
+        }}>
+          <div style={{
             position: 'absolute',
-            left: '45px',
-            top: '1209px',
-            width: '1090px',
-            height: '814px',
-            objectFit: 'contain',
-          }}
-        />
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={bigLogo}
+              alt="МЕТАФЛОРА*"
+              style={{
+                position: 'absolute',
+                height: '209.5%',
+                left: '-28.23%',
+                top: '-52.5%',
+                width: '156.39%',
+                maxWidth: 'none',
+              }}
+            />
+          </div>
+        </div>
 
         {/* Белая подложка подписки (26:410) - ПОВЕРХ лого */}
         <div style={{
