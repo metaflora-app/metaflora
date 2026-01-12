@@ -9,6 +9,7 @@ import { MarketingConsentScreen } from './screens/marketing-consent';
 import { MainDashboardFreeScreen } from './screens/main-dashboard-free';
 import { MainDashboardPremiumScreen } from './screens/main-dashboard-premium';
 import { AboutPromptScreen } from './screens/about-prompt';
+import { AboutAcademyScreen } from './screens/about-academy';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -71,7 +72,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/about-academy',
-    element: <PlaceholderScreen name="About Academy" />,
+    element: <AboutAcademyScreen />,
   },
   {
     path: '/about-laba',

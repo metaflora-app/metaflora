@@ -346,7 +346,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/academy-courses-all')}
+            onClick={() => navigate('/about-academy')}
             style={{
               position: 'absolute',
               left: '96px',
