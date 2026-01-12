@@ -95,6 +95,20 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           }}
         />
 
+        {/* Большое лого (25:383) - САМОЕ ПЕРВОЕ, ПОД ВСЕМИ карточками */}
+        <img 
+          src={bigLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
+            position: 'absolute',
+            left: '43px',
+            top: '1210px',
+            width: '1090px',
+            height: '814px',
+            objectFit: 'contain',
+          }}
+        />
+
         {/* Кнопка "выход" */}
         <img 
           src={exitArrow}
@@ -671,21 +685,6 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             }}
           />
         </div>
-
-        {/* Большое лого (25:383) - САМОЕ ПЕРВОЕ, ПОД ВСЕМИ карточками */}
-        <img 
-          src={bigLogo}
-          alt="МЕТАФЛОРА*"
-          style={{
-            position: 'absolute',
-            left: '43px',
-            top: '1210px',
-            width: '1090px',
-            height: '814px',
-            objectFit: 'contain',
-            zIndex: 0,
-          }}
-        />
 
         {/* Footer */}
         <div style={{
