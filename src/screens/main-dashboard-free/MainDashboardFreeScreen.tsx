@@ -15,6 +15,7 @@ import cardBackground from '../../assets/main-dashboard/фон под карто
 import buttonBackground from '../../assets/main-dashboard/фон под кнопкой перейти.png';
 import topUpButton from '../../assets/main-dashboard/кнопка пополнить.png';
 import payButton from '../../assets/main-dashboard/оплатить полный доступ поменьше.png';
+import goButton from '../../assets/main-dashboard/кнопка перейти.png';
 
 export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -183,39 +184,45 @@ export const MainDashboardFreeScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>демо-курс</p>
           </div>
 
-          {/* Иконка метакоинов */}
-          <img 
-            src={metacoinIcon}
-            alt="метакоины"
-            style={{
-              position: 'absolute',
-              left: '551px',
-              top: '35px',
-              width: '109px',
-              height: '109px',
-            }}
-          />
-
-          {/* Текст "150 метакоинов" */}
+          {/* Иконка метакоинов - круг */}
           <div style={{
             position: 'absolute',
-            left: '678px',
-            top: '35px',
+            left: '631px',
+            top: '42px',
+            width: '109px',
+            height: '109px',
+            borderRadius: '54.5px',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            overflow: 'hidden',
+          }}>
+            <img 
+              src={metacoinIcon}
+              alt="метакоины"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </div>
+
+          {/* Текст "150 метакоинов" - TT Commons Bold */}
+          <div style={{
+            position: 'absolute',
+            left: '758px',
+            top: '62px',
             width: '313px',
             height: '45px',
+            fontFamily: 'TT Commons',
+            fontWeight: 700,
+            fontSize: '45px',
+            lineHeight: 0,
+            color: 'white',
+            whiteSpace: 'nowrap',
           }}>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'TT Commons',
-              fontWeight: 700,
-              fontSize: '45px',
-              lineHeight: 0,
-              color: 'white',
-            }}>
-              <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
-            </div>
+            <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
           </div>
 
           {/* Кнопка "пополнить" - PNG */}
@@ -289,77 +296,19 @@ export const MainDashboardFreeScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* 3. Кнопка перейти (26:418) - над левой половиной */}
-          <div style={{
-            position: 'absolute',
-            inset: '34.94% 60.54% 35.74% 10.74%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Белые градиентные круги */}
-            <div style={{
+          {/* 3. Кнопка перейти (26:418) - PNG */}
+          <img 
+            src={goButton}
+            alt="перейти"
+            style={{
               position: 'absolute',
-              left: '73px',
-              top: '-44px',
-              width: '200px',
-              height: '150px',
-              pointerEvents: 'none',
-            }}>
-              <div style={{
-                position: 'absolute',
-                left: '4px',
-                top: '7.54px',
-                width: '101.963px',
-                height: '107.431px',
-                background: 'white',
-                borderRadius: '1568.563px',
-              }} />
-              <div style={{
-                position: 'absolute',
-                left: '29.5px',
-                top: '4px',
-                width: '90.498px',
-                height: '78.548px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{
-                  width: '51.243px',
-                  height: '75.957px',
-                  background: 'white',
-                  borderRadius: '1568.563px',
-                  transform: 'rotate(16.918deg) skewX(344.434deg)',
-                }} />
-              </div>
-              <div style={{
-                position: 'absolute',
-                left: '49.8px',
-                top: '74.18px',
-                width: '56.152px',
-                height: '72.822px',
-                background: 'white',
-                borderRadius: '1568.563px',
-              }} />
-            </div>
-            <div style={{
-              position: 'relative',
-              zIndex: 1,
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '27px',
-              color: 'white',
-            }}>
-              перейти
-            </div>
-          </div>
+              left: '96px',
+              top: '87px',
+              width: '257px',
+              height: '73px',
+              cursor: 'pointer',
+            }}
+          />
 
           {/* 4. Шторка вправо (7:233) - затемнение поверх */}
           <div style={{
@@ -453,33 +402,18 @@ export const MainDashboardFreeScreen: React.FC = () => {
         }} />
 
         {/* Большое лого (25:383) - ПОД белой подложкой */}
-        <div style={{
-          position: 'absolute',
-          left: '45px',
-          top: '1209px',
-          width: '1090px',
-          height: '814px',
-        }}>
-          <div style={{
+        <img 
+          src={bigLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={bigLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '209.5%',
-                left: '-28.23%',
-                top: '-52.5%',
-                width: '156.39%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </div>
+            left: '45px',
+            top: '1209px',
+            width: '1090px',
+            height: '814px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* Белая подложка подписки (26:410) - ПОВЕРХ лого */}
         <div style={{
