@@ -64,33 +64,20 @@ export const AboutPromptScreen: React.FC = () => {
           }}
         />
 
-        {/* Иконка "домой" - круг 100×100px (7:66) */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 352px)',
-          top: '75px',
-          width: '100px',
-          height: '100px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}
-        onClick={() => navigate('/main-dashboard-free')}>
-          <img 
-            src={homeIcon}
-            alt="домой"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
+        {/* Иконка "домой" - круг 100×100px БЕЗ обводки (7:66) */}
+        <img 
+          src={homeIcon}
+          alt="домой"
+          onClick={() => navigate('/main-dashboard-free')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 352px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Логотип маленький */}
         <div style={{
