@@ -515,9 +515,9 @@ export const WelcomeScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '102px',
-          top: '60px',
-          width: '311px',
-          height: '126px',
+          top: '65px',
+          width: '328px',
+          height: '124px',
         }}>
           <img 
             src={policies}
