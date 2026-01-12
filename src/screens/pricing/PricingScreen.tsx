@@ -573,7 +573,7 @@ export const PricingScreen: React.FC = () => {
 
         {/* Кнопка "оплатить полный доступ" с красным градиентом */}
         <button
-          onClick={() => navigate('/main-dashboard-free')}
+          onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
