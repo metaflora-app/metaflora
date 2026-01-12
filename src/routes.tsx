@@ -14,6 +14,7 @@ import { AboutLabaScreen } from './screens/about-laba';
 import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
 import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
 import { AcademyCourseSystemScreen } from './screens/academy-course-system';
+import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -124,7 +125,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/academy-lesson-materials',
-    element: <PlaceholderScreen name="Academy Lesson Materials" />,
+    element: <AcademyLessonMaterialsScreen />,
   },
 
   // Poligon section
