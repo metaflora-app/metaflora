@@ -7,6 +7,7 @@ import { PricingScreen } from './screens/pricing';
 import { PrivacyPolicyScreen } from './screens/privacy-policy';
 import { MarketingConsentScreen } from './screens/marketing-consent';
 import { MainDashboardFreeScreen } from './screens/main-dashboard-free';
+import { AboutPromptScreen } from './screens/about-prompt';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
   // Intro screens
   {
     path: '/about-prompt',
-    element: <PlaceholderScreen name="About Prompt" />,
+    element: <AboutPromptScreen />,
   },
   {
     path: '/about-academy',
