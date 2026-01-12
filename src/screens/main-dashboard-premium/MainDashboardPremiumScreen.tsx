@@ -197,7 +197,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '545px',
-            top: '42px',
+            top: '5px',
             width: '159px',
             height: '159px',
             borderRadius: '80px',
@@ -534,6 +534,73 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           />
         </div>
 
+        {/* Карточка Полигон (27:686) */}
+        <div style={{
+          position: 'absolute',
+          left: '141px',
+          top: '1480px',
+          width: '894px',
+          height: '249px',
+        }}>
+          {/* Фон полигон - левая половина */}
+          <div style={{
+            position: 'absolute',
+            inset: '0 50.05% 0 0',
+          }}>
+            {/* Placeholder - нужен фон полигон */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: '30px',
+            }} />
+          </div>
+
+          {/* Текст справа - черная карточка */}
+          <div style={{
+            position: 'absolute',
+            inset: '0 0 0 49.97%',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            overflow: 'clip',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: '8.43% 4% 8.43% 4%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '23px',
+              lineHeight: '1.1',
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              <p style={{ margin: 0 }}>
+                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе — рабочая система, которую можно повторять и масштабировать.
+              </p>
+            </div>
+          </div>
+
+          {/* Кнопка "открыть" */}
+          <img 
+            src={goButton}
+            alt="открыть"
+            onClick={() => navigate('/poligon-articles-all')}
+            style={{
+              position: 'absolute',
+              left: '98px',
+              top: '85px',
+              width: '257px',
+              height: '73px',
+              cursor: 'pointer',
+            }}
+          />
+        </div>
+
         {/* Карточка Чат (27:692) */}
         <div style={{
           position: 'absolute',
@@ -605,7 +672,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           />
         </div>
 
-        {/* Большое лого (25:383) */}
+        {/* Большое лого (25:383) - САМОЕ ПЕРВОЕ, ПОД ВСЕМИ карточками */}
         <img 
           src={bigLogo}
           alt="МЕТАФЛОРА*"
@@ -616,6 +683,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             width: '1090px',
             height: '814px',
             objectFit: 'contain',
+            zIndex: 0,
           }}
         />
 
