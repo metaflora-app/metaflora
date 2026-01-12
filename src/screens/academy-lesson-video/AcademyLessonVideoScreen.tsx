@@ -13,6 +13,7 @@ import playIcon from '../../assets/tour-video/play-icon.png';
 import expandIcon from '../../assets/tour-video/expand-icon.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import homeIcon from '../../assets/about-screens/домой.png';
+import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -294,7 +295,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Кнопка "получить материалы" с красным градиентом (27:506, 27:507) */}
+        {/* Кнопка "получить материалы" - PNG */}
         <button
           onClick={() => navigate('/academy-lesson-materials')}
           style={{
@@ -304,11 +305,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             transform: 'translateX(-50%)',
             width: '892px',
             height: '140px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
+            border: 'none',
+            background: 'transparent',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
@@ -316,54 +314,21 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             padding: 0,
           }}
         >
-          {/* Красно-желто-зелёный градиент */}
-          <div style={{
-            position: 'absolute',
-            left: '141px',
-            top: '-207.51px',
-            width: '700px',
-            height: '560px',
-            pointerEvents: 'none',
-          }}>
-            <div style={{
+          {/* PNG кнопка с градиентом */}
+          <img 
+            src={materialsButton}
+            alt=""
+            style={{
               position: 'absolute',
-              left: '4px',
-              top: '18px',
-              width: '575.775px',
-              height: '423.343px',
-              background: '#fa002d',
-              borderRadius: '1568.563px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              left: '147.97px',
-              top: '4px',
-              width: '511.029px',
-              height: '309.527px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                width: '283.008px',
-                height: '343.114px',
-                background: '#f0d825',
-                borderRadius: '1568.563px',
-                transform: 'rotate(11.984deg) skewX(332.71deg)',
-              }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              left: '262.64px',
-              top: '280.55px',
-              width: '317.086px',
-              height: '286.961px',
-              background: '#d5fc44',
-              borderRadius: '1568.563px',
-            }} />
-          </div>
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'fill',
+              pointerEvents: 'none',
+            }}
+          />
 
-          {/* Текст кнопки - поверх градиента (27:507) */}
+          {/* Текст кнопки - поверх PNG */}
           <div style={{
             position: 'relative',
             zIndex: 1,

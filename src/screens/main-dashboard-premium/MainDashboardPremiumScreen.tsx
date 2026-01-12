@@ -96,34 +96,19 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           }}
         />
 
-        {/* Большое лого (25:383 / 29:625) - САМОЕ ПЕРВОЕ, ПОД ВСЕМИ карточками */}
-        <div style={{
-          position: 'absolute',
-          left: '43px',
-          top: '1210px',
-          width: '1090px',
-          height: '814px',
-        }}>
-          <div style={{
+        {/* Большое лого (25:383) - САМОЕ ПЕРВОЕ, ПОД ВСЕМИ карточками */}
+        <img 
+          src={bigLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={bigLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '209.5%',
-                left: '-28.23%',
-                top: '-52.5%',
-                width: '156.39%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </div>
+            left: '43px',
+            top: '1210px',
+            width: '1090px',
+            height: '814px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* Кнопка "выход" */}
         <img 

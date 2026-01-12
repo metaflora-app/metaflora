@@ -153,34 +153,19 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Большое лого "люди на фоне" (29:548 / 7:2240) - ПОД карточками */}
-        <div style={{
-          position: 'absolute',
-          left: '31px',
-          top: '741px',
-          width: '1090px',
-          height: '1166px',
-        }}>
-          <div style={{
+        {/* Большое лого "люди на фоне" (29:548) - ПОД карточками */}
+        <img 
+          src={peopleLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={peopleLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '105.83%',
-                left: '-10.74%',
-                top: '-0.86%',
-                width: '113.22%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </div>
+            left: '31px',
+            top: '741px',
+            width: '1090px',
+            height: '1166px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* Карточка 1 - Академия / Система (29:431) */}
         <div style={{

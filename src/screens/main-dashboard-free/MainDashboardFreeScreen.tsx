@@ -402,34 +402,19 @@ export const MainDashboardFreeScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* Большое лого (25:383 / 29:622) - ПОД белой подложкой */}
-        <div style={{
-          position: 'absolute',
-          left: '35px',
-          top: '1209px',
-          width: '1090px',
-          height: '814px',
-        }}>
-          <div style={{
+        {/* Большое лого (25:383) - ПОД белой подложкой */}
+        <img 
+          src={bigLogo}
+          alt="МЕТАФЛОРА*"
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={bigLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '209.5%',
-                left: '-28.23%',
-                top: '-52.5%',
-                width: '156.39%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </div>
+            left: '45px',
+            top: '1209px',
+            width: '1090px',
+            height: '814px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* Белая подложка подписки (26:410) - ПОВЕРХ лого */}
         <div style={{
