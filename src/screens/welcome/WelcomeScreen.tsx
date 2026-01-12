@@ -560,8 +560,8 @@ export const WelcomeScreen: React.FC = () => {
           position: 'absolute',
           left: '94px',
           top: '513px',
-          width: '366px',
-          height: '20px',
+          width: '732px',
+          height: '40px',
         }}>
           <div style={{
             display: 'flex',
@@ -569,7 +569,7 @@ export const WelcomeScreen: React.FC = () => {
             justifyContent: 'center',
             fontFamily: 'Gotham Pro',
             fontWeight: 500,
-            fontSize: '20px',
+            fontSize: '40px',
             lineHeight: 0,
             color: '#d5fc44',
           }}>
