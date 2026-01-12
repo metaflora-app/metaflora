@@ -10,6 +10,8 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
+import promptButton from '../../assets/about-screens/промпт плашка.png';
+import materialsButton from '../../assets/about-screens/кнопка материалы.png';
 
 export const AcademyLessonMaterialsScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -240,7 +242,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                 {/* Заголовок внутри (32:715) */}
                 <p style={{ 
                   margin: 0, 
-                  marginBottom: '35px',
+                  marginBottom: '20px',
                   fontFamily: 'Inter',
                   fontWeight: 700,
                   fontSize: '52px',
@@ -249,60 +251,52 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                 </p>
 
                 {/* Описание (32:716) */}
-                <p style={{ margin: 0, marginBottom: '35px' }}>
+                <p style={{ margin: 0, marginBottom: '20px' }}>
                   идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
                 </p>
 
                 {/* Блок с промптами (условный) */}
                 {hasPrompts && (
                   <>
-                    {/* Кнопка "промпт" (32:726) - позиция inset */}
-                    <div style={{
-                      display: 'inline-block',
-                      margin: '20px auto',
-                      padding: '12px 40px',
-                      backdropFilter: 'blur(50px)',
-                      background: 'rgba(0, 0, 0, 0.9)',
-                      border: '4px solid rgba(255, 255, 255, 0.3)',
-                      borderRadius: '62px',
-                      cursor: 'pointer',
-                    }}>
-                      <div style={{
-                        fontFamily: 'Gotham Pro',
-                        fontWeight: 500,
-                        fontSize: '27px',
-                        lineHeight: 0,
-                      }}>
-                        <p style={{ margin: 0, lineHeight: '1' }}>промпт</p>
-                      </div>
+                    {/* Кнопка "промпт" - PNG (32:726) */}
+                    <div style={{ textAlign: 'center', margin: '15px 0' }}>
+                      <img 
+                        src={promptButton}
+                        alt="промпт"
+                        style={{
+                          width: '257px',
+                          height: '73px',
+                          cursor: 'pointer',
+                        }}
+                      />
                     </div>
 
-                    {/* Текст промптов (32:717) */}
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    {/* Текст промптов - меньшие отступы (32:717) */}
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
                     </p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       А второй клип начинается с солнца, которое тоже заполняет кадр:
                     </p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>&nbsp;</p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>&nbsp;</p>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
                     </p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
                     </p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>&nbsp;</p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>&nbsp;</p>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
                     </p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       А второй клип начинается с солнца, которое тоже заполняет кадр:
                     </p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>&nbsp;</p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>&nbsp;</p>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
                     </p>
-                    <p style={{ margin: 0, marginBottom: '35px' }}>
+                    <p style={{ margin: 0, marginBottom: '15px' }}>
                       Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
                     </p>
                   </>
@@ -311,25 +305,17 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                 {/* Блок с материалами (условный) */}
                 {hasMaterials && (
                   <>
-                    {/* Кнопка "материалы" (32:749) - красный градиент */}
-                    <div style={{
-                      display: 'inline-block',
-                      margin: '20px auto',
-                      padding: '12px 50px',
-                      backdropFilter: 'blur(50px)',
-                      background: 'rgba(0, 0, 0, 0.9)',
-                      border: '4px solid rgba(255, 255, 255, 0.3)',
-                      borderRadius: '62px',
-                      cursor: 'pointer',
-                    }}>
-                      <div style={{
-                        fontFamily: 'Gotham Pro',
-                        fontWeight: 500,
-                        fontSize: '27px',
-                        lineHeight: 0,
-                      }}>
-                        <p style={{ margin: 0, lineHeight: '1' }}>материалы</p>
-                      </div>
+                    {/* Кнопка "материалы" - PNG (32:749) */}
+                    <div style={{ textAlign: 'center', margin: '20px 0' }}>
+                      <img 
+                        src={materialsButton}
+                        alt="материалы"
+                        style={{
+                          width: '257px',
+                          height: '73px',
+                          cursor: 'pointer',
+                        }}
+                      />
                     </div>
 
                     {/* Текст "скачать файлы (5)" с плюсиком (32:735, 32:737) */}
@@ -338,7 +324,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: '15px',
-                      marginTop: '30px',
+                      marginTop: '15px',
                     }}>
                       <div style={{
                         fontFamily: 'Gotham Pro',
