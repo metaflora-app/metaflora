@@ -12,6 +12,8 @@ import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
 import playIcon from '../../assets/tour-video/play-icon.png';
 import pauseIcon from '../../assets/tour-video/pause-icon.png';
 import expandIcon from '../../assets/tour-video/expand-icon.png';
+import homeIcon from '../../assets/about-screens/домой.png';
+import serviceButton from '../../assets/about-screens/кнопка перейти к сервису.png';
 
 export const AboutPromptScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -62,23 +64,20 @@ export const AboutPromptScreen: React.FC = () => {
           }}
         />
 
-        {/* Иконка карт (7:66) */}
-        <div style={{
-          position: 'absolute',
-          left: '205px',
-          top: '81px',
-          width: '65px',
-          height: '65px',
-        }}>
-          {/* Placeholder for cards icon - цветок + карты */}
-          <div style={{
+        {/* Иконка "домой" (7:66) */}
+        <img 
+          src={homeIcon}
+          alt="домой"
+          onClick={() => navigate('/main-dashboard-free')}
+          style={{
             position: 'absolute',
-            inset: 0,
-            fontSize: '50px',
-          }}>
-            🃏
-          </div>
-        </div>
+            left: '205px',
+            top: '81px',
+            width: '65px',
+            height: '65px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Логотип маленький */}
         <div style={{
@@ -266,8 +265,10 @@ export const AboutPromptScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Кнопка "перейти к сервису" с фиолетово-зелёным градиентом (27:325) */}
-        <button
+        {/* Кнопка "перейти к сервису" - PNG (27:325) */}
+        <img 
+          src={serviceButton}
+          alt="перейти к сервису"
           onClick={() => navigate('/prompt-first')}
           style={{
             position: 'absolute',
@@ -276,80 +277,10 @@ export const AboutPromptScreen: React.FC = () => {
             transform: 'translateX(-50%)',
             width: '892px',
             height: '140px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
+            objectFit: 'fill',
             cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 0,
           }}
-        >
-          {/* Фиолетово-зелёный градиент */}
-          <div style={{
-            position: 'absolute',
-            left: '141px',
-            top: '-207.51px',
-            width: '700px',
-            height: '560px',
-            pointerEvents: 'none',
-          }}>
-            {/* Фиолетовый круг */}
-            <div style={{
-              position: 'absolute',
-              left: '4px',
-              top: '18px',
-              width: '575.775px',
-              height: '423.343px',
-              background: '#814cf3',
-              borderRadius: '1568.563px',
-            }} />
-            {/* Зелёный круг (средний) */}
-            <div style={{
-              position: 'absolute',
-              left: '147.97px',
-              top: '4px',
-              width: '511.029px',
-              height: '309.527px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                width: '283.008px',
-                height: '343.114px',
-                background: '#d5fc44',
-                borderRadius: '1568.563px',
-                transform: 'rotate(11.984deg) skewX(332.71deg)',
-              }} />
-            </div>
-            {/* Зелёный круг (правый) */}
-            <div style={{
-              position: 'absolute',
-              left: '262.64px',
-              top: '280.55px',
-              width: '317.086px',
-              height: '286.961px',
-              background: '#d5fc44',
-              borderRadius: '1568.563px',
-            }} />
-          </div>
-          {/* Текст кнопки (7:444) */}
-          <div style={{
-            position: 'relative',
-            zIndex: 1,
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            перейти к сервису
-          </div>
-        </button>
+        />
 
         {/* Футер */}
         <div style={{
