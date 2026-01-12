@@ -211,7 +211,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           {/* Иконка метакоинов - круг */}
           <div style={{
             position: 'absolute',
-            left: '545px',
+            left: '520px',
             top: '5px',
             width: '159px',
             height: '159px',
@@ -320,7 +320,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Шторка (затемнение) */}
+          {/* Шторка (затемнение) со стрелкой */}
           <div style={{
             position: 'absolute',
             inset: '0 0 0 63.07%',
@@ -330,7 +330,17 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
             pointerEvents: 'none',
-          }} />
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              fontSize: '40px',
+              color: 'white',
+            }}>
+              →
+            </div>
+          </div>
 
           {/* Кнопка "открыть" */}
           <img 
@@ -427,7 +437,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Шторка покороче */}
+          {/* Шторка покороче со стрелкой */}
           <div style={{
             position: 'absolute',
             inset: '0.4% 0 0 80.45%',
@@ -437,7 +447,17 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
             pointerEvents: 'none',
-          }} />
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              fontSize: '30px',
+              color: 'white',
+            }}>
+              →
+            </div>
+          </div>
 
           {/* Кнопка "открыть" */}
           <img 
