@@ -6,7 +6,6 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
 import playIcon from '../../assets/tour-video/play-icon.png';
@@ -49,32 +48,17 @@ export const AboutPromptScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Кнопка "выход" */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/main-dashboard-free')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Иконка "домой" (7:66) */}
+        {/* Иконка "домой" (7:66) - кнопка назад к главному экрану */}
         <img 
           src={homeIcon}
           alt="домой"
           onClick={() => navigate('/main-dashboard-free')}
           style={{
             position: 'absolute',
-            left: '205px',
-            top: '81px',
-            width: '65px',
-            height: '65px',
+            left: '105px',
+            top: '75px',
+            width: '100px',
+            height: '100px',
             cursor: 'pointer',
           }}
         />
@@ -236,7 +220,7 @@ export const AboutPromptScreen: React.FC = () => {
               />
             </div>
 
-            {/* Кнопка Expand */}
+            {/* Кнопка Expand - правый нижний угол */}
             <div style={{
               position: 'absolute',
               right: '14px',
@@ -247,28 +231,43 @@ export const AboutPromptScreen: React.FC = () => {
               background: 'rgba(0, 0, 0, 0.1)',
               border: '4px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              overflow: 'clip',
               cursor: 'pointer',
             }}>
-              <img 
-                src={expandIcon}
-                alt="expand"
-                style={{
-                  width: '42px',
-                  height: '42px',
-                  objectFit: 'contain',
-                }}
-              />
+              {/* Иконка развернуть */}
+              <div style={{
+                position: 'absolute',
+                left: '11px',
+                top: '11px',
+                width: '42px',
+                height: '42px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={expandIcon}
+                    alt="развернуть"
+                    style={{
+                      position: 'absolute',
+                      height: '288.46%',
+                      left: '-164.28%',
+                      top: '-99.18%',
+                      width: '431.44%',
+                      maxWidth: 'none',
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
-        <img 
-          src={serviceButton}
-          alt="перейти к сервису"
+        <button
           onClick={() => navigate('/prompt-first')}
           style={{
             position: 'absolute',
@@ -277,10 +276,41 @@ export const AboutPromptScreen: React.FC = () => {
             transform: 'translateX(-50%)',
             width: '892px',
             height: '140px',
-            objectFit: 'fill',
+            border: 'none',
+            background: 'transparent',
             cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 0,
           }}
-        />
+        >
+          {/* PNG кнопка с градиентом под текстом */}
+          <img 
+            src={serviceButton}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'fill',
+              pointerEvents: 'none',
+            }}
+          />
+          {/* Текст кнопки (7:444) - поверх градиента */}
+          <div style={{
+            position: 'relative',
+            zIndex: 1,
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '40px',
+            color: 'white',
+            textAlign: 'center',
+          }}>
+            перейти к сервису
+          </div>
+        </button>
 
         {/* Футер */}
         <div style={{
