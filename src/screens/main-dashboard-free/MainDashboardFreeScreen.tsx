@@ -187,7 +187,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           {/* Иконка метакоинов - круг (26:430 / 7:253) */}
           <div style={{
             position: 'absolute',
-            left: '470px',
+            left: '555px',
             top: '5px',
             width: '159px',
             height: '159px',
