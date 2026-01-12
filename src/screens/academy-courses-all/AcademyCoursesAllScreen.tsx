@@ -153,13 +153,13 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Большое лого "люди на фоне" (29:548 / 7:2240) - ПОД карточками */}
+        {/* Большое лого "люди на фоне" (29:548 / 7:2240) - ПОД карточками, меньше размером */}
         <div style={{
           position: 'absolute',
-          left: '31px',
-          top: '741px',
-          width: '1090px',
-          height: '1166px',
+          left: '90px',
+          top: '616px',
+          width: '1000px',
+          height: '1070px',
         }}>
           <div style={{
             position: 'absolute',
@@ -186,7 +186,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '141px',
-          top: '538px',
+          top: '413px',
           width: '894px',
           height: '249px',
         }}>
@@ -337,7 +337,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '141px',
-          top: '851px',
+          top: '726px',
           width: '894px',
           height: '250px',
         }}>
@@ -465,7 +465,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '141px',
-          top: '1166px',
+          top: '1041px',
           width: '894px',
           height: '249px',
         }}>
@@ -571,7 +571,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '141px',
-          top: '1480px',
+          top: '1355px',
           width: '894px',
           height: '249px',
         }}>
