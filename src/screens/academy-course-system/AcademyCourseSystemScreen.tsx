@@ -203,10 +203,10 @@ export const AcademyCourseSystemScreen: React.FC = () => {
               borderRadius: '30px',
               overflow: 'clip',
             }}>
-              {/* Текст описания - занимает верх карточки */}
+              {/* Текст описания - точные inset из Figma */}
               <div style={{
                 position: 'absolute',
-                inset: '15px 18px 111px 18px',
+                inset: 'calc(4.73% - 4px) 4% calc(35.03% - 4px) 4%',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -222,21 +222,25 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                 </p>
               </div>
 
-              {/* Кнопка "перейти" - внизу карточки */}
-              <img 
-                src={goButton}
-                alt="перейти"
-                onClick={() => navigate('/academy-lesson-video')}
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  bottom: '32px',
-                  transform: 'translateX(-50%)',
-                  width: '257px',
-                  height: '73px',
-                  cursor: 'pointer',
-                }}
-              />
+              {/* Кнопка "перейти" - точные inset из Figma */}
+              <div style={{
+                position: 'absolute',
+                inset: 'calc(64.98% - 4px) calc(21.19% - 4px) calc(10.02% - 4px) calc(20.71% - 4px)',
+              }}>
+                <img 
+                  src={goButton}
+                  alt="перейти"
+                  onClick={() => navigate('/academy-lesson-video')}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
 
             {/* Номер урока - ПОВЕРХ карточки */}
