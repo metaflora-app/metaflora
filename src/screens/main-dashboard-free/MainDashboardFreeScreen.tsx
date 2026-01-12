@@ -264,6 +264,22 @@ export const MainDashboardFreeScreen: React.FC = () => {
             МЕТАФЛОРА* подписка
           </div>
 
+          {/* Description - (Property from 26:409) */}
+          <div style={{
+            position: 'absolute',
+            left: '60px',
+            top: '245px',
+            width: '900px',
+            fontFamily: 'TT Commons',
+            fontWeight: 300,
+            fontSize: '35px',
+            color: 'white',
+            textAlign: 'center',
+            lineHeight: '1.2',
+          }}>
+            МЕТАФЛОРА* подписка даст вам доступ ко всем блокам обучения, материалам, каналам и чатам сообщества
+          </div>
+
           {/* List of items - (Placeholder for 7:212) */}
           <div style={{
             position: 'absolute',
