@@ -96,15 +96,15 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           }}
         />
 
-        {/* Большое лого (25:383) - САМОЕ ПЕРВОЕ, ПОД ВСЕМИ карточками */}
+        {/* Большое лого (25:383) - САМОЕ ПЕРВОЕ, ПОД ВСЕМИ карточками, узкое */}
         <img 
           src={bigLogo}
           alt="МЕТАФЛОРА*"
           style={{
             position: 'absolute',
-            left: '43px',
+            left: '145px',
             top: '1210px',
-            width: '1090px',
+            width: '890px',
             height: '814px',
             objectFit: 'contain',
           }}

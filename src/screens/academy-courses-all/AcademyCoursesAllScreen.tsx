@@ -153,15 +153,15 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Большое лого "люди на фоне" (29:548) - ПОД карточками */}
+        {/* Большое лого "люди на фоне" (29:548) - ПОД карточками, узкое */}
         <img 
           src={peopleLogo}
           alt="МЕТАФЛОРА*"
           style={{
             position: 'absolute',
-            left: '31px',
+            left: '145px',
             top: '741px',
-            width: '1090px',
+            width: '890px',
             height: '1166px',
             objectFit: 'contain',
           }}

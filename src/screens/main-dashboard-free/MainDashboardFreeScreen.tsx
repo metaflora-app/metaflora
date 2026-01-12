@@ -402,15 +402,15 @@ export const MainDashboardFreeScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* Большое лого (25:383) - ПОД белой подложкой */}
+        {/* Большое лого (25:383) - ПОД белой подложкой, узкое */}
         <img 
           src={bigLogo}
           alt="МЕТАФЛОРА*"
           style={{
             position: 'absolute',
-            left: '45px',
+            left: '145px',
             top: '1209px',
-            width: '1090px',
+            width: '890px',
             height: '814px',
             objectFit: 'contain',
           }}
