@@ -188,10 +188,10 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '545px',
-            top: '35px',
-            width: '109px',
-            height: '109px',
-            borderRadius: '54.5px',
+            top: '5px',
+            width: '159px',
+            height: '159px',
+            borderRadius: '79.5px',
             border: '2px solid rgba(255, 255, 255, 0.3)',
             overflow: 'hidden',
           }}>
