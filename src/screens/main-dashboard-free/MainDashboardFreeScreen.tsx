@@ -184,14 +184,14 @@ export const MainDashboardFreeScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>демо-курс</p>
           </div>
 
-          {/* Иконка метакоинов - круг (26:430) */}
+          {/* Иконка метакоинов - круг (26:430 / 7:253) */}
           <div style={{
             position: 'absolute',
             left: '545px',
-            top: '5px',
+            top: '42px',
             width: '159px',
             height: '159px',
-            borderRadius: '79.5px',
+            borderRadius: '80px',
             border: '2px solid rgba(255, 255, 255, 0.3)',
             overflow: 'hidden',
           }}>
