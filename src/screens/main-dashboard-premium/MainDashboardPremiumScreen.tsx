@@ -463,7 +463,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/laba-main')}
+            onClick={() => navigate('/about-laba')}
             style={{
               position: 'absolute',
               left: '96px',
@@ -535,7 +535,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/prompt-first')}
+            onClick={() => navigate('/about-prompt')}
             style={{
               position: 'absolute',
               left: '96px',
