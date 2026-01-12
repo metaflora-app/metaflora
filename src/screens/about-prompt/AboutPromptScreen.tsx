@@ -64,7 +64,7 @@ export const AboutPromptScreen: React.FC = () => {
           }}
         />
 
-        {/* Иконка "домой" - круг 100×100px БЕЗ обводки (7:66) */}
+        {/* Иконка "домой" - готовая круглая PNG 100×100px (7:66) */}
         <img 
           src={homeIcon}
           alt="домой"
