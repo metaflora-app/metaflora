@@ -203,13 +203,10 @@ export const AcademyCourseSystemScreen: React.FC = () => {
               borderRadius: '30px',
               overflow: 'clip',
             }}>
-              {/* Текст описания - ниже */}
+              {/* Текст описания - занимает верх карточки */}
               <div style={{
                 position: 'absolute',
-                top: '15px',
-                left: '18px',
-                right: '18px',
-                bottom: '96px',
+                inset: '15px 18px 111px 18px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -225,7 +222,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                 </p>
               </div>
 
-              {/* Кнопка "перейти" - ниже */}
+              {/* Кнопка "перейти" - внизу карточки */}
               <img 
                 src={goButton}
                 alt="перейти"
