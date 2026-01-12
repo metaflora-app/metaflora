@@ -11,6 +11,7 @@ import { MainDashboardPremiumScreen } from './screens/main-dashboard-premium';
 import { AboutPromptScreen } from './screens/about-prompt';
 import { AboutAcademyScreen } from './screens/about-academy';
 import { AboutLabaScreen } from './screens/about-laba';
+import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -97,7 +98,7 @@ export const router = createBrowserRouter([
   // Academy section
   {
     path: '/academy-courses-all',
-    element: <PlaceholderScreen name="Academy Courses All" />,
+    element: <AcademyCoursesAllScreen />,
   },
   {
     path: '/academy-course-system',
