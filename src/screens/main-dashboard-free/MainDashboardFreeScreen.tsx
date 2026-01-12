@@ -184,11 +184,11 @@ export const MainDashboardFreeScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>демо-курс</p>
           </div>
 
-          {/* Иконка метакоинов - круг */}
+          {/* Иконка метакоинов - круг (26:430) */}
           <div style={{
             position: 'absolute',
-            left: '631px',
-            top: '42px',
+            left: '545px',
+            top: '35px',
             width: '109px',
             height: '109px',
             borderRadius: '54.5px',
@@ -208,11 +208,11 @@ export const MainDashboardFreeScreen: React.FC = () => {
             />
           </div>
 
-          {/* Текст "150 метакоинов" - TT Commons Bold */}
+          {/* Текст "150 метакоинов" - TT Commons Bold (26:431) */}
           <div style={{
             position: 'absolute',
-            left: '758px',
-            top: '62px',
+            left: '678px',
+            top: '35px',
             width: '313px',
             height: '45px',
             fontFamily: 'TT Commons',
