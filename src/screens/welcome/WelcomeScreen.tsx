@@ -515,7 +515,7 @@ export const WelcomeScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '102px',
-          top: '65px',
+          top: '61px',
           width: '328px',
           height: '124px',
         }}>
@@ -553,6 +553,28 @@ export const WelcomeScreen: React.FC = () => {
               cursor: 'pointer',
             }}
           />
+        </div>
+
+        {/* Текст "скоро обновление платформы.." */}
+        <div style={{
+          position: 'absolute',
+          left: '94px',
+          top: '513px',
+          width: '366px',
+          height: '20px',
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '20px',
+            lineHeight: 0,
+            color: '#d5fc44',
+          }}>
+            <p style={{ margin: 0, lineHeight: '1' }}>скоро обновление платформы..</p>
+          </div>
         </div>
       </div>
     </div>
