@@ -208,14 +208,14 @@ export const MainDashboardFreeScreen: React.FC = () => {
             />
           </div>
 
-          {/* Текст "150 метакоинов" - TT Commons Bold (26:431) */}
+          {/* Текст "150 метакоинов" - Gotham Pro Bold (26:431) */}
           <div style={{
             position: 'absolute',
             left: '678px',
             top: '35px',
             width: '313px',
             height: '45px',
-            fontFamily: 'TT Commons',
+            fontFamily: 'Gotham Pro',
             fontWeight: 700,
             fontSize: '45px',
             lineHeight: 0,
@@ -407,7 +407,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           alt="МЕТАФЛОРА*"
           style={{
             position: 'absolute',
-            left: '45px',
+            left: '35px',
             top: '1209px',
             width: '1090px',
             height: '814px',
@@ -439,6 +439,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             top: '1375px',
             width: '887px',
             height: '140px',
+            objectFit: 'fill',
             cursor: 'pointer',
           }}
         />
