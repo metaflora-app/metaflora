@@ -1,0 +1,1 @@
+export { AboutLabaScreen } from './AboutLabaScreen';

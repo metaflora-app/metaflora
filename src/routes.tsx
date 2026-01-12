@@ -10,6 +10,7 @@ import { MainDashboardFreeScreen } from './screens/main-dashboard-free';
 import { MainDashboardPremiumScreen } from './screens/main-dashboard-premium';
 import { AboutPromptScreen } from './screens/about-prompt';
 import { AboutAcademyScreen } from './screens/about-academy';
+import { AboutLabaScreen } from './screens/about-laba';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -76,7 +77,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/about-laba',
-    element: <PlaceholderScreen name="About Laba" />,
+    element: <AboutLabaScreen />,
   },
   {
     path: '/about-poligon',
