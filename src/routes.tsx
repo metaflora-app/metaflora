@@ -5,6 +5,7 @@ import { TourVideoScreen } from './screens/tour-video';
 import { DemoAccessScreen } from './screens/demo-access';
 import { PricingScreen } from './screens/pricing';
 import { PrivacyPolicyScreen } from './screens/privacy-policy';
+import { MarketingConsentScreen } from './screens/marketing-consent';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -165,6 +166,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '/marketing-consent',
-    element: <PlaceholderScreen name="Marketing Consent" />,
+    element: <MarketingConsentScreen />,
   },
 ]);
