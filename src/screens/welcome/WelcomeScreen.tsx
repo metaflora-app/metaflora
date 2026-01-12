@@ -511,13 +511,13 @@ export const WelcomeScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Политики - PNG с кликабельной областью */}
+        {/* Политики - PNG с кликабельными областями */}
         <div style={{
           position: 'absolute',
           left: '102px',
           top: '65px',
-          width: '214px',
-          height: '110px',
+          width: '311px',
+          height: '126px',
         }}>
           <img 
             src={policies}
@@ -527,7 +527,6 @@ export const WelcomeScreen: React.FC = () => {
               inset: 0,
               width: '100%',
               height: '100%',
-              objectFit: 'contain',
             }}
           />
           {/* Кликабельная область на "политика конфиденциальности" */}
@@ -537,7 +536,19 @@ export const WelcomeScreen: React.FC = () => {
               position: 'absolute',
               left: 0,
               top: '46px',
-              width: '187px',
+              width: '280px',
+              height: '30px',
+              cursor: 'pointer',
+            }}
+          />
+          {/* Кликабельная область на "рекламная и информационная рассылка" */}
+          <div
+            onClick={() => navigate('/marketing-consent')}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '84px',
+              width: '311px',
               height: '30px',
               cursor: 'pointer',
             }}
