@@ -222,7 +222,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             {/* Gradient colors behind */}
             <div style={{
               position: 'absolute',
-              left: '-37px',
+              left: '37px',
               top: '-77px',
               width: '250px',
               height: '250px',
@@ -241,12 +241,20 @@ export const MainDashboardFreeScreen: React.FC = () => {
                 position: 'absolute',
                 left: '25.98px',
                 top: '4px',
-                width: '46.981px',
-                height: '94.573px',
-                background: '#f0d825',
-                borderRadius: '1568.563px',
-                transform: 'rotate(25.894deg) skewX(3.673deg)',
-              }} />
+                width: '78.017px',
+                height: '108.071px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <div style={{
+                  width: '46.981px',
+                  height: '94.573px',
+                  background: '#f0d825',
+                  borderRadius: '1568.563px',
+                  transform: 'rotate(25.894deg) skewX(3.673deg)',
+                }} />
+              </div>
               <div style={{
                 position: 'absolute',
                 left: '43.49px',
