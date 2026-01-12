@@ -231,7 +231,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               overflowX: 'hidden',
             }}>
               <div style={{
-                fontFamily: 'TT Commons',
+                fontFamily: 'Gotham Pro',
                 fontWeight: 300,
                 fontSize: '35px',
                 lineHeight: '1.2',
@@ -239,15 +239,19 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                 textAlign: 'center',
                 whiteSpace: 'pre-wrap',
               }}>
-                {/* Заголовок внутри (32:715) */}
+                {/* Заголовок внутри (32:715) - 2 строки */}
                 <p style={{ 
                   margin: 0, 
                   marginBottom: '20px',
                   fontFamily: 'Inter',
                   fontWeight: 700,
                   fontSize: '52px',
+                  lineHeight: '1.1',
+                  maxWidth: '470px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
                 }}>
-                  морфинг через общие элементы
+                  морфинг через{'\n'}общие элементы
                 </p>
 
                 {/* Описание (32:716) */}
@@ -264,8 +268,8 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                         src={promptButton}
                         alt="промпт"
                         style={{
-                          width: '257px',
-                          height: '73px',
+                          width: '247px',
+                          height: '80px',
                           cursor: 'pointer',
                         }}
                       />
@@ -311,8 +315,8 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                         src={materialsButton}
                         alt="материалы"
                         style={{
-                          width: '257px',
-                          height: '73px',
+                          width: '247px',
+                          height: '80px',
                           cursor: 'pointer',
                         }}
                       />
