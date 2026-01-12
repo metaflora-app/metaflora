@@ -14,6 +14,7 @@ import metacoinIcon from '../../assets/main-dashboard/кружок подарк�
 import academyBg from '../../assets/main-dashboard/фон академия.png';
 import labaBg from '../../assets/main-dashboard/фон лаба.png';
 import tsekhBg from '../../assets/main-dashboard/фон цех.png';
+import poligonBg from '../../assets/main-dashboard/фон полигон.png';
 import chatBg from '../../assets/main-dashboard/фон чат.png';
 import topUpButton from '../../assets/main-dashboard/кнопка пополнить.png';
 import goButton from '../../assets/main-dashboard/кнопка перейти.png';
@@ -329,18 +330,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
             pointerEvents: 'none',
-          }}>
-            {/* Стрелка */}
-            <div style={{
-              position: 'absolute',
-              left: '127px',
-              top: '120px',
-              fontSize: '40px',
-              color: 'white',
-            }}>
-              →
-            </div>
-          </div>
+          }} />
 
           {/* Кнопка "открыть" */}
           <img 
@@ -447,18 +437,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'clip',
             pointerEvents: 'none',
-          }}>
-            {/* Стрелка */}
-            <div style={{
-              position: 'absolute',
-              left: '66px',
-              top: '120px',
-              fontSize: '30px',
-              color: 'white',
-            }}>
-              →
-            </div>
-          </div>
+          }} />
 
           {/* Кнопка "открыть" */}
           <img 
@@ -561,13 +540,18 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             position: 'absolute',
             inset: '0 50.05% 0 0',
           }}>
-            {/* Placeholder - нужен фон полигон */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              borderRadius: '30px',
-            }} />
+            <img 
+              src={poligonBg}
+              alt=""
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '30px',
+              }}
+            />
           </div>
 
           {/* Текст справа - черная карточка */}
