@@ -515,7 +515,7 @@ export const WelcomeScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '102px',
-          top: '65px',
+          top: '60px',
           width: '311px',
           height: '126px',
         }}>
