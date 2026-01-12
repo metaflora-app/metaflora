@@ -7,6 +7,7 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
 import playIcon from '../../assets/tour-video/play-icon.png';
 import pauseIcon from '../../assets/tour-video/pause-icon.png';
@@ -48,20 +49,43 @@ export const AboutPromptScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Иконка "домой" (7:66) - кнопка назад к главному экрану */}
+        {/* Кнопка "выход" (стрелка назад) (24:247) */}
         <img 
-          src={homeIcon}
-          alt="домой"
+          src={exitArrow}
+          alt="назад"
           onClick={() => navigate('/main-dashboard-free')}
           style={{
             position: 'absolute',
-            left: '105px',
+            left: 'calc(50% - 452px)',
             top: '75px',
             width: '100px',
             height: '100px',
             cursor: 'pointer',
           }}
         />
+
+        {/* Иконка "домой" (7:66) */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 352px)',
+          top: '75px',
+          width: '100px',
+          height: '100px',
+        }}>
+          <img 
+            src={homeIcon}
+            alt="домой"
+            onClick={() => navigate('/main-dashboard-free')}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              cursor: 'pointer',
+            }}
+          />
+        </div>
 
         {/* Логотип маленький */}
         <div style={{
@@ -220,13 +244,10 @@ export const AboutPromptScreen: React.FC = () => {
               />
             </div>
 
-            {/* Кнопка Expand - правый нижний угол */}
+            {/* Кнопка Expand - правый нижний угол (7:142) */}
             <div style={{
               position: 'absolute',
-              right: '14px',
-              bottom: '17px',
-              width: '64px',
-              height: '64px',
+              inset: '93.89% 1.57% 1.17% 90.35%',
               backdropFilter: 'blur(50px)',
               background: 'rgba(0, 0, 0, 0.1)',
               border: '4px solid rgba(255, 255, 255, 0.3)',
