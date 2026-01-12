@@ -213,7 +213,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             position: 'absolute',
             left: '678px',
             top: '35px',
-            width: '313px',
+            width: '347px',
             height: '45px',
             fontFamily: 'Gotham Pro',
             fontWeight: 700,
