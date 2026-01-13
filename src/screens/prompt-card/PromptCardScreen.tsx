@@ -293,8 +293,8 @@ export const PromptCardScreen: React.FC = () => {
         {/* Title "ИИ-копирайтер для блога" */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% + 0.5px)',
-          top: '1265px',
+          left: '384px',
+          top: '1223px',
           width: '469px',
           transform: 'translateX(-50%)',
           display: 'flex',
@@ -327,10 +327,9 @@ export const PromptCardScreen: React.FC = () => {
         {/* Prompt text */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '1458px',
+          left: '257px',
+          top: '1501px',
           width: '666px',
-          transform: 'translateX(-50%)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -359,11 +358,10 @@ export const PromptCardScreen: React.FC = () => {
           <>
             <div style={{
               position: 'absolute',
-              left: 'calc(50% + 118.5px)',
-              top: '1738px',
+              left: '691px',
+              top: '1794px',
               width: '35px',
               height: '35px',
-              transform: 'translateX(-50%)',
               backdropFilter: 'blur(50px)',
               background: 'rgba(255, 255, 255, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -393,10 +391,9 @@ export const PromptCardScreen: React.FC = () => {
             </div>
             <div style={{
               position: 'absolute',
-              left: '50%',
-              top: '1736px',
+              left: '481px',
+              top: '1794px',
               width: '218px',
-              transform: 'translateX(-50%)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
@@ -420,7 +417,7 @@ export const PromptCardScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: '467px',
-            top: '1812px',
+            top: '1845px',
             width: '257px',
             height: '73px',
             objectFit: 'contain',
