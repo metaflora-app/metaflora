@@ -12,6 +12,7 @@ import { AboutPromptScreen } from './screens/about-prompt';
 import { AboutAcademyScreen } from './screens/about-academy';
 import { AboutLabaScreen } from './screens/about-laba';
 import { AboutPoligonScreen } from './screens/about-poligon';
+import { ArticleScreen } from './screens/article';
 import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
 import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
 import { AcademyCourseSystemScreen } from './screens/academy-course-system';
@@ -133,7 +134,7 @@ export const router = createBrowserRouter([
   // Poligon section
   {
     path: '/article',
-    element: <PlaceholderScreen name="Article" />,
+    element: <ArticleScreen />,
   },
   {
     path: '/poligon-articles-all',
