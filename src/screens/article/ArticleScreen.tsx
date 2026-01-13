@@ -203,6 +203,7 @@ export const ArticleScreen: React.FC = () => {
           background: 'black',
           border: '1px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
+          overflow: 'auto',
         }} />
 
         <div style={{
@@ -312,8 +313,8 @@ export const ArticleScreen: React.FC = () => {
 
         <div style={{
           position: 'absolute',
-          left: '773px',
-          top: '1893px',
+          left: '754px',
+          top: '1907px',
           width: '35px',
           height: '35px',
           backdropFilter: 'blur(50px)',
@@ -336,8 +337,8 @@ export const ArticleScreen: React.FC = () => {
 
         <div style={{
           position: 'absolute',
-          left: '387px',
-          top: '1890px',
+          left: '388px',
+          top: '1901px',
           width: '405px',
           fontFamily: 'Gotham Pro',
           fontWeight: 500,
