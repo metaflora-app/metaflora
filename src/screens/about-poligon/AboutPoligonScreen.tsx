@@ -122,7 +122,7 @@ export const AboutPoligonScreen: React.FC = () => {
           }}
         />
 
-        {/* Заголовок "как устроена МЕТАФЛОРА* полигон" (27:453) */}
+        {/* Заголовок "как устроена МЕТАФЛОРА* полигон" (27:455) */}
         <div style={{
           position: 'absolute',
           left: '94px',
