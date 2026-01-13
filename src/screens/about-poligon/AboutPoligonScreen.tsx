@@ -281,7 +281,7 @@ export const AboutPoligonScreen: React.FC = () => {
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
         <button
-          onClick={() => navigate('/poligon-articles-all')}
+          onClick={() => navigate('/article')}
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
