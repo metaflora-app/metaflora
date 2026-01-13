@@ -5,26 +5,24 @@ import { useNavigate } from 'react-router-dom';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
-// Local prompt assets (from Desktop)
-import promptImage from '../../assets/prompt-card/фото для карточки промпта.png';
-import promptBadge from '../../assets/prompt-card/промпт плашка.png';
-import copyButton from '../../assets/prompt-card/кнопка скопировать.png';
-
-// Figma assets (keep remote for footer/socials/background logo)
+// Figma assets from node 7:1879
+const houseImage = "https://www.figma.com/api/mcp/asset/85e39ff4-6bb7-48a6-8c5f-f40122832e61";
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/ef06372f-ae71-40e7-bc6c-dcb61adf39d8";
 const socialsImg = "https://www.figma.com/api/mcp/asset/f7251028-ceda-4d2b-a148-5d79b505976a";
 const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-8254-9a5dcc88da3b";
 
+// Local PNG assets from repo
+import promptBadge from '../../assets/prompt-card/промпт плашка.png';
+import copyButton from '../../assets/prompt-card/кнопка скопировать.png';
+import homeIcon from '../../assets/about-screens/домой.png';
+import supportButton from '../../assets/tour-video/support-button.png';
+
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [isExpanded, setIsExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<number | null>(null);
 
-  // Prompt text matching Figma exactly
   const promptText = 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом';
 
   const handleCopy = async () => {
@@ -32,7 +30,6 @@ export const PromptCardScreen: React.FC = () => {
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(promptText);
       } else {
-        // fallback
         const ta = document.createElement('textarea');
         ta.value = promptText;
         ta.style.position = 'fixed';
@@ -51,7 +48,7 @@ export const PromptCardScreen: React.FC = () => {
         timeoutRef.current = null;
       }, 1800);
     } catch (err) {
-      // ignore copy errors
+      // ignore
     }
   };
 
@@ -63,7 +60,6 @@ export const PromptCardScreen: React.FC = () => {
     };
   }, []);
 
-  // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   return (
@@ -74,7 +70,6 @@ export const PromptCardScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Scaled container */}
       <div style={{
         position: 'relative',
         width: '1180px',
@@ -94,7 +89,7 @@ export const PromptCardScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Background logo (три человека на фон) */}
+        {/* Background logo (три человека) */}
         <div style={{
           position: 'absolute',
           left: '147px',
@@ -123,47 +118,47 @@ export const PromptCardScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Заголовок "карточка промпта" */}
+        {/* 7:1936 - Заголовок "карточка промпта" */}
         <div style={{
           position: 'absolute',
           left: '85px',
           top: '193px',
           width: '1020px',
-          height: '160px',
+          height: '80px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           fontFamily: 'Inter',
           fontWeight: 800,
           fontSize: '80px',
-          lineHeight: 0,
+          lineHeight: 1,
           color: 'white',
         }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>карточка промпта</p>
+          <p style={{ margin: 0, lineHeight: 1 }}>карточка промпта</p>
         </div>
 
-        {/* Описание */}
+        {/* 7:1937 - Описание */}
         <div style={{
           position: 'absolute',
           left: '85px',
           top: '290px',
           width: '668px',
-          height: '126px',
+          height: '80px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           fontFamily: 'Gotham Pro',
           fontSize: '40px',
-          lineHeight: 0,
+          lineHeight: 1,
           color: 'white',
         }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>
+          <p style={{ margin: 0, lineHeight: 1 }}>
             <span style={{ fontWeight: 700 }}>описание:</span>
             <span style={{ fontWeight: 300 }}> создайте и настройте копирайтера за один промпт</span>
           </p>
         </div>
 
-        {/* Header from About Academy (back, home, logo, support) */}
+        {/* Back button */}
         <img 
           src={exitArrow}
           alt="назад"
@@ -178,6 +173,7 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
+        {/* Home button */}
         <img 
           src={homeIcon}
           alt="домой"
@@ -192,6 +188,7 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
+        {/* Logo */}
         <div style={{
           position: 'absolute',
           left: '500px',
@@ -220,6 +217,7 @@ export const PromptCardScreen: React.FC = () => {
           </div>
         </div>
 
+        {/* Support button */}
         <img 
           src={supportButton}
           alt="написать в поддержку"
@@ -233,7 +231,7 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* Main card container */}
+        {/* Main card background */}
         <div style={{
           position: 'absolute',
           left: 'calc(50% + 1px)',
@@ -254,16 +252,11 @@ export const PromptCardScreen: React.FC = () => {
           top: '452px',
           width: '784px',
           height: '1536px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-          }} />
-        </div>
+          backdropFilter: 'blur(50px)',
+          background: 'black',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }} />
 
         {/* House image */}
         <div style={{
@@ -277,7 +270,7 @@ export const PromptCardScreen: React.FC = () => {
           overflow: 'hidden',
         }}>
           <img 
-            src={promptImage}
+            src={houseImage}
             alt=""
             style={{
               position: 'absolute',
@@ -290,28 +283,29 @@ export const PromptCardScreen: React.FC = () => {
           />
         </div>
 
-        {/* Title "ИИ-копирайтер для блога" */}
+        {/* 32:795 - "ИИ-копирайтер для блога" */}
         <div style={{
           position: 'absolute',
           left: '384px',
           top: '1223px',
-          width: '469px',
-          transform: 'translateX(-50%)',
+          width: '414px',
+          height: '191px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           fontFamily: 'Inter',
           fontWeight: 700,
           fontSize: '52px',
-          lineHeight: 0,
+          lineHeight: 1.2,
           color: 'white',
           textAlign: 'center',
         }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>ИИ-копирайтер для блога</p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>ИИ-копирайтер</p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>для блога</p>
         </div>
 
-        {/* Промпт плашка (PNG) */}
-        <img
+        {/* Prompt badge */}
+        <img 
           src={promptBadge}
           alt="промпт"
           style={{
@@ -324,23 +318,20 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* Prompt text */}
+        {/* 32:813 - Наборный текст БЕЗ контейнера */}
         <div style={{
           position: 'absolute',
           left: '257px',
           top: '1501px',
           width: '666px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
+          height: '276px',
           fontFamily: 'Gotham Pro',
           fontWeight: 300,
           fontSize: '35px',
           lineHeight: 1.2,
           color: 'white',
           textAlign: 'center',
-          maxHeight: isExpanded ? 'none' : '240px',
-          overflow: isExpanded ? 'visible' : 'hidden',
+          overflow: 'visible',
         }}>
           <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
             идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
@@ -348,68 +339,64 @@ export const PromptCardScreen: React.FC = () => {
           <p style={{ margin: 0, lineHeight: 1.2 }}>
             Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом
           </p>
-          <span aria-live="polite" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
-            {copied ? 'Скопировано' : ''}
-          </span>
         </div>
 
-        {/* Expand button */}
-        {!isExpanded && (
-          <>
+        {/* 32:815 - Кнопка развернуть */}
+        <div style={{
+          position: 'absolute',
+          left: '691px',
+          top: '1794px',
+          width: '35px',
+          height: '35px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+          overflow: 'clip',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onClick={() => console.log('expand')}>
+          <div style={{
+            width: '15px',
+            height: '15px',
+            position: 'relative',
+          }}>
             <div style={{
               position: 'absolute',
-              left: '691px',
-              top: '1794px',
-              width: '35px',
-              height: '35px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              overflow: 'clip',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onClick={() => setIsExpanded(true)}>
-              <div style={{
-                width: '15px',
-                height: '15px',
-                position: 'relative',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  left: '3.13%',
-                  right: '3.13%',
-                  top: '3.13%',
-                  bottom: '3.13%',
-                  background: 'white',
-                  clipPath: 'polygon(45% 0%, 55% 0%, 55% 45%, 100% 45%, 100% 55%, 55% 55%, 55% 100%, 45% 100%, 45% 55%, 0% 55%, 0% 45%, 45% 45%)',
-                }} />
-              </div>
-            </div>
-            <div style={{
-              position: 'absolute',
-              left: '481px',
-              top: '1794px',
-              width: '218px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '32px',
-              lineHeight: 0,
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>развернуть</p>
-            </div>
-          </>
-        )}
+              left: '3.13%',
+              right: '3.13%',
+              top: '3.13%',
+              bottom: '3.13%',
+              background: 'white',
+              clipPath: 'polygon(45% 0%, 55% 0%, 55% 45%, 100% 45%, 100% 55%, 55% 55%, 55% 100%, 45% 100%, 45% 55%, 0% 55%, 0% 45%, 45% 45%)',
+            }} />
+          </div>
+        </div>
 
-        {/* Copy button (PNG) */}
+        {/* 32:817 - Текст "развернуть" */}
+        <div style={{
+          position: 'absolute',
+          left: '481px',
+          top: '1794px',
+          width: '218px',
+          height: '34px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 500,
+          fontSize: '32px',
+          lineHeight: 1,
+          color: 'white',
+          textAlign: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          развернуть
+        </div>
+
+        {/* 32:827 - Кнопка скопировать */}
         <img
           src={copyButton}
           alt={copied ? 'скопировано' : 'скопировать'}
@@ -418,8 +405,8 @@ export const PromptCardScreen: React.FC = () => {
             position: 'absolute',
             left: '467px',
             top: '1845px',
-            width: '257px',
-            height: '73px',
+            width: '247px',
+            height: '79px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
@@ -476,10 +463,10 @@ export const PromptCardScreen: React.FC = () => {
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '20px',
-            lineHeight: 0,
+            lineHeight: 1,
             color: 'white',
           }}>
-            <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>
+            <p style={{ margin: 0, lineHeight: 1 }}>
               Copyright © Все права защищены.
             </p>
           </div>
