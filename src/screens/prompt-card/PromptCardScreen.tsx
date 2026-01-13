@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Images
@@ -12,9 +12,54 @@ import peopleLogo from '../../assets/about-screens/лого люди на фон
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
-
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Prompt text (pulled out so it's easy to copy/use)
+  const promptText = `A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.`;
+
+  // Copy state for UI feedback
+  const [copied, setCopied] = useState(false);
+
+  const timeoutRef = useRef<number | null>(null);
+
+  const handleCopy = async () => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(promptText);
+      } else {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = promptText;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      setCopied(true);
+      // revert after 1.8s
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        setCopied(false);
+        timeoutRef.current = null;
+      }, 1800);
+    } catch (err) {
+      // ignore - could show toast later
+      // console.error('copy failed', err);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div style={{
@@ -203,7 +248,10 @@ export const PromptCardScreen: React.FC = () => {
             textAlign: 'center',
             whiteSpace: 'pre-wrap',
           }}>
-            A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
+            {promptText}
+            <span aria-live="polite" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+              {copied ? 'Скопировано' : ''}
+            </span>
           </div>
 
           {/* Кнопки действий */}
@@ -213,7 +261,10 @@ export const PromptCardScreen: React.FC = () => {
             marginTop: '20px',
           }}>
             {/* Кнопка Копировать */}
-            <button style={{
+            <button
+              onClick={handleCopy}
+              aria-label="Копировать промпт"
+              style={{
               width: '257px',
               height: '73px',
               background: 'rgba(0, 0, 0, 0.9)',
@@ -231,11 +282,14 @@ export const PromptCardScreen: React.FC = () => {
               fontSize: '27px',
               color: 'white',
             }}>
-              копировать
+              {copied ? 'скопировано' : 'копировать'}
             </button>
 
             {/* Кнопка Попробовать (с красным градиентом) */}
-            <button style={{
+            <button
+              onClick={() => navigate('/prompt-first')}
+              aria-label="Попробовать"
+              style={{
               width: '257px',
               height: '73px',
               background: 'transparent',
