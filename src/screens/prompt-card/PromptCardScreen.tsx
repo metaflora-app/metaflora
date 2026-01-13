@@ -158,19 +158,24 @@ export const PromptCardScreen: React.FC = () => {
           карточка промпта
         </div>
 
-        {/* Описание под заголовком */}
+        {/* Описание под заголовком (Figma node 7:1937) */}
         <div style={{
           position: 'absolute',
-          left: '94px',
-          top: '287px',
-          width: '1020px',
+          left: '85px',
+          top: '290px',
+          width: '668px',
+          height: '80px',
+          display: 'flex',
+          alignItems: 'center',
           fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '24px',
-          color: 'rgba(255, 255, 255, 0.8)',
+          fontSize: '40px',
+          lineHeight: '1',
+          color: '#FFFFFF',
           zIndex: 10,
+          pointerEvents: 'none',
         }}>
-          <span style={{ fontWeight: 700 }}>описание:</span> создайте и настройте копирайтера за один промпт
+          <span style={{ fontWeight: 700, marginRight: '6px' }}>описание:</span>
+          <span style={{ fontWeight: 300 }}>создайте и настройте копирайтера за один промпт</span>
         </div>
 
         {/* Большая карточка с изображением (7:1937) */}
@@ -281,119 +286,7 @@ export const PromptCardScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Теги под карточкой (32:837) */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '1333px',
-          width: '892px',
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '20px',
-          flexWrap: 'wrap',
-          zIndex: 10,
-        }}>
-          {['DALL-E 3', 'Вертикальный', 'HD'].map((tag, i) => (
-            <div key={i} style={{
-              padding: '10px 30px',
-              background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(50px)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '24px',
-              color: 'white',
-            }}>
-              {tag}
-            </div>
-          ))}
-        </div>
-
-        {/* Текст промпта под тегами (32:795) */}
-        <div style={{
-          position: 'absolute',
-          left: '191px',
-          top: '1433px',
-          width: '800px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: '1.2',
-          color: 'white',
-          textAlign: 'center',
-          whiteSpace: 'pre-wrap',
-          zIndex: 10,
-        }}>
-          A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-        </div>
-
-        {/* Кнопки действий под текстом промпта */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 267px)',
-          top: '1553px',
-          display: 'flex',
-          gap: '20px',
-          zIndex: 10,
-        }}>
-          {/* Кнопка Копировать */}
-          <button 
-            onClick={handleCopy}
-            style={{
-              width: '257px',
-              height: '73px',
-              background: 'rgba(0, 0, 0, 0.9)',
-              backdropFilter: 'blur(50px)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              padding: 0,
-              position: 'relative',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '27px',
-              color: 'white',
-            }}>
-            копировать
-          </button>
-
-          {/* Кнопка Попробовать (с красным градиентом) */}
-          <button style={{
-            width: '257px',
-            height: '73px',
-            background: 'transparent',
-            border: 'none',
-            padding: 0,
-            position: 'relative',
-            cursor: 'pointer',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to right, #880709 0%, #e90004 52.404%, #880709 100%)',
-              borderRadius: '62px',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-            }} />
-            <div style={{
-              position: 'relative',
-              zIndex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '27px',
-              color: 'white',
-              height: '100%',
-            }}>
-              попробовать
-            </div>
-          </button>
-        </div>
+        {/* (Removed tags and bottom English prompt block to match Figma node 7:1879) */}
 
         {/* Футер */}
         <div style={{
