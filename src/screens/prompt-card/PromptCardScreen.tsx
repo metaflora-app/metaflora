@@ -5,9 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import supportButton from '../../assets/tour-video/support-button.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
-// Figma assets from node 7:1879
-const houseImage = "https://www.figma.com/api/mcp/asset/85e39ff4-6bb7-48a6-8c5f-f40122832e61";
+// Local prompt assets (from Desktop)
+import promptImage from '../../assets/prompt-card/фото для карточки промпта.png';
+import promptBadge from '../../assets/prompt-card/промпт плашка.png';
+import copyButton from '../../assets/prompt-card/кнопка скопировать.png';
+
+// Figma assets (keep remote for footer/socials/background logo)
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/ef06372f-ae71-40e7-bc6c-dcb61adf39d8";
 const socialsImg = "https://www.figma.com/api/mcp/asset/f7251028-ceda-4d2b-a148-5d79b505976a";
 const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-8254-9a5dcc88da3b";
@@ -157,122 +163,35 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Header - Back button */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 452px)',
-          top: '75px',
-          width: '100px',
-          height: '100px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            transform: 'rotate(270deg)',
-          }}>
-            <div style={{
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              width: '100px',
-              height: '100px',
-              position: 'relative',
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate(-1)}>
-              <div style={{
-                position: 'absolute',
-                left: '24px',
-                top: '13px',
-                width: '65px',
-                height: '65px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{ transform: 'rotate(90deg)' }}>
-                  <img 
-                    src={exitArrow}
-                    alt="назад"
-                    style={{
-                      width: '65px',
-                      height: '65px',
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Header from About Academy (back, home, logo, support) */}
+        <img 
+          src={exitArrow}
+          alt="назад"
+          onClick={() => navigate(-1)}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 452px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
 
-        {/* Home button (домой) */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 352px)',
-          top: '75px',
-          width: '100px',
-          height: '100px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            transform: 'rotate(270deg)',
-          }}>
-            <div style={{
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              width: '100px',
-              height: '100px',
-              position: 'relative',
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate('/main-dashboard-premium')}>
-              <div style={{
-                position: 'absolute',
-                left: '24px',
-                top: '13px',
-                width: '65px',
-                height: '65px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{ transform: 'rotate(90deg)' }}>
-                  <div style={{
-                    width: '65px',
-                    height: '65px',
-                    position: 'relative',
-                  }}>
-                    <div style={{
-                      position: 'absolute',
-                      left: '12.4px',
-                      top: '-8.4px',
-                      width: '52.4px',
-                      height: '81.4px',
-                    }}>
-                      {/* Home icon placeholder */}
-                      <div style={{
-                        width: '100%',
-                        height: '100%',
-                        background: 'white',
-                        clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-                      }} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <img 
+          src={homeIcon}
+          alt="домой"
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 352px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
 
-        {/* Логотип маленький */}
         <div style={{
           position: 'absolute',
           left: '500px',
@@ -301,35 +220,18 @@ export const PromptCardScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Support button */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% + 341.5px)',
-          top: '97px',
-          width: '205px',
-          height: '78px',
-          transform: 'translateX(-50%)',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'clip',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro',
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: 1,
-          }}>
-            <div style={{ fontWeight: 300 }}>написать </div>
-            <div style={{ fontWeight: 700 }}>в поддержку</div>
-          </div>
-        </div>
+        <img 
+          src={supportButton}
+          alt="написать в поддержку"
+          style={{
+            position: 'absolute',
+            left: '829px',
+            top: '97px',
+            width: '205px',
+            height: '78px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Main card container */}
         <div style={{
@@ -375,7 +277,7 @@ export const PromptCardScreen: React.FC = () => {
           overflow: 'hidden',
         }}>
           <img 
-            src={houseImage}
+            src={promptImage}
             alt=""
             style={{
               position: 'absolute',
@@ -392,7 +294,7 @@ export const PromptCardScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: 'calc(50% + 0.5px)',
-          top: '1224px',
+          top: '1265px',
           width: '469px',
           transform: 'translateX(-50%)',
           display: 'flex',
@@ -408,106 +310,48 @@ export const PromptCardScreen: React.FC = () => {
           <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>ИИ-копирайтер для блога</p>
         </div>
 
-        {/* Промпт плашка */}
-        <div style={{
-          position: 'absolute',
-          left: '447px',
-          top: '1398px',
-          width: '257px',
-          height: '73px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'clip',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          {/* Colors circles */}
-          <div style={{
+        {/* Промпт плашка (PNG) */}
+        <img
+          src={promptBadge}
+          alt="промпт"
+          style={{
             position: 'absolute',
-            left: '73px',
-            top: '-44px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: '77px',
-              top: '-36.46px',
-              width: '101.963px',
-              height: '107.431px',
-              background: 'white',
-              borderRadius: '1568.563px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              left: '102.5px',
-              top: '-40px',
-              width: '90.498px',
-              height: '78.548px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                width: '51.243px',
-                height: '75.957px',
-                background: 'white',
-                borderRadius: '1568.563px',
-              }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              left: '122.8px',
-              top: '30.18px',
-              width: '56.152px',
-              height: '72.822px',
-              background: 'white',
-              borderRadius: '1568.563px',
-            }} />
-          </div>
-          <div style={{
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            промпт
-          </div>
-        </div>
+            left: '447px',
+            top: '1398px',
+            width: '257px',
+            height: '73px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* Prompt text */}
         <div style={{
           position: 'absolute',
           left: '50%',
-          top: '1503px',
+          top: '1458px',
           width: '666px',
           transform: 'translateX(-50%)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          fontFamily: 'TT Commons',
+          fontFamily: 'Gotham Pro',
           fontWeight: 300,
           fontSize: '35px',
-          lineHeight: 1,
+          lineHeight: 1.2,
           color: 'white',
           textAlign: 'center',
-          height: isExpanded ? 'auto' : '293px',
+          maxHeight: isExpanded ? 'none' : '240px',
           overflow: isExpanded ? 'visible' : 'hidden',
         }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>
-            {promptText.split('Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом')[0]}
+          <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
+            идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
           </p>
-          <p style={{ margin: 0, lineHeight: 1 }}>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
             Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом
           </p>
-          {isExpanded && (
-            <p style={{ margin: 0, lineHeight: 1 }}>
-              {/* Additional text would go here when expanded */}
-            </p>
-          )}
+          <span aria-live="polite" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+            {copied ? 'Скопировано' : ''}
+          </span>
         </div>
 
         {/* Expand button */}
@@ -516,7 +360,7 @@ export const PromptCardScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: 'calc(50% + 118.5px)',
-              top: '1794px',
+              top: '1738px',
               width: '35px',
               height: '35px',
               transform: 'translateX(-50%)',
@@ -550,7 +394,7 @@ export const PromptCardScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: '50%',
-              top: '1796px',
+              top: '1736px',
               width: '218px',
               transform: 'translateX(-50%)',
               display: 'flex',
@@ -568,34 +412,21 @@ export const PromptCardScreen: React.FC = () => {
           </>
         )}
 
-        {/* Copy button */}
-        <div style={{
-          position: 'absolute',
-          left: '467px',
-          top: '1849px',
-          width: '257px',
-          height: '73px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'clip',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onClick={handleCopy}>
-          <div style={{
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            {copied ? 'скопировано' : 'скопировать'}
-          </div>
-        </div>
+        {/* Copy button (PNG) */}
+        <img
+          src={copyButton}
+          alt={copied ? 'скопировано' : 'скопировать'}
+          onClick={handleCopy}
+          style={{
+            position: 'absolute',
+            left: '467px',
+            top: '1812px',
+            width: '257px',
+            height: '73px',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Footer */}
         <div style={{
