@@ -318,7 +318,7 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* 32:813 - Наборный текст БЕЗ контейнера */}
+        {/* 32:813 - Наборный текст с overflow scroll */}
         <div style={{
           position: 'absolute',
           left: '257px',
@@ -331,7 +331,7 @@ export const PromptCardScreen: React.FC = () => {
           lineHeight: 1.2,
           color: 'white',
           textAlign: 'center',
-          overflow: 'visible',
+          overflow: 'auto',
         }}>
           <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
             идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
@@ -341,72 +341,18 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* 32:815 - Кнопка развернуть */}
-        <div style={{
-          position: 'absolute',
-          left: '691px',
-          top: '1794px',
-          width: '35px',
-          height: '35px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-          overflow: 'clip',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onClick={() => console.log('expand')}>
-          <div style={{
-            width: '15px',
-            height: '15px',
-            position: 'relative',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: '3.13%',
-              right: '3.13%',
-              top: '3.13%',
-              bottom: '3.13%',
-              background: 'white',
-              clipPath: 'polygon(45% 0%, 55% 0%, 55% 45%, 100% 45%, 100% 55%, 55% 55%, 55% 100%, 45% 100%, 45% 55%, 0% 55%, 0% 45%, 45% 45%)',
-            }} />
-          </div>
-        </div>
 
-        {/* 32:817 - Текст "развернуть" */}
-        <div style={{
-          position: 'absolute',
-          left: '481px',
-          top: '1794px',
-          width: '218px',
-          height: '34px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 500,
-          fontSize: '32px',
-          lineHeight: 1,
-          color: 'white',
-          textAlign: 'center',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          развернуть
-        </div>
-
-        {/* 32:827 - Кнопка скопировать */}
+        {/* 32:827 - Кнопка скопировать - выравнена как плашка промпт */}
         <img
           src={copyButton}
           alt={copied ? 'скопировано' : 'скопировать'}
           onClick={handleCopy}
           style={{
             position: 'absolute',
-            left: '467px',
-            top: '1845px',
-            width: '247px',
-            height: '79px',
+            left: '447px',
+            top: '1800px',
+            width: '257px',
+            height: '73px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
