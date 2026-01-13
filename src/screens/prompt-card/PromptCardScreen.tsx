@@ -318,13 +318,13 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* 32:813 - Наборный текст с overflow scroll */}
+        {/* 32:813 - Наборный текст с overflow scroll - поднят выше */}
         <div style={{
           position: 'absolute',
           left: '257px',
-          top: '1501px',
+          top: '1450px',
           width: '666px',
-          height: '276px',
+          height: '320px',
           fontFamily: 'Gotham Pro',
           fontWeight: 300,
           fontSize: '35px',
@@ -350,7 +350,7 @@ export const PromptCardScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: '447px',
-            top: '1800px',
+            top: '1780px',
             width: '257px',
             height: '73px',
             objectFit: 'contain',
