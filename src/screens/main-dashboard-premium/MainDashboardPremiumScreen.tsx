@@ -607,7 +607,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/poligon-articles-all')}
+            onClick={() => navigate('/about-poligon')}
             style={{
               position: 'absolute',
               left: '98px',
