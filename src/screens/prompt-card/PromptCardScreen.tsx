@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 
 // Figma assets from node 7:1879
 const houseImage = "https://www.figma.com/api/mcp/asset/85e39ff4-6bb7-48a6-8c5f-f40122832e61";
