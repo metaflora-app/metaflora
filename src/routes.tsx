@@ -11,6 +11,7 @@ import { MainDashboardPremiumScreen } from './screens/main-dashboard-premium';
 import { AboutPromptScreen } from './screens/about-prompt';
 import { AboutAcademyScreen } from './screens/about-academy';
 import { AboutLabaScreen } from './screens/about-laba';
+import { AboutPoligonScreen } from './screens/about-poligon';
 import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
 import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
 import { AcademyCourseSystemScreen } from './screens/academy-course-system';
@@ -86,7 +87,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/about-poligon',
-    element: <PlaceholderScreen name="About Poligon" />,
+    element: <AboutPoligonScreen />,
   },
 
   // Prompt section

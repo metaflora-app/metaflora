@@ -1,0 +1,1 @@
+export { AboutPoligonScreen } from './AboutPoligonScreen';
