@@ -318,20 +318,20 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* 32:813 - Наборный текст с overflow scroll - поднят выше */}
+        {/* 32:813 - Наборный текст строго по Figma координатам */}
         <div style={{
           position: 'absolute',
           left: '257px',
-          top: '1450px',
+          top: '1501px',
           width: '666px',
-          height: '320px',
+          height: '276px',
           fontFamily: 'Gotham Pro',
           fontWeight: 300,
           fontSize: '35px',
           lineHeight: 1.2,
           color: 'white',
           textAlign: 'center',
-          overflow: 'auto',
+          overflow: 'hidden',
         }}>
           <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
             идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
