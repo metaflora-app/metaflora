@@ -10,17 +10,22 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 
+// Prompt-card assets
+import promptImage from '../../assets/prompt-card/фото для карточки промпта.png';
+import promptBadge from '../../assets/prompt-card/промпт плашка.png';
+import copyButton from '../../assets/prompt-card/кнопка скопировать.png';
+import expandButton from '../../assets/prompt-card/кнопка развернуть.png';
+
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
-  // Calculate scale based on viewport width (design width: 1180px)
-  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // Prompt text (pulled out so it's easy to copy/use)
-  const promptText = `A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.`;
+  // Prompt text (shared between UI and clipboard)
+  const promptText =
+    'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом';
 
-  // Copy state for UI feedback
+  // Copy state for a11y feedback
   const [copied, setCopied] = useState(false);
-
   const timeoutRef = useRef<number | null>(null);
 
   const handleCopy = async () => {
@@ -28,7 +33,7 @@ export const PromptCardScreen: React.FC = () => {
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(promptText);
       } else {
-        // fallback
+        // fallback for older browsers
         const ta = document.createElement('textarea');
         ta.value = promptText;
         ta.style.position = 'fixed';
@@ -39,7 +44,6 @@ export const PromptCardScreen: React.FC = () => {
         document.body.removeChild(ta);
       }
       setCopied(true);
-      // revert after 1.8s
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
       }
@@ -48,8 +52,8 @@ export const PromptCardScreen: React.FC = () => {
         timeoutRef.current = null;
       }, 1800);
     } catch (err) {
-      // ignore - could show toast later
-      // console.error('copy failed', err);
+      // swallow copy errors to avoid noisy UI
+      // console.error('Failed to copy', err);
     }
   };
 
@@ -60,6 +64,9 @@ export const PromptCardScreen: React.FC = () => {
       }
     };
   }, []);
+
+  // Calculate scale based on viewport width (design width: 1180px)
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   return (
     <div style={{
@@ -89,8 +96,25 @@ export const PromptCardScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
+        {/* Background logo (below all layers) */}
+        <img
+          src={peopleLogo}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '145px',
+            top: '741px',
+            width: '890px',
+            height: '1166px',
+            objectFit: 'contain',
+            opacity: 0.5,
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+
         {/* Header - Кнопка выход */}
-        <img 
+        <img
           src={exitArrow}
           alt="назад"
           onClick={() => navigate(-1)}
@@ -101,6 +125,7 @@ export const PromptCardScreen: React.FC = () => {
             width: '100px',
             height: '100px',
             cursor: 'pointer',
+            zIndex: 10,
           }}
         />
 
@@ -111,6 +136,7 @@ export const PromptCardScreen: React.FC = () => {
           top: '61px',
           width: '186px',
           height: '131px',
+          zIndex: 10,
         }}>
           <div style={{
             position: 'absolute',
@@ -118,7 +144,7 @@ export const PromptCardScreen: React.FC = () => {
             overflow: 'hidden',
             pointerEvents: 'none',
           }}>
-            <img 
+            <img
               src={logoSmall}
               alt="МЕТАФЛОРА*"
               style={{
@@ -134,7 +160,7 @@ export const PromptCardScreen: React.FC = () => {
         </div>
 
         {/* Кнопка "написать в поддержку" */}
-        <img 
+        <img
           src={supportButton}
           alt="написать в поддержку"
           style={{
@@ -144,6 +170,7 @@ export const PromptCardScreen: React.FC = () => {
             width: '205px',
             height: '78px',
             cursor: 'pointer',
+            zIndex: 10,
           }}
         />
 
@@ -153,15 +180,36 @@ export const PromptCardScreen: React.FC = () => {
           left: '94px',
           top: '197px',
           width: '1020px',
-          height: '160px',
+          height: '80px',
           display: 'flex',
           alignItems: 'center',
           fontFamily: 'Inter',
           fontWeight: 800,
           fontSize: '80px',
           color: 'white',
+          zIndex: 10,
         }}>
           карточка промпта
+        </div>
+
+        {/* Описание под заголовком */}
+        <div style={{
+          position: 'absolute',
+          left: '85px',
+          top: '290px',
+          width: '668px',
+          height: '80px',
+          display: 'flex',
+          alignItems: 'center',
+          fontFamily: 'Gotham Pro',
+          fontSize: '40px',
+          lineHeight: '1',
+          color: '#FFFFFF',
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}>
+          <span style={{ fontWeight: 700, marginRight: '6px' }}>описание:</span>
+          <span style={{ fontWeight: 300 }}>создайте и настройте копирайтера за один промпт</span>
         </div>
 
         {/* Большая карточка с изображением (7:1937) */}
@@ -176,150 +224,103 @@ export const PromptCardScreen: React.FC = () => {
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: 'hidden',
+          zIndex: 10,
         }}>
-          {/* Изображение будет здесь */}
+          {/* Фото для карточки промпта */}
+          <img
+            src={promptImage}
+            alt="Prompt"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '60%',
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Контент внутри карточки */}
           <div style={{
             position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-          }} />
-        </div>
-
-        {/* Большое лого на фоне */}
-        <img 
-          src={peopleLogo}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '145px',
-            top: '741px',
-            width: '890px',
-            height: '1166px',
-            objectFit: 'contain',
-            opacity: 0.5,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Контейнер для нижнего блока (Теги, Промпт, Кнопки) */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '1333px',
-          width: '892px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '40px',
-        }}>
-          {/* Блок тегов (32:837) */}
-          <div style={{
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: '40px',
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
             gap: '20px',
-            flexWrap: 'wrap',
           }}>
-            {/* Теги */}
-            {['DALL-E 3', 'Вертикальный', 'HD'].map((tag, i) => (
-              <div key={i} style={{
-                padding: '10px 30px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(50px)',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '24px',
-                color: 'white',
-              }}>
-                {tag}
-              </div>
-            ))}
-          </div>
-
-          {/* Текст промпта (32:778) */}
-          <div style={{
-            width: '800px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '35px',
-            lineHeight: '1.2',
-            color: 'white',
-            textAlign: 'center',
-            whiteSpace: 'pre-wrap',
-          }}>
-            {promptText}
-            <span aria-live="polite" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
-              {copied ? 'Скопировано' : ''}
-            </span>
-          </div>
-
-          {/* Кнопки действий */}
-          <div style={{
-            display: 'flex',
-            gap: '20px',
-            marginTop: '20px',
-          }}>
-            {/* Кнопка Копировать */}
-            <button
-              onClick={handleCopy}
-              aria-label="Копировать промпт"
-              style={{
-              width: '257px',
-              height: '73px',
-              background: 'rgba(0, 0, 0, 0.9)',
-              backdropFilter: 'blur(50px)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              padding: 0,
-              position: 'relative',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+            {/* Заголовок "ИИ-копирайтер для блога" */}
+            <div style={{
               fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '27px',
+              fontWeight: 700,
+              fontSize: '32px',
               color: 'white',
+              textAlign: 'center',
+              lineHeight: '1.2',
             }}>
-              {copied ? 'скопировано' : 'копировать'}
-            </button>
+              ИИ-копирайтер<br/>для блога
+            </div>
 
-            {/* Кнопка Попробовать (с красным градиентом) */}
-            <button
-              onClick={() => navigate('/prompt-first')}
-              aria-label="Попробовать"
+            {/* Кнопка "промпт" плашка */}
+            <img
+              src={promptBadge}
+              alt="промпт"
               style={{
-              width: '257px',
-              height: '73px',
-              background: 'transparent',
-              border: 'none',
-              padding: 0,
+                width: 'auto',
+                height: '40px',
+                objectFit: 'contain',
+              }}
+            />
+
+            {/* Текст промпта */}
+            <div style={{
+              width: '100%',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '20px',
+              lineHeight: '1.4',
+              color: 'white',
+              textAlign: 'center',
+              maxHeight: isExpanded ? 'none' : '80px',
+              overflow: 'hidden',
               position: 'relative',
-              cursor: 'pointer',
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to right, #880709 0%, #e90004 52.404%, #880709 100%)',
-                borderRadius: '62px',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-              }} />
-              <div style={{
-                position: 'relative',
-                zIndex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                height: '100%',
-              }}>
-                попробовать
-              </div>
-            </button>
+              {promptText}
+              <span aria-live="polite" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                {copied ? 'Скопировано' : ''}
+              </span>
+            </div>
+
+            {/* Кнопка "развернуть +" */}
+            {!isExpanded && (
+              <img
+                src={expandButton}
+                alt="развернуть"
+                onClick={() => setIsExpanded(true)}
+                style={{
+                  cursor: 'pointer',
+                  width: 'auto',
+                  height: '30px',
+                  objectFit: 'contain',
+                }}
+              />
+            )}
+
+            {/* Кнопка "скопировать" */}
+            <img
+              src={copyButton}
+              alt="скопировать"
+              onClick={handleCopy}
+              style={{
+                cursor: 'pointer',
+                width: 'auto',
+                height: '50px',
+                objectFit: 'contain',
+              }}
+            />
           </div>
         </div>
 
@@ -331,6 +332,7 @@ export const PromptCardScreen: React.FC = () => {
           transform: 'translateX(-50%)',
           width: '888px',
           height: '124px',
+          zIndex: 10,
         }}>
           {/* Logo Footer */}
           <div style={{
