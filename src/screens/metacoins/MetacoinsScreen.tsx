@@ -214,12 +214,12 @@ export const MetacoinsScreen: React.FC = () => {
             width: '801px',
             height: '280px',
             fontFamily: 'Gotham Pro',
-            fontSize: '28px',
-            lineHeight: 1.4,
+            fontSize: '26px',
+            lineHeight: 1.3,
             color: 'white',
           }}>
             <p style={{ margin: 0, fontWeight: 300 }}>
-              <span style={{ fontWeight: 700 }}>200+</span> ИИ-анализа контента<br/>
+              <span style={{ fontWeight: 700 }}>200+</span> <span style={{ fontStyle: 'italic' }}>ИИ-анализа контента</span><br/>
               <span style={{ fontWeight: 700 }}>130+</span> генераций сценариев<br/>
               <span style={{ fontWeight: 700 }}>50+</span> поисковых запросов по ключам<br/>
               <span style={{ fontWeight: 700 }}>20</span> отслеживаемых аккаунтов<br/>
@@ -304,12 +304,12 @@ export const MetacoinsScreen: React.FC = () => {
             width: '787px',
             height: '280px',
             fontFamily: 'Gotham Pro',
-            fontSize: '28px',
-            lineHeight: 1.4,
+            fontSize: '26px',
+            lineHeight: 1.3,
             color: 'white',
           }}>
             <p style={{ margin: 0, fontWeight: 300 }}>
-              <span style={{ fontWeight: 700 }}>500+</span> ИИ-анализа контента<br/>
+              <span style={{ fontWeight: 700 }}>500+</span> <span style={{ fontStyle: 'italic' }}>ИИ-анализа контента</span><br/>
               <span style={{ fontWeight: 700 }}>250+</span> генераций сценариев<br/>
               <span style={{ fontWeight: 700 }}>200+</span> поисковых запросов по ключам<br/>
               <span style={{ fontWeight: 700 }}>100</span> отслеживаемых аккаунтов<br/>
