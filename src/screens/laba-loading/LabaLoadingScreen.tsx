@@ -183,21 +183,6 @@ export const LabaLoadingScreen = () => {
           }}
         />
         
-        {/* Icon 2: на экран анализа - left: 454px */}
-        <img 
-          src="/src/assets/laba-sidebar/icon-analysis.png"
-          alt="на экран анализа"
-          onClick={() => navigate('/laba-no-tracked')}
-          style={{
-            position: 'absolute',
-            left: '264px',
-            top: '7px',
-            width: '129px',
-            height: '126px',
-            cursor: 'pointer'
-          }}
-        />
-        
         {/* Icon 3: на избранное - left: 598px */}
         <img 
           src="/src/assets/laba-sidebar/icon-favorites.png"
@@ -228,6 +213,24 @@ export const LabaLoadingScreen = () => {
           }}
         />
       </div>
+
+      {/* OVERLAY: Icon 2 - на экран анализа ПОВЕРХ ВСЕГО */}
+      <img 
+        src="/src/assets/laba-sidebar/icon-analysis-overlay.png"
+        alt="на экран анализа"
+        onClick={() => navigate('/laba-no-tracked')}
+        style={{
+          position: 'fixed',
+          bottom: '187px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          marginLeft: '-154px',
+          width: '129px',
+          height: '126px',
+          cursor: 'pointer',
+          zIndex: 9999
+        }}
+      />
 
       {/* Footer */}
       <div style={{
