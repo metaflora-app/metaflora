@@ -1,0 +1,1 @@
+export { LabaSearchScreen } from './LabaSearchScreen';
