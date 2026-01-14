@@ -1,1 +1,1 @@
-export { LabaSearchScreen } from './LabaSearchScreen';
+export { default as LabaSearchScreen } from './Screen';
