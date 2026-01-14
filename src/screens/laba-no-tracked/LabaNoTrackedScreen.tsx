@@ -188,7 +188,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Button PNG (7:1362) - x=147, y=1147 (143+4, 381+766) - ПОВЕРХ БЛЮРА */}
+        {/* Button PNG (7:1362) includes text - x=147, y=1147 - ПОВЕРХ БЛЮРА */}
         <img 
           src={startTrackingButton}
           alt="начать отслеживание ₽100"
@@ -197,32 +197,12 @@ export const LabaNoTrackedScreen: React.FC = () => {
             left: '147px',
             top: '1147px',
             width: '884px',
-            height: '139px',
+            height: 'auto',
             objectFit: 'contain',
             cursor: 'pointer',
             zIndex: 10,
           }}
         />
-
-        {/* Text under button (7:1361) - x=199, y=1300 (919+381) */}
-        <div style={{
-          position: 'absolute',
-          left: '342px',
-          top: '1300px',
-          width: '495px',
-          height: '64px',
-          textAlign: 'center',
-          fontFamily: 'Gotham Pro',
-          fontSize: '24px',
-          lineHeight: 1.3,
-          color: 'rgba(255, 255, 255, 0.7)',
-          zIndex: 10,
-        }}>
-          <p style={{ margin: 0 }}>
-            вы можете пополнить баланс<br />
-            в личном кабинете
-          </p>
-        </div>
 
         {/* Footer (53:847) - x=141, y=2071, 888x124 */}
         <div style={{
