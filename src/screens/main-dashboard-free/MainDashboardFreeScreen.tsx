@@ -300,7 +300,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="перейти"
-            onClick={() => navigate('/laba-no-tracked')}
+            onClick={() => navigate('/about-laba')}
             style={{
               position: 'absolute',
               left: '96px',
@@ -308,6 +308,20 @@ export const MainDashboardFreeScreen: React.FC = () => {
               width: '257px',
               height: '73px',
               cursor: 'pointer',
+            }}
+          />
+          
+          {/* Invisible button over Laba icon to navigate to laba-no-tracked */}
+          <div
+            onClick={() => navigate('/laba-no-tracked')}
+            style={{
+              position: 'absolute',
+              left: '96px',
+              top: '87px',
+              width: '257px',
+              height: '257px',
+              cursor: 'pointer',
+              zIndex: 10,
             }}
           />
 

@@ -182,10 +182,20 @@ export const LabaLoadingScreen = () => {
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          opacity: 0.8
-        }}
-        onClick={() => navigate('/laba-analysis')}
-        />
+          opacity: 0.8,
+          position: 'relative'
+        }}>
+          {/* Invisible button overlay */}
+          <div
+            onClick={() => navigate('/laba-no-tracked')}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              cursor: 'pointer',
+              zIndex: 10
+            }}
+          />
+        </div>
         
         <div style={{
           width: '129px',
