@@ -8,6 +8,7 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
 // New assets for laba-no-tracked from Desktop
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
@@ -48,45 +49,36 @@ export const LabaNoTrackedScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Header - Based on Figma node-id=7:1330 */}
+        {/* Header - COPIED FROM laba-search (REUSE) */}
         
-        {/* Exit button (53:849) - x=88, y=175, 100x100 */}
         <img 
           src={exitArrow}
           alt="назад"
           onClick={() => navigate(-1)}
           style={{
             position: 'absolute',
-            left: '88px',
-            top: '175px',
+            left: 'calc(50% - 452px)',
+            top: '75px',
             width: '100px',
             height: '100px',
             cursor: 'pointer',
           }}
         />
 
-        {/* Home button (53:844) - x=188, y=175, 100x100 */}
-        <div style={{
-          position: 'absolute',
-          left: '188px',
-          top: '175px',
-          width: '100px',
-          height: '100px',
-          borderRadius: '50%',
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          backdropFilter: 'blur(50px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-        }}
-        onClick={() => navigate('/main-dashboard-free')}
-        >
-          <div style={{ fontSize: '32px' }}>🎴</div>
-        </div>
+        <img 
+          src={homeIcon}
+          alt="домой"
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 352px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
 
-        {/* Logo (53:848) - x=500, y=61, 186x131 */}
         <div style={{
           position: 'absolute',
           left: '500px',
@@ -94,34 +86,39 @@ export const LabaNoTrackedScreen: React.FC = () => {
           width: '186px',
           height: '131px',
         }}>
-          <img 
-            src={logoSmall}
-            alt="МЕТАФЛОРА*"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
-          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={logoSmall}
+              alt="МЕТАФЛОРА*"
+              style={{
+                position: 'absolute',
+                height: '131.84%',
+                left: '-21.84%',
+                top: '-16.38%',
+                width: '143.34%',
+                maxWidth: 'none',
+              }}
+            />
+          </div>
         </div>
 
-        {/* Support button (53:846) - x=829, y=97, 205x78 */}
-        <div style={{
-          position: 'absolute',
-          left: '829px',
-          top: '97px',
-        }}>
-          <img 
-            src={supportButton}
-            alt="написать в поддержку"
-            style={{
-              width: '205px',
-              height: '78px',
-              cursor: 'pointer',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
+        <img 
+          src={supportButton}
+          alt="написать в поддержку"
+          style={{
+            position: 'absolute',
+            left: '829px',
+            top: '97px',
+            width: '205px',
+            height: '78px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Main title (7:1377) - x=85, y=193, 1020x80 */}
         <div style={{
