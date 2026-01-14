@@ -158,81 +158,73 @@ export const LabaNoTrackedScreen: React.FC = () => {
           <p style={{ margin: 0 }}>добавьте аккаунт для отслеживания</p>
         </div>
 
-        {/* Card container with blur (7:1360) - x=143, y=381, 892x1661 */}
+        {/* People image PNG (7:1357) - x=143, y=898, 892x1050 - СЗАДИ ВСЕГО */}
+        <img 
+          src={peopleImage}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '898px',
+            width: '892px',
+            height: '1050px',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
+
+        {/* Blur overlay PNG (7:1360) - x=143, y=381, 892x1661 - ПОВЕРХ ЛЮДЕЙ */}
+        <img 
+          src={blurOverlay}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '381px',
+            width: '892px',
+            height: '1661px',
+            objectFit: 'cover',
+            borderRadius: '30px',
+            pointerEvents: 'none',
+            zIndex: 2,
+          }}
+        />
+
+        {/* Button PNG (7:1362) - x=147, y=1147 (143+4, 381+766) - ПОВЕРХ БЛЮРА */}
+        <img 
+          src={startTrackingButton}
+          alt="начать отслеживание ₽100"
+          style={{
+            position: 'absolute',
+            left: '147px',
+            top: '1147px',
+            width: '884px',
+            height: '139px',
+            objectFit: 'contain',
+            cursor: 'pointer',
+            zIndex: 10,
+          }}
+        />
+
+        {/* Text under button (7:1361) - x=199, y=1300 (919+381) */}
         <div style={{
           position: 'absolute',
-          left: '143px',
-          top: '381px',
-          width: '892px',
-          height: '1661px',
-          borderRadius: '30px',
-          overflow: 'hidden',
+          left: '342px',
+          top: '1300px',
+          width: '495px',
+          height: '64px',
+          textAlign: 'center',
+          fontFamily: 'Gotham Pro',
+          fontSize: '24px',
+          lineHeight: 1.3,
+          color: 'rgba(255, 255, 255, 0.7)',
+          zIndex: 10,
         }}>
-          {/* Blur overlay PNG */}
-          <img 
-            src={blurOverlay}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              pointerEvents: 'none',
-            }}
-          />
-
-          {/* People image PNG (7:1357) - x=143, y=898 relative to screen, so y=517 inside card */}
-          <img 
-            src={peopleImage}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '0',
-              top: '517px',
-              width: '892px',
-              height: '1050px',
-              objectFit: 'contain',
-              pointerEvents: 'none',
-              zIndex: 1,
-            }}
-          />
-
-          {/* Button PNG (7:1362) - x=4, y=766 inside blur card, so relative position */}
-          <img 
-            src={startTrackingButton}
-            alt="начать отслеживание ₽100"
-            style={{
-              position: 'absolute',
-              left: '4px',
-              top: '385px',
-              width: '884px',
-              height: '139px',
-              objectFit: 'contain',
-              cursor: 'pointer',
-              zIndex: 10,
-            }}
-          />
-
-          {/* Text under button (7:1361) - x=199, y=919 relative to screen */}
-          <div style={{
-            position: 'absolute',
-            left: '56px',
-            top: '538px',
-            width: '495px',
-            height: '64px',
-            textAlign: 'center',
-            fontFamily: 'Gotham Pro',
-            fontSize: '24px',
-            lineHeight: 1.3,
-            color: 'rgba(255, 255, 255, 0.7)',
-            zIndex: 10,
-          }}>
-            <p style={{ margin: 0 }}>
-              вы можете пополнить баланс<br />
-              в личном кабинете
-            </p>
-          </div>
+          <p style={{ margin: 0 }}>
+            вы можете пополнить баланс<br />
+            в личном кабинете
+          </p>
         </div>
 
         {/* Footer (53:847) - x=141, y=2071, 888x124 */}
