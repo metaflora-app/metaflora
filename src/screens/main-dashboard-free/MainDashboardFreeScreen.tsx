@@ -300,7 +300,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="перейти"
-            onClick={() => navigate('/about-laba')}
+            onClick={() => navigate('/laba-no-tracked')}
             style={{
               position: 'absolute',
               left: '96px',
