@@ -20,6 +20,7 @@ import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials
 import { PromptCardScreen } from './screens/prompt-card';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
 import { LabaSearchScreen } from './screens/laba-search';
+import { LabaNoTrackedScreen } from './screens/laba-no-tracked';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -162,7 +163,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/laba-no-tracked',
-    element: <PlaceholderScreen name="Laba No Tracked" />,
+    element: <LabaNoTrackedScreen />,
   },
   {
     path: '/laba-analysis',
