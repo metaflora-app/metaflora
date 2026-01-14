@@ -11,8 +11,9 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 
 // Metacoins specific assets
-import bigMetacoin from '../../assets/metacoins/большой метакоин.png';
-import cardBackground from '../../assets/metacoins/карточка с фоном.png';
+import titleImage from '../../assets/metacoins/выберите количество.png';
+import card1Month from '../../assets/metacoins/карточка тарифа 1 месяц.png';
+import card3Months from '../../assets/metacoins/карточка тарифа 3 месяца.png';
 import priceButton3990 from '../../assets/metacoins/кнопка цена 3990.png';
 import priceButton14490 from '../../assets/metacoins/кнопка цена 14490.png';
 import buyButton from '../../assets/metacoins/купить метакоины.png';
@@ -122,203 +123,49 @@ export const MetacoinsScreen: React.FC = () => {
           }}
         />
 
-        {/* Title (75:726) - "выберите количество метакоинов" - x=94, y=198, 1020x160 */}
-        <div style={{
-          position: 'absolute',
-          left: '94px',
-          top: '198px',
-          width: '1020px',
-          height: '160px',
-          fontFamily: 'Inter',
-          fontWeight: 800,
-          fontSize: '64px',
-          lineHeight: 1.25,
-          color: 'white',
-          display: 'flex',
-          alignItems: 'center',
-        }}>
-          <p style={{ margin: 0 }}>выберите количество<br/>метакоинов</p>
-        </div>
-
-        {/* Card 1 - тариф 1 месяц (75:653) - x=143, y=418, 892x603 */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '418px',
-          width: '892px',
-          height: '603px',
-          borderRadius: '30px',
-          overflow: 'hidden',
-        }}>
-          {/* Background */}
-          <img 
-            src={cardBackground}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '4px',
-              top: '3px',
-              width: '888px',
-              height: '348px',
-              objectFit: 'fill',
-            }}
-          />
-
-          {/* "5000" + metacoin icon wrapper */}
-          <div style={{
+        {/* Title PNG - "выберите количество метакоинов" */}
+        <img 
+          src={titleImage}
+          alt="выберите количество метакоинов"
+          style={{
             position: 'absolute',
-            left: '52px',
-            top: '34px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}>
-            <div style={{
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '64px',
-              lineHeight: 1,
-              color: 'white',
-            }}>
-              5000
-            </div>
-            <img 
-              src={bigMetacoin}
-              alt=""
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
-            />
-          </div>
+            left: '94px',
+            top: '198px',
+            width: '1020px',
+            height: '160px',
+            objectFit: 'contain',
+          }}
+        />
 
-          {/* Price button 3990 (75:682) - x=699, y=57, 176x57 */}
-          <img 
-            src={priceButton3990}
-            alt="3990 руб."
-            style={{
-              position: 'absolute',
-              left: '699px',
-              top: '57px',
-              width: '176px',
-              height: '57px',
-              cursor: 'pointer',
-            }}
-          />
-
-          {/* Description text (75:679) - x=52, y=147, 801x280 */}
-          <div style={{
+        {/* Card 1 - тариф 1 месяц PNG */}
+        <img 
+          src={card1Month}
+          alt="карточка тарифа 1 месяц"
+          style={{
             position: 'absolute',
-            left: '52px',
-            top: '147px',
-            width: '801px',
-            height: '280px',
-            fontFamily: 'Gotham Pro',
-            fontSize: '26px',
-            lineHeight: 1.3,
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, fontWeight: 300 }}>
-              <span style={{ fontWeight: 700 }}>200+</span> <span style={{ fontStyle: 'italic' }}>ИИ-анализа контента</span><br/>
-              <span style={{ fontWeight: 700 }}>130+</span> генераций сценариев<br/>
-              <span style={{ fontWeight: 700 }}>50+</span> поисковых запросов по ключам<br/>
-              <span style={{ fontWeight: 700 }}>20</span> отслеживаемых аккаунтов<br/>
-              <span style={{ fontWeight: 700 }}>а также:</span> доступ к новым функциям<br/>
-              сервиса, эксклюзивы и бонусы<br/>
-              каждый месяц
-            </p>
-          </div>
-        </div>
+            left: '143px',
+            top: '418px',
+            width: '892px',
+            height: '603px',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
-        {/* Card 2 - тариф 3 месяца (75:692) - x=143, y=1082, 892x603 */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '1082px',
-          width: '892px',
-          height: '603px',
-          borderRadius: '30px',
-          overflow: 'hidden',
-        }}>
-          {/* Background */}
-          <img 
-            src={cardBackground}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '0',
-              top: '0',
-              width: '888px',
-              height: '348px',
-              objectFit: 'fill',
-            }}
-          />
-
-          {/* "25 000" + metacoin icon wrapper */}
-          <div style={{
+        {/* Card 2 - тариф 3 месяца PNG */}
+        <img 
+          src={card3Months}
+          alt="карточка тарифа 3 месяца"
+          style={{
             position: 'absolute',
-            left: '60px',
-            top: '37px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}>
-            <div style={{
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '64px',
-              lineHeight: 1,
-              color: 'white',
-            }}>
-              25 000
-            </div>
-            <img 
-              src={bigMetacoin}
-              alt=""
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
-            />
-          </div>
-
-          {/* Price button 14490 (75:704) - x=705.93, y=57, 168.8x57 */}
-          <img 
-            src={priceButton14490}
-            alt="14990 руб."
-            style={{
-              position: 'absolute',
-              left: '706px',
-              top: '57px',
-              width: '169px',
-              height: '57px',
-              cursor: 'pointer',
-            }}
-          />
-
-          {/* Description text (75:696) - x=60, y=149, 787x280 */}
-          <div style={{
-            position: 'absolute',
-            left: '60px',
-            top: '149px',
-            width: '787px',
-            height: '280px',
-            fontFamily: 'Gotham Pro',
-            fontSize: '26px',
-            lineHeight: 1.3,
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, fontWeight: 300 }}>
-              <span style={{ fontWeight: 700 }}>500+</span> <span style={{ fontStyle: 'italic' }}>ИИ-анализа контента</span><br/>
-              <span style={{ fontWeight: 700 }}>250+</span> генераций сценариев<br/>
-              <span style={{ fontWeight: 700 }}>200+</span> поисковых запросов по ключам<br/>
-              <span style={{ fontWeight: 700 }}>100</span> отслеживаемых аккаунтов<br/>
-              <span style={{ fontWeight: 700 }}>а также:</span> доступ к новым функциям<br/>
-              сервиса, эксклюзивы и бонусы<br/>
-              каждый месяц
-            </p>
-          </div>
-        </div>
+            left: '143px',
+            top: '1082px',
+            width: '892px',
+            height: '603px',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Buy button "купить метакоины" (75:729) - x=143, y=1744, 892x140 */}
         <img 
