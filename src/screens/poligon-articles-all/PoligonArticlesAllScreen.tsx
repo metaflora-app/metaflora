@@ -6,8 +6,6 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import supportButton from '../../assets/tour-video/support-button.png';
 
 // Article background images from desktop
 import academyBg from '../../assets/main-dashboard/фон академия.png';
