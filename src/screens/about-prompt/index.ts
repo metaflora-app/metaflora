@@ -1,0 +1,1 @@
+export { AboutPromptScreen } from './AboutPromptScreen';

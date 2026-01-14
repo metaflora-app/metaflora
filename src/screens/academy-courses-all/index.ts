@@ -1,0 +1,1 @@
+export { AcademyCoursesAllScreen } from './AcademyCoursesAllScreen';

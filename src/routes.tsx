@@ -1,68 +1,40 @@
-import { createBrowserRouter, Navigate, useNavigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { SplashScreen } from './screens/splash';
+import { WelcomeScreen } from './screens/welcome';
+import { TourVideoScreen } from './screens/tour-video';
+import { DemoAccessScreen } from './screens/demo-access';
+import { PricingScreen } from './screens/pricing';
+import { PrivacyPolicyScreen } from './screens/privacy-policy';
+import { MarketingConsentScreen } from './screens/marketing-consent';
+import { MainDashboardFreeScreen } from './screens/main-dashboard-free';
+import { MainDashboardPremiumScreen } from './screens/main-dashboard-premium';
+import { AboutPromptScreen } from './screens/about-prompt';
+import { AboutAcademyScreen } from './screens/about-academy';
+import { AboutLabaScreen } from './screens/about-laba';
+import { AboutPoligonScreen } from './screens/about-poligon';
+import { ArticleScreen } from './screens/article';
+import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
+import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
+import { AcademyCourseSystemScreen } from './screens/academy-course-system';
+import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
-import { LabaLoadingScreen } from './screens/laba-loading';
 
 // Temporary placeholder component for deleted screens
-const PlaceholderScreen = ({ name }: { name: string }) => {
-  const navigate = useNavigate();
-  
-  return (
-    <div style={{ 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      height: '100vh',
-      background: '#000',
-      color: '#fff',
-      fontSize: '24px',
-      fontFamily: 'system-ui',
-      flexDirection: 'column',
-      gap: '20px'
-    }}>
-      <div>{name} - будет воссоздан через Figma MCP</div>
-      {name === "About Poligon" && (
-        <button 
-          onClick={() => navigate('/poligon-articles-all')}
-          style={{
-            padding: '12px 24px',
-            borderRadius: '62px',
-            backgroundColor: 'rgba(0,0,0,0.9)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            backdropFilter: 'blur(50px)',
-            color: 'white',
-            fontSize: '20px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            cursor: 'pointer'
-          }}
-        >
-          перейти к сервису
-        </button>
-      )}
-      {name === "About Laba" && (
-        <button 
-          onClick={() => navigate('/laba-loading')}
-          style={{
-            padding: '12px 24px',
-            borderRadius: '62px',
-            backgroundColor: 'rgba(0,0,0,0.9)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            backdropFilter: 'blur(50px)',
-            color: 'white',
-            fontSize: '20px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            cursor: 'pointer'
-          }}
-        >
-          перейти к сервису
-        </button>
-      )}
-    </div>
-  );
-};
+const PlaceholderScreen = ({ name }: { name: string }) => (
+  <div style={{ 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    height: '100vh',
+    background: '#000',
+    color: '#fff',
+    fontSize: '24px',
+    fontFamily: 'system-ui'
+  }}>
+    {name} - будет воссоздан через Figma MCP
+  </div>
+);
 
 export const router = createBrowserRouter([
   {
@@ -75,27 +47,27 @@ export const router = createBrowserRouter([
   },
   {
     path: '/welcome',
-    element: <PlaceholderScreen name="Welcome Screen" />,
+    element: <WelcomeScreen />,
   },
   {
     path: '/tour-video',
-    element: <PlaceholderScreen name="Tour Video Screen" />,
+    element: <TourVideoScreen />,
   },
   {
     path: '/demo-access',
-    element: <PlaceholderScreen name="Demo Access Screen" />,
+    element: <DemoAccessScreen />,
   },
   {
     path: '/pricing',
-    element: <PlaceholderScreen name="Pricing Screen" />,
+    element: <PricingScreen />,
   },
   {
     path: '/main-dashboard-free',
-    element: <PlaceholderScreen name="Main Dashboard Free" />,
+    element: <MainDashboardFreeScreen />,
   },
   {
     path: '/main-dashboard-premium',
-    element: <PlaceholderScreen name="Main Dashboard Premium" />,
+    element: <MainDashboardPremiumScreen />,
   },
   {
     path: '/metacoins',
@@ -105,19 +77,19 @@ export const router = createBrowserRouter([
   // Intro screens
   {
     path: '/about-prompt',
-    element: <PlaceholderScreen name="About Prompt" />,
+    element: <AboutPromptScreen />,
   },
   {
     path: '/about-academy',
-    element: <PlaceholderScreen name="About Academy" />,
+    element: <AboutAcademyScreen />,
   },
   {
     path: '/about-laba',
-    element: <PlaceholderScreen name="About Laba" />,
+    element: <AboutLabaScreen />,
   },
   {
     path: '/about-poligon',
-    element: <PlaceholderScreen name="About Poligon" />,
+    element: <AboutPoligonScreen />,
   },
 
   // Prompt section
@@ -129,23 +101,15 @@ export const router = createBrowserRouter([
     path: '/prompt-card',
     element: <PromptCardScreen />,
   },
-  {
-    path: '/poligon-articles-all',
-    element: <PoligonArticlesAllScreen />,
-  },
-  {
-    path: '/laba-loading',
-    element: <LabaLoadingScreen />,
-  },
 
   // Academy section
   {
     path: '/academy-courses-all',
-    element: <PlaceholderScreen name="Academy Courses All" />,
+    element: <AcademyCoursesAllScreen />,
   },
   {
     path: '/academy-course-system',
-    element: <PlaceholderScreen name="Academy Course System" />,
+    element: <AcademyCourseSystemScreen />,
   },
   {
     path: '/academy-course-art',
@@ -161,17 +125,21 @@ export const router = createBrowserRouter([
   },
   {
     path: '/academy-lesson-video',
-    element: <PlaceholderScreen name="Academy Lesson Video" />,
+    element: <AcademyLessonVideoScreen />,
   },
   {
     path: '/academy-lesson-materials',
-    element: <PlaceholderScreen name="Academy Lesson Materials" />,
+    element: <AcademyLessonMaterialsScreen />,
   },
 
   // Poligon section
   {
     path: '/article',
-    element: <PlaceholderScreen name="Article" />,
+    element: <ArticleScreen />,
+  },
+  {
+    path: '/poligon-articles-all',
+    element: <PoligonArticlesAllScreen />,
   },
 
   // Laba section
@@ -207,10 +175,10 @@ export const router = createBrowserRouter([
   // Legal
   {
     path: '/privacy-policy',
-    element: <PlaceholderScreen name="Privacy Policy" />,
+    element: <PrivacyPolicyScreen />,
   },
   {
     path: '/marketing-consent',
-    element: <PlaceholderScreen name="Marketing Consent" />,
+    element: <MarketingConsentScreen />,
   },
 ]);

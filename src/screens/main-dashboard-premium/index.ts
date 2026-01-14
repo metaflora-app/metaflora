@@ -1,0 +1,1 @@
+export { MainDashboardPremiumScreen } from './MainDashboardPremiumScreen';

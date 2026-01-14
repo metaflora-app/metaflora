@@ -1,317 +1,503 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Background pattern image
+// Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
+import logoSmall from '../../assets/figma-welcome/logo-small.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+
+// Figma assets from node 7:1879
+const houseImage = "https://www.figma.com/api/mcp/asset/85e39ff4-6bb7-48a6-8c5f-f40122832e61";
+const logoFooterImg = "https://www.figma.com/api/mcp/asset/ef06372f-ae71-40e7-bc6c-dcb61adf39d8";
+const socialsImg = "https://www.figma.com/api/mcp/asset/f7251028-ceda-4d2b-a148-5d79b505976a";
+const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-8254-9a5dcc88da3b";
+
+// Local PNG assets from repo
+import promptBadge from '../../assets/prompt-card/промпт плашка.png';
+import copyButton from '../../assets/prompt-card/кнопка скопировать.png';
+import homeIcon from '../../assets/about-screens/домой.png';
+import supportButton from '../../assets/tour-video/support-button.png';
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
 
-  const handleCopyPrompt = async () => {
-    const promptText = `Создай детальный, креативный промпт для генерации изображения в стиле цифрового искусства с элементами неореализма и футуризма. Тема: [вставь тему]. Стиль: [вставь стиль]. Детализация: высокая. Цветовая палитра: [вставь цвета]. Композиция: [вставь композицию]. Освещение: [вставь тип освещения].`;
+  const promptText = 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом';
 
+  const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(promptText);
-      console.log('Prompt copied to clipboard');
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(promptText);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = promptText;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      setCopied(true);
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        setCopied(false);
+        timeoutRef.current = null;
+      }, 1800);
     } catch (err) {
-      console.error('Failed to copy prompt:', err);
+      // ignore
     }
   };
 
-  const handleBackToCatalog = () => {
-    navigate('/prompt-first');
-  };
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
+    <div style={{
+      position: 'relative',
+      width: '100vw',
+      minHeight: '100vh',
+      background: '#020101',
+      overflow: 'hidden',
+    }}>
+      <div style={{
         position: 'relative',
-        background: '#020101',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {/* Background pattern */}
-      <div
-        style={{
+        width: '1180px',
+        minHeight: '2550px',
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
+      }}>
+        {/* Background pattern */}
+        <div style={{
           position: 'absolute',
-          inset: 0,
+          left: 0,
+          top: 0,
+          width: '1180px',
+          height: '2550px',
           backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
-        }}
-      />
+          backgroundSize: 'auto',
+        }} />
 
-      {/* Header Section */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          padding: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <button
-          onClick={() => navigate(-1)}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#FFFFFF',
-            fontSize: '24px',
-            cursor: 'pointer',
-            padding: '8px',
-          }}
-        >
-          ←
-        </button>
-
-        <div
-          style={{
-            color: '#FFFFFF',
-            fontSize: '18px',
-            fontWeight: '500',
-            fontFamily: '"Gotham Pro", sans-serif',
-          }}
-        >
-          Карточка промпта
+        {/* Background logo (три человека) */}
+        <div style={{
+          position: 'absolute',
+          left: '147px',
+          top: '1289px',
+          width: '886px',
+          height: '474px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={threeLogoImg}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '222.88%',
+                left: '-39.72%',
+                top: '-55.58%',
+                width: '179.18%',
+                maxWidth: 'none',
+              }}
+            />
+          </div>
         </div>
 
-        <div style={{ width: '40px' }} />
-      </div>
-
-      {/* Main Content */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          flex: 1,
-          padding: '0 16px',
+        {/* 7:1936 - Заголовок "карточка промпта" */}
+        <div style={{
+          position: 'absolute',
+          left: '85px',
+          top: '193px',
+          width: '1020px',
+          height: '80px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '20px',
-          overflowY: 'auto',
-        }}
-      >
-        {/* Description Text */}
-        <div
-          style={{
-            color: '#FFFFFF',
-            fontSize: '14px',
-            fontFamily: '"Gotham Pro", sans-serif',
-            padding: '0 16px',
-          }}
-        >
-          описание: создайте и настройте копирайтера за один промпт
+          justifyContent: 'center',
+          fontFamily: 'Inter',
+          fontWeight: 800,
+          fontSize: '80px',
+          lineHeight: 1,
+          color: 'white',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1 }}>карточка промпта</p>
         </div>
 
-        {/* Tab Indicator */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '10px',
-          }}
-        >
-          <div
-            style={{
-              background: 'linear-gradient(90deg, #00E8FF 0%, #00DFF5 25%, #F0D825 50%, #B6FF3C 75%, #00E8FF 100%)',
-              backgroundClip: 'content-box, border-box',
-              fontSize: '16px',
-              fontWeight: '500',
-              fontFamily: '"Gotham Pro", sans-serif',
-              padding: '8px 16px',
-              borderRadius: '20px',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              backgroundImage: 'linear-gradient(90deg, #00E8FF 0%, #00DFF5 25%, #F0D825 50%, #B6FF3C 75%, #00E8FF 100%)',
-              backgroundOrigin: 'border-box',
-            }}
-          >
-            промпт
-          </div>
+        {/* 7:1937 - Описание */}
+        <div style={{
+          position: 'absolute',
+          left: '85px',
+          top: '290px',
+          width: '668px',
+          height: '80px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          fontFamily: 'Gotham Pro',
+          fontSize: '40px',
+          lineHeight: 1,
+          color: 'white',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1 }}>
+            <span style={{ fontWeight: 700 }}>описание:</span>
+            <span style={{ fontWeight: 300 }}> создайте и настройте копирайтера за один промпт</span>
+          </p>
         </div>
 
-        {/* Prompt Content Card */}
-        <div
+        {/* Back button */}
+        <img 
+          src={exitArrow}
+          alt="назад"
+          onClick={() => navigate(-1)}
           style={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            borderRadius: '16px',
-            padding: '20px',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            marginBottom: '20px',
+            position: 'absolute',
+            left: 'calc(50% - 452px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
           }}
-        >
-          {/* Image Placeholder (Top Half) */}
-          <div
-            style={{
-              width: '100%',
-              height: '200px',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              borderRadius: '12px',
-              marginBottom: '20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFFFFF',
-              fontSize: '14px',
-              fontFamily: '"Gotham Pro", sans-serif',
-            }}
-          >
-            [Изображение промпта]
-          </div>
+        />
 
-          {/* Title */}
-          <h2
-            style={{
-              color: '#FFFFFF',
-              fontSize: '20px',
-              fontWeight: '600',
-              fontFamily: '"Gotham Pro", sans-serif',
-              marginBottom: '16px',
-              textAlign: 'center',
-            }}
-          >
-            ИИ-копирайтер для блога
-          </h2>
+        {/* Home button */}
+        <img 
+          src={homeIcon}
+          alt="домой"
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 352px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
 
-          {/* Prompt Button */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '16px',
-            }}
-          >
-            <div
+        {/* Logo */}
+        <div style={{
+          position: 'absolute',
+          left: '500px',
+          top: '61px',
+          width: '186px',
+          height: '131px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={logoSmall}
+              alt="МЕТАФЛОРА*"
               style={{
-                padding: '8px 16px',
-                borderRadius: '20px',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#FFFFFF',
-                fontSize: '14px',
-                fontFamily: '"Gotham Pro", sans-serif',
+                position: 'absolute',
+                height: '131.84%',
+                left: '-21.84%',
+                top: '-16.38%',
+                width: '143.34%',
+                maxWidth: 'none',
               }}
-            >
-              промпт
+            />
+          </div>
+        </div>
+
+        {/* Support button */}
+        <img 
+          src={supportButton}
+          alt="написать в поддержку"
+          style={{
+            position: 'absolute',
+            left: '829px',
+            top: '97px',
+            width: '205px',
+            height: '78px',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Main card background */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% + 1px)',
+          top: '399px',
+          width: '888px',
+          height: '1643px',
+          transform: 'translateX(-50%)',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }} />
+
+        {/* Inner black card */}
+        <div style={{
+          position: 'absolute',
+          left: '198px',
+          top: '452px',
+          width: '784px',
+          height: '1536px',
+          backdropFilter: 'blur(50px)',
+          background: 'black',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }} />
+
+        {/* House image */}
+        <div style={{
+          position: 'absolute',
+          left: '198px',
+          top: '452px',
+          width: '784px',
+          height: '771px',
+          border: '2px solid rgba(0, 0, 0, 0.3)',
+          borderRadius: '30px',
+          overflow: 'hidden',
+        }}>
+          <img 
+            src={houseImage}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
+
+        {/* 32:795 - "ИИ-копирайтер для блога" */}
+        <div style={{
+          position: 'absolute',
+          left: '384px',
+          top: '1223px',
+          width: '414px',
+          height: '191px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          fontFamily: 'Inter',
+          fontWeight: 700,
+          fontSize: '52px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>ИИ-копирайтер</p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>для блога</p>
+        </div>
+
+        {/* Prompt badge */}
+        <img 
+          src={promptBadge}
+          alt="промпт"
+          style={{
+            position: 'absolute',
+            left: '447px',
+            top: '1398px',
+            width: '257px',
+            height: '73px',
+            objectFit: 'contain',
+          }}
+        />
+
+        {/* 32:813 - Наборный текст строго по Figma координатам */}
+        <div style={{
+          position: 'absolute',
+          left: '257px',
+          top: '1501px',
+          width: '666px',
+          height: '276px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 300,
+          fontSize: '35px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+          overflow: 'hidden',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
+            идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом
+          </p>
+        </div>
+
+
+        {/* 32:827 - Кнопка скопировать - выравнена как плашка промпт */}
+        <img
+          src={copyButton}
+          alt={copied ? 'скопировано' : 'скопировать'}
+          onClick={handleCopy}
+          style={{
+            position: 'absolute',
+            left: '447px',
+            top: '1780px',
+            width: '257px',
+            height: '73px',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Footer */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 5px)',
+          top: '2071px',
+          width: '888px',
+          height: '124px',
+          transform: 'translateX(-50%)',
+        }}>
+          {/* Logo Footer */}
+          <div style={{
+            position: 'absolute',
+            left: '2px',
+            top: '-16px',
+            width: '380px',
+            height: '83px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={logoFooterImg}
+                alt="МЕТАФЛОРА*"
+                style={{
+                  position: 'absolute',
+                  height: '526.54%',
+                  left: '-37.89%',
+                  top: '-202.47%',
+                  width: '170.37%',
+                  maxWidth: 'none',
+                }}
+              />
             </div>
           </div>
-
-          {/* Prompt Text */}
-          <div
-            style={{
-              color: '#FFFFFF',
-              fontSize: '14px',
-              lineHeight: '1.5',
-              fontFamily: '"Gotham Pro", sans-serif',
-              marginBottom: '16px',
-              maxHeight: isExpanded ? 'none' : '120px',
-              overflow: 'hidden',
-            }}
-          >
-            идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом
-            {!isExpanded && (
-              <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                ... [ещё текст]
-              </span>
-            )}
+          
+          {/* Copyright */}
+          <div style={{
+            position: 'absolute',
+            left: 'calc(50% - 442px)',
+            top: '56px',
+            width: '433px',
+            height: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            lineHeight: 1,
+            color: 'white',
+          }}>
+            <p style={{ margin: 0, lineHeight: 1 }}>
+              Copyright © Все права защищены.
+            </p>
           </div>
 
-          {/* Expand Button */}
-          {!isExpanded && (
-            <button
-              onClick={() => setIsExpanded(true)}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#00E8FF',
-                fontSize: '14px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '20px',
-                fontFamily: '"Gotham Pro", sans-serif',
-              }}
-            >
-              <span>+</span>
-              развернуть
-            </button>
-          )}
+          {/* Socials */}
+          <div style={{
+            position: 'absolute',
+            left: 'calc(50% + 335px)',
+            top: '13px',
+            width: '196px',
+            height: '51px',
+            transform: 'translateX(-50%)',
+          }}>
+            {/* Background */}
+            <div style={{
+              position: 'absolute',
+              left: '-17px',
+              top: '-15px',
+              width: '230px',
+              height: '78px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+            }} />
 
-          {/* Action Buttons */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-            }}
-          >
-            <button
-              onClick={handleCopyPrompt}
-              className="animated-border"
-              style={{
-                background: 'linear-gradient(90deg, #00E8FF 0%, #00DFF5 25%, #F0D825 50%, #B6FF3C 75%, #00E8FF 100%)',
-                color: '#020101',
-                border: 'none',
-                borderRadius: '25px',
-                padding: '14px 24px',
-                fontSize: '16px',
-                fontWeight: '500',
-                fontFamily: '"Gotham Pro", sans-serif',
-                cursor: 'pointer',
-                width: '100%',
-                transition: 'transform 0.2s ease',
-              }}
-              onMouseDown={(e) => {
-                e.currentTarget.style.transform = 'scale(0.98)';
-              }}
-              onMouseUp={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              скопировать
-            </button>
-
-            <button
-              onClick={handleBackToCatalog}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '25px',
-                padding: '14px 24px',
-                fontSize: '16px',
-                fontWeight: '500',
-                fontFamily: '"Gotham Pro", sans-serif',
-                cursor: 'pointer',
-                width: '100%',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-              }}
-              onMouseDown={(e) => {
-                e.currentTarget.style.transform = 'scale(0.98)';
-              }}
-              onMouseUp={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              вернуться к каталогу
-            </button>
+            {/* Telegram */}
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '50px',
+              height: '51px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsImg}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+            
+            {/* Other socials */}
+            <div style={{
+              position: 'absolute',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              height: '51px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsImg}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

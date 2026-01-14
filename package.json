@@ -13,13 +13,15 @@
     "@twa-dev/sdk": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^7.12.0"
+    "react-router-dom": "^7.12.0",
+    "styled-components": "^6.3.5"
   },
   "devDependencies": {
     "@railway/cli": "^4.17.1",
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@types/styled-components": "^5.1.36",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "@vitejs/plugin-react": "^4.2.1",
