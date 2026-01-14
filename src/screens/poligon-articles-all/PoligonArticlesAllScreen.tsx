@@ -1,269 +1,339 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface ArticleCard {
+// Images - reuse from academy screen
+import bgPattern from '../../assets/figma-welcome/pattern.png';
+import logoSmall from '../../assets/figma-welcome/logo-small.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
+import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import supportButton from '../../assets/tour-video/support-button.png';
+
+// Article background images from desktop
+import academyBg from '../../assets/main-dashboard/фон академия.png';
+import labaBg from '../../assets/main-dashboard/фон лаба.png';
+import tsekhBg from '../../assets/main-dashboard/фон цех.png';
+import poligonBg from '../../assets/main-dashboard/фон полигон.png';
+
+interface Article {
   id: number;
   title: string;
   description: string;
-  category: string;
-  imageUrl: string;
+  bgImage: string;
+  isNew: boolean;
 }
 
-const mockArticles: ArticleCard[] = [
+const articles: Article[] = [
   {
     id: 1,
-    title: "Курс «Система»",
-    description: "Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе",
-    category: "система",
-    imageUrl: "/src/assets/фон академия.png"
+    title: 'Курс «Система»',
+    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
+    bgImage: academyBg,
+    isNew: true
   },
   {
     id: 2,
-    title: "Курс «Система»",
-    description: "Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе",
-    category: "автоматизация",
-    imageUrl: "/src/assets/фон лаба.png"
+    title: 'Курс «Система»',
+    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
+    bgImage: labaBg,
+    isNew: false
   },
   {
     id: 3,
-    title: "Курс «Система»",
-    description: "Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе",
-    category: "промптинг",
-    imageUrl: "/src/assets/фон цех.png"
+    title: 'Курс «Система»',
+    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
+    bgImage: tsekhBg,
+    isNew: false
   },
   {
     id: 4,
-    title: "Курс «Система»",
-    description: "Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе",
-    category: "искусство",
-    imageUrl: "/src/assets/фон полигон.png"
+    title: 'Курс «Система»',
+    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
+    bgImage: poligonBg,
+    isNew: false
   }
 ];
 
-const filterTags = ['вернуть', 'система', 'искусство', 'промптинг', 'автоматизация'];
+const filters = ['вернуть', 'система', 'искусство', 'промптинг', 'автоматизация'];
 
-export const PoligonArticlesAllScreen = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilters, setSelectedFilters] = useState<string[]>(['вернуть']);
-  const [isFocused, setIsFocused] = useState(false);
+export const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [isFocused, setIsFocused] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const toggleFilter = (filter: string) => {
+  // Calculate scale based on viewport width (design width: 1180px)
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  const handleFilterClick = (filter: string) => {
     if (filter === 'вернуть') {
-      // Reset all filters
-      setSelectedFilters(['вернуть']);
+      // Reset all filters and search
+      setSelectedFilters([]);
       setSearchQuery('');
       return;
     }
-    
-    setSelectedFilters(prev => {
-      const withoutReturn = prev.filter(f => f !== 'вернуть');
-      if (withoutReturn.includes(filter)) {
-        const newFilters = withoutReturn.filter(f => f !== filter);
-        return newFilters.length > 0 ? newFilters : ['вернуть'];
-      } else {
-        return [...withoutReturn, filter];
-      }
-    });
-  };
 
-  const filteredArticles = mockArticles.filter(article => {
-    if (selectedFilters.includes('вернуть')) return true;
-    return selectedFilters.some(filter => 
-      article.category.toLowerCase().includes(filter.toLowerCase())
+    setSelectedFilters(prev => 
+      prev.includes(filter) 
+        ? prev.filter(f => f !== filter)
+        : [...prev, filter]
     );
-  });
-
-  const handleBack = () => {
-    navigate(-1);
   };
 
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim() && !searchHistory.includes(searchQuery.trim())) {
+      setSearchHistory(prev => [searchQuery.trim(), ...prev.slice(0, 4)]);
+    }
+  };
 
   return (
     <div style={{
-      backgroundColor: '#020101',
-      minHeight: '100vh',
-      color: 'white',
       position: 'relative',
-      fontFamily: 'Inter, sans-serif',
+      width: '100vw',
+      minHeight: '100vh',
+      background: '#020101',
+      overflow: 'hidden',
     }}>
-      {/* Header */}
+      {/* Scaled container */}
       <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '50px 40px 30px',
         position: 'relative',
-        zIndex: 10
+        width: '1180px',
+        minHeight: '2550px',
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
       }}>
-        {/* Back button */}
-        <button
-          onClick={handleBack}
+        {/* Background pattern (фон точки) */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          width: '1180px',
+          height: '2550px',
+          backgroundImage: `url(${bgPattern})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+        }} />
+
+        {/* Header - Pixel perfect for poligon articles screen */}
+        {/* Кнопка назад - круглая */}
+        <div
+          onClick={() => navigate('/about-poligon')}
           style={{
+            position: 'absolute',
+            left: '50px',
+            top: '50px',
             width: '54px',
             height: '54px',
             borderRadius: '50%',
             backgroundColor: 'transparent',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
+            border: '2px solid rgba(255,255,255,0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
             color: 'white',
-            fontSize: '20px'
+            fontSize: '24px',
+            fontWeight: 'bold'
           }}
         >
           ←
-        </button>
+        </div>
 
-        {/* User button */}
-        <button
-          style={{
-            width: '54px',
-            height: '54px',
-            borderRadius: '50%',
-            backgroundColor: 'transparent',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            color: 'white',
-            fontSize: '20px'
-          }}
-        >
-          👤
-        </button>
-
-        {/* Logo */}
+        {/* Кнопка пользователь - круглая */}
         <div style={{
+          position: 'absolute',
+          left: '120px',
+          top: '50px',
+          width: '54px',
           height: '54px',
+          borderRadius: '50%',
+          backgroundColor: 'transparent',
+          border: '2px solid rgba(255,255,255,0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '20px'
+        }}>
+          👤
+        </div>
+
+        {/* Логотип центрированный */}
+        <div style={{
+          position: 'absolute',
+          left: '50%',
+          top: '45px',
+          transform: 'translateX(-50%)',
           width: '150px',
-          backgroundImage: 'url(/src/assets/figma-welcome/splash-logo.png)',
+          height: '64px',
+          backgroundImage: `url(${logoSmall})`,
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center'
         }} />
 
-        {/* Support button */}
-        <button
-          style={{
-            padding: '12px 20px',
-            borderRadius: '30px',
-            backgroundColor: 'transparent',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            color: 'white',
-            cursor: 'pointer',
-            fontSize: '14px',
-            whiteSpace: 'nowrap'
-          }}
-        >
+        {/* Кнопка поддержки */}
+        <div style={{
+          position: 'absolute',
+          right: '50px',
+          top: '50px',
+          padding: '12px 20px',
+          borderRadius: '25px',
+          backgroundColor: 'transparent',
+          border: '2px solid rgba(255,255,255,0.3)',
+          color: 'white',
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontFamily: 'Inter, sans-serif',
+          whiteSpace: 'nowrap'
+        }}>
           написать в поддержку
-        </button>
-      </div>
+        </div>
 
-      {/* Title */}
-      <div style={{
-        padding: '0 40px',
-        marginBottom: '40px'
-      }}>
-        <h1 style={{
-          fontSize: '36px',
+        {/* Title */}
+        <div style={{
+          position: 'absolute',
+          left: '50px',
+          top: '150px',
+          fontSize: '40px',
           fontWeight: 'bold',
-          margin: 0,
-          color: 'white'
+          color: 'white',
+          fontFamily: 'Inter, sans-serif',
         }}>
           статьи в полигоне
-        </h1>
-      </div>
-
-      {/* Search bar */}
-      <div style={{
-        padding: '0 40px',
-        marginBottom: '30px'
-      }}>
-        <div style={{
-          position: 'relative',
-          maxWidth: '600px'
-        }}>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            placeholder={!isFocused ? "найти по ключевому слову" : ""}
-            style={{
-              width: '100%',
-              padding: '15px 50px 15px 20px',
-              borderRadius: '25px',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              backgroundColor: 'transparent',
-              color: 'white',
-              fontSize: '16px',
-              outline: 'none',
-              fontFamily: 'Inter, sans-serif'
-            }}
-          />
-          <div style={{
-            position: 'absolute',
-            right: '20px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: 'rgba(255, 255, 255, 0.5)',
-            fontSize: '20px'
-          }}>
-            🔍
-          </div>
         </div>
-      </div>
 
-      {/* Filter tags */}
-      <div style={{
-        padding: '0 40px',
-        marginBottom: '40px'
-      }}>
+        {/* Search bar */}
         <div style={{
+          position: 'absolute',
+          left: '50px',
+          top: '220px',
+          width: '600px'
+        }}>
+          <div style={{
+            position: 'relative'
+          }}>
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
+              placeholder={!isFocused ? "найти по ключевым словам" : ""}
+              style={{
+                width: '100%',
+                height: '60px',
+                padding: '0 60px 0 25px',
+                borderRadius: '30px',
+                border: '2px solid rgba(255,255,255,0.3)',
+                backgroundColor: 'transparent',
+                color: 'white',
+                fontSize: '18px',
+                fontFamily: 'Inter, sans-serif',
+                outline: 'none',
+              }}
+            />
+            {/* Search icon */}
+            <div style={{
+              position: 'absolute',
+              left: '20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '24px',
+              height: '24px',
+              backgroundImage: 'url(/src/assets/иконка поиск.png)',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+            }} />
+          </div>
+
+          {/* Search History */}
+          {searchHistory.length > 0 && isFocused && (
+            <div style={{
+              position: 'absolute',
+              top: '70px',
+              left: 0,
+              right: 0,
+              backgroundColor: 'rgba(0,0,0,0.9)',
+              borderRadius: '20px',
+              padding: '15px',
+              border: '1px solid rgba(255,255,255,0.2)',
+              zIndex: 10
+            }}>
+              {searchHistory.map((term, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSearchQuery(term)}
+                  style={{
+                    padding: '8px 15px',
+                    color: 'rgba(255,255,255,0.8)',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    borderRadius: '10px',
+                    marginBottom: '5px',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  {term}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Filter buttons */}
+        <div style={{
+          position: 'absolute',
+          left: '50px',
+          top: '310px',
           display: 'flex',
-          gap: '12px',
+          gap: '15px',
           flexWrap: 'wrap'
         }}>
-          {filterTags.map((tag) => (
+          {filters.map((filter) => (
             <button
-              key={tag}
-              onClick={() => toggleFilter(tag)}
+              key={filter}
+              onClick={() => handleFilterClick(filter)}
               style={{
-                padding: '10px 20px',
+                padding: '12px 24px',
                 borderRadius: '25px',
                 border: 'none',
-                backgroundColor: selectedFilters.includes(tag) 
-                  ? (tag === 'вернуть' ? 'rgba(255, 255, 255, 0.9)' : '#4285F4') 
-                  : 'rgba(255, 255, 255, 0.1)',
-                color: selectedFilters.includes(tag) 
-                  ? (tag === 'вернуть' ? '#000' : '#fff')
-                  : '#fff',
+                backgroundColor: filter === 'вернуть' 
+                  ? 'rgba(255,255,255,0.9)' 
+                  : selectedFilters.includes(filter)
+                    ? '#4285F4'
+                    : 'rgba(255,255,255,0.15)',
+                color: filter === 'вернуть' 
+                  ? '#000' 
+                  : selectedFilters.includes(filter)
+                    ? '#fff'
+                    : '#fff',
                 cursor: 'pointer',
                 fontSize: '16px',
                 fontFamily: 'Inter, sans-serif',
+                fontWeight: filter === 'вернуть' ? 'bold' : 'normal',
                 transition: 'all 0.2s ease'
               }}
             >
-              {tag}
+              {filter}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Articles list */}
-      <div style={{
-        padding: '0 40px 150px'
-      }}>
-        {filteredArticles.map((article) => (
+        {/* Articles */}
+        {articles.map((article, index) => (
           <div
             key={article.id}
             style={{
+              position: 'absolute',
+              left: '50px',
+              top: `${400 + index * 160}px`,
               display: 'flex',
-              marginBottom: '30px',
               gap: '20px',
               alignItems: 'flex-start'
             }}
@@ -273,13 +343,13 @@ export const PoligonArticlesAllScreen = () => {
               width: '240px',
               height: '150px',
               borderRadius: '15px',
-              backgroundImage: `url(${article.imageUrl})`,
+              backgroundImage: `url(${article.bgImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              position: 'relative',
-              flexShrink: 0
+              position: 'relative'
             }}>
-              {article.id === 1 && (
+              {/* "новое" label */}
+              {article.isNew && (
                 <div style={{
                   position: 'absolute',
                   top: '10px',
@@ -289,12 +359,14 @@ export const PoligonArticlesAllScreen = () => {
                   padding: '4px 12px',
                   borderRadius: '12px',
                   fontSize: '12px',
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  fontFamily: 'Inter, sans-serif'
                 }}>
                   новое
                 </div>
               )}
               
+              {/* Читать button */}
               <button
                 onClick={() => navigate('/article')}
                 style={{
@@ -320,98 +392,91 @@ export const PoligonArticlesAllScreen = () => {
             {/* Article content */}
             <div style={{
               flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '150px'
+              maxWidth: '400px'
             }}>
-              <div>
-                <h3 style={{
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  margin: '0 0 10px 0',
-                  lineHeight: '1.4',
-                  color: 'white'
-                }}>
-                  {article.description}
-                </h3>
-              </div>
-
               <div style={{
-                alignSelf: 'flex-end'
+                fontSize: '16px',
+                color: 'white',
+                lineHeight: '1.4',
+                fontFamily: 'Inter, sans-serif',
+                marginBottom: '20px'
               }}>
-                <button
-                  onClick={() => navigate('/article')}
-                  style={{
-                    width: '60px',
-                    height: '40px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    color: 'white',
-                    fontSize: '20px'
-                  }}
-                >
-                  →
-                </button>
+                {article.description}
               </div>
             </div>
+
+            {/* Arrow button */}
+            <button
+              onClick={() => navigate('/article')}
+              style={{
+                width: '60px',
+                height: '40px',
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                border: '1px solid rgba(255,255,255,0.3)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '20px',
+                marginTop: '80px'
+              }}
+            >
+              →
+            </button>
           </div>
         ))}
-      </div>
 
-      {/* Footer */}
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '100px',
-        backgroundColor: 'rgba(2, 1, 1, 0.95)',
-        backdropFilter: 'blur(20px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 40px',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)'
-      }}>
+        {/* Footer - reused from academy */}
         <div style={{
-          width: '200px',
-          height: '40px',
-          backgroundImage: 'url(/src/assets/figma-welcome/footer-logo.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat'
-        }} />
-        
-        <div style={{
-          fontSize: '14px',
-          color: 'rgba(255, 255, 255, 0.8)'
-        }}>
-          Copyright © Все права защищены.
-        </div>
-
-        <div style={{
+          position: 'absolute',
+          bottom: '0px',
+          left: '0px',
+          right: '0px',
+          height: '124px',
           display: 'flex',
-          gap: '15px'
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 50px',
+          backgroundColor: 'rgba(2,1,1,0.95)',
         }}>
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              style={{ 
-                width: '30px', 
-                height: '30px', 
-                opacity: 0.6,
-                backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                cursor: 'pointer'
-              }} 
+          <img 
+            src={logoFooter}
+            alt="МЕТАФЛОРА*"
+            style={{
+              width: '380px',
+              height: '83px',
+            }}
+          />
+          
+          <div style={{
+            fontSize: '20px',
+            color: 'white',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300
+          }}>
+            Copyright © Все права защищены.
+          </div>
+
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            padding: '8px 16px',
+            borderRadius: '62px',
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            border: '4px solid rgba(255,255,255,0.3)'
+          }}>
+            <img
+              src={socialsIcons}
+              alt="социальные сети"
+              style={{
+                width: '50px', 
+                height: '51px', 
+                opacity: 0.6
+              }}
             />
-          ))}
+          </div>
         </div>
       </div>
     </div>
