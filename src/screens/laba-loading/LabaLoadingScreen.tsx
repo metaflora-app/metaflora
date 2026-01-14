@@ -217,7 +217,10 @@ export const LabaLoadingScreen = () => {
         <img 
           src="/src/assets/laba-sidebar/icon-analysis-overlay.png"
           alt="на экран анализа"
-          onClick={() => navigate('/laba-no-tracked')}
+          onClick={() => {
+            console.log('CLICKED ANALYSIS ICON - NAVIGATING TO /laba-no-tracked');
+            navigate('/laba-no-tracked');
+          }}
           style={{
             position: 'absolute',
             left: '264px',
@@ -225,7 +228,8 @@ export const LabaLoadingScreen = () => {
             width: '129px',
             height: '126px',
             cursor: 'pointer',
-            zIndex: 9999
+            zIndex: 9999,
+            border: '3px solid red'
           }}
         />
       </div>
