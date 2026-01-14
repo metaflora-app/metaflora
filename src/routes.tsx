@@ -3,7 +3,6 @@ import { SplashScreen } from './screens/splash';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
 import { LabaLoadingScreen } from './screens/laba-loading';
-import { LabaLoadingScreen } from './screens/laba-loading';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => {
