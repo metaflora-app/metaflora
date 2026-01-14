@@ -160,47 +160,56 @@ export const LabaLoadingScreen = () => {
         justifyContent: 'space-between',
         padding: '0 60px'
       }}>
-        {/* Icon 1 - home */}
+        {/* Navigation Icons - равномерно распределены */}
         <div style={{
           width: '129px',
           height: '127px',
           cursor: 'pointer',
-          backgroundColor: 'transparent'
+          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          opacity: 0.8
         }}
         onClick={() => navigate('/laba-main')}
         />
         
-        {/* Icon 2 - ANALYSIS - С КРАСНОЙ РАМКОЙ */}
-        <div style={{
-          width: '129px',
-          height: '126px',
-          cursor: 'pointer',
-          backgroundColor: 'rgba(255,0,0,0.3)',
-          border: '5px solid red',
-          zIndex: 99999
-        }}
-        onClick={() => {
-          console.log('🔥🔥🔥 CLICKED ANALYSIS ICON - NAVIGATING TO /laba-no-tracked 🔥🔥🔥');
-          navigate('/laba-no-tracked');
-        }}
+        <div 
+          style={{
+            width: '129px',
+            height: '126px',
+            cursor: 'pointer',
+            backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            opacity: 0.8
+          }}
+          onClick={() => navigate('/laba-no-tracked')}
         />
         
-        {/* Icon 3 - favorites */}
         <div style={{
           width: '129px',
           height: '124px',
           cursor: 'pointer',
-          backgroundColor: 'transparent'
+          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          opacity: 0.8
         }}
         onClick={() => navigate('/laba-favorites')}
         />
         
-        {/* Icon 4 - balance */}
         <div style={{
           width: '129px',
           height: '132px',
           cursor: 'pointer',
-          backgroundColor: 'transparent'
+          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          opacity: 0.8
         }}
         onClick={() => navigate('/metacoins')}
         />
