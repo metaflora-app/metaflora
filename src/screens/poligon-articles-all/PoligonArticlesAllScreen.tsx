@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
-const PoligonArticlesAllScreen: React.FC = () => {
+export const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
