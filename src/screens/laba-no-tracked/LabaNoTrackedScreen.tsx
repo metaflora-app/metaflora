@@ -9,6 +9,11 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 
+// New assets for laba-no-tracked from Desktop
+import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
+import startTrackingButton from '../../assets/laba-no-tracked/кнопка начать отслеживание.png';
+import peopleImage from '../../assets/laba-no-tracked/люди друг на друге.png';
+
 export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
 
@@ -177,50 +182,55 @@ export const LabaNoTrackedScreen: React.FC = () => {
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
         }}>
-          {/* Blur overlay with people image - using PNG from Desktop */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '100%',
-            height: '100%',
-            borderRadius: '26px',
-            overflow: 'hidden',
-          }}>
-            <div 
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                backdropFilter: 'blur(10px)',
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
+          {/* Background: Blur overlay PNG */}
+          <img 
+            src={blurOverlay}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '26px',
+              pointerEvents: 'none',
+            }}
+          />
 
-          {/* Action button - "начать отслеживание ₽100" - positioned in lower part of card based on Figma */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            bottom: '280px',
-            transform: 'translateX(-50%)',
-            cursor: 'pointer',
-            zIndex: 10,
-            padding: '15px 40px',
-            borderRadius: '30px',
-            background: 'linear-gradient(90deg, #00ff88, #00ccff)',
-            color: 'white',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            fontFamily: 'Gotham Pro, sans-serif',
-          }}>
-            начать отслеживание ₽100
-          </div>
+          {/* People image PNG - centered in card */}
+          <img 
+            src={peopleImage}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '80%',
+              height: 'auto',
+              objectFit: 'contain',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          />
 
-          {/* Description text - "вы можете пополнить баланс в личном кабинете" - under button */}
+          {/* Action button PNG - "начать отслеживание ₽100" */}
+          <img 
+            src={startTrackingButton}
+            alt="начать отслеживание ₽100"
+            style={{
+              position: 'absolute',
+              left: '50%',
+              bottom: '280px',
+              transform: 'translateX(-50%)',
+              width: 'auto',
+              height: '60px',
+              cursor: 'pointer',
+              zIndex: 10,
+            }}
+          />
+
+          {/* Description text - "вы можете пополнить баланс в личном кабинете" */}
           <div style={{
             position: 'absolute',
             left: '50%',
