@@ -1,1 +1,1 @@
-export { PoligonArticlesAllScreen } from './PoligonArticlesAllScreen';
+export { default } from './PoligonArticlesAllScreen';
