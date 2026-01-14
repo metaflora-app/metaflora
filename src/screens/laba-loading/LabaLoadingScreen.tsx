@@ -162,7 +162,8 @@ export const LabaLoadingScreen = () => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            borderRadius: '62px'
+            borderRadius: '62px',
+            pointerEvents: 'none'
           }}
         />
         
