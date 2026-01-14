@@ -153,20 +153,31 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
-        {/* КРАСНЫЙ КВАДРАТ НА ВТОРОЙ ИКОНКЕ */}
+        {/* Невидимая кнопка на второй иконке (люди) → laba-no-tracked */}
         <div 
-          onClick={() => {
-            console.log('🔥🔥🔥 CLICKED RED SQUARE IN LABA-SEARCH - NAVIGATING TO /laba-no-tracked 🔥🔥🔥');
-            navigate('/laba-no-tracked');
-          }}
+          onClick={() => navigate('/laba-no-tracked')}
           style={{
             position: 'absolute',
             left: '393px',
             top: '1882px',
             width: '129px',
             height: '126px',
-            backgroundColor: 'rgba(255,0,0,0.7)',
-            border: '5px solid red',
+            backgroundColor: 'transparent',
+            cursor: 'pointer',
+            zIndex: 99999
+          }}
+        />
+
+        {/* Невидимая кнопка на четвертой иконке (баланс) → metacoins */}
+        <div 
+          onClick={() => navigate('/metacoins')}
+          style={{
+            position: 'absolute',
+            left: '741px',
+            top: '1880px',
+            width: '129px',
+            height: '132px',
+            backgroundColor: 'transparent',
             cursor: 'pointer',
             zIndex: 99999
           }}
