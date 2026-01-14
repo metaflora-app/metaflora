@@ -53,32 +53,19 @@ export const LabaNoTrackedScreen: React.FC = () => {
 
         {/* Header - Based on Figma coordinates */}
         
-        {/* Round back button - left position */}
-        <div style={{
-          position: 'absolute',
-          left: '36px',
-          top: '36px',
-          width: '72px',
-          height: '72px',
-          borderRadius: '50%',
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          border: '3px solid rgba(255, 255, 255, 0.3)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-        }}
-        onClick={() => navigate(-1)}
-        >
-          <div style={{
-            width: '20px',
-            height: '20px',
-            borderLeft: '3px solid white',
-            borderBottom: '3px solid white',
-            transform: 'rotate(45deg)',
-            marginRight: '3px',
-          }} />
-        </div>
+        <img 
+          src={exitArrow}
+          alt="назад"
+          onClick={() => navigate(-1)}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 452px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* User profile icon - next to back button */}
         <div style={{
