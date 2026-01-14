@@ -16,7 +16,7 @@ import startTrackingButton from '../../assets/кнопка начать отсл
 import metacoinIcon from '../../assets/метакоин.png';
 import peopleImage from '../../assets/люди друг на друге.png';
 
-export const ContentTrackingScreen: React.FC = () => {
+export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
 
   // Calculate scale based on viewport width (mobile design width: 375px)
