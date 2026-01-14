@@ -11,10 +11,10 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 
 // New assets from Desktop
-import blurOverlay from '../../assets/блюр на отслеживание.png';
-import startTrackingButton from '../../assets/кнопка начать отслеживание.png';
-import metacoinIcon from '../../assets/метакоин.png';
-import peopleImage from '../../assets/люди друг на друге.png';
+import blurOverlay from '../../assets/blur-tracking.png';
+import startTrackingButton from '../../assets/button-start-tracking.png';
+import metacoinIcon from '../../assets/metacoin.png';
+import peopleImage from '../../assets/people-stack.png';
 
 export const ContentTrackingScreen: React.FC = () => {
   const navigate = useNavigate();
