@@ -7,14 +7,10 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
 // New assets from Desktop
 import blurOverlay from '../../assets/blur-tracking.png';
 import startTrackingButton from '../../assets/button-start-tracking.png';
-import metacoinIcon from '../../assets/metacoin.png';
-import peopleImage from '../../assets/people-stack.png';
 
 export const ContentTrackingScreen: React.FC = () => {
   const navigate = useNavigate();
