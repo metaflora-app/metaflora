@@ -13,7 +13,7 @@ import sidebar from '../../assets/laba-screens/сайдбар.png';
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
 const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";
 
-export const LabaSearchScreen: React.FC = () => {
+export const LabaLoadingMainScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 

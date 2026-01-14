@@ -19,7 +19,7 @@ import { AcademyCourseSystemScreen } from './screens/academy-course-system';
 import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
-import { LabaSearchScreen } from './screens/laba-search';
+import { LabaLoadingMainScreen } from './screens/laba-loading-main';
 import { LabaNoTrackedScreen } from './screens/laba-no-tracked';
 import { LabaLoadingScreen } from './screens/laba-loading';
 
@@ -151,8 +151,8 @@ export const router = createBrowserRouter([
     element: <PlaceholderScreen name="Laba Main" />,
   },
   {
-    path: '/laba-search',
-    element: <LabaSearchScreen />,
+    path: '/laba-loading-main',
+    element: <LabaLoadingMainScreen />,
   },
   {
     path: '/laba-loading',
