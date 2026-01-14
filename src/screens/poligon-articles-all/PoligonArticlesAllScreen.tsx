@@ -1,58 +1,29 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Images - reuse from academy screen
+// Images - REUSE FROM about-laba
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
+import supportButton from '../../assets/tour-video/support-button.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
-// Article background images from desktop
+// PNG FILES from desktop
+import searchIcon from '../../assets/иконка поиск.png';
+import readButton from '../../assets/кнопка читать.png';
+import systemButton from '../../assets/кнопка система.png';
+import artButton from '../../assets/кнопка искусство.png';
+import promptButton from '../../assets/кнопка промптинг.png';
+import newLabel from '../../assets/новое в академии.png';
+import arrowRight from '../../assets/шторка вправо.png';
+
+// Article background images 
 import academyBg from '../../assets/main-dashboard/фон академия.png';
 import labaBg from '../../assets/main-dashboard/фон лаба.png';
 import tsekhBg from '../../assets/main-dashboard/фон цех.png';
 import poligonBg from '../../assets/main-dashboard/фон полигон.png';
-
-interface Article {
-  id: number;
-  title: string;
-  description: string;
-  bgImage: string;
-  isNew: boolean;
-}
-
-const articles: Article[] = [
-  {
-    id: 1,
-    title: 'Курс «Система»',
-    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
-    bgImage: academyBg,
-    isNew: true
-  },
-  {
-    id: 2,
-    title: 'Курс «Система»',
-    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
-    bgImage: labaBg,
-    isNew: false
-  },
-  {
-    id: 3,
-    title: 'Курс «Система»',
-    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
-    bgImage: tsekhBg,
-    isNew: false
-  },
-  {
-    id: 4,
-    title: 'Курс «Система»',
-    description: 'Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе',
-    bgImage: poligonBg,
-    isNew: false
-  }
-];
-
-const filters = ['вернуть', 'система', 'искусство', 'промптинг', 'автоматизация'];
 
 export const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -67,7 +38,6 @@ export const PoligonArticlesAllScreen: React.FC = () => {
 
   const handleFilterClick = (filter: string) => {
     if (filter === 'вернуть') {
-      // Reset all filters and search
       setSelectedFilters([]);
       setSearchQuery('');
       return;
@@ -86,6 +56,13 @@ export const PoligonArticlesAllScreen: React.FC = () => {
     }
   };
 
+  const articles = [
+    { id: 1, bgImage: poligonBg, isNew: true },
+    { id: 2, bgImage: labaBg, isNew: false },
+    { id: 3, bgImage: tsekhBg, isNew: false },
+    { id: 4, bgImage: academyBg, isNew: false }
+  ];
+
   return (
     <div style={{
       position: 'relative',
@@ -102,7 +79,7 @@ export const PoligonArticlesAllScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Background pattern (фон точки) */}
+        {/* Background pattern (фон точки) - REUSED FROM about-laba */}
         <div style={{
           position: 'absolute',
           left: 0,
@@ -114,105 +91,118 @@ export const PoligonArticlesAllScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Header - Pixel perfect for poligon articles screen */}
-        {/* Кнопка назад - круглая */}
-        <div
+        {/* HEADER - EXACT COPY FROM about-laba */}
+        <img 
+          src={exitArrow}
+          alt="назад"
           onClick={() => navigate('/about-poligon')}
           style={{
             position: 'absolute',
-            left: '50px',
-            top: '50px',
-            width: '54px',
-            height: '54px',
-            borderRadius: '50%',
-            backgroundColor: 'transparent',
-            border: '2px solid rgba(255,255,255,0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            left: 'calc(50% - 452px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
             cursor: 'pointer',
-            color: 'white',
-            fontSize: '24px',
-            fontWeight: 'bold'
           }}
-        >
-          ←
-        </div>
+        />
 
-        {/* Кнопка пользователь - круглая */}
+        <img 
+          src={homeIcon}
+          alt="домой"
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 352px)',
+            top: '75px',
+            width: '100px',
+            height: '100px',
+            cursor: 'pointer',
+          }}
+        />
+
         <div style={{
           position: 'absolute',
-          left: '120px',
-          top: '50px',
-          width: '54px',
-          height: '54px',
-          borderRadius: '50%',
-          backgroundColor: 'transparent',
-          border: '2px solid rgba(255,255,255,0.3)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
-          fontSize: '20px'
+          left: '500px',
+          top: '61px',
+          width: '186px',
+          height: '131px',
         }}>
-          👤
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={logoSmall}
+              alt="МЕТАФЛОРА*"
+              style={{
+                position: 'absolute',
+                height: '131.84%',
+                left: '-21.84%',
+                top: '-16.38%',
+                width: '143.34%',
+                maxWidth: 'none',
+              }}
+            />
+          </div>
         </div>
 
-        {/* Логотип центрированный */}
-        <div style={{
-          position: 'absolute',
-          left: '50%',
-          top: '45px',
-          transform: 'translateX(-50%)',
-          width: '150px',
-          height: '64px',
-          backgroundImage: `url(${logoSmall})`,
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center'
-        }} />
+        <img 
+          src={supportButton}
+          alt="написать в поддержку"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% + 281px)',
+            top: '75px',
+            width: '205px',
+            height: '78px',
+            cursor: 'pointer',
+          }}
+        />
 
-        {/* Кнопка поддержки */}
-        <div style={{
-          position: 'absolute',
-          right: '50px',
-          top: '50px',
-          padding: '12px 20px',
-          borderRadius: '25px',
-          backgroundColor: 'transparent',
-          border: '2px solid rgba(255,255,255,0.3)',
-          color: 'white',
-          cursor: 'pointer',
-          fontSize: '14px',
-          fontFamily: 'Inter, sans-serif',
-          whiteSpace: 'nowrap'
-        }}>
-          написать в поддержку
-        </div>
-
-        {/* Title */}
+        {/* TITLE */}
         <div style={{
           position: 'absolute',
           left: '50px',
-          top: '150px',
+          top: '250px',
+          color: 'white',
           fontSize: '40px',
           fontWeight: 'bold',
-          color: 'white',
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: 'Inter, sans-serif'
         }}>
           статьи в полигоне
         </div>
 
-        {/* Search bar */}
+        {/* SEARCH BAR - pixel perfect */}
         <div style={{
           position: 'absolute',
           left: '50px',
-          top: '220px',
-          width: '600px'
+          top: '320px',
+          width: '600px',
         }}>
           <div style={{
-            position: 'relative'
+            position: 'relative',
+            width: '100%',
+            height: '60px',
+            borderRadius: '30px',
+            border: '2px solid rgba(255,255,255,0.3)',
+            backgroundColor: 'transparent',
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '50px',
+            paddingRight: '20px'
           }}>
+            <img 
+              src={searchIcon}
+              alt="поиск"
+              style={{
+                position: 'absolute',
+                left: '20px',
+                width: '20px',
+                height: '20px'
+              }}
+            />
             <input
               ref={searchInputRef}
               type="text"
@@ -223,30 +213,15 @@ export const PoligonArticlesAllScreen: React.FC = () => {
               onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
               placeholder={!isFocused ? "найти по ключевым словам" : ""}
               style={{
-                width: '100%',
-                height: '60px',
-                padding: '0 60px 0 25px',
-                borderRadius: '30px',
-                border: '2px solid rgba(255,255,255,0.3)',
+                flex: 1,
+                border: 'none',
                 backgroundColor: 'transparent',
                 color: 'white',
-                fontSize: '18px',
+                fontSize: '16px',
                 fontFamily: 'Inter, sans-serif',
                 outline: 'none',
               }}
             />
-            {/* Search icon */}
-            <div style={{
-              position: 'absolute',
-              left: '20px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '24px',
-              height: '24px',
-              backgroundImage: 'url(/src/assets/иконка поиск.png)',
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-            }} />
           </div>
 
           {/* Search History */}
@@ -284,59 +259,98 @@ export const PoligonArticlesAllScreen: React.FC = () => {
           )}
         </div>
 
-        {/* Filter buttons */}
+        {/* FILTER BUTTONS - using PNG files */}
         <div style={{
           position: 'absolute',
           left: '50px',
-          top: '310px',
+          top: '420px',
           display: 'flex',
           gap: '15px',
           flexWrap: 'wrap'
         }}>
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => handleFilterClick(filter)}
-              style={{
-                padding: '12px 24px',
-                borderRadius: '25px',
-                border: 'none',
-                backgroundColor: filter === 'вернуть' 
-                  ? 'rgba(255,255,255,0.9)' 
-                  : selectedFilters.includes(filter)
-                    ? '#4285F4'
-                    : 'rgba(255,255,255,0.15)',
-                color: filter === 'вернуть' 
-                  ? '#000' 
-                  : selectedFilters.includes(filter)
-                    ? '#fff'
-                    : '#fff',
-                cursor: 'pointer',
-                fontSize: '16px',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: filter === 'вернуть' ? 'bold' : 'normal',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              {filter}
-            </button>
-          ))}
+          {/* Кнопка "вернуть" */}
+          <button
+            onClick={() => handleFilterClick('вернуть')}
+            style={{
+              padding: '12px 24px',
+              borderRadius: '25px',
+              border: 'none',
+              backgroundColor: 'rgba(255,255,255,0.9)',
+              color: '#000',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 'bold'
+            }}
+          >
+            вернуть
+          </button>
+
+          {/* PNG кнопки */}
+          <img 
+            src={systemButton}
+            alt="система"
+            onClick={() => handleFilterClick('система')}
+            style={{
+              height: '45px',
+              cursor: 'pointer',
+              opacity: selectedFilters.includes('система') ? 1 : 0.7
+            }}
+          />
+
+          <img 
+            src={artButton}
+            alt="искусство"
+            onClick={() => handleFilterClick('искусство')}
+            style={{
+              height: '45px',
+              cursor: 'pointer',
+              opacity: selectedFilters.includes('искусство') ? 1 : 0.7
+            }}
+          />
+
+          <img 
+            src={promptButton}
+            alt="промптинг"
+            onClick={() => handleFilterClick('промптинг')}
+            style={{
+              height: '45px',
+              cursor: 'pointer',
+              opacity: selectedFilters.includes('промптинг') ? 1 : 0.7
+            }}
+          />
+
+          <button
+            onClick={() => handleFilterClick('автоматизация')}
+            style={{
+              padding: '12px 24px',
+              borderRadius: '25px',
+              border: 'none',
+              backgroundColor: selectedFilters.includes('автоматизация') ? '#4285F4' : 'rgba(255,255,255,0.15)',
+              color: 'white',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontFamily: 'Inter, sans-serif'
+            }}
+          >
+            автоматизация
+          </button>
         </div>
 
-        {/* Articles */}
+        {/* ARTICLE CARDS - pixel perfect layout */}
         {articles.map((article, index) => (
           <div
             key={article.id}
             style={{
               position: 'absolute',
               left: '50px',
-              top: `${400 + index * 160}px`,
+              top: `${520 + index * 160}px`,
               display: 'flex',
               gap: '20px',
               alignItems: 'flex-start'
             }}
           >
-            {/* Article image */}
+            {/* Article image with новое label and читать button */}
             <div style={{
               width: '240px',
               height: '150px',
@@ -346,87 +360,64 @@ export const PoligonArticlesAllScreen: React.FC = () => {
               backgroundPosition: 'center',
               position: 'relative'
             }}>
-              {/* "новое" label */}
+              {/* "новое" label using PNG */}
               {article.isNew && (
-                <div style={{
-                  position: 'absolute',
-                  top: '10px',
-                  left: '10px',
-                  backgroundColor: '#FF4444',
-                  color: 'white',
-                  padding: '4px 12px',
-                  borderRadius: '12px',
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                  fontFamily: 'Inter, sans-serif'
-                }}>
-                  новое
-                </div>
+                <img 
+                  src={newLabel}
+                  alt="новое"
+                  style={{
+                    position: 'absolute',
+                    top: '10px',
+                    left: '10px',
+                    height: '20px'
+                  }}
+                />
               )}
               
-              {/* Читать button */}
-              <button
+              {/* Читать button using PNG */}
+              <img 
+                src={readButton}
+                alt="читать"
                 onClick={() => navigate('/article')}
                 style={{
                   position: 'absolute',
                   bottom: '15px',
                   left: '50%',
                   transform: 'translateX(-50%)',
-                  background: 'linear-gradient(90deg, #00FF88 0%, #00CCFF 100%)',
-                  padding: '8px 20px',
-                  borderRadius: '20px',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '14px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif'
+                  height: '35px',
+                  cursor: 'pointer'
                 }}
-              >
-                читать
-              </button>
+              />
             </div>
 
-            {/* Article content */}
+            {/* Article text */}
             <div style={{
               flex: 1,
-              maxWidth: '400px'
+              maxWidth: '400px',
+              fontSize: '16px',
+              color: 'white',
+              lineHeight: '1.4',
+              fontFamily: 'Inter, sans-serif'
             }}>
-              <div style={{
-                fontSize: '16px',
-                color: 'white',
-                lineHeight: '1.4',
-                fontFamily: 'Inter, sans-serif',
-                marginBottom: '20px'
-              }}>
-                {article.description}
-              </div>
+              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
             </div>
 
-            {/* Arrow button */}
-            <button
+            {/* Arrow button using PNG */}
+            <img 
+              src={arrowRight}
+              alt="перейти"
               onClick={() => navigate('/article')}
               style={{
                 width: '60px',
                 height: '40px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.3)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 cursor: 'pointer',
-                color: 'white',
-                fontSize: '20px',
-                marginTop: '80px'
+                marginTop: '60px'
               }}
-            >
-              →
-            </button>
+            />
           </div>
         ))}
 
-        {/* Footer - reused from academy */}
+        {/* FOOTER - EXACT COPY FROM about-laba */}
         <div style={{
           position: 'absolute',
           bottom: '0px',
