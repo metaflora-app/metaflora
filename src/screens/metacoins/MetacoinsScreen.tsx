@@ -14,8 +14,6 @@ import homeIcon from '../../assets/about-screens/домой.png';
 import titleImage from '../../assets/metacoins/выберите количество.png';
 import card1Month from '../../assets/metacoins/карточка тарифа 1 месяц.png';
 import card3Months from '../../assets/metacoins/карточка тарифа 3 месяца.png';
-import priceButton3990 from '../../assets/metacoins/кнопка цена 3990.png';
-import priceButton14490 from '../../assets/metacoins/кнопка цена 14490.png';
 import buyButton from '../../assets/metacoins/купить метакоины.png';
 
 export const MetacoinsScreen: React.FC = () => {
