@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface ArticleCard {
@@ -78,9 +78,6 @@ export const PoligonArticlesAllScreen = () => {
     navigate(-1);
   };
 
-  const handleHome = () => {
-    navigate('/main-dashboard-premium');
-  };
 
   return (
     <div style={{
