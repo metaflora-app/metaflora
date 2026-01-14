@@ -1,5 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { SplashScreen } from './screens/splash';
+import { PromptCardScreen } from './screens/prompt-card';
+import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -80,7 +82,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/prompt-card',
-    element: <PlaceholderScreen name="Prompt Card" />,
+    element: <PromptCardScreen />,
+  },
+  {
+    path: '/poligon-articles-all',
+    element: <PoligonArticlesAllScreen />,
   },
 
   // Academy section
