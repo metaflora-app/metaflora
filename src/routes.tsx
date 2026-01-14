@@ -18,6 +18,7 @@ import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
 import { AcademyCourseSystemScreen } from './screens/academy-course-system';
 import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials';
 import { PromptCardScreen } from './screens/prompt-card';
+import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => (
@@ -138,7 +139,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/poligon-articles-all',
-    element: <PlaceholderScreen name="Poligon Articles All" />,
+    element: <PoligonArticlesAllScreen />,
   },
 
   // Laba section
