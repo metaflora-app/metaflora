@@ -153,6 +153,25 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
+        {/* КРАСНЫЙ КВАДРАТ НА ВТОРОЙ ИКОНКЕ */}
+        <div 
+          onClick={() => {
+            console.log('🔥🔥🔥 CLICKED RED SQUARE IN LABA-SEARCH - NAVIGATING TO /laba-no-tracked 🔥🔥🔥');
+            navigate('/laba-no-tracked');
+          }}
+          style={{
+            position: 'absolute',
+            left: '393px',
+            top: '1882px',
+            width: '129px',
+            height: '126px',
+            backgroundColor: 'rgba(255,0,0,0.7)',
+            border: '5px solid red',
+            cursor: 'pointer',
+            zIndex: 99999
+          }}
+        />
+
         <div style={{
           position: 'absolute',
           left: 'calc(50% - 5px)',
