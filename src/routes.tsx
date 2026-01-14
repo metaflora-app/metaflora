@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, useNavigate } from 'react-router-dom';
 import { SplashScreen } from './screens/splash';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
+import { LabaLoadingScreen } from './screens/laba-loading';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => {
@@ -24,6 +25,25 @@ const PlaceholderScreen = ({ name }: { name: string }) => {
       {name === "About Poligon" && (
         <button 
           onClick={() => navigate('/poligon-articles-all')}
+          style={{
+            padding: '12px 24px',
+            borderRadius: '62px',
+            backgroundColor: 'rgba(0,0,0,0.9)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(50px)',
+            color: 'white',
+            fontSize: '20px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            cursor: 'pointer'
+          }}
+        >
+          перейти к сервису
+        </button>
+      )}
+      {name === "About Laba" && (
+        <button 
+          onClick={() => navigate('/laba-loading')}
           style={{
             padding: '12px 24px',
             borderRadius: '62px',
@@ -112,6 +132,10 @@ export const router = createBrowserRouter([
   {
     path: '/poligon-articles-all',
     element: <PoligonArticlesAllScreen />,
+  },
+  {
+    path: '/laba-loading',
+    element: <LabaLoadingScreen />,
   },
 
   // Academy section
