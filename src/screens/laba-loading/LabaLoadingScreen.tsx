@@ -182,9 +182,15 @@ export const LabaLoadingScreen = () => {
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          opacity: 0.8
+          opacity: 0.8,
+          backgroundColor: 'rgba(255,0,0,0.5)',
+          border: '5px solid red',
+          zIndex: 99999
         }}
-        onClick={() => navigate('/laba-no-tracked')}
+        onClick={() => {
+          console.log('🔥🔥🔥 CLICKED RED ANALYSIS ICON - NAVIGATING TO /laba-no-tracked 🔥🔥🔥');
+          navigate('/laba-no-tracked');
+        }}
         />
         
         <div style={{
