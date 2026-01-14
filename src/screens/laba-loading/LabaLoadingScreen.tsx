@@ -174,28 +174,19 @@ export const LabaLoadingScreen = () => {
         onClick={() => navigate('/laba-main')}
         />
         
-        <div style={{
-          width: '129px',
-          height: '126px',
-          cursor: 'pointer',
-          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          opacity: 0.8,
-          position: 'relative'
-        }}>
-          {/* Invisible button overlay */}
-          <div
-            onClick={() => navigate('/laba-no-tracked')}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              cursor: 'pointer',
-              zIndex: 10
-            }}
-          />
-        </div>
+        <div 
+          style={{
+            width: '129px',
+            height: '126px',
+            cursor: 'pointer',
+            backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            opacity: 0.8
+          }}
+          onClick={() => navigate('/laba-no-tracked')}
+        />
         
         <div style={{
           width: '129px',
