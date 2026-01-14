@@ -13,7 +13,7 @@ import sidebar from '../../assets/laba-screens/сайдбар.png';
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
 const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";
 
-export const LabaLoadingMainScreen: React.FC = () => {
+export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
@@ -153,20 +153,16 @@ export const LabaLoadingMainScreen: React.FC = () => {
           }}
         />
 
-        {/* КРАСНЫЙ КВАДРАТ НА ВТОРОЙ ИКОНКЕ */}
+        {/* Невидимая кнопка на иконке людей (вторая иконка) */}
         <div 
-          onClick={() => {
-            console.log('🔥🔥🔥 CLICKED RED SQUARE IN LABA-SEARCH - NAVIGATING TO /laba-no-tracked 🔥🔥🔥');
-            navigate('/laba-no-tracked');
-          }}
+          onClick={() => navigate('/laba-no-tracked')}
           style={{
             position: 'absolute',
             left: '393px',
             top: '1882px',
             width: '129px',
             height: '126px',
-            backgroundColor: 'rgba(255,0,0,0.7)',
-            border: '5px solid red',
+            backgroundColor: 'transparent',
             cursor: 'pointer',
             zIndex: 99999
           }}
