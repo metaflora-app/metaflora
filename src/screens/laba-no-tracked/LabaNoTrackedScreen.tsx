@@ -17,8 +17,8 @@ import peopleImage from '../../assets/laba-no-tracked/люди друг на д�
 export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  // Calculate scale based on viewport width (mobile design width: 375px)
-  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 375, 1) : 1;
+  // Calculate scale based on viewport width (DESKTOP design width: 1180px)
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   return (
     <div style={{
@@ -28,53 +28,54 @@ export const LabaNoTrackedScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Scaled container - mobile format */}
+      {/* Scaled container - DESKTOP format 1180x2550 */}
       <div style={{
         position: 'relative',
-        width: '375px',
-        minHeight: '100vh',
+        width: '1180px',
+        minHeight: '2550px',
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
-        margin: '0 auto',
       }}>
         {/* Background pattern */}
         <div style={{
           position: 'absolute',
           left: 0,
           top: 0,
-          width: '375px',
-          height: '100vh',
+          width: '1180px',
+          height: '2550px',
           backgroundImage: `url(${bgPattern})`,
           backgroundRepeat: 'repeat',
           backgroundSize: 'auto',
         }} />
 
-        {/* Header - Based on Figma coordinates */}
+        {/* Header - Based on Figma node-id=7:1330 */}
         
+        {/* Exit button (53:849) - x=88, y=175, 100x100 */}
         <img 
           src={exitArrow}
           alt="назад"
           onClick={() => navigate(-1)}
           style={{
             position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
+            left: '88px',
+            top: '175px',
             width: '100px',
             height: '100px',
             cursor: 'pointer',
           }}
         />
 
-        {/* User profile icon - next to back button */}
+        {/* Home button (53:844) - x=188, y=175, 100x100 */}
         <div style={{
           position: 'absolute',
-          left: '120px',
-          top: '36px',
-          width: '72px',
-          height: '72px',
+          left: '188px',
+          top: '175px',
+          width: '100px',
+          height: '100px',
           borderRadius: '50%',
           backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          border: '3px solid rgba(255, 255, 255, 0.3)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          backdropFilter: 'blur(50px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -82,32 +83,16 @@ export const LabaNoTrackedScreen: React.FC = () => {
         }}
         onClick={() => navigate('/main-dashboard-free')}
         >
-          <div style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              width: '16px',
-              height: '16px',
-              borderRadius: '50%',
-              backgroundColor: 'white',
-            }} />
-          </div>
+          <div style={{ fontSize: '32px' }}>🎴</div>
         </div>
 
-        {/* Logo - centered based on Figma */}
+        {/* Logo (53:848) - x=500, y=61, 186x131 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '36px',
-          transform: 'translateX(-50%)',
-          width: '120px',
-          height: '80px',
+          left: '500px',
+          top: '61px',
+          width: '186px',
+          height: '131px',
         }}>
           <img 
             src={logoSmall}
@@ -120,69 +105,70 @@ export const LabaNoTrackedScreen: React.FC = () => {
           />
         </div>
 
-        {/* Support button - top right */}
+        {/* Support button (53:846) - x=829, y=97, 205x78 */}
         <div style={{
           position: 'absolute',
-          right: '36px',
-          top: '36px',
+          left: '829px',
+          top: '97px',
         }}>
           <img 
             src={supportButton}
             alt="написать в поддержку"
             style={{
-              width: '180px',
-              height: '60px',
+              width: '205px',
+              height: '78px',
               cursor: 'pointer',
               objectFit: 'contain',
             }}
           />
         </div>
 
-        {/* Main title - "отслеживание контента" - positioned based on Figma */}
+        {/* Main title (7:1377) - x=85, y=193, 1020x80 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '140px',
-          transform: 'translateX(-50%)',
-          textAlign: 'center',
+          left: '85px',
+          top: '193px',
+          width: '1020px',
+          height: '80px',
           fontFamily: 'Inter',
           fontWeight: 800,
           fontSize: '64px',
           lineHeight: 1,
           color: 'white',
+          display: 'flex',
+          alignItems: 'center',
         }}>
-          <p style={{ margin: 0, lineHeight: 1 }}>отслеживание контента</p>
+          <p style={{ margin: 0 }}>отслеживание контента</p>
         </div>
 
-        {/* Subtitle - "добавьте аккаунт для отслеживания" - centered under title */}
+        {/* Subtitle (7:1378) - x=85, y=295, 882x40 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '220px',
-          transform: 'translateX(-50%)',
-          textAlign: 'center',
+          left: '85px',
+          top: '295px',
+          width: '882px',
+          height: '40px',
           fontFamily: 'Gotham Pro',
           fontSize: '32px',
           lineHeight: 1,
           color: 'rgba(255, 255, 255, 0.6)',
+          display: 'flex',
+          alignItems: 'center',
         }}>
-          <p style={{ margin: 0, lineHeight: 1 }}>добавьте аккаунт для отслеживания</p>
+          <p style={{ margin: 0 }}>добавьте аккаунт для отслеживания</p>
         </div>
 
-        {/* Main content card - adjusted size and position based on Figma */}
+        {/* Card container with blur (7:1360) - x=143, y=381, 892x1661 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '280px',
-          width: '720px',
-          height: '1200px',
-          transform: 'translateX(-50%)',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
+          left: '143px',
+          top: '381px',
+          width: '892px',
+          height: '1661px',
           borderRadius: '30px',
+          overflow: 'hidden',
         }}>
-          {/* Background: Blur overlay PNG */}
+          {/* Blur overlay PNG */}
           <img 
             src={blurOverlay}
             alt=""
@@ -192,72 +178,69 @@ export const LabaNoTrackedScreen: React.FC = () => {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              borderRadius: '26px',
               pointerEvents: 'none',
             }}
           />
 
-          {/* People image PNG - centered in card */}
+          {/* People image PNG (7:1357) - x=143, y=898 relative to screen, so y=517 inside card */}
           <img 
             src={peopleImage}
             alt=""
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '80%',
-              height: 'auto',
+              left: '0',
+              top: '517px',
+              width: '892px',
+              height: '1050px',
               objectFit: 'contain',
               pointerEvents: 'none',
               zIndex: 1,
             }}
           />
 
-          {/* Action button PNG - "начать отслеживание ₽100" */}
+          {/* Button PNG (7:1362) - x=4, y=766 inside blur card, so relative position */}
           <img 
             src={startTrackingButton}
             alt="начать отслеживание ₽100"
             style={{
               position: 'absolute',
-              left: '50%',
-              bottom: '280px',
-              transform: 'translateX(-50%)',
-              width: 'auto',
-              height: '60px',
+              left: '4px',
+              top: '385px',
+              width: '884px',
+              height: '139px',
+              objectFit: 'contain',
               cursor: 'pointer',
               zIndex: 10,
             }}
           />
 
-          {/* Description text - "вы можете пополнить баланс в личном кабинете" */}
+          {/* Text under button (7:1361) - x=199, y=919 relative to screen */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            bottom: '180px',
-            transform: 'translateX(-50%)',
-            width: '600px',
+            left: '56px',
+            top: '538px',
+            width: '495px',
+            height: '64px',
             textAlign: 'center',
             fontFamily: 'Gotham Pro',
-            fontSize: '28px',
-            lineHeight: 1.2,
+            fontSize: '24px',
+            lineHeight: 1.3,
             color: 'rgba(255, 255, 255, 0.7)',
             zIndex: 10,
           }}>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
+            <p style={{ margin: 0 }}>
               вы можете пополнить баланс<br />
               в личном кабинете
             </p>
           </div>
         </div>
 
-        {/* Footer - positioned at bottom of screen */}
+        {/* Footer (53:847) - x=141, y=2071, 888x124 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          bottom: '36px',
-          transform: 'translateX(-50%)',
-          width: '720px',
+          left: '141px',
+          top: '2071px',
+          width: '888px',
           height: '124px',
         }}>
           {/* Logo Footer */}
@@ -302,7 +285,6 @@ export const LabaNoTrackedScreen: React.FC = () => {
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '20px',
-            lineHeight: '0',
             color: 'white',
           }}>
             <p style={{ 
