@@ -1,23 +1,48 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate, useNavigate } from 'react-router-dom';
 import { SplashScreen } from './screens/splash';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
 
 // Temporary placeholder component for deleted screens
-const PlaceholderScreen = ({ name }: { name: string }) => (
-  <div style={{ 
-    display: 'flex', 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    height: '100vh',
-    background: '#000',
-    color: '#fff',
-    fontSize: '24px',
-    fontFamily: 'system-ui'
-  }}>
-    {name} - будет воссоздан через Figma MCP
-  </div>
-);
+const PlaceholderScreen = ({ name }: { name: string }) => {
+  const navigate = useNavigate();
+  
+  return (
+    <div style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      height: '100vh',
+      background: '#000',
+      color: '#fff',
+      fontSize: '24px',
+      fontFamily: 'system-ui',
+      flexDirection: 'column',
+      gap: '20px'
+    }}>
+      <div>{name} - будет воссоздан через Figma MCP</div>
+      {name === "About Poligon" && (
+        <button 
+          onClick={() => navigate('/poligon-articles-all')}
+          style={{
+            padding: '12px 24px',
+            borderRadius: '62px',
+            backgroundColor: 'rgba(0,0,0,0.9)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(50px)',
+            color: 'white',
+            fontSize: '20px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            cursor: 'pointer'
+          }}
+        >
+          перейти к сервису
+        </button>
+      )}
+    </div>
+  );
+};
 
 export const router = createBrowserRouter([
   {

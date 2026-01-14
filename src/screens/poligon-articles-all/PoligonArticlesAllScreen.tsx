@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ArticleCard {
   id: number;
@@ -45,6 +46,7 @@ export const PoligonArticlesAllScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>(['вернуть']);
   const [isFocused, setIsFocused] = useState(false);
+  const navigate = useNavigate();
 
   const toggleFilter = (filter: string) => {
     setSelectedFilters(prev => 
@@ -93,7 +95,9 @@ export const PoligonArticlesAllScreen = () => {
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer'
-        }}>
+        }}
+        onClick={() => navigate(-1)}
+        >
           <div style={{ transform: 'rotate(270deg)', fontSize: '24px' }}>←</div>
         </div>
 
@@ -312,7 +316,9 @@ export const PoligonArticlesAllScreen = () => {
                 {article.description}
               </p>
 
-              <button style={{
+              <button 
+                onClick={() => navigate('/article')}
+                style={{
                 position: 'absolute',
                 bottom: '32px',
                 left: '32px',
