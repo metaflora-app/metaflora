@@ -11,8 +11,9 @@ import exitArrow from '../../assets/tour-elements/выход.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 
 // Metacoins specific assets
-import bigMetacoin from '../../assets/metacoins/большой метакоин.png';
-import cardBackground from '../../assets/metacoins/карточка с фоном.png';
+import titleImage from '../../assets/metacoins/выберите количество.png';
+import card1Month from '../../assets/metacoins/карточка тарифа 1 месяц.png';
+import card3Months from '../../assets/metacoins/карточка тарифа 3 месяца.png';
 
 export const MetacoinsScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -123,342 +124,49 @@ export const MetacoinsScreen: React.FC = () => {
           }}
         />
 
-        {/* Title (75:726) - "выберите количество метакоинов" - x=94, y=198, 1020x160 */}
-        <div style={{
-          position: 'absolute',
-          left: '94px',
-          top: '198px',
-          width: '1020px',
-          height: '160px',
-          fontFamily: 'Inter',
-          fontWeight: 800,
-          fontSize: '80px',
-          lineHeight: 1,
-          color: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>выберите количество<br/>метакоинов</p>
-        </div>
-
-        {/* Card 1 - тариф 1 месяц (75:653) - x=143, y=418, 892x603 */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '418px',
-          width: '892px',
-          height: '603px',
-          borderRadius: '30px',
-          overflow: 'hidden',
-        }}>
-          {/* Background image */}
-          <img 
-            src={cardBackground}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '4px',
-              top: '3px',
-              width: '888px',
-              height: '348px',
-              objectFit: 'fill',
-              borderRadius: '21px',
-            }}
-          />
-
-          {/* Card overlay with blur effect (75:654) */}
-          <div style={{
+        {/* Title PNG - "выберите количество метакоинов" */}
+        <img 
+          src={titleImage}
+          alt="выберите количество метакоинов"
+          style={{
             position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-          }} />
+            left: '94px',
+            top: '198px',
+            width: '1020px',
+            height: '160px',
+            objectFit: 'contain',
+          }}
+        />
 
-          {/* "5000" + metacoin icon wrapper */}
-          <div style={{
+        {/* Card 1 - тариф 1 месяц PNG */}
+        <img 
+          src={card1Month}
+          alt="карточка тарифа 1 месяц"
+          style={{
             position: 'absolute',
-            left: '52px',
-            top: '34px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}>
-            <div style={{
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '80px',
-              lineHeight: 1,
-              color: 'white',
-            }}>
-              5000
-            </div>
-            {/* Placeholder for big metacoin icon */}
-            <div style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
-              background: 'rgba(255,255,255,0.2)',
-              border: '2px solid rgba(255,255,255,0.3)',
-            }} />
-          </div>
-
-          {/* Price button 3990 - styled based on Figma design */}
-          <div style={{
-            position: 'absolute',
-            left: '699px',
-            top: '57px',
-            width: '176px',
-            height: '57px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0,0,0,0.9)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            left: '143px',
+            top: '418px',
+            width: '892px',
+            height: '603px',
+            objectFit: 'contain',
             cursor: 'pointer',
-            overflow: 'hidden',
-          }}>
-            {/* White gradient shapes */}
-            <div style={{
-              position: 'absolute',
-              left: '52px',
-              top: '-77px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                background: 'white',
-                height: '147.81px',
-                left: '56px',
-                borderRadius: '1568.563px',
-                top: '-68.13px',
-                width: '70.322px',
-              }} />
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                height: '108.071px',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '73.59px',
-                top: '-73px',
-                width: '62.414px',
-              }}>
-                <div style={{
-                  transform: 'rotate(31.249deg) skewX(12.824deg)',
-                  background: 'white',
-                  height: '92.108px',
-                  borderRadius: '1568.563px',
-                  width: '39.549px',
-                }} />
-              </div>
-              <div style={{
-                position: 'absolute',
-                background: 'white',
-                height: '100.192px',
-                left: '87.59px',
-                borderRadius: '1568.563px',
-                top: '23.56px',
-                width: '38.727px',
-              }} />
-            </div>
-            <div style={{
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '23px',
-              lineHeight: 1,
-              color: 'white',
-              textAlign: 'center',
-              zIndex: 10,
-            }}>
-              3990 руб.
-            </div>
-          </div>
+          }}
+        />
 
-          {/* Description text (75:679) */}
-          <div style={{
+        {/* Card 2 - тариф 3 месяца PNG */}
+        <img 
+          src={card3Months}
+          alt="карточка тарифа 3 месяца"
+          style={{
             position: 'absolute',
-            left: '52px',
-            top: '147px',
-            width: '801px',
-            height: '280px',
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, fontSize: '40px', lineHeight: 1, whiteSpace: 'pre-wrap' }}>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>200+ </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>ИИ-анализа контента</span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>130+ </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>генераций сценариев </span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>50+ </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>поисковых запросов по ключам</span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>20</span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}> отслеживаемых аккаунтов</span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: доступ к новым функциям сервиса, эксклюзивы и бонусы каждый месяц</span>
-            </p>
-          </div>
-        </div>
-
-        {/* Card 2 - тариф 3 месяца (75:692) - x=143, y=1082, 892x603 */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '1082px',
-          width: '892px',
-          height: '603px',
-          borderRadius: '30px',
-          overflow: 'hidden',
-        }}>
-          {/* Background image */}
-          <img 
-            src={cardBackground}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '0',
-              top: '0',
-              width: '888px',
-              height: '348px',
-              objectFit: 'fill',
-              borderRadius: '24px',
-            }}
-          />
-
-          {/* Card overlay with blur effect (75:654) */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-          }} />
-
-          {/* "25 000" + metacoin icon wrapper */}
-          <div style={{
-            position: 'absolute',
-            left: '60px',
-            top: '37px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}>
-            <div style={{
-              fontFamily: 'Inter',
-              fontWeight: 800,
-              fontSize: '80px',
-              lineHeight: 1,
-              color: 'white',
-            }}>
-              25 000
-            </div>
-            <img 
-              src={bigMetacoin}
-              alt=""
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
-            />
-          </div>
-
-          {/* Price button 14490 - styled based on Figma design */}
-          <div style={{
-            position: 'absolute',
-            left: '706px',
-            top: '57px',
-            width: '169px',
-            height: '57px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0,0,0,0.9)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            left: '143px',
+            top: '1082px',
+            width: '892px',
+            height: '603px',
+            objectFit: 'contain',
             cursor: 'pointer',
-            overflow: 'hidden',
-          }}>
-            {/* White gradient shapes */}
-            <div style={{
-              position: 'absolute',
-              left: '52px',
-              top: '-77px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                background: 'white',
-                height: '147.81px',
-                left: '56px',
-                borderRadius: '1568.563px',
-                top: '-68.13px',
-                width: '70.322px',
-              }} />
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                height: '108.071px',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '73.59px',
-                top: '-73px',
-                width: '62.414px',
-              }}>
-                <div style={{
-                  transform: 'rotate(31.249deg) skewX(12.824deg)',
-                  background: 'white',
-                  height: '92.108px',
-                  borderRadius: '1568.563px',
-                  width: '39.549px',
-                }} />
-              </div>
-              <div style={{
-                position: 'absolute',
-                background: 'white',
-                height: '100.192px',
-                left: '87.59px',
-                borderRadius: '1568.563px',
-                top: '23.56px',
-                width: '38.727px',
-              }} />
-            </div>
-            <div style={{
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '23px',
-              lineHeight: 1,
-              color: 'white',
-              textAlign: 'center',
-              zIndex: 10,
-            }}>
-              14990 руб.
-            </div>
-          </div>
-
-          {/* Description text (75:696) */}
-          <div style={{
-            position: 'absolute',
-            left: '60px',
-            top: '149px',
-            width: '787px',
-            height: '280px',
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, fontSize: '40px', lineHeight: 1, whiteSpace: 'pre-wrap' }}>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>500+ </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>ИИ-анализа контента</span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>250+ </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>генераций сценариев </span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>200+ </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>поисковых запросов по ключам</span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>100</span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}> отслеживаемых аккаунтов</span><br/>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: доступ к новым функциям сервиса, эксклюзивы и бонусы каждый месяц</span>
-            </p>
-          </div>
-        </div>
+          }}
+        />
 
         {/* Buy button "купить метакоины" (75:729) - x=143, y=1744, 892x140 */}
         <div style={{
