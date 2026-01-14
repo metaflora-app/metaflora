@@ -8,13 +8,6 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
-
-// New assets from Desktop
-import blurOverlay from '../../assets/блюр на отслеживание.png';
-import startTrackingButton from '../../assets/кнопка начать отслеживание.png';
-import metacoinIcon from '../../assets/метакоин.png';
-import peopleImage from '../../assets/люди друг на друге.png';
 
 export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -195,15 +188,14 @@ export const LabaNoTrackedScreen: React.FC = () => {
             borderRadius: '26px',
             overflow: 'hidden',
           }}>
-            <img 
-              src={blurOverlay}
-              alt=""
+            <div 
               style={{
                 position: 'absolute',
                 inset: 0,
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                backdropFilter: 'blur(10px)',
                 pointerEvents: 'none',
               }}
             />
@@ -217,17 +209,15 @@ export const LabaNoTrackedScreen: React.FC = () => {
             transform: 'translateX(-50%)',
             cursor: 'pointer',
             zIndex: 10,
+            padding: '15px 40px',
+            borderRadius: '30px',
+            background: 'linear-gradient(90deg, #00ff88, #00ccff)',
+            color: 'white',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            fontFamily: 'Gotham Pro, sans-serif',
           }}>
-            <img 
-              src={startTrackingButton}
-              alt="начать отслеживание ₽100"
-              style={{
-                width: 'auto',
-                height: 'auto',
-                maxWidth: '600px',
-                objectFit: 'contain',
-              }}
-            />
+            начать отслеживание ₽100
           </div>
 
           {/* Description text - "вы можете пополнить баланс в личном кабинете" - under button */}
