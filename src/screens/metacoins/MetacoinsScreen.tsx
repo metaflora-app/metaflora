@@ -160,40 +160,37 @@ export const MetacoinsScreen: React.FC = () => {
               top: '3px',
               width: '888px',
               height: '348px',
-              objectFit: 'cover',
+              objectFit: 'fill',
             }}
           />
 
-          {/* "5000" text (75:681) - x=52, y=34, 446x80 */}
+          {/* "5000" + metacoin icon wrapper */}
           <div style={{
             position: 'absolute',
             left: '52px',
             top: '34px',
-            width: '446px',
-            height: '80px',
-            fontFamily: 'Inter',
-            fontWeight: 800,
-            fontSize: '64px',
-            lineHeight: 1,
-            color: 'white',
             display: 'flex',
             alignItems: 'center',
+            gap: '10px',
           }}>
-            <p style={{ margin: 0 }}>5000</p>
+            <div style={{
+              fontFamily: 'Inter',
+              fontWeight: 800,
+              fontSize: '64px',
+              lineHeight: 1,
+              color: 'white',
+            }}>
+              5000
+            </div>
+            <img 
+              src={bigMetacoin}
+              alt=""
+              style={{
+                width: '60px',
+                height: '60px',
+              }}
+            />
           </div>
-
-          {/* Big metacoin icon (75:651) - x=282, y=44, 60x60 */}
-          <img 
-            src={bigMetacoin}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '282px',
-              top: '44px',
-              width: '60px',
-              height: '60px',
-            }}
-          />
 
           {/* Price button 3990 (75:682) - x=699, y=57, 176x57 */}
           <img 
@@ -217,17 +214,16 @@ export const MetacoinsScreen: React.FC = () => {
             width: '801px',
             height: '280px',
             fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: 1.3,
+            fontSize: '28px',
+            lineHeight: 1.4,
             color: 'white',
           }}>
-            <p style={{ margin: 0 }}>
-              <strong style={{ fontWeight: 700 }}>200+</strong> ИИ-анализа контента<br/>
-              <strong style={{ fontWeight: 700 }}>130+</strong> генераций сценариев<br/>
-              <strong style={{ fontWeight: 700 }}>50+</strong> поисковых запросов по ключам<br/>
-              <strong style={{ fontWeight: 700 }}>20</strong> отслеживаемых аккаунтов<br/>
-              <strong style={{ fontWeight: 700 }}>а также:</strong> доступ к новым функциям<br/>
+            <p style={{ margin: 0, fontWeight: 300 }}>
+              <span style={{ fontWeight: 700 }}>200+</span> ИИ-анализа контента<br/>
+              <span style={{ fontWeight: 700 }}>130+</span> генераций сценариев<br/>
+              <span style={{ fontWeight: 700 }}>50+</span> поисковых запросов по ключам<br/>
+              <span style={{ fontWeight: 700 }}>20</span> отслеживаемых аккаунтов<br/>
+              <span style={{ fontWeight: 700 }}>а также:</span> доступ к новым функциям<br/>
               сервиса, эксклюзивы и бонусы<br/>
               каждый месяц
             </p>
@@ -254,40 +250,37 @@ export const MetacoinsScreen: React.FC = () => {
               top: '0',
               width: '888px',
               height: '348px',
-              objectFit: 'cover',
+              objectFit: 'fill',
             }}
           />
 
-          {/* "25 000" text (75:697) - x=60, y=37, 446x80 */}
+          {/* "25 000" + metacoin icon wrapper */}
           <div style={{
             position: 'absolute',
             left: '60px',
             top: '37px',
-            width: '446px',
-            height: '80px',
-            fontFamily: 'Inter',
-            fontWeight: 800,
-            fontSize: '64px',
-            lineHeight: 1,
-            color: 'white',
             display: 'flex',
             alignItems: 'center',
+            gap: '10px',
           }}>
-            <p style={{ margin: 0 }}>25 000</p>
+            <div style={{
+              fontFamily: 'Inter',
+              fontWeight: 800,
+              fontSize: '64px',
+              lineHeight: 1,
+              color: 'white',
+            }}>
+              25 000
+            </div>
+            <img 
+              src={bigMetacoin}
+              alt=""
+              style={{
+                width: '60px',
+                height: '60px',
+              }}
+            />
           </div>
-
-          {/* Big metacoin icon (75:720) - x=357, y=44, 60x60 */}
-          <img 
-            src={bigMetacoin}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '357px',
-              top: '44px',
-              width: '60px',
-              height: '60px',
-            }}
-          />
 
           {/* Price button 14490 (75:704) - x=705.93, y=57, 168.8x57 */}
           <img 
@@ -311,17 +304,16 @@ export const MetacoinsScreen: React.FC = () => {
             width: '787px',
             height: '280px',
             fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: 1.3,
+            fontSize: '28px',
+            lineHeight: 1.4,
             color: 'white',
           }}>
-            <p style={{ margin: 0 }}>
-              <strong style={{ fontWeight: 700 }}>500+</strong> ИИ-анализа контента<br/>
-              <strong style={{ fontWeight: 700 }}>250+</strong> генераций сценариев<br/>
-              <strong style={{ fontWeight: 700 }}>200+</strong> поисковых запросов по ключам<br/>
-              <strong style={{ fontWeight: 700 }}>100</strong> отслеживаемых аккаунтов<br/>
-              <strong style={{ fontWeight: 700 }}>а также:</strong> доступ к новым функциям<br/>
+            <p style={{ margin: 0, fontWeight: 300 }}>
+              <span style={{ fontWeight: 700 }}>500+</span> ИИ-анализа контента<br/>
+              <span style={{ fontWeight: 700 }}>250+</span> генераций сценариев<br/>
+              <span style={{ fontWeight: 700 }}>200+</span> поисковых запросов по ключам<br/>
+              <span style={{ fontWeight: 700 }}>100</span> отслеживаемых аккаунтов<br/>
+              <span style={{ fontWeight: 700 }}>а также:</span> доступ к новым функциям<br/>
               сервиса, эксклюзивы и бонусы<br/>
               каждый месяц
             </p>
