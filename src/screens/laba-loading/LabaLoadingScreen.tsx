@@ -150,87 +150,59 @@ export const LabaLoadingScreen = () => {
         left: '50%',
         transform: 'translateX(-50%)',
         width: '688px',
-        height: '139px'
+        height: '139px',
+        borderRadius: '62px',
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        border: '4px solid rgba(255,255,255,0.3)',
+        backdropFilter: 'blur(50px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 60px'
       }}>
-        {/* Sidebar Background */}
-        <img 
-          src="/src/assets/laba-sidebar/sidebar-bg.png"
-          alt=""
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            borderRadius: '62px',
-            pointerEvents: 'none'
-          }}
+        {/* Icon 1 - home */}
+        <div style={{
+          width: '129px',
+          height: '127px',
+          cursor: 'pointer',
+          backgroundColor: 'transparent'
+        }}
+        onClick={() => navigate('/laba-main')}
         />
         
-        {/* Navigation Icons - positioned based on Figma 7:665 */}
-        {/* Icon 1: на главную лабы - left: 303px */}
-        <img 
-          src="/src/assets/laba-sidebar/icon-main.png"
-          alt="на главную лабы"
-          onClick={() => navigate('/laba-main')}
-          style={{
-            position: 'absolute',
-            left: '113px',
-            top: '6px',
-            width: '129px',
-            height: '127px',
-            cursor: 'pointer'
-          }}
+        {/* Icon 2 - ANALYSIS - С КРАСНОЙ РАМКОЙ */}
+        <div style={{
+          width: '129px',
+          height: '126px',
+          cursor: 'pointer',
+          backgroundColor: 'rgba(255,0,0,0.3)',
+          border: '5px solid red',
+          zIndex: 99999
+        }}
+        onClick={() => {
+          console.log('🔥🔥🔥 CLICKED ANALYSIS ICON - NAVIGATING TO /laba-no-tracked 🔥🔥🔥');
+          navigate('/laba-no-tracked');
+        }}
         />
         
-        {/* Icon 3: на избранное - left: 598px */}
-        <img 
-          src="/src/assets/laba-sidebar/icon-favorites.png"
-          alt="на избранное"
-          onClick={() => navigate('/laba-favorites')}
-          style={{
-            position: 'absolute',
-            left: '408px',
-            top: '8px',
-            width: '129px',
-            height: '124px',
-            cursor: 'pointer'
-          }}
+        {/* Icon 3 - favorites */}
+        <div style={{
+          width: '129px',
+          height: '124px',
+          cursor: 'pointer',
+          backgroundColor: 'transparent'
+        }}
+        onClick={() => navigate('/laba-favorites')}
         />
         
-        {/* Icon 4: на экран пополнения баланса - left: 741px */}
-        <img 
-          src="/src/assets/laba-sidebar/icon-balance.png"
-          alt="на экран пополнения баланса"
-          onClick={() => navigate('/metacoins')}
-          style={{
-            position: 'absolute',
-            left: '551px',
-            top: '4px',
-            width: '129px',
-            height: '132px',
-            cursor: 'pointer'
-          }}
-        />
-
-        {/* OVERLAY: Icon 2 - на экран анализа ПОВЕРХ ВСЕГО */}
-        <img 
-          src="/src/assets/laba-sidebar/icon-analysis-overlay.png"
-          alt="на экран анализа"
-          onClick={() => {
-            console.log('CLICKED ANALYSIS ICON - NAVIGATING TO /laba-no-tracked');
-            navigate('/laba-no-tracked');
-          }}
-          style={{
-            position: 'absolute',
-            left: '264px',
-            top: '7px',
-            width: '129px',
-            height: '126px',
-            cursor: 'pointer',
-            zIndex: 9999,
-            border: '3px solid red'
-          }}
+        {/* Icon 4 - balance */}
+        <div style={{
+          width: '129px',
+          height: '132px',
+          cursor: 'pointer',
+          backgroundColor: 'transparent'
+        }}
+        onClick={() => navigate('/metacoins')}
         />
       </div>
 
