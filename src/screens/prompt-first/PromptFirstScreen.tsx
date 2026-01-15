@@ -14,6 +14,7 @@ import favoriteButton from '../../assets/кнопка избранное.png';
 import recentButton from '../../assets/кнопка недавние.png';
 import topPickButton from '../../assets/кнопка топ-выбор.png';
 import newButton from '../../assets/кнопка новые.png';
+import goButton from '../../assets/main-dashboard/кнопка перейти.png';
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
@@ -259,8 +260,96 @@ export const PromptFirstScreen: React.FC = () => {
           width: '884px',
           overflow: 'clip',
           zIndex: 10,
+          padding: '40px',
         }}>
-          {/* Empty - ready for content */}
+          {/* Карточка 1 */}
+          <div style={{
+            position: 'relative',
+            width: '804px',
+            height: '380px',
+            marginBottom: '30px',
+          }}>
+            {/* Плашка "новое" */}
+            <img 
+              src={newButton}
+              alt="новое"
+              style={{
+                position: 'absolute',
+                left: '0px',
+                top: '0px',
+                width: '142px',
+                height: '51px',
+                zIndex: 2,
+              }}
+            />
+            
+            {/* Фото дома */}
+            <div style={{
+              position: 'absolute',
+              left: '0px',
+              top: '61px',
+              width: '380px',
+              height: '319px',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              overflow: 'hidden',
+            }}>
+              <img 
+                src={houseImage}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
+
+            {/* Заголовок */}
+            <div style={{
+              position: 'absolute',
+              left: '400px',
+              top: '61px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 700,
+              fontSize: '35px',
+              color: 'white',
+              lineHeight: '42px',
+              width: '404px',
+            }}>
+              ИИ-копирайтер для блога
+            </div>
+
+            {/* Описание */}
+            <div style={{
+              position: 'absolute',
+              left: '400px',
+              top: '153px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '24px',
+              color: 'white',
+              lineHeight: '29px',
+              width: '404px',
+            }}>
+              настройте ИИ-копирайтера за один промпт
+            </div>
+
+            {/* Кнопка "перейти" */}
+            <img 
+              src={goButton}
+              alt="перейти"
+              onClick={() => navigate('/prompt-card')}
+              style={{
+                position: 'absolute',
+                left: '400px',
+                top: '282px',
+                width: '257px',
+                height: '73px',
+                cursor: 'pointer',
+              }}
+            />
+          </div>
         </div>
 
         {/* Три человека на фоне ПОД блюр-фреймом */}
