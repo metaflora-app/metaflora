@@ -845,15 +845,15 @@ export const LabaMainScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Instagram данные */}
+            {/* Instagram лого PNG - УВЕЛИЧЕН как в Figma */}
             <div style={{
               position: 'absolute',
               left: '7.32%',
               top: '448px',
-              width: '30px',
-              height: '36px',
+              width: '64px',
+              height: '64px',
             }}>
-              <img src={instagramLogo} alt="" style={{ width: '100%', height: '100%', opacity: 0.6 }} />
+              <img src={instagramLogo} alt="" style={{ width: '100%', height: '100%' }} />
             </div>
 
             <div style={{
