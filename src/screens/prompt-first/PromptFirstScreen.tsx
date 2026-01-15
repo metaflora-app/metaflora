@@ -264,9 +264,9 @@ export const PromptFirstScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             top: '22px',
-            right: '50.66%',
-            bottom: '50.72%',
             left: '22px',
+            width: '410px',
+            height: '782px',
           }}>
             {/* Черный фон */}
             <div style={{
@@ -479,8 +479,8 @@ export const PromptFirstScreen: React.FC = () => {
             position: 'absolute',
             top: '22px',
             right: '22px',
-            bottom: '50.72%',
-            left: '50.66%',
+            width: '410px',
+            height: '782px',
           }}>
             {/* Черный фон */}
             <div style={{
@@ -689,10 +689,10 @@ export const PromptFirstScreen: React.FC = () => {
           {/* Карточка 3 - Нижняя ЛЕВАЯ */}
           <div style={{
             position: 'absolute',
-            top: '50.72%',
-            right: '50.66%',
-            bottom: '22px',
+            top: '834px',
             left: '22px',
+            width: '410px',
+            height: '782px',
           }}>
             {/* Черный фон */}
             <div style={{
@@ -901,10 +901,10 @@ export const PromptFirstScreen: React.FC = () => {
           {/* Карточка 4 - Нижняя ПРАВАЯ */}
           <div style={{
             position: 'absolute',
-            top: '50.72%',
+            top: '834px',
             right: '22px',
-            bottom: '22px',
-            left: '50.66%',
+            width: '410px',
+            height: '782px',
           }}>
             {/* Черный фон */}
             <div style={{
