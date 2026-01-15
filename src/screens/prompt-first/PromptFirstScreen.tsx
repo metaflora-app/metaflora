@@ -516,15 +516,10 @@ export const PromptFirstScreen: React.FC = () => {
               overflow: 'hidden',
             }}>
               <div style={{
-                position: 'absolute',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 500,
-                fontSize: '18px',
+                fontSize: '8px',
                 color: 'white',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                width: '111px',
                 textAlign: 'center',
                 lineHeight: 1,
               }}>
@@ -767,12 +762,12 @@ export const PromptFirstScreen: React.FC = () => {
             {/* Картинка дома */}
             <div style={{
               position: 'absolute',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              height: '359px',
-              left: '53px',
-              borderRadius: '25px',
-              top: '54px',
-              width: '356px',
+              border: '1px solid rgba(0, 0, 0, 0.3)',
+              height: '120px',
+              left: '15px',
+              borderRadius: '15px',
+              top: '15px',
+              width: '170px',
             }}>
               <img src={houseImage} alt="" style={{
                 position: 'absolute',
