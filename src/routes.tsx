@@ -192,15 +192,11 @@ export const router = createBrowserRouter([
   // Poligon section
   {
     path: '/article',
-<<<<<<< HEAD
     element: <PlaceholderScreen name="Article" />,
-=======
-    element: <ArticleScreen />,
   },
   {
     path: '/poligon-articles-all',
     element: <PoligonArticlesAllScreen />,
->>>>>>> 7618d1fbe6da33d87bdb8eca7060c3419825114a
   },
 
   // Laba section

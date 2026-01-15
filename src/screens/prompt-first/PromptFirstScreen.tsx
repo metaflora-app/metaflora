@@ -602,6 +602,9 @@ const BackgroundPeople = styled.div`
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [searchValue, setSearchValue] = React.useState('');
+  const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+  const [likedCards, setLikedCards] = React.useState<number[]>([0, 1]); // Cards 0 and 1 are liked by default
 
   const handleBack = () => {
     navigate(-1);
@@ -617,6 +620,14 @@ export const PromptFirstScreen: React.FC = () => {
 
   const handlePromptCard = () => {
     navigate('/prompt-card');
+  };
+
+  const toggleLike = (cardIndex: number) => {
+    setLikedCards(prev => 
+      prev.includes(cardIndex) 
+        ? prev.filter(id => id !== cardIndex)
+        : [...prev, cardIndex]
+    );
   };
 
   return (
@@ -657,7 +668,32 @@ export const PromptFirstScreen: React.FC = () => {
         <div className="search-icon">
           <img src={searchIcon} alt="" />
         </div>
-        <div className="search-text">промпт для ИИ-копирайтера любых текстов</div>
+        <input
+          type="text"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          onFocus={() => setIsSearchFocused(true)}
+          onBlur={() => setIsSearchFocused(false)}
+          placeholder={!isSearchFocused && !searchValue ? "промпт для ИИ-копирайтера любых текстов" : ""}
+          style={{
+            position: 'absolute',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300,
+            color: 'white',
+            fontSize: '27px',
+            left: 'calc(50% - 370px)',
+            top: 'calc(50% + 0.5px)',
+            transform: 'translateY(-50%)',
+            width: '612px',
+            background: 'transparent',
+            border: 'none',
+            outline: 'none',
+            lineHeight: 1,
+          }}
+        />
+        {!isSearchFocused && !searchValue && (
+          <div className="search-text">промпт для ИИ-копирайтера любых текстов</div>
+        )}
       </SearchBar>
 
       {/* Filter Buttons */}
@@ -702,8 +738,8 @@ export const PromptFirstScreen: React.FC = () => {
           <div className="new-badge">
             <div className="badge-text">новое</div>
           </div>
-          <div className="card-like">
-            <img src={heartFilled} alt="" />
+          <div className="card-like" onClick={() => toggleLike(0)} style={{ cursor: 'pointer' }}>
+            <img src={likedCards.includes(0) ? heartFilled : heartEmpty} alt="" />
           </div>
           <div className="card-button" onClick={handlePromptCard}>
             <div className="colors">
@@ -726,8 +762,8 @@ export const PromptFirstScreen: React.FC = () => {
           <div className="card-title">ИИ-копирайтер для блога</div>
           <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
           <div className="open-text">открыть</div>
-          <div className="card-like">
-            <img src={heartFilledAlt} alt="" />
+          <div className="card-like" onClick={() => toggleLike(1)} style={{ cursor: 'pointer' }}>
+            <img src={likedCards.includes(1) ? heartFilledAlt : heartEmpty} alt="" />
           </div>
           <div className="card-button" onClick={handlePromptCard}>
             <div className="colors">
@@ -774,8 +810,8 @@ export const PromptFirstScreen: React.FC = () => {
           <div className="card-title">ИИ-копирайтер для блога</div>
           <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
           <div className="open-text">открыть</div>
-          <div className="card-like">
-            <img src={heartEmpty} alt="" />
+          <div className="card-like" onClick={() => toggleLike(3)} style={{ cursor: 'pointer' }}>
+            <img src={likedCards.includes(3) ? heartFilled : heartEmpty} alt="" />
           </div>
           <div className="card-button" onClick={handlePromptCard}>
             <div className="colors">
