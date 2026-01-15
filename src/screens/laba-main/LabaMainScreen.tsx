@@ -256,113 +256,19 @@ export const LabaMainScreen: React.FC = () => {
             найти видео по ключевым словам
           </div>
 
-          {/* Badge "25" - EXACT position from Figma */}
-          <div style={{
-            position: 'absolute',
-            left: 'calc(50% + 373px)',
-            top: '-2px',
-            transform: 'translateX(-50%)',
-            width: '130px',
-            height: '72px',
-            backdropFilter: 'blur(50px)',
-            background: '#000',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-          }}>
-            {/* Color circles */}
-            <div style={{ position: 'absolute', left: '38px', top: '-41px' }}>
-              <div style={{
-                position: 'absolute',
-                left: '40px',
-                top: '-35.39px',
-                width: '45.711px',
-                height: '109.684px',
-                background: 'white',
-                borderRadius: '1568.563px',
-              }} />
-              <div style={{
-                position: 'absolute',
-                left: '51.43px',
-                top: '-39px',
-                width: '40.571px',
-                height: '80.196px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{
-                  width: '26.737px',
-                  height: '67.579px',
-                  background: 'white',
-                  borderRadius: '1568.563px',
-                  transform: 'rotate(34.71deg) skewX(17.812deg)',
-                  flexShrink: 0,
-                }} />
-              </div>
-              <div style={{
-                position: 'absolute',
-                left: '60.53px',
-                top: '32.65px',
-                width: '25.174px',
-                height: '74.349px',
-                background: 'white',
-                borderRadius: '1568.563px',
-              }} />
-            </div>
-            
-            {/* "25" text */}
-            <div style={{
+          {/* Badge "25" - PNG из Desktop */}
+          <img 
+            src={badgeSearchCost}
+            alt="25"
+            style={{
               position: 'absolute',
-              right: '53px',
-              top: '50%',
-              transform: 'translate(50%, -50%)',
-              width: '42px',
-              height: '26px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '27px',
-              color: '#d5fc44',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              lineHeight: 0,
-            }}>
-              25
-            </div>
-
-            {/* User avatar */}
-            <div style={{
-              position: 'absolute',
-              left: '33px',
-              top: 'calc(50% - 2.5px)',
-              transform: 'translateY(-50%)',
-              width: '23px',
-              height: '23px',
-              borderRadius: '342.5px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                overflow: 'hidden',
-                borderRadius: '342.5px',
-              }}>
-                <img 
-                  src={userAvatar}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '149.49%',
-                    left: '-24.53%',
-                    top: '-22.48%',
-                    width: '148.62%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+              left: 'calc(50% + 373px)',
+              top: '-2px',
+              transform: 'translateX(-50%)',
+              width: '130px',
+              height: '72px',
+            }}
+          />
         </div>
 
         {/* Filter buttons - Row 1 - PNG из Desktop */}
