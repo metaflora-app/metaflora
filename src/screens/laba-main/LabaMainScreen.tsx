@@ -18,6 +18,13 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 import buttonReturn from '../../assets/laba-main-buttons/кнопка вернуть.png';
 import buttonSort from '../../assets/laba-main-buttons/кнопка сортировка.png';
 import buttonDate from '../../assets/laba-main-buttons/кнопка дата.png';
+import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
+import badgeTimeslot from '../../assets/laba-main-buttons/плашка таймслот.png';
+import badgeRussian from '../../assets/laba-main-buttons/плашка русский.png';
+import badgeScores from '../../assets/laba-main-buttons/плашка баллы.png';
+import badgeAccount from '../../assets/laba-main-buttons/плашка аккаунт.png';
+import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
+import badgeSearchCost from '../../assets/laba-main-buttons/плашка сколько стоит поиск.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
@@ -398,151 +405,85 @@ export const LabaMainScreen: React.FC = () => {
           }}
         />
 
-        {/* Filter buttons - Row 2 (top: 406px) */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 151px)',
-          top: '406px',
-          transform: 'translateX(-50%)',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>{'>лайков'}</div>
-        </div>
+        {/* Filter buttons - Row 2 - PNG из Desktop */}
+        <img 
+          src={badgeLikes}
+          alt=">лайков"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 151px)',
+            top: '406px',
+            transform: 'translateX(-50%)',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% + 93px)',
-          top: '406px',
-          transform: 'translateX(-50%)',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>14 дней</div>
-        </div>
+        <img 
+          src={badgeTimeslot}
+          alt="14 дней"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% + 93px)',
+            top: '406px',
+            transform: 'translateX(-50%)',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% + 343px)',
-          top: '406px',
-          transform: 'translateX(-50%)',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>русский</div>
-        </div>
+        <img 
+          src={badgeRussian}
+          alt="русский"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% + 343px)',
+            top: '406px',
+            transform: 'translateX(-50%)',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
-        {/* Filter buttons - Row 3 (top: 564px) */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 280px)',
-          top: '564px',
-          transform: 'translateX(-50%)',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>9-10 баллов</div>
-        </div>
+        {/* Filter buttons - Row 3 - PNG из Desktop */}
+        <img 
+          src={badgeScores}
+          alt="9-10 баллов"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 280px)',
+            top: '564px',
+            transform: 'translateX(-50%)',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 33px)',
-          top: '564px',
-          transform: 'translateX(-50%)',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>0-10к</div>
-        </div>
+        <img 
+          src={badgeAccount}
+          alt="0-10к"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 33px)',
+            top: '564px',
+            transform: 'translateX(-50%)',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% + 214px)',
-          top: '564px',
-          transform: 'translateX(-50%)',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>IG reels</div>
-        </div>
+        <img 
+          src={badgeReels}
+          alt="IG reels"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% + 214px)',
+            top: '564px',
+            transform: 'translateX(-50%)',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
         {/* Люди друг на друге - ПОД фреймом, ТОЧНО как в Figma */}
         <div style={{
