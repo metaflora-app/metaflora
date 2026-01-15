@@ -1,11 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
-// Local PNG assets from project
+// Local PNG assets
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 
-// Figma MCP assets with exact URLs
+// Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
 const socialIcons = "https://www.figma.com/api/mcp/asset/96863808-46d4-499a-878e-c15950dc56ad"; 
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
@@ -18,332 +17,13 @@ const heartFilledAlt = "https://www.figma.com/api/mcp/asset/69d2fe69-70ad-4a1f-8
 const heartEmpty = "https://www.figma.com/api/mcp/asset/d487f0d7-58b0-45f3-ba61-5cd64c3e2ff0";
 const searchIcon = "https://www.figma.com/api/mcp/asset/4cc4ace0-2607-4d2d-a638-eeac8477fc94";
 
-const ScreenContainer = styled.div`
-  background: #020101;
-  width: 100vw;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-`;
-
-// Header Section
-const HeaderSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const HeaderButton = styled.div`
-  width: 60px;
-  height: 60px;
-  backdrop-filter: blur(50px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  
-  img {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
-  }
-`;
-
-const HeaderLogo = styled.div`
-  img {
-    height: 40px;
-    width: auto;
-  }
-`;
-
-const SupportButton = styled.div`
-  backdrop-filter: blur(50px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  padding: 10px 15px;
-  cursor: pointer;
-  
-  font-family: 'Gotham Pro', sans-serif;
-  font-weight: 300;
-  font-size: 12px;
-  color: white;
-  text-align: center;
-  
-  .bold {
-    font-weight: 700;
-  }
-`;
-
-// Hero Section
-const HeroImage = styled.div`
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  
-  img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-`;
-
-// Search Section
-const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  backdrop-filter: blur(50px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  padding: 15px;
-  margin-bottom: 20px;
-`;
-
-const SearchIcon = styled.div`
-  width: 24px;
-  height: 24px;
-  margin-right: 15px;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    filter: brightness(0) saturate(100%) invert(100%);
-  }
-`;
-
-const SearchInput = styled.input`
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: 'Gotham Pro', sans-serif;
-  font-weight: 300;
-  color: white;
-  font-size: 16px;
-  
-  &::placeholder {
-    color: #848484;
-  }
-`;
-
-// Filters Section
-const FiltersGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 10px;
-`;
-
-const FiltersGridSecond = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-`;
-
-const FilterButton = styled.div<{ isActive?: boolean }>`
-  backdrop-filter: blur(50px);
-  background: ${props => props.isActive ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.9)'};
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  padding: 12px;
-  text-align: center;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  
-  .text {
-    font-family: 'Gotham Pro', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    color: white;
-    position: relative;
-    z-index: 2;
-  }
-  
-  ${props => props.isActive && `
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg, #37ecf7, #f0d825, #d5fc44);
-      opacity: 0.1;
-    }
-  `}
-`;
-
-// Cards Section
-const CardsContainer = styled.div`
-  backdrop-filter: blur(50px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  padding: 15px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 20px;
-`;
-
-const PromptCard = styled.div`
-  backdrop-filter: blur(50px);
-  background: black;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  padding: 15px;
-  position: relative;
-  
-  .card-image {
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    
-    img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-    }
-  }
-  
-  .card-title {
-    font-family: 'Gotham Pro', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    color: white;
-    margin-bottom: 5px;
-    line-height: 1.2;
-  }
-  
-  .card-description {
-    font-family: 'Gotham Pro', sans-serif;
-    font-weight: 300;
-    font-size: 11px;
-    color: white;
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-  
-  .card-button {
-    backdrop-filter: blur(50px);
-    background: rgba(0, 0, 0, 0.9);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 15px;
-    padding: 6px 12px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg, #37ecf7, #f0d825, #d5fc44);
-      opacity: 0.3;
-    }
-    
-    .text {
-      font-family: 'Gotham Pro', sans-serif;
-      font-weight: 500;
-      font-size: 11px;
-      color: white;
-      position: relative;
-      z-index: 2;
-    }
-  }
-  
-  .card-like {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-  
-  .new-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    backdrop-filter: blur(50px);
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    padding: 2px 6px;
-    
-    .text {
-      font-family: 'Gotham Pro', sans-serif;
-      font-weight: 500;
-      font-size: 8px;
-      color: white;
-    }
-  }
-`;
-
-// Footer Section
-const FooterSection = styled.div`
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const FooterLogo = styled.div`
-  margin-bottom: 10px;
-  
-  img {
-    height: 50px;
-    width: auto;
-  }
-`;
-
-const FooterCopyright = styled.div`
-  font-family: 'Gotham Pro', sans-serif;
-  font-weight: 300;
-  font-size: 12px;
-  color: white;
-  margin-bottom: 15px;
-`;
-
-const FooterSocials = styled.div`
-  backdrop-filter: blur(50px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  padding: 8px 15px;
-  display: flex;
-  gap: 8px;
-  
-  img {
-    width: 20px;
-    height: 20px;
-    opacity: 0.6;
-  }
-`;
-
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = React.useState('');
   const [likedCards, setLikedCards] = React.useState<number[]>([0, 1]);
 
-  const handleBack = () => navigate(-1);
-  const handleHome = () => navigate('/main-dashboard-premium');
-  const handleSupport = () => {};
-  const handlePromptCard = () => navigate('/prompt-card');
-  
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
   const toggleLike = (cardIndex: number) => {
     setLikedCards(prev => 
       prev.includes(cardIndex) 
@@ -353,147 +33,1201 @@ export const PromptFirstScreen: React.FC = () => {
   };
 
   return (
-    <ScreenContainer>
-      {/* Header */}
-      <HeaderSection>
-        <HeaderButton onClick={handleBack}>
-          <img src={backArrow} alt="Назад" />
-        </HeaderButton>
-        
-        <HeaderButton onClick={handleHome}>
-          <img src={homeVector1} alt="Домой" />
-        </HeaderButton>
+    <div style={{
+      position: 'relative',
+      width: '100vw',
+      minHeight: '100vh',
+      background: '#020101',
+      overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'relative',
+        width: '1180px',
+        minHeight: '2550px',
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
+      }}>
+        {/* Background people */}
+        <div style={{
+          position: 'absolute',
+          height: '474px',
+          left: '147px',
+          top: '1289px',
+          width: '886px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={threePeopleBg}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '222.88%',
+                left: '-39.72%',
+                maxWidth: 'none',
+                top: '-55.58%',
+                width: '179.18%',
+              }}
+            />
+          </div>
+        </div>
 
-        <HeaderLogo>
-          <img src={smallLogo} alt="МЕТАФЛОРА" />
-        </HeaderLogo>
+        {/* Header - Back button */}
+        <div 
+          onClick={() => navigate(-1)}
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            left: 'calc(50% - 452px)',
+            width: '100px',
+            height: '100px',
+            top: '75px',
+            transform: 'translateX(-50%)',
+            cursor: 'pointer',
+          }}
+        >
+          <div style={{ transform: 'rotate(270deg)' }}>
+            <div style={{
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'hidden',
+              width: '100px',
+              height: '100px',
+              position: 'relative',
+            }}>
+              <div style={{
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                left: '11px',
+                width: '71px',
+                height: '71px',
+                top: '10px',
+              }}>
+                <div style={{ transform: 'rotate(90deg)', width: '71px', height: '71px', position: 'relative' }}>
+                  <div style={{ position: 'absolute', inset: '3.13%' }}>
+                    <img src={backArrow} alt="" style={{ width: '100%', height: '100%' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <SupportButton onClick={handleSupport}>
-          написать <span className="bold">в поддержку</span>
-        </SupportButton>
-      </HeaderSection>
+        {/* Header - Home button */}
+        <div 
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            left: 'calc(50% - 352px)',
+            width: '100px',
+            height: '100px',
+            top: '75px',
+            transform: 'translateX(-50%)',
+            cursor: 'pointer',
+          }}
+        >
+          <div style={{ transform: 'rotate(270deg)' }}>
+            <div style={{
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'hidden',
+              width: '100px',
+              height: '100px',
+              position: 'relative',
+            }}>
+              <div style={{
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                left: '24px',
+                width: '65px',
+                height: '65px',
+                top: '13px',
+              }}>
+                <div style={{ transform: 'rotate(90deg)', width: '65px', height: '65px', position: 'relative' }}>
+                  <div style={{ position: 'absolute', inset: '19.15% 15.36% -12.9% 12.77%' }}>
+                    <img src={homeVector1} alt="" style={{ width: '100%', height: '100%' }} />
+                  </div>
+                  <div style={{ position: 'absolute', inset: '27.81% 42.67% 33.98% 19.82%' }}>
+                    <img src={homeVector2} alt="" style={{ width: '100%', height: '100%' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {/* Hero Image */}
-      <HeroImage>
-        <img src={houseImage} alt="" />
-      </HeroImage>
+        {/* Header - Logo */}
+        <div style={{
+          position: 'absolute',
+          height: '131px',
+          left: '500px',
+          top: '61px',
+          width: '186px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={smallLogo}
+              alt="МЕТАФЛОРА*"
+              style={{
+                position: 'absolute',
+                height: '131.84%',
+                left: '-21.84%',
+                maxWidth: 'none',
+                top: '-16.38%',
+                width: '143.34%',
+              }}
+            />
+          </div>
+        </div>
 
-      {/* Search */}
-      <SearchContainer>
-        <SearchIcon>
-          <img src={searchIcon} alt="" />
-        </SearchIcon>
-        <SearchInput
-          type="text"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="промпт для ИИ-копирайтера любых текстов"
-        />
-      </SearchContainer>
+        {/* Header - Support button */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          height: '78px',
+          left: 'calc(50% + 341.5px)',
+          borderRadius: '62px',
+          top: '97px',
+          transform: 'translateX(-50%)',
+          width: '205px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}>
+          <div style={{
+            position: 'absolute',
+            bottom: 'calc(25.64% - 4px)',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300,
+            fontSize: '20px',
+            color: 'white',
+            left: 'calc(50% - 68.5px)',
+            top: 'calc(23.08% - 4px)',
+            width: '145px',
+            lineHeight: 1,
+            textAlign: 'center',
+          }}>
+            написать <span style={{ fontWeight: 700 }}>в поддержку</span>
+          </div>
+        </div>
 
-      {/* Filters */}
-      <FiltersGrid>
-        <FilterButton isActive>
-          <div className="text">вернуть</div>
-        </FilterButton>
-        <FilterButton>
-          <div className="text">избранное</div>
-        </FilterButton>
-        <FilterButton>
-          <div className="text">недавние</div>
-        </FilterButton>
-      </FiltersGrid>
-      
-      <FiltersGridSecond>
-        <FilterButton>
-          <div className="text">топ-выбор</div>
-        </FilterButton>
-        <FilterButton>
-          <div className="text">новые</div>
-        </FilterButton>
-      </FiltersGridSecond>
+        {/* Hero Image */}
+        <div style={{
+          position: 'absolute',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          height: '377px',
+          left: '155px',
+          borderRadius: '30px',
+          top: '224px',
+          width: '880px',
+        }}>
+          <img 
+            src={houseImage}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              maxWidth: 'none',
+              objectFit: 'cover',
+              pointerEvents: 'none',
+              borderRadius: '30px',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        </div>
 
-      {/* Cards */}
-      <CardsContainer>
-        {/* Card 1 */}
-        <PromptCard>
-          <div className="card-image">
-            <img src={houseImage} alt="" />
+        {/* Search bar */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          border: '2px solid rgba(255, 255, 255, 0.3)',
+          height: '72px',
+          left: 'calc(50% + 3px)',
+          borderRadius: '62px',
+          top: '631px',
+          transform: 'translateX(-50%)',
+          width: '876px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            left: '26px',
+            width: '38px',
+            height: '38px',
+            top: 'calc(50% - 19px)',
+          }}>
+            <div style={{ position: 'absolute', inset: '3.12% 3.12% 3.13% 3.12%' }}>
+              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%' }} />
+            </div>
           </div>
-          <div className="card-like" onClick={() => toggleLike(0)}>
-            <img src={likedCards.includes(0) ? heartFilled : heartEmpty} alt="" />
-          </div>
-          <div className="new-badge">
-            <div className="text">новое</div>
-          </div>
-          <div className="card-title">ИИ-копирайтер для блога</div>
-          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="card-button" onClick={handlePromptCard}>
-            <div className="text">перейти</div>
-          </div>
-        </PromptCard>
+          <input
+            type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="промпт для ИИ-копирайтера любых текстов"
+            style={{
+              position: 'absolute',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              color: 'white',
+              fontSize: '27px',
+              left: 'calc(50% - 365px)',
+              top: 'calc(50% - 0.5px)',
+              transform: 'translateY(-50%)',
+              width: '612px',
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              lineHeight: 1,
+            }}
+          />
+        </div>
 
-        {/* Card 2 */}
-        <PromptCard>
-          <div className="card-image">
-            <img src={houseImage} alt="" />
+        {/* Filter: вернуть (active) */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          inset: '28.75% 60.43% 68.15% 18.64%',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}>
+          <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
+            <div style={{
+              position: 'absolute',
+              background: 'white',
+              height: '107.431px',
+              left: '77px',
+              borderRadius: '1568.563px',
+              top: '-36.46px',
+              width: '101.963px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              display: 'flex',
+              height: '78.548px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              left: '102.5px',
+              top: '-40px',
+              width: '90.498px',
+            }}>
+              <div style={{
+                transform: 'rotate(16.918deg) skewX(-15.566deg)',
+                background: 'white',
+                height: '75.957px',
+                borderRadius: '1568.563px',
+                width: '51.243px',
+              }} />
+            </div>
+            <div style={{
+              position: 'absolute',
+              background: 'white',
+              height: '72.822px',
+              left: '122.8px',
+              borderRadius: '1568.563px',
+              top: '30.18px',
+              width: '56.152px',
+            }} />
           </div>
-          <div className="card-like" onClick={() => toggleLike(1)}>
-            <img src={likedCards.includes(1) ? heartFilledAlt : heartEmpty} alt="" />
+          <div style={{
+            position: 'absolute',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            left: 'calc(50% - 1.47px)',
+            top: 'calc(50% + 0.03px)',
+            transform: 'translate(-50%, -50%)',
+            width: '150px',
+            textAlign: 'center',
+            lineHeight: 1,
+          }}>
+            вернуть
           </div>
-          <div className="card-title">ИИ-копирайтер для блога</div>
-          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="card-button" onClick={handlePromptCard}>
-            <div className="text">перейти</div>
-          </div>
-        </PromptCard>
+        </div>
 
-        {/* Card 3 */}
-        <PromptCard>
-          <div className="card-image">
-            <img src={houseImage} alt="" />
+        {/* Filter: избранное */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          inset: '28.75% 39.5% 68.15% 39.58%',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}>
+          <div style={{
+            position: 'absolute',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            left: 'calc(50% - 0.97px)',
+            top: 'calc(50% - 0.13px)',
+            transform: 'translate(-50%, -50%)',
+            width: '169px',
+            textAlign: 'center',
+            lineHeight: 1,
+          }}>
+            избранное
           </div>
-          <div className="card-like" onClick={() => toggleLike(2)}>
-            <img src={likedCards.includes(2) ? heartFilled : heartEmpty} alt="" />
-          </div>
-          <div className="card-title">ИИ-копирайтер для блога</div>
-          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="card-button" onClick={handlePromptCard}>
-            <div className="text">перейти</div>
-          </div>
-        </PromptCard>
+        </div>
 
-        {/* Card 4 */}
-        <PromptCard>
-          <div className="card-image">
-            <img src={houseImage} alt="" />
+        {/* Filter: недавние */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          inset: '28.75% 18.57% 68.15% 60.51%',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}>
+          <div style={{
+            position: 'absolute',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            left: 'calc(50% - 1.47px)',
+            top: 'calc(50% + 0.03px)',
+            transform: 'translate(-50%, -50%)',
+            width: '150px',
+            textAlign: 'center',
+            lineHeight: 1,
+          }}>
+            недавние
           </div>
-          <div className="card-like" onClick={() => toggleLike(3)}>
-            <img src={likedCards.includes(3) ? heartFilled : heartEmpty} alt="" />
-          </div>
-          <div className="card-title">ИИ-копирайтер для блога</div>
-          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="card-button" onClick={handlePromptCard}>
-            <div className="text">перейти</div>
-          </div>
-        </PromptCard>
-      </CardsContainer>
+        </div>
 
-      {/* Footer */}
-      <FooterSection>
-        <FooterLogo>
-          <img src={footerLogo} alt="МЕТАФЛОРА" />
-        </FooterLogo>
-        <FooterCopyright>
-          Copyright © Все права защищены.
-        </FooterCopyright>
-        <FooterSocials>
-          <img src={socialIcons} alt="" />
-          <img src={socialIcons} alt="" />
-          <img src={socialIcons} alt="" />
-          <img src={socialIcons} alt="" />
-        </FooterSocials>
-      </FooterSection>
-    </ScreenContainer>
+        {/* Filter: топ-выбор */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          inset: '31.84% 50.01% 65.05% 29.07%',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}>
+          <div style={{
+            position: 'absolute',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            left: 'calc(50% + 4.03px)',
+            top: 'calc(50% - 0.13px)',
+            transform: 'translate(-50%, -50%)',
+            width: '161px',
+            textAlign: 'center',
+            lineHeight: 1,
+          }}>
+            топ-выбор
+          </div>
+        </div>
+
+        {/* Filter: новые */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          bottom: '65.05%',
+          left: '50%',
+          right: '29.07%',
+          top: '31.84%',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}>
+          <div style={{
+            position: 'absolute',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            left: 'calc(50% - 0.47px)',
+            top: 'calc(50% - 0.13px)',
+            transform: 'translate(-50%, -50%)',
+            width: '216px',
+            textAlign: 'center',
+            lineHeight: 1,
+          }}>
+            новые
+          </div>
+        </div>
+
+        {/* Cards window */}
+        <div style={{
+          position: 'absolute',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          height: '1121px',
+          left: 'calc(50% + 3px)',
+          borderRadius: '30px',
+          top: '921px',
+          transform: 'translateX(-50%)',
+          width: '884px',
+          overflow: 'hidden',
+        }}>
+          {/* Card 1 - top left */}
+          <div style={{ position: 'absolute', left: '22px', top: '23px' }}>
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: 'black',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              height: '782px',
+              left: 'calc(50% - 211px)',
+              borderRadius: '30px',
+              top: '27px',
+              transform: 'translateX(-50%)',
+              width: '410px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              height: '359px',
+              left: '53px',
+              borderRadius: '25px',
+              top: '54px',
+              width: '356px',
+            }}>
+              <img src={houseImage} alt="" style={{
+                position: 'absolute',
+                inset: 0,
+                maxWidth: 'none',
+                objectFit: 'cover',
+                pointerEvents: 'none',
+                borderRadius: '25px',
+                width: '100%',
+                height: '100%',
+              }} />
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '54.42%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '40.41%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              ИИ-копирайтер для блога
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '44.07%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '47.46%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              настройте ИИ-копирайтера за один промпт
+            </div>
+            <div 
+              onClick={() => toggleLike(0)}
+              style={{
+                position: 'absolute',
+                inset: '6.33% 88.46% 90.45% 7.47%',
+                cursor: 'pointer',
+              }}
+            >
+              <img src={likedCards.includes(0) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
+            </div>
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              inset: '6.33% 55.29% 90.45% 29.52%',
+              borderRadius: '62px',
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                position: 'absolute',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '18px',
+                color: 'white',
+                left: 'calc(50% - 0.6px)',
+                top: 'calc(50% - 0.5px)',
+                transform: 'translate(-50%, -50%)',
+                width: '111px',
+                textAlign: 'center',
+                lineHeight: 1,
+              }}>
+                новое
+              </div>
+            </div>
+            <div 
+              onClick={() => navigate('/prompt-card')}
+              style={{
+                position: 'absolute',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.9)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                bottom: '33.43%',
+                left: 'calc(50% - 210.53px)',
+                borderRadius: '62px',
+                top: '59.5%',
+                transform: 'translateX(-50%)',
+                width: '246.931px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
+                <div style={{
+                  position: 'absolute',
+                  background: '#37ecf7',
+                  height: '107.431px',
+                  left: '77px',
+                  borderRadius: '1568.563px',
+                  top: '-36.46px',
+                  width: '101.963px',
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  display: 'flex',
+                  height: '78.548px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  left: '102.5px',
+                  top: '-40px',
+                  width: '90.498px',
+                }}>
+                  <div style={{
+                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
+                    background: '#f0d825',
+                    height: '75.957px',
+                    borderRadius: '1568.563px',
+                    width: '51.243px',
+                  }} />
+                </div>
+                <div style={{
+                  position: 'absolute',
+                  background: '#d5fc44',
+                  height: '72.822px',
+                  left: '122.8px',
+                  borderRadius: '1568.563px',
+                  top: '30.18px',
+                  width: '56.152px',
+                }} />
+              </div>
+              <div style={{
+                position: 'absolute',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '27px',
+                color: 'white',
+                left: 'calc(50% + 0.03px)',
+                top: 'calc(50% - 0.12px)',
+                transform: 'translate(-50%, -50%)',
+                width: '119px',
+                textAlign: 'center',
+                lineHeight: 1,
+              }}>
+                перейти
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2 - top right */}
+          <div style={{ position: 'absolute', left: '443px', top: '23px' }}>
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: 'black',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              height: '782px',
+              left: 'calc(50% - 211px)',
+              borderRadius: '30px',
+              top: '27px',
+              transform: 'translateX(-50%)',
+              width: '410px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              height: '359px',
+              left: '53px',
+              borderRadius: '25px',
+              top: '54px',
+              width: '356px',
+            }}>
+              <img src={houseImage} alt="" style={{
+                position: 'absolute',
+                inset: 0,
+                maxWidth: 'none',
+                objectFit: 'cover',
+                pointerEvents: 'none',
+                borderRadius: '25px',
+                width: '100%',
+                height: '100%',
+              }} />
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '54.42%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '40.41%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              ИИ-копирайтер для блога
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '44.07%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '47.46%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              настройте ИИ-копирайтера за один промпт
+            </div>
+            <div 
+              onClick={() => toggleLike(1)}
+              style={{
+                position: 'absolute',
+                inset: '6.33% 88.46% 90.45% 7.47%',
+                cursor: 'pointer',
+              }}
+            >
+              <img src={likedCards.includes(1) ? heartFilledAlt : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
+            </div>
+            <div 
+              onClick={() => navigate('/prompt-card')}
+              style={{
+                position: 'absolute',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.9)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                bottom: '33.43%',
+                left: 'calc(50% - 210.53px)',
+                borderRadius: '62px',
+                top: '59.5%',
+                transform: 'translateX(-50%)',
+                width: '246.931px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
+                <div style={{
+                  position: 'absolute',
+                  background: '#37ecf7',
+                  height: '107.431px',
+                  left: '77px',
+                  borderRadius: '1568.563px',
+                  top: '-36.46px',
+                  width: '101.963px',
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  display: 'flex',
+                  height: '78.548px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  left: '102.5px',
+                  top: '-40px',
+                  width: '90.498px',
+                }}>
+                  <div style={{
+                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
+                    background: '#f0d825',
+                    height: '75.957px',
+                    borderRadius: '1568.563px',
+                    width: '51.243px',
+                  }} />
+                </div>
+                <div style={{
+                  position: 'absolute',
+                  background: '#d5fc44',
+                  height: '72.822px',
+                  left: '122.8px',
+                  borderRadius: '1568.563px',
+                  top: '30.18px',
+                  width: '56.152px',
+                }} />
+              </div>
+              <div style={{
+                position: 'absolute',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '27px',
+                color: 'white',
+                left: 'calc(50% + 0.03px)',
+                top: 'calc(50% - 0.12px)',
+                transform: 'translate(-50%, -50%)',
+                width: '119px',
+                textAlign: 'center',
+                lineHeight: 1,
+              }}>
+                перейти
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3 - bottom left */}
+          <div style={{ position: 'absolute', left: '22px', top: '828px' }}>
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: 'black',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              height: '782px',
+              left: 'calc(50% - 211px)',
+              borderRadius: '30px',
+              top: '27px',
+              transform: 'translateX(-50%)',
+              width: '410px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              height: '359px',
+              left: '53px',
+              borderRadius: '25px',
+              top: '54px',
+              width: '356px',
+            }}>
+              <img src={houseImage} alt="" style={{
+                position: 'absolute',
+                inset: 0,
+                maxWidth: 'none',
+                objectFit: 'cover',
+                pointerEvents: 'none',
+                borderRadius: '25px',
+                width: '100%',
+                height: '100%',
+              }} />
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '54.42%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '40.41%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              ИИ-копирайтер для блога
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '44.07%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '47.46%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              настройте ИИ-копирайтера за один промпт
+            </div>
+            <div 
+              onClick={() => toggleLike(2)}
+              style={{
+                position: 'absolute',
+                inset: '6.33% 88.46% 90.45% 7.47%',
+                cursor: 'pointer',
+              }}
+            >
+              <img src={likedCards.includes(2) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
+            </div>
+            <div 
+              onClick={() => navigate('/prompt-card')}
+              style={{
+                position: 'absolute',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.9)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                bottom: '33.43%',
+                left: 'calc(50% - 210.53px)',
+                borderRadius: '62px',
+                top: '59.5%',
+                transform: 'translateX(-50%)',
+                width: '246.931px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
+                <div style={{
+                  position: 'absolute',
+                  background: '#37ecf7',
+                  height: '107.431px',
+                  left: '77px',
+                  borderRadius: '1568.563px',
+                  top: '-36.46px',
+                  width: '101.963px',
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  display: 'flex',
+                  height: '78.548px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  left: '102.5px',
+                  top: '-40px',
+                  width: '90.498px',
+                }}>
+                  <div style={{
+                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
+                    background: '#f0d825',
+                    height: '75.957px',
+                    borderRadius: '1568.563px',
+                    width: '51.243px',
+                  }} />
+                </div>
+                <div style={{
+                  position: 'absolute',
+                  background: '#d5fc44',
+                  height: '72.822px',
+                  left: '122.8px',
+                  borderRadius: '1568.563px',
+                  top: '30.18px',
+                  width: '56.152px',
+                }} />
+              </div>
+              <div style={{
+                position: 'absolute',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '27px',
+                color: 'white',
+                left: 'calc(50% + 0.03px)',
+                top: 'calc(50% - 0.12px)',
+                transform: 'translate(-50%, -50%)',
+                width: '119px',
+                textAlign: 'center',
+                lineHeight: 1,
+              }}>
+                перейти
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4 - bottom right */}
+          <div style={{ position: 'absolute', left: '443px', top: '828px' }}>
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: 'black',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              height: '782px',
+              left: 'calc(50% - 211px)',
+              borderRadius: '30px',
+              top: '27px',
+              transform: 'translateX(-50%)',
+              width: '410px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              height: '359px',
+              left: '53px',
+              borderRadius: '25px',
+              top: '54px',
+              width: '356px',
+            }}>
+              <img src={houseImage} alt="" style={{
+                position: 'absolute',
+                inset: 0,
+                maxWidth: 'none',
+                objectFit: 'cover',
+                pointerEvents: 'none',
+                borderRadius: '25px',
+                width: '100%',
+                height: '100%',
+              }} />
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '54.42%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '40.41%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              ИИ-копирайтер для блога
+            </div>
+            <div style={{
+              position: 'absolute',
+              bottom: '44.07%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              left: 'calc(50% - 376px)',
+              top: '47.46%',
+              width: '329px',
+              lineHeight: 1,
+            }}>
+              настройте ИИ-копирайтера за один промпт
+            </div>
+            <div 
+              onClick={() => toggleLike(3)}
+              style={{
+                position: 'absolute',
+                inset: '6.33% 88.46% 90.45% 7.47%',
+                cursor: 'pointer',
+              }}
+            >
+              <img src={likedCards.includes(3) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
+            </div>
+            <div 
+              onClick={() => navigate('/prompt-card')}
+              style={{
+                position: 'absolute',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.9)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                bottom: '33.43%',
+                left: 'calc(50% - 210.53px)',
+                borderRadius: '62px',
+                top: '59.5%',
+                transform: 'translateX(-50%)',
+                width: '246.931px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
+                <div style={{
+                  position: 'absolute',
+                  background: '#37ecf7',
+                  height: '107.431px',
+                  left: '77px',
+                  borderRadius: '1568.563px',
+                  top: '-36.46px',
+                  width: '101.963px',
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  display: 'flex',
+                  height: '78.548px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  left: '102.5px',
+                  top: '-40px',
+                  width: '90.498px',
+                }}>
+                  <div style={{
+                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
+                    background: '#f0d825',
+                    height: '75.957px',
+                    borderRadius: '1568.563px',
+                    width: '51.243px',
+                  }} />
+                </div>
+                <div style={{
+                  position: 'absolute',
+                  background: '#d5fc44',
+                  height: '72.822px',
+                  left: '122.8px',
+                  borderRadius: '1568.563px',
+                  top: '30.18px',
+                  width: '56.152px',
+                }} />
+              </div>
+              <div style={{
+                position: 'absolute',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '27px',
+                color: 'white',
+                left: 'calc(50% + 0.03px)',
+                top: 'calc(50% - 0.12px)',
+                transform: 'translate(-50%, -50%)',
+                width: '119px',
+                textAlign: 'center',
+                lineHeight: 1,
+              }}>
+                перейти
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div style={{
+          position: 'absolute',
+          height: '124px',
+          left: 'calc(50% - 5px)',
+          top: 'calc(50% + 858px)',
+          transform: 'translate(-50%, -50%)',
+          width: '888px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            height: '83px',
+            left: '2px',
+            top: '-16px',
+            width: '380px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={footerLogo}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '526.54%',
+                  left: '-37.89%',
+                  maxWidth: 'none',
+                  top: '-202.47%',
+                  width: '170.37%',
+                }}
+              />
+            </div>
+          </div>
+          <div style={{
+            position: 'absolute',
+            bottom: '38.71%',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300,
+            fontSize: '20px',
+            color: 'white',
+            left: 'calc(50% - 442px)',
+            top: '45.16%',
+            width: '433px',
+            lineHeight: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}>
+            Copyright © Все права защищены.
+          </div>
+          <div style={{
+            position: 'absolute',
+            height: '51px',
+            left: 'calc(50% + 335px)',
+            top: 'calc(50% - 23.5px)',
+            transform: 'translate(-50%, -50%)',
+            width: '196px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              height: '78px',
+              left: '-17px',
+              borderRadius: '62px',
+              top: '-15px',
+              width: '230px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              height: '51px',
+              left: 0,
+              top: 0,
+              width: '50px',
+              opacity: 0.6,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={socialIcons}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '339.84%',
+                  left: '-377.92%',
+                  maxWidth: 'none',
+                  top: '-118.33%',
+                  width: '517.92%',
+                }}
+              />
+            </div>
+            <div style={{
+              position: 'absolute',
+              height: '51px',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              opacity: 0.6,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={socialIcons}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '339.84%',
+                  left: '-16.64%',
+                  maxWidth: 'none',
+                  top: '-118.33%',
+                  width: '183.64%',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
