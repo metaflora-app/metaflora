@@ -1,0 +1,1 @@
+export { LabaMainScreen } from './LabaMainScreen';
