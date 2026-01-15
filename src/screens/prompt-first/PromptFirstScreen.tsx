@@ -6,10 +6,15 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import returnButton from '../../assets/кнопка вернуть.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
+import favoriteButton from '../../assets/кнопка система.png';
+import recentButton from '../../assets/кнопка искусство.png';
+import topPickButton from '../../assets/кнопка промптинг.png';
+import newButton from '../../assets/кнопка читать.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
 const socialIcons = "https://www.figma.com/api/mcp/asset/96863808-46d4-499a-878e-c15950dc56ad"; 
+const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
 const houseImage = "https://www.figma.com/api/mcp/asset/c70dc102-4760-4242-8e7e-e595ca5b6d6c";
 const homeVector1 = "https://www.figma.com/api/mcp/asset/9f881007-3e31-4135-b2fe-e06b91dd0712";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/21ea9087-2499-427f-928b-a8d6dfbe722a";
@@ -233,8 +238,8 @@ export const PromptFirstScreen: React.FC = () => {
             style={{
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
-              color: 'white',
-              fontSize: '20px',
+              color: '#848484',
+              fontSize: '27px',
               background: 'transparent',
               border: 'none',
               outline: 'none',
@@ -258,107 +263,55 @@ export const PromptFirstScreen: React.FC = () => {
         />
 
         {/* Filter: избранное */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          inset: '28.75% 39.5% 68.15% 39.58%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            избранное
-          </div>
-        </div>
+        <img 
+          src={favoriteButton}
+          alt="избранное"
+          style={{
+            position: 'absolute',
+            inset: '28.75% 39.5% 68.15% 39.58%',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Filter: недавние */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          inset: '28.75% 18.57% 68.15% 60.51%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            недавние
-          </div>
-        </div>
+        <img 
+          src={recentButton}
+          alt="недавние"
+          style={{
+            position: 'absolute',
+            inset: '28.75% 18.57% 68.15% 60.51%',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Filter: топ-выбор */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          inset: '31.84% 50.01% 65.05% 29.07%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            топ-выбор
-          </div>
-        </div>
+        <img 
+          src={topPickButton}
+          alt="топ-выбор"
+          style={{
+            position: 'absolute',
+            inset: '31.84% 50.01% 65.05% 29.07%',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Filter: новые */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          bottom: '65.05%',
-          left: '50%',
-          right: '29.07%',
-          top: '31.84%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            новые
-          </div>
-        </div>
+        <img 
+          src={newButton}
+          alt="новые"
+          style={{
+            position: 'absolute',
+            bottom: '65.05%',
+            left: '50%',
+            right: '29.07%',
+            top: '31.84%',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Empty Cards window - exact Figma coordinates */}
         <div style={{
@@ -377,13 +330,42 @@ export const PromptFirstScreen: React.FC = () => {
           {/* Empty - ready for content */}
         </div>
 
+        {/* Background people under blur frame */}
+        <div style={{
+          position: 'absolute',
+          height: '474px',
+          left: '147px',
+          top: '1289px',
+          width: '886px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={threePeopleBg}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '222.88%',
+                left: '-39.72%',
+                maxWidth: 'none',
+                top: '-55.58%',
+                width: '179.18%',
+              }}
+            />
+          </div>
+        </div>
+
         {/* Footer */}
         <div style={{
           position: 'absolute',
           height: '124px',
           left: 'calc(50% - 5px)',
-          top: '2200px',
-          transform: 'translateX(-50%)',
+          top: 'calc(50% + 957px)',
+          transform: 'translate(-50%, -50%)',
           width: '888px',
         }}>
           {/* Footer Logo */}
