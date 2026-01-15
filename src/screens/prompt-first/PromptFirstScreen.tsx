@@ -11,14 +11,14 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
 const socialIcons = "https://www.figma.com/api/mcp/asset/96863808-46d4-499a-878e-c15950dc56ad"; 
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
-const houseImage = "https://www.figma.com/api/mcp/asset/3d1cba2c-4fbf-4899-bf0b-a768d478b52d";
+// Updated assets from latest Figma
+const houseImage = "https://www.figma.com/api/mcp/asset/a60e60bc-ab56-4246-be41-ed0a26644a34";
 const homeVector1 = "https://www.figma.com/api/mcp/asset/9f881007-3e31-4135-b2fe-e06b91dd0712";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/21ea9087-2499-427f-928b-a8d6dfbe722a";
 const backArrow = "https://www.figma.com/api/mcp/asset/e111f38a-80d6-4b85-840f-0e5fffc9fffb";
-const heartFilled = "https://www.figma.com/api/mcp/asset/356cce97-ba9a-426b-b68e-46da1edaf70b";
-const heartFilledAlt = "https://www.figma.com/api/mcp/asset/69d2fe69-70ad-4a1f-8fd5-c87407bb72a2";
-const heartEmpty = "https://www.figma.com/api/mcp/asset/d487f0d7-58b0-45f3-ba61-5cd64c3e2ff0";
-const searchIcon = "https://www.figma.com/api/mcp/asset/4cc4ace0-2607-4d2d-a638-eeac8477fc94";
+const heartFilled = "https://www.figma.com/api/mcp/asset/ac67c75e-cd28-41d4-8102-c3dfd35ce493";
+const heartFilledAlt = "https://www.figma.com/api/mcp/asset/1803f185-d60a-423c-8a8b-2c5271c81c65";
+const heartEmpty = "https://www.figma.com/api/mcp/asset/ade7569d-dc76-4353-9bc7-51e242e9a143";
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
