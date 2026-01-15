@@ -274,15 +274,14 @@ export const LabaMainScreen: React.FC = () => {
           />
         </div>
 
-        {/* Filter buttons - Row 1 - PNG из Desktop */}
+        {/* Filter buttons - Row 1 - PNG из Desktop, ТОЧНЫЕ координаты из Figma */}
         <img 
           src={buttonReturn}
           alt="вернуть"
           style={{
             position: 'absolute',
-            left: 'calc(50% - 98px)',
-            top: '318px',
-            transform: 'translateX(-50%)',
+            left: '99px',
+            top: '327px',
             width: '186px',
             height: '79px',
           }}
@@ -293,9 +292,8 @@ export const LabaMainScreen: React.FC = () => {
           alt="сортировка"
           style={{
             position: 'absolute',
-            left: 'calc(50% + 149px)',
-            top: '318px',
-            transform: 'translateX(-50%)',
+            left: '346px',
+            top: '327px',
             width: '216px',
             height: '79px',
           }}
@@ -306,21 +304,19 @@ export const LabaMainScreen: React.FC = () => {
           alt="дата"
           style={{
             position: 'absolute',
-            left: 'calc(50% + 396px)',
-            top: '318px',
-            transform: 'translateX(-50%)',
+            left: '593px',
+            top: '327px',
             width: '169px',
             height: '79px',
           }}
         />
 
-        {/* Кнопка язык - Row 1 справа */}
         <img 
           src={buttonLanguage}
           alt="язык"
           style={{
             position: 'absolute',
-            left: '841px',
+            left: '840px',
             top: '327px',
             width: '186px',
             height: '79px',
