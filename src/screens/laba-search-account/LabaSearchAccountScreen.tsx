@@ -50,7 +50,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Header - REUSED */}
+        {/* Header - REUSED from laba-search */}
+        
         <img 
           src={exitArrow}
           alt="назад"
@@ -238,16 +239,21 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 height: '38px',
               }}
             />
+            {/* Placeholder text (109:635) */}
             <div style={{
               position: 'absolute',
-              left: '50%',
+              left: 'calc(50% - 331px)',
               top: '50%',
-              transform: 'translate(-50%, -50%) translateX(-46px)',
+              transform: 'translateY(calc(-50% + 0.5px))',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
               fontSize: '27px',
               lineHeight: 1,
               color: '#848484',
+              width: '545px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
             }}>
               вставьте ссылку напрямую
             </div>
@@ -291,32 +297,37 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 height: '38px',
               }}
             />
+            {/* Placeholder text (109:639) - bottom: 30.56%, top: 31.94% */}
             <div style={{
               position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%) translateX(-46px)',
+              left: 'calc(50% - 331px)',
+              top: 'calc(31.94% - 4px)',
+              bottom: 'calc(30.56% - 4px)',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
               fontSize: '27px',
               lineHeight: 1,
               color: '#848484',
+              width: '545px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
             }}>
               напишите юзернейм аккаунта через @
             </div>
           </div>
 
-          {/* Find button (109:645) */}
+          {/* Find button PNG (109:645) - bottom: 67.69%, top: 27.15% */}
           <img 
             src={promptPlate}
             alt="найти"
             style={{
               position: 'absolute',
               left: '50%',
-              transform: 'translateX(-50%) translateX(0.47px)',
-              top: '419px',
+              top: 'calc(27.15% - 1px)',
+              bottom: 'calc(67.69% - 1px)',
+              transform: 'translateX(calc(-50% + 0.47px))',
               width: '247px',
-              height: '72px',
               cursor: 'pointer',
             }}
           />
@@ -362,34 +373,44 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }}
           />
 
-          {/* Username - CSS (109:667) */}
+          {/* Username - CSS (109:667) - bottom: 51.37%, top: 45.9% */}
           <div style={{
             position: 'absolute',
             left: '50%',
-            top: '705px',
-            transform: 'translateX(-50%)',
+            top: 'calc(45.9% - 1px)',
+            bottom: 'calc(51.37% - 1px)',
+            transform: 'translateX(calc(-50% - 27px))',
+            width: '334px',
             fontFamily: 'Inter',
             fontWeight: 700,
             fontSize: '40px',
             lineHeight: 1,
             color: 'white',
             textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
           }}>
             @mishchenko.is
           </div>
 
-          {/* Followers - CSS (109:668) */}
+          {/* Followers - CSS (109:668) - bottom: 48.7%, top: 49.61% */}
           <div style={{
             position: 'absolute',
             left: '50%',
-            top: '763px',
-            transform: 'translateX(-50%)',
+            top: 'calc(49.61% - 1px)',
+            bottom: 'calc(48.7% - 1px)',
+            transform: 'translateX(calc(-50% - 22px))',
+            width: '350px',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '32px',
             lineHeight: 1,
             color: 'white',
             textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
           }}>
             275,5к подписчиков
           </div>
