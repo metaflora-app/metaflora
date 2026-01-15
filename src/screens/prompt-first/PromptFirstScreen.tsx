@@ -21,17 +21,8 @@ const backArrow = "https://www.figma.com/api/mcp/asset/e111f38a-80d6-4b85-840f-0
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = React.useState('');
-  const [likedCards, setLikedCards] = React.useState<number[]>([0, 1]);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-
-  const toggleLike = (cardIndex: number) => {
-    setLikedCards(prev => 
-      prev.includes(cardIndex) 
-        ? prev.filter(id => id !== cardIndex)
-        : [...prev, cardIndex]
-    );
-  };
 
   return (
     <div style={{
