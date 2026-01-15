@@ -192,6 +192,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
         <img 
           src={startTrackingButton}
           alt="начать отслеживание ₽100"
+          onClick={() => navigate('/laba-search-account')}
           style={{
             position: 'absolute',
             left: '147px',
