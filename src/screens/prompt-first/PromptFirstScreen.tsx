@@ -14,7 +14,6 @@ import favoriteButton from '../../assets/кнопка избранное.png';
 import recentButton from '../../assets/кнопка недавние.png';
 import topPickButton from '../../assets/кнопка топ-выбор.png';
 import newButton from '../../assets/кнопка новые.png';
-import goButton from '../../assets/main-dashboard/кнопка перейти.png';
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
