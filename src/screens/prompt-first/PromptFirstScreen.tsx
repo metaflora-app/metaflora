@@ -525,63 +525,21 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Cards window */}
+        {/* Empty Cards window - exact Figma coordinates */}
         <div style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '600px',
+          height: '1121px',
           left: 'calc(50% + 3px)',
           borderRadius: '30px',
           top: '921px',
           transform: 'translateX(-50%)',
           width: '884px',
-          overflow: 'auto',
+          overflow: 'clip',
         }}>
-          {/* Card 1 - top left with "новое" badge */}
-          <PromptCardComponent
-            left={40}
-            top={40}
-            cardIndex={0}
-            hasNewBadge={true}
-            isLiked={likedCards.includes(0)}
-            onToggleLike={toggleLike}
-            onCardClick={() => navigate('/prompt-card')}
-          />
-          
-          {/* Card 2 - top right */}
-          <PromptCardComponent
-            left={260}
-            top={40}
-            cardIndex={1}
-            hasNewBadge={false}
-            isLiked={likedCards.includes(1)}
-            onToggleLike={toggleLike}
-            onCardClick={() => navigate('/prompt-card')}
-          />
-          
-          {/* Card 3 - bottom left */}
-          <PromptCardComponent
-            left={40}
-            top={340}
-            cardIndex={2}
-            hasNewBadge={false}
-            isLiked={likedCards.includes(2)}
-            onToggleLike={toggleLike}
-            onCardClick={() => navigate('/prompt-card')}
-          />
-          
-          {/* Card 4 - bottom right */}
-          <PromptCardComponent
-            left={260}
-            top={340}
-            cardIndex={3}
-            hasNewBadge={false}
-            isLiked={likedCards.includes(3)}
-            onToggleLike={toggleLike}
-            onCardClick={() => navigate('/prompt-card')}
-          />
+          {/* Empty - ready for content */}
         </div>
 
         {/* Footer */}
