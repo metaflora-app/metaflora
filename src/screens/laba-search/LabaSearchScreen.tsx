@@ -302,6 +302,37 @@ export const LabaSearchScreen: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Кнопка "на главную лабы" поверх сайдбара */}
+        <div
+          onClick={() => navigate('/laba-main')}
+          style={{
+            position: 'absolute',
+            left: '50px',
+            top: '200px',
+            width: '220px',
+            height: '60px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(55, 236, 247, 0.9)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            zIndex: 1000,
+          }}
+        >
+          <div style={{
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 600,
+            fontSize: '18px',
+            color: 'white',
+            textAlign: 'center',
+          }}>
+            НА ГЛАВНУЮ ЛАБЫ
+          </div>
+        </div>
       </div>
     </div>
   );
