@@ -14,6 +14,7 @@ import favoriteButton from '../../assets/кнопка избранное.png';
 import recentButton from '../../assets/кнопка недавние.png';
 import topPickButton from '../../assets/кнопка топ-выбор.png';
 import newButton from '../../assets/кнопка новые.png';
+import bgPattern from '../../assets/figma-welcome/pattern.png';
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
@@ -33,6 +34,10 @@ export const PromptFirstScreen: React.FC = () => {
       width: '100vw',
       minHeight: '100vh',
       background: '#020101',
+      backgroundImage: `url(${bgPattern})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'repeat',
       overflow: 'hidden',
     }}>
       <div style={{
