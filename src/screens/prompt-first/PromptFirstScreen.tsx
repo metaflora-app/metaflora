@@ -14,6 +14,7 @@ import favoriteButton from '../../assets/кнопка избранное.png';
 import recentButton from '../../assets/кнопка недавние.png';
 import topPickButton from '../../assets/кнопка топ-выбор.png';
 import newButton from '../../assets/кнопка новые.png';
+import goButtonPNG from '../../assets/prompt-first/кнопка перейти.png';
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
@@ -294,10 +295,10 @@ export const PromptFirstScreen: React.FC = () => {
               />
             </div>
 
-            {/* Сердечко (лайк) - слева вверху */}
+            {/* Сердечко (лайк) - немного правее */}
             <div style={{
               position: 'absolute',
-              left: '40px',
+              left: '50px',
               top: '44px',
               width: '36px',
               height: '36px',
@@ -367,82 +368,20 @@ export const PromptFirstScreen: React.FC = () => {
               настройте ИИ-копирайтера за один промпт
             </div>
 
-            {/* Кнопка "перейти" */}
-            <div 
+            {/* Кнопка "перейти" - PNG */}
+            <img 
+              src={goButtonPNG}
+              alt="перейти"
               onClick={() => navigate('/prompt-card')}
               style={{
                 position: 'absolute',
                 left: '81px',
                 bottom: '63px',
-                right: '81px',
+                width: '248px',
                 height: '79px',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 cursor: 'pointer',
-                overflow: 'hidden',
               }}
-            >
-              {/* Цветные круги внутри кнопки */}
-              <div style={{
-                position: 'absolute',
-                left: '73px',
-                top: '-44px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  left: '77px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                  height: '107.431px',
-                  background: '#37ecf7',
-                  borderRadius: '50%',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                  height: '78.548px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <div style={{
-                    width: '51.243px',
-                    height: '75.957px',
-                    background: '#f0d825',
-                    borderRadius: '50%',
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  left: '122.8px',
-                  top: '30.18px',
-                  width: '56.152px',
-                  height: '72.822px',
-                  background: '#d5fc44',
-                  borderRadius: '50%',
-                }} />
-              </div>
-              
-              {/* Текст кнопки */}
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                zIndex: 1,
-              }}>
-                перейти
-              </div>
-            </div>
+            />
           </div>
         </div>
 
