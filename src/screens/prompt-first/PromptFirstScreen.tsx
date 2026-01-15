@@ -6,10 +6,14 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import returnButton from '../../assets/кнопка вернуть.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import homeIcon from '../../assets/about-screens/домой.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
+import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import favoriteButton from '../../assets/кнопка система.png';
 import recentButton from '../../assets/кнопка искусство.png';
 import topPickButton from '../../assets/кнопка промптинг.png';
-import newButton from '../../assets/кнопка читать.png';
+import newButton from '../../assets/кнопка новые.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
@@ -44,102 +48,35 @@ export const PromptFirstScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Header - Back button */}
-        <div 
+        {/* Кнопка "выход" (стрелка назад) */}
+        <img 
+          src={exitArrow}
+          alt="назад"
           onClick={() => navigate(-1)}
           style={{
             position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             left: 'calc(50% - 452px)',
+            top: '75px',
             width: '100px',
             height: '100px',
-            top: '75px',
-            transform: 'translateX(-50%)',
             cursor: 'pointer',
           }}
-        >
-          <div style={{ transform: 'rotate(270deg)' }}>
-            <div style={{
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'hidden',
-              width: '100px',
-              height: '100px',
-              position: 'relative',
-            }}>
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '11px',
-                width: '71px',
-                height: '71px',
-                top: '10px',
-              }}>
-                <div style={{ transform: 'rotate(90deg)', width: '71px', height: '71px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', inset: '3.13%' }}>
-                    <img src={backArrow} alt="" style={{ width: '100%', height: '100%' }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        />
 
-        {/* Header - Home button */}
-        <div 
+        {/* Иконка "домой" */}
+        <img 
+          src={homeIcon}
+          alt="домой"
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             left: 'calc(50% - 352px)',
+            top: '75px',
             width: '100px',
             height: '100px',
-            top: '75px',
-            transform: 'translateX(-50%)',
             cursor: 'pointer',
           }}
-        >
-          <div style={{ transform: 'rotate(270deg)' }}>
-            <div style={{
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'hidden',
-              width: '100px',
-              height: '100px',
-              position: 'relative',
-            }}>
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '24px',
-                width: '65px',
-                height: '65px',
-                top: '13px',
-              }}>
-                <div style={{ transform: 'rotate(90deg)', width: '65px', height: '65px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', inset: '19.15% 15.36% -12.9% 12.77%' }}>
-                    <img src={homeVector1} alt="" style={{ width: '100%', height: '100%' }} />
-                  </div>
-                  <div style={{ position: 'absolute', inset: '27.81% 42.67% 33.98% 19.82%' }}>
-                    <img src={homeVector2} alt="" style={{ width: '100%', height: '100%' }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        />
 
         {/* Header - Logo */}
         <div style={{
@@ -170,7 +107,7 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Header - Support button */}
+        {/* Кнопка "написать в поддержку" */}
         <img 
           src={supportButtonPNG}
           alt="написать в поддержку"
@@ -359,22 +296,22 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Футер - ТОЧНАЯ КОПИЯ из about-prompt */}
         <div style={{
           position: 'absolute',
-          height: '124px',
           left: 'calc(50% - 5px)',
-          top: 'calc(50% + 957px)',
-          transform: 'translate(-50%, -50%)',
+          top: '2071px',
+          transform: 'translateX(-50%)',
           width: '888px',
+          height: '124px',
         }}>
-          {/* Footer Logo */}
+          {/* Логотип в подвале */}
           <div style={{
             position: 'absolute',
+            width: '380px',
             height: '83px',
             left: '2px',
             top: '-16px',
-            width: '380px',
           }}>
             <div style={{
               position: 'absolute',
@@ -383,77 +320,124 @@ export const PromptFirstScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={footerLogo}
-                alt=""
+                src={logoFooter}
+                alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
                   height: '526.54%',
                   left: '-37.89%',
-                  maxWidth: 'none',
                   top: '-202.47%',
                   width: '170.37%',
+                  maxWidth: 'none',
                 }}
               />
             </div>
           </div>
           
-          {/* Copyright */}
+          {/* Copyright текст */}
           <div style={{
             position: 'absolute',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '20px',
-            color: 'white',
             left: '2px',
             top: '56px',
             width: '433px',
-            lineHeight: 1,
+            height: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            lineHeight: '0',
+            color: 'white',
           }}>
-            Copyright © Все права защищены.
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
           </div>
           
-          {/* Socials */}
+          {/* Подложка под соцсети */}
           <div style={{
             position: 'absolute',
-            height: '51px',
-            left: 'calc(50% + 335px)',
-            top: 'calc(50% - 23.5px)',
-            transform: 'translate(-50%, -50%)',
+            left: '664px',
+            top: '-2px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            height: '78px',
+            width: '230px',
+          }} />
+          
+          {/* Иконки соцсетей */}
+          <div style={{
+            position: 'absolute',
+            left: '681px',
+            top: '13px',
             width: '196px',
+            height: '51px',
           }}>
+            {/* Первая иконка */}
             <div style={{
               position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '78px',
-              left: '-17px',
-              borderRadius: '62px',
-              top: '-15px',
-              width: '230px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              height: '51px',
               left: 0,
               top: 0,
               width: '50px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img 
-                src={socialIcons}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-377.92%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '517.92%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+            
+            {/* Группа иконок */}
+            <div style={{
+              position: 'absolute',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              height: '51px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
