@@ -50,35 +50,107 @@ export const LabaSearchAccountScreen: React.FC = () => {
           backgroundSize: 'auto',
         }} />
 
-        {/* Header - REUSED from laba-search */}
+        {/* Header */}
         
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
+        {/* Back button (109:612) - стрелка повернута на 270deg */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 452px)',
+          top: '75px',
+          width: '100px',
+          height: '100px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'translateX(-50%)',
+        }}>
+          <div style={{ transform: 'rotate(270deg)' }}>
+            <div style={{
+              position: 'relative',
+              width: '100px',
+              height: '100px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255,255,255,0.1)',
+              border: '4px solid rgba(255,255,255,0.3)',
+              borderRadius: '62px',
+              overflow: 'hidden',
+              cursor: 'pointer',
+            }}
+            onClick={() => navigate(-1)}>
+              <div style={{
+                position: 'absolute',
+                left: '11px',
+                top: '10px',
+                width: '71px',
+                height: '71px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <div style={{ transform: 'rotate(90deg)' }}>
+                  <img 
+                    src={exitArrow}
+                    alt=""
+                    style={{
+                      width: '71px',
+                      height: '71px',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <img 
-          src={homeIcon}
-          alt="домой"
-          onClick={() => navigate('/main-dashboard-premium')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
+        {/* Home button (109:607) - иконка повернута на 270deg */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 352px)',
+          top: '75px',
+          width: '100px',
+          height: '100px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'translateX(-50%)',
+        }}>
+          <div style={{ transform: 'rotate(270deg)' }}>
+            <div style={{
+              position: 'relative',
+              width: '100px',
+              height: '100px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255,255,255,0.1)',
+              border: '4px solid rgba(255,255,255,0.3)',
+              borderRadius: '62px',
+              overflow: 'hidden',
+              cursor: 'pointer',
+            }}
+            onClick={() => navigate('/main-dashboard-premium')}>
+              <div style={{
+                position: 'absolute',
+                left: '24px',
+                top: '13px',
+                width: '65px',
+                height: '65px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <div style={{ transform: 'rotate(90deg)' }}>
+                  <img 
+                    src={homeIcon}
+                    alt=""
+                    style={{
+                      width: '65px',
+                      height: '65px',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div style={{
           position: 'absolute',
@@ -108,18 +180,40 @@ export const LabaSearchAccountScreen: React.FC = () => {
           </div>
         </div>
 
-        <img 
-          src={supportButton}
-          alt="написать в поддержку"
-          style={{
+        {/* Support button (109:609) */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% + 341.5px)',
+          transform: 'translateX(-50%)',
+          top: '97px',
+          width: '205px',
+          height: '78px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255,255,255,0.1)',
+          border: '4px solid rgba(255,255,255,0.3)',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}>
+          <div style={{
             position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
-        />
+            left: 'calc(50% - 68.5px)',
+            top: 'calc(23.08% - 4px)',
+            bottom: 'calc(25.64% - 4px)',
+            width: '145px',
+            fontFamily: 'Gotham Pro',
+            fontSize: '20px',
+            color: 'white',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            lineHeight: 1,
+            whiteSpace: 'pre-wrap',
+          }}>
+            <p style={{ margin: 0, fontWeight: 300 }}>написать </p>
+            <p style={{ margin: 0, fontWeight: 700 }}>в поддержку</p>
+          </div>
+        </div>
 
         {/* Title - CSS (7:1425) */}
         <div style={{
