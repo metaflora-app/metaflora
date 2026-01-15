@@ -6,6 +6,11 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import returnButton from '../../assets/кнопка вернуть.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
+import favouriteButton from '../../assets/кнопка избранное.png';
+import recentButton from '../../assets/кнопка недавние.png';
+import topChoiceButton from '../../assets/кнопка топ-выбор.png';
+import newButton from '../../assets/кнопка новые.png';
+import threePeopleLogo from '../../assets/три человека на фон.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
@@ -233,7 +238,7 @@ export const PromptFirstScreen: React.FC = () => {
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
               color: 'white',
-              fontSize: '20px',
+              fontSize: '24px',
               background: 'transparent',
               border: 'none',
               outline: 'none',
@@ -256,121 +261,101 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        {/* Filter: избранное */}
+        {/* Filter: избранное (PNG) */}
+        <img 
+          src={favouriteButton}
+          alt="избранное"
+          style={{
+            position: 'absolute',
+            inset: '28.75% 39.5% 68.15% 39.58%',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Filter: недавние (PNG) */}
+        <img 
+          src={recentButton}
+          alt="недавние"
+          style={{
+            position: 'absolute',
+            inset: '28.75% 18.57% 68.15% 60.51%',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Filter: топ-выбор (PNG) */}
+        <img 
+          src={topChoiceButton}
+          alt="топ-выбор"
+          style={{
+            position: 'absolute',
+            inset: '31.84% 50.01% 65.05% 29.07%',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Filter: новые (PNG) */}
+        <img 
+          src={newButton}
+          alt="новые"
+          style={{
+            position: 'absolute',
+            bottom: '65.05%',
+            left: '50%',
+            right: '29.07%',
+            top: '31.84%',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Three people logo with glow */}
         <div style={{
           position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          inset: '28.75% 39.5% 68.15% 39.58%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
+          left: 'calc(50% + 3px)',
+          top: '750px',
+          transform: 'translateX(-50%)',
+          width: '200px',
+          height: '200px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            избранное
-          </div>
+          <img 
+            src={threePeopleLogo}
+            alt="три человека на фон"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 40px rgba(55, 236, 247, 0.6))',
+            }}
+          />
         </div>
 
-        {/* Filter: недавние */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          inset: '28.75% 18.57% 68.15% 60.51%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            недавние
-          </div>
-        </div>
-
-        {/* Filter: топ-выбор */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          inset: '31.84% 50.01% 65.05% 29.07%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            топ-выбор
-          </div>
-        </div>
-
-        {/* Filter: новые */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          bottom: '65.05%',
-          left: '50%',
-          right: '29.07%',
-          top: '31.84%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '20px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            новые
-          </div>
-        </div>
-
-        {/* Cards window - ПУСТОЙ БЛЮР-ФРЕЙМ БЕЗ КАРТОЧЕК */}
+        {/* Cards window - ПУСТОЙ БЛЮР-ФРЕЙМ БЕЗ КАРТОЧЕК - РАСТЯНУТ */}
         <div style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '600px',
+          height: '1640px',
           left: 'calc(50% + 3px)',
           borderRadius: '30px',
           top: '921px',
           transform: 'translateX(-50%)',
-          width: '884px',
+          width: '853px',
           overflow: 'auto',
         }}>
           {/* ПУСТО - ВСЕ КАРТОЧКИ УДАЛЕНЫ */}
