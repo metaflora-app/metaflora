@@ -149,24 +149,35 @@ export const LabaSearchAccountScreen: React.FC = () => {
           добавьте аккаунт для отслеживания
         </div>
 
-        {/* Background people image (109:596) */}
-        <img 
-          src={peopleBackground}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '898px',
-            width: '892px',
-            height: '1050px',
-            objectFit: 'cover',
-          }}
-        />
-
-        {/* Main card */}
+        {/* Background people image (109:596) - BEHIND cards */}
         <div style={{
           position: 'absolute',
-          left: '88px',
+          left: '143px',
+          top: '898px',
+          width: '892px',
+          height: '1050px',
+          overflow: 'hidden',
+          pointerEvents: 'none',
+        }}>
+          <img 
+            src={peopleBackground}
+            alt=""
+            style={{
+              position: 'absolute',
+              height: '162.05%',
+              left: '-92.74%',
+              top: '-20.87%',
+              width: '286.41%',
+              maxWidth: 'none',
+            }}
+          />
+        </div>
+
+        {/* Main card (109:626) */}
+        <div style={{
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
           top: '381px',
           width: '1004px',
           height: '1661px',
@@ -176,13 +187,14 @@ export const LabaSearchAccountScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* Black card */}
+        {/* Black card (109:631) */}
         <div style={{
           position: 'absolute',
-          left: '141px',
+          left: '50%',
+          transform: 'translateX(-50%)',
           top: '437px',
+          bottom: '577px',
           width: '898px',
-          height: '1549px',
           backdropFilter: 'blur(50px)',
           background: 'black',
           border: '1px solid rgba(255,255,255,0.3)',
@@ -203,31 +215,44 @@ export const LabaSearchAccountScreen: React.FC = () => {
             добавить ссылку
           </div>
 
-          {/* Search input 1 PNG */}
-          <img 
-            src={searchBorder}
-            alt=""
-            style={{
+          {/* Search input 1 (109:633) */}
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            top: '121px',
+            width: '800px',
+            height: '72px',
+            backdropFilter: 'blur(50px)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '62px',
+            overflow: 'hidden',
+          }}>
+            <img 
+              src={searchIcon}
+              alt=""
+              style={{
+                position: 'absolute',
+                left: '18px',
+                top: '14px',
+                width: '38px',
+                height: '38px',
+              }}
+            />
+            <div style={{
               position: 'absolute',
-              left: '49px',
-              top: '121px',
-              width: '800px',
-              height: '72px',
-            }}
-          />
-          
-          {/* Search icon 1 */}
-          <img 
-            src={searchIcon}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '67px',
-              top: '135px',
-              width: '38px',
-              height: '38px',
-            }}
-          />
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%) translateX(-46px)',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '27px',
+              lineHeight: 1,
+              color: '#848484',
+            }}>
+              вставьте ссылку напрямую
+            </div>
+          </div>
 
           {/* "найти по нику" - CSS (109:636) */}
           <div style={{
@@ -243,39 +268,53 @@ export const LabaSearchAccountScreen: React.FC = () => {
             найти по нику
           </div>
 
-          {/* Search input 2 PNG */}
-          <img 
-            src={searchBorder}
-            alt=""
-            style={{
+          {/* Search input 2 (109:637) */}
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            top: '293px',
+            width: '800px',
+            height: '72px',
+            backdropFilter: 'blur(50px)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '62px',
+            overflow: 'hidden',
+          }}>
+            <img 
+              src={searchIcon}
+              alt=""
+              style={{
+                position: 'absolute',
+                left: '18px',
+                top: '14px',
+                width: '38px',
+                height: '38px',
+              }}
+            />
+            <div style={{
               position: 'absolute',
-              left: '49px',
-              top: '293px',
-              width: '800px',
-              height: '72px',
-            }}
-          />
-          
-          {/* Search icon 2 */}
-          <img 
-            src={searchIcon}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '67px',
-              top: '307px',
-              width: '38px',
-              height: '38px',
-            }}
-          />
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%) translateX(-46px)',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '27px',
+              lineHeight: 1,
+              color: '#848484',
+            }}>
+              напишите юзернейм аккаунта через @
+            </div>
+          </div>
 
-          {/* Find button PNG */}
+          {/* Find button (109:645) */}
           <img 
             src={promptPlate}
             alt="найти"
             style={{
               position: 'absolute',
-              left: '325px',
+              left: '50%',
+              transform: 'translateX(-50%) translateX(0.47px)',
               top: '419px',
               width: '247px',
               height: '72px',
@@ -356,16 +395,17 @@ export const LabaSearchAccountScreen: React.FC = () => {
             275,5к подписчиков
           </div>
 
-          {/* Tracking button PNG */}
+          {/* Tracking button (109:677) */}
           <img 
             src={trackingButton}
             alt="начать отслеживание"
             style={{
               position: 'absolute',
-              left: '184px',
+              left: '50%',
+              transform: 'translateX(-50%)',
               top: '879px',
               width: '530px',
-              height: '110px',
+              height: '139px',
               cursor: 'pointer',
             }}
           />
