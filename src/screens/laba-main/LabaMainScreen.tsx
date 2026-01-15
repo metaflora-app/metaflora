@@ -3,35 +3,27 @@ import { useNavigate } from 'react-router-dom';
 
 // REUSED from prompt-first screen
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
-import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
-
-// NEW laba-main specific assets  
-import instagramLogo from '../../assets/laba-main/инстаграм.png';
-import analysisButton from '../../assets/laba-main/кнопка анализ.png';
-import viewIcon from '../../assets/laba-main/иконка просмотры.png';
-import commentIcon from '../../assets/laba-main/иконка комментарии.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
 
-// Figma MCP assets
-const threePeopleBg = "https://www.figma.com/api/mcp/asset/f3584e93-0081-49e7-9409-50f9825348fe";
+// Figma MCP assets  
 const footerLogo = "https://www.figma.com/api/mcp/asset/397520f5-d814-4aa8-bf00-d89010c36feb";
 const houseImage = "https://www.figma.com/api/mcp/asset/034558ad-cb90-45ad-b5cb-9e3d6cb73d41";
 const heartIcon = "https://www.figma.com/api/mcp/asset/260c3df0-5bae-4a47-8e99-4ae257dbf4aa";
-const backArrow = "https://www.figma.com/api/mcp/asset/41881d92-41fe-4db1-8733-923a76429bac";
+const backArrow = "https://www.figma.com/api/mcp/asset/89de260f-a0d3-4ec0-bd3d-312405fe42a7";
+const searchIconMCP = "https://www.figma.com/api/mcp/asset/9507e3c0-b3e2-4666-9201-b87b3786371b";
 const homeVector1 = "https://www.figma.com/api/mcp/asset/7f8fe4f9-e032-4981-9368-14105e191fdf";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/d4c16fc8-1b5d-4f5d-a76d-560e408c8d5c";
+const playIcon = "https://www.figma.com/api/mcp/asset/00297487-b5e0-4b83-8aec-46f6ee7655fc";
+const userAvatar = "https://www.figma.com/api/mcp/asset/7d719d95-03bd-4cc6-8752-ccdb3559df23";
+const iconStats = "https://www.figma.com/api/mcp/asset/41881d92-41fe-4db1-8733-923a76429bac";
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = React.useState('');
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
@@ -224,7 +216,7 @@ export const LabaMainScreen: React.FC = () => {
               bottom: '3.13%',
               left: '3.12%',
             }}>
-              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%' }} />
+              <img src={searchIconMCP} alt="" style={{ width: '100%', height: '100%' }} />
             </div>
           </div>
 
