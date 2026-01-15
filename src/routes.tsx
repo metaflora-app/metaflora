@@ -3,7 +3,11 @@ import { SplashScreen } from './screens/splash';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PromptFirstScreen } from './screens/prompt-first';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
-// import { LabaLoadingScreen } from './screens/laba-loading';
+import { LabaSearchScreen } from './screens/laba-search';
+import { LabaNoTrackedScreen } from './screens/laba-no-tracked';
+import { LabaLoadingScreen } from './screens/laba-loading';
+import { LabaSearchAccountScreen } from './screens/laba-search-account';
+import { MetacoinsScreen } from './screens/metacoins';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => {
@@ -100,7 +104,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/metacoins',
-    element: <PlaceholderScreen name="Metacoins Screen" />,
+    element: <MetacoinsScreen />,
   },
   
   // Intro screens
@@ -136,7 +140,23 @@ export const router = createBrowserRouter([
   },
   {
     path: '/laba-loading',
-    element: <PlaceholderScreen name="Laba Loading" />,
+    element: <LabaLoadingScreen />,
+  },
+  {
+    path: '/laba-search',
+    element: <LabaSearchScreen />,
+  },
+  {
+    path: '/laba-no-tracked',
+    element: <LabaNoTrackedScreen />,
+  },
+  {
+    path: '/laba-search-account',
+    element: <LabaSearchAccountScreen />,
+  },
+  {
+    path: '/metacoins',
+    element: <MetacoinsScreen />,
   },
 
   // Academy section
@@ -172,7 +192,15 @@ export const router = createBrowserRouter([
   // Poligon section
   {
     path: '/article',
+<<<<<<< HEAD
     element: <PlaceholderScreen name="Article" />,
+=======
+    element: <ArticleScreen />,
+  },
+  {
+    path: '/poligon-articles-all',
+    element: <PoligonArticlesAllScreen />,
+>>>>>>> 7618d1fbe6da33d87bdb8eca7060c3419825114a
   },
 
   // Laba section
@@ -182,7 +210,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/laba-search',
-    element: <PlaceholderScreen name="Laba Search" />,
+    element: <LabaSearchScreen />,
+  },
+  {
+    path: '/laba-loading',
+    element: <LabaLoadingScreen />,
   },
   {
     path: '/laba-favorites',
@@ -194,7 +226,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/laba-no-tracked',
-    element: <PlaceholderScreen name="Laba No Tracked" />,
+    element: <LabaNoTrackedScreen />,
+  },
+  {
+    path: '/laba-search-account',
+    element: <LabaSearchAccountScreen />,
   },
   {
     path: '/laba-analysis',

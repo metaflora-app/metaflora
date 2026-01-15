@@ -1,0 +1,1 @@
+export { PoligonArticlesAllScreen } from './PoligonArticlesAllScreen';

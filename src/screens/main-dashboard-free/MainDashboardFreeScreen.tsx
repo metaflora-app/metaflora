@@ -310,6 +310,20 @@ export const MainDashboardFreeScreen: React.FC = () => {
               cursor: 'pointer',
             }}
           />
+          
+          {/* Invisible button over Laba icon to navigate to laba-no-tracked */}
+          <div
+            onClick={() => navigate('/laba-no-tracked')}
+            style={{
+              position: 'absolute',
+              left: '96px',
+              top: '87px',
+              width: '257px',
+              height: '257px',
+              cursor: 'pointer',
+              zIndex: 10,
+            }}
+          />
 
           {/* 4. Шторка вправо (7:233) - затемнение поверх */}
           <div style={{

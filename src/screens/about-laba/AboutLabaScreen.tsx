@@ -281,7 +281,7 @@ export const AboutLabaScreen: React.FC = () => {
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
         <button
-          onClick={() => navigate('/laba-main')}
+          onClick={() => navigate('/laba-search')}
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
