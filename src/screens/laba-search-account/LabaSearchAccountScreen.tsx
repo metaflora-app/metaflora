@@ -11,7 +11,6 @@ import exitArrow from '../../assets/tour-elements/выход.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 
 // Search account specific assets
-import searchBorder from '../../assets/laba-search-account/обводка поиск.png';
 import promptPlate from '../../assets/laba-search-account/промпт плашка.png';
 import instaLogo from '../../assets/laba-search-account/лого инста.png';
 import profilePhoto from '../../assets/laba-search-account/фото профиля.png';
