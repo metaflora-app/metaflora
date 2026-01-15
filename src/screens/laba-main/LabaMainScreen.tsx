@@ -18,6 +18,10 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 import buttonReturn from '../../assets/laba-main-buttons/кнопка вернуть.png';
 import buttonSort from '../../assets/laba-main-buttons/кнопка сортировка.png';
 import buttonDate from '../../assets/laba-main-buttons/кнопка дата.png';
+import buttonLanguage from '../../assets/laba-main-buttons/кнопка язык.png';
+import buttonVirality from '../../assets/laba-main-buttons/кнопка виральность.png';
+import buttonAccount from '../../assets/laba-main-buttons/кнопка аккаунт.png';
+import buttonFormat from '../../assets/laba-main-buttons/кнопка формат.png';
 import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
 import badgeTimeslot from '../../assets/laba-main-buttons/плашка таймслот.png';
 import badgeRussian from '../../assets/laba-main-buttons/плашка русский.png';
@@ -306,6 +310,56 @@ export const LabaMainScreen: React.FC = () => {
             top: '318px',
             transform: 'translateX(-50%)',
             width: '169px',
+            height: '79px',
+          }}
+        />
+
+        {/* Кнопка язык - Row 1 справа */}
+        <img 
+          src={buttonLanguage}
+          alt="язык"
+          style={{
+            position: 'absolute',
+            left: '841px',
+            top: '327px',
+            width: '186px',
+            height: '79px',
+          }}
+        />
+
+        {/* Filter buttons - Row 2: виральность, аккаунт, формат - PNG из Desktop */}
+        <img 
+          src={buttonVirality}
+          alt="виральность"
+          style={{
+            position: 'absolute',
+            left: '220px',
+            top: '485px',
+            width: '247px',
+            height: '79px',
+          }}
+        />
+
+        <img 
+          src={buttonAccount}
+          alt="аккаунт"
+          style={{
+            position: 'absolute',
+            left: '464px',
+            top: '485px',
+            width: '247px',
+            height: '79px',
+          }}
+        />
+
+        <img 
+          src={buttonFormat}
+          alt="формат"
+          style={{
+            position: 'absolute',
+            left: '712px',
+            top: '485px',
+            width: '247px',
             height: '79px',
           }}
         />
