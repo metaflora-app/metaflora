@@ -7,12 +7,20 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
-// Laba-main PNG assets - используем Figma MCP URLs
-const analysisButtonPNG = "https://www.figma.com/api/mcp/asset/541c8a41-8a47-42b6-8ac8-5ade55b26eb5";
-const likeIconPNG = "https://www.figma.com/api/mcp/asset/44debc4e-04c1-4d48-befd-436136329407";
-const instagramLogo = "https://www.figma.com/api/mcp/asset/95d65794-52ab-449d-bf9c-32ac5a7ecda8";
-const peopleBackground = "https://www.figma.com/api/mcp/asset/04724326-4d95-45d1-990a-e7d9bf6a502c";
-const cardImage = "https://www.figma.com/api/mcp/asset/541c8a41-8a47-42b6-8ac8-5ade55b26eb5";
+// Laba-main PNG assets
+import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
+import viewIconPNG from '../../assets/laba-main/иконка просмотры.png';
+import commentIconPNG from '../../assets/laba-main/иконка комментарии.png';
+import likeIconPNG from '../../assets/laba-main/лайк.png';
+import instagramLogo from '../../assets/laba-main/лого инста.png';
+import peopleBackground from '../../assets/laba-main/люди друг на друге.png';
+import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
+
+// Filter buttons PNG
+import buttonReturn from '../../assets/laba-main-buttons/кнопка вернуть.png';
+import buttonSort from '../../assets/laba-main-buttons/кнопка сортировка.png';
+import buttonDate from '../../assets/laba-main-buttons/кнопка дата.png';
+import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
@@ -353,78 +361,45 @@ export const LabaMainScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter buttons - Row 1 (top: 318px) */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 98px)',
-          top: '318px',
-          transform: 'translateX(-50%)',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>вернуть</div>
-        </div>
+        {/* Filter buttons - Row 1 - PNG из Desktop */}
+        <img 
+          src={buttonReturn}
+          alt="вернуть"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 98px)',
+            top: '318px',
+            transform: 'translateX(-50%)',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% + 149px)',
-          top: '318px',
-          transform: 'translateX(-50%)',
-          width: '216px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>сортировка</div>
-        </div>
+        <img 
+          src={buttonSort}
+          alt="сортировка"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% + 149px)',
+            top: '318px',
+            transform: 'translateX(-50%)',
+            width: '216px',
+            height: '79px',
+          }}
+        />
 
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% + 396px)',
-          top: '318px',
-          transform: 'translateX(-50%)',
-          width: '169px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>дата</div>
-        </div>
+        <img 
+          src={buttonDate}
+          alt="дата"
+          style={{
+            position: 'absolute',
+            left: 'calc(50% + 396px)',
+            top: '318px',
+            transform: 'translateX(-50%)',
+            width: '169px',
+            height: '79px',
+          }}
+        />
 
         {/* Filter buttons - Row 2 (top: 406px) */}
         <div style={{
