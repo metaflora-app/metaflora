@@ -6,18 +6,18 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import returnButton from '../../assets/кнопка вернуть.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
+import newBadgePNG from '../../assets/новое в академии.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
 const socialIcons = "https://www.figma.com/api/mcp/asset/96863808-46d4-499a-878e-c15950dc56ad"; 
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
 // Updated assets from latest Figma
-const houseImage = "https://www.figma.com/api/mcp/asset/a60e60bc-ab56-4246-be41-ed0a26644a34";
+const houseImage = "https://www.figma.com/api/mcp/asset/c70dc102-4760-4242-8e7e-e595ca5b6d6c";
 const homeVector1 = "https://www.figma.com/api/mcp/asset/9f881007-3e31-4135-b2fe-e06b91dd0712";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/21ea9087-2499-427f-928b-a8d6dfbe722a";
 const backArrow = "https://www.figma.com/api/mcp/asset/e111f38a-80d6-4b85-840f-0e5fffc9fffb";
-const heartFilled = "https://www.figma.com/api/mcp/asset/ac67c75e-cd28-41d4-8102-c3dfd35ce493";
-const heartFilledAlt = "https://www.figma.com/api/mcp/asset/1803f185-d60a-423c-8a8b-2c5271c81c65";
+const heartFilled = "https://www.figma.com/api/mcp/asset/e0193429-27e0-42fe-943b-e81148089a0f";
 const heartEmpty = "https://www.figma.com/api/mcp/asset/ade7569d-dc76-4353-9bc7-51e242e9a143";
 
 export const PromptFirstScreen: React.FC = () => {
@@ -751,6 +751,7 @@ export const PromptFirstScreen: React.FC = () => {
 
           {/* Card 3 - bottom left */}
           <div style={{ position: 'absolute', left: '22px', top: '828px' }}>
+            {/* Черный фон карточки */}
             <div style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
@@ -763,6 +764,7 @@ export const PromptFirstScreen: React.FC = () => {
               transform: 'translateX(-50%)',
               width: '410px',
             }} />
+            {/* Картинка дома */}
             <div style={{
               position: 'absolute',
               border: '2px solid rgba(0, 0, 0, 0.3)',
@@ -783,44 +785,54 @@ export const PromptFirstScreen: React.FC = () => {
                 height: '100%',
               }} />
             </div>
+            {/* Заголовок */}
             <div style={{
               position: 'absolute',
-              bottom: '54.42%',
+              bottom: '-17.4%',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 700,
               fontSize: '40px',
               color: 'white',
               left: 'calc(50% - 376px)',
-              top: '40.41%',
+              top: '112.22%',
               width: '329px',
               lineHeight: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
             }}>
               ИИ-копирайтер для блога
             </div>
+            {/* Описание */}
             <div style={{
               position: 'absolute',
-              bottom: '44.07%',
+              bottom: '-27.74%',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
               fontSize: '32px',
               color: 'white',
               left: 'calc(50% - 376px)',
-              top: '47.46%',
+              top: '119.27%',
               width: '329px',
               lineHeight: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
             }}>
               настройте ИИ-копирайтера за один промпт
             </div>
+            {/* Лайк */}
             <div 
               onClick={() => toggleLike(2)}
               style={{
                 position: 'absolute',
-                inset: '6.33% 88.46% 90.45% 7.47%',
+                inset: '78.14% 88.46% 18.64% 7.47%',
                 cursor: 'pointer',
               }}
             >
               <img src={likedCards.includes(2) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
             </div>
+            {/* Кнопка "перейти" */}
             <div 
               onClick={() => navigate('/prompt-card')}
               style={{
@@ -828,16 +840,17 @@ export const PromptFirstScreen: React.FC = () => {
                 backdropFilter: 'blur(50px)',
                 background: 'rgba(0, 0, 0, 0.9)',
                 border: '4px solid rgba(255, 255, 255, 0.3)',
-                bottom: '33.43%',
+                bottom: '-38.38%',
                 left: 'calc(50% - 210.53px)',
                 borderRadius: '62px',
-                top: '59.5%',
+                top: '131.31%',
                 transform: 'translateX(-50%)',
                 width: '246.931px',
                 overflow: 'hidden',
                 cursor: 'pointer',
               }}
             >
+              {/* Градиентные цвета */}
               <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
                 <div style={{
                   position: 'absolute',
@@ -876,6 +889,7 @@ export const PromptFirstScreen: React.FC = () => {
                   width: '56.152px',
                 }} />
               </div>
+              {/* Текст кнопки */}
               <div style={{
                 position: 'absolute',
                 fontFamily: 'Gotham Pro, sans-serif',
@@ -888,14 +902,18 @@ export const PromptFirstScreen: React.FC = () => {
                 width: '119px',
                 textAlign: 'center',
                 lineHeight: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
               }}>
                 перейти
               </div>
             </div>
           </div>
 
-          {/* Card 4 - bottom right */}
-          <div style={{ position: 'absolute', left: '443px', top: '828px' }}>
+          {/* Card 3 - bottom left */}
+          <div style={{ position: 'absolute', left: '22px', top: '828px' }}>
+            {/* Черный фон карточки */}
             <div style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
@@ -904,17 +922,18 @@ export const PromptFirstScreen: React.FC = () => {
               height: '782px',
               left: 'calc(50% - 211px)',
               borderRadius: '30px',
-              top: '27px',
+              top: '832px',
               transform: 'translateX(-50%)',
               width: '410px',
             }} />
+            {/* Картинка дома */}
             <div style={{
               position: 'absolute',
               border: '2px solid rgba(0, 0, 0, 0.3)',
               height: '359px',
               left: '53px',
               borderRadius: '25px',
-              top: '54px',
+              top: '859px',
               width: '356px',
             }}>
               <img src={houseImage} alt="" style={{
@@ -928,44 +947,54 @@ export const PromptFirstScreen: React.FC = () => {
                 height: '100%',
               }} />
             </div>
+            {/* Заголовок */}
             <div style={{
               position: 'absolute',
-              bottom: '54.42%',
+              bottom: '-17.4%',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 700,
               fontSize: '40px',
               color: 'white',
               left: 'calc(50% - 376px)',
-              top: '40.41%',
+              top: '112.22%',
               width: '329px',
               lineHeight: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
             }}>
               ИИ-копирайтер для блога
             </div>
+            {/* Описание */}
             <div style={{
               position: 'absolute',
-              bottom: '44.07%',
+              bottom: '-27.74%',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
               fontSize: '32px',
               color: 'white',
               left: 'calc(50% - 376px)',
-              top: '47.46%',
+              top: '119.27%',
               width: '329px',
               lineHeight: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
             }}>
               настройте ИИ-копирайтера за один промпт
             </div>
+            {/* Лайк */}
             <div 
-              onClick={() => toggleLike(3)}
+              onClick={() => toggleLike(2)}
               style={{
                 position: 'absolute',
-                inset: '6.33% 88.46% 90.45% 7.47%',
+                inset: '78.14% 88.46% 18.64% 7.47%',
                 cursor: 'pointer',
               }}
             >
-              <img src={likedCards.includes(3) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
+              <img src={likedCards.includes(2) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
             </div>
+            {/* Кнопка "перейти" */}
             <div 
               onClick={() => navigate('/prompt-card')}
               style={{
@@ -973,16 +1002,17 @@ export const PromptFirstScreen: React.FC = () => {
                 backdropFilter: 'blur(50px)',
                 background: 'rgba(0, 0, 0, 0.9)',
                 border: '4px solid rgba(255, 255, 255, 0.3)',
-                bottom: '33.43%',
+                bottom: '-38.38%',
                 left: 'calc(50% - 210.53px)',
                 borderRadius: '62px',
-                top: '59.5%',
+                top: '131.31%',
                 transform: 'translateX(-50%)',
                 width: '246.931px',
                 overflow: 'hidden',
                 cursor: 'pointer',
               }}
             >
+              {/* Градиентные цвета */}
               <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
                 <div style={{
                   position: 'absolute',
@@ -1021,6 +1051,7 @@ export const PromptFirstScreen: React.FC = () => {
                   width: '56.152px',
                 }} />
               </div>
+              {/* Текст кнопки */}
               <div style={{
                 position: 'absolute',
                 fontFamily: 'Gotham Pro, sans-serif',
@@ -1033,6 +1064,9 @@ export const PromptFirstScreen: React.FC = () => {
                 width: '119px',
                 textAlign: 'center',
                 lineHeight: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
               }}>
                 перейти
               </div>
