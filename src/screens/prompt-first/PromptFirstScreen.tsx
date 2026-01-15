@@ -18,9 +18,8 @@ import goButton from '../../assets/main-dashboard/кнопка перейти.pn
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
-const houseImage = "https://www.figma.com/api/mcp/asset/c70dc102-4760-4242-8e7e-e595ca5b6d6c";
-// const heartFilled = "https://www.figma.com/api/mcp/asset/e0193429-27e0-42fe-943b-e81148089a0f";
-// const heartEmpty = "https://www.figma.com/api/mcp/asset/ade7569d-dc76-4353-9bc7-51e242e9a143";
+const houseImage = "https://www.figma.com/api/mcp/asset/561dab05-4ef7-4239-862d-adee28216da3";
+const heartIcon = "https://www.figma.com/api/mcp/asset/8e6e8e5e-eec6-4e7c-bbbd-f7a5c6a56c4c";
 
 
 export const PromptFirstScreen: React.FC = () => {
@@ -261,37 +260,28 @@ export const PromptFirstScreen: React.FC = () => {
           overflow: 'clip',
           zIndex: 10,
           padding: '40px',
+          display: 'flex',
+          gap: '30px',
         }}>
-          {/* Карточка 1 */}
+          {/* Карточка 1 - ВЕРТИКАЛЬНАЯ 410x782px */}
           <div style={{
             position: 'relative',
-            width: '804px',
-            height: '380px',
-            marginBottom: '30px',
+            width: '410px',
+            height: '782px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
           }}>
-            {/* Плашка "новое" */}
-            <img 
-              src={newButton}
-              alt="новое"
-              style={{
-                position: 'absolute',
-                left: '0px',
-                top: '0px',
-                width: '142px',
-                height: '51px',
-                zIndex: 2,
-              }}
-            />
-            
-            {/* Фото дома */}
+            {/* Фото дома - занимает верхнюю часть */}
             <div style={{
               position: 'absolute',
-              left: '0px',
-              top: '61px',
-              width: '380px',
-              height: '319px',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
+              left: '27px',
+              top: '27px',
+              width: '356px',
+              height: '359px',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              borderRadius: '25px',
               overflow: 'hidden',
             }}>
               <img 
@@ -305,17 +295,60 @@ export const PromptFirstScreen: React.FC = () => {
               />
             </div>
 
+            {/* Сердечко (лайк) - слева вверху */}
+            <div style={{
+              position: 'absolute',
+              left: '40px',
+              top: '44px',
+              width: '36px',
+              height: '36px',
+            }}>
+              <img 
+                src={heartIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              />
+            </div>
+
+            {/* Плашка "новое" - справа вверху */}
+            <div style={{
+              position: 'absolute',
+              right: '41px',
+              top: '44px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              padding: '8px 24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '18px',
+                color: 'white',
+                textAlign: 'center',
+              }}>
+                новое
+              </div>
+            </div>
+
             {/* Заголовок */}
             <div style={{
               position: 'absolute',
-              left: '400px',
-              top: '61px',
+              left: '40px',
+              top: '426px',
+              right: '40px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 700,
-              fontSize: '35px',
+              fontSize: '40px',
               color: 'white',
-              lineHeight: '42px',
-              width: '404px',
+              lineHeight: '48px',
             }}>
               ИИ-копирайтер для блога
             </div>
@@ -323,32 +356,94 @@ export const PromptFirstScreen: React.FC = () => {
             {/* Описание */}
             <div style={{
               position: 'absolute',
-              left: '400px',
-              top: '153px',
+              left: '40px',
+              top: '505px',
+              right: '40px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
-              fontSize: '24px',
+              fontSize: '32px',
               color: 'white',
-              lineHeight: '29px',
-              width: '404px',
+              lineHeight: '38px',
             }}>
               настройте ИИ-копирайтера за один промпт
             </div>
 
             {/* Кнопка "перейти" */}
-            <img 
-              src={goButton}
-              alt="перейти"
+            <div 
               onClick={() => navigate('/prompt-card')}
               style={{
                 position: 'absolute',
-                left: '400px',
-                top: '282px',
-                width: '257px',
-                height: '73px',
+                left: '81px',
+                bottom: '63px',
+                right: '81px',
+                height: '79px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.9)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '62px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 cursor: 'pointer',
+                overflow: 'hidden',
               }}
-            />
+            >
+              {/* Цветные круги внутри кнопки */}
+              <div style={{
+                position: 'absolute',
+                left: '73px',
+                top: '-44px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  left: '77px',
+                  top: '-36.46px',
+                  width: '101.963px',
+                  height: '107.431px',
+                  background: '#37ecf7',
+                  borderRadius: '50%',
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  left: '102.5px',
+                  top: '-40px',
+                  width: '90.498px',
+                  height: '78.548px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <div style={{
+                    width: '51.243px',
+                    height: '75.957px',
+                    background: '#f0d825',
+                    borderRadius: '50%',
+                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
+                  }} />
+                </div>
+                <div style={{
+                  position: 'absolute',
+                  left: '122.8px',
+                  top: '30.18px',
+                  width: '56.152px',
+                  height: '72.822px',
+                  background: '#d5fc44',
+                  borderRadius: '50%',
+                }} />
+              </div>
+              
+              {/* Текст кнопки */}
+              <div style={{
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '27px',
+                color: 'white',
+                textAlign: 'center',
+                zIndex: 1,
+              }}>
+                перейти
+              </div>
+            </div>
           </div>
         </div>
 
