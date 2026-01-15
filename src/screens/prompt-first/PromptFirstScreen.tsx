@@ -6,19 +6,173 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import returnButton from '../../assets/кнопка вернуть.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
-// import newBadgePNG from '../../assets/новое в академии.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
 const socialIcons = "https://www.figma.com/api/mcp/asset/96863808-46d4-499a-878e-c15950dc56ad"; 
-const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
-// Updated assets from latest Figma
 const houseImage = "https://www.figma.com/api/mcp/asset/c70dc102-4760-4242-8e7e-e595ca5b6d6c";
 const homeVector1 = "https://www.figma.com/api/mcp/asset/9f881007-3e31-4135-b2fe-e06b91dd0712";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/21ea9087-2499-427f-928b-a8d6dfbe722a";
 const backArrow = "https://www.figma.com/api/mcp/asset/e111f38a-80d6-4b85-840f-0e5fffc9fffb";
 const heartFilled = "https://www.figma.com/api/mcp/asset/e0193429-27e0-42fe-943b-e81148089a0f";
 const heartEmpty = "https://www.figma.com/api/mcp/asset/ade7569d-dc76-4353-9bc7-51e242e9a143";
+
+const PromptCardComponent: React.FC<{ 
+  left: number; 
+  top: number; 
+  cardIndex: number;
+  hasNewBadge?: boolean;
+  isLiked: boolean;
+  onToggleLike: (index: number) => void;
+  onCardClick: () => void;
+}> = ({ left, top, cardIndex, hasNewBadge, isLiked, onToggleLike, onCardClick }) => {
+  return (
+    <div style={{ position: 'absolute', left: `${left}px`, top: `${top}px` }}>
+      {/* Card Background */}
+      <div style={{
+        backdropFilter: 'blur(50px)',
+        background: 'black',
+        border: '4px solid rgba(255, 255, 255, 0.3)',
+        height: '280px',
+        borderRadius: '20px',
+        width: '200px',
+        position: 'relative',
+      }}>
+        {/* House Image */}
+        <div style={{
+          border: '1px solid rgba(0, 0, 0, 0.3)',
+          height: '120px',
+          left: '15px',
+          borderRadius: '15px',
+          top: '15px',
+          width: '170px',
+          position: 'absolute',
+          overflow: 'hidden',
+        }}>
+          <img src={houseImage} alt="" style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            borderRadius: '15px',
+          }} />
+        </div>
+        
+        {/* Like Heart */}
+        <div 
+          onClick={() => onToggleLike(cardIndex)}
+          style={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px',
+            width: '16px',
+            height: '16px',
+            cursor: 'pointer',
+            zIndex: 10,
+          }}
+        >
+          <img src={isLiked ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
+        </div>
+        
+        {/* New Badge */}
+        {hasNewBadge && (
+          <div style={{
+            position: 'absolute',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            top: '20px',
+            right: '20px',
+            borderRadius: '12px',
+            padding: '4px 8px',
+            zIndex: 10,
+          }}>
+            <div style={{
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '8px',
+              color: 'white',
+              textAlign: 'center',
+              lineHeight: 1,
+            }}>
+              новое
+            </div>
+          </div>
+        )}
+        
+        {/* Title */}
+        <div style={{
+          position: 'absolute',
+          fontFamily: 'Gotham Pro, sans-serif',
+          fontWeight: 700,
+          fontSize: '14px',
+          color: 'white',
+          left: '15px',
+          top: '145px',
+          width: '170px',
+          lineHeight: 1.2,
+        }}>
+          ИИ-копирайтер для блога
+        </div>
+        
+        {/* Description */}
+        <div style={{
+          position: 'absolute',
+          fontFamily: 'Gotham Pro, sans-serif',
+          fontWeight: 300,
+          fontSize: '11px',
+          color: 'white',
+          left: '15px',
+          top: '180px',
+          width: '170px',
+          lineHeight: 1.2,
+        }}>
+          настройте ИИ-копирайтера за один промпт
+        </div>
+        
+        {/* Go Button */}
+        <div 
+          onClick={onCardClick}
+          style={{
+            position: 'absolute',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            bottom: '15px',
+            left: '50%',
+            borderRadius: '15px',
+            transform: 'translateX(-50%)',
+            width: '80px',
+            padding: '6px',
+            cursor: 'pointer',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Gradient colors */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(45deg, #37ecf7, #f0d825, #d5fc44)',
+            opacity: 0.3,
+          }} />
+          {/* Button text */}
+          <div style={{
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '10px',
+            color: 'white',
+            textAlign: 'center',
+            lineHeight: 1,
+            position: 'relative',
+            zIndex: 2,
+          }}>
+            перейти
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -50,35 +204,6 @@ export const PromptFirstScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Background people */}
-        <div style={{
-          position: 'absolute',
-          height: '474px',
-          left: '147px',
-          top: '1289px',
-          width: '886px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={threePeopleBg}
-              alt=""
-              style={{
-                position: 'absolute',
-                height: '222.88%',
-                left: '-39.72%',
-                maxWidth: 'none',
-                top: '-55.58%',
-                width: '179.18%',
-              }}
-            />
-          </div>
-        </div>
-
         {/* Header - Back button */}
         <div 
           onClick={() => navigate(-1)}
@@ -205,7 +330,7 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Header - Support button (PNG) */}
+        {/* Header - Support button */}
         <img 
           src={supportButtonPNG}
           alt="написать в поддержку"
@@ -233,14 +358,10 @@ export const PromptFirstScreen: React.FC = () => {
             src={houseImage}
             alt=""
             style={{
-              position: 'absolute',
-              inset: 0,
-              maxWidth: 'none',
-              objectFit: 'cover',
-              pointerEvents: 'none',
-              borderRadius: '30px',
               width: '100%',
               height: '100%',
+              objectFit: 'cover',
+              borderRadius: '30px',
             }}
           />
         </div>
@@ -256,16 +377,17 @@ export const PromptFirstScreen: React.FC = () => {
           top: '631px',
           transform: 'translateX(-50%)',
           width: '876px',
+          display: 'flex',
+          alignItems: 'center',
+          paddingLeft: '30px',
         }}>
           <img 
             src={searchIconPNG}
             alt=""
             style={{
-              position: 'absolute',
-              left: '26px',
-              width: '38px',
-              height: '38px',
-              top: 'calc(50% - 19px)',
+              width: '24px',
+              height: '24px',
+              marginRight: '15px',
             }}
           />
           <input
@@ -274,19 +396,14 @@ export const PromptFirstScreen: React.FC = () => {
             onChange={(e) => setSearchValue(e.target.value)}
             placeholder="промпт для ИИ-копирайтера любых текстов"
             style={{
-              position: 'absolute',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
               color: 'white',
-              fontSize: '27px',
-              left: 'calc(50% - 365px)',
-              top: 'calc(50% - 0.5px)',
-              transform: 'translateY(-50%)',
-              width: '612px',
+              fontSize: '20px',
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              lineHeight: 1,
+              width: '100%',
             }}
           />
         </div>
@@ -315,19 +432,16 @@ export const PromptFirstScreen: React.FC = () => {
           borderRadius: '62px',
           overflow: 'hidden',
           cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           <div style={{
-            position: 'absolute',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 500,
-            fontSize: '27px',
+            fontSize: '20px',
             color: 'white',
-            left: 'calc(50% - 0.97px)',
-            top: 'calc(50% - 0.13px)',
-            transform: 'translate(-50%, -50%)',
-            width: '169px',
             textAlign: 'center',
-            lineHeight: 1,
           }}>
             избранное
           </div>
@@ -343,19 +457,16 @@ export const PromptFirstScreen: React.FC = () => {
           borderRadius: '62px',
           overflow: 'hidden',
           cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           <div style={{
-            position: 'absolute',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 500,
-            fontSize: '27px',
+            fontSize: '20px',
             color: 'white',
-            left: 'calc(50% - 1.47px)',
-            top: 'calc(50% + 0.03px)',
-            transform: 'translate(-50%, -50%)',
-            width: '150px',
             textAlign: 'center',
-            lineHeight: 1,
           }}>
             недавние
           </div>
@@ -371,19 +482,16 @@ export const PromptFirstScreen: React.FC = () => {
           borderRadius: '62px',
           overflow: 'hidden',
           cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           <div style={{
-            position: 'absolute',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 500,
-            fontSize: '27px',
+            fontSize: '20px',
             color: 'white',
-            left: 'calc(50% + 4.03px)',
-            top: 'calc(50% - 0.13px)',
-            transform: 'translate(-50%, -50%)',
-            width: '161px',
             textAlign: 'center',
-            lineHeight: 1,
           }}>
             топ-выбор
           </div>
@@ -402,19 +510,16 @@ export const PromptFirstScreen: React.FC = () => {
           borderRadius: '62px',
           overflow: 'hidden',
           cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           <div style={{
-            position: 'absolute',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 500,
-            fontSize: '27px',
+            fontSize: '20px',
             color: 'white',
-            left: 'calc(50% - 0.47px)',
-            top: 'calc(50% - 0.13px)',
-            transform: 'translate(-50%, -50%)',
-            width: '216px',
             textAlign: 'center',
-            lineHeight: 1,
           }}>
             новые
           </div>
@@ -434,639 +539,49 @@ export const PromptFirstScreen: React.FC = () => {
           width: '884px',
           overflow: 'auto',
         }}>
-          {/* Card 1 - top left */}
-          <div style={{ position: 'absolute', left: '22px', top: '20px' }}>
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '782px',
-              left: 'calc(50% - 211px)',
-              borderRadius: '30px',
-              top: '27px',
-              transform: 'translateX(-50%)',
-              width: '410px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              height: '359px',
-              left: '53px',
-              borderRadius: '25px',
-              top: '54px',
-              width: '356px',
-            }}>
-              <img src={houseImage} alt="" style={{
-                position: 'absolute',
-                inset: 0,
-                maxWidth: 'none',
-                objectFit: 'cover',
-                pointerEvents: 'none',
-                borderRadius: '25px',
-                width: '100%',
-                height: '100%',
-              }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              bottom: '54.42%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '40.41%',
-              width: '329px',
-              lineHeight: 1,
-            }}>
-              ИИ-копирайтер для блога
-            </div>
-            <div style={{
-              position: 'absolute',
-              bottom: '44.07%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '47.46%',
-              width: '329px',
-              lineHeight: 1,
-            }}>
-              настройте ИИ-копирайтера за один промпт
-            </div>
-            <div 
-              onClick={() => toggleLike(0)}
-              style={{
-                position: 'absolute',
-                inset: '6.33% 88.46% 90.45% 7.47%',
-                cursor: 'pointer',
-              }}
-            >
-              <img src={likedCards.includes(0) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              inset: '6.33% 55.29% 90.45% 29.52%',
-              borderRadius: '62px',
-              overflow: 'hidden',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '8px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 1,
-              }}>
-                новое
-              </div>
-            </div>
-            <div 
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                bottom: '33.43%',
-                left: 'calc(50% - 210.53px)',
-                borderRadius: '62px',
-                top: '59.5%',
-                transform: 'translateX(-50%)',
-                width: '246.931px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-              }}
-            >
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  background: '#37ecf7',
-                  height: '107.431px',
-                  left: '77px',
-                  borderRadius: '1568.563px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  display: 'flex',
-                  height: '78.548px',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                }}>
-                  <div style={{
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    background: '#f0d825',
-                    height: '75.957px',
-                    borderRadius: '1568.563px',
-                    width: '51.243px',
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  background: '#d5fc44',
-                  height: '72.822px',
-                  left: '122.8px',
-                  borderRadius: '1568.563px',
-                  top: '30.18px',
-                  width: '56.152px',
-                }} />
-              </div>
-              <div style={{
-                position: 'absolute',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                width: '119px',
-                textAlign: 'center',
-                lineHeight: 1,
-              }}>
-                перейти
-              </div>
-            </div>
-          </div>
-
+          {/* Card 1 - top left with "новое" badge */}
+          <PromptCardComponent
+            left={40}
+            top={40}
+            cardIndex={0}
+            hasNewBadge={true}
+            isLiked={likedCards.includes(0)}
+            onToggleLike={toggleLike}
+            onCardClick={() => navigate('/prompt-card')}
+          />
+          
           {/* Card 2 - top right */}
-          <div style={{ position: 'absolute', left: '440px', top: '20px' }}>
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '782px',
-              left: 'calc(50% - 211px)',
-              borderRadius: '30px',
-              top: '27px',
-              transform: 'translateX(-50%)',
-              width: '410px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              height: '359px',
-              left: '53px',
-              borderRadius: '25px',
-              top: '54px',
-              width: '356px',
-            }}>
-              <img src={houseImage} alt="" style={{
-                position: 'absolute',
-                inset: 0,
-                maxWidth: 'none',
-                objectFit: 'cover',
-                pointerEvents: 'none',
-                borderRadius: '25px',
-                width: '100%',
-                height: '100%',
-              }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              bottom: '54.42%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '40.41%',
-              width: '329px',
-              lineHeight: 1,
-            }}>
-              ИИ-копирайтер для блога
-            </div>
-            <div style={{
-              position: 'absolute',
-              bottom: '44.07%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '47.46%',
-              width: '329px',
-              lineHeight: 1,
-            }}>
-              настройте ИИ-копирайтера за один промпт
-            </div>
-            <div 
-              onClick={() => toggleLike(1)}
-              style={{
-                position: 'absolute',
-                inset: '6.33% 88.46% 90.45% 7.47%',
-                cursor: 'pointer',
-              }}
-            >
-              <img src={likedCards.includes(1) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
-            </div>
-            <div 
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                bottom: '33.43%',
-                left: 'calc(50% - 210.53px)',
-                borderRadius: '62px',
-                top: '59.5%',
-                transform: 'translateX(-50%)',
-                width: '246.931px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-              }}
-            >
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  background: '#37ecf7',
-                  height: '107.431px',
-                  left: '77px',
-                  borderRadius: '1568.563px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  display: 'flex',
-                  height: '78.548px',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                }}>
-                  <div style={{
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    background: '#f0d825',
-                    height: '75.957px',
-                    borderRadius: '1568.563px',
-                    width: '51.243px',
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  background: '#d5fc44',
-                  height: '72.822px',
-                  left: '122.8px',
-                  borderRadius: '1568.563px',
-                  top: '30.18px',
-                  width: '56.152px',
-                }} />
-              </div>
-              <div style={{
-                position: 'absolute',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                width: '119px',
-                textAlign: 'center',
-                lineHeight: 1,
-              }}>
-                перейти
-              </div>
-            </div>
-          </div>
-
+          <PromptCardComponent
+            left={260}
+            top={40}
+            cardIndex={1}
+            hasNewBadge={false}
+            isLiked={likedCards.includes(1)}
+            onToggleLike={toggleLike}
+            onCardClick={() => navigate('/prompt-card')}
+          />
+          
           {/* Card 3 - bottom left */}
-          <div style={{ position: 'absolute', left: '22px', top: '828px' }}>
-            {/* Черный фон карточки */}
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '782px',
-              left: 'calc(50% - 211px)',
-              borderRadius: '30px',
-              top: '27px',
-              transform: 'translateX(-50%)',
-              width: '410px',
-            }} />
-            {/* Картинка дома */}
-            <div style={{
-              position: 'absolute',
-              border: '1px solid rgba(0, 0, 0, 0.3)',
-              height: '120px',
-              left: '15px',
-              borderRadius: '15px',
-              top: '15px',
-              width: '170px',
-            }}>
-              <img src={houseImage} alt="" style={{
-                position: 'absolute',
-                inset: 0,
-                maxWidth: 'none',
-                objectFit: 'cover',
-                pointerEvents: 'none',
-                borderRadius: '25px',
-                width: '100%',
-                height: '100%',
-              }} />
-            </div>
-            {/* Заголовок */}
-            <div style={{
-              position: 'absolute',
-              bottom: '-17.4%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '112.22%',
-              width: '329px',
-              lineHeight: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              ИИ-копирайтер для блога
-            </div>
-            {/* Описание */}
-            <div style={{
-              position: 'absolute',
-              bottom: '-27.74%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '119.27%',
-              width: '329px',
-              lineHeight: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              настройте ИИ-копирайтера за один промпт
-            </div>
-            {/* Лайк */}
-            <div 
-              onClick={() => toggleLike(2)}
-              style={{
-                position: 'absolute',
-                inset: '78.14% 88.46% 18.64% 7.47%',
-                cursor: 'pointer',
-              }}
-            >
-              <img src={likedCards.includes(2) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
-            </div>
-            {/* Кнопка "перейти" */}
-            <div 
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                bottom: '-38.38%',
-                left: 'calc(50% - 210.53px)',
-                borderRadius: '62px',
-                top: '131.31%',
-                transform: 'translateX(-50%)',
-                width: '246.931px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-              }}
-            >
-              {/* Градиентные цвета */}
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  background: '#37ecf7',
-                  height: '107.431px',
-                  left: '77px',
-                  borderRadius: '1568.563px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  display: 'flex',
-                  height: '78.548px',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                }}>
-                  <div style={{
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    background: '#f0d825',
-                    height: '75.957px',
-                    borderRadius: '1568.563px',
-                    width: '51.243px',
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  background: '#d5fc44',
-                  height: '72.822px',
-                  left: '122.8px',
-                  borderRadius: '1568.563px',
-                  top: '30.18px',
-                  width: '56.152px',
-                }} />
-              </div>
-              {/* Текст кнопки */}
-              <div style={{
-                position: 'absolute',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                width: '119px',
-                textAlign: 'center',
-                lineHeight: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}>
-                перейти
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3 - bottom left */}
-          <div style={{ position: 'absolute', left: '22px', top: '828px' }}>
-            {/* Черный фон карточки */}
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '782px',
-              left: 'calc(50% - 211px)',
-              borderRadius: '30px',
-              top: '832px',
-              transform: 'translateX(-50%)',
-              width: '410px',
-            }} />
-            {/* Картинка дома */}
-            <div style={{
-              position: 'absolute',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              height: '359px',
-              left: '53px',
-              borderRadius: '25px',
-              top: '859px',
-              width: '356px',
-            }}>
-              <img src={houseImage} alt="" style={{
-                position: 'absolute',
-                inset: 0,
-                maxWidth: 'none',
-                objectFit: 'cover',
-                pointerEvents: 'none',
-                borderRadius: '25px',
-                width: '100%',
-                height: '100%',
-              }} />
-            </div>
-            {/* Заголовок */}
-            <div style={{
-              position: 'absolute',
-              bottom: '-17.4%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '112.22%',
-              width: '329px',
-              lineHeight: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              ИИ-копирайтер для блога
-            </div>
-            {/* Описание */}
-            <div style={{
-              position: 'absolute',
-              bottom: '-27.74%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              left: 'calc(50% - 376px)',
-              top: '119.27%',
-              width: '329px',
-              lineHeight: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              настройте ИИ-копирайтера за один промпт
-            </div>
-            {/* Лайк */}
-            <div 
-              onClick={() => toggleLike(2)}
-              style={{
-                position: 'absolute',
-                inset: '78.14% 88.46% 18.64% 7.47%',
-                cursor: 'pointer',
-              }}
-            >
-              <img src={likedCards.includes(2) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
-            </div>
-            {/* Кнопка "перейти" */}
-            <div 
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                bottom: '-38.38%',
-                left: 'calc(50% - 210.53px)',
-                borderRadius: '62px',
-                top: '131.31%',
-                transform: 'translateX(-50%)',
-                width: '246.931px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-              }}
-            >
-              {/* Градиентные цвета */}
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  background: '#37ecf7',
-                  height: '107.431px',
-                  left: '77px',
-                  borderRadius: '1568.563px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  display: 'flex',
-                  height: '78.548px',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                }}>
-                  <div style={{
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    background: '#f0d825',
-                    height: '75.957px',
-                    borderRadius: '1568.563px',
-                    width: '51.243px',
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  background: '#d5fc44',
-                  height: '72.822px',
-                  left: '122.8px',
-                  borderRadius: '1568.563px',
-                  top: '30.18px',
-                  width: '56.152px',
-                }} />
-              </div>
-              {/* Текст кнопки */}
-              <div style={{
-                position: 'absolute',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                width: '119px',
-                textAlign: 'center',
-                lineHeight: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}>
-                перейти
-              </div>
-            </div>
-          </div>
+          <PromptCardComponent
+            left={40}
+            top={340}
+            cardIndex={2}
+            hasNewBadge={false}
+            isLiked={likedCards.includes(2)}
+            onToggleLike={toggleLike}
+            onCardClick={() => navigate('/prompt-card')}
+          />
+          
+          {/* Card 4 - bottom right */}
+          <PromptCardComponent
+            left={260}
+            top={340}
+            cardIndex={3}
+            hasNewBadge={false}
+            isLiked={likedCards.includes(3)}
+            onToggleLike={toggleLike}
+            onCardClick={() => navigate('/prompt-card')}
+          />
         </div>
 
         {/* Footer */}
@@ -1074,10 +589,11 @@ export const PromptFirstScreen: React.FC = () => {
           position: 'absolute',
           height: '124px',
           left: 'calc(50% - 5px)',
-          top: 'calc(50% + 858px)',
-          transform: 'translate(-50%, -50%)',
+          top: '2200px',
+          transform: 'translateX(-50%)',
           width: '888px',
         }}>
+          {/* Footer Logo */}
           <div style={{
             position: 'absolute',
             height: '83px',
@@ -1105,23 +621,23 @@ export const PromptFirstScreen: React.FC = () => {
               />
             </div>
           </div>
+          
+          {/* Copyright */}
           <div style={{
             position: 'absolute',
-            bottom: '38.71%',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 300,
             fontSize: '20px',
             color: 'white',
-            left: 'calc(50% - 442px)',
-            top: '45.16%',
+            left: '2px',
+            top: '56px',
             width: '433px',
             lineHeight: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
           }}>
             Copyright © Все права защищены.
           </div>
+          
+          {/* Socials */}
           <div style={{
             position: 'absolute',
             height: '51px',
@@ -1161,29 +677,6 @@ export const PromptFirstScreen: React.FC = () => {
                   maxWidth: 'none',
                   top: '-118.33%',
                   width: '517.92%',
-                }}
-              />
-            </div>
-            <div style={{
-              position: 'absolute',
-              height: '51px',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={socialIcons}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-16.64%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '183.64%',
                 }}
               />
             </div>
