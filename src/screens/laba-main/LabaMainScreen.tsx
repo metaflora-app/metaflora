@@ -20,14 +20,12 @@ import instagramLogo from '../../assets/laba-main/лого инста.png';
 // Figma MCP assets  
 const footerLogo = "https://www.figma.com/api/mcp/asset/397520f5-d814-4aa8-bf00-d89010c36feb";
 const houseImage = "https://www.figma.com/api/mcp/asset/034558ad-cb90-45ad-b5cb-9e3d6cb73d41";
-const heartIcon = "https://www.figma.com/api/mcp/asset/260c3df0-5bae-4a47-8e99-4ae257dbf4aa";
 const backArrow = "https://www.figma.com/api/mcp/asset/89de260f-a0d3-4ec0-bd3d-312405fe42a7";
 const searchIconMCP = "https://www.figma.com/api/mcp/asset/9507e3c0-b3e2-4666-9201-b87b3786371b";
 const homeVector1 = "https://www.figma.com/api/mcp/asset/7f8fe4f9-e032-4981-9368-14105e191fdf";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/d4c16fc8-1b5d-4f5d-a76d-560e408c8d5c";
 const playIcon = "https://www.figma.com/api/mcp/asset/00297487-b5e0-4b83-8aec-46f6ee7655fc";
 const userAvatar = "https://www.figma.com/api/mcp/asset/7d719d95-03bd-4cc6-8752-ccdb3559df23";
-const iconStats = "https://www.figma.com/api/mcp/asset/41881d92-41fe-4db1-8733-923a76429bac";
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
