@@ -21,7 +21,6 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 
 // Figma MCP assets  
 const footerLogo = "https://www.figma.com/api/mcp/asset/397520f5-d814-4aa8-bf00-d89010c36feb";
-const houseImage = "https://www.figma.com/api/mcp/asset/034558ad-cb90-45ad-b5cb-9e3d6cb73d41";
 const backArrow = "https://www.figma.com/api/mcp/asset/89de260f-a0d3-4ec0-bd3d-312405fe42a7";
 const searchIconMCP = "https://www.figma.com/api/mcp/asset/9507e3c0-b3e2-4666-9201-b87b3786371b";
 const homeVector1 = "https://www.figma.com/api/mcp/asset/7f8fe4f9-e032-4981-9368-14105e191fdf";
