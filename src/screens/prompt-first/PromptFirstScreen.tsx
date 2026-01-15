@@ -14,7 +14,7 @@ import favoriteButton from '../../assets/кнопка избранное.png';
 import recentButton from '../../assets/кнопка недавние.png';
 import topPickButton from '../../assets/кнопка топ-выбор.png';
 import newButton from '../../assets/кнопка новые.png';
-import goButtonPNG from '../../assets/prompt-first/кнопка перейти.png';
+import goButtonPNG from '../../assets/prompt-first/кнопка перейти зеленая.png';
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
@@ -295,13 +295,13 @@ export const PromptFirstScreen: React.FC = () => {
               />
             </div>
 
-            {/* Сердечко (лайк) - немного правее */}
+            {/* Сердечко (лайк) - ТОЧНЫЕ координаты из Figma */}
             <div style={{
               position: 'absolute',
-              left: '50px',
-              top: '44px',
-              width: '36px',
-              height: '36px',
+              left: '10.24%',
+              top: '5.63%',
+              right: '80.98%',
+              bottom: '89.77%',
             }}>
               <img 
                 src={heartIcon}
@@ -313,16 +313,17 @@ export const PromptFirstScreen: React.FC = () => {
               />
             </div>
 
-            {/* Плашка "новое" - справа вверху */}
+            {/* Плашка "новое" - справа вверху - ТОЧНЫЕ координаты */}
             <div style={{
               position: 'absolute',
-              right: '41px',
-              top: '44px',
+              left: '57.32%',
+              top: '5.63%',
+              right: '9.95%',
+              bottom: '89.77%',
               backdropFilter: 'blur(50px)',
               background: 'rgba(255, 255, 255, 0.1)',
               border: '2px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '62px',
-              padding: '8px 24px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -338,48 +339,57 @@ export const PromptFirstScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Заголовок */}
+            {/* Заголовок - ТОЧНЫЕ координаты из Figma */}
             <div style={{
               position: 'absolute',
-              left: '40px',
-              top: '426px',
-              right: '40px',
+              left: '9.76%',
+              top: '54.48%',
+              right: '10%',
+              bottom: '38.11%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 700,
               fontSize: '40px',
               color: 'white',
-              lineHeight: '48px',
+              lineHeight: '1',
             }}>
               ИИ-копирайтер для блога
             </div>
 
-            {/* Описание */}
+            {/* Описание - ТОЧНЫЕ координаты из Figma */}
             <div style={{
               position: 'absolute',
-              left: '40px',
-              top: '505px',
-              right: '40px',
+              left: '9.76%',
+              top: '64.58%',
+              right: '10%',
+              bottom: '23.27%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
               fontSize: '32px',
               color: 'white',
-              lineHeight: '38px',
+              lineHeight: '1',
             }}>
               настройте ИИ-копирайтера за один промпт
             </div>
 
-            {/* Кнопка "перейти" - PNG */}
+            {/* Кнопка "перейти" - ЗЕЛЕНАЯ PNG - ТОЧНЫЕ координаты */}
             <img 
               src={goButtonPNG}
               alt="перейти"
               onClick={() => navigate('/prompt-card')}
               style={{
                 position: 'absolute',
-                left: '81px',
-                bottom: '63px',
-                width: '248px',
-                height: '79px',
+                left: '20%',
+                top: '81.84%',
+                right: '19.77%',
+                bottom: '8.02%',
                 cursor: 'pointer',
+                objectFit: 'contain',
               }}
             />
           </div>
