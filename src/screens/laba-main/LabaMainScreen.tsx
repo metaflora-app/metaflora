@@ -25,10 +25,7 @@ const homeVector1 = "https://www.figma.com/api/mcp/asset/8f6661d8-2d62-49c8-ae88
 const homeVector2 = "https://www.figma.com/api/mcp/asset/4a9951a6-1fa4-45c0-a766-090a909e4bed";
 const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
 const userAvatar = "https://www.figma.com/api/mcp/asset/21546dd1-7590-4bea-9d7a-8b1d158df014";
-const socialIcons = "https://www.figma.com/api/mcp/asset/95d65794-52ab-449d-bf9c-32ac5a7ecda8";
 const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
-const cardImageFigma = "https://www.figma.com/api/mcp/asset/541c8a41-8a47-42b6-8ac8-5ade55b26eb5";
-const likeIcon = "https://www.figma.com/api/mcp/asset/44debc4e-04c1-4d48-befd-436136329407";
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -842,7 +839,6 @@ export const LabaMainScreen: React.FC = () => {
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 500,
                 justifyContent: 'center',
-                leadingTrim: 'both',
                 left: 'calc(50% - 68px)',
                 lineHeight: 0,
                 fontSize: '27px',
@@ -863,7 +859,6 @@ export const LabaMainScreen: React.FC = () => {
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 500,
                 justifyContent: 'center',
-                leadingTrim: 'both',
                 left: 'calc(50% + 33px)',
                 lineHeight: 0,
                 fontSize: '27px',
@@ -884,7 +879,6 @@ export const LabaMainScreen: React.FC = () => {
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 500,
                 justifyContent: 'center',
-                leadingTrim: 'both',
                 left: 'calc(50% + 120px)',
                 lineHeight: 0,
                 fontSize: '27px',
@@ -1056,7 +1050,6 @@ export const LabaMainScreen: React.FC = () => {
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 300,
             justifyContent: 'center',
-            leadingTrim: 'both',
             left: 'calc(50% - 442px)',
             lineHeight: 0,
             fontSize: '20px',
