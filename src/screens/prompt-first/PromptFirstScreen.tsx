@@ -320,17 +320,14 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        {/* Three people logo with glow */}
+        {/* Three people logo - НА ФОНЕ (под блюром) */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% + 3px)',
-          top: '750px',
-          transform: 'translateX(-50%)',
-          width: '200px',
-          height: '200px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          left: '500px',
+          top: '850px',
+          width: '186px',
+          height: '131px',
+          zIndex: 0,
         }}>
           <img 
             src={threePeopleLogo}
@@ -339,12 +336,12 @@ export const PromptFirstScreen: React.FC = () => {
               width: '100%',
               height: '100%',
               objectFit: 'contain',
-              filter: 'drop-shadow(0 0 40px rgba(55, 236, 247, 0.6))',
+              filter: 'drop-shadow(0 0 80px rgba(55, 236, 247, 0.8)) drop-shadow(0 0 120px rgba(55, 236, 247, 0.4))',
             }}
           />
         </div>
 
-        {/* Cards window - ПУСТОЙ БЛЮР-ФРЕЙМ БЕЗ КАРТОЧЕК - РАСТЯНУТ */}
+        {/* Cards window - ПУСТОЙ БЛЮР-ФРЕЙМ БЕЗ КАРТОЧЕК */}
         <div style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
@@ -356,7 +353,8 @@ export const PromptFirstScreen: React.FC = () => {
           top: '921px',
           transform: 'translateX(-50%)',
           width: '853px',
-          overflow: 'auto',
+          overflow: 'hidden',
+          zIndex: 1,
         }}>
           {/* ПУСТО - ВСЕ КАРТОЧКИ УДАЛЕНЫ */}
         </div>
@@ -366,7 +364,7 @@ export const PromptFirstScreen: React.FC = () => {
           position: 'absolute',
           height: '124px',
           left: 'calc(50% - 5px)',
-          top: '2200px',
+          top: '2650px',
           transform: 'translateX(-50%)',
           width: '888px',
         }}>
