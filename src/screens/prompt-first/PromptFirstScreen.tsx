@@ -10,9 +10,9 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
-import favoriteButton from '../../assets/кнопка система.png';
-import recentButton from '../../assets/кнопка искусство.png';
-import topPickButton from '../../assets/кнопка промптинг.png';
+import favoriteButton from '../../assets/кнопка избранное.png';
+import recentButton from '../../assets/кнопка недавние.png';
+import topPickButton from '../../assets/кнопка топ-выбор.png';
 import newButton from '../../assets/кнопка новые.png';
 
 // Figma MCP assets
@@ -258,17 +258,19 @@ export const PromptFirstScreen: React.FC = () => {
           transform: 'translateX(-50%)',
           width: '884px',
           overflow: 'clip',
+          zIndex: 10,
         }}>
           {/* Empty - ready for content */}
         </div>
 
-        {/* Background people under blur frame */}
+        {/* Три человека на фоне ПОД блюр-фреймом */}
         <div style={{
           position: 'absolute',
           height: '474px',
           left: '147px',
-          top: '1289px',
+          top: '1450px',
           width: '886px',
+          zIndex: 0,
         }}>
           <div style={{
             position: 'absolute',
