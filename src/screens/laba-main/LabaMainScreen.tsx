@@ -36,7 +36,6 @@ const searchIconMCP = "https://www.figma.com/api/mcp/asset/746ea58b-0e0f-40b8-8a
 const homeVector1 = "https://www.figma.com/api/mcp/asset/8f6661d8-2d62-49c8-ae88-5e19d118e967";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/4a9951a6-1fa4-45c0-a766-090a909e4bed";
 const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
-const userAvatar = "https://www.figma.com/api/mcp/asset/21546dd1-7590-4bea-9d7a-8b1d158df014";
 const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
 
 export const LabaMainScreen: React.FC = () => {
