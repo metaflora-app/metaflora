@@ -426,7 +426,7 @@ export const PromptFirstScreen: React.FC = () => {
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '1121px',
+          height: '600px',
           left: 'calc(50% + 3px)',
           borderRadius: '30px',
           top: '921px',
@@ -435,7 +435,7 @@ export const PromptFirstScreen: React.FC = () => {
           overflow: 'auto',
         }}>
           {/* Card 1 - top left */}
-          <div style={{ position: 'absolute', left: '22px', top: '23px' }}>
+          <div style={{ position: 'absolute', left: '22px', top: '20px' }}>
             <div style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
@@ -605,7 +605,7 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
 
           {/* Card 2 - top right */}
-          <div style={{ position: 'absolute', left: '443px', top: '23px' }}>
+          <div style={{ position: 'absolute', left: '440px', top: '20px' }}>
             <div style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
