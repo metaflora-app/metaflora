@@ -14,8 +14,8 @@ const houseImage = "https://www.figma.com/api/mcp/asset/c70dc102-4760-4242-8e7e-
 const homeVector1 = "https://www.figma.com/api/mcp/asset/9f881007-3e31-4135-b2fe-e06b91dd0712";
 const homeVector2 = "https://www.figma.com/api/mcp/asset/21ea9087-2499-427f-928b-a8d6dfbe722a";
 const backArrow = "https://www.figma.com/api/mcp/asset/e111f38a-80d6-4b85-840f-0e5fffc9fffb";
-const heartFilled = "https://www.figma.com/api/mcp/asset/e0193429-27e0-42fe-943b-e81148089a0f";
-const heartEmpty = "https://www.figma.com/api/mcp/asset/ade7569d-dc76-4353-9bc7-51e242e9a143";
+// const heartFilled = "https://www.figma.com/api/mcp/asset/e0193429-27e0-42fe-943b-e81148089a0f";
+// const heartEmpty = "https://www.figma.com/api/mcp/asset/ade7569d-dc76-4353-9bc7-51e242e9a143";
 
 
 export const PromptFirstScreen: React.FC = () => {
