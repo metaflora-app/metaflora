@@ -7,14 +7,12 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
-// Laba-main PNG assets  
-import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
-import viewIconPNG from '../../assets/laba-main/иконка просмотры.png';
-import commentIconPNG from '../../assets/laba-main/иконка комментарии.png';
-import likeIconPNG from '../../assets/laba-main/лайк.png';
-import instagramLogo from '../../assets/laba-main/лого инста.png';
-import peopleBackground from '../../assets/laba-main/люди друг на друге.png';
-import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
+// Laba-main PNG assets - используем Figma MCP URLs
+const analysisButtonPNG = "https://www.figma.com/api/mcp/asset/541c8a41-8a47-42b6-8ac8-5ade55b26eb5";
+const likeIconPNG = "https://www.figma.com/api/mcp/asset/44debc4e-04c1-4d48-befd-436136329407";
+const instagramLogo = "https://www.figma.com/api/mcp/asset/95d65794-52ab-449d-bf9c-32ac5a7ecda8";
+const peopleBackground = "https://www.figma.com/api/mcp/asset/04724326-4d95-45d1-990a-e7d9bf6a502c";
+const cardImage = "https://www.figma.com/api/mcp/asset/541c8a41-8a47-42b6-8ac8-5ade55b26eb5";
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
