@@ -6,7 +6,7 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import returnButton from '../../assets/кнопка вернуть.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
-import newBadgePNG from '../../assets/новое в академии.png';
+// import newBadgePNG from '../../assets/новое в академии.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
@@ -674,7 +674,7 @@ export const PromptFirstScreen: React.FC = () => {
                 cursor: 'pointer',
               }}
             >
-              <img src={likedCards.includes(1) ? heartFilledAlt : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
+              <img src={likedCards.includes(1) ? heartFilled : heartEmpty} alt="" style={{ width: '100%', height: '100%' }} />
             </div>
             <div 
               onClick={() => navigate('/prompt-card')}
