@@ -9,8 +9,6 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 
 // Laba-main PNG assets
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
-import viewIconPNG from '../../assets/laba-main/иконка просмотры.png';
-import commentIconPNG from '../../assets/laba-main/иконка комментарии.png';
 import likeIconPNG from '../../assets/laba-main/лайк.png';
 import instagramLogo from '../../assets/laba-main/лого инста.png';
 import peopleBackground from '../../assets/laba-main/люди друг на друге.png';
@@ -20,7 +18,6 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 import buttonReturn from '../../assets/laba-main-buttons/кнопка вернуть.png';
 import buttonSort from '../../assets/laba-main-buttons/кнопка сортировка.png';
 import buttonDate from '../../assets/laba-main-buttons/кнопка дата.png';
-import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
