@@ -275,53 +275,21 @@ export const LabaMainScreen: React.FC = () => {
         </div>
 
         {/* Filter buttons - Row 1 - PNG из Desktop, ТОЧНЫЕ координаты из Figma */}
-        <img 
-          src={buttonReturn}
-          alt="вернуть"
-          style={{
-            position: 'absolute',
-            left: '99px',
-            top: '327px',
-            width: '186px',
-            height: '79px',
-          }}
-        />
+        <div style={{ position: 'absolute', left: '99px', top: '327px', width: '186px', height: '79px' }}>
+          <img src={buttonReturn} alt="вернуть" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
 
-        <img 
-          src={buttonSort}
-          alt="сортировка"
-          style={{
-            position: 'absolute',
-            left: '346px',
-            top: '327px',
-            width: '216px',
-            height: '79px',
-          }}
-        />
+        <div style={{ position: 'absolute', left: '346px', top: '327px', width: '216px', height: '79px' }}>
+          <img src={buttonSort} alt="сортировка" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
 
-        <img 
-          src={buttonDate}
-          alt="дата"
-          style={{
-            position: 'absolute',
-            left: '593px',
-            top: '327px',
-            width: '169px',
-            height: '79px',
-          }}
-        />
+        <div style={{ position: 'absolute', left: '593px', top: '327px', width: '169px', height: '79px' }}>
+          <img src={buttonDate} alt="дата" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
 
-        <img 
-          src={buttonLanguage}
-          alt="язык"
-          style={{
-            position: 'absolute',
-            left: '840px',
-            top: '327px',
-            width: '186px',
-            height: '79px',
-          }}
-        />
+        <div style={{ position: 'absolute', left: '840px', top: '327px', width: '186px', height: '79px' }}>
+          <img src={buttonLanguage} alt="язык" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
 
         {/* Filter buttons - Row 2: виральность, аккаунт, формат - PNG из Desktop */}
         <img 
