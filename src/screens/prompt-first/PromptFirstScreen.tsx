@@ -10,8 +10,8 @@ import threePeopleBackground from '../../assets/about-screens/лого люди 
 import houseImage from '../../assets/prompt-card/фото для карточки промпта.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 import supportButton from '../../assets/welcome-elements/написать в поддержку.png';
-import buttonGoTo from '../../assets/main-dashboard/кнопка перейти.png';
-import promptBadge from '../../assets/about-screens/промпт плашка.png';
+// import buttonGoTo from '../../assets/main-dashboard/кнопка перейти.png';
+// import promptBadge from '../../assets/about-screens/промпт плашка.png';
 
 // Fallback assets from Figma MCP for missing items
 const heartFilled = "https://www.figma.com/api/mcp/asset/69727d28-6aae-45cb-8ca5-25ccb61d9931";
