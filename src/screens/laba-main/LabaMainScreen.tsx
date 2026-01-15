@@ -20,13 +20,17 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 // REUSED: footer and header components from prompt-first
 
 // Figma MCP assets  
-const footerLogo = "https://www.figma.com/api/mcp/asset/397520f5-d814-4aa8-bf00-d89010c36feb";
-const backArrow = "https://www.figma.com/api/mcp/asset/89de260f-a0d3-4ec0-bd3d-312405fe42a7";
-const searchIconMCP = "https://www.figma.com/api/mcp/asset/9507e3c0-b3e2-4666-9201-b87b3786371b";
-const homeVector1 = "https://www.figma.com/api/mcp/asset/7f8fe4f9-e032-4981-9368-14105e191fdf";
-const homeVector2 = "https://www.figma.com/api/mcp/asset/d4c16fc8-1b5d-4f5d-a76d-560e408c8d5c";
-const playIcon = "https://www.figma.com/api/mcp/asset/00297487-b5e0-4b83-8aec-46f6ee7655fc";
-const userAvatar = "https://www.figma.com/api/mcp/asset/7d719d95-03bd-4cc6-8752-ccdb3559df23";
+const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
+const backArrow = "https://www.figma.com/api/mcp/asset/df23cbdc-6a1c-47c3-8b9f-97ecb4397784";
+const searchIconMCP = "https://www.figma.com/api/mcp/asset/746ea58b-0e0f-40b8-8aa4-d0be923dbe39";
+const homeVector1 = "https://www.figma.com/api/mcp/asset/8f6661d8-2d62-49c8-ae88-5e19d118e967";
+const homeVector2 = "https://www.figma.com/api/mcp/asset/4a9951a6-1fa4-45c0-a766-090a909e4bed";
+const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
+const userAvatar = "https://www.figma.com/api/mcp/asset/21546dd1-7590-4bea-9d7a-8b1d158df014";
+const socialIcons = "https://www.figma.com/api/mcp/asset/95d65794-52ab-449d-bf9c-32ac5a7ecda8";
+const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
+const cardImageFigma = "https://www.figma.com/api/mcp/asset/541c8a41-8a47-42b6-8ac8-5ade55b26eb5";
+const likeIcon = "https://www.figma.com/api/mcp/asset/44debc4e-04c1-4d48-befd-436136329407";
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -573,12 +577,12 @@ export const LabaMainScreen: React.FC = () => {
           }}>IG reels</div>
         </div>
 
-        {/* Люди друг на друге - ПОД фреймом */}
+        {/* Люди друг на друге - ПОД фреймом, ТОЧНО как в Figma */}
         <div style={{
           position: 'absolute',
           height: '1050px',
           left: '143px',
-          top: '678px',
+          top: '898px',
           width: '892px',
           zIndex: 0,
         }}>
@@ -603,17 +607,18 @@ export const LabaMainScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Main content window - EXACT Figma coordinates */}
+        {/* Main content window - УВЕЛИЧЕН до 1369px как в Figma */}
         <div style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '1050px',
-          left: '143px',
+          height: '1369px',
+          left: 'calc(50% + 3px)',
           borderRadius: '30px',
-          top: '678px',
-          width: '892px',
+          top: '673px',
+          width: '884px',
+          transform: 'translateX(-50%)',
           overflow: 'clip',
           zIndex: 10,
         }}>
@@ -729,76 +734,125 @@ export const LabaMainScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Статистика бар с иконками */}
+            {/* Статистика бар с иконками - ТОЧНО из Figma */}
             <div style={{
               position: 'absolute',
-              left: 'calc(50% + 0.5px)',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              height: '52px',
               backdropFilter: 'blur(50px)',
               background: '#000',
               border: '2px solid rgba(255, 255, 255, 0.3)',
+              height: '52px',
+              left: 'calc(50% + 0.5px)',
               borderRadius: '30px',
+              top: '365px',
+              transform: 'translateX(-50%)',
+              width: '333px',
               overflow: 'clip',
             }}>
-              {/* Иконка просмотров PNG */}
-              <img 
-                src={viewIconPNG}
-                alt="просмотры"
-                style={{
+              {/* Иконка просмотров - crop из общего PNG */}
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '21px',
+                top: '5px',
+                width: '46px',
+              }}>
+                <div style={{
                   position: 'absolute',
-                  left: '21px',
-                  top: '8px',
-                  width: '30px',
-                  height: '30px',
-                }}
-              />
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-69.53%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '426.73%',
+                    }}
+                  />
+                </div>
+              </div>
 
-              {/* Иконка лайков PNG */}
-              <img 
-                src={likeIconPNG}
-                alt="лайки"
-                style={{
+              {/* Иконка лайков - crop из общего PNG */}
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '132px',
+                top: '4px',
+                width: '40px',
+              }}>
+                <div style={{
                   position: 'absolute',
-                  left: '132px',
-                  top: '8px',
-                  width: '30px',
-                  height: '30px',
-                }}
-              />
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-193.75%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
 
-              {/* Иконка комментариев PNG */}
-              <img 
-                src={commentIconPNG}
-                alt="комментарии"
-                style={{
+              {/* Иконка комментариев - crop из общего PNG */}
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '228px',
+                top: '5px',
+                width: '40px',
+              }}>
+                <div style={{
                   position: 'absolute',
-                  left: '228px',
-                  top: '8px',
-                  width: '30px',
-                  height: '30px',
-                }}
-              />
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-304.47%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
 
               {/* Статистика текст */}
               <div style={{
                 position: 'absolute',
                 bottom: 'calc(30.77% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                leadingTrim: 'both',
                 left: 'calc(50% - 68px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
                 top: 'calc(30.77% - 2px)',
                 transform: 'translateX(-50%)',
                 width: '73px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
               }}>
                 <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
               </div>
@@ -806,19 +860,20 @@ export const LabaMainScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                leadingTrim: 'both',
                 left: 'calc(50% + 33px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
                 top: 'calc(30.77% - 2px)',
                 transform: 'translateX(-50%)',
                 width: '55px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
               }}>
                 <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
               </div>
@@ -826,33 +881,53 @@ export const LabaMainScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                leadingTrim: 'both',
                 left: 'calc(50% + 120px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
                 top: 'calc(30.77% - 2px)',
                 transform: 'translateX(-50%)',
                 width: '35px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
               }}>
                 <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
               </div>
             </div>
 
-            {/* Instagram лого PNG - УВЕЛИЧЕН как в Figma */}
+            {/* Instagram лого PNG - aspect-ratio 42:51 из Figma */}
             <div style={{
               position: 'absolute',
               left: '7.32%',
+              right: '77.07%',
               top: '448px',
-              width: '64px',
-              height: '64px',
+              aspectRatio: '42/51',
             }}>
-              <img src={instagramLogo} alt="" style={{ width: '100%', height: '100%' }} />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={instagramLogo}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
             </div>
 
             <div style={{
@@ -938,21 +1013,21 @@ export const LabaMainScreen: React.FC = () => {
           {/* Пока только ОДНА карточка до проверки */}
         </div>
 
-        {/* Footer - REUSED from prompt-first */}
+        {/* Footer - ТОЧНО из Figma 7:908 */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% - 5px)',
-          top: '2200px',
-          transform: 'translateX(-50%)',
-          width: '888px',
           height: '124px',
+          left: 'calc(50% - 5px)',
+          top: 'calc(50% + 858px)',
+          transform: 'translate(-50%, -50%)',
+          width: '888px',
         }}>
           <div style={{
             position: 'absolute',
-            width: '380px',
             height: '83px',
             left: '2px',
             top: '-16px',
+            width: '380px',
           }}>
             <div style={{
               position: 'absolute',
@@ -967,9 +1042,9 @@ export const LabaMainScreen: React.FC = () => {
                   position: 'absolute',
                   height: '526.54%',
                   left: '-37.89%',
+                  maxWidth: 'none',
                   top: '-202.47%',
                   width: '170.37%',
-                  maxWidth: 'none',
                 }}
               />
             </div>
@@ -977,16 +1052,21 @@ export const LabaMainScreen: React.FC = () => {
           
           <div style={{
             position: 'absolute',
+            bottom: '38.71%',
+            display: 'flex',
+            flexDirection: 'column',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 300,
+            justifyContent: 'center',
+            leadingTrim: 'both',
+            left: 'calc(50% - 442px)',
+            lineHeight: 0,
             fontSize: '20px',
             color: 'white',
-            left: '2px',
-            top: '56px',
+            top: '45.16%',
             width: '433px',
-            lineHeight: 1,
           }}>
-            Copyright © Все права защищены.
+            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>Copyright © Все права защищены.</p>
           </div>
           
           <div style={{
