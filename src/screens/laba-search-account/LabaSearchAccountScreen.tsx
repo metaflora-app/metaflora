@@ -17,6 +17,8 @@ import instaLogo from '../../assets/laba-search-account/лого инста.png'
 import profilePhoto from '../../assets/laba-search-account/фото профиля.png';
 import trackingButton from '../../assets/laba-search-account/укороченная кнопка начать отслеживание.png';
 import trackingInsert from '../../assets/laba-search-account/вставка на отслеживание.png';
+import peopleBackground from '../../assets/laba-search-account/люди друг на друге.png';
+import searchIcon from '../../assets/laba-search-account/иконка поиск.png';
 
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -147,6 +149,20 @@ export const LabaSearchAccountScreen: React.FC = () => {
           добавьте аккаунт для отслеживания
         </div>
 
+        {/* Background people image (109:596) */}
+        <img 
+          src={peopleBackground}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '898px',
+            width: '892px',
+            height: '1050px',
+            objectFit: 'cover',
+          }}
+        />
+
         {/* Main card */}
         <div style={{
           position: 'absolute',
@@ -199,6 +215,19 @@ export const LabaSearchAccountScreen: React.FC = () => {
               height: '72px',
             }}
           />
+          
+          {/* Search icon 1 */}
+          <img 
+            src={searchIcon}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: '67px',
+              top: '135px',
+              width: '38px',
+              height: '38px',
+            }}
+          />
 
           {/* "найти по нику" - CSS (109:636) */}
           <div style={{
@@ -224,6 +253,19 @@ export const LabaSearchAccountScreen: React.FC = () => {
               top: '293px',
               width: '800px',
               height: '72px',
+            }}
+          />
+          
+          {/* Search icon 2 */}
+          <img 
+            src={searchIcon}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: '67px',
+              top: '307px',
+              width: '38px',
+              height: '38px',
             }}
           />
 
