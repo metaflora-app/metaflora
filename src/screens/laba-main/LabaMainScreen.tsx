@@ -7,8 +7,12 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
-// Laba-main assets
-import instagramLogo from '../../assets/laba-main/инстаграм.png';
+// Laba-main PNG assets  
+import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
+import viewIconPNG from '../../assets/laba-main/иконка просмотры.png';
+import commentIconPNG from '../../assets/laba-main/иконка комментарии.png';
+import likeIconPNG from '../../assets/laba-main/лайк.png';
+import instagramLogo from '../../assets/laba-main/лого инста.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
@@ -710,89 +714,44 @@ export const LabaMainScreen: React.FC = () => {
               borderRadius: '30px',
               overflow: 'clip',
             }}>
-              {/* Иконка просмотров */}
-              <div style={{
-                position: 'absolute',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-                height: '39px',
-              }}>
-                <div style={{
+              {/* Иконка просмотров PNG */}
+              <img 
+                src={viewIconPNG}
+                alt="просмотры"
+                style={{
                   position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                }}>
-                  <img 
-                    src={iconStats}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      top: '-115.69%',
-                      width: '426.73%',
-                      maxWidth: 'none',
-                    }}
-                  />
-                </div>
-              </div>
+                  left: '21px',
+                  top: '8px',
+                  width: '30px',
+                  height: '30px',
+                }}
+              />
 
-              {/* Иконка лайков */}
-              <div style={{
-                position: 'absolute',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-                height: '39px',
-              }}>
-                <div style={{
+              {/* Иконка лайков PNG */}
+              <img 
+                src={likeIconPNG}
+                alt="лайки"
+                style={{
                   position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                }}>
-                  <img 
-                    src={iconStats}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      top: '-115.69%',
-                      width: '487.69%',
-                      maxWidth: 'none',
-                    }}
-                  />
-                </div>
-              </div>
+                  left: '132px',
+                  top: '8px',
+                  width: '30px',
+                  height: '30px',
+                }}
+              />
 
-              {/* Иконка комментариев */}
-              <div style={{
-                position: 'absolute',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-                height: '39px',
-              }}>
-                <div style={{
+              {/* Иконка комментариев PNG */}
+              <img 
+                src={commentIconPNG}
+                alt="комментарии"
+                style={{
                   position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                }}>
-                  <img 
-                    src={iconStats}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      top: '-115.69%',
-                      width: '487.69%',
-                      maxWidth: 'none',
-                    }}
-                  />
-                </div>
-              </div>
+                  left: '228px',
+                  top: '8px',
+                  width: '30px',
+                  height: '30px',
+                }}
+              />
 
               {/* Статистика текст */}
               <div style={{
@@ -903,86 +862,21 @@ export const LabaMainScreen: React.FC = () => {
               275,5к подписчиков
             </div>
 
-            {/* Кнопка "анализ" - EXACT coordinates */}
-            <div 
+            {/* Кнопка "анализ" PNG */}
+            <img
+              src={analysisButtonPNG}
+              alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
               style={{
                 position: 'absolute',
-                top: '81.84%',
-                right: '19.77%',
-                bottom: '8.02%',
-                left: '20%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
+                bottom: '63px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '248px',
+                height: '79px',
                 cursor: 'pointer',
               }}
-            >
-              {/* Color gradients - white circles */}
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  left: '77px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                  height: '107.431px',
-                  background: 'white',
-                  borderRadius: '1568.563px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                  height: '78.548px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <div style={{
-                    width: '51.243px',
-                    height: '75.957px',
-                    background: 'white',
-                    borderRadius: '1568.563px',
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    flexShrink: 0,
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  left: '122.8px',
-                  top: '30.18px',
-                  width: '56.152px',
-                  height: '72.822px',
-                  background: 'white',
-                  borderRadius: '1568.563px',
-                }} />
-              </div>
-              
-              {/* "анализ" text */}
-              <div style={{
-                position: 'absolute',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                width: '119px',
-                height: '29px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
-                zIndex: 1,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>анализ</p>
-              </div>
-            </div>
+            />
 
             {/* Временная плашка */}
             <div style={{
@@ -1012,114 +906,7 @@ export const LabaMainScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Карточка 2 - Верхняя правая (444px, 23px) */}
-          <div style={{
-            position: 'absolute',
-            left: '444px',
-            top: '23px', 
-            width: '410px',
-            height: '782px',
-          }}>
-            {/* Копия всех элементов карточки 1 */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={houseImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                width: '111px',
-                height: '19px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img src={heartIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-            </div>
-
-            {/* [остальные элементы карточки...] */}
-          </div>
-
-          {/* Карточка 3 - Нижняя левая (22px, 828px) */}  
-          <div style={{
-            position: 'absolute',
-            left: '22px',
-            top: '828px',
-            width: '410px', 
-            height: '782px',
-          }}>
-            {/* Аналогичные элементы */}
-          </div>
-
-          {/* Карточка 4 - Нижняя правая (444px, 828px) */}
-          <div style={{
-            position: 'absolute',
-            left: '444px',
-            top: '828px',
-            width: '410px',
-            height: '782px', 
-          }}>
-            {/* Аналогичные элементы */}
-          </div>
+          {/* Пока только ОДНА карточка до проверки */}
         </div>
 
         {/* Footer - REUSED from prompt-first */}
