@@ -669,7 +669,7 @@ export const LabaMainScreen: React.FC = () => {
               bottom: '89.77%',
               left: '10.24%',
             }}>
-              <img src={heartIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
+              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
             </div>
 
             {/* Play кнопка - EXACT position */}
