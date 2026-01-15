@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 // Local PNG assets
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
+import returnButton from '../../assets/кнопка вернуть.png';
+import searchIconPNG from '../../assets/иконка поиск.png';
+import supportButtonPNG from '../../assets/tour-video/support-button.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/eec42cbf-412b-4926-850b-463f55b43abf";
@@ -202,37 +205,19 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Header - Support button */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '78px',
-          left: 'calc(50% + 341.5px)',
-          borderRadius: '62px',
-          top: '97px',
-          transform: 'translateX(-50%)',
-          width: '205px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}>
-          <div style={{
+        {/* Header - Support button (PNG) */}
+        <img 
+          src={supportButtonPNG}
+          alt="написать в поддержку"
+          style={{
             position: 'absolute',
-            bottom: 'calc(25.64% - 4px)',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '20px',
-            color: 'white',
-            left: 'calc(50% - 68.5px)',
-            top: 'calc(23.08% - 4px)',
-            width: '145px',
-            lineHeight: 1,
-            textAlign: 'center',
-          }}>
-            написать <span style={{ fontWeight: 700 }}>в поддержку</span>
-          </div>
-        </div>
+            left: '829px',
+            top: '97px',
+            width: '205px',
+            height: '78px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Hero Image */}
         <div style={{
@@ -272,17 +257,17 @@ export const PromptFirstScreen: React.FC = () => {
           transform: 'translateX(-50%)',
           width: '876px',
         }}>
-          <div style={{
-            position: 'absolute',
-            left: '26px',
-            width: '38px',
-            height: '38px',
-            top: 'calc(50% - 19px)',
-          }}>
-            <div style={{ position: 'absolute', inset: '3.12% 3.12% 3.13% 3.12%' }}>
-              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%' }} />
-            </div>
-          </div>
+          <img 
+            src={searchIconPNG}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: '26px',
+              width: '38px',
+              height: '38px',
+              top: 'calc(50% - 19px)',
+            }}
+          />
           <input
             type="text"
             value={searchValue}
@@ -306,71 +291,19 @@ export const PromptFirstScreen: React.FC = () => {
           />
         </div>
 
-        {/* Filter: вернуть (active) */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          inset: '28.75% 60.43% 68.15% 18.64%',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}>
-          <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-            <div style={{
-              position: 'absolute',
-              background: 'white',
-              height: '107.431px',
-              left: '77px',
-              borderRadius: '1568.563px',
-              top: '-36.46px',
-              width: '101.963px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              display: 'flex',
-              height: '78.548px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              left: '102.5px',
-              top: '-40px',
-              width: '90.498px',
-            }}>
-              <div style={{
-                transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                background: 'white',
-                height: '75.957px',
-                borderRadius: '1568.563px',
-                width: '51.243px',
-              }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              background: 'white',
-              height: '72.822px',
-              left: '122.8px',
-              borderRadius: '1568.563px',
-              top: '30.18px',
-              width: '56.152px',
-            }} />
-          </div>
-          <div style={{
+        {/* Filter: вернуть (PNG) */}
+        <img 
+          src={returnButton}
+          alt="вернуть"
+          style={{
             position: 'absolute',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            left: 'calc(50% - 1.47px)',
-            top: 'calc(50% + 0.03px)',
-            transform: 'translate(-50%, -50%)',
-            width: '150px',
-            textAlign: 'center',
-            lineHeight: 1,
-          }}>
-            вернуть
-          </div>
-        </div>
+            inset: '28.75% 60.43% 68.15% 18.64%',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Filter: избранное */}
         <div style={{
@@ -499,7 +432,7 @@ export const PromptFirstScreen: React.FC = () => {
           top: '921px',
           transform: 'translateX(-50%)',
           width: '884px',
-          overflow: 'hidden',
+          overflow: 'auto',
         }}>
           {/* Card 1 - top left */}
           <div style={{ position: 'absolute', left: '22px', top: '23px' }}>
