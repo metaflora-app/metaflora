@@ -339,7 +339,7 @@ export const PromptFirstScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Заголовок - ТОЧНЫЕ координаты из Figma */}
+            {/* Заголовок - В 2 СТРОКИ - ТОЧНЫЕ координаты из Figma */}
             <div style={{
               position: 'absolute',
               left: '9.76%',
@@ -353,9 +353,9 @@ export const PromptFirstScreen: React.FC = () => {
               fontWeight: 700,
               fontSize: '40px',
               color: 'white',
-              lineHeight: '1',
+              lineHeight: '1.2',
             }}>
-              ИИ-копирайтер для блога
+              ИИ-копирайтер<br/>для блога
             </div>
 
             {/* Описание - ТОЧНЫЕ координаты из Figma */}
@@ -372,7 +372,7 @@ export const PromptFirstScreen: React.FC = () => {
               fontWeight: 300,
               fontSize: '32px',
               color: 'white',
-              lineHeight: '1',
+              lineHeight: '1.2',
             }}>
               настройте ИИ-копирайтера за один промпт
             </div>
