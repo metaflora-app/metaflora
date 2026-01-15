@@ -7,6 +7,9 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
+// Laba-main assets
+import instagramLogo from '../../assets/laba-main/инстаграм.png';
+
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
 
