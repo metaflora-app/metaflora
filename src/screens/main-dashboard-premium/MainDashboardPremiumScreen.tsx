@@ -535,7 +535,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/prompt-card')}
+            onClick={() => navigate('/about-prompt')}
             style={{
               position: 'absolute',
               left: '96px',
