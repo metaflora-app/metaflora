@@ -898,6 +898,7 @@ export const LabaMainScreen: React.FC = () => {
               top: '-15px',
               width: '230px',
             }} />
+            {/* Telegram */}
             <div style={{
               position: 'absolute',
               height: '51px',
@@ -918,6 +919,30 @@ export const LabaMainScreen: React.FC = () => {
                   maxWidth: 'none',
                   top: '-118.33%',
                   width: '517.92%',
+                }}
+              />
+            </div>
+            {/* Instagram */}
+            <div style={{
+              position: 'absolute',
+              height: '51px',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              opacity: 0.6,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img 
+                src={socialsIconsFooter}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '339.84%',
+                  left: '-16.64%',
+                  maxWidth: 'none',
+                  top: '-118.33%',
+                  width: '183.64%',
                 }}
               />
             </div>
