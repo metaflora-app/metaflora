@@ -13,6 +13,8 @@ import viewIconPNG from '../../assets/laba-main/иконка просмотры.
 import commentIconPNG from '../../assets/laba-main/иконка комментарии.png';
 import likeIconPNG from '../../assets/laba-main/лайк.png';
 import instagramLogo from '../../assets/laba-main/лого инста.png';
+import peopleBackground from '../../assets/laba-main/люди друг на друге.png';
+import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
@@ -572,6 +574,36 @@ export const LabaMainScreen: React.FC = () => {
           }}>IG reels</div>
         </div>
 
+        {/* Люди друг на друге - ПОД фреймом */}
+        <div style={{
+          position: 'absolute',
+          height: '1050px',
+          left: '143px',
+          top: '678px',
+          width: '892px',
+          zIndex: 0,
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={peopleBackground}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '162.05%',
+                left: '-92.74%',
+                maxWidth: 'none',
+                top: '-20.87%',
+                width: '286.41%',
+              }}
+            />
+          </div>
+        </div>
+
         {/* Main content window - EXACT Figma coordinates */}
         <div style={{
           position: 'absolute',
@@ -603,7 +635,7 @@ export const LabaMainScreen: React.FC = () => {
               borderRadius: '30px',
             }} />
             
-            {/* Фото дома */}
+            {/* Картинка в карточке промпта PNG */}
             <div style={{
               position: 'absolute',
               top: '3.45%',
@@ -614,7 +646,7 @@ export const LabaMainScreen: React.FC = () => {
               borderRadius: '25px',
             }}>
               <img 
-                src={houseImage}
+                src={cardImage}
                 alt=""
                 style={{
                   position: 'absolute',
