@@ -22,6 +22,7 @@ import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
 import { LabaSearchScreen } from './screens/laba-search';
 import { LabaNoTrackedScreen } from './screens/laba-no-tracked';
 import { LabaLoadingScreen } from './screens/laba-loading';
+import { LabaSearchAccountScreen } from './screens/laba-search-account';
 import { MetacoinsScreen } from './screens/metacoins';
 
 // Temporary placeholder component for deleted screens
@@ -170,6 +171,10 @@ export const router = createBrowserRouter([
   {
     path: '/laba-no-tracked',
     element: <LabaNoTrackedScreen />,
+  },
+  {
+    path: '/laba-search-account',
+    element: <LabaSearchAccountScreen />,
   },
   {
     path: '/laba-analysis',
