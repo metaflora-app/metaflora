@@ -59,8 +59,8 @@ export const LabaSearchScreen: React.FC = () => {
 
         <img 
           src={homeIcon}
-          alt="домой"
-          onClick={() => navigate('/main-dashboard-premium')}
+          alt="на главную лабы"
+          onClick={() => navigate('/laba-main')}
           style={{
             position: 'absolute',
             left: 'calc(50% - 352px)',
