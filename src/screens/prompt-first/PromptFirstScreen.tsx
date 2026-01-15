@@ -259,16 +259,14 @@ export const PromptFirstScreen: React.FC = () => {
           overflow: 'auto',
           zIndex: 10,
           padding: '22px',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '30px',
-          alignContent: 'flex-start',
         }}>
-          {/* Карточка 1 - ТОЧНАЯ КОПИЯ из Figma 160-637 */}
+          {/* Карточка 1 - Верхняя ЛЕВАЯ */}
           <div style={{
-            position: 'relative',
-            width: '410px',
-            height: '782px',
+            position: 'absolute',
+            top: '22px',
+            right: '50.66%',
+            bottom: '50.72%',
+            left: '22px',
           }}>
             {/* Черный фон */}
             <div style={{
@@ -476,11 +474,13 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Карточка 2 - КОПИЯ */}
+          {/* Карточка 2 - Верхняя ПРАВАЯ */}
           <div style={{
-            position: 'relative',
-            width: '410px',
-            height: '782px',
+            position: 'absolute',
+            top: '22px',
+            right: '22px',
+            bottom: '50.72%',
+            left: '50.66%',
           }}>
             {/* Черный фон */}
             <div style={{
@@ -686,11 +686,13 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Карточка 3 - КОПИЯ */}
+          {/* Карточка 3 - Нижняя ЛЕВАЯ */}
           <div style={{
-            position: 'relative',
-            width: '410px',
-            height: '782px',
+            position: 'absolute',
+            top: '50.72%',
+            right: '50.66%',
+            bottom: '22px',
+            left: '22px',
           }}>
             {/* Черный фон */}
             <div style={{
@@ -896,11 +898,13 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Карточка 4 - КОПИЯ */}
+          {/* Карточка 4 - Нижняя ПРАВАЯ */}
           <div style={{
-            position: 'relative',
-            width: '410px',
-            height: '782px',
+            position: 'absolute',
+            top: '50.72%',
+            right: '22px',
+            bottom: '22px',
+            left: '50.66%',
           }}>
             {/* Черный фон */}
             <div style={{
