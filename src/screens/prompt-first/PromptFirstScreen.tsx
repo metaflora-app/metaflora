@@ -6,12 +6,10 @@ import styled from 'styled-components';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import socialIcons from '../../assets/figma-welcome/socials.png';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
-import threePeopleBackground from '../../assets/about-screens/лого люди на фон.png';
+// import threePeopleBackground from '../../assets/about-screens/лого люди на фон.png';
 import houseImage from '../../assets/prompt-card/фото для карточки промпта.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 import supportButton from '../../assets/welcome-elements/написать в поддержку.png';
-// import buttonGoTo from '../../assets/main-dashboard/кнопка перейти.png';
-// import promptBadge from '../../assets/about-screens/промпт плашка.png';
 
 // Fallback assets from Figma MCP for missing items
 const heartFilled = "https://www.figma.com/api/mcp/asset/69727d28-6aae-45cb-8ca5-25ccb61d9931";
@@ -22,257 +20,91 @@ const backArrow = "https://www.figma.com/api/mcp/asset/7035a0a5-ff68-4e69-bede-a
 
 const ScreenContainer = styled.div`
   background: #020101;
-  position: relative;
   width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-`;
-
-const FooterContainer = styled.div`
-  position: absolute;
-  height: 124px;
-  left: calc(50% - 5px);
-  top: calc(50% + 957px);
-  transform: translate(-50%, -50%);
-  width: 888px;
-`;
-
-const FooterLogo = styled.div`
-  position: absolute;
-  height: 83px;
-  left: 2px;
-  top: -16px;
-  width: 380px;
-  
-  img {
-    position: absolute;
-    height: 526.54%;
-    left: -37.89%;
-    max-width: none;
-    top: -202.47%;
-    width: 170.37%;
-  }
-`;
-
-const FooterCopyright = styled.p`
-  position: absolute;
-  bottom: 38.71%;
-  font-family: 'Gotham Pro', sans-serif;
-  font-weight: 300;
-  font-size: 20px;
-  color: white;
-  left: calc(50% - 442px);
-  top: 45.16%;
-  width: 433px;
-  line-height: 1;
+  min-height: 100vh;
+  padding: 0;
   margin: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  position: relative;
 `;
 
-const FooterSocial = styled.div`
-  position: absolute;
-  height: 51px;
-  left: calc(50% + 335px);
-  top: calc(50% - 23.5px);
-  transform: translate(-50%, -50%);
-  width: 196px;
-
-  .social-backdrop {
-    position: absolute;
-    backdrop-filter: blur(50px);
-    background: rgba(255, 255, 255, 0.1);
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    height: 78px;
-    left: -17px;
-    border-radius: 62px;
-    top: -15px;
-    width: 230px;
-  }
-
-  .social-icon {
-    position: absolute;
-    height: 51px;
-    top: 0;
-    width: 50px;
-    opacity: 0.6;
-
-    &:first-child {
-      left: 0;
-    }
-    
-    &:last-child {
-      left: 54px;
-      width: 142px;
-    }
-
-    img {
-      position: absolute;
-      height: 339.84%;
-      max-width: none;
-      top: -118.33%;
-      width: auto;
-    }
-  }
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const HeaderButton = styled.div`
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
-  top: 75px;
+  width: 80px;
+  height: 80px;
   backdrop-filter: blur(50px);
   background: rgba(255, 255, 255, 0.1);
   border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 62px;
-  overflow: hidden;
-  transform: translateX(-50%);
-`;
-
-const BackButton = styled(HeaderButton)`
-  left: calc(50% - 452px);
-  transform: translateX(-50%) rotate(270deg);
-
-  .inner {
-    transform: rotate(90deg);
-    width: 71px;
-    height: 71px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-`;
-
-const HomeButton = styled(HeaderButton)`
-  left: calc(50% - 352px);
-  transform: translateX(-50%) rotate(270deg);
-
-  .inner {
-    transform: rotate(90deg);
-    width: 65px;
-    height: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    .vector1 {
-      position: absolute;
-      inset: 19.15% 15.36% -12.9% 12.77%;
-      
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .vector2 {
-      position: absolute;
-      inset: 27.81% 42.67% 33.98% 19.82%;
-      
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
+  border-radius: 50px;
+  cursor: pointer;
 `;
 
 const Logo = styled.div`
-  position: absolute;
-  height: 131px;
-  left: 500px;
-  top: 61px;
-  width: 186px;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   img {
-    position: absolute;
-    height: 131.84%;
-    left: -21.84%;
-    max-width: none;
-    top: -16.38%;
-    width: 143.34%;
+    height: 60px;
+    width: auto;
+    object-fit: contain;
   }
 `;
 
 const SupportButton = styled.div`
-  position: absolute;
   backdrop-filter: blur(50px);
   background: rgba(255, 255, 255, 0.1);
   border: 4px solid rgba(255, 255, 255, 0.3);
-  height: 78px;
-  left: calc(50% + 341.5px);
-  border-radius: 62px;
-  top: 97px;
-  transform: translateX(-50%);
-  width: 205px;
-  overflow: hidden;
-
-  .text {
-    position: absolute;
-    bottom: calc(25.64% - 4px);
-    font-family: 'Gotham Pro', sans-serif;
-    font-weight: 300;
-    font-size: 20px;
-    color: white;
-    left: calc(50% - 68.5px);
-    top: calc(23.08% - 4px);
-    width: 145px;
-    line-height: 1;
-    text-align: center;
-
-    .bold {
-      font-weight: 700;
-    }
+  border-radius: 40px;
+  padding: 20px;
+  cursor: pointer;
+  
+  img {
+    height: 40px;
+    width: auto;
   }
 `;
 
 const HeroImage = styled.div`
-  position: absolute;
+  margin: 20px;
   border: 4px solid rgba(255, 255, 255, 0.3);
-  height: 377px;
-  left: 155px;
   border-radius: 30px;
-  top: 224px;
-  width: 880px;
+  overflow: hidden;
 
   img {
     width: 100%;
-    height: 100%;
+    height: 200px;
     object-fit: cover;
-    border-radius: 30px;
   }
 `;
 
 const SearchBar = styled.div`
-  position: absolute;
+  display: flex;
+  align-items: center;
   backdrop-filter: blur(50px);
   border: 2px solid rgba(255, 255, 255, 0.3);
-  height: 72px;
-  left: calc(50% + 3px);
-  border-radius: 62px;
-  top: 631px;
-  transform: translateX(-50%);
-  width: 876px;
-  overflow: hidden;
+  border-radius: 40px;
+  margin: 0 20px 20px 20px;
+  padding: 15px 20px;
+  position: relative;
 
   .search-icon {
-    position: absolute;
-    left: 24px;
-    width: 38px;
-    height: 38px;
-    top: 50%;
-    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    flex-shrink: 0;
 
     img {
       width: 100%;
@@ -280,264 +112,207 @@ const SearchBar = styled.div`
     }
   }
 
-  .search-text {
-    position: absolute;
+  input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
     font-family: 'Gotham Pro', sans-serif;
     font-weight: 300;
-    color: #848484;
-    font-size: 27px;
-    left: calc(50% - 370px);
-    top: calc(50% + 0.5px);
-    transform: translateY(-50%);
-    width: 612px;
-    line-height: 1;
+    color: white;
+    font-size: 16px;
+    
+    &::placeholder {
+      color: #848484;
+    }
   }
 `;
 
+const FiltersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 20px 20px 20px;
+`;
+
+const FilterRow = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+`;
+
 const FilterButton = styled.div<{ isActive?: boolean }>`
-  position: absolute;
   backdrop-filter: blur(50px);
   background: rgba(0, 0, 0, 0.9);
   border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 62px;
+  border-radius: 25px;
+  padding: 12px 20px;
+  cursor: pointer;
+  position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   .text {
     font-family: 'Gotham Pro', sans-serif;
     font-weight: 500;
-    font-size: 27px;
+    font-size: 14px;
     color: white;
     text-align: center;
     line-height: 1;
+    position: relative;
+    z-index: 2;
   }
 
   ${props => props.isActive && `
-    background: rgba(0, 0, 0, 0.9);
-    
     .colors {
       position: absolute;
-      left: 73px;
-      top: -44px;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .color1, .color2, .color3 {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.3;
+      }
 
       .color1 {
-        position: absolute;
         background: white;
-        height: 107.431px;
-        left: 77px;
-        border-radius: 1568.563px;
-        top: -36.46px;
-        width: 101.963px;
+        width: 40px;
+        height: 40px;
+        left: 10%;
       }
 
       .color2 {
-        position: absolute;
-        display: flex;
-        height: 78.548px;
-        align-items: center;
-        justify-content: center;
-        left: 102.5px;
-        top: -40px;
-        width: 90.498px;
-
-        .inner {
-          transform: rotate(16.918deg) skewX(-15.566deg);
-          background: white;
-          height: 75.957px;
-          border-radius: 1568.563px;
-          width: 51.243px;
-        }
+        background: white;
+        width: 30px;
+        height: 30px;
+        left: 50%;
+        transform: translateX(-50%);
       }
 
       .color3 {
-        position: absolute;
         background: white;
-        height: 72.822px;
-        left: 122.8px;
-        border-radius: 1568.563px;
-        top: 30.18px;
-        width: 56.152px;
+        width: 35px;
+        height: 35px;
+        right: 10%;
       }
     }
   `}
 `;
 
-const FilterReturn = styled(FilterButton)`
-  inset: 28.75% 60.43% 68.15% 18.64%;
-`;
-
-const FilterFavorites = styled(FilterButton)`
-  inset: 28.75% 39.5% 68.15% 39.58%;
-`;
-
-const FilterRecent = styled(FilterButton)`
-  inset: 28.75% 18.57% 68.15% 60.51%;
-`;
-
-const FilterTopPick = styled(FilterButton)`
-  inset: 31.84% 50.01% 65.05% 29.07%;
-`;
-
-const FilterNew = styled(FilterButton)`
-  bottom: 65.05%;
-  left: 50%;
-  right: 29.07%;
-  top: 31.84%;
-`;
-
 const CardsContainer = styled.div`
-  position: absolute;
   backdrop-filter: blur(50px);
   background: rgba(255, 255, 255, 0.1);
   border: 4px solid rgba(255, 255, 255, 0.3);
-  height: 1121px;
-  left: calc(50% + 3px);
   border-radius: 30px;
-  top: 921px;
-  transform: translateX(-50%);
-  width: 884px;
-  overflow: hidden;
+  margin: 0 20px 20px 20px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 `;
 
-const PromptCard = styled.div<{ left: number; top: number }>`
-  position: absolute;
-  left: ${props => props.left}px;
-  top: ${props => props.top}px;
-
-  .card-bg {
-    position: absolute;
-    backdrop-filter: blur(50px);
-    background: black;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    height: 782px;
-    left: calc(50% - 211px);
-    border-radius: 30px;
-    top: 27px;
-    transform: translateX(-50%);
-    width: 410px;
-  }
+const PromptCard = styled.div`
+  backdrop-filter: blur(50px);
+  background: black;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 
   .card-image {
-    position: absolute;
-    border: 2px solid rgba(0, 0, 0, 0.3);
-    height: 359px;
-    left: 53px;
-    border-radius: 25px;
-    top: 54px;
-    width: 356px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    position: relative;
 
     img {
       width: 100%;
-      height: 100%;
+      height: 120px;
       object-fit: cover;
-      border-radius: 25px;
     }
   }
 
   .card-title {
-    position: absolute;
-    bottom: 54.42%;
     font-family: 'Gotham Pro', sans-serif;
     font-weight: 700;
-    font-size: 40px;
+    font-size: 16px;
     color: white;
-    left: calc(50% - 376px);
-    top: 40.41%;
-    width: 329px;
-    line-height: 1;
+    margin-bottom: 8px;
+    line-height: 1.2;
   }
 
   .card-description {
-    position: absolute;
-    bottom: 44.07%;
     font-family: 'Gotham Pro', sans-serif;
     font-weight: 300;
-    font-size: 32px;
+    font-size: 12px;
     color: white;
-    left: calc(50% - 376px);
-    top: 47.46%;
-    width: 329px;
-    line-height: 1;
+    margin-bottom: 15px;
+    line-height: 1.3;
   }
 
   .card-button {
-    position: absolute;
     backdrop-filter: blur(50px);
     background: rgba(0, 0, 0, 0.9);
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    bottom: 33.43%;
-    left: calc(50% - 210.53px);
-    border-radius: 62px;
-    top: 59.5%;
-    transform: translateX(-50%);
-    width: 246.931px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    position: relative;
     overflow: hidden;
+    align-self: center;
 
     .colors {
       position: absolute;
-      left: 73px;
-      top: -44px;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      opacity: 0.3;
 
       .color1 {
-        position: absolute;
         background: #37ecf7;
-        height: 107.431px;
-        left: 77px;
-        border-radius: 1568.563px;
-        top: -36.46px;
-        width: 101.963px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
       }
 
-      .color2 {
-        position: absolute;
-        display: flex;
-        height: 78.548px;
-        align-items: center;
-        justify-content: center;
-        left: 102.5px;
-        top: -40px;
-        width: 90.498px;
-
-        .inner {
-          transform: rotate(16.918deg) skewX(-15.566deg);
-          background: #f0d825;
-          height: 75.957px;
-          border-radius: 1568.563px;
-          width: 51.243px;
-        }
+      .color2 .inner {
+        background: #f0d825;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
       }
 
       .color3 {
-        position: absolute;
         background: #d5fc44;
-        height: 72.822px;
-        left: 122.8px;
-        border-radius: 1568.563px;
-        top: 30.18px;
-        width: 56.152px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
       }
     }
 
     .button-text {
-      position: absolute;
       font-family: 'Gotham Pro', sans-serif;
       font-weight: 500;
-      font-size: 27px;
+      font-size: 12px;
       color: white;
-      left: calc(50% + 0.03px);
-      top: calc(50% - 0.12px);
-      transform: translate(-50%, -50%);
-      width: 119px;
       text-align: center;
-      line-height: 1;
+      position: relative;
+      z-index: 2;
     }
   }
 
   .card-like {
     position: absolute;
-    inset: 6.33% 88.46% 90.45% 7.47%;
+    top: 20px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 
     img {
       width: 100%;
@@ -547,63 +322,70 @@ const PromptCard = styled.div<{ left: number; top: number }>`
 
   .new-badge {
     position: absolute;
+    top: 20px;
+    right: 20px;
     backdrop-filter: blur(50px);
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.3);
-    inset: 6.33% 55.29% 90.45% 29.52%;
-    border-radius: 62px;
-    overflow: hidden;
+    border-radius: 15px;
+    padding: 4px 8px;
 
     .badge-text {
-      position: absolute;
       font-family: 'Gotham Pro', sans-serif;
       font-weight: 500;
-      font-size: 18px;
+      font-size: 10px;
       color: white;
-      left: calc(50% - 0.6px);
-      top: calc(50% - 0.5px);
-      transform: translate(-50%, -50%);
-      width: 111px;
       text-align: center;
-      line-height: 1;
     }
-  }
-
-  .open-text {
-    position: absolute;
-    bottom: 65.45%;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 19px;
-    color: black;
-    left: calc(50% - 250px);
-    top: 33.23%;
-    width: 87px;
-    line-height: 1;
   }
 `;
 
-const BackgroundPeople = styled.div`
-  position: absolute;
-  height: 474px;
-  left: 147px;
-  top: 1289px;
-  width: 886px;
+const FooterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: auto;
+`;
+
+const FooterLogo = styled.div`
+  margin-bottom: 10px;
+  
+  img {
+    height: 60px;
+    width: auto;
+  }
+`;
+
+const FooterCopyright = styled.p`
+  font-family: 'Gotham Pro', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: white;
+  margin: 10px 0;
+  text-align: center;
+`;
+
+const FooterSocial = styled.div`
+  backdrop-filter: blur(50px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: flex;
+  gap: 10px;
 
   img {
-    position: absolute;
-    height: 222.88%;
-    left: -39.72%;
-    max-width: none;
-    top: -55.58%;
-    width: 179.18%;
+    height: 30px;
+    width: 30px;
+    opacity: 0.6;
   }
 `;
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = React.useState('');
-  const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+  // const [isSearchFocused, setIsSearchFocused] = React.useState(false);
   const [likedCards, setLikedCards] = React.useState<number[]>([0, 1]); // Cards 0 and 1 are liked by default
 
   const handleBack = () => {
@@ -632,31 +414,24 @@ export const PromptFirstScreen: React.FC = () => {
 
   return (
     <ScreenContainer>
-      {/* Background People */}
-      <BackgroundPeople>
-        <img src={threePeopleBackground} alt="" />
-      </BackgroundPeople>
-
       {/* Header */}
-      <BackButton onClick={handleBack}>
-        <div className="inner">
-          <img src={backArrow} alt="" />
-        </div>
-      </BackButton>
+      <HeaderContainer>
+        <HeaderButton onClick={handleBack}>
+          <img src={backArrow} alt="Назад" style={{ width: '40px', height: '40px' }} />
+        </HeaderButton>
+        
+        <HeaderButton onClick={handleHome}>
+          <img src={homeIcon} alt="Домой" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+        </HeaderButton>
 
-      <HomeButton onClick={handleHome}>
-        <div className="inner">
-          <img src={homeIcon} alt="Домой" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
-      </HomeButton>
+        <Logo>
+          <img src={smallLogo} alt="МЕТАФЛОРА" />
+        </Logo>
 
-      <Logo>
-        <img src={smallLogo} alt="МЕТАФЛОРА" />
-      </Logo>
-
-      <SupportButton onClick={handleSupport}>
-        <img src={supportButton} alt="Написать в поддержку" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-      </SupportButton>
+        <SupportButton onClick={handleSupport}>
+          <img src={supportButton} alt="Поддержка" />
+        </SupportButton>
+      </HeaderContainer>
 
       {/* Hero Image */}
       <HeroImage>
@@ -672,75 +447,57 @@ export const PromptFirstScreen: React.FC = () => {
           type="text"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          onFocus={() => setIsSearchFocused(true)}
-          onBlur={() => setIsSearchFocused(false)}
-          placeholder={!isSearchFocused && !searchValue ? "промпт для ИИ-копирайтера любых текстов" : ""}
-          style={{
-            position: 'absolute',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            color: 'white',
-            fontSize: '27px',
-            left: 'calc(50% - 370px)',
-            top: 'calc(50% + 0.5px)',
-            transform: 'translateY(-50%)',
-            width: '612px',
-            background: 'transparent',
-            border: 'none',
-            outline: 'none',
-            lineHeight: 1,
-          }}
+          placeholder="промпт для ИИ-копирайтера любых текстов"
         />
-        {!isSearchFocused && !searchValue && (
-          <div className="search-text">промпт для ИИ-копирайтера любых текстов</div>
-        )}
       </SearchBar>
 
       {/* Filter Buttons */}
-      <FilterReturn isActive>
-        <div className="colors">
-          <div className="color1"></div>
-          <div className="color2">
-            <div className="inner"></div>
-          </div>
-          <div className="color3"></div>
-        </div>
-        <div className="text">вернуть</div>
-      </FilterReturn>
-
-      <FilterFavorites>
-        <div className="text">избранное</div>
-      </FilterFavorites>
-
-      <FilterRecent>
-        <div className="text">недавние</div>
-      </FilterRecent>
-
-      <FilterTopPick>
-        <div className="text">топ-выбор</div>
-      </FilterTopPick>
-
-      <FilterNew>
-        <div className="text">новые</div>
-      </FilterNew>
+      <FiltersContainer>
+        <FilterRow>
+          <FilterButton isActive>
+            <div className="colors">
+              <div className="color1"></div>
+              <div className="color2"></div>
+              <div className="color3"></div>
+            </div>
+            <div className="text">вернуть</div>
+          </FilterButton>
+          
+          <FilterButton>
+            <div className="text">избранное</div>
+          </FilterButton>
+          
+          <FilterButton>
+            <div className="text">недавние</div>
+          </FilterButton>
+        </FilterRow>
+        
+        <FilterRow>
+          <FilterButton>
+            <div className="text">топ-выбор</div>
+          </FilterButton>
+          
+          <FilterButton>
+            <div className="text">новые</div>
+          </FilterButton>
+        </FilterRow>
+      </FiltersContainer>
 
       {/* Cards Container */}
       <CardsContainer>
         {/* Card 1 */}
-        <PromptCard left={22} top={23}>
-          <div className="card-bg" />
+        <PromptCard>
           <div className="card-image">
             <img src={houseImage} alt="" />
           </div>
-          <div className="card-title">ИИ-копирайтер для блога</div>
-          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="open-text">открыть</div>
+          <div className="card-like" onClick={() => toggleLike(0)}>
+            <img src={likedCards.includes(0) ? heartFilled : heartEmpty} alt="" />
+          </div>
           <div className="new-badge">
             <div className="badge-text">новое</div>
           </div>
-          <div className="card-like" onClick={() => toggleLike(0)} style={{ cursor: 'pointer' }}>
-            <img src={likedCards.includes(0) ? heartFilled : heartEmpty} alt="" />
-          </div>
+          <div className="card-title">ИИ-копирайтер для блога</div>
+          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
           <div className="card-button" onClick={handlePromptCard}>
             <div className="colors">
               <div className="color1"></div>
@@ -754,17 +511,15 @@ export const PromptFirstScreen: React.FC = () => {
         </PromptCard>
 
         {/* Card 2 */}
-        <PromptCard left={443} top={23}>
-          <div className="card-bg" />
+        <PromptCard>
           <div className="card-image">
             <img src={houseImage} alt="" />
           </div>
-          <div className="card-title">ИИ-копирайтер для блога</div>
-          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="open-text">открыть</div>
-          <div className="card-like" onClick={() => toggleLike(1)} style={{ cursor: 'pointer' }}>
+          <div className="card-like" onClick={() => toggleLike(1)}>
             <img src={likedCards.includes(1) ? heartFilledAlt : heartEmpty} alt="" />
           </div>
+          <div className="card-title">ИИ-копирайтер для блога</div>
+          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
           <div className="card-button" onClick={handlePromptCard}>
             <div className="colors">
               <div className="color1"></div>
@@ -778,17 +533,15 @@ export const PromptFirstScreen: React.FC = () => {
         </PromptCard>
 
         {/* Card 3 */}
-        <PromptCard left={22} top={828}>
-          <div className="card-bg" />
+        <PromptCard>
           <div className="card-image">
             <img src={houseImage} alt="" />
           </div>
+          <div className="card-like" onClick={() => toggleLike(2)}>
+            <img src={likedCards.includes(2) ? heartFilled : heartEmpty} alt="" />
+          </div>
           <div className="card-title">ИИ-копирайтер для блога</div>
           <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="open-text">открыть</div>
-          <div className="card-like">
-            <img src={heartEmpty} alt="" />
-          </div>
           <div className="card-button" onClick={handlePromptCard}>
             <div className="colors">
               <div className="color1"></div>
@@ -802,17 +555,15 @@ export const PromptFirstScreen: React.FC = () => {
         </PromptCard>
 
         {/* Card 4 */}
-        <PromptCard left={443} top={828}>
-          <div className="card-bg" />
+        <PromptCard>
           <div className="card-image">
             <img src={houseImage} alt="" />
           </div>
-          <div className="card-title">ИИ-копирайтер для блога</div>
-          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
-          <div className="open-text">открыть</div>
-          <div className="card-like" onClick={() => toggleLike(3)} style={{ cursor: 'pointer' }}>
+          <div className="card-like" onClick={() => toggleLike(3)}>
             <img src={likedCards.includes(3) ? heartFilled : heartEmpty} alt="" />
           </div>
+          <div className="card-title">ИИ-копирайтер для блога</div>
+          <div className="card-description">настройте ИИ-копирайтера за один промпт</div>
           <div className="card-button" onClick={handlePromptCard}>
             <div className="colors">
               <div className="color1"></div>
@@ -833,13 +584,8 @@ export const PromptFirstScreen: React.FC = () => {
         </FooterLogo>
         <FooterCopyright>Copyright © Все права защищены.</FooterCopyright>
         <FooterSocial>
-          <div className="social-backdrop" />
-          <div className="social-icon">
-            <img src={socialIcons} alt="" />
-          </div>
-          <div className="social-icon">
-            <img src={socialIcons} alt="" />
-          </div>
+          <img src={socialIcons} alt="" />
+          <img src={socialIcons} alt="" />
         </FooterSocial>
       </FooterContainer>
     </ScreenContainer>
