@@ -213,7 +213,7 @@ export const LabaTrackedScreen: React.FC = () => {
         {/* Subtitle "добавьте аккаунт для отслеживания" - 174:803 */}
         <div style={{
           position: 'absolute',
-          left: '149px',
+          left: '85px',
           top: '295px',
           width: '882px',
           height: '40px',
@@ -370,11 +370,10 @@ export const LabaTrackedScreen: React.FC = () => {
           alt="вернуть"
           style={{
             position: 'absolute',
-            left: '802px',
+            left: '788px',
             top: '405px',
             width: '186px',
             height: '79px',
-            objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
@@ -385,11 +384,10 @@ export const LabaTrackedScreen: React.FC = () => {
           alt="сортировка"
           style={{
             position: 'absolute',
-            left: '772px',
+            left: '788px',
             top: '485px',
             width: '216px',
             height: '79px',
-            objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
@@ -400,11 +398,10 @@ export const LabaTrackedScreen: React.FC = () => {
           alt=">лайков"
           style={{
             position: 'absolute',
-            left: '802px',
+            left: '788px',
             top: '564px',
             width: '186px',
             height: '79px',
-            objectFit: 'contain',
           }}
         />
 
