@@ -153,6 +153,21 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
+        {/* Невидимая кнопка на первой иконке (домик) → laba-main */}
+        <div 
+          onClick={() => navigate('/laba-main')}
+          style={{
+            position: 'absolute',
+            left: '241px',
+            top: '1882px',
+            width: '129px',
+            height: '126px',
+            backgroundColor: 'transparent',
+            cursor: 'pointer',
+            zIndex: 99999
+          }}
+        />
+
         {/* Невидимая кнопка на второй иконке (люди) → laba-no-tracked */}
         <div 
           onClick={() => navigate('/laba-no-tracked')}
