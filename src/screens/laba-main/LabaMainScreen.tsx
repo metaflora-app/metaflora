@@ -408,7 +408,7 @@ export const LabaMainScreen: React.FC = () => {
           }}
         />
 
-        {/* Люди друг на друге - ПОД фреймом, ТОЧНО как в Figma */}
+        {/* Люди друг на друге - ПОД фреймом, ТОЧНО из Figma node 164:1101 */}
         <div style={{
           position: 'absolute',
           height: '1050px',
@@ -424,7 +424,7 @@ export const LabaMainScreen: React.FC = () => {
             pointerEvents: 'none',
           }}>
             <img 
-              src={peopleBackground}
+              src="https://www.figma.com/api/mcp/asset/882d0069-a777-43bb-8d98-35cdf5b184ca"
               alt=""
               style={{
                 position: 'absolute',
@@ -728,7 +728,7 @@ export const LabaMainScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Instagram лого PNG - aspect-ratio 42:51 из Figma */}
+            {/* Instagram лого PNG - ТОЧНО из Figma node 164:861 */}
             <div style={{
               position: 'absolute',
               left: '7.32%',
@@ -744,7 +744,7 @@ export const LabaMainScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={instagramLogo}
+                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
                   alt=""
                   style={{
                     position: 'absolute',
