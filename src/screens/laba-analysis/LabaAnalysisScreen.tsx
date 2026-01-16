@@ -9,10 +9,8 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 
 // Analysis-specific assets
 import startAnalysisButtonPNG from '../../assets/laba-analysis/укороченная кнопка начать анализ.png';
-import blurFramePNG from '../../assets/laba-analysis/блюр фрейм недоступен анализ.png';
 import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
-import mainBackgroundPNG from '../../assets/laba-analysis/главная подложка.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
@@ -211,20 +209,31 @@ export const LabaAnalysisScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '85px',
-          top: '295px',
+          top: '292px',
           width: '882px',
-          height: '40px',
           fontFamily: 'Gotham Pro, sans-serif',
           fontWeight: 300,
           fontSize: '40px',
           color: 'white',
-          textAlign: 'center',
           lineHeight: '40px',
         }}>
           искусственный интеллект проанализирует виральность и напишет сценарий
         </div>
 
-        {/* Main card container - 292:631 */}
+        {/* Outer background layer - 292:630 (главная подложка) */}
+        <div style={{
+          position: 'absolute',
+          left: '88px',
+          top: '381px',
+          width: '1004px',
+          height: '1661px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }} />
+
+        {/* Main card container - 292:631 (подложка вторая черная) */}
         <div style={{
           position: 'absolute',
           left: '141px',
@@ -235,23 +244,8 @@ export const LabaAnalysisScreen: React.FC = () => {
           background: 'black',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-          overflow: 'clip',
-          display: insufficientBalance ? 'none' : 'block', // Hide when balance insufficient
+          overflow: 'hidden',
         }}>
-          {/* Outer background - 292:630 */}
-          <img
-            src={mainBackgroundPNG}
-            alt="главная подложка"
-            style={{
-              position: 'absolute',
-              left: '-53px',
-              top: '-56px',
-              width: '1004px',
-              height: '1661px',
-              pointerEvents: 'none',
-            }}
-          />
-
           {/* Reel cover image - 292:652 */}
           <div style={{
             position: 'absolute',
@@ -538,7 +532,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             />
           </div>
 
-          {/* Instagram logo (bottom) - 292:676 */}
+          {/* Instagram logo - 292:676 */}
           <div style={{
             position: 'absolute',
             left: '259px',
@@ -568,7 +562,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Username (bottom) - 292:677 */}
+          {/* Username - 292:677 */}
           <div style={{
             position: 'absolute',
             left: '259px',
@@ -585,7 +579,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             @mishchenko.is
           </div>
 
-          {/* Followers (bottom) - 292:678 */}
+          {/* Followers - 292:678 */}
           <div style={{
             position: 'absolute',
             left: '256px',
@@ -621,7 +615,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Description text - 292:682 */}
           <div style={{
             position: 'absolute',
-            left: '194px',
+            left: '53px',
             top: '1148px',
             width: '723px',
             fontFamily: 'Gotham Pro, sans-serif',
@@ -661,136 +655,47 @@ export const LabaAnalysisScreen: React.FC = () => {
             }}
           />
 
-          {/* Overlay frame (292:684) - under фон закрытый (292:734) */}
+          {/* Blur frame overlay - 292:684 */}
           <div style={{
             position: 'absolute',
-            left: '84px',
-            top: '1267px',
-            width: '350px',
-            height: '161px',
+            left: '53px',
+            top: '1207px',
+            width: '796px',
+            height: '282px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '30px',
-            overflow: 'clip',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            gap: '20px',
           }}>
-            {/* Логотип инста внутри фрейма */}
+            {/* Button "начать анализ" - 292:719 */}
+            <img
+              src={startAnalysisButtonPNG}
+              alt="начать анализ 100"
+              style={{
+                width: '530px',
+                height: '139px',
+                cursor: 'pointer',
+              }}
+            />
+
+            {/* Text "вы можете пополнить баланс" - 292:726 */}
             <div style={{
-              position: 'absolute',
-              left: '87px',
-              top: '0px',
-              width: '64px',
-              height: '78px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img
-                  src={instaLogoMCP}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
-            </div>
-            
-            {/* Username inside frame */}
-            <div style={{
-              position: 'absolute',
-              left: '87px',
-              top: '78px',
-              width: '334px',
-              height: '42px',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: '#d5fc44',
-              textAlign: 'center',
-              lineHeight: '42px',
-            }}>
-              @mishchenko.is
-            </div>
-            
-            {/* Followers inside frame */}
-            <div style={{
-              position: 'absolute',
-              left: '84px',
-              top: '135px',
-              width: '350px',
-              height: '26px',
+              width: '495px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
               fontSize: '32px',
-              color: '#d5fc44',
+              color: 'white',
               textAlign: 'center',
-              lineHeight: '26px',
+              lineHeight: '32px',
             }}>
-              275,5к подписчиков
+              вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
             </div>
           </div>
-        </div>
-
-        {/* Insufficient balance overlay - 292:684 */}
-        <img
-          src={blurFramePNG}
-          alt="блюр фрейм"
-          style={{
-            position: 'absolute',
-            left: '141px',
-            top: '437px',
-            width: '898px',
-            height: '1536px',
-            display: insufficientBalance ? 'block' : 'none',
-            zIndex: 10,
-          }}
-        />
-
-        {/* Button inside overlay - 292:719 */}
-        <img
-          src={startAnalysisButtonPNG}
-          alt="начать анализ"
-          style={{
-            position: 'absolute',
-            left: '327px',
-            top: '1675px',
-            width: '530px',
-            height: '139px',
-            display: insufficientBalance ? 'block' : 'none',
-            zIndex: 11,
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Text inside overlay - 292:726 */}
-        <div
-          style={{
-            position: 'absolute',
-            left: '336px',
-            top: '1832px',
-            width: '495px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '32px',
-            color: 'white',
-            textAlign: 'center',
-            display: insufficientBalance ? 'block' : 'none',
-            zIndex: 11,
-          }}
-        >
-          вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
         </div>
 
         {/* Footer */}
@@ -798,8 +703,8 @@ export const LabaAnalysisScreen: React.FC = () => {
           position: 'absolute',
           height: '124px',
           left: 'calc(50% - 5px)',
-          top: 'calc(50% + 858px)',
-          transform: 'translate(-50%, -50%)',
+          top: '2071px',
+          transform: 'translateX(-50%)',
           width: '888px',
         }}>
           <div style={{
