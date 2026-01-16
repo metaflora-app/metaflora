@@ -162,7 +162,9 @@
 10. ✅ **about-prompt (цех)** - `7:405`
 11. ✅ **about-academy** - `27:365`
 12. ✅ **about-laba** - `27:410`
-13. ✅ **academy-courses-all** - `7:2213`
+13. ✅ **laba-tracked** - `7:1138`
+14. ✅ **laba-no-tracked** - (empty state screen)
+15. ✅ **academy-courses-all** - `7:2213`
 14. ✅ **academy-lesson-video** - `27:498`
 15. ✅ **academy-course-system** - `7:2419`
 16. ✅ **academy-lesson-materials** - `7:2022`
