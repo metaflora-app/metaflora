@@ -334,7 +334,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             borderRadius: '62px',
             overflow: 'clip',
           }}>
-            {/* Views icon */}
+            {/* Views icon - 292:662 */}
             <div style={{
               position: 'absolute',
               height: '56px',
@@ -363,7 +363,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Likes icon */}
+            {/* Likes icon - 292:663 */}
             <div style={{
               position: 'absolute',
               height: '64px',
@@ -392,7 +392,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Comments icon */}
+            {/* Comments icon - 292:664 */}
             <div style={{
               position: 'absolute',
               height: '66px',
@@ -421,7 +421,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* 227к */}
+            {/* 227к - 292:665 */}
             <div style={{
               position: 'absolute',
               left: '112px',
@@ -436,7 +436,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               227к
             </div>
 
-            {/* 40к */}
+            {/* 40к - 292:666 */}
             <div style={{
               position: 'absolute',
               left: '276px',
@@ -451,7 +451,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               40к
             </div>
 
-            {/* 2к */}
+            {/* 2к - 292:667 */}
             <div style={{
               position: 'absolute',
               left: '426px',
@@ -601,7 +601,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Description text - 292:682 */}
           <div style={{
             position: 'absolute',
-            left: '53px',
+            left: '194px',
             top: '1148px',
             width: '723px',
             fontFamily: 'Gotham Pro, sans-serif',
@@ -850,16 +850,19 @@ export const LabaAnalysisScreen: React.FC = () => {
         {/* Insufficient balance overlay - 292:684 */}
         <div style={{
           position: 'absolute',
-          left: '148px',
-          top: '405px',
-          width: '884px',
-          height: '1637px',
+          left: '141px',
+          top: '437px',
+          width: '898px',
+          height: '1536px',
           backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
+          background: 'rgba(255, 255, 255, 0.05)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: 'clip',
-          display: 'none', // Hidden by default, show when balance insufficient
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           {/* Start analysis button with price - 292:719 */}
           <img
@@ -867,9 +870,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             alt="начать анализ 100"
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
+              left: '184px',
+              top: '238px',
               width: '530px',
               height: '139px',
               cursor: 'pointer',
@@ -879,16 +881,15 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Text "вы можете пополнить баланс в личном кабинете" - 292:726 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '1100px',
-            transform: 'translateX(-50%)',
+            left: '201px',
+            top: '426px',
             width: '495px',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 300,
             fontSize: '32px',
             color: 'white',
             textAlign: 'center',
-            lineHeight: '40px',
+            lineHeight: '32px',
           }}>
             вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
           </div>
