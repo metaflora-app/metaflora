@@ -364,7 +364,7 @@ export const LabaTrackedScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
+        {/* Filter buttons - вернуть - 174:774 x=788, y=405, w=186, h=79 */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
@@ -374,12 +374,11 @@ export const LabaTrackedScreen: React.FC = () => {
             top: '405px',
             width: '186px',
             height: '79px',
-            objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
 
-        {/* Filter buttons - сортировка - 174:780 PNG: 247x80 */}
+        {/* Filter buttons - сортировка - 174:780 x=788, y=485, w=216, h=79 */}
         <img
           src={sortButtonPNG}
           alt="сортировка"
@@ -389,12 +388,11 @@ export const LabaTrackedScreen: React.FC = () => {
             top: '485px',
             width: '216px',
             height: '79px',
-            objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
 
-        {/* Badge likes - 174:768 PNG: 558x237 */}
+        {/* Badge likes - 174:768 x=788, y=564, w=186, h=79 */}
         <img
           src={likesBadgePNG}
           alt=">лайков"
@@ -404,7 +402,6 @@ export const LabaTrackedScreen: React.FC = () => {
             top: '564px',
             width: '186px',
             height: '79px',
-            objectFit: 'contain',
           }}
         />
 
