@@ -233,9 +233,8 @@ export const LabaTrackedScreen: React.FC = () => {
         {/* Account card with @mishchenko.is - 7:1181 */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% - 178px)',
+          left: '151px',
           top: '405px',
-          transform: 'translateX(-50%)',
           width: '522px',
           height: '162px',
           backdropFilter: 'blur(50px)',
@@ -243,12 +242,11 @@ export const LabaTrackedScreen: React.FC = () => {
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
         }}>
-          {/* Profile photo - 7:1184 */}
+          {/* Profile photo - 7:1184 x=175, y=429 */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% - 366px)',
-            top: 'calc(50% - 797px)',
-            transform: 'translate(-50%, -50%)',
+            left: '24px',
+            top: '24px',
             width: '98px',
             height: '98px',
             borderRadius: '640px',
@@ -268,13 +266,13 @@ export const LabaTrackedScreen: React.FC = () => {
             />
           </div>
 
-          {/* Instagram icon - 174:787 */}
+          {/* Instagram icon - 174:787 x=280, y=426 */}
           <div style={{
             position: 'absolute',
-            left: '23.73%',
-            right: '72.12%',
-            top: '426px',
-            aspectRatio: '42/51',
+            left: '129px',
+            top: '21px',
+            width: '49px',
+            height: '59px',
           }}>
             <div style={{
               position: 'absolute',
@@ -298,18 +296,18 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Username - 174:788 */}
+          {/* Username - 174:788 x=280, y=477, w=235, h=42 */}
           <div style={{
             position: 'absolute',
-            left: '23.73%',
-            right: '56.36%',
-            top: '18.71%',
-            bottom: '79.65%',
+            left: '129px',
+            top: '72px',
+            width: '235px',
+            height: '42px',
             fontFamily: 'Inter, sans-serif',
             fontWeight: 700,
             fontSize: '27px',
             color: 'white',
-            textAlign: 'center',
+            textAlign: 'left',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -318,19 +316,18 @@ export const LabaTrackedScreen: React.FC = () => {
             <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>@mishchenko.is</p>
           </div>
 
-          {/* Followers - 174:805 */}
+          {/* Followers - 174:805 x=280, y=522, w=262, h=26 */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% - 179px)',
-            top: '20.47%',
-            bottom: '78.51%',
-            transform: 'translateX(-50%)',
+            left: '129px',
+            top: '117px',
             width: '262px',
+            height: '26px',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 300,
             fontSize: '24px',
             color: 'white',
-            textAlign: 'center',
+            textAlign: 'left',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -339,12 +336,11 @@ export const LabaTrackedScreen: React.FC = () => {
             <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
           </div>
 
-          {/* Plus button - 7:1188 */}
+          {/* Plus button - 7:1188 x=550, y=431 */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% + 9px)',
-            top: 'calc(50% - 795px)',
-            transform: 'translate(-50%, -50%)',
+            left: '399px',
+            top: '26px',
             width: '98px',
             height: '98px',
             backdropFilter: 'blur(50px)',
@@ -371,11 +367,11 @@ export const LabaTrackedScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter buttons - вернуть - 174:774 */}
+        {/* Filter buttons - вернуть - 174:774 x=788, y=405 */}
         <div style={{
           position: 'absolute',
-          left: '316px',
-          top: '597px',
+          left: '788px',
+          top: '405px',
           width: '186px',
           height: '79px',
           backdropFilter: 'blur(50px)',
@@ -405,11 +401,11 @@ export const LabaTrackedScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter buttons - сортировка - 174:780 */}
+        {/* Filter buttons - сортировка - 174:780 x=788, y=485 */}
         <div style={{
           position: 'absolute',
-          left: '563px',
-          top: '597px',
+          left: '788px',
+          top: '485px',
           width: '216px',
           height: '79px',
           backdropFilter: 'blur(50px)',
@@ -484,12 +480,11 @@ export const LabaTrackedScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Badge likes - 174:768 */}
+        {/* Badge likes - 174:768 x=788, y=564 */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% + 93px)',
-          top: '676px',
-          transform: 'translateX(-50%)',
+          left: '788px',
+          top: '564px',
           width: '186px',
           height: '79px',
           backdropFilter: 'blur(50px)',
