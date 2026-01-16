@@ -8,12 +8,7 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
 // Analysis-specific assets
-import analysisIconPNG from '../../assets/laba-main/на экран анализа.png';
 import startAnalysisButtonPNG from '../../assets/laba-main/укороченная кнопка начать анализ.png';
-
-// Card assets from laba-main
-import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
-import likeIconPNG from '../../assets/laba-main/лайк.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
