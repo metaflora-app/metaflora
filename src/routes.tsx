@@ -25,6 +25,7 @@ import { LabaNoTrackedScreen } from './screens/laba-no-tracked';
 import { LabaLoadingScreen } from './screens/laba-loading';
 import { LabaSearchAccountScreen } from './screens/laba-search-account';
 import { LabaMainScreen } from './screens/laba-main';
+import { LabaTrackedScreen } from './screens/laba-tracked';
 import { MetacoinsScreen } from './screens/metacoins';
 
 // Temporary placeholder component for deleted screens
@@ -236,7 +237,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/laba-tracked',
-    element: <PlaceholderScreen name="Laba Tracked" />,
+    element: <LabaTrackedScreen />,
   },
   {
     path: '/laba-no-tracked',

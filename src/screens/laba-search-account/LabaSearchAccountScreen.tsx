@@ -512,6 +512,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
           <img 
             src={trackingButton}
             alt="начать отслеживание"
+            onClick={() => navigate('/laba-tracked')}
             style={{
               position: 'absolute',
               left: '50%',
