@@ -428,10 +428,10 @@ export const LabaAnalysisScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '50%',
-            top: '916px',
+            top: '760px',
             transform: 'translateX(-50%)',
-            width: '147px',
-            height: '147px',
+            width: '98px',
+            height: '98px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(0, 0, 0, 0.1)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
@@ -455,7 +455,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '50%',
-            top: '1154px',
+            top: '688px',
             transform: 'translateX(-50%)',
             width: '485px',
             height: '89px',
@@ -602,7 +602,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '50%',
-            top: '1263px',
+            top: '797px',
             transform: 'translateX(-50%)',
             width: '320px',
             height: '64px',
@@ -629,9 +629,8 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Button "следить" - 292:694 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '1367px',
-            transform: 'translateX(-50%)',
+            left: '319px',
+            top: '930px',
             width: '186px',
             height: '79px',
             backdropFilter: 'blur(50px)',
@@ -706,9 +705,8 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Button "открыть" - 292:742 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '1486px',
-            transform: 'translateX(-50%)',
+            left: '523px',
+            top: '930px',
             width: '186px',
             height: '79px',
             backdropFilter: 'blur(50px)',
