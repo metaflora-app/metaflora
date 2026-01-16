@@ -8,9 +8,11 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
 // Analysis-specific assets
+import startAnalysisButtonPNG from '../../assets/laba-analysis/укороченная кнопка начать анализ.png';
 import blurFramePNG from '../../assets/laba-analysis/блюр фрейм недоступен анализ.png';
 import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
+import mainBackgroundPNG from '../../assets/laba-analysis/главная подложка.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
@@ -236,6 +238,20 @@ export const LabaAnalysisScreen: React.FC = () => {
           overflow: 'clip',
           display: insufficientBalance ? 'none' : 'block', // Hide when balance insufficient
         }}>
+          {/* Outer background - 292:630 */}
+          <img
+            src={mainBackgroundPNG}
+            alt="главная подложка"
+            style={{
+              position: 'absolute',
+              left: '-53px',
+              top: '-56px',
+              width: '1004px',
+              height: '1661px',
+              pointerEvents: 'none',
+            }}
+          />
+
           {/* Reel cover image - 292:652 */}
           <div style={{
             position: 'absolute',
@@ -738,8 +754,44 @@ export const LabaAnalysisScreen: React.FC = () => {
             width: '898px',
             height: '1536px',
             display: insufficientBalance ? 'block' : 'none',
+            zIndex: 10,
           }}
         />
+
+        {/* Button inside overlay - 292:719 */}
+        <img
+          src={startAnalysisButtonPNG}
+          alt="начать анализ"
+          style={{
+            position: 'absolute',
+            left: '327px',
+            top: '1675px',
+            width: '530px',
+            height: '139px',
+            display: insufficientBalance ? 'block' : 'none',
+            zIndex: 11,
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Text inside overlay - 292:726 */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '336px',
+            top: '1832px',
+            width: '495px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300,
+            fontSize: '32px',
+            color: 'white',
+            textAlign: 'center',
+            display: insufficientBalance ? 'block' : 'none',
+            zIndex: 11,
+          }}
+        >
+          вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+        </div>
 
         {/* Footer */}
         <div style={{
