@@ -21,7 +21,6 @@ const playIconMCP = "https://www.figma.com/api/mcp/asset/3a4076c0-f5b7-4650-b1b8
 const likeIconMCP = "https://www.figma.com/api/mcp/asset/e8ca30c1-14d4-4122-b07f-081df50ef9ed";
 const statusBarIconsMCP = "https://www.figma.com/api/mcp/asset/4a231acf-1b1e-4cec-9150-e77681537ce5";
 const instaLogoMCP = "https://www.figma.com/api/mcp/asset/19e1de1d-26ef-46f5-9058-54e116ccfea0";
-const metacoinIconMCP = "https://www.figma.com/api/mcp/asset/8a3158b0-864d-444d-a182-61d3fea061a1";
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
