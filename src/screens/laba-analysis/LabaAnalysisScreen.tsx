@@ -870,8 +870,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             alt="начать анализ 100"
             style={{
               position: 'absolute',
-              left: '184px',
-              top: '238px',
+              left: '186px',
+              top: '1238px',
               width: '530px',
               height: '139px',
               cursor: 'pointer',
@@ -881,8 +881,8 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Text "вы можете пополнить баланс в личном кабинете" - 292:726 */}
           <div style={{
             position: 'absolute',
-            left: '201px',
-            top: '426px',
+            left: '204px',
+            top: '1395px',
             width: '495px',
             fontFamily: 'Gotham Pro, sans-serif',
             fontWeight: 300,
