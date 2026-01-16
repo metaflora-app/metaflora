@@ -193,12 +193,13 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Title "отслеживание контента" */}
+        {/* Title "отслеживание контента" - 174:801 */}
         <div style={{
           position: 'absolute',
           left: '50%',
           top: '223px',
           transform: 'translateX(-50%)',
+          width: '1020px',
           fontFamily: 'Inter, sans-serif',
           fontWeight: 800,
           fontSize: '80px',
@@ -212,12 +213,13 @@ export const LabaTrackedScreen: React.FC = () => {
           <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>отслеживание контента </p>
         </div>
 
-        {/* Subtitle "добавьте аккаунт для отслеживания" */}
+        {/* Subtitle "добавьте аккаунт для отслеживания" - 174:803 */}
         <div style={{
           position: 'absolute',
           left: '50%',
           top: '315px',
           transform: 'translateX(-50%)',
+          width: '882px',
           fontFamily: 'Gotham Pro, sans-serif',
           fontWeight: 300,
           fontSize: '40px',
@@ -231,47 +233,51 @@ export const LabaTrackedScreen: React.FC = () => {
           <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>добавьте аккаунт для отслеживания</p>
         </div>
 
-        {/* Account card with @mishchenko.is */}
+        {/* Account card with @mishchenko.is - 7:1181 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '395px',
+          left: 'calc(50% - 178px)',
+          top: '405px',
           transform: 'translateX(-50%)',
-          width: '410px',
-          height: '90px',
+          width: '522px',
+          height: '162px',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-          display: 'flex',
-          alignItems: 'center',
-          padding: '0 20px',
         }}>
-          {/* Profile photo */}
+          {/* Profile photo - 7:1184 */}
           <div style={{
-            width: '50px',
-            height: '50px',
-            borderRadius: '50%',
+            position: 'absolute',
+            left: 'calc(50% - 366px)',
+            top: 'calc(50% - 797px)',
+            transform: 'translate(-50%, -50%)',
+            width: '98px',
+            height: '98px',
+            borderRadius: '640px',
             overflow: 'hidden',
-            marginRight: '15px',
           }}>
             <img
               src={profilePhoto}
               alt=""
               style={{
+                position: 'absolute',
+                inset: 0,
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
+                borderRadius: '640px',
               }}
             />
           </div>
 
-          {/* Instagram icon */}
+          {/* Instagram icon - 174:787 */}
           <div style={{
-            width: '42px',
-            height: '51px',
-            marginRight: '10px',
-            position: 'relative',
+            position: 'absolute',
+            left: '23.73%',
+            right: '72.12%',
+            top: '426px',
+            aspectRatio: '42/51',
           }}>
             <div style={{
               position: 'absolute',
@@ -295,43 +301,55 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Account info */}
-          <div style={{ flex: 1 }}>
-            {/* Username */}
-            <div style={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '27px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>@mishchenko.is</p>
-            </div>
-            {/* Followers */}
-            <div style={{
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '24px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              lineHeight: 0,
-              marginTop: '8px',
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
-            </div>
+          {/* Username - 174:788 */}
+          <div style={{
+            position: 'absolute',
+            left: '23.73%',
+            right: '56.36%',
+            top: '18.71%',
+            bottom: '79.65%',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 700,
+            fontSize: '27px',
+            color: 'white',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            lineHeight: 0,
+          }}>
+            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>@mishchenko.is</p>
           </div>
 
-          {/* Plus button */}
+          {/* Followers - 174:805 */}
           <div style={{
-            width: '97px',
-            height: '97px',
+            position: 'absolute',
+            left: 'calc(50% - 179px)',
+            top: '20.47%',
+            bottom: '78.51%',
+            transform: 'translateX(-50%)',
+            width: '262px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300,
+            fontSize: '24px',
+            color: 'white',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            lineHeight: 0,
+          }}>
+            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
+          </div>
+
+          {/* Plus button - 7:1188 */}
+          <div style={{
+            position: 'absolute',
+            left: 'calc(50% + 9px)',
+            top: 'calc(50% - 795px)',
+            transform: 'translate(-50%, -50%)',
+            width: '98px',
+            height: '98px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -342,7 +360,13 @@ export const LabaTrackedScreen: React.FC = () => {
             justifyContent: 'center',
             cursor: 'pointer',
           }}>
-            <div style={{ width: '59px', height: '59px', position: 'relative' }}>
+            <div style={{
+              position: 'absolute',
+              left: '19px',
+              top: '19px',
+              width: '59px',
+              height: '59px',
+            }}>
               <div style={{ position: 'absolute', inset: '3.13%' }}>
                 <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
               </div>
@@ -350,47 +374,198 @@ export const LabaTrackedScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter buttons - вернуть */}
-        <img
-          src={buttonReturn}
-          alt="вернуть"
-          style={{
+        {/* Filter buttons - вернуть - 174:774 */}
+        <div style={{
+          position: 'absolute',
+          left: '316px',
+          top: '597px',
+          width: '186px',
+          height: '79px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '62px',
+          overflow: 'clip',
+          cursor: 'pointer',
+        }}>
+          <div style={{
             position: 'absolute',
-            left: '316px',
-            top: '515px',
-            width: '186px',
-            height: '79px',
-            cursor: 'pointer',
-          }}
-        />
+            left: 'calc(50% - 1.47px)',
+            top: 'calc(50% + 0.03px)',
+            transform: 'translate(-50%, -50%)',
+            width: '150px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            lineHeight: 0,
+          }}>
+            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>вернуть</p>
+          </div>
+        </div>
 
-        {/* Filter buttons - сортировка */}
-        <img
-          src={buttonSort}
-          alt="сортировка"
-          style={{
+        {/* Filter buttons - сортировка - 174:780 */}
+        <div style={{
+          position: 'absolute',
+          left: '563px',
+          top: '597px',
+          width: '216px',
+          height: '79px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '62px',
+          overflow: 'clip',
+          cursor: 'pointer',
+        }}>
+          <div style={{
             position: 'absolute',
-            left: '563px',
-            top: '515px',
+            left: '73px',
+            top: '-44px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              background: 'white',
+              height: '107.431px',
+              left: '77px',
+              borderRadius: '1568.563px',
+              top: '-36.46px',
+              width: '101.963px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              display: 'flex',
+              height: '78.548px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              left: '102.5px',
+              top: '-40px',
+              width: '90.498px',
+            }}>
+              <div style={{
+                transform: 'rotate(16.918deg) skewX(-15.566deg)',
+              }}>
+                <div style={{
+                  background: 'white',
+                  height: '75.957px',
+                  borderRadius: '1568.563px',
+                  width: '51.243px',
+                }} />
+              </div>
+            </div>
+            <div style={{
+              position: 'absolute',
+              background: 'white',
+              height: '72.822px',
+              left: '122.8px',
+              borderRadius: '1568.563px',
+              top: '30.18px',
+              width: '56.152px',
+            }} />
+          </div>
+          <div style={{
+            position: 'absolute',
+            left: 'calc(50% - 0.47px)',
+            top: 'calc(50% - 0.13px)',
+            transform: 'translate(-50%, -50%)',
             width: '216px',
-            height: '79px',
-            cursor: 'pointer',
-          }}
-        />
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            lineHeight: 0,
+          }}>
+            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>сортировка</p>
+          </div>
+        </div>
 
-        {/* Badge likes */}
-        <img
-          src={badgeLikes}
-          alt=">лайков"
-          style={{
+        {/* Badge likes - 174:768 */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% + 93px)',
+          top: '676px',
+          transform: 'translateX(-50%)',
+          width: '186px',
+          height: '79px',
+          backdropFilter: 'blur(50px)',
+          background: 'black',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '62px',
+          overflow: 'clip',
+        }}>
+          <div style={{
             position: 'absolute',
-            left: 'calc(50% + 93px)',
-            top: '594px',
+            left: '44px',
+            top: '-43px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              background: '#fdc615',
+              height: '111.187px',
+              left: '48px',
+              borderRadius: '1568.563px',
+              top: '-35.34px',
+              width: '83.508px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              display: 'flex',
+              height: '81.294px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              left: '68.88px',
+              top: '-39px',
+              width: '74.118px',
+            }}>
+              <div style={{
+                transform: 'rotate(21.025deg) skewX(-6.219deg)',
+              }}>
+                <div style={{
+                  background: '#fdc615',
+                  height: '74.104px',
+                  borderRadius: '1568.563px',
+                  width: '43.016px',
+                }} />
+              </div>
+            </div>
+            <div style={{
+              position: 'absolute',
+              background: '#fffdc6',
+              height: '75.368px',
+              left: '86px',
+              borderRadius: '1568.563px',
+              top: '47px',
+              width: '45.989px',
+            }} />
+          </div>
+          <div style={{
+            position: 'absolute',
+            bottom: 'calc(31.91% - 4px)',
+            left: '50%',
+            top: 'calc(31.91% - 4px)',
             transform: 'translateX(-50%)',
-            width: '186px',
-            height: '79px',
-          }}
-        />
+            width: '132px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            lineHeight: 0,
+          }}>
+            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{'>лайков'}</p>
+          </div>
+        </div>
 
         {/* People image behind frame */}
         <div style={{
