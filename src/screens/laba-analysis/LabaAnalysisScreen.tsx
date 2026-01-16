@@ -25,6 +25,7 @@ const instaLogoMCP = "https://www.figma.com/api/mcp/asset/19e1de1d-26ef-46f5-905
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [insufficientBalance, setInsufficientBalance] = React.useState(false); // Toggle for overlay
 
   return (
     <div style={{
@@ -231,6 +232,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: 'clip',
+          display: insufficientBalance ? 'none' : 'block', // Hide when balance insufficient
         }}>
           {/* Reel cover image - 292:652 */}
           <div style={{
@@ -855,14 +857,15 @@ export const LabaAnalysisScreen: React.FC = () => {
           width: '898px',
           height: '1536px',
           backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.05)',
+          background: 'rgba(0, 0, 0, 0.8)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: 'clip',
-          display: 'flex',
+          display: insufficientBalance ? 'flex' : 'none',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-end',
+          paddingBottom: '120px',
         }}>
           {/* Start analysis button with price - 292:719 */}
           <img
