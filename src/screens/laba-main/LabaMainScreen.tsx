@@ -272,22 +272,11 @@ export const LabaMainScreen: React.FC = () => {
           />
         </div>
 
-        {/* Filter buttons - Row 1 - PNG из Desktop, ТОЧНЫЕ координаты из Figma */}
-        <div style={{ position: 'absolute', left: '99px', top: '327px', width: '186px', height: '79px' }}>
-          <img src={buttonReturn} alt="вернуть" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
-
-        <div style={{ position: 'absolute', left: '346px', top: '327px', width: '216px', height: '79px' }}>
-          <img src={buttonSort} alt="сортировка" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
-
-        <div style={{ position: 'absolute', left: '593px', top: '327px', width: '169px', height: '79px' }}>
-          <img src={buttonDate} alt="дата" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
-
-        <div style={{ position: 'absolute', left: '840px', top: '327px', width: '186px', height: '79px' }}>
-          <img src={buttonLanguage} alt="язык" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
+        {/* Filter buttons - Row 1 - PNG из Desktop, ТОЧНО как в Figma (inset converted) */}
+        <img src={buttonReturn} alt="вернуть" style={{ position: 'absolute', left: '99px', top: '327px', width: '186px', height: '79px' }} />
+        <img src={buttonSort} alt="сортировка" style={{ position: 'absolute', left: '346px', top: '327px', width: '216px', height: '79px' }} />
+        <img src={buttonDate} alt="дата" style={{ position: 'absolute', left: '593px', top: '327px', width: '169px', height: '79px' }} />
+        <img src={buttonLanguage} alt="язык" style={{ position: 'absolute', left: '840px', top: '327px', width: '186px', height: '79px' }} />
 
         {/* Filter buttons - Row 2: виральность, аккаунт, формат - PNG из Desktop */}
         <img 
@@ -436,7 +425,7 @@ export const LabaMainScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Main content window - УВЕЛИЧЕН до 1369px как в Figma */}
+        {/* Main content window - с СКРОЛЛОМ */}
         <div style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
@@ -448,7 +437,7 @@ export const LabaMainScreen: React.FC = () => {
           top: '673px',
           width: '884px',
           transform: 'translateX(-50%)',
-          overflow: 'clip',
+          overflow: 'auto',
           zIndex: 10,
         }}>
           {/* Карточка 1 - Верхняя левая - EXACT Figma coordinates */}
