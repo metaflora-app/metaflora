@@ -8,7 +8,11 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
 // Analysis-specific assets
-import startAnalysisButtonPNG from '../../assets/laba-main/укороченная кнопка начать анализ.png';
+import startAnalysisButtonPNG from '../../assets/laba-analysis/укороченная кнопка начать анализ.png';
+import blurFramePNG from '../../assets/laba-analysis/блюр фрейм недоступен анализ.png';
+import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
+import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
+import mainBackgroundPNG from '../../assets/laba-analysis/главная подложка.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
@@ -616,156 +620,32 @@ export const LabaAnalysisScreen: React.FC = () => {
           </div>
 
           {/* Button "следить" - 292:694 */}
-          <div style={{
-            position: 'absolute',
-            left: '602px',
-            top: '854px',
-            width: '246.93px',
-            height: '79.25px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-          }}>
-            {/* Gradient colors */}
-            <div style={{
+          <img
+            src={followButtonPNG}
+            alt="следить"
+            style={{
               position: 'absolute',
-              left: '49px',
-              top: '-40px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                background: '#fa002d',
-                height: '119.452px',
-                left: '49px',
-                borderRadius: '1568.563px',
-                top: '-36.07px',
-                width: '133.608px',
-              }} />
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                height: '87.337px',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '82.42px',
-                top: '-40px',
-                width: '118.583px',
-              }}>
-                <div style={{
-                  transform: 'rotate(14.472deg) skewX(-21.384deg)',
-                }}>
-                  <div style={{
-                    background: '#f0d825',
-                    height: '89.217px',
-                    borderRadius: '1568.563px',
-                    width: '66.346px',
-                  }} />
-                </div>
-              </div>
-              <div style={{
-                position: 'absolute',
-                background: '#d5fc44',
-                height: '80.97px',
-                left: '109.02px',
-                borderRadius: '1568.563px',
-                top: '38.03px',
-                width: '73.579px',
-              }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '119px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 500,
-              fontSize: '27px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              следить
-            </div>
-          </div>
+              left: '602px',
+              top: '854px',
+              width: '246.93px',
+              height: '79.25px',
+              cursor: 'pointer',
+            }}
+          />
 
           {/* Button "открыть" - 292:742 */}
-          <div style={{
-            position: 'absolute',
-            left: '663px',
-            top: '933px',
-            width: '186px',
-            height: '79px',
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-          }}>
-            {/* Gradient colors */}
-            <div style={{
+          <img
+            src={openButtonPNG}
+            alt="открыть"
+            style={{
               position: 'absolute',
-              left: '55px',
-              top: '-39px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                background: 'white',
-                height: '111.187px',
-                left: '55px',
-                borderRadius: '1568.563px',
-                top: '-35.34px',
-                width: '77.355px',
-              }} />
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                height: '81.294px',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '74.34px',
-                top: '-39px',
-                width: '68.656px',
-              }}>
-                <div style={{
-                  transform: 'rotate(22.536deg) skewX(-2.995deg)',
-                }}>
-                  <div style={{
-                    background: 'white',
-                    height: '72.99px',
-                    borderRadius: '1568.563px',
-                    width: '40.268px',
-                  }} />
-                </div>
-              </div>
-              <div style={{
-                position: 'absolute',
-                background: 'white',
-                height: '75.368px',
-                left: '90.2px',
-                borderRadius: '1568.563px',
-                top: '47px',
-                width: '42.6px',
-              }} />
-            </div>
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '132px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 500,
-              fontSize: '27px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              открыть
-            </div>
-          </div>
+              left: '663px',
+              top: '933px',
+              width: '186px',
+              height: '79px',
+              cursor: 'pointer',
+            }}
+          />
 
           {/* Overlay frame (292:684) - under фон закрытый (292:734) */}
           <div style={{
@@ -850,53 +730,18 @@ export const LabaAnalysisScreen: React.FC = () => {
         </div>
 
         {/* Insufficient balance overlay - 292:684 */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '437px',
-          width: '898px',
-          height: '1536px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.8)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-          overflow: 'clip',
-          display: insufficientBalance ? 'flex' : 'none',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          paddingBottom: '120px',
-        }}>
-          {/* Start analysis button with price - 292:719 */}
-          <img
-            src={startAnalysisButtonPNG}
-            alt="начать анализ 100"
-            style={{
-              position: 'absolute',
-              left: '186px',
-              top: '1238px',
-              width: '530px',
-              height: '139px',
-              cursor: 'pointer',
-            }}
-          />
-
-          {/* Text "вы можете пополнить баланс в личном кабинете" - 292:726 */}
-          <div style={{
+        <img
+          src={blurFramePNG}
+          alt="блюр фрейм"
+          style={{
             position: 'absolute',
-            left: '204px',
-            top: '1395px',
-            width: '495px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '32px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '32px',
-          }}>
-            вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-          </div>
-        </div>
+            left: '141px',
+            top: '437px',
+            width: '898px',
+            height: '1536px',
+            display: insufficientBalance ? 'block' : 'none',
+          }}
+        />
 
         {/* Footer */}
         <div style={{
