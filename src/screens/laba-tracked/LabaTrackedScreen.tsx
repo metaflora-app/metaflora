@@ -12,6 +12,11 @@ import buttonReturn from '../../assets/laba-main-buttons/кнопка верну
 import buttonSort from '../../assets/laba-main-buttons/кнопка сортировка.png';
 import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
 
+// Card assets from laba-main
+import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
+import likeIconPNG from '../../assets/laba-main/лайк.png';
+import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
+
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
 const backArrow = "https://www.figma.com/api/mcp/asset/df23cbdc-6a1c-47c3-8b9f-97ecb4397784";
@@ -21,6 +26,9 @@ const plusIcon = "https://www.figma.com/api/mcp/asset/ce2c6022-721d-44c1-b0a2-c5
 const instagramIcon = "https://www.figma.com/api/mcp/asset/a7d94141-35b1-4809-809c-ed13df5d56f8";
 const profilePhoto = "https://www.figma.com/api/mcp/asset/b15dcf69-e982-4fa0-8cdd-5dde8a1df7dc";
 const peopleImage = "https://www.figma.com/api/mcp/asset/882d0069-a777-43bb-8d98-35cdf5b184ca";
+const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
+const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
+const instaLogoIcon = "https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17";
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -429,7 +437,1497 @@ export const LabaTrackedScreen: React.FC = () => {
           overflow: 'auto',
           zIndex: 10,
         }}>
-          {/* Content cards will be added here */}
+          {/* Карточка 1 - Верхняя левая */}
+          <div style={{
+            position: 'absolute',
+            left: '22px',
+            top: '23px',
+            width: '410px',
+            height: '782px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+            
+            <div style={{
+              position: 'absolute',
+              top: '3.45%',
+              right: '6.59%',
+              bottom: '45.4%',
+              left: '6.59%',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              borderRadius: '25px',
+            }}>
+              <img 
+                src={cardImage}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '25px',
+                }}
+              />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '9.95%',
+              bottom: '89.77%',
+              left: '57.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                left: 'calc(50% - 0.6px)',
+                top: 'calc(50% - 0.5px)',
+                transform: 'translate(-50%, -50%)',
+                width: '111px',
+                height: '19px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '18px',
+                color: 'white',
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '80.98%',
+              bottom: '89.77%',
+              left: '10.24%',
+            }}>
+              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '22.76%',
+              right: '38.78%',
+              bottom: '64.71%', 
+              left: '37.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                transform: 'rotate(90deg)',
+                width: '60px',
+                height: '60px',
+                position: 'relative',
+              }}>
+                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              height: '52px',
+              left: 'calc(50% + 0.5px)',
+              borderRadius: '30px',
+              top: '365px',
+              transform: 'translateX(-50%)',
+              width: '333px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '21px',
+                top: '5px',
+                width: '46px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-69.53%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '426.73%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '132px',
+                top: '4px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-193.75%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '228px',
+                top: '5px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-304.47%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(30.77% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% - 68px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '73px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 33px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '55px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 120px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '35px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              left: '7.32%',
+              right: '77.07%',
+              top: '448px',
+              aspectRatio: '42/51',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={instaLogoIcon}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '67.26%',
+              right: '11.22%',
+              bottom: '27.37%',
+              left: '7.32%',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              @mishchenko.is
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '74.55%',
+              right: '8.05%',
+              bottom: '22.12%',
+              left: '6.59%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              275,5к подписчиков
+            </div>
+
+            <img
+              src={analysisButtonPNG}
+              alt="анализ" 
+              onClick={() => navigate('/laba-analysis')}
+              style={{
+                position: 'absolute',
+                bottom: '63px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '248px',
+                height: '79px',
+                cursor: 'pointer',
+              }}
+            />
+
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 1px)',
+              top: '417px',
+              transform: 'translateX(-50%)',
+              width: '220px',
+              height: '38px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+                textAlign: 'center',
+              }}>
+                2 месяца назад
+              </div>
+            </div>
+          </div>
+
+          {/* Карточка 2 - Верхняя правая */}
+          <div style={{
+            position: 'absolute',
+            left: '444px',
+            top: '23px',
+            width: '410px',
+            height: '782px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+            
+            <div style={{
+              position: 'absolute',
+              top: '3.45%',
+              right: '6.59%',
+              bottom: '45.4%',
+              left: '6.59%',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              borderRadius: '25px',
+            }}>
+              <img 
+                src={cardImage}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '25px',
+                }}
+              />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '9.95%',
+              bottom: '89.77%',
+              left: '57.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                left: 'calc(50% - 0.6px)',
+                top: 'calc(50% - 0.5px)',
+                transform: 'translate(-50%, -50%)',
+                width: '111px',
+                height: '19px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '18px',
+                color: 'white',
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '80.98%',
+              bottom: '89.77%',
+              left: '10.24%',
+            }}>
+              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '22.76%',
+              right: '38.78%',
+              bottom: '64.71%', 
+              left: '37.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                transform: 'rotate(90deg)',
+                width: '60px',
+                height: '60px',
+                position: 'relative',
+              }}>
+                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              height: '52px',
+              left: 'calc(50% + 0.5px)',
+              borderRadius: '30px',
+              top: '365px',
+              transform: 'translateX(-50%)',
+              width: '333px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '21px',
+                top: '5px',
+                width: '46px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-69.53%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '426.73%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '132px',
+                top: '4px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-193.75%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '228px',
+                top: '5px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-304.47%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(30.77% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% - 68px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '73px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 33px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '55px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 120px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '35px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              left: '7.32%',
+              right: '77.07%',
+              top: '448px',
+              aspectRatio: '42/51',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={instaLogoIcon}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '67.26%',
+              right: '11.22%',
+              bottom: '27.37%',
+              left: '7.32%',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              @mishchenko.is
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '74.55%',
+              right: '8.05%',
+              bottom: '22.12%',
+              left: '6.59%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              275,5к подписчиков
+            </div>
+
+            <img
+              src={analysisButtonPNG}
+              alt="анализ" 
+              onClick={() => navigate('/laba-analysis')}
+              style={{
+                position: 'absolute',
+                bottom: '63px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '248px',
+                height: '79px',
+                cursor: 'pointer',
+              }}
+            />
+
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 1px)',
+              top: '417px',
+              transform: 'translateX(-50%)',
+              width: '220px',
+              height: '38px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+                textAlign: 'center',
+              }}>
+                2 месяца назад
+              </div>
+            </div>
+          </div>
+
+          {/* Карточка 3 - Нижняя левая */}
+          <div style={{
+            position: 'absolute',
+            left: '22px',
+            top: '828px',
+            width: '410px',
+            height: '782px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+            
+            <div style={{
+              position: 'absolute',
+              top: '3.45%',
+              right: '6.59%',
+              bottom: '45.4%',
+              left: '6.59%',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              borderRadius: '25px',
+            }}>
+              <img 
+                src={cardImage}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '25px',
+                }}
+              />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '9.95%',
+              bottom: '89.77%',
+              left: '57.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                left: 'calc(50% - 0.6px)',
+                top: 'calc(50% - 0.5px)',
+                transform: 'translate(-50%, -50%)',
+                width: '111px',
+                height: '19px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '18px',
+                color: 'white',
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '80.98%',
+              bottom: '89.77%',
+              left: '10.24%',
+            }}>
+              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '22.76%',
+              right: '38.78%',
+              bottom: '64.71%', 
+              left: '37.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                transform: 'rotate(90deg)',
+                width: '60px',
+                height: '60px',
+                position: 'relative',
+              }}>
+                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              height: '52px',
+              left: 'calc(50% + 0.5px)',
+              borderRadius: '30px',
+              top: '365px',
+              transform: 'translateX(-50%)',
+              width: '333px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '21px',
+                top: '5px',
+                width: '46px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-69.53%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '426.73%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '132px',
+                top: '4px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-193.75%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '228px',
+                top: '5px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-304.47%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(30.77% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% - 68px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '73px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 33px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '55px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 120px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '35px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              left: '7.32%',
+              right: '77.07%',
+              top: '448px',
+              aspectRatio: '42/51',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={instaLogoIcon}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '67.26%',
+              right: '11.22%',
+              bottom: '27.37%',
+              left: '7.32%',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              @mishchenko.is
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '74.55%',
+              right: '8.05%',
+              bottom: '22.12%',
+              left: '6.59%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              275,5к подписчиков
+            </div>
+
+            <img
+              src={analysisButtonPNG}
+              alt="анализ" 
+              onClick={() => navigate('/laba-analysis')}
+              style={{
+                position: 'absolute',
+                bottom: '63px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '248px',
+                height: '79px',
+                cursor: 'pointer',
+              }}
+            />
+
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 1px)',
+              top: '417px',
+              transform: 'translateX(-50%)',
+              width: '220px',
+              height: '38px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+                textAlign: 'center',
+              }}>
+                2 месяца назад
+              </div>
+            </div>
+          </div>
+
+          {/* Карточка 4 - Нижняя правая */}
+          <div style={{
+            position: 'absolute',
+            left: '444px',
+            top: '828px',
+            width: '410px',
+            height: '782px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+            
+            <div style={{
+              position: 'absolute',
+              top: '3.45%',
+              right: '6.59%',
+              bottom: '45.4%',
+              left: '6.59%',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              borderRadius: '25px',
+            }}>
+              <img 
+                src={cardImage}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '25px',
+                }}
+              />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '9.95%',
+              bottom: '89.77%',
+              left: '57.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                left: 'calc(50% - 0.6px)',
+                top: 'calc(50% - 0.5px)',
+                transform: 'translate(-50%, -50%)',
+                width: '111px',
+                height: '19px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '18px',
+                color: 'white',
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '5.63%',
+              right: '80.98%',
+              bottom: '89.77%',
+              left: '10.24%',
+            }}>
+              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '22.76%',
+              right: '38.78%',
+              bottom: '64.71%', 
+              left: '37.32%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                transform: 'rotate(90deg)',
+                width: '60px',
+                height: '60px',
+                position: 'relative',
+              }}>
+                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              height: '52px',
+              left: 'calc(50% + 0.5px)',
+              borderRadius: '30px',
+              top: '365px',
+              transform: 'translateX(-50%)',
+              width: '333px',
+              overflow: 'clip',
+            }}>
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '21px',
+                top: '5px',
+                width: '46px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-69.53%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '426.73%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '132px',
+                top: '4px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-193.75%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                height: '39px',
+                left: '228px',
+                top: '5px',
+                width: '40px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={statusBarIcons}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.22%',
+                      left: '-304.47%',
+                      maxWidth: 'none',
+                      top: '-115.69%',
+                      width: '487.69%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(30.77% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% - 68px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '73px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 33px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '55px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: 'calc(31.39% - 2px)',
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                justifyContent: 'center',
+                left: 'calc(50% + 120px)',
+                lineHeight: 0,
+                fontSize: '27px',
+                textAlign: 'center',
+                color: 'white',
+                top: 'calc(30.77% - 2px)',
+                transform: 'translateX(-50%)',
+                width: '35px',
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              left: '7.32%',
+              right: '77.07%',
+              top: '448px',
+              aspectRatio: '42/51',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={instaLogoIcon}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '67.26%',
+              right: '11.22%',
+              bottom: '27.37%',
+              left: '7.32%',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              @mishchenko.is
+            </div>
+
+            <div style={{
+              position: 'absolute',
+              top: '74.55%',
+              right: '8.05%',
+              bottom: '22.12%',
+              left: '6.59%',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              275,5к подписчиков
+            </div>
+
+            <img
+              src={analysisButtonPNG}
+              alt="анализ" 
+              onClick={() => navigate('/laba-analysis')}
+              style={{
+                position: 'absolute',
+                bottom: '63px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '248px',
+                height: '79px',
+                cursor: 'pointer',
+              }}
+            />
+
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 1px)',
+              top: '417px',
+              transform: 'translateX(-50%)',
+              width: '220px',
+              height: '38px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <div style={{
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 500,
+                fontSize: '23px',
+                color: 'white',
+                textAlign: 'center',
+              }}>
+                2 месяца назад
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Footer */}
