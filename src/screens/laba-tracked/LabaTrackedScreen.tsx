@@ -7,10 +7,7 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
-// Filter buttons & badges from laba-main
-import buttonReturn from '../../assets/laba-main-buttons/кнопка вернуть.png';
-import buttonSort from '../../assets/laba-main-buttons/кнопка сортировка.png';
-import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
+// Filter buttons & badges from laba-main (not used - created inline)
 
 // Card assets from laba-main
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
