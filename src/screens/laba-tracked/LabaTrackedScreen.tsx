@@ -7,7 +7,10 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
-// Filter buttons & badges from laba-main (not used - created inline)
+// Filter buttons from laba-main
+import returnButtonPNG from '../../assets/laba-main/кнопка вернуть.png';
+import sortButtonPNG from '../../assets/laba-main/кнопка сортировка.png';
+import likesBadgePNG from '../../assets/laba-main/плашка лайки.png';
 
 // Card assets from laba-main
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
@@ -193,41 +196,35 @@ export const LabaTrackedScreen: React.FC = () => {
         {/* Title "отслеживание контента" - 174:801 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '223px',
-          transform: 'translateX(-50%)',
+          left: '85px',
+          top: '193px',
           width: '1020px',
+          height: '80px',
           fontFamily: 'Inter, sans-serif',
           fontWeight: 800,
           fontSize: '80px',
           color: 'white',
           textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          lineHeight: 0,
+          lineHeight: '80px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>отслеживание контента </p>
+          отслеживание контента
         </div>
 
         {/* Subtitle "добавьте аккаунт для отслеживания" - 174:803 */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          top: '315px',
-          transform: 'translateX(-50%)',
+          left: '85px',
+          top: '295px',
           width: '882px',
+          height: '40px',
           fontFamily: 'Gotham Pro, sans-serif',
           fontWeight: 300,
           fontSize: '40px',
           color: 'white',
           textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          lineHeight: 0,
+          lineHeight: '40px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>добавьте аккаунт для отслеживания</p>
+          добавьте аккаунт для отслеживания
         </div>
 
         {/* Account card with @mishchenko.is - 7:1181 */}
@@ -368,196 +365,45 @@ export const LabaTrackedScreen: React.FC = () => {
         </div>
 
         {/* Filter buttons - вернуть - 174:774 x=788, y=405 */}
-        <div style={{
-          position: 'absolute',
-          left: '788px',
-          top: '405px',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'clip',
-          cursor: 'pointer',
-        }}>
-          <div style={{
+        <img
+          src={returnButtonPNG}
+          alt="вернуть"
+          style={{
             position: 'absolute',
-            left: 'calc(50% - 1.47px)',
-            top: 'calc(50% + 0.03px)',
-            transform: 'translate(-50%, -50%)',
-            width: '150px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            lineHeight: 0,
-          }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>вернуть</p>
-          </div>
-        </div>
+            left: '788px',
+            top: '405px',
+            width: '186px',
+            height: '79px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Filter buttons - сортировка - 174:780 x=788, y=485 */}
-        <div style={{
-          position: 'absolute',
-          left: '788px',
-          top: '485px',
-          width: '216px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'clip',
-          cursor: 'pointer',
-        }}>
-          <div style={{
+        <img
+          src={sortButtonPNG}
+          alt="сортировка"
+          style={{
             position: 'absolute',
-            left: '73px',
-            top: '-44px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              background: 'white',
-              height: '107.431px',
-              left: '77px',
-              borderRadius: '1568.563px',
-              top: '-36.46px',
-              width: '101.963px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              display: 'flex',
-              height: '78.548px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              left: '102.5px',
-              top: '-40px',
-              width: '90.498px',
-            }}>
-              <div style={{
-                transform: 'rotate(16.918deg) skewX(-15.566deg)',
-              }}>
-                <div style={{
-                  background: 'white',
-                  height: '75.957px',
-                  borderRadius: '1568.563px',
-                  width: '51.243px',
-                }} />
-              </div>
-            </div>
-            <div style={{
-              position: 'absolute',
-              background: 'white',
-              height: '72.822px',
-              left: '122.8px',
-              borderRadius: '1568.563px',
-              top: '30.18px',
-              width: '56.152px',
-            }} />
-          </div>
-          <div style={{
-            position: 'absolute',
-            left: 'calc(50% - 0.47px)',
-            top: 'calc(50% - 0.13px)',
-            transform: 'translate(-50%, -50%)',
+            left: '788px',
+            top: '485px',
             width: '216px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            lineHeight: 0,
-          }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>сортировка</p>
-          </div>
-        </div>
+            height: '79px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Badge likes - 174:768 x=788, y=564 */}
-        <div style={{
-          position: 'absolute',
-          left: '788px',
-          top: '564px',
-          width: '186px',
-          height: '79px',
-          backdropFilter: 'blur(50px)',
-          background: 'black',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '62px',
-          overflow: 'clip',
-        }}>
-          <div style={{
+        <img
+          src={likesBadgePNG}
+          alt=">лайков"
+          style={{
             position: 'absolute',
-            left: '44px',
-            top: '-43px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              background: '#fdc615',
-              height: '111.187px',
-              left: '48px',
-              borderRadius: '1568.563px',
-              top: '-35.34px',
-              width: '83.508px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              display: 'flex',
-              height: '81.294px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              left: '68.88px',
-              top: '-39px',
-              width: '74.118px',
-            }}>
-              <div style={{
-                transform: 'rotate(21.025deg) skewX(-6.219deg)',
-              }}>
-                <div style={{
-                  background: '#fdc615',
-                  height: '74.104px',
-                  borderRadius: '1568.563px',
-                  width: '43.016px',
-                }} />
-              </div>
-            </div>
-            <div style={{
-              position: 'absolute',
-              background: '#fffdc6',
-              height: '75.368px',
-              left: '86px',
-              borderRadius: '1568.563px',
-              top: '47px',
-              width: '45.989px',
-            }} />
-          </div>
-          <div style={{
-            position: 'absolute',
-            bottom: 'calc(31.91% - 4px)',
-            left: '50%',
-            top: 'calc(31.91% - 4px)',
-            transform: 'translateX(-50%)',
-            width: '132px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            lineHeight: 0,
-          }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{'>лайков'}</p>
-          </div>
-        </div>
+            left: '788px',
+            top: '564px',
+            width: '186px',
+            height: '79px',
+          }}
+        />
 
         {/* People image behind frame */}
         <div style={{
