@@ -219,154 +219,26 @@ export const LabaAnalysisScreen: React.FC = () => {
           искусственный интеллект проанализирует виральность и напишет сценарий
         </div>
 
-        {/* Main card container - 292:630 */}
+        {/* Main card container - 292:631 */}
         <div style={{
           position: 'absolute',
-          left: '148px',
-          top: '405px',
-          width: '884px',
-          height: '1637px',
+          left: '141px',
+          top: '437px',
+          width: '898px',
+          height: '1536px',
           backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
+          background: 'black',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: 'clip',
         }}>
-          {/* Profile photo - 292:675 */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50px',
-            transform: 'translateX(-50%)',
-            width: '159px',
-            height: '159px',
-            borderRadius: '640px',
-            overflow: 'hidden',
-          }}>
-            <img
-              src={profilePhotoMCP}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '640px',
-              }}
-            />
-          </div>
-
-          {/* Instagram logo - 292:676 */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '229px',
-            transform: 'translateX(-50%)',
-            width: '64px',
-            height: '78px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img
-                src={instaLogoMCP}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-56.27%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '620.89%',
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Username - 292:677 */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '327px',
-            transform: 'translateX(-50%)',
-            width: '334px',
-            height: '42px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '42px',
-          }}>
-            @mishchenko.is
-          </div>
-
-          {/* Followers - 292:678 */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '389px',
-            transform: 'translateX(-50%)',
-            width: '350px',
-            height: '26px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '32px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '26px',
-          }}>
-            275,5к подписчиков
-          </div>
-
-          {/* Description label - 292:680 */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '455px',
-            transform: 'translateX(-50%)',
-            width: '200px',
-            height: '42px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '42px',
-          }}>
-            описание
-          </div>
-
-          {/* Description text - 292:682 */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '517px',
-            transform: 'translateX(-50%)',
-            width: '800px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '35px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '42px',
-          }}>
-            а вы знали, что так вообще возможно?
-          </div>
-
           {/* Reel cover image - 292:652 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '629px',
-            transform: 'translateX(-50%)',
-            width: '520px',
-            height: '585px',
+            left: '53px',
+            top: '47px',
+            width: '796px',
+            height: '748px',
             border: '2px solid rgba(0, 0, 0, 0.3)',
             borderRadius: '20px',
             overflow: 'hidden',
@@ -388,11 +260,10 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Badge "новое" - 292:658 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '659px',
-            transform: 'translateX(-50%)',
-            width: '200px',
-            height: '52px',
+            left: '627px',
+            top: '97px',
+            width: '173px',
+            height: '58px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -416,10 +287,10 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Like icon - 292:660 */}
           <div style={{
             position: 'absolute',
-            left: '202px',
-            top: '659px',
-            width: '52px',
-            height: '52px',
+            left: '102px',
+            top: '90px',
+            width: '72px',
+            height: '72px',
           }}>
             <img src={likeIconMCP} alt="" style={{ width: '100%', height: '100%' }} />
           </div>
@@ -427,9 +298,8 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Play button - 292:735 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '760px',
-            transform: 'translateX(-50%)',
+            left: '403px',
+            top: '363px',
             width: '98px',
             height: '98px',
             backdropFilter: 'blur(50px)',
@@ -454,10 +324,9 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Status bar - 292:661 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
+            left: '174px',
             top: '688px',
-            transform: 'translateX(-50%)',
-            width: '485px',
+            width: '550px',
             height: '89px',
             backdropFilter: 'blur(50px)',
             background: 'black',
@@ -469,8 +338,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               height: '56px',
-              left: '53px',
-              top: '15px',
+              left: '55px',
+              top: '17px',
               width: '66px',
             }}>
               <div style={{
@@ -498,8 +367,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               height: '64px',
-              left: '219px',
-              top: '11px',
+              left: '221px',
+              top: '13px',
               width: '66px',
             }}>
               <div style={{
@@ -527,8 +396,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               height: '66px',
-              left: '369px',
-              top: '9px',
+              left: '371px',
+              top: '11px',
               width: '68px',
             }}>
               <div style={{
@@ -555,7 +424,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* 227к */}
             <div style={{
               position: 'absolute',
-              left: '134px',
+              left: '112px',
               top: '27px',
               width: '109px',
               fontFamily: 'Gotham Pro, sans-serif',
@@ -570,7 +439,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* 40к */}
             <div style={{
               position: 'absolute',
-              left: '285px',
+              left: '276px',
               top: '28px',
               width: '92px',
               fontFamily: 'Gotham Pro, sans-serif',
@@ -585,8 +454,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* 2к */}
             <div style={{
               position: 'absolute',
-              left: '405px',
-              top: '29px',
+              left: '426px',
+              top: '28.65px',
               width: '67px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
@@ -601,11 +470,10 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Date badge "2 месяца назад" - 292:668 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '797px',
-            transform: 'translateX(-50%)',
-            width: '320px',
-            height: '64px',
+            left: '286px',
+            top: '777px',
+            width: '326px',
+            height: '57px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -626,13 +494,132 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
+          {/* Profile photo - 292:675 */}
+          <div style={{
+            position: 'absolute',
+            left: '53px',
+            top: '850px',
+            width: '190px',
+            height: '190px',
+            borderRadius: '640px',
+            overflow: 'hidden',
+          }}>
+            <img
+              src={profilePhotoMCP}
+              alt=""
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '640px',
+              }}
+            />
+          </div>
+
+          {/* Instagram logo (bottom) - 292:676 */}
+          <div style={{
+            position: 'absolute',
+            left: '259px',
+            top: '857px',
+            width: '64px',
+            height: '78px',
+          }}>
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              opacity: 0.6,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img
+                src={instaLogoMCP}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '339.84%',
+                  left: '-56.27%',
+                  maxWidth: 'none',
+                  top: '-118.33%',
+                  width: '620.89%',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Username (bottom) - 292:677 */}
+          <div style={{
+            position: 'absolute',
+            left: '259px',
+            top: '935px',
+            width: '334px',
+            height: '42px',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 700,
+            fontSize: '40px',
+            color: 'white',
+            textAlign: 'center',
+            lineHeight: '42px',
+          }}>
+            @mishchenko.is
+          </div>
+
+          {/* Followers (bottom) - 292:678 */}
+          <div style={{
+            position: 'absolute',
+            left: '256px',
+            top: '992px',
+            width: '350px',
+            height: '26px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300,
+            fontSize: '32px',
+            color: 'white',
+            textAlign: 'center',
+            lineHeight: '26px',
+          }}>
+            275,5к подписчиков
+          </div>
+
+          {/* Description label - 292:680 */}
+          <div style={{
+            position: 'absolute',
+            left: '53px',
+            top: '1095px',
+            width: '373px',
+            height: '46px',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 700,
+            fontSize: '40px',
+            color: 'white',
+            lineHeight: '46px',
+          }}>
+            описание
+          </div>
+
+          {/* Description text - 292:682 */}
+          <div style={{
+            position: 'absolute',
+            left: '53px',
+            top: '1148px',
+            width: '723px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 300,
+            fontSize: '35px',
+            color: 'white',
+            lineHeight: '42px',
+          }}>
+            а вы знали, что так вообще возможно?
+          </div>
+
           {/* Button "следить" - 292:694 */}
           <div style={{
             position: 'absolute',
-            left: '319px',
-            top: '930px',
-            width: '186px',
-            height: '79px',
+            left: '602px',
+            top: '854px',
+            width: '246.93px',
+            height: '79.25px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(0, 0, 0, 0.9)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
@@ -643,8 +630,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* Gradient colors */}
             <div style={{
               position: 'absolute',
-              left: '45px',
-              top: '-44px',
+              left: '49px',
+              top: '-40px',
             }}>
               <div style={{
                 position: 'absolute',
@@ -705,8 +692,8 @@ export const LabaAnalysisScreen: React.FC = () => {
           {/* Button "открыть" - 292:742 */}
           <div style={{
             position: 'absolute',
-            left: '523px',
-            top: '930px',
+            left: '663px',
+            top: '933px',
             width: '186px',
             height: '79px',
             backdropFilter: 'blur(50px)',
@@ -719,8 +706,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* Gradient colors */}
             <div style={{
               position: 'absolute',
-              left: '51px',
-              top: '-43px',
+              left: '55px',
+              top: '-39px',
             }}>
               <div style={{
                 position: 'absolute',
@@ -775,6 +762,87 @@ export const LabaAnalysisScreen: React.FC = () => {
               textAlign: 'center',
             }}>
               открыть
+            </div>
+          </div>
+
+          {/* Overlay frame (292:684) - under фон закрытый (292:734) */}
+          <div style={{
+            position: 'absolute',
+            left: '84px',
+            top: '1267px',
+            width: '350px',
+            height: '161px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            overflow: 'clip',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Логотип инста внутри фрейма */}
+            <div style={{
+              position: 'absolute',
+              left: '87px',
+              top: '0px',
+              width: '64px',
+              height: '78px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img
+                  src={instaLogoMCP}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
+            </div>
+            
+            {/* Username inside frame */}
+            <div style={{
+              position: 'absolute',
+              left: '87px',
+              top: '78px',
+              width: '334px',
+              height: '42px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: '#d5fc44',
+              textAlign: 'center',
+              lineHeight: '42px',
+            }}>
+              @mishchenko.is
+            </div>
+            
+            {/* Followers inside frame */}
+            <div style={{
+              position: 'absolute',
+              left: '84px',
+              top: '135px',
+              width: '350px',
+              height: '26px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: '#d5fc44',
+              textAlign: 'center',
+              lineHeight: '26px',
+            }}>
+              275,5к подписчиков
             </div>
           </div>
         </div>
