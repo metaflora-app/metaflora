@@ -25,7 +25,7 @@ const instaLogoMCP = "https://www.figma.com/api/mcp/asset/19e1de1d-26ef-46f5-905
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [insufficientBalance, setInsufficientBalance] = React.useState(false); // Toggle for overlay
+  const [insufficientBalance] = React.useState(false); // Toggle for overlay - set to true to show overlay
 
   return (
     <div style={{
