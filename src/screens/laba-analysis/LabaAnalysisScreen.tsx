@@ -436,14 +436,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* 227к - 292:665 */}
             <div style={{
               position: 'absolute',
-              left: '112px',
-              top: '27px',
+              left: '121px',
+              top: '30px',
               width: '109px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '40px',
+              fontSize: '35px',
               color: 'white',
-              textAlign: 'center',
+              textAlign: 'left',
             }}>
               227к
             </div>
@@ -451,14 +451,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* 40к - 292:666 */}
             <div style={{
               position: 'absolute',
-              left: '276px',
-              top: '28px',
+              left: '287px',
+              top: '30px',
               width: '92px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '40px',
+              fontSize: '35px',
               color: 'white',
-              textAlign: 'center',
+              textAlign: 'left',
             }}>
               40к
             </div>
@@ -466,14 +466,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* 2к - 292:667 */}
             <div style={{
               position: 'absolute',
-              left: '426px',
-              top: '28.65px',
+              left: '439px',
+              top: '30px',
               width: '67px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '40px',
+              fontSize: '35px',
               color: 'white',
-              textAlign: 'center',
+              textAlign: 'left',
             }}>
               2к
             </div>
