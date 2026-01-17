@@ -198,8 +198,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           fontWeight: 800,
           fontSize: '80px',
           color: 'white',
-          textAlign: 'center',
-          lineHeight: '80px',
+          lineHeight: '1',
         }}>
           ИИ-анализ контента
         </div>
@@ -693,6 +692,79 @@ export const LabaAnalysisScreen: React.FC = () => {
               lineHeight: '32px',
             }}>
               вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+            </div>
+          </div>
+
+          {/* Under blur frame - 292:734 (под фон закрытый) */}
+          <div style={{
+            position: 'absolute',
+            left: '84px',
+            top: '1267px',
+            width: '350px',
+            height: '161px',
+          }}>
+            {/* Instagram logo - 292:730 */}
+            <div style={{
+              position: 'absolute',
+              left: '3px',
+              top: '0px',
+              width: '64px',
+              height: '78px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img
+                  src={instaLogoMCP}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* @mishchenko.is - 292:731 */}
+            <div style={{
+              position: 'absolute',
+              left: '3px',
+              top: '78px',
+              width: '334px',
+              height: '42px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: '#d5fc44',
+              textAlign: 'center',
+              lineHeight: '42px',
+            }}>
+              @mishchenko.is
+            </div>
+
+            {/* 275,5к подписчиков - 292:732 */}
+            <div style={{
+              position: 'absolute',
+              left: '0px',
+              top: '135px',
+              width: '350px',
+              height: '26px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: '#d5fc44',
+              textAlign: 'center',
+              lineHeight: '26px',
+            }}>
+              275,5к подписчиков
             </div>
           </div>
         </div>
