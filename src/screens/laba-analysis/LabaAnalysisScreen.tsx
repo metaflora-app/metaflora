@@ -29,6 +29,7 @@ export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [showAnalysisResults, setShowAnalysisResults] = React.useState(false);
+  const [showScenario, setShowScenario] = React.useState(false);
 
   return (
     <div style={{
@@ -784,7 +785,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: '53px',
-              top: '1150px',
+              top: '1180px',
               width: '796px',
             }}>
               {/* виральность - 292:893 */}
@@ -927,35 +928,76 @@ export const LabaAnalysisScreen: React.FC = () => {
                 а вы знали, что так вообще возможно?
               </div>
 
-              {/* Button "создать сценарий" - 292:907 */}
-              <img
-                src={createScenarioButtonPNG}
-                alt="создать сценарий 50"
-                style={{
-                  position: 'absolute',
-                  left: '131px',
-                  top: '518px',
-                  width: '530px',
-                  height: '139px',
-                  cursor: 'pointer',
-                }}
-              />
+              {/* Button "создать сценарий" - 292:907 - HIDE when scenario created */}
+              {!showScenario && (
+                <img
+                  src={createScenarioButtonPNG}
+                  alt="создать сценарий 50"
+                  onClick={() => setShowScenario(true)}
+                  style={{
+                    position: 'absolute',
+                    left: '131px',
+                    top: '518px',
+                    width: '530px',
+                    height: '139px',
+                    cursor: 'pointer',
+                  }}
+                />
+              )}
 
-              {/* Text про баланс - 292:914 */}
-              <div style={{
-                position: 'absolute',
-                left: '149px',
-                top: '675px',
-                width: '495px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 300,
-                fontSize: '32px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: '32px',
-              }}>
-                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-              </div>
+              {/* Text про баланс - 292:914 - HIDE when scenario created */}
+              {!showScenario && (
+                <div style={{
+                  position: 'absolute',
+                  left: '149px',
+                  top: '675px',
+                  width: '495px',
+                  fontFamily: 'Gotham Pro, sans-serif',
+                  fontWeight: 300,
+                  fontSize: '32px',
+                  color: 'white',
+                  textAlign: 'center',
+                  lineHeight: '32px',
+                }}>
+                  вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+                </div>
+              )}
+
+              {/* Scenario results - SHOW when "создать сценарий" clicked */}
+              {showScenario && (
+                <>
+                  {/* новый сценарий - 292:916 */}
+                  <div style={{
+                    position: 'absolute',
+                    left: '0px',
+                    top: '610px',
+                    width: '373px',
+                    height: '46px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    color: 'white',
+                    lineHeight: '46px',
+                  }}>
+                    новый сценарий
+                  </div>
+
+                  {/* Text под сценарием - 292:917 */}
+                  <div style={{
+                    position: 'absolute',
+                    left: '0px',
+                    top: '663px',
+                    width: '797px',
+                    fontFamily: 'Gotham Pro, sans-serif',
+                    fontWeight: 300,
+                    fontSize: '35px',
+                    color: 'white',
+                    lineHeight: '42px',
+                  }}>
+                    а вы знали, что так вообще возможно?
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
