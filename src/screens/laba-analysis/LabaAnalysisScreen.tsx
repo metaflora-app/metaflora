@@ -784,14 +784,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: '53px',
-              top: '1207px',
+              top: '1150px',
               width: '796px',
             }}>
               {/* виральность - 292:893 */}
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '33px',
+                top: '0px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -807,12 +807,12 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '77px',
+                top: '44px',
                 width: '373px',
                 height: '46px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 300,
-                fontSize: '35px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
                 color: 'white',
                 lineHeight: '46px',
               }}>
@@ -823,7 +823,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '124px',
+                top: '91px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -838,7 +838,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '184px',
+                top: '151px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -854,7 +854,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '237px',
+                top: '204px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -869,7 +869,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '298px',
+                top: '265px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -885,7 +885,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '351px',
+                top: '318px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -900,7 +900,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '411px',
+                top: '378px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -916,7 +916,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '464px',
+                top: '431px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -934,7 +934,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 style={{
                   position: 'absolute',
                   left: '131px',
-                  top: '551px',
+                  top: '518px',
                   width: '530px',
                   height: '139px',
                   cursor: 'pointer',
@@ -945,7 +945,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '149px',
-                top: '708px',
+                top: '675px',
                 width: '495px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
