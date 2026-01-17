@@ -437,7 +437,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: '121px',
-              top: '30px',
+              top: '50%',
+              transform: 'translateY(-50%)',
               width: '109px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
@@ -452,7 +453,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: '287px',
-              top: '30px',
+              top: '50%',
+              transform: 'translateY(-50%)',
               width: '92px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
@@ -467,7 +469,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: '439px',
-              top: '30px',
+              top: '50%',
+              transform: 'translateY(-50%)',
               width: '67px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
@@ -653,48 +656,6 @@ export const LabaAnalysisScreen: React.FC = () => {
             }}
           />
 
-          {/* Blur frame overlay - 292:684 */}
-          <div style={{
-            position: 'absolute',
-            left: '53px',
-            top: '1207px',
-            width: '796px',
-            height: '282px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '20px',
-          }}>
-            {/* Button "начать анализ" - 292:719 */}
-            <img
-              src={startAnalysisButtonPNG}
-              alt="начать анализ 100"
-              style={{
-                width: '530px',
-                height: '139px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Text "вы можете пополнить баланс" - 292:726 */}
-            <div style={{
-              width: '495px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              lineHeight: '32px',
-            }}>
-              вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-            </div>
-          </div>
-
           {/* Under blur frame - 292:734 (под фон закрытый) */}
           <div style={{
             position: 'absolute',
@@ -765,6 +726,49 @@ export const LabaAnalysisScreen: React.FC = () => {
               lineHeight: '26px',
             }}>
               275,5к подписчиков
+            </div>
+          </div>
+
+          {/* Blur frame overlay - 292:684 */}
+          <div style={{
+            position: 'absolute',
+            left: '53px',
+            top: '1207px',
+            width: '796px',
+            height: '282px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '20px',
+            zIndex: 5,
+          }}>
+            {/* Button "начать анализ" - 292:719 */}
+            <img
+              src={startAnalysisButtonPNG}
+              alt="начать анализ 100"
+              style={{
+                width: '530px',
+                height: '139px',
+                cursor: 'pointer',
+              }}
+            />
+
+            {/* Text "вы можете пополнить баланс" - 292:726 */}
+            <div style={{
+              width: '495px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              lineHeight: '32px',
+            }}>
+              вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
             </div>
           </div>
         </div>
