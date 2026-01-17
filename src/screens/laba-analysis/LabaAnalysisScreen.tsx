@@ -813,7 +813,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 700,
                 fontSize: '40px',
-                color: 'white',
+                color: '#d5fc44',
                 lineHeight: '46px',
               }}>
                 7.7 баллов
