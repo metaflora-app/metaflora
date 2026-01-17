@@ -9,6 +9,7 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 
 // Analysis-specific assets
 import startAnalysisButtonPNG from '../../assets/laba-analysis/укороченная кнопка начать анализ.png';
+import createScenarioButtonPNG from '../../assets/laba-analysis/укороченная кнопка создать сценарий.png';
 import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
 
@@ -27,6 +28,7 @@ const instaLogoMCP = "https://www.figma.com/api/mcp/asset/19e1de1d-26ef-46f5-905
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [showAnalysisResults, setShowAnalysisResults] = React.useState(false);
 
   return (
     <div style={{
@@ -242,7 +244,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           background: 'black',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-          overflow: 'hidden',
+          overflow: showAnalysisResults ? 'auto' : 'hidden',
         }}>
           {/* Reel cover image - 292:652 */}
           <div style={{
@@ -656,121 +658,306 @@ export const LabaAnalysisScreen: React.FC = () => {
             }}
           />
 
-          {/* Under blur frame - 292:734 (под фон закрытый) */}
-          <div style={{
-            position: 'absolute',
-            left: '84px',
-            top: '1267px',
-            width: '350px',
-            height: '161px',
-          }}>
-            {/* Instagram logo - 292:730 */}
+          {/* Under blur frame - 292:734 (под фон закрытый) - HIDE when analysis started */}
+          {!showAnalysisResults && (
             <div style={{
               position: 'absolute',
-              left: '3px',
-              top: '0px',
-              width: '64px',
-              height: '78px',
+              left: '84px',
+              top: '1267px',
+              width: '350px',
+              height: '161px',
             }}>
+              {/* Instagram logo - 292:730 */}
               <div style={{
                 position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
+                left: '3px',
+                top: '0px',
+                width: '64px',
+                height: '78px',
               }}>
-                <img
-                  src={instaLogoMCP}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  opacity: 0.6,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img
+                    src={instaLogoMCP}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.84%',
+                      left: '-56.27%',
+                      maxWidth: 'none',
+                      top: '-118.33%',
+                      width: '620.89%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* @mishchenko.is - 292:731 */}
+              <div style={{
+                position: 'absolute',
+                left: '3px',
+                top: '78px',
+                width: '334px',
+                height: '42px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: '#d5fc44',
+                textAlign: 'center',
+                lineHeight: '42px',
+              }}>
+                @mishchenko.is
+              </div>
+
+              {/* 275,5к подписчиков - 292:732 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '135px',
+                width: '350px',
+                height: '26px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '32px',
+                color: '#d5fc44',
+                textAlign: 'center',
+                lineHeight: '26px',
+              }}>
+                275,5к подписчиков
               </div>
             </div>
+          )}
 
-            {/* @mishchenko.is - 292:731 */}
+          {/* Blur frame overlay - 292:684 - HIDE when analysis started */}
+          {!showAnalysisResults && (
             <div style={{
               position: 'absolute',
-              left: '3px',
-              top: '78px',
-              width: '334px',
-              height: '42px',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: '#d5fc44',
-              textAlign: 'center',
-              lineHeight: '42px',
+              left: '53px',
+              top: '1207px',
+              width: '796px',
+              height: '282px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '20px',
+              zIndex: 5,
             }}>
-              @mishchenko.is
-            </div>
+              {/* Button "начать анализ" - 292:719 */}
+              <img
+                src={startAnalysisButtonPNG}
+                alt="начать анализ 100"
+                onClick={() => setShowAnalysisResults(true)}
+                style={{
+                  width: '530px',
+                  height: '139px',
+                  cursor: 'pointer',
+                }}
+              />
 
-            {/* 275,5к подписчиков - 292:732 */}
+              {/* Text "вы можете пополнить баланс" - 292:726 */}
+              <div style={{
+                width: '495px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '32px',
+                color: 'white',
+                textAlign: 'center',
+                lineHeight: '32px',
+              }}>
+                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+              </div>
+            </div>
+          )}
+
+          {/* Analysis results - SHOW when button clicked */}
+          {showAnalysisResults && (
             <div style={{
               position: 'absolute',
-              left: '0px',
-              top: '135px',
-              width: '350px',
-              height: '26px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: '#d5fc44',
-              textAlign: 'center',
-              lineHeight: '26px',
+              left: '53px',
+              top: '1207px',
+              width: '796px',
             }}>
-              275,5к подписчиков
-            </div>
-          </div>
+              {/* виральность - 292:893 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '33px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
+              }}>
+                виральность
+              </div>
 
-          {/* Blur frame overlay - 292:684 */}
-          <div style={{
-            position: 'absolute',
-            left: '53px',
-            top: '1207px',
-            width: '796px',
-            height: '282px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '20px',
-            zIndex: 5,
-          }}>
-            {/* Button "начать анализ" - 292:719 */}
-            <img
-              src={startAnalysisButtonPNG}
-              alt="начать анализ 100"
-              style={{
-                width: '530px',
-                height: '139px',
-                cursor: 'pointer',
-              }}
-            />
+              {/* 7.7 баллов - 292:899 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '77px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '46px',
+              }}>
+                7.7 баллов
+              </div>
 
-            {/* Text "вы можете пополнить баланс" - 292:726 */}
-            <div style={{
-              width: '495px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              lineHeight: '32px',
-            }}>
-              вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+              {/* Text 1 - 292:894 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '124px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
+              }}>
+                а вы знали, что так вообще возможно?
+              </div>
+
+              {/* хук - 292:896 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '184px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
+              }}>
+                хук
+              </div>
+
+              {/* Text 2 - 292:897 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '237px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
+              }}>
+                а вы знали, что так вообще возможно?
+              </div>
+
+              {/* транскрибация - 292:901 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '298px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
+              }}>
+                транскрибация
+              </div>
+
+              {/* Text 3 - 292:902 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '351px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
+              }}>
+                а вы знали, что так вообще возможно?
+              </div>
+
+              {/* суть видео - 292:904 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '411px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
+              }}>
+                суть видео
+              </div>
+
+              {/* Text 4 - 292:905 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '464px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
+              }}>
+                а вы знали, что так вообще возможно?
+              </div>
+
+              {/* Button "создать сценарий" - 292:907 */}
+              <img
+                src={createScenarioButtonPNG}
+                alt="создать сценарий 50"
+                style={{
+                  position: 'absolute',
+                  left: '131px',
+                  top: '551px',
+                  width: '530px',
+                  height: '139px',
+                  cursor: 'pointer',
+                }}
+              />
+
+              {/* Text про баланс - 292:914 */}
+              <div style={{
+                position: 'absolute',
+                left: '149px',
+                top: '708px',
+                width: '495px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '32px',
+                color: 'white',
+                textAlign: 'center',
+                lineHeight: '32px',
+              }}>
+                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Footer */}
