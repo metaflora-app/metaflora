@@ -970,7 +970,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   <div style={{
                     position: 'absolute',
                     left: '0px',
-                    top: '610px',
+                    top: '492px',
                     width: '373px',
                     height: '46px',
                     fontFamily: 'Inter, sans-serif',
@@ -986,7 +986,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   <div style={{
                     position: 'absolute',
                     left: '0px',
-                    top: '663px',
+                    top: '545px',
                     width: '797px',
                     fontFamily: 'Gotham Pro, sans-serif',
                     fontWeight: 300,
