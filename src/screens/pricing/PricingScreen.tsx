@@ -23,8 +23,8 @@ export const PricingScreen: React.FC = () => {
   const handlePayment = () => {
     if (!selectedPlan) {
       // Telegram WebApp alert
-      if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showAlert('Вы не выбрали ни одну из подписок');
+      if ((window as any).Telegram?.WebApp) {
+        (window as any).Telegram.WebApp.showAlert('Вы не выбрали ни одну из подписок');
       } else {
         alert('Вы не выбрали ни одну из подписок');
       }
