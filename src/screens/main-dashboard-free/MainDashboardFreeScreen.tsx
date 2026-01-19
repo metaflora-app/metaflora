@@ -212,7 +212,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '678px',
-            top: '35px',
+            top: '40px',
             width: '347px',
             height: '45px',
             fontFamily: 'Gotham Pro',
@@ -231,8 +231,8 @@ export const MainDashboardFreeScreen: React.FC = () => {
             alt="пополнить"
             style={{
               position: 'absolute',
-              left: '679px',
-              top: '87px',
+              left: '678px',
+              top: '86px',
               width: '176px',
               height: '57px',
               cursor: 'pointer',
