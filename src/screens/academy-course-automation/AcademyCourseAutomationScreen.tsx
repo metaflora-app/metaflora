@@ -131,9 +131,9 @@ export const AcademyCourseAutomationScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '85px',
-          top: '193px',
+          top: '177px',
           width: '1020px',
-          height: '80px',
+          height: '160px',
         }}>
           <div style={{
             display: 'flex',
@@ -153,9 +153,9 @@ export const AcademyCourseAutomationScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '91px',
-          top: '290px',
+          top: '353px',
           width: '915px',
-          height: '80px',
+          height: '40px',
         }}>
           <div style={{
             display: 'flex',
@@ -166,8 +166,7 @@ export const AcademyCourseAutomationScreen: React.FC = () => {
             color: 'white',
           }}>
             <p style={{ margin: 0, lineHeight: '1' }}>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>научишься всем азам работы с нейронками в 2026 году: </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>какие выбрать и зачем</span>
+              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>научишься всем азам работы с нейронками</span>
             </p>
           </div>
         </div>
