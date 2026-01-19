@@ -10,10 +10,15 @@ import homeIcon from '../../assets/about-screens/домой.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
-import openButton from '../../assets/кнопка открыть цех.png';
+import openButton from '../../assets/кнопка перейти.png';
 import newBadge from '../../assets/новое в академии.png';
 import likeIcon from '../../assets/лайк.png';
 import likeEmptyIcon from '../../assets/лайк не поставлен.png';
+import returnButtonInactive from '../../assets/кнопка вернуть не активная.png';
+import favoriteButtonActive from '../../assets/кнопка избранное активная.png';
+import recentButtonActive from '../../assets/кнопка недавние активная.png';
+import topPickButtonActive from '../../assets/кнопка топ-выбор активная.png';
+import newButtonActive from '../../assets/кнопка новые активная.png';
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
@@ -211,134 +216,84 @@ export const PromptFirstScreen: React.FC = () => {
         </div>
 
         {/* Filter: вернуть */}
-        <div
+        <img
+          src={returnButtonInactive}
+          alt="вернуть"
           onClick={() => toggleFilter('вернуть')}
           style={{
             position: 'absolute',
             left: '220px',
             top: '733px',
             width: '247px',
-            height: '79px',
-            backdropFilter: 'blur(50px)',
-            background: isFilterActive('вернуть') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
+            height: '80px',
             cursor: 'pointer',
+            objectFit: 'contain',
           }}
-        >
-          вернуть
-        </div>
+        />
 
         {/* Filter: избранное */}
-        <div
+        <img
+          src={isFilterActive('избранное') ? favoriteButtonActive : returnButtonInactive}
+          alt="избранное"
           onClick={() => toggleFilter('избранное')}
           style={{
             position: 'absolute',
             left: '467px',
             top: '733px',
             width: '247px',
-            height: '79px',
-            backdropFilter: 'blur(50px)',
-            background: isFilterActive('избранное') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
+            height: '80px',
             cursor: 'pointer',
+            objectFit: 'contain',
           }}
-        >
-          избранное
-        </div>
+        />
 
         {/* Filter: недавние */}
-        <div
+        <img
+          src={isFilterActive('недавние') ? recentButtonActive : returnButtonInactive}
+          alt="недавние"
           onClick={() => toggleFilter('недавние')}
           style={{
             position: 'absolute',
             left: '714px',
             top: '733px',
             width: '247px',
-            height: '79px',
-            backdropFilter: 'blur(50px)',
-            background: isFilterActive('недавние') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
+            height: '80px',
             cursor: 'pointer',
+            objectFit: 'contain',
           }}
-        >
-          недавние
-        </div>
+        />
 
         {/* Filter: топ-выбор */}
-        <div
+        <img
+          src={isFilterActive('топ-выбор') ? topPickButtonActive : returnButtonInactive}
+          alt="топ-выбор"
           onClick={() => toggleFilter('топ-выбор')}
           style={{
             position: 'absolute',
             left: '343px',
             top: '812px',
             width: '247px',
-            height: '79px',
-            backdropFilter: 'blur(50px)',
-            background: isFilterActive('топ-выбор') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
+            height: '80px',
             cursor: 'pointer',
+            objectFit: 'contain',
           }}
-        >
-          топ-выбор
-        </div>
+        />
 
         {/* Filter: новые */}
-        <div
+        <img
+          src={isFilterActive('новые') ? newButtonActive : returnButtonInactive}
+          alt="новые"
           onClick={() => toggleFilter('новые')}
           style={{
             position: 'absolute',
             left: '590px',
             top: '812px',
             width: '247px',
-            height: '79px',
-            backdropFilter: 'blur(50px)',
-            background: isFilterActive('новые') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
+            height: '80px',
             cursor: 'pointer',
+            objectFit: 'contain',
           }}
-        >
-          новые
-        </div>
+        />
 
         {/* Empty Cards window - exact Figma coordinates */}
         <div style={{
@@ -476,9 +431,10 @@ export const PromptFirstScreen: React.FC = () => {
                 left: '50%',
                 transform: 'translateX(-50%)',
                 bottom: '31px',
-                width: '257px',
-                height: '73px',
+                width: '247px',
+                height: '80px',
                 cursor: 'pointer',
+                objectFit: 'contain',
               }}
             />
           </div>
@@ -590,9 +546,10 @@ export const PromptFirstScreen: React.FC = () => {
                 left: '50%',
                 transform: 'translateX(-50%)',
                 bottom: '31px',
-                width: '257px',
-                height: '73px',
+                width: '247px',
+                height: '80px',
                 cursor: 'pointer',
+                objectFit: 'contain',
               }}
             />
           </div>
@@ -704,9 +661,10 @@ export const PromptFirstScreen: React.FC = () => {
                 left: '50%',
                 transform: 'translateX(-50%)',
                 bottom: '31px',
-                width: '257px',
-                height: '73px',
+                width: '247px',
+                height: '80px',
                 cursor: 'pointer',
+                objectFit: 'contain',
               }}
             />
           </div>
@@ -818,9 +776,10 @@ export const PromptFirstScreen: React.FC = () => {
                 left: '50%',
                 transform: 'translateX(-50%)',
                 bottom: '31px',
-                width: '257px',
-                height: '73px',
+                width: '247px',
+                height: '80px',
                 cursor: 'pointer',
+                objectFit: 'contain',
               }}
             />
           </div>
