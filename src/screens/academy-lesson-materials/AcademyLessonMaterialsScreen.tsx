@@ -218,7 +218,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '356px',
-          top: '520px',
+          top: '485px',
           width: '469px',
           display: 'flex',
           flexDirection: 'column',
