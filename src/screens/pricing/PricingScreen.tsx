@@ -173,13 +173,16 @@ export const PricingScreen: React.FC = () => {
         </div>
 
         {/* КАРТОЧКА ТАРИФ "1 МЕСЯЦ" */}
-        <div style={{
-          position: 'absolute',
-          left: '144px',
-          top: '418px',
-          width: '892px',
-          height: '603px',
-        }}>
+        <div 
+          onClick={() => setSelectedPlan('1month')}
+          style={{
+            position: 'absolute',
+            left: '144px',
+            top: '418px',
+            width: '892px',
+            height: '603px',
+            cursor: 'pointer',
+          }}>
           {/* Внутренний контейнер карточки */}
           <div style={{
             position: 'absolute',
@@ -189,6 +192,7 @@ export const PricingScreen: React.FC = () => {
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '30px',
             overflow: 'clip',
+            pointerEvents: 'none',
           }}>
             {/* Заголовок "1 месяц" */}
             <div style={{
@@ -223,17 +227,15 @@ export const PricingScreen: React.FC = () => {
             />
 
             {/* Плашка цены 2690 (серая, зачёркнутая) */}
-            <div 
-              onClick={() => setSelectedPlan('1month')}
-              style={{
-                position: 'absolute',
-                left: 'calc(50% + 172px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}>
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 172px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              pointerEvents: 'none',
+            }}>
               <img 
                 src={priceButtonGray}
                 alt=""
@@ -274,17 +276,15 @@ export const PricingScreen: React.FC = () => {
             </div>
 
             {/* Плашка цены 1990 (зелёная) */}
-            <div 
-              onClick={() => setSelectedPlan('1month')}
-              style={{
-                position: 'absolute',
-                left: 'calc(50% + 348px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}>
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 348px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              pointerEvents: 'none',
+            }}>
               <img 
                 src={priceButtonGreen}
                 alt=""
@@ -340,13 +340,16 @@ export const PricingScreen: React.FC = () => {
         </div>
 
         {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '1082px',
-          width: '892px',
-          height: '603px',
-        }}>
+        <div 
+          onClick={() => setSelectedPlan('3months')}
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '1082px',
+            width: '892px',
+            height: '603px',
+            cursor: 'pointer',
+          }}>
           {/* Внутренний контейнер карточки */}
           <div style={{
             position: 'absolute',
@@ -356,6 +359,7 @@ export const PricingScreen: React.FC = () => {
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '30px',
             overflow: 'clip',
+            pointerEvents: 'none',
           }}>
 
             {/* Заголовок "3 месяца" */}
@@ -416,18 +420,16 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Плашка "8070 руб." (зачеркнутая) - серая плашка */}
-            <div 
-              onClick={() => setSelectedPlan('3months')}
-              style={{
-                position: 'absolute',
-                left: 'calc(50% + 172px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}>
+            {/* Плашка цены 8070 (серая, зачёркнутая) */}
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 172px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              pointerEvents: 'none',
+            }}>
               <img 
                 src={priceButtonGray}
                 alt=""
@@ -467,18 +469,16 @@ export const PricingScreen: React.FC = () => {
               />
             </div>
 
-            {/* Плашка "5490 руб." - зеленая плашка */}
-            <div 
-              onClick={() => setSelectedPlan('3months')}
-              style={{
-                position: 'absolute',
-                left: 'calc(50% + 348px)',
-                top: '53px',
-                transform: 'translateX(-50%)',
-                width: '176px',
-                height: '57px',
-                cursor: 'pointer',
-              }}>
+            {/* Плашка цены 5490 (зелёная) */}
+            <div style={{
+              position: 'absolute',
+              left: 'calc(50% + 348px)',
+              top: '53px',
+              transform: 'translateX(-50%)',
+              width: '176px',
+              height: '57px',
+              pointerEvents: 'none',
+            }}>
               <img 
                 src={priceButtonGreen}
                 alt=""
