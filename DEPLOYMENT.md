@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-19
 
-### 🚀 Deployed Version: v2.1.2 - Main Dashboard Free Screen Complete
+### 🚀 Deployed Version: v2.1.3 - Main Dashboard Screens Complete
 
-**Commit:** `561558f` - fix: correct плашка демо position to 336px and restore onClick for пополнить button
+**Commit:** `56e6239` - fix: update all card texts to match Figma - truncate to 'На выходе'
 
 **Branch:** `main`
 
