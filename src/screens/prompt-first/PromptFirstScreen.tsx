@@ -15,6 +15,10 @@ import recentButton from '../../assets/кнопка недавние.png';
 import topPickButton from '../../assets/кнопка топ-выбор.png';
 import newButton from '../../assets/кнопка новые.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
+import openButton from '../../assets/кнопка открыть цех.png';
+import newBadge from '../../assets/новое в академии.png';
+import likeIcon from '../../assets/лайк.png';
+import likeEmptyIcon from '../../assets/лайк не поставлен.png';
 
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
@@ -25,8 +29,36 @@ const heartIcon = "https://www.figma.com/api/mcp/asset/8e6e8e5e-eec6-4e7c-bbbd-f
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = React.useState('');
+  const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
+  const [likedCards, setLikedCards] = React.useState<number[]>([]);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  const toggleFilter = (filter: string) => {
+    if (filter === 'вернуть') {
+      setSelectedFilters([]);
+    } else {
+      setSelectedFilters(prev => 
+        prev.includes(filter) 
+          ? prev.filter(f => f !== filter)
+          : [...prev, filter]
+      );
+    }
+  };
+
+  const toggleLike = (cardId: number) => {
+    setLikedCards(prev =>
+      prev.includes(cardId)
+        ? prev.filter(id => id !== cardId)
+        : [...prev, cardId]
+    );
+  };
+
+  const isFilterActive = (filter: string) => {
+    return filter === 'вернуть' ? selectedFilters.length === 0 : selectedFilters.includes(filter);
+  };
+
+  const showOnlyFavorites = selectedFilters.includes('избранное');
 
   return (
     <div style={{
@@ -184,70 +216,135 @@ export const PromptFirstScreen: React.FC = () => {
           />
         </div>
 
-        {/* Filter: вернуть (PNG) */}
-        <img 
-          src={returnButton}
-          alt="вернуть"
+        {/* Filter: вернуть */}
+        <div
+          onClick={() => toggleFilter('вернуть')}
           style={{
             position: 'absolute',
-            inset: '28.75% 60.43% 68.15% 18.64%',
-            width: 'auto',
-            height: 'auto',
-            objectFit: 'contain',
+            left: '220px',
+            top: '733px',
+            width: '247px',
+            height: '79px',
+            backdropFilter: 'blur(50px)',
+            background: isFilterActive('вернуть') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
             cursor: 'pointer',
           }}
-        />
+        >
+          вернуть
+        </div>
 
         {/* Filter: избранное */}
-        <img 
-          src={favoriteButton}
-          alt="избранное"
+        <div
+          onClick={() => toggleFilter('избранное')}
           style={{
             position: 'absolute',
-            inset: '28.75% 39.5% 68.15% 39.58%',
-            objectFit: 'contain',
+            left: '467px',
+            top: '733px',
+            width: '247px',
+            height: '79px',
+            backdropFilter: 'blur(50px)',
+            background: isFilterActive('избранное') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
             cursor: 'pointer',
           }}
-        />
+        >
+          избранное
+        </div>
 
         {/* Filter: недавние */}
-        <img 
-          src={recentButton}
-          alt="недавние"
+        <div
+          onClick={() => toggleFilter('недавние')}
           style={{
             position: 'absolute',
-            inset: '28.75% 18.57% 68.15% 60.51%',
-            objectFit: 'contain',
+            left: '714px',
+            top: '733px',
+            width: '247px',
+            height: '79px',
+            backdropFilter: 'blur(50px)',
+            background: isFilterActive('недавние') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
             cursor: 'pointer',
           }}
-        />
+        >
+          недавние
+        </div>
 
         {/* Filter: топ-выбор */}
-        <img 
-          src={topPickButton}
-          alt="топ-выбор"
+        <div
+          onClick={() => toggleFilter('топ-выбор')}
           style={{
             position: 'absolute',
-            inset: '31.84% 50.01% 65.05% 29.07%',
-            objectFit: 'contain',
+            left: '343px',
+            top: '812px',
+            width: '247px',
+            height: '79px',
+            backdropFilter: 'blur(50px)',
+            background: isFilterActive('топ-выбор') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
             cursor: 'pointer',
           }}
-        />
+        >
+          топ-выбор
+        </div>
 
         {/* Filter: новые */}
-        <img 
-          src={newButton}
-          alt="новые"
+        <div
+          onClick={() => toggleFilter('новые')}
           style={{
             position: 'absolute',
-            bottom: '65.05%',
-            left: '50%',
-            right: '29.07%',
-            top: '31.84%',
-            objectFit: 'contain',
+            left: '590px',
+            top: '812px',
+            width: '247px',
+            height: '79px',
+            backdropFilter: 'blur(50px)',
+            background: isFilterActive('новые') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
             cursor: 'pointer',
           }}
-        />
+        >
+          новые
+        </div>
 
         {/* Empty Cards window - exact Figma coordinates */}
         <div style={{
@@ -266,6 +363,7 @@ export const PromptFirstScreen: React.FC = () => {
           padding: '22px',
         }}>
           {/* Карточка 1 - Верхняя ЛЕВАЯ */}
+          {(!showOnlyFavorites || likedCards.includes(1)) && (
           <div style={{
             position: 'absolute',
             top: '22px',
@@ -308,57 +406,33 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
 
             {/* Сердечко (лайк) */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img 
-                src={heartIcon}
-                alt=""
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
+            <img 
+              src={likedCards.includes(1) ? likeIcon : likeEmptyIcon}
+              alt="лайк"
+              onClick={() => toggleLike(1)}
+              style={{
+                position: 'absolute',
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            />
 
             {/* Плашка "новое" */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            <img 
+              src={newBadge}
+              alt="новое"
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '19px',
-                width: '111px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
+                left: '294px',
+                top: '71px',
+                width: '135px',
+                height: '36px',
+                objectFit: 'contain',
+              }}
+            />
 
             {/* Заголовок - БЕЗ <br/>, текст сам переносится */}
             <div style={{
@@ -398,88 +472,26 @@ export const PromptFirstScreen: React.FC = () => {
               <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>настройте ИИ-копирайтера за один промпт</p>
             </div>
 
-            {/* Кнопка "перейти" - DIV с цветными кругами */}
-            <div 
+            {/* Кнопка "перейти" */}
+            <img 
+              src={openButton}
+              alt="перейти"
               onClick={() => navigate('/prompt-card')}
               style={{
                 position: 'absolute',
-                top: '81.84%',
-                right: '19.77%',
-                bottom: '8.02%',
-                left: '20%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                bottom: '31px',
+                width: '257px',
+                height: '73px',
                 cursor: 'pointer',
               }}
-            >
-              {/* Цветные круги */}
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  left: '77px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                  height: '107.431px',
-                  background: '#37ecf7',
-                  borderRadius: '1568.563px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                  height: '78.548px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <div style={{
-                    width: '51.243px',
-                    height: '75.957px',
-                    background: '#f0d825',
-                    borderRadius: '1568.563px',
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    flexShrink: 0,
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  left: '122.8px',
-                  top: '30.18px',
-                  width: '56.152px',
-                  height: '72.822px',
-                  background: '#d5fc44',
-                  borderRadius: '1568.563px',
-                }} />
-              </div>
-              
-              {/* Текст кнопки */}
-              <div style={{
-                position: 'absolute',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '29px',
-                width: '119px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>перейти</p>
-              </div>
-            </div>
+            />
           </div>
+          )}
 
           {/* Карточка 2 - Верхняя ПРАВАЯ */}
+          {(!showOnlyFavorites || likedCards.includes(2)) && (
           <div style={{
             position: 'absolute',
             top: '22px',
@@ -522,57 +534,19 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
 
             {/* Сердечко (лайк) */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img 
-                src={heartIcon}
-                alt=""
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-
-            {/* Плашка "новое" */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            <img 
+              src={likedCards.includes(2) ? likeIcon : likeEmptyIcon}
+              alt="лайк"
+              onClick={() => toggleLike(2)}
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '19px',
-                width: '111px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            />
 
             {/* Заголовок */}
             <div style={{
@@ -613,85 +587,25 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
 
             {/* Кнопка "перейти" */}
-            <div 
+            <img 
+              src={openButton}
+              alt="перейти"
               onClick={() => navigate('/prompt-card')}
               style={{
                 position: 'absolute',
-                top: '81.84%',
-                right: '19.77%',
-                bottom: '8.02%',
-                left: '20%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                bottom: '31px',
+                width: '257px',
+                height: '73px',
                 cursor: 'pointer',
               }}
-            >
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  left: '77px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                  height: '107.431px',
-                  background: '#37ecf7',
-                  borderRadius: '1568.563px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                  height: '78.548px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <div style={{
-                    width: '51.243px',
-                    height: '75.957px',
-                    background: '#f0d825',
-                    borderRadius: '1568.563px',
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    flexShrink: 0,
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  left: '122.8px',
-                  top: '30.18px',
-                  width: '56.152px',
-                  height: '72.822px',
-                  background: '#d5fc44',
-                  borderRadius: '1568.563px',
-                }} />
-              </div>
-              
-              <div style={{
-                position: 'absolute',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '29px',
-                width: '119px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>перейти</p>
-              </div>
-            </div>
+            />
           </div>
+          )}
 
           {/* Карточка 3 - Нижняя ЛЕВАЯ */}
+          {(!showOnlyFavorites || likedCards.includes(3)) && (
           <div style={{
             position: 'absolute',
             top: '834px',
@@ -734,57 +648,19 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
 
             {/* Сердечко (лайк) */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img 
-                src={heartIcon}
-                alt=""
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-
-            {/* Плашка "новое" */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            <img 
+              src={likedCards.includes(3) ? likeIcon : likeEmptyIcon}
+              alt="лайк"
+              onClick={() => toggleLike(3)}
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '19px',
-                width: '111px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            />
 
             {/* Заголовок */}
             <div style={{
@@ -825,85 +701,25 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
 
             {/* Кнопка "перейти" */}
-            <div 
+            <img 
+              src={openButton}
+              alt="перейти"
               onClick={() => navigate('/prompt-card')}
               style={{
                 position: 'absolute',
-                top: '81.84%',
-                right: '19.77%',
-                bottom: '8.02%',
-                left: '20%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                bottom: '31px',
+                width: '257px',
+                height: '73px',
                 cursor: 'pointer',
               }}
-            >
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  left: '77px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                  height: '107.431px',
-                  background: '#37ecf7',
-                  borderRadius: '1568.563px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                  height: '78.548px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <div style={{
-                    width: '51.243px',
-                    height: '75.957px',
-                    background: '#f0d825',
-                    borderRadius: '1568.563px',
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    flexShrink: 0,
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  left: '122.8px',
-                  top: '30.18px',
-                  width: '56.152px',
-                  height: '72.822px',
-                  background: '#d5fc44',
-                  borderRadius: '1568.563px',
-                }} />
-              </div>
-              
-              <div style={{
-                position: 'absolute',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '29px',
-                width: '119px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>перейти</p>
-              </div>
-            </div>
+            />
           </div>
+          )}
 
           {/* Карточка 4 - Нижняя ПРАВАЯ */}
+          {(!showOnlyFavorites || likedCards.includes(4)) && (
           <div style={{
             position: 'absolute',
             top: '834px',
@@ -946,57 +762,19 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
 
             {/* Сердечко (лайк) */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img 
-                src={heartIcon}
-                alt=""
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-
-            {/* Плашка "новое" */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            <img 
+              src={likedCards.includes(4) ? likeIcon : likeEmptyIcon}
+              alt="лайк"
+              onClick={() => toggleLike(4)}
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '19px',
-                width: '111px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            />
 
             {/* Заголовок */}
             <div style={{
@@ -1037,83 +815,22 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
 
             {/* Кнопка "перейти" */}
-            <div 
+            <img 
+              src={openButton}
+              alt="перейти"
               onClick={() => navigate('/prompt-card')}
               style={{
                 position: 'absolute',
-                top: '81.84%',
-                right: '19.77%',
-                bottom: '8.02%',
-                left: '20%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.9)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                bottom: '31px',
+                width: '257px',
+                height: '73px',
                 cursor: 'pointer',
               }}
-            >
-              <div style={{ position: 'absolute', left: '73px', top: '-44px' }}>
-                <div style={{
-                  position: 'absolute',
-                  left: '77px',
-                  top: '-36.46px',
-                  width: '101.963px',
-                  height: '107.431px',
-                  background: '#37ecf7',
-                  borderRadius: '1568.563px',
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  left: '102.5px',
-                  top: '-40px',
-                  width: '90.498px',
-                  height: '78.548px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <div style={{
-                    width: '51.243px',
-                    height: '75.957px',
-                    background: '#f0d825',
-                    borderRadius: '1568.563px',
-                    transform: 'rotate(16.918deg) skewX(-15.566deg)',
-                    flexShrink: 0,
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  left: '122.8px',
-                  top: '30.18px',
-                  width: '56.152px',
-                  height: '72.822px',
-                  background: '#d5fc44',
-                  borderRadius: '1568.563px',
-                }} />
-              </div>
-              
-              <div style={{
-                position: 'absolute',
-                left: 'calc(50% + 0.03px)',
-                top: 'calc(50% - 0.12px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '29px',
-                width: '119px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>перейти</p>
-              </div>
-            </div>
+            />
           </div>
+          )}
         </div>
 
         {/* Три человека на фоне ПОД блюр-фреймом */}
