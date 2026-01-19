@@ -58,7 +58,7 @@ export const PromptFirstScreen: React.FC = () => {
   };
 
   const isFilterActive = (filter: string) => {
-    return filter === 'вернуть' ? selectedFilters.length === 0 : selectedFilters.includes(filter);
+    return selectedFilters.includes(filter);
   };
 
   const showOnlyFavorites = selectedFilters.includes('избранное');
@@ -221,7 +221,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Filter: вернуть */}
         <img
-          src={isFilterActive('вернуть') ? returnButtonActive : returnButtonInactive}
+          src={returnButtonInactive}
           alt="вернуть"
           onClick={() => toggleFilter('вернуть')}
           style={{
@@ -376,7 +376,7 @@ export const PromptFirstScreen: React.FC = () => {
             {/* Плашка "новое" */}
             <div style={{
               position: 'absolute',
-              left: '235px',
+              right: '41px',
               top: '18px',
               width: '101px',
               height: '36px',
