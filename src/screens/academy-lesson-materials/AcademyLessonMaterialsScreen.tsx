@@ -234,7 +234,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         <p style={{
           position: 'absolute',
           left: '200px',
-          top: '611px',
+          top: '633px',
           width: '781px',
           margin: 0,
           fontFamily: 'Gotham Pro',
@@ -315,6 +315,38 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           textAlign: 'center',
         }}>
           <p style={{ margin: 0, lineHeight: 1.2 }}>скачать файлы (5)</p>
+        </div>
+
+        {/* 32:737 - Сайдбар (плюсик) */}
+        <div 
+          onClick={() => {
+            if (window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: 'Материалы будут отправлены в чат с ботом',
+              });
+            } else {
+              alert('Материалы будут отправлены в чат с ботом');
+            }
+          }}
+          style={{
+            position: 'absolute',
+            left: '754px',
+            top: '1899px',
+            width: '35px',
+            height: '35px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            fontSize: '20px',
+            color: 'white',
+          }}
+        >
+          +
         </div>
 
         {/* Footer */}
