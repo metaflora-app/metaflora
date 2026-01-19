@@ -292,10 +292,10 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             />
           </div>
 
-          {/* Текст справа - черная карточка */}
+          {/* Текст справа - черная карточка (7:308) */}
           <div style={{
             position: 'absolute',
-            inset: '0 0 0 50.22%',
+            inset: '2.01% 0 0 50.22%',
             backdropFilter: 'blur(50px)',
             background: 'black',
             border: '4px solid rgba(255, 255, 255, 0.3)',
@@ -310,13 +310,13 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '23px',
+              fontSize: '27px',
               lineHeight: '1.1',
               color: 'white',
               textAlign: 'center',
             }}>
               <p style={{ margin: 0 }}>
-                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе — рабочая система, которую можно повторять и масштабировать.
+                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
               </p>
             </div>
           </div>
@@ -343,25 +343,28 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:744) */}
           <img 
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-academy')}
             style={{
               position: 'absolute',
-              left: '96px',
-              top: '91px',
-              width: '257px',
-              height: '73px',
+              left: '101px',
+              top: '85px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
 
-          {/* Плашка "новое" (27:630) */}
+          {/* Плашка "демо" (368:647) */}
           <div style={{
             position: 'absolute',
-            inset: '7.63% 52.81% 77.91% 32.18%',
+            left: '336px',
+            top: '19px',
+            width: '101px',
+            height: '36px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -374,10 +377,10 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             <div style={{
               fontFamily: 'Gotham Pro',
               fontWeight: 500,
-              fontSize: '18px',
+              fontSize: '20px',
               color: 'white',
             }}>
-              новое
+              демо
             </div>
           </div>
         </div>
