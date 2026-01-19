@@ -430,7 +430,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '23px',
+              fontSize: '27px',
               lineHeight: '1.1',
               color: 'white',
               textAlign: 'center',
@@ -470,10 +470,10 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             onClick={() => navigate('/about-laba')}
             style={{
               position: 'absolute',
-              left: '96px',
+              left: '101px',
               top: '86px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
@@ -524,7 +524,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '23px',
+              fontSize: '27px',
               lineHeight: '1.1',
               color: 'white',
               textAlign: 'center',
@@ -542,10 +542,10 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             onClick={() => navigate('/about-prompt')}
             style={{
               position: 'absolute',
-              left: '96px',
+              left: '101px',
               top: '85px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
@@ -596,7 +596,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '23px',
+              fontSize: '27px',
               lineHeight: '1.1',
               color: 'white',
               textAlign: 'center',
@@ -616,8 +616,8 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               position: 'absolute',
               left: '98px',
               top: '85px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
@@ -668,7 +668,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '23px',
+              fontSize: '27px',
               lineHeight: '1.1',
               color: 'white',
               textAlign: 'center',
@@ -687,8 +687,8 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               position: 'absolute',
               left: '89px',
               top: '88px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
