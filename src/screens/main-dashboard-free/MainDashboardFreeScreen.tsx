@@ -15,7 +15,7 @@ import cardBackground from '../../assets/main-dashboard/фон под карто
 import buttonBackground from '../../assets/main-dashboard/фон под кнопкой перейти.png';
 import topUpButton from '../../assets/main-dashboard/кнопка пополнить.png';
 import payButton from '../../assets/main-dashboard/оплатить полный доступ поменьше.png';
-import goButton from '../../assets/main-dashboard/кнопка перейти.png';
+import goButton from '../../assets/main-dashboard/кнопка открыть.png';
 
 export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -188,7 +188,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: '545px',
-            top: '5px',
+            top: '42px',
             width: '159px',
             height: '159px',
             borderRadius: '80px',
@@ -285,13 +285,13 @@ export const MainDashboardFreeScreen: React.FC = () => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '23px',
+              fontSize: '27px',
               lineHeight: '1.1',
               color: 'white',
               textAlign: 'center',
             }}>
               <p style={{ margin: 0 }}>
-                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе — рабочая система, которую можно повторять и масштабировать.
+                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
               </p>
             </div>
           </div>
