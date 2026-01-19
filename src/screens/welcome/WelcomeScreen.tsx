@@ -519,16 +519,16 @@ export const WelcomeScreen: React.FC = () => {
           width: '214px',
           height: '119px',
         }}>
-          {/* Иконка "И" */}
+          {/* Иконка "i" */}
           <img 
             src={policyInfoIcon}
             alt="info"
             style={{
               position: 'absolute',
-              left: '18.7916px',
-              top: '2px',
-              width: '4.2084px',
-              height: '22.9616px',
+              left: 0,
+              top: 0,
+              width: '41px',
+              height: '41px',
               objectFit: 'contain',
             }}
           />
