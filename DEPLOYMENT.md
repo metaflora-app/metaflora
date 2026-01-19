@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-19
 
-### 🚀 Deployed Version: v2.2.5 - Academy Lesson Materials Pixel-Perfect
+### 🚀 Deployed Version: v2.2.6 - Laba UI Refinements
 
-**Commit:** `6602af6` - fix: move title down and fix typo in subtitle
+**Commit:** `3157496` - fix: add white dot to metacoins button in BottomNavigation
 
 **Branch:** `main`
 
@@ -22,18 +22,22 @@
 - ✅ Лаба: 10 screens (intro, main, search, no-tracked, tracked, loading, analysis interactive)
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
-### Latest Updates (2026-01-19 - v2.2.5):
+### Latest Updates (2026-01-19 - v2.2.6):
 - ✅ **Academy Lesson Materials Screen** - Completely rebuilt from Figma:
-  - Fixed all element positions from Figma metadata (32:710, 32:840, 32:715, 32:716, 32:717, 32:726, 368:1134, 32:735, 32:737)
-  - Title (32:715): moved to 520px, fontSize 52px, Inter Bold, lineHeight 0
-  - Description (32:716): 633px, fontSize 35px, Gotham Pro Light, text truncated as in Figma
-  - Prompt text (32:717): 968px, fontSize 35px, Gotham Pro Light, exact text from Figma
-  - Prompt badge (32:726): 848px, 246.93x79.25px
-  - Materials badge (368:1134): 1781px, 246.93x79.25px
-  - Download text (32:735): 1895px, fontSize 32px, Gotham Pro Medium, onClick with Telegram popup
-  - Sidebar button (32:737): 754px, 1899px, 35x35px, onClick with Telegram popup
+  - All elements positioned with pixel-perfect precision from Figma metadata
+  - Title (32:715): 485px, fontSize 52px, Inter Bold
+  - Description (32:716): 633px, fontSize 35px, Gotham Pro Light
+  - Prompt/Materials badges with exact dimensions
+  - Both badges and download text have onClick with Telegram WebApp popup
+  - Sidebar button (32:737): 754px, 1899px, 35x35px
   - Fixed typo: "исползованные" → "использованные" промпты
-  - Removed scroll: height 100vh, overflow hidden
+
+- ✅ **Laba UI Refinements** (v2.2.6):
+  - **Laba Bottom Navigation**: Added white dot indicator (356:806) on metacoins button
+  - **Laba Loading Screen**: 
+    * Adjusted analysis icon clickable area (removed debug elements)
+    * Added white dot to metacoins icon (7x7px)
+  - All laba screens now show notification indicator on "пополнить" button
 
 ### Infrastructure:
 - React Router (27 routes configured)
@@ -76,11 +80,11 @@
 
 ## 🎉 Deployment Success:
 
-**Time:** 2026-01-19 10:10:00 GMT  
+**Time:** 2026-01-19 10:25:00 GMT  
 **Status:** Live and running  
 **Response:** HTTP/2 200 OK  
 **Assets:** All Figma assets loaded successfully  
-**Commit:** 6602af6
+**Commit:** 3157496
 
 ---
 
