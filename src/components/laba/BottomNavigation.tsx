@@ -61,13 +61,15 @@ export function LabaBottomNavigation() {
       {/* пополнить */}
       <button
         onClick={() => navigate('/metacoins')}
-        className="flex flex-col items-center gap-[7px]"
+        className="flex flex-col items-center gap-[7px] relative"
       >
-        <div className="w-[103px] h-[105px] rounded-[20px] bg-white/10 border border-white/30 flex items-center justify-center">
+        <div className="w-[103px] h-[105px] rounded-[20px] bg-white/10 border border-white/30 flex items-center justify-center relative">
           <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
             <circle cx="30" cy="30" r="18" stroke="white" strokeWidth="3"/>
             <path d="M30 20V40M20 30H40" stroke="white" strokeWidth="3" strokeLinecap="round"/>
           </svg>
+          {/* Белая точка (356:806) - 7x7px */}
+          <div className="absolute top-[10px] right-[10px] w-[7px] h-[7px] rounded-full bg-white" />
         </div>
         <span className="text-white text-[19px] font-['Gotham_Pro'] font-medium">пополнить</span>
       </button>
