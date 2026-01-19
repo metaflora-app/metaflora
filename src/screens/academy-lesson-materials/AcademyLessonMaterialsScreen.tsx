@@ -231,11 +231,12 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         </div>
 
         {/* 32:716 - Описание */}
-        <div style={{
+        <p style={{
           position: 'absolute',
           left: '200px',
           top: '611px',
           width: '781px',
+          margin: 0,
           fontFamily: 'Gotham Pro',
           fontWeight: 300,
           fontSize: '35px',
@@ -244,8 +245,8 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           textAlign: 'center',
           whiteSpace: 'pre-wrap',
         }}>
-          идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
-        </div>
+          идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе
+        </p>
 
         {/* 32:726 - Плашка промпт */}
         <img 
@@ -275,16 +276,15 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           textAlign: 'center',
           whiteSpace: 'pre-wrap',
         }}>
-          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow. </p>
-          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр: </p>
+          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.</p>
+          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр:</p>
           <p style={{ margin: 0 }}>&nbsp;</p>
-          <p style={{ margin: 0 }}>A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water. </p>
+          <p style={{ margin: 0 }}>A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.</p>
           <p style={{ margin: 0 }}>Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.</p>
           <p style={{ margin: 0 }}>&nbsp;</p>
-          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow. </p>
-          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр: </p>
-          <p style={{ margin: 0 }}>весь экран </p>
-          <p>&nbsp;</p>
+          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.</p>
+          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр:</p>
+          <p style={{ margin: 0 }}>весь экран</p>
         </div>
 
         {/* 368:1134 - Плашка материалы */}
