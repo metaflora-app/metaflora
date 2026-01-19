@@ -207,131 +207,128 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           left: '141px',
           top: '452px',
           width: '898px',
-          height: '1536px',
+          minHeight: '1536px',
           backdropFilter: 'blur(50px)',
           background: 'black',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-          overflow: 'hidden',
+        }} />
+
+        {/* 32:715 - Заголовок (абсолютно от экрана) */}
+        <div style={{
+          position: 'absolute',
+          left: '356px',
+          top: '463px',
+          width: '469px',
+          fontFamily: 'Inter',
+          fontWeight: 700,
+          fontSize: '52px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
         }}>
-          {/* Содержимое внутри черной карточки - координаты относительно 141,452 */}
-          
-          {/* 32:715 - Заголовок (356-141=215, 463-452=11) */}
-          <div style={{
+          <p style={{ margin: 0, lineHeight: 1.2 }}>морфинг через{'\n'}общие элементы</p>
+        </div>
+
+        {/* 32:716 - Описание */}
+        <div style={{
+          position: 'absolute',
+          left: '200px',
+          top: '611px',
+          width: '781px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 300,
+          fontSize: '35px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
+          </p>
+        </div>
+
+        {/* 32:726 - Плашка промпт */}
+        <img 
+          src={promptButton}
+          alt="промпт"
+          style={{
             position: 'absolute',
-            left: '215px',
-            top: '11px',
-            width: '469px',
-            fontFamily: 'Inter',
-            fontWeight: 700,
-            fontSize: '52px',
-            lineHeight: 1.2,
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>морфинг через{'\n'}общие элементы</p>
-          </div>
+            left: '467px',
+            top: '848px',
+            width: '246.93px',
+            height: '79.25px',
+            objectFit: 'contain',
+          }}
+        />
 
-          {/* 32:716 - Описание (200-141=59, 611-452=159) */}
-          <div style={{
+        {/* 32:717 - Текст промптов */}
+        <div style={{
+          position: 'absolute',
+          left: '193px',
+          top: '968px',
+          width: '795px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 300,
+          fontSize: '35px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
+            A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
+          </p>
+          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
+            А второй клип начинается с солнца, которое тоже заполняет кадр:
+          </p>
+          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
+            A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
+          </p>
+          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
+            Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
+          </p>
+          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
+            A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
+          </p>
+          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
+            А второй клип начинается с солнца, которое тоже заполняет кадр:
+          </p>
+          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
+            A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            Оба объекта оранжевые, оба занимают весь экран
+          </p>
+        </div>
+
+        {/* 368:1134 - Плашка материалы */}
+        <img 
+          src={materialsButton}
+          alt="материалы"
+          style={{
             position: 'absolute',
-            left: '59px',
-            top: '159px',
-            width: '781px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '35px',
-            lineHeight: 1.2,
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
-            </p>
-          </div>
+            left: '467px',
+            top: '1781px',
+            width: '246.93px',
+            height: '79.25px',
+            objectFit: 'contain',
+          }}
+        />
 
-          {/* 32:726 - Плашка промпт (467-141=326, 848-452=396) */}
-          <img 
-            src={promptButton}
-            alt="промпт"
-            style={{
-              position: 'absolute',
-              left: '326px',
-              top: '396px',
-              width: '246.93px',
-              height: '79.25px',
-              objectFit: 'contain',
-            }}
-          />
-
-          {/* 32:717 - Текст промптов (193-141=52, 968-452=516) */}
-          <div style={{
-            position: 'absolute',
-            left: '52px',
-            top: '516px',
-            width: '795px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '35px',
-            lineHeight: 1.2,
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-            </p>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              А второй клип начинается с солнца, которое тоже заполняет кадр:
-            </p>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
-            </p>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
-            </p>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-            </p>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              А второй клип начинается с солнца, которое тоже заполняет кадр:
-            </p>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
-            </p>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>
-              Оба объекта оранжевые, оба занимают весь экран
-            </p>
-          </div>
-
-          {/* 368:1134 - Плашка материалы (467-141=326, 1781-452=1329) */}
-          <img 
-            src={materialsButton}
-            alt="материалы"
-            style={{
-              position: 'absolute',
-              left: '326px',
-              top: '1329px',
-              width: '246.93px',
-              height: '79.25px',
-              objectFit: 'contain',
-            }}
-          />
-
-          {/* 32:735 - Текст "скачать файлы (5)" (432-141=291, 1895-452=1443) */}
-          <div style={{
-            position: 'absolute',
-            left: '291px',
-            top: '1443px',
-            width: '316px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '32px',
-            lineHeight: 1.2,
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            <p style={{ margin: 0, lineHeight: 1.2 }}>скачать файлы (5)</p>
-          </div>
+        {/* 32:735 - Текст "скачать файлы (5)" */}
+        <div style={{
+          position: 'absolute',
+          left: '432px',
+          top: '1895px',
+          width: '316px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 500,
+          fontSize: '32px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>скачать файлы (5)</p>
         </div>
 
         {/* Footer */}
