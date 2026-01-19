@@ -6,6 +6,17 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 
+// Telegram WebApp types
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp?: {
+        showPopup: (params: { message: string }) => void;
+      };
+    };
+  }
+}
+
 // Figma assets from node 7:1879
 const houseImage = "https://www.figma.com/api/mcp/asset/85e39ff4-6bb7-48a6-8c5f-f40122832e61";
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/ef06372f-ae71-40e7-bc6c-dcb61adf39d8";
