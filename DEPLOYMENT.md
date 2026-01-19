@@ -1,10 +1,10 @@
 # МЕТАФЛОРА* - Deployment Log
 
-## Deployment Date: 2026-01-19
+## Deployment Date: 2026-01-20
 
-### 🚀 Deployed Version: v2.2.6 - Laba UI Refinements
+### 🚀 Deployed Version: v2.2.7 - LabaNoTrackedScreen Typography Fix
 
-**Commit:** `3157496` - fix: add white dot to metacoins button in BottomNavigation
+**Commit:** `f8b6a24` - fix: update LabaNoTrackedScreen typography to match Figma specs
 
 **Branch:** `main`
 
@@ -22,7 +22,13 @@
 - ✅ Лаба: 10 screens (intro, main, search, no-tracked, tracked, loading, analysis interactive)
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
-### Latest Updates (2026-01-19 - v2.2.6):
+### Latest Updates (2026-01-20 - v2.2.7):
+- ✅ **LabaNoTrackedScreen Typography Fix**:
+  - Title (7:1377) "отслеживание контента": Inter ExtraBold 80px, lineHeight 0 (was 64px)
+  - Subtitle (7:1378) "добавьте аккаунт для отслеживания": Gotham Pro Light 40px, lineHeight 0, white color (was 32px, gray)
+  - Pixel-perfect from Figma metadata
+
+### Previous Updates (2026-01-19 - v2.2.6):
 - ✅ **Academy Lesson Materials Screen** - Completely rebuilt from Figma:
   - All elements positioned with pixel-perfect precision from Figma metadata
   - Title (32:715): 485px, fontSize 52px, Inter Bold
