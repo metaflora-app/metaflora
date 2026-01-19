@@ -63,6 +63,179 @@ export const PromptFirstScreen: React.FC = () => {
 
   const showOnlyFavorites = selectedFilters.includes('избранное');
 
+  // Массив всех карточек
+  const allCards = [1, 2, 3, 4];
+  
+  // Фильтруем карточки по избранному
+  const visibleCards = showOnlyFavorites 
+    ? allCards.filter(cardId => likedCards.includes(cardId))
+    : allCards;
+
+  // Позиции карточек в сетке (2x2)
+  const getCardPosition = (index: number) => {
+    const row = Math.floor(index / 2);
+    const col = index % 2;
+    return {
+      left: col === 0 ? '22px' : '454px',
+      top: `${22 + row * 812}px`,
+    };
+  };
+
+  // Рендер одной карточки
+  const renderCard = (cardId: number, index: number) => {
+    const position = getCardPosition(index);
+    const isFirstCard = cardId === 1;
+
+    return (
+      <div key={cardId} style={{
+        position: 'absolute',
+        ...position,
+        width: '410px',
+        height: '782px',
+      }}>
+        {/* Черный фон */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backdropFilter: 'blur(50px)',
+          background: '#000',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }} />
+
+        {/* Фото дома */}
+        <div style={{
+          position: 'absolute',
+          top: '3.45%',
+          right: '6.59%',
+          bottom: '50.64%',
+          left: '6.59%',
+          border: '2px solid rgba(0, 0, 0, 0.3)',
+          borderRadius: '25px',
+        }}>
+          <img 
+            src={houseImage}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '25px',
+            }}
+          />
+        </div>
+
+        {/* Сердечко (лайк) */}
+        <img 
+          src={likedCards.includes(cardId) ? likeIcon : likeEmptyIcon}
+          alt="лайк"
+          onClick={() => toggleLike(cardId)}
+          style={{
+            position: 'absolute',
+            left: '42px',
+            top: '44px',
+            width: '36px',
+            height: '36px',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Плашка "новое" - только на первой карточке */}
+        {isFirstCard && (
+          <div style={{
+            position: 'absolute',
+            right: '41px',
+            top: '18px',
+            width: '101px',
+            height: '36px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            overflow: 'clip',
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: 'calc(50% - 0.5px)',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              height: '19px',
+              width: '111px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '20px',
+              color: 'white',
+              textAlign: 'center',
+              lineHeight: 0,
+            }}>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новые</p>
+            </div>
+          </div>
+        )}
+
+        {/* Заголовок */}
+        <div style={{
+          position: 'absolute',
+          top: '54.48%',
+          right: '10%',
+          bottom: '38.11%',
+          left: '9.76%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          fontFamily: 'Gotham Pro, sans-serif',
+          fontWeight: 700,
+          fontSize: '40px',
+          color: 'white',
+          lineHeight: 0,
+        }}>
+          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>ИИ-копирайтер для блога</p>
+        </div>
+
+        {/* Описание */}
+        <div style={{
+          position: 'absolute',
+          top: '64.58%',
+          right: '10%',
+          bottom: '23.27%',
+          left: '9.76%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          fontFamily: 'Gotham Pro, sans-serif',
+          fontWeight: 300,
+          fontSize: '32px',
+          color: 'white',
+          lineHeight: 0,
+        }}>
+          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>настройте ИИ-копирайтера за один промпт</p>
+        </div>
+
+        {/* Кнопка "перейти" */}
+        <img 
+          src={openButton}
+          alt="перейти"
+          onClick={() => navigate('/prompt-card')}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            bottom: '63px',
+            width: '247px',
+            height: '80px',
+            cursor: 'pointer',
+            objectFit: 'contain',
+          }}
+        />
+      </div>
+    );
+  };
+
   return (
     <div style={{
       position: 'relative',
@@ -315,499 +488,8 @@ export const PromptFirstScreen: React.FC = () => {
           zIndex: 10,
           padding: '22px',
         }}>
-          {/* Карточка 1 - Верхняя ЛЕВАЯ */}
-          {(!showOnlyFavorites || likedCards.includes(1)) && (
-          <div style={{
-            position: 'absolute',
-            top: '22px',
-            left: '22px',
-            width: '410px',
-            height: '782px',
-          }}>
-            {/* Черный фон */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-
-            {/* Фото дома */}
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '50.64%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={houseImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Сердечко (лайк) */}
-            <img 
-              src={likedCards.includes(1) ? likeIcon : likeEmptyIcon}
-              alt="лайк"
-              onClick={() => toggleLike(1)}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Плашка "новое" */}
-            <div style={{
-              position: 'absolute',
-              right: '41px',
-              top: '18px',
-              width: '101px',
-              height: '36px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                left: '50%',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: '19px',
-                width: '111px',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '20px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новые</p>
-              </div>
-            </div>
-
-            {/* Заголовок - БЕЗ <br/>, текст сам переносится */}
-            <div style={{
-              position: 'absolute',
-              top: '54.48%',
-              right: '10%',
-              bottom: '38.11%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>ИИ-копирайтер для блога</p>
-            </div>
-
-            {/* Описание */}
-            <div style={{
-              position: 'absolute',
-              top: '64.58%',
-              right: '10%',
-              bottom: '23.27%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>настройте ИИ-копирайтера за один промпт</p>
-            </div>
-
-            {/* Кнопка "перейти" */}
-            <img 
-              src={openButton}
-              alt="перейти"
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                bottom: '63px',
-                width: '247px',
-                height: '80px',
-                cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-          )}
-
-          {/* Карточка 2 - Верхняя ПРАВАЯ */}
-          {(!showOnlyFavorites || likedCards.includes(2)) && (
-          <div style={{
-            position: 'absolute',
-            top: '22px',
-            right: '22px',
-            width: '410px',
-            height: '782px',
-          }}>
-            {/* Черный фон */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-
-            {/* Фото дома */}
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '50.64%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={houseImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Сердечко (лайк) */}
-            <img 
-              src={likedCards.includes(2) ? likeIcon : likeEmptyIcon}
-              alt="лайк"
-              onClick={() => toggleLike(2)}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Заголовок */}
-            <div style={{
-              position: 'absolute',
-              top: '54.48%',
-              right: '10%',
-              bottom: '38.11%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>ИИ-копирайтер для блога</p>
-            </div>
-
-            {/* Описание */}
-            <div style={{
-              position: 'absolute',
-              top: '64.58%',
-              right: '10%',
-              bottom: '23.27%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>настройте ИИ-копирайтера за один промпт</p>
-            </div>
-
-            {/* Кнопка "перейти" */}
-            <img 
-              src={openButton}
-              alt="перейти"
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                bottom: '63px',
-                width: '247px',
-                height: '80px',
-                cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-          )}
-
-          {/* Карточка 3 - Нижняя ЛЕВАЯ */}
-          {(!showOnlyFavorites || likedCards.includes(3)) && (
-          <div style={{
-            position: 'absolute',
-            top: '834px',
-            left: '22px',
-            width: '410px',
-            height: '782px',
-          }}>
-            {/* Черный фон */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-
-            {/* Фото дома */}
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '50.64%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={houseImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Сердечко (лайк) */}
-            <img 
-              src={likedCards.includes(3) ? likeIcon : likeEmptyIcon}
-              alt="лайк"
-              onClick={() => toggleLike(3)}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Заголовок */}
-            <div style={{
-              position: 'absolute',
-              top: '54.48%',
-              right: '10%',
-              bottom: '38.11%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>ИИ-копирайтер для блога</p>
-            </div>
-
-            {/* Описание */}
-            <div style={{
-              position: 'absolute',
-              top: '64.58%',
-              right: '10%',
-              bottom: '23.27%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>настройте ИИ-копирайтера за один промпт</p>
-            </div>
-
-            {/* Кнопка "перейти" */}
-            <img 
-              src={openButton}
-              alt="перейти"
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                bottom: '63px',
-                width: '247px',
-                height: '80px',
-                cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-          )}
-
-          {/* Карточка 4 - Нижняя ПРАВАЯ */}
-          {(!showOnlyFavorites || likedCards.includes(4)) && (
-          <div style={{
-            position: 'absolute',
-            top: '834px',
-            right: '22px',
-            width: '410px',
-            height: '782px',
-          }}>
-            {/* Черный фон */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-
-            {/* Фото дома */}
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '50.64%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={houseImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Сердечко (лайк) */}
-            <img 
-              src={likedCards.includes(4) ? likeIcon : likeEmptyIcon}
-              alt="лайк"
-              onClick={() => toggleLike(4)}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Заголовок */}
-            <div style={{
-              position: 'absolute',
-              top: '54.48%',
-              right: '10%',
-              bottom: '38.11%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>ИИ-копирайтер для блога</p>
-            </div>
-
-            {/* Описание */}
-            <div style={{
-              position: 'absolute',
-              top: '64.58%',
-              right: '10%',
-              bottom: '23.27%',
-              left: '9.76%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>настройте ИИ-копирайтера за один промпт</p>
-            </div>
-
-            {/* Кнопка "перейти" */}
-            <img 
-              src={openButton}
-              alt="перейти"
-              onClick={() => navigate('/prompt-card')}
-              style={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                bottom: '63px',
-                width: '247px',
-                height: '80px',
-                cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-          )}
+          {/* Рендерим отфильтрованные карточки */}
+          {visibleCards.map((cardId, index) => renderCard(cardId, index))}
         </div>
 
         {/* Три человека на фоне ПОД блюр-фреймом */}
