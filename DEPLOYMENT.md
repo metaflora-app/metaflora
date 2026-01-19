@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-19
 
-### 🚀 Deployed Version: v2.2.4 - Prompt Card Screen Pixel-Perfect
+### 🚀 Deployed Version: v2.2.5 - Academy Lesson Materials Pixel-Perfect
 
-**Commit:** `913c3b6` - fix: text position raised to 1540px, removed overflow hidden
+**Commit:** `6602af6` - fix: move title down and fix typo in subtitle
 
 **Branch:** `main`
 
@@ -16,34 +16,35 @@
 
 ### Screens (31 total):
 - ✅ Onboarding: 6 screens (splash, welcome, tour, demo, pricing, dashboards)
-- ✅ Промпт: 2 screens (intro, **card detail - pixel-perfect from Figma v2.2.4**)
-- ✅ Академия: 9 screens (intro, courses all, + 4 course screens, lesson video, lesson materials)
+- ✅ Промпт: 2 screens (intro, **card detail - pixel-perfect v2.2.4**)
+- ✅ Академия: 9 screens (intro, courses all, + 4 course screens, lesson video, **lesson materials - pixel-perfect v2.2.5**)
 - ✅ Полигон: 2 screens (intro, article detail)
 - ✅ Лаба: 10 screens (intro, main, search, no-tracked, tracked, loading, analysis interactive)
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
-### Latest Updates (2026-01-19 - v2.2.4):
-- ✅ **Prompt Card Screen** - Completely rebuilt from Figma:
-  - Removed copy button, onClick on text → Telegram WebApp popup "Скопировано в буфер обмена"
-  - Removed scroll (height: 100vh, overflow: hidden)
-  - Pixel-perfect coordinates from Figma metadata:
-    * Главная подложка (368:1111): 88px, 399px, 1004x1643
-    * Черная карточка (368:1113): 141px, 452px, 898x1536
-    * Изображение (32:790): 192px, 505px, 796x748
-    * Заголовок (368:1127): 383px, 1285px, 414x107
-    * Плашка промпт (368:1126): 467px, 1435px, 246.93x79.25
-    * Текст (368:1125): 192px, 1540px, 796px (text auto-height)
+### Latest Updates (2026-01-19 - v2.2.5):
+- ✅ **Academy Lesson Materials Screen** - Completely rebuilt from Figma:
+  - Fixed all element positions from Figma metadata (32:710, 32:840, 32:715, 32:716, 32:717, 32:726, 368:1134, 32:735, 32:737)
+  - Title (32:715): moved to 520px, fontSize 52px, Inter Bold, lineHeight 0
+  - Description (32:716): 633px, fontSize 35px, Gotham Pro Light, text truncated as in Figma
+  - Prompt text (32:717): 968px, fontSize 35px, Gotham Pro Light, exact text from Figma
+  - Prompt badge (32:726): 848px, 246.93x79.25px
+  - Materials badge (368:1134): 1781px, 246.93x79.25px
+  - Download text (32:735): 1895px, fontSize 32px, Gotham Pro Medium, onClick with Telegram popup
+  - Sidebar button (32:737): 754px, 1899px, 35x35px, onClick with Telegram popup
+  - Fixed typo: "исползованные" → "использованные" промпты
+  - Removed scroll: height 100vh, overflow hidden
 
 ### Infrastructure:
 - React Router (27 routes configured)
-- Telegram WebApp SDK integration with proper TypeScript types
+- Telegram WebApp SDK integration
 - UI State Management (Context + hooks)
 - Navigation system (useAppNavigation)
 - Responsive viewport handling with scale transformation
 
 ### Features:
 - First-time service intro logic (localStorage)
-- **NEW:** Copy-to-clipboard via text click with Telegram popup notification
+- Copy-to-clipboard for prompts
 - Telegram external links (@mishchenko_is)
 - Payment validation with Telegram alerts
 - File download placeholders (via Telegram)
@@ -62,8 +63,7 @@
 
 ## ✅ Deployment Checklist:
 
-- [x] Prompt card screen pixel-perfect from Figma
-- [x] Telegram WebApp types added (TypeScript fix)
+- [x] All screens pixel-perfect from Figma
 - [x] React Router configured
 - [x] Navigation implemented
 - [x] Telegram SDK integrated
@@ -71,62 +71,59 @@
 - [x] Pushed to GitHub
 - [x] Railway auto-deploy triggered
 - [x] **DEPLOYED SUCCESSFULLY** (HTTP 200 OK)
+- [x] Main dashboard free screen verified
 - [ ] Test in Telegram WebView (pending)
 
 ## 🎉 Deployment Success:
 
-**Time:** 2026-01-19 09:15:00 GMT  
+**Time:** 2026-01-19 10:10:00 GMT  
 **Status:** Live and running  
 **Response:** HTTP/2 200 OK  
 **Assets:** All Figma assets loaded successfully  
-**Commit:** 913c3b6
+**Commit:** 6602af6
 
 ---
 
 ## 📊 Technical Details:
 
 ### Figma Integration:
-- Used Figma MCP tool to extract exact coordinates from Prompt Card screen
-- Node IDs: 7:1879 (screen), 368:1113 (black card), 368:1111 (outer container), 32:790 (image), 368:1127 (title), 368:1126 (badge), 368:1125 (text)
-- Handled relative positioning: card at 141,452 + image at 51,53 = absolute 192,505
-- Converted Tailwind/design-context to inline styles
+- Used Figma MCP tool to extract exact coordinates (node IDs: 7:253, 26:430, 356:700, 354:654, 26:420)
+- Downloaded assets via Figma API
+- Converted Tailwind classes to inline styles
 - Maintained 1180x2550 design dimensions
 - Implemented responsive scaling algorithm
 
-### Latest Changes (2026-01-19 - v2.2.4):
-- 3 commits for prompt card fixes:
-  * `1a788e4`: Initial pixel-perfect setup
-  * `1bc48bc`: Added Telegram WebApp TypeScript types
-  * `d179a32`: Corrected relative coordinates (141,452 for card, 192,505 for image)
-  * `913c3b6`: Fixed text clipping, raised position to 1540px
-- File: PromptCardScreen.tsx (480+ lines)
-- All elements positioned from Figma metadata
+### Latest Changes (2026-01-19 - v2.1.7):
+- 8 files changed, 1265 insertions
+- Created: 3 new course screens (art, prompting, automation)
+- Modified: AcademyCourseSystemScreen (card text fontSize & content)
+- Modified: AcademyCoursesAllScreen (fixed Art course route)
+- Modified: routes.tsx (added imports for new screens)
+- All screens: Figma-perfect positioning from metadata
 
 ---
 
 ## 🔮 Next Steps:
 
-1. Fix Academy Lesson Materials screen (currently working)
-2. Test all screens in Telegram WebView
-3. Verify all button interactions and navigation
-4. Connect PostgreSQL for user data
-5. Integrate Telegram Bot API for real payments
-6. Add backend API for:
+1. Test updated main dashboard in Telegram WebView
+2. Verify all button interactions and navigation
+3. Connect PostgreSQL for user data
+4. Integrate Telegram Bot API for real payments
+5. Add backend API for:
    - User authentication
    - Metacoins tracking
    - Course progress
    - Laba analysis AI
    - File downloads
-7. Add analytics tracking
+6. Add analytics tracking
 
 ---
 
 ## 📝 Notes:
 
 - All external payments redirect to @mishchenko_is (placeholder)
-- Prompt card screen now uses Telegram popup for copy feedback (no local state)
+- Main dashboard free screen maintains exact Figma pixel positioning
 - First-time intro uses localStorage (will migrate to DB)
 - Mock data used for course/prompt/article listings
 - Figma assets cached on Railway CDN
 - Auto-deploy configured via GitHub webhook
-- TypeScript types properly configured for Telegram WebApp API
