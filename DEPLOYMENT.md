@@ -23,6 +23,10 @@
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
 ### Latest Updates (2026-01-20 - v2.2.8):
+- ✅ **Main Dashboard Updates**:
+  - **MainDashboardFreeScreen**: Removed metacoin icon, top-up button, and "150 метакоинов" text
+  - **MainDashboardPremiumScreen**: Top-up button now navigates to /metacoins (instead of /pricing)
+
 - ✅ **LabaSearchAccountScreen Functionality**:
   - Added working search input fields with state management
   - Placeholder disappears on focus
