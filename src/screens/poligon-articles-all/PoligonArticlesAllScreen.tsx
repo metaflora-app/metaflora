@@ -28,7 +28,7 @@ import bgLaba from '../../assets/poligon-articles/фон лаба.png';
 import bgWorkshop from '../../assets/poligon-articles/фон цех.png';
 import bgPoligon from '../../assets/poligon-articles/фон полигон.png';
 import readButton from '../../assets/poligon-articles/кнопка читать.png';
-import newBadge from '../../assets/poligon-articles/плашка новое.png';
+import peopleInCircle from '../../assets/poligon-articles/люди в круге.png';
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -290,6 +290,36 @@ const PoligonArticlesAllScreen: React.FC = () => {
           }}
         />
 
+        {/* People in circle background (34:953) - x=151, y=1280, 880x570 - BEHIND ALL */}
+        <div style={{
+          position: 'absolute',
+          left: '151px',
+          top: '1280px',
+          width: '880px',
+          height: '570px',
+          zIndex: 1,
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={peopleInCircle}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '174.12%',
+                left: '-37.23%',
+                top: '-32.93%',
+                width: '169.48%',
+                maxWidth: 'none',
+              }}
+            />
+          </div>
+        </div>
+
         {/* Article Cards */}
         {/* Card 1 - Академия (53:685) - x=141, y=577, 894x249 */}
         <div style={{
@@ -298,8 +328,9 @@ const PoligonArticlesAllScreen: React.FC = () => {
           top: '577px',
           width: '894px',
           height: '249px',
+          zIndex: 2,
         }}>
-          {/* Background image (53:686) */}
+          {/* Background image (53:686) - x=0, y=5, 449x241 */}
           <img 
             src={bgAcademy}
             alt=""
@@ -313,37 +344,72 @@ const PoligonArticlesAllScreen: React.FC = () => {
               objectFit: 'cover',
             }}
           />
-          {/* New badge (411:766) - x=336, y=19 */}
-          <img 
-            src={newBadge}
-            alt="новое"
-            style={{
-              position: 'absolute',
-              left: '336px',
-              top: '19px',
-              width: '101px',
-              height: '36px',
-              objectFit: 'contain',
-            }}
-          />
-          {/* Text (53:694) - x=449, y=0, 445x249 */}
+          {/* New badge (411:766) - x=336, y=19, 101x36 */}
+          <div style={{
+            position: 'absolute',
+            left: '336px',
+            top: '19px',
+            width: '101px',
+            height: '36px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '20px',
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              новое
+            </div>
+          </div>
+          {/* Black text block (53:694) - x=449, y=0, 445x249 */}
           <div style={{
             position: 'absolute',
             left: '449px',
             top: 0,
             width: '445px',
             height: '249px',
-            paddingLeft: '27px',
-            paddingTop: '30px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: '1.5',
-            color: 'white',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            <div style={{
+              width: '390px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '27px',
+              lineHeight: 1.4,
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            </div>
           </div>
-          {/* Read button (53:711) - x=101, y=86 */}
+          {/* Shutter overlay (53:696) - x=564, y=0, 330x249 */}
+          <div style={{
+            position: 'absolute',
+            left: '564px',
+            top: 0,
+            width: '330px',
+            height: '249px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            pointerEvents: 'none',
+          }} />
+          {/* Read button (53:711) - x=101, y=86, 247x80 */}
           <img 
             src={readButton}
             alt="читать"
@@ -356,6 +422,114 @@ const PoligonArticlesAllScreen: React.FC = () => {
               height: '80px',
               cursor: 'pointer',
               objectFit: 'contain',
+              zIndex: 10,
+            }}
+          />
+        </div>
+
+        {/* Article Cards */}
+        {/* Card 1 - Академия (53:685) - x=141, y=577, 894x249 */}
+        <div style={{
+          position: 'absolute',
+          left: '141px',
+          top: '577px',
+          width: '894px',
+          height: '249px',
+          zIndex: 2,
+        }}>
+          {/* Background image (53:686) - x=0, y=5, 449x241 */}
+          <img 
+            src={bgAcademy}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '5px',
+              width: '449px',
+              height: '241px',
+              borderRadius: '30px',
+              objectFit: 'cover',
+            }}
+          />
+          {/* New badge (411:766) - x=336, y=19, 101x36 */}
+          <div style={{
+            position: 'absolute',
+            left: '336px',
+            top: '19px',
+            width: '101px',
+            height: '36px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '20px',
+              color: 'white',
+              lineHeight: 0,
+            }}>
+              новое
+            </div>
+          </div>
+          {/* Black text block (53:694) - x=449, y=0, 445x249 */}
+          <div style={{
+            position: 'absolute',
+            left: '449px',
+            top: 0,
+            width: '445px',
+            height: '249px',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              width: '390px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '27px',
+              lineHeight: 1.4,
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            </div>
+          </div>
+          {/* Shutter overlay (53:696) - x=564, y=0, 330x249 */}
+          <div style={{
+            position: 'absolute',
+            left: '564px',
+            top: 0,
+            width: '330px',
+            height: '249px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            pointerEvents: 'none',
+          }} />
+          {/* Read button (53:711) - x=101, y=86, 247x80 */}
+          <img 
+            src={readButton}
+            alt="читать"
+            onClick={() => navigate('/article')}
+            style={{
+              position: 'absolute',
+              left: '101px',
+              top: '86px',
+              width: '247px',
+              height: '80px',
+              cursor: 'pointer',
+              objectFit: 'contain',
+              zIndex: 10,
             }}
           />
         </div>
@@ -367,8 +541,9 @@ const PoligonArticlesAllScreen: React.FC = () => {
           top: '856px',
           width: '894px',
           height: '249px',
+          zIndex: 2,
         }}>
-          {/* Background image (53:749) */}
+          {/* Background image (53:749) - x=0, y=0, 449x249 */}
           <img 
             src={bgLaba}
             alt=""
@@ -382,24 +557,47 @@ const PoligonArticlesAllScreen: React.FC = () => {
               objectFit: 'cover',
             }}
           />
-          {/* Text (53:745) - x=449, y=1, 445x249 */}
+          {/* Black text block (53:745) - x=449, y=1, 445x249 */}
           <div style={{
             position: 'absolute',
             left: '449px',
             top: '1px',
             width: '445px',
             height: '249px',
-            paddingLeft: '27px',
-            paddingTop: '30px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: '1.5',
-            color: 'white',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            <div style={{
+              width: '390px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '27px',
+              lineHeight: 1.4,
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            </div>
           </div>
-          {/* Read button (53:725) - x=102, y=85 */}
+          {/* Shutter overlay shorter (53:747) - x=719, y=1, 175x249 */}
+          <div style={{
+            position: 'absolute',
+            left: '719px',
+            top: '1px',
+            width: '175px',
+            height: '249px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            pointerEvents: 'none',
+          }} />
+          {/* Read button (53:725) - x=102, y=85, 247x80 */}
           <img 
             src={readButton}
             alt="читать"
@@ -412,6 +610,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
               height: '80px',
               cursor: 'pointer',
               objectFit: 'contain',
+              zIndex: 10,
             }}
           />
         </div>
@@ -423,8 +622,9 @@ const PoligonArticlesAllScreen: React.FC = () => {
           top: '1135px',
           width: '894px',
           height: '249px',
+          zIndex: 2,
         }}>
-          {/* Background image (53:702) */}
+          {/* Background image (53:702) - x=0, y=0, 450x249 */}
           <img 
             src={bgWorkshop}
             alt=""
@@ -438,24 +638,34 @@ const PoligonArticlesAllScreen: React.FC = () => {
               objectFit: 'cover',
             }}
           />
-          {/* Text (53:703) - x=450, y=0, 444x249 */}
+          {/* Black text block (53:703) - x=450, y=0, 444x249 */}
           <div style={{
             position: 'absolute',
             left: '450px',
             top: 0,
             width: '444px',
             height: '249px',
-            paddingLeft: '27px',
-            paddingTop: '30px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: '1.5',
-            color: 'white',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            <div style={{
+              width: '390px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '27px',
+              lineHeight: 1.4,
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            </div>
           </div>
-          {/* Read button (53:718) - x=242, y=975 - WRONG, should be relative */}
+          {/* Read button (53:718) - x=102, y=85, 247x80 */}
           <img 
             src={readButton}
             alt="читать"
@@ -468,6 +678,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
               height: '80px',
               cursor: 'pointer',
               objectFit: 'contain',
+              zIndex: 10,
             }}
           />
         </div>
@@ -479,8 +690,9 @@ const PoligonArticlesAllScreen: React.FC = () => {
           top: '1414px',
           width: '894px',
           height: '249px',
+          zIndex: 2,
         }}>
-          {/* Background image (53:764) */}
+          {/* Background image (53:764) - x=0, y=0, 447x249 */}
           <img 
             src={bgPoligon}
             alt=""
@@ -494,24 +706,34 @@ const PoligonArticlesAllScreen: React.FC = () => {
               objectFit: 'cover',
             }}
           />
-          {/* Text (53:762) - x=447, y=0, 447x249 */}
+          {/* Black text block (53:762) - x=447, y=0, 447x249 */}
           <div style={{
             position: 'absolute',
             left: '447px',
             top: 0,
             width: '447px',
             height: '249px',
-            paddingLeft: '27px',
-            paddingTop: '30px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: '1.5',
-            color: 'white',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            <div style={{
+              width: '390px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '27px',
+              lineHeight: 1.4,
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+            </div>
           </div>
-          {/* Read button - x=102, y=85 */}
+          {/* Read button - x=102, y=85, 247x80 */}
           <img 
             src={readButton}
             alt="читать"
@@ -524,6 +746,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
               height: '80px',
               cursor: 'pointer',
               objectFit: 'contain',
+              zIndex: 10,
             }}
           />
         </div>
