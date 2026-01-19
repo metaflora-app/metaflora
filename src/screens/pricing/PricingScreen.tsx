@@ -27,10 +27,10 @@ export const PricingScreen: React.FC = () => {
       // Telegram WebApp popup
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: 'Выберите вариант подписки и нажмите кнопку «Оплатить полный доступ»'
+          message: 'выберите вариант подписки и нажмите кнопку «оплатить полный доступ»'
         });
       } else {
-        alert('Выберите вариант подписки и нажмите кнопку «Оплатить полный доступ»');
+        alert('выберите вариант подписки и нажмите кнопку «оплатить полный доступ»');
       }
       return;
     }

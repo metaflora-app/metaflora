@@ -16,6 +16,58 @@ import card1Month from '../../assets/metacoins/карточка тарифа 1 �
 import card3Months from '../../assets/metacoins/карточка тарифа 3 месяца.png';
 import buyButton from '../../assets/metacoins/купить метакоины.png';
 
+// Price button component for 1 month (3990 руб)
+const PriceButton3990 = () => (
+  <div style={{
+    backdropFilter: 'blur(50px)',
+    background: 'rgba(0, 0, 0, 0.9)',
+    border: '4px solid rgba(255, 255, 255, 0.3)',
+    borderRadius: '62px',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  }}>
+    <div style={{
+      fontFamily: 'Gotham Pro',
+      fontWeight: 500,
+      fontSize: '27px',
+      color: 'white',
+      textAlign: 'center',
+    }}>
+      3990 руб.
+    </div>
+  </div>
+);
+
+// Price button component for 3 months (14990 руб)
+const PriceButton14990 = () => (
+  <div style={{
+    backdropFilter: 'blur(50px)',
+    background: 'rgba(0, 0, 0, 0.9)',
+    border: '4px solid rgba(255, 255, 255, 0.3)',
+    borderRadius: '62px',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  }}>
+    <div style={{
+      fontFamily: 'Gotham Pro',
+      fontWeight: 500,
+      fontSize: '27px',
+      color: 'white',
+      textAlign: 'center',
+    }}>
+      14990 руб.
+    </div>
+  </div>
+);
+
 export const MetacoinsScreen: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
@@ -28,10 +80,10 @@ export const MetacoinsScreen: React.FC = () => {
       // Telegram WebApp popup
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: 'Выберите количество метакоинов и нажмите кнопку «Купить метакоины»'
+          message: 'выберите количество метакоинов и нажмите кнопку «купить метакоины»'
         });
       } else {
-        alert('Выберите количество метакоинов и нажмите кнопку «Купить метакоины»');
+        alert('выберите количество метакоинов и нажмите кнопку «купить метакоины»');
       }
       return;
     }
@@ -165,9 +217,6 @@ export const MetacoinsScreen: React.FC = () => {
             height: '603px',
             objectFit: 'contain',
             cursor: 'pointer',
-            opacity: selectedCard === '1month' ? 1 : 0.7,
-            border: selectedCard === '1month' ? '4px solid rgba(255, 255, 255, 0.5)' : 'none',
-            borderRadius: '30px',
           }}
         />
 
@@ -184,9 +233,6 @@ export const MetacoinsScreen: React.FC = () => {
             height: '603px',
             objectFit: 'contain',
             cursor: 'pointer',
-            opacity: selectedCard === '3months' ? 1 : 0.7,
-            border: selectedCard === '3months' ? '4px solid rgba(255, 255, 255, 0.5)' : 'none',
-            borderRadius: '30px',
           }}
         />
 
