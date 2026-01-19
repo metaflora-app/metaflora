@@ -187,8 +187,8 @@ export const MainDashboardFreeScreen: React.FC = () => {
           {/* Иконка метакоинов - круг (7:253) */}
           <div style={{
             position: 'absolute',
-            left: '472px',
-            top: '-15px',
+            left: '487px',
+            top: '0px',
             width: '159px',
             height: '159px',
             borderRadius: '80px',
@@ -225,16 +225,16 @@ export const MainDashboardFreeScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
           </div>
 
-          {/* Кнопка "пополнить" - PNG */}
+          {/* Кнопка "пополнить" - PNG (356:700) */}
           <img 
             src={topUpButton}
             alt="пополнить"
             style={{
               position: 'absolute',
-              left: '678px',
+              left: '679px',
               top: '86px',
-              width: '176px',
-              height: '57px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
