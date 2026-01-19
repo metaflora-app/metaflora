@@ -24,12 +24,13 @@ export const PricingScreen: React.FC = () => {
     console.log('handlePayment called, selectedPlan:', selectedPlan);
     
     if (!selectedPlan) {
-      // Telegram WebApp alert
-      const tg = (window as any).Telegram?.WebApp;
-      if (tg && typeof tg.showAlert === 'function') {
-        tg.showAlert('Вы не выбрали ни одну из подписок');
+      // Telegram WebApp popup
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'Выберите вариант подписки и нажмите кнопку «Оплатить полный доступ»'
+        });
       } else {
-        alert('Вы не выбрали ни одну из подписок');
+        alert('Выберите вариант подписки и нажмите кнопку «Оплатить полный доступ»');
       }
       return;
     }

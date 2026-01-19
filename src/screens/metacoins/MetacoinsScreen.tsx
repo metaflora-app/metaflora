@@ -18,9 +18,26 @@ import buyButton from '../../assets/metacoins/купить метакоины.pn
 
 export const MetacoinsScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
 
   // Calculate scale based on viewport width (DESKTOP design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  const handleBuyClick = () => {
+    if (!selectedCard) {
+      // Telegram WebApp popup
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'Выберите количество метакоинов и нажмите кнопку «Купить метакоины»'
+        });
+      } else {
+        alert('Выберите количество метакоинов и нажмите кнопку «Купить метакоины»');
+      }
+      return;
+    }
+    // TODO: Handle payment logic
+    console.log('Selected card:', selectedCard);
+  };
 
   return (
     <div style={{
@@ -139,6 +156,7 @@ export const MetacoinsScreen: React.FC = () => {
         <img 
           src={card1Month}
           alt="карточка тарифа 1 месяц"
+          onClick={() => setSelectedCard('1month')}
           style={{
             position: 'absolute',
             left: '143px',
@@ -147,6 +165,9 @@ export const MetacoinsScreen: React.FC = () => {
             height: '603px',
             objectFit: 'contain',
             cursor: 'pointer',
+            opacity: selectedCard === '1month' ? 1 : 0.7,
+            border: selectedCard === '1month' ? '4px solid rgba(255, 255, 255, 0.5)' : 'none',
+            borderRadius: '30px',
           }}
         />
 
@@ -154,6 +175,7 @@ export const MetacoinsScreen: React.FC = () => {
         <img 
           src={card3Months}
           alt="карточка тарифа 3 месяца"
+          onClick={() => setSelectedCard('3months')}
           style={{
             position: 'absolute',
             left: '143px',
@@ -162,6 +184,9 @@ export const MetacoinsScreen: React.FC = () => {
             height: '603px',
             objectFit: 'contain',
             cursor: 'pointer',
+            opacity: selectedCard === '3months' ? 1 : 0.7,
+            border: selectedCard === '3months' ? '4px solid rgba(255, 255, 255, 0.5)' : 'none',
+            borderRadius: '30px',
           }}
         />
 
@@ -169,6 +194,7 @@ export const MetacoinsScreen: React.FC = () => {
         <img 
           src={buyButton}
           alt="купить метакоины"
+          onClick={handleBuyClick}
           style={{
             position: 'absolute',
             left: '143px',
