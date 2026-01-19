@@ -539,10 +539,10 @@ export const WelcomeScreen: React.FC = () => {
           }}>
             <div style={{
               position: 'absolute',
-              left: 0,
               top: 0,
-              width: '4.2084px',
-              height: '4.1042px',
+              right: 0,
+              bottom: '82.13%',
+              left: 0,
               background: '#ffffff',
               border: '4px solid #ffffff',
               boxSizing: 'border-box',
@@ -553,10 +553,10 @@ export const WelcomeScreen: React.FC = () => {
               alt=""
               style={{
                 position: 'absolute',
-                left: '0.1315px',
-                top: '5.6155px',
-                width: '4.2084px',
-                height: '17.3462px',
+                top: '24.46%',
+                right: '96.88%',
+                bottom: 0,
+                left: '3.12%',
                 objectFit: 'contain',
                 pointerEvents: 'none',
               }}
