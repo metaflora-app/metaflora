@@ -320,16 +320,14 @@ export const PromptCardScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: '192px',
-            top: '1575px',
+            top: '1540px',
             width: '796px',
-            height: '276px',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '35px',
             lineHeight: 1.2,
             color: 'white',
             textAlign: 'center',
-            overflow: 'hidden',
             cursor: 'pointer',
           }}>
           <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
