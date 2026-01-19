@@ -205,29 +205,6 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             />
           </div>
 
-          {/* Плашка "новое" */}
-          <div style={{
-            position: 'absolute',
-            inset: '7.63% 52.81% 77.91% 32.18%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '18px',
-              color: 'white',
-            }}>
-              новое
-            </div>
-          </div>
-
           {/* Текст справа - черная карточка */}
           <div style={{
             position: 'absolute',
