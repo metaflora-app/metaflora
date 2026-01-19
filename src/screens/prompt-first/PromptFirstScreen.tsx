@@ -370,18 +370,38 @@ export const PromptFirstScreen: React.FC = () => {
             />
 
             {/* Плашка "новое" */}
-            <img 
-              src={newBadge}
-              alt="новое"
-              style={{
+            <div style={{
+              position: 'absolute',
+              left: '294px',
+              top: '71px',
+              width: '101px',
+              height: '36px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+            }}>
+              <div style={{
                 position: 'absolute',
-                left: '294px',
-                top: '71px',
-                width: '135px',
-                height: '36px',
-                objectFit: 'contain',
-              }}
-            />
+                left: '50%',
+                top: 'calc(50% - 0.5px)',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                height: '19px',
+                width: '111px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '20px',
+                color: 'white',
+                textAlign: 'center',
+                lineHeight: 0,
+              }}>
+                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новые</p>
+              </div>
+            </div>
 
             {/* Заголовок - БЕЗ <br/>, текст сам переносится */}
             <div style={{
