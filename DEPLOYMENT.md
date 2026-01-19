@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-19
 
-### 🚀 Deployed Version: v2.1.1 - Main Dashboard Free Screen Updates
+### 🚀 Deployed Version: v2.1.2 - Main Dashboard Free Screen Complete
 
-**Commit:** `4c8dded` - feat: update main-dashboard-free screen with Figma-perfect positioning
+**Commit:** `561558f` - fix: correct плашка демо position to 336px and restore onClick for пополнить button
 
 **Branch:** `main`
 
