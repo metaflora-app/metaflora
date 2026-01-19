@@ -157,7 +157,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           }}>
             <p style={{ margin: 0, lineHeight: '1' }}>
               <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>внутри: </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>саммари урока, исползованные промпты, файлы генераций</span>
+              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>саммари урока, использованные промпты, файлы генераций</span>
             </p>
           </div>
         </div>
@@ -218,7 +218,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '356px',
-          top: '463px',
+          top: '520px',
           width: '469px',
           display: 'flex',
           flexDirection: 'column',
