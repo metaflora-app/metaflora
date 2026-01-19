@@ -75,8 +75,8 @@ export const PromptFirstScreen: React.FC = () => {
     const row = Math.floor(index / 2);
     const col = index % 2;
     return {
-      left: col === 0 ? '22px' : '454px',
-      top: `${22 + row * 812}px`,
+      left: col === 0 ? '26px' : '448px',
+      top: `${27 + row * 812}px`,
     };
   };
 
@@ -146,7 +146,7 @@ export const PromptFirstScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             right: '41px',
-            top: '18px',
+            top: '44px',
             width: '101px',
             height: '36px',
             backdropFilter: 'blur(50px)',
