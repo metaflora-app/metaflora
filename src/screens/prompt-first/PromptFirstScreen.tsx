@@ -13,10 +13,15 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import openButton from '../../assets/кнопка перейти.png';
 import likeIcon from '../../assets/лайк.png';
 import likeEmptyIcon from '../../assets/лайк не поставлен.png';
-import returnButtonInactive from '../../assets/кнопка вернуть не активная.png';
+import returnButtonInactive from '../../assets/кнопка вернуть.png';
+import returnButtonActive from '../../assets/кнопка вернуть не активная.png';
+import favoriteButtonInactive from '../../assets/кнопка избранное.png';
 import favoriteButtonActive from '../../assets/кнопка избранное активная.png';
+import recentButtonInactive from '../../assets/кнопка недавние.png';
 import recentButtonActive from '../../assets/кнопка недавние активная.png';
+import topPickButtonInactive from '../../assets/кнопка топ-выбор.png';
 import topPickButtonActive from '../../assets/кнопка топ-выбор активная.png';
+import newButtonInactive from '../../assets/кнопка новые.png';
 import newButtonActive from '../../assets/кнопка новые активная.png';
 
 // Figma MCP assets
@@ -216,7 +221,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Filter: вернуть */}
         <img
-          src={returnButtonInactive}
+          src={isFilterActive('вернуть') ? returnButtonActive : returnButtonInactive}
           alt="вернуть"
           onClick={() => toggleFilter('вернуть')}
           style={{
@@ -232,7 +237,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Filter: избранное */}
         <img
-          src={isFilterActive('избранное') ? favoriteButtonActive : returnButtonInactive}
+          src={isFilterActive('избранное') ? favoriteButtonActive : favoriteButtonInactive}
           alt="избранное"
           onClick={() => toggleFilter('избранное')}
           style={{
@@ -248,7 +253,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Filter: недавние */}
         <img
-          src={isFilterActive('недавние') ? recentButtonActive : returnButtonInactive}
+          src={isFilterActive('недавние') ? recentButtonActive : recentButtonInactive}
           alt="недавние"
           onClick={() => toggleFilter('недавние')}
           style={{
@@ -264,7 +269,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Filter: топ-выбор */}
         <img
-          src={isFilterActive('топ-выбор') ? topPickButtonActive : returnButtonInactive}
+          src={isFilterActive('топ-выбор') ? topPickButtonActive : topPickButtonInactive}
           alt="топ-выбор"
           onClick={() => toggleFilter('топ-выбор')}
           style={{
@@ -280,7 +285,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Filter: новые */}
         <img
-          src={isFilterActive('новые') ? newButtonActive : returnButtonInactive}
+          src={isFilterActive('новые') ? newButtonActive : newButtonInactive}
           alt="новые"
           onClick={() => toggleFilter('новые')}
           style={{
@@ -371,8 +376,8 @@ export const PromptFirstScreen: React.FC = () => {
             {/* Плашка "новое" */}
             <div style={{
               position: 'absolute',
-              left: '294px',
-              top: '71px',
+              left: '235px',
+              top: '18px',
               width: '101px',
               height: '36px',
               backdropFilter: 'blur(50px)',
@@ -449,7 +454,7 @@ export const PromptFirstScreen: React.FC = () => {
                 position: 'absolute',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                bottom: '31px',
+                bottom: '63px',
                 width: '247px',
                 height: '80px',
                 cursor: 'pointer',
@@ -564,7 +569,7 @@ export const PromptFirstScreen: React.FC = () => {
                 position: 'absolute',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                bottom: '31px',
+                bottom: '63px',
                 width: '247px',
                 height: '80px',
                 cursor: 'pointer',
@@ -679,7 +684,7 @@ export const PromptFirstScreen: React.FC = () => {
                 position: 'absolute',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                bottom: '31px',
+                bottom: '63px',
                 width: '247px',
                 height: '80px',
                 cursor: 'pointer',
@@ -794,7 +799,7 @@ export const PromptFirstScreen: React.FC = () => {
                 position: 'absolute',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                bottom: '31px',
+                bottom: '63px',
                 width: '247px',
                 height: '80px',
                 cursor: 'pointer',
