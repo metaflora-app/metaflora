@@ -15,9 +15,7 @@ import payButtonBg from '../../assets/demo-access-elements/кнопка опла
 import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
-import badgeVygodno from '../../assets/pricing/выгодно кнопка.png';
 import descriptionText from '../../assets/pricing/description-text.png';
-import tooltip from '../../assets/pricing/tooltip.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
