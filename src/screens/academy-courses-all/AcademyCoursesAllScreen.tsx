@@ -390,7 +390,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           <img 
             src={studyButton}
             alt="изучить"
-            onClick={() => navigate('/academy-lesson-video')}
+            onClick={() => navigate('/academy-course-art')}
             style={{
               position: 'absolute',
               left: '96px',
