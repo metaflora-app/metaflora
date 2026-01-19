@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-19
 
-### 🚀 Deployed Version: v2.1.3 - Main Dashboard Screens Complete
+### 🚀 Deployed Version: v2.1.4 - Academy Courses Screen Complete
 
-**Commit:** `56e6239` - fix: update all card texts to match Figma - truncate to 'На выходе'
+**Commit:** `64b01bc` - fix: move all indicators and buttons to end with zIndex, fix button sizes to 247x79
 
 **Branch:** `main`
 
