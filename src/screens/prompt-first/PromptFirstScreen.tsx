@@ -3,17 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 // Local PNG assets
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
-import returnButton from '../../assets/кнопка вернуть.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
-import favoriteButton from '../../assets/кнопка избранное.png';
-import recentButton from '../../assets/кнопка недавние.png';
-import topPickButton from '../../assets/кнопка топ-выбор.png';
-import newButton from '../../assets/кнопка новые.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import openButton from '../../assets/кнопка открыть цех.png';
 import newBadge from '../../assets/новое в академии.png';
@@ -23,7 +18,6 @@ import likeEmptyIcon from '../../assets/лайк не поставлен.png';
 // Figma MCP assets
 const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
 const houseImage = "https://www.figma.com/api/mcp/asset/561dab05-4ef7-4239-862d-adee28216da3";
-const heartIcon = "https://www.figma.com/api/mcp/asset/8e6e8e5e-eec6-4e7c-bbbd-f7a5c6a56c4c";
 
 
 export const PromptFirstScreen: React.FC = () => {
