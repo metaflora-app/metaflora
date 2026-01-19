@@ -18,6 +18,17 @@ import peopleLogo from '../../assets/about-screens/лого люди на фон
 export const AcademyCoursesAllScreen: React.FC = () => {
   const navigate = useNavigate();
 
+  // Прогресс курсов (4 курса всего)
+  const [courseProgress] = React.useState(() => {
+    const completed = JSON.parse(localStorage.getItem('academy-courses-completed') || '[]');
+    return {
+      completed: completed as string[],
+      percentage: Math.round((completed.length / 4) * 100)
+    };
+  });
+
+  const isCourseCompleted = (courseId: string) => courseProgress.completed.includes(courseId);
+
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
@@ -147,7 +158,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           }}>
             <p style={{ margin: 0, lineHeight: '1' }}>
               <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>пройдено </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>10% курсов академии. </span>
+              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>{courseProgress.percentage}% курсов академии. </span>
               <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>Сongratulations!</span>
             </p>
           </div>
@@ -175,7 +186,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* Индикатор оранжевый */}
+          {/* Индикатор прогресса */}
           <div style={{
             position: 'absolute',
             left: '27px',
@@ -203,7 +214,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: '#f8d050',
+              background: isCourseCompleted('system') ? '#d5fc44' : '#f8d050',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
@@ -326,7 +337,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '250px',
         }}>
-          {/* Индикатор зелёный */}
+          {/* Индикатор прогресса */}
           <div style={{
             position: 'absolute',
             left: '26px',
@@ -354,7 +365,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: '#d5fc44',
+              background: isCourseCompleted('art') ? '#d5fc44' : '#f8d050',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
@@ -454,7 +465,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* Индикатор оранжевый */}
+          {/* Индикатор прогресса */}
           <div style={{
             position: 'absolute',
             left: '28px',
@@ -482,7 +493,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: '#f8d050',
+              background: isCourseCompleted('prompting') ? '#d5fc44' : '#f8d050',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
@@ -560,7 +571,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* Индикатор оранжевый */}
+          {/* Индикатор прогресса */}
           <div style={{
             position: 'absolute',
             left: '26px',
@@ -588,7 +599,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: '#f8d050',
+              background: isCourseCompleted('automation') ? '#d5fc44' : '#f8d050',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
