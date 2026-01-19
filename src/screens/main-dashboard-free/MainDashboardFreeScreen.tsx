@@ -240,6 +240,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <img 
             src={topUpButton}
             alt="пополнить"
+            onClick={() => navigate('/pricing')}
             style={{
               position: 'absolute',
               left: '679px',
@@ -378,7 +379,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           {/* 5. Плашка "демо" (26:419) - поверх всего */}
           <div style={{
             position: 'absolute',
-            left: '195px',
+            left: '336px',
             top: '19px',
             width: '101px',
             height: '36px',
