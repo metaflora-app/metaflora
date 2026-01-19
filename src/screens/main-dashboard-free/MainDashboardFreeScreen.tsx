@@ -22,7 +22,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
 
   // Чередование бобер/лама при каждом заходе
-  const [isLama, setIsLama] = React.useState(() => {
+  const [isLama] = React.useState(() => {
     const visits = parseInt(localStorage.getItem('avatar-visits') || '0');
     localStorage.setItem('avatar-visits', String(visits + 1));
     return visits % 2 === 1;
@@ -150,10 +150,10 @@ export const MainDashboardFreeScreen: React.FC = () => {
           width: '1020px',
           height: '200px',
         }}>
-          {/* Аватар бобёр */}
+          {/* Аватар бобёр/лама */}
           <img 
-            src={beaverAvatar}
-            alt="бобёр"
+            src={avatar}
+            alt={isLama ? 'лама' : 'бобёр'}
             style={{
               position: 'absolute',
               left: 0,
