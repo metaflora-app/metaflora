@@ -339,40 +339,6 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '250px',
         }}>
-          {/* Индикатор прогресса (29:506) */}
-          <div style={{
-            position: 'absolute',
-            left: '26px',
-            top: '27px',
-            width: '38px',
-            height: '38px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: '38px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '11px',
-              transform: 'translateX(-50%)',
-              width: '16px',
-              height: '16px',
-              backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('art') ? '#d5fc44' : '#f8d050',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-          </div>
-
           {/* Фон лаба - левая половина */}
           <div style={{
             position: 'absolute',
@@ -452,28 +418,21 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               position: 'absolute',
               left: '96px',
               top: '86px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
+              zIndex: 10,
             }}
           />
-        </div>
 
-        {/* Карточка 3 - Цех / Промптинг (29:433) */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '1041px',
-          width: '894px',
-          height: '249px',
-        }}>
-          {/* Индикатор прогресса (29:552) */}
+          {/* Индикатор прогресса (29:506) - ПОВЕРХ */}
           <div style={{
             position: 'absolute',
-            left: '28px',
+            left: '26px',
             top: '27px',
-            width: '36px',
-            height: '36px',
+            width: '38px',
+            height: '38px',
+            zIndex: 20,
           }}>
             <div style={{
               position: 'absolute',
@@ -495,12 +454,21 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('prompting') ? '#d5fc44' : '#f8d050',
+              background: isCourseCompleted('art') ? '#d5fc44' : '#f8d050',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
           </div>
+        </div>
 
+        {/* Карточка 3 - Цех / Промптинг (29:433) */}
+        <div style={{
+          position: 'absolute',
+          left: '141px',
+          top: '1041px',
+          width: '894px',
+          height: '249px',
+        }}>
           {/* Фон цех - левая половина */}
           <div style={{
             position: 'absolute',
@@ -558,28 +526,21 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               position: 'absolute',
               left: '96px',
               top: '85px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
+              zIndex: 10,
             }}
           />
-        </div>
 
-        {/* Карточка 4 - Полигон / Автоматизация (29:432) */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '1355px',
-          width: '894px',
-          height: '249px',
-        }}>
-          {/* Индикатор прогресса (29:551) */}
+          {/* Индикатор прогресса (29:552) - ПОВЕРХ */}
           <div style={{
             position: 'absolute',
-            left: '26px',
+            left: '28px',
             top: '27px',
             width: '36px',
             height: '36px',
+            zIndex: 20,
           }}>
             <div style={{
               position: 'absolute',
@@ -601,12 +562,21 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('automation') ? '#d5fc44' : '#f8d050',
+              background: isCourseCompleted('prompting') ? '#d5fc44' : '#f8d050',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
           </div>
+        </div>
 
+        {/* Карточка 4 - Полигон / Автоматизация (29:432) */}
+        <div style={{
+          position: 'absolute',
+          left: '141px',
+          top: '1355px',
+          width: '894px',
+          height: '249px',
+        }}>
           {/* Фон полигон - левая половина */}
           <div style={{
             position: 'absolute',
@@ -664,11 +634,47 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               position: 'absolute',
               left: '98px',
               top: '85px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
+              zIndex: 10,
             }}
           />
+
+          {/* Индикатор прогресса (29:551) - ПОВЕРХ */}
+          <div style={{
+            position: 'absolute',
+            left: '26px',
+            top: '27px',
+            width: '36px',
+            height: '36px',
+            zIndex: 20,
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: 0,
+              transform: 'translateX(-50%)',
+              width: '38px',
+              height: '38px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '11px',
+              transform: 'translateX(-50%)',
+              width: '16px',
+              height: '16px',
+              backdropFilter: 'blur(50px)',
+              background: isCourseCompleted('automation') ? '#d5fc44' : '#f8d050',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+          </div>
         </div>
 
         {/* Footer */}
