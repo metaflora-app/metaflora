@@ -200,22 +200,22 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Иконка "i" - PNG */}
+            {/* Иконка "i" - PNG карточка 1 месяц */}
             <img 
               src={buttonI}
               alt="i"
               onClick={() => setShowTooltip1(!showTooltip1)}
               style={{
                 position: 'absolute',
-                left: '365px',
-                top: '9px',
+                left: '364px',
+                top: '9.296px',
                 width: '66px',
-                height: '65px',
+                height: '65.704px',
                 cursor: 'pointer',
               }}
             />
 
-            {/* Всплывашка про списание - PNG (показывается по клику) */}
+            {/* Всплывашка про списание - PNG карточка 1 (показывается по клику) */}
         {showTooltip1 && (
           <img 
             src={tooltipPng}
@@ -397,21 +397,22 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Иконка "i" - подробнее */}
+            {/* Иконка "i" - PNG карточка 3 месяца */}
             <img 
-              src={infoIcon}
+              src={buttonI}
               alt="i"
               onClick={() => setShowTooltip2(!showTooltip2)}
               style={{
                 position: 'absolute',
-                inset: '6.14% 46.86% 87.56% 48.88%',
-                width: '26px',
-                height: '26px',
+                left: '576px',
+                top: '1093.296px',
+                width: '66px',
+                height: '65.704px',
                 cursor: 'pointer',
               }}
             />
 
-            {/* Всплывашка про списание - PNG (показывается по клику) */}
+            {/* Всплывашка про списание - PNG карточка 2 (показывается по клику) */}
         {showTooltip2 && (
           <img 
             src={tooltipPng}
@@ -419,8 +420,8 @@ export const PricingScreen: React.FC = () => {
             onClick={() => setShowTooltip2(false)}
             style={{
               position: 'absolute',
-              left: '305px',
-              top: '1627px',
+              left: '650px',
+              top: '944px',
               width: '287px',
               height: '174px',
               cursor: 'pointer',
