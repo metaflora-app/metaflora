@@ -186,40 +186,6 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* Индикатор прогресса (29:521) */}
-          <div style={{
-            position: 'absolute',
-            left: '27px',
-            top: '32px',
-            width: '36px',
-            height: '36px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: '38px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '11px',
-              transform: 'translateX(-50%)',
-              width: '16px',
-              height: '16px',
-              backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('system') ? '#d5fc44' : '#f8d050',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-          </div>
-
           {/* Фон академия - левая половина */}
           <div style={{
             position: 'absolute',
@@ -322,11 +288,47 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               position: 'absolute',
               left: '96px',
               top: '91px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
+              zIndex: 10,
             }}
           />
+
+          {/* Индикатор прогресса (29:521) - ПОВЕРХ */}
+          <div style={{
+            position: 'absolute',
+            left: '27px',
+            top: '32px',
+            width: '36px',
+            height: '36px',
+            zIndex: 20,
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: 0,
+              transform: 'translateX(-50%)',
+              width: '38px',
+              height: '38px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '11px',
+              transform: 'translateX(-50%)',
+              width: '16px',
+              height: '16px',
+              backdropFilter: 'blur(50px)',
+              background: isCourseCompleted('system') ? '#d5fc44' : '#f8d050',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+            }} />
+          </div>
         </div>
 
         {/* Карточка 2 - Лаба / Искусство (29:434) */}
