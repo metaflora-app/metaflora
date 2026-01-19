@@ -16,58 +16,6 @@ import card1Month from '../../assets/metacoins/карточка тарифа 1 �
 import card3Months from '../../assets/metacoins/карточка тарифа 3 месяца.png';
 import buyButton from '../../assets/metacoins/купить метакоины.png';
 
-// Price button component for 1 month (3990 руб)
-const PriceButton3990 = () => (
-  <div style={{
-    backdropFilter: 'blur(50px)',
-    background: 'rgba(0, 0, 0, 0.9)',
-    border: '4px solid rgba(255, 255, 255, 0.3)',
-    borderRadius: '62px',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
-  }}>
-    <div style={{
-      fontFamily: 'Gotham Pro',
-      fontWeight: 500,
-      fontSize: '27px',
-      color: 'white',
-      textAlign: 'center',
-    }}>
-      3990 руб.
-    </div>
-  </div>
-);
-
-// Price button component for 3 months (14990 руб)
-const PriceButton14990 = () => (
-  <div style={{
-    backdropFilter: 'blur(50px)',
-    background: 'rgba(0, 0, 0, 0.9)',
-    border: '4px solid rgba(255, 255, 255, 0.3)',
-    borderRadius: '62px',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
-  }}>
-    <div style={{
-      fontFamily: 'Gotham Pro',
-      fontWeight: 500,
-      fontSize: '27px',
-      color: 'white',
-      textAlign: 'center',
-    }}>
-      14990 руб.
-    </div>
-  </div>
-);
-
 export const MetacoinsScreen: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
