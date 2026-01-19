@@ -10,7 +10,6 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 // Analysis-specific assets
 import startAnalysisButtonPNG from '../../assets/laba-analysis/укороченная кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/укороченная кнопка создать сценарий.png';
-import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
 
 // Figma MCP assets
@@ -30,6 +29,9 @@ export const LabaAnalysisScreen: React.FC = () => {
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [showAnalysisResults, setShowAnalysisResults] = React.useState(false);
   const [showScenario, setShowScenario] = React.useState(false);
+  const [isFollowing, setIsFollowing] = React.useState(false);
+  const [showPopup, setShowPopup] = React.useState(false);
+  const [popupMessage, setPopupMessage] = React.useState('');
 
   return (
     <div style={{
@@ -272,43 +274,6 @@ export const LabaAnalysisScreen: React.FC = () => {
             />
           </div>
 
-          {/* Badge "новое" - 292:658 */}
-          <div style={{
-            position: 'absolute',
-            left: '627px',
-            top: '97px',
-            width: '173px',
-            height: '58px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 500,
-              fontSize: '30px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              новое
-            </div>
-          </div>
-
-          {/* Like icon - 292:660 */}
-          <div style={{
-            position: 'absolute',
-            left: '102px',
-            top: '90px',
-            width: '72px',
-            height: '72px',
-          }}>
-            <img src={likeIconMCP} alt="" style={{ width: '100%', height: '100%' }} />
-          </div>
 
           {/* Play button - 292:735 */}
           <div style={{
@@ -631,10 +596,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             а вы знали, что так вообще возможно?
           </div>
 
-          {/* Button "следить" - 292:694 */}
-          <img
-            src={followButtonPNG}
-            alt="следить"
+          {/* Button "следить" / "не следить" - 292:694 */}
+          <div
+            onClick={() => {
+              setIsFollowing(!isFollowing);
+              setPopupMessage(!isFollowing ? 'теперь вы отслеживаете данный профиль' : 'вы больше не отслеживаете данный профиль');
+              setShowPopup(true);
+              setTimeout(() => setShowPopup(false), 3000);
+            }}
             style={{
               position: 'absolute',
               left: '602px',
@@ -642,8 +611,21 @@ export const LabaAnalysisScreen: React.FC = () => {
               width: '246.93px',
               height: '79.25px',
               cursor: 'pointer',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '30px',
+              color: 'white',
             }}
-          />
+          >
+            {isFollowing ? 'не следить' : 'следить'}
+          </div>
 
           {/* Button "открыть" - 292:742 */}
           <img
@@ -785,7 +767,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               position: 'absolute',
               left: '53px',
-              top: '1180px',
+              top: '1250px',
               width: '796px',
             }}>
               {/* виральность - 292:893 */}
@@ -808,7 +790,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '44px',
+                top: '53px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -824,7 +806,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '91px',
+                top: '106px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -839,7 +821,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '151px',
+                top: '195px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -855,7 +837,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '204px',
+                top: '248px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -870,7 +852,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '265px',
+                top: '337px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -886,7 +868,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '318px',
+                top: '390px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -901,7 +883,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '378px',
+                top: '479px',
                 width: '373px',
                 height: '46px',
                 fontFamily: 'Inter, sans-serif',
@@ -917,7 +899,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 position: 'absolute',
                 left: '0px',
-                top: '431px',
+                top: '532px',
                 width: '797px',
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 300,
@@ -937,7 +919,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   style={{
                     position: 'absolute',
                     left: '131px',
-                    top: '518px',
+                    top: '621px',
                     width: '530px',
                     height: '139px',
                     cursor: 'pointer',
@@ -950,7 +932,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <div style={{
                   position: 'absolute',
                   left: '149px',
-                  top: '675px',
+                  top: '778px',
                   width: '495px',
                   fontFamily: 'Gotham Pro, sans-serif',
                   fontWeight: 300,
@@ -970,7 +952,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   <div style={{
                     position: 'absolute',
                     left: '0px',
-                    top: '492px',
+                    top: '621px',
                     width: '373px',
                     height: '46px',
                     fontFamily: 'Inter, sans-serif',
@@ -986,7 +968,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   <div style={{
                     position: 'absolute',
                     left: '0px',
-                    top: '545px',
+                    top: '674px',
                     width: '797px',
                     fontFamily: 'Gotham Pro, sans-serif',
                     fontWeight: 300,
@@ -1124,6 +1106,30 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Web-app popup */}
+        {showPopup && (
+          <div style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1000,
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            padding: '40px 60px',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '35px',
+            color: 'white',
+            textAlign: 'center',
+            maxWidth: '600px',
+          }}>
+            {popupMessage}
+          </div>
+        )}
       </div>
     </div>
   );
