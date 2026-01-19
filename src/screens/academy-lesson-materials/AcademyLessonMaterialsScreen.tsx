@@ -214,20 +214,23 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* 32:715 - Заголовок (абсолютно от экрана) */}
+        {/* 32:715 - Заголовок */}
         <div style={{
           position: 'absolute',
           left: '356px',
           top: '463px',
           width: '469px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
           fontFamily: 'Inter',
           fontWeight: 700,
           fontSize: '52px',
-          lineHeight: 1.2,
+          lineHeight: 0,
           color: 'white',
           textAlign: 'center',
         }}>
-          <p style={{ margin: 0, lineHeight: 1.2 }}>морфинг через{'\n'}общие элементы</p>
+          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>морфинг через общие элементы</p>
         </div>
 
         {/* 32:716 - Описание */}
@@ -302,19 +305,33 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         />
 
         {/* 32:735 - Текст "скачать файлы (5)" */}
-        <div style={{
-          position: 'absolute',
-          left: '432px',
-          top: '1895px',
-          width: '316px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 500,
-          fontSize: '32px',
-          lineHeight: 1.2,
-          color: 'white',
-          textAlign: 'center',
-        }}>
-          <p style={{ margin: 0, lineHeight: 1.2 }}>скачать файлы (5)</p>
+        <div 
+          onClick={() => {
+            if (window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: 'Материалы будут отправлены в чат с ботом',
+              });
+            } else {
+              alert('Материалы будут отправлены в чат с ботом');
+            }
+          }}
+          style={{
+            position: 'absolute',
+            left: '432px',
+            top: '1895px',
+            width: '316px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '32px',
+            lineHeight: 0,
+            color: 'white',
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}>
+          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>скачать файлы (5)</p>
         </div>
 
         {/* 32:737 - Сайдбар (плюсик) */}
