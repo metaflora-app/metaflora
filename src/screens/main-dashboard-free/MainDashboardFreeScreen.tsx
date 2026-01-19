@@ -364,10 +364,13 @@ export const MainDashboardFreeScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* 5. Плашка "демо-курс" (26:415) - поверх всего */}
+          {/* 5. Плашка "демо" (26:419) - поверх всего */}
           <div style={{
             position: 'absolute',
-            inset: '7.63% 51.12% 77.91% 33.33%',
+            left: '195px',
+            top: '19px',
+            width: '101px',
+            height: '36px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -380,10 +383,10 @@ export const MainDashboardFreeScreen: React.FC = () => {
             <div style={{
               fontFamily: 'Gotham Pro',
               fontWeight: 500,
-              fontSize: '18px',
+              fontSize: '20px',
               color: 'white',
             }}>
-              демо-курс
+              демо
             </div>
           </div>
         </div>
