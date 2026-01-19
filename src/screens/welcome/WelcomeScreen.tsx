@@ -11,7 +11,7 @@ import pattern from '../../assets/figma-welcome/pattern.png';
 import supportButton from '../../assets/welcome-elements/support-button.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
-import policies from '../../assets/welcome-elements/policies.png';
+import policyInfoLine from '../../assets/figma-welcome/policy-info-icon.svg';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -511,70 +511,122 @@ export const WelcomeScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Политики - PNG с кликабельными областями */}
+        {/* Политики */}
         <div style={{
           position: 'absolute',
-          left: '102px',
-          top: '61px',
-          width: '328px',
-          height: '124px',
+          left: '101px',
+          top: '78px',
+          width: '214px',
+          height: '119px',
         }}>
-          <img 
-            src={policies}
-            alt=""
-            style={{
+          {/* Иконка "i" */}
+          <div style={{
+            position: 'absolute',
+            left: '0px',
+            top: '-5px',
+            width: '41px',
+            height: '41px',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid #ffffff',
+            borderRadius: '33px',
+          }} />
+          <div style={{
+            position: 'absolute',
+            left: '18.7916px',
+            top: '2px',
+            width: '4.2084px',
+            height: '22.9616px',
+          }}>
+            <div style={{
               position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-            }}
-          />
+              left: 0,
+              top: 0,
+              width: '4.2084px',
+              height: '4.098px',
+              background: '#ffffff',
+              border: '4px solid #ffffff',
+              boxSizing: 'border-box',
+              borderRadius: '33px',
+            }} />
+            <img
+              src={policyInfoLine}
+              alt=""
+              style={{
+                position: 'absolute',
+                left: '0.131px',
+                top: '5.613px',
+                width: '4px',
+                height: '17.3462px',
+                objectFit: 'contain',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+
+          {/* Текст "политика конфиденциальности" */}
+          <div style={{
+            position: 'absolute',
+            left: '0px',
+            top: '40px',
+            width: '345px',
+            height: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            lineHeight: '0',
+            color: 'white',
+            whiteSpace: 'pre-wrap',
+          }}>
+            <p style={{ margin: 0, lineHeight: 'normal' }}>политика конфиденциальности</p>
+          </div>
+
+          {/* Текст "рекламная рассылка" */}
+          <div style={{
+            position: 'absolute',
+            left: '0px',
+            top: '60px',
+            width: '362px',
+            height: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            lineHeight: '0',
+            color: 'white',
+            whiteSpace: 'pre-wrap',
+          }}>
+            <p style={{ margin: 0, lineHeight: 'normal' }}>рекламная рассылка</p>
+          </div>
+
           {/* Кликабельная область на "политика конфиденциальности" */}
           <div
             onClick={() => navigate('/privacy-policy')}
             style={{
               position: 'absolute',
               left: 0,
-              top: '46px',
-              width: '280px',
-              height: '30px',
+              top: '40px',
+              width: '345px',
+              height: '20px',
               cursor: 'pointer',
             }}
           />
-          {/* Кликабельная область на "рекламная и информационная рассылка" */}
+          {/* Кликабельная область на "рекламная рассылка" */}
           <div
             onClick={() => navigate('/marketing-consent')}
             style={{
               position: 'absolute',
               left: 0,
-              top: '84px',
-              width: '311px',
-              height: '30px',
+              top: '60px',
+              width: '362px',
+              height: '20px',
               cursor: 'pointer',
             }}
           />
-        </div>
-
-        {/* Текст "скоро обновление платформы.." */}
-        <div style={{
-          position: 'absolute',
-          left: '94px',
-          top: '503px',
-          width: '672px',
-          height: '20px',
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '40px',
-            lineHeight: 0,
-            color: '#d5fc44',
-          }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>скоро обновление платформы..</p>
-          </div>
         </div>
       </div>
     </div>
