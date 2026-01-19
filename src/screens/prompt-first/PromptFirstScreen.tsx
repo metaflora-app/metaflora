@@ -393,7 +393,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Filter: вернуть */}
         <img
-          src={returnButtonInactive}
+          src={returnButton}
           alt="вернуть"
           onClick={() => toggleFilter('вернуть')}
           style={{
