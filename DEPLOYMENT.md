@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-19
 
-### 🚀 Deployed Version: v2.1.4 - Academy Courses Screen Complete
+### 🚀 Deployed Version: v2.1.7 - Academy Courses Updated & All Routes Connected
 
-**Commit:** `64b01bc` - fix: move all indicators and buttons to end with zIndex, fix button sizes to 247x79
+**Commit:** `9b004cd` - Обновлены заголовки и подзаголовки курсов (v2.1.7)
 
 **Branch:** `main`
 
@@ -14,21 +14,30 @@
 
 ## 📦 What's Deployed:
 
-### Screens (27 total):
+### Screens (31 total):
 - ✅ Onboarding: 6 screens (splash, welcome, tour, demo, pricing, dashboards)
 - ✅ Промпт: 2 screens (intro, card detail)
-- ✅ Академия: 5 screens (intro, courses all, course system, lesson video, lesson materials)
+- ✅ Академия: 9 screens (intro, courses all, + 4 course screens: system/art/prompting/automation, lesson video, lesson materials)
 - ✅ Полигон: 2 screens (intro, article detail)
 - ✅ Лаба: 10 screens (intro, main, search, no-tracked, tracked, loading, analysis interactive)
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
-### Latest Updates (2026-01-19 - v2.1.1):
-- ✅ **MainDashboardFreeScreen**: 
-  - Moved metacoin circle (кружок подарки) to exact Figma coordinates: left: 545px, top: 42px (was 5px)
-  - Updated beaver avatar (бобер) with new PNG from Desktop
-  - Replaced top-up button (кнопка пополнить) with updated version
-  - Updated "open button" (кнопка открыть) with new design
-  - Increased right card text font size 23px → 27px with truncated text ("На выходе")
+### Latest Updates (2026-01-19 - v2.1.7):
+- ✅ **Academy Course Cards** (all 4 courses):
+  - Updated card text fontSize: 23px → 27px
+  - Text shortened: "... без хаоса и лишних шагов. На выходе — система..." → "... без хаоса."
+  - All 4 course screens: System, Art (Искусство), Prompting (Промптинг), Automation (Автоматизация)
+  
+- ✅ **Course Screen Headers/Subtitles** (Figma v2.1.5-v2.1.7):
+  - All courses: заголовок y: 177px, height: 160px (was 193px, 80px)
+  - All courses: подзаголовок "научишься всем азам работы с нейронками" y: 353px, height: 40px (was 290px, 80px)
+  - Prompting/Art/Automation: updated titles with course names
+  
+- ✅ **Routes Connected** (from "все курсы в академии"):
+  - Card 1 (Система) → `/academy-course-system`
+  - Card 2 (Искусство) → `/academy-course-art`
+  - Card 3 (Промптинг) → `/academy-course-prompting`
+  - Card 4 (Автоматизация) → `/academy-course-automation`
 
 ### Infrastructure:
 - React Router (27 routes configured)
@@ -88,11 +97,13 @@
 - Maintained 1180x2550 design dimensions
 - Implemented responsive scaling algorithm
 
-### Latest Changes (2026-01-19 - v2.1.1):
-- 3 files changed
-- MainDashboardFreeScreen: 5 UI updates with Figma-perfect positioning
-- New/updated assets: бобер.png, кнопка пополнить.png, кнопка открыть.png
-- Text sizing and truncation aligned with Figma design
+### Latest Changes (2026-01-19 - v2.1.7):
+- 8 files changed, 1265 insertions
+- Created: 3 new course screens (art, prompting, automation)
+- Modified: AcademyCourseSystemScreen (card text fontSize & content)
+- Modified: AcademyCoursesAllScreen (fixed Art course route)
+- Modified: routes.tsx (added imports for new screens)
+- All screens: Figma-perfect positioning from metadata
 
 ---
 
