@@ -28,8 +28,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
 
   const handleSearch = () => {
     // Mock search - always show "not found" for now
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.showAlert('Ничего не найдено. Проверьте корректность ссылки или ника');
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        message: 'Ничего не найдено. Проверьте корректность ссылки или ника'
+      });
     } else {
       alert('Ничего не найдено. Проверьте корректность ссылки или ника');
     }
