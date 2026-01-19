@@ -291,27 +291,48 @@ const PoligonArticlesAllScreen: React.FC = () => {
         />
 
         {/* Article Cards */}
-        {/* Card 1 - Академия */}
+        {/* Card 1 - Академия (53:685) - x=141, y=577, 894x249 */}
         <div style={{
           position: 'absolute',
-          left: '143px',
-          top: '600px',
+          left: '141px',
+          top: '577px',
           width: '894px',
           height: '249px',
-          display: 'flex',
         }}>
+          {/* Background image (53:686) */}
           <img 
             src={bgAcademy}
             alt=""
             style={{
+              position: 'absolute',
+              left: 0,
+              top: '5px',
               width: '449px',
-              height: '249px',
+              height: '241px',
               borderRadius: '30px',
               objectFit: 'cover',
             }}
           />
+          {/* New badge (411:766) - x=336, y=19 */}
+          <img 
+            src={newBadge}
+            alt="новое"
+            style={{
+              position: 'absolute',
+              left: '336px',
+              top: '19px',
+              width: '101px',
+              height: '36px',
+              objectFit: 'contain',
+            }}
+          />
+          {/* Text (53:694) - x=449, y=0, 445x249 */}
           <div style={{
-            flex: 1,
+            position: 'absolute',
+            left: '449px',
+            top: 0,
+            width: '445px',
+            height: '249px',
             paddingLeft: '27px',
             paddingTop: '30px',
             fontFamily: 'Gotham Pro',
@@ -322,6 +343,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
           }}>
             Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
           </div>
+          {/* Read button (53:711) - x=101, y=86 */}
           <img 
             src={readButton}
             alt="читать"
@@ -336,41 +358,37 @@ const PoligonArticlesAllScreen: React.FC = () => {
               objectFit: 'contain',
             }}
           />
-          <img 
-            src={newBadge}
-            alt="новое"
-            style={{
-              position: 'absolute',
-              left: '336px',
-              top: '19px',
-              width: '101px',
-              height: '36px',
-              objectFit: 'contain',
-            }}
-          />
         </div>
 
-        {/* Card 2 - Лаба */}
+        {/* Card 2 - Лаба (53:743) - x=141, y=856, 894x249 */}
         <div style={{
           position: 'absolute',
-          left: '143px',
-          top: '879px',
+          left: '141px',
+          top: '856px',
           width: '894px',
           height: '249px',
-          display: 'flex',
         }}>
+          {/* Background image (53:749) */}
           <img 
             src={bgLaba}
             alt=""
             style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
               width: '449px',
               height: '249px',
               borderRadius: '30px',
               objectFit: 'cover',
             }}
           />
+          {/* Text (53:745) - x=449, y=1, 445x249 */}
           <div style={{
-            flex: 1,
+            position: 'absolute',
+            left: '449px',
+            top: '1px',
+            width: '445px',
+            height: '249px',
             paddingLeft: '27px',
             paddingTop: '30px',
             fontFamily: 'Gotham Pro',
@@ -381,6 +399,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
           }}>
             Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
           </div>
+          {/* Read button (53:725) - x=102, y=85 */}
           <img 
             src={readButton}
             alt="читать"
@@ -397,27 +416,35 @@ const PoligonArticlesAllScreen: React.FC = () => {
           />
         </div>
 
-        {/* Card 3 - Цех */}
+        {/* Card 3 - Цех (53:700) - x=141, y=1135, 894x249 */}
         <div style={{
           position: 'absolute',
-          left: '143px',
-          top: '1158px',
+          left: '141px',
+          top: '1135px',
           width: '894px',
           height: '249px',
-          display: 'flex',
         }}>
+          {/* Background image (53:702) */}
           <img 
             src={bgWorkshop}
             alt=""
             style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
               width: '450px',
               height: '249px',
               borderRadius: '30px',
               objectFit: 'cover',
             }}
           />
+          {/* Text (53:703) - x=450, y=0, 444x249 */}
           <div style={{
-            flex: 1,
+            position: 'absolute',
+            left: '450px',
+            top: 0,
+            width: '444px',
+            height: '249px',
             paddingLeft: '27px',
             paddingTop: '30px',
             fontFamily: 'Gotham Pro',
@@ -428,14 +455,15 @@ const PoligonArticlesAllScreen: React.FC = () => {
           }}>
             Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
           </div>
+          {/* Read button (53:718) - x=242, y=975 - WRONG, should be relative */}
           <img 
             src={readButton}
             alt="читать"
             onClick={() => navigate('/article')}
             style={{
               position: 'absolute',
-              left: '242px',
-              top: '975px',
+              left: '102px',
+              top: '85px',
               width: '247px',
               height: '80px',
               cursor: 'pointer',
@@ -444,27 +472,35 @@ const PoligonArticlesAllScreen: React.FC = () => {
           />
         </div>
 
-        {/* Card 4 - Полигон */}
+        {/* Card 4 - Полигон (53:760) - x=141, y=1414, 894x249 */}
         <div style={{
           position: 'absolute',
-          left: '143px',
-          top: '1437px',
+          left: '141px',
+          top: '1414px',
           width: '894px',
           height: '249px',
-          display: 'flex',
         }}>
+          {/* Background image (53:764) */}
           <img 
             src={bgPoligon}
             alt=""
             style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
               width: '447px',
               height: '249px',
               borderRadius: '30px',
               objectFit: 'cover',
             }}
           />
+          {/* Text (53:762) - x=447, y=0, 447x249 */}
           <div style={{
-            flex: 1,
+            position: 'absolute',
+            left: '447px',
+            top: 0,
+            width: '447px',
+            height: '249px',
             paddingLeft: '27px',
             paddingTop: '30px',
             fontFamily: 'Gotham Pro',
@@ -475,6 +511,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
           }}>
             Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
           </div>
+          {/* Read button - x=102, y=85 */}
           <img 
             src={readButton}
             alt="читать"
