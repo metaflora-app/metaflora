@@ -29,7 +29,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
   });
 
   const avatar = isLama ? lamaAvatar : beaverAvatar;
-  const avatarText = isLama ? 'неопознанную ламу' : 'неопознанный бобёр';
+  const avatarText = isLama ? 'неопознанная лама' : 'неопознанный бобёр';
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
