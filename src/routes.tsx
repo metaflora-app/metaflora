@@ -12,6 +12,9 @@ import { AboutLabaScreen } from './screens/about-laba';
 import { AboutPoligonScreen } from './screens/about-poligon';
 import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
 import { AcademyCourseSystemScreen } from './screens/academy-course-system';
+import { AcademyCourseArtScreen } from './screens/academy-course-art';
+import { AcademyCoursePromptingScreen } from './screens/academy-course-prompting';
+import { AcademyCourseAutomationScreen } from './screens/academy-course-automation';
 import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
 import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials';
 import { ArticleScreen } from './screens/article';
@@ -190,15 +193,15 @@ export const router = createBrowserRouter([
   },
   {
     path: '/academy-course-art',
-    element: <PlaceholderScreen name="Academy Course Art" />,
+    element: <AcademyCourseArtScreen />,
   },
   {
     path: '/academy-course-prompting',
-    element: <PlaceholderScreen name="Academy Course Prompting" />,
+    element: <AcademyCoursePromptingScreen />,
   },
   {
     path: '/academy-course-automation',
-    element: <PlaceholderScreen name="Academy Course Automation" />,
+    element: <AcademyCourseAutomationScreen />,
   },
   {
     path: '/academy-lesson-video',

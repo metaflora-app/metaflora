@@ -12,7 +12,7 @@ import homeIcon from '../../assets/about-screens/домой.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 import goButton from '../../assets/main-dashboard/кнопка перейти.png';
 
-export const AcademyCourseSystemScreen: React.FC = () => {
+export const AcademyCourseAutomationScreen: React.FC = () => {
   const navigate = useNavigate();
 
   // Calculate scale based on viewport width (design width: 1180px)
@@ -127,7 +127,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
           }}
         />
 
-        {/* Заголовок (7:2522) */}
+        {/* Заголовок */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -145,11 +145,11 @@ export const AcademyCourseSystemScreen: React.FC = () => {
             lineHeight: 0,
             color: 'white',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>уроки курса «система»</p>
+            <p style={{ margin: 0, lineHeight: '1' }}>уроки курса «автоматизация»</p>
           </div>
         </div>
 
-        {/* Подзаголовок (7:2523) */}
+        {/* Подзаголовок */}
         <div style={{
           position: 'absolute',
           left: '91px',
