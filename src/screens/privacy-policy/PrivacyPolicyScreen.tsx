@@ -128,10 +128,9 @@ export const PrivacyPolicyScreen: React.FC = () => {
         {/* Главная подложка (белая) */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% + 1px)',
+          left: '88px',
           top: '560px',
-          transform: 'translateX(-50%)',
-          width: '888px',
+          width: '1004px',
           height: '1482px',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
@@ -142,10 +141,10 @@ export const PrivacyPolicyScreen: React.FC = () => {
         {/* Карточка с текстом (черная подложка + скролл) */}
         <div style={{
           position: 'absolute',
-          left: '198px',
-          top: '608px',
-          width: '784px',
-          height: '1384px',
+          left: '144px',
+          top: '613px',
+          width: '892px',
+          height: '1373px',
         }}>
           {/* Черная подложка */}
           <div style={{
@@ -160,7 +159,7 @@ export const PrivacyPolicyScreen: React.FC = () => {
             {/* Скроллируемый контейнер с текстом */}
             <div style={{
               position: 'absolute',
-              inset: '6.16% 3.83% 6.75% 3.7%',
+              inset: '2.15% 3.83% 10.75% 3.7%',
               overflowY: 'auto',
               overflowX: 'hidden',
             }}>
