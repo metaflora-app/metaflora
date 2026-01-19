@@ -542,7 +542,7 @@ export const WelcomeScreen: React.FC = () => {
               left: 0,
               top: 0,
               width: '4.2084px',
-              height: '4.098px',
+              height: '4.1042px',
               background: '#ffffff',
               border: '4px solid #ffffff',
               boxSizing: 'border-box',
@@ -553,9 +553,9 @@ export const WelcomeScreen: React.FC = () => {
               alt=""
               style={{
                 position: 'absolute',
-                left: '0.131px',
-                top: '5.613px',
-                width: '4px',
+                left: '0.1315px',
+                top: '5.6155px',
+                width: '4.2084px',
                 height: '17.3462px',
                 objectFit: 'contain',
                 pointerEvents: 'none',
