@@ -186,11 +186,11 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* Индикатор прогресса */}
+          {/* Индикатор прогресса (29:521) */}
           <div style={{
             position: 'absolute',
             left: '27px',
-            top: '19px',
+            top: '32px',
             width: '36px',
             height: '36px',
           }}>
@@ -337,11 +337,11 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '250px',
         }}>
-          {/* Индикатор прогресса */}
+          {/* Индикатор прогресса (29:506) */}
           <div style={{
             position: 'absolute',
             left: '26px',
-            top: '28px',
+            top: '27px',
             width: '38px',
             height: '38px',
           }}>
@@ -465,11 +465,11 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* Индикатор прогресса */}
+          {/* Индикатор прогресса (29:552) */}
           <div style={{
             position: 'absolute',
             left: '28px',
-            top: '14px',
+            top: '27px',
             width: '36px',
             height: '36px',
           }}>
@@ -571,11 +571,11 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           width: '894px',
           height: '249px',
         }}>
-          {/* Индикатор прогресса */}
+          {/* Индикатор прогресса (29:551) */}
           <div style={{
             position: 'absolute',
             left: '26px',
-            top: '14px',
+            top: '27px',
             width: '36px',
             height: '36px',
           }}>
