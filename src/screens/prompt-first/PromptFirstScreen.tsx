@@ -33,6 +33,7 @@ export const PromptFirstScreen: React.FC = () => {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
   const [likedCards, setLikedCards] = React.useState<number[]>([]);
+  const [isSearchFocused, setIsSearchFocused] = React.useState(false);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
@@ -377,7 +378,9 @@ export const PromptFirstScreen: React.FC = () => {
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="промпт для ИИ-копирайтера любых текстов"
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setIsSearchFocused(false)}
+            placeholder={isSearchFocused ? '' : 'промпт для ИИ-копирайтера любых текстов'}
             style={{
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
