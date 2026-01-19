@@ -14,7 +14,6 @@ import promptPlate from '../../assets/laba-search-account/промпт плаш�
 import instaLogo from '../../assets/laba-search-account/лого инста.png';
 import profilePhoto from '../../assets/laba-search-account/фото профиля.png';
 import trackingButton from '../../assets/laba-search-account/укороченная кнопка начать отслеживание.png';
-import trackingInsert from '../../assets/laba-search-account/вставка на отслеживание.png';
 import peopleBackground from '../../assets/laba-search-account/люди друг на друге.png';
 import searchIcon from '../../assets/laba-search-account/иконка поиск.png';
 
@@ -541,20 +540,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
           </div>
 
-          {/* Background image PNG */}
-          <img 
-            src={trackingInsert}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '-1px',
-              top: '1158px',
-              width: '898px',
-              height: '377px',
-              borderRadius: '30px',
-              border: '4px solid rgba(255,255,255,0.3)',
-            }}
-          />
+          {/* Background image PNG - REMOVED */}
         </div>
 
         {/* Footer - REUSED */}
