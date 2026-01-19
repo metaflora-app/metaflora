@@ -104,8 +104,8 @@ export const MarketingConsentScreen: React.FC = () => {
         {/* Заголовок */}
         <div style={{
           position: 'absolute',
-          left: '123px',
-          top: '197px',
+          left: '95px',
+          top: '237px',
           width: '934px',
           height: '240px',
         }}>
