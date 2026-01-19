@@ -174,24 +174,27 @@ export const LabaLoadingScreen = () => {
         onClick={() => navigate('/laba-main')}
         />
         
-        <div style={{
-          width: '129px',
-          height: '126px',
-          cursor: 'pointer',
-          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          opacity: 0.8,
-          backgroundColor: 'rgba(255,0,0,0.5)',
-          border: '5px solid red',
-          zIndex: 99999
-        }}
-        onClick={() => {
-          console.log('🔥🔥🔥 CLICKED RED ANALYSIS ICON - NAVIGATING TO /laba-no-tracked 🔥🔥🔥');
-          navigate('/laba-no-tracked');
-        }}
-        />
+        <div 
+          onClick={() => {
+            navigate('/laba-no-tracked');
+          }}
+          style={{
+            width: '129px',
+            height: '126px',
+            cursor: 'pointer',
+            position: 'relative',
+          }}
+        >
+          <div style={{
+            width: '100%',
+            height: '100%',
+            backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            opacity: 0.8,
+          }} />
+        </div>
         
         <div style={{
           width: '129px',
@@ -206,18 +209,35 @@ export const LabaLoadingScreen = () => {
         onClick={() => navigate('/laba-favorites')}
         />
         
-        <div style={{
-          width: '129px',
-          height: '132px',
-          cursor: 'pointer',
-          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          opacity: 0.8
-        }}
-        onClick={() => navigate('/metacoins')}
-        />
+        <div 
+          onClick={() => navigate('/metacoins')}
+          style={{
+            width: '129px',
+            height: '132px',
+            cursor: 'pointer',
+            position: 'relative',
+          }}
+        >
+          <div style={{
+            width: '100%',
+            height: '100%',
+            backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            opacity: 0.8,
+          }} />
+          {/* Белая точка (356:806) */}
+          <div style={{
+            position: 'absolute',
+            top: '62px',
+            right: '42px',
+            width: '7px',
+            height: '7px',
+            borderRadius: '50%',
+            backgroundColor: 'white',
+          }} />
+        </div>
       </div>
 
       {/* Footer */}
