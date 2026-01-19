@@ -12,7 +12,7 @@ import academyBg from '../../assets/main-dashboard/фон академия.png';
 import labaBg from '../../assets/main-dashboard/фон лаба.png';
 import tsekhBg from '../../assets/main-dashboard/фон цех.png';
 import poligonBg from '../../assets/main-dashboard/фон полигон.png';
-import studyButton from '../../assets/about-screens/кнопка открыть цех.png';
+import studyButton from '../../assets/about-screens/кнопка изучить.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 
 export const AcademyCoursesAllScreen: React.FC = () => {
