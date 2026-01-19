@@ -403,14 +403,14 @@ const PoligonArticlesAllScreen: React.FC = () => {
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
               fontSize: '27px',
-              lineHeight: 1.4,
+              lineHeight: 0,
               color: 'white',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
             }}>
-              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+              <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
           {/* Shutter overlay (53:696) - x=564, y=0, 330x249 with arrow */}
@@ -505,14 +505,14 @@ const PoligonArticlesAllScreen: React.FC = () => {
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
               fontSize: '27px',
-              lineHeight: 1.4,
+              lineHeight: 0,
               color: 'white',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
             }}>
-              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+              <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
           {/* Shutter overlay shorter (53:747) - x=719, y=1, 175x249 with arrow */}
@@ -607,14 +607,14 @@ const PoligonArticlesAllScreen: React.FC = () => {
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
               fontSize: '27px',
-              lineHeight: 1.4,
+              lineHeight: 0,
               color: 'white',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
             }}>
-              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+              <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
           {/* Read button (53:718) - x=102, y=85, 247x80 */}
@@ -680,14 +680,14 @@ const PoligonArticlesAllScreen: React.FC = () => {
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
               fontSize: '27px',
-              lineHeight: 1.4,
+              lineHeight: 0,
               color: 'white',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
             }}>
-              Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+              <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
           {/* Read button (53:732) - x=241, y=1604 - ABSOLUTE TO SCREEN */}

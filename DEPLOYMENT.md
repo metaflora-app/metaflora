@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-20
 
-### 🚀 Deployed Version: v2.2.8 - Laba Search Functionality
+### 🚀 Deployed Version: v2.2.9 - PoligonArticlesAllScreen Rebuild
 
-**Commit:** `d61e959` - fix: use showPopup instead of showAlert in LabaSearchAccountScreen
+**Commit:** `8b931f3` - fix: correct article card spacing and add arrow SVGs to shutters - pixel-perfect from Figma
 
 **Branch:** `main`
 
@@ -22,7 +22,19 @@
 - ✅ Лаба: 10 screens (intro, main, search, no-tracked, tracked, loading, analysis interactive)
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
-### Latest Updates (2026-01-20 - v2.2.8):
+### Latest Updates (2026-01-20 - v2.2.9):
+- ✅ **PoligonArticlesAllScreen Completely Rebuilt**:
+  - Pixel-perfect from Figma metadata (node 7:2312)
+  - Title "статьи в полигоне": x=85, y=193, Inter ExtraBold 80px
+  - Working search input with focus (like PromptFirstScreen)
+  - Filter system: вернуть, система, искусство, промптинг, автоматизация
+  - 4 article cards with exact coordinates: y=577, 890, 1205, 1519
+  - Black text blocks with blur + shutters with arrow SVGs
+  - "новое" badge component with blur effect
+  - People in circle background (x=151, y=1280) behind cards
+  - All texts: Gotham Pro Light 27px, lineHeight normal, centered
+
+### Previous Updates (2026-01-20 - v2.2.8):
 - ✅ **Main Dashboard Updates**:
   - **MainDashboardFreeScreen**: Removed metacoin icon, top-up button, and "150 метакоинов" text
   - **MainDashboardPremiumScreen**: Top-up button now navigates to /metacoins (instead of /pricing)
