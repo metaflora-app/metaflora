@@ -242,27 +242,26 @@ export const PromptCardScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* Inner black card - 368:1113 */}
+        {/* Inner black card - 368:1113 (inside 368:1112 at x=141, y=452) */}
         <div style={{
           position: 'absolute',
-          left: '88px',
-          top: '399px',
+          left: '141px',
+          top: '452px',
           width: '898px',
           height: '1536px',
           backdropFilter: 'blur(50px)',
           background: 'black',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
         }} />
 
-        {/* House image - 32:790 (relative to black card) */}
+        {/* House image - 32:790 (inside 368:1112: 141+51=192, 452+53=505) */}
         <div style={{
           position: 'absolute',
-          left: '139px',
-          top: '452px',
+          left: '192px',
+          top: '505px',
           width: '796px',
           height: '748px',
-          border: '2px solid rgba(0, 0, 0, 0.3)',
           borderRadius: '30px',
           overflow: 'hidden',
         }}>
