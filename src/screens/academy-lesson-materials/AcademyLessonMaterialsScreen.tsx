@@ -19,15 +19,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Dynamic content flags
-  const hasPrompts = true; // Можно сделать динамическим
-  const hasMaterials = true; // Можно сделать динамическим
-
   return (
     <div style={{
       position: 'relative',
       width: '100vw',
-      minHeight: '100vh',
+      height: '100vh',
       background: '#020101',
       overflow: 'hidden',
     }}>
@@ -35,7 +31,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       <div style={{
         position: 'relative',
         width: '1180px',
-        minHeight: '2550px',
+        height: '2550px',
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
@@ -121,7 +117,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           }}
         />
 
-        {/* Заголовок "материалы урока" (7:2066) */}
+        {/* Заголовок "материалы урока" */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -136,14 +132,14 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             fontFamily: 'Inter',
             fontWeight: 800,
             fontSize: '80px',
-            lineHeight: 0,
+            lineHeight: 1,
             color: 'white',
           }}>
             <p style={{ margin: 0, lineHeight: '1' }}>материалы урока</p>
           </div>
         </div>
 
-        {/* Подзаголовок (7:2067) */}
+        {/* Подзаголовок */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -156,7 +152,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             fontSize: '40px',
-            lineHeight: 0,
+            lineHeight: 1,
             color: 'white',
           }}>
             <p style={{ margin: 0, lineHeight: '1' }}>
@@ -166,7 +162,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Лого "люди на фоне" (32:755) */}
+        {/* Лого "люди на фоне" */}
         <div style={{
           position: 'absolute',
           inset: '38.39% 11.78% 23.69% 12.37%',
@@ -195,10 +191,9 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         {/* Белая подложка (32:710) */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% + 1px)',
+          left: '88px',
           top: '399px',
-          transform: 'translateX(-50%)',
-          width: '888px',
+          width: '1004px',
           height: '1643px',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
@@ -206,166 +201,134 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* Черная карточка со скроллом (32:840) */}
+        {/* Черная карточка (32:840) */}
         <div style={{
           position: 'absolute',
-          left: '198px',
-          top: '452px',
-          width: '784px',
+          left: '88px',
+          top: '399px',
+          width: '898px',
           height: '1536px',
+          backdropFilter: 'blur(50px)',
+          background: 'black',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }} />
+
+        {/* 32:715 - Заголовок "морфинг через общие элементы" */}
+        <div style={{
+          position: 'absolute',
+          left: '356px',
+          top: '463px',
+          width: '469px',
+          fontFamily: 'Inter',
+          fontWeight: 700,
+          fontSize: '52px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
         }}>
-          <div style={{
+          <p style={{ margin: 0, lineHeight: 1.2 }}>морфинг через{'\n'}общие элементы</p>
+        </div>
+
+        {/* 32:716 - Описание */}
+        <div style={{
+          position: 'absolute',
+          left: '200px',
+          top: '611px',
+          width: '781px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 300,
+          fontSize: '35px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
+          </p>
+        </div>
+
+        {/* 32:726 - Плашка промпт */}
+        <img 
+          src={promptButton}
+          alt="промпт"
+          style={{
             position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'hidden',
-          }}>
-            {/* Скроллируемый контейнер */}
-            <div style={{
-              position: 'absolute',
-              inset: '20px',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '35px',
-                lineHeight: '1.2',
-                color: 'white',
-                textAlign: 'center',
-                whiteSpace: 'pre-wrap',
-              }}>
-                {/* Заголовок внутри (32:715) - 2 строки */}
-                <p style={{ 
-                  margin: 0, 
-                  marginBottom: '20px',
-                  fontFamily: 'Inter',
-                  fontWeight: 700,
-                  fontSize: '52px',
-                  lineHeight: '1.1',
-                  maxWidth: '470px',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                }}>
-                  морфинг через{'\n'}общие элементы
-                </p>
+            left: '467px',
+            top: '848px',
+            width: '246.93px',
+            height: '79.25px',
+            objectFit: 'contain',
+          }}
+        />
 
-                {/* Описание (32:716) */}
-                <p style={{ margin: 0, marginBottom: '20px' }}>
-                  идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
-                </p>
+        {/* 32:717 - Текст промптов */}
+        <div style={{
+          position: 'absolute',
+          left: '193px',
+          top: '968px',
+          width: '795px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 300,
+          fontSize: '35px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            А второй клип начинается с солнца, которое тоже заполняет кадр:
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            А второй клип начинается с солнца, которое тоже заполняет кадр:
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
+          </p>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>
+            Оба объекта оранжевые, оба занимают весь экран
+          </p>
+        </div>
 
-                {/* Блок с промптами (условный) */}
-                {hasPrompts && (
-                  <>
-                    {/* Кнопка "промпт" - PNG (32:726) */}
-                    <div style={{ textAlign: 'center', margin: '15px 0' }}>
-                      <img 
-                        src={promptButton}
-                        alt="промпт"
-                        style={{
-                          width: '247px',
-                          height: '80px',
-                          cursor: 'pointer',
-                        }}
-                      />
-                    </div>
+        {/* 368:1134 - Плашка материалы */}
+        <img 
+          src={materialsButton}
+          alt="материалы"
+          style={{
+            position: 'absolute',
+            left: '467px',
+            top: '1781px',
+            width: '246.93px',
+            height: '79.25px',
+            objectFit: 'contain',
+          }}
+        />
 
-                    {/* Текст промптов - меньшие отступы (32:717) */}
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-                    </p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      А второй клип начинается с солнца, которое тоже заполняет кадр:
-                    </p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>&nbsp;</p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
-                    </p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
-                    </p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>&nbsp;</p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-                    </p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      А второй клип начинается с солнца, которое тоже заполняет кадр:
-                    </p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>&nbsp;</p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
-                    </p>
-                    <p style={{ margin: 0, marginBottom: '15px' }}>
-                      Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
-                    </p>
-                  </>
-                )}
-
-                {/* Блок с материалами (условный) */}
-                {hasMaterials && (
-                  <>
-                    {/* Кнопка "материалы" - PNG (32:749) */}
-                    <div style={{ textAlign: 'center', margin: '20px 0' }}>
-                      <img 
-                        src={materialsButton}
-                        alt="материалы"
-                        style={{
-                          width: '247px',
-                          height: '80px',
-                          cursor: 'pointer',
-                        }}
-                      />
-                    </div>
-
-                    {/* Текст "скачать файлы (5)" с плюсиком (32:735, 32:737) */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '15px',
-                      marginTop: '15px',
-                    }}>
-                      <div style={{
-                        fontFamily: 'Gotham Pro',
-                        fontWeight: 500,
-                        fontSize: '32px',
-                        lineHeight: 0,
-                      }}>
-                        <p style={{ margin: 0, lineHeight: '1' }}>скачать файлы (5)</p>
-                      </div>
-                      <div 
-                        onClick={() => {
-                          // Отправить материалы в чат с ботом
-                          alert('Материалы будут отправлены в чат с ботом');
-                        }}
-                        style={{
-                          width: '35px',
-                          height: '35px',
-                          backdropFilter: 'blur(50px)',
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          border: '1px solid rgba(255, 255, 255, 0.3)',
-                          borderRadius: '30px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          fontSize: '24px',
-                          color: 'white',
-                        }}
-                      >
-                        +
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
+        {/* 32:735 - Текст "скачать файлы (5)" */}
+        <div style={{
+          position: 'absolute',
+          left: '432px',
+          top: '1895px',
+          width: '316px',
+          fontFamily: 'Gotham Pro',
+          fontWeight: 500,
+          fontSize: '32px',
+          lineHeight: 1.2,
+          color: 'white',
+          textAlign: 'center',
+        }}>
+          <p style={{ margin: 0, lineHeight: 1.2 }}>скачать файлы (5)</p>
         </div>
 
         {/* Footer */}
@@ -417,7 +380,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '20px',
-            lineHeight: '0',
+            lineHeight: '1',
             color: 'white',
           }}>
             <p style={{ 
