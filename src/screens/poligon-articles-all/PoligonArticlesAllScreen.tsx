@@ -22,6 +22,14 @@ import promptingInactive from '../../assets/poligon-articles/кнопка про
 import automationActive from '../../assets/poligon-articles/кнопка автоматизация актив.png';
 import automationInactive from '../../assets/poligon-articles/кнопка автоматизация неактив.png';
 
+// Article assets
+import bgAcademy from '../../assets/poligon-articles/фон академия.png';
+import bgLaba from '../../assets/poligon-articles/фон лаба.png';
+import bgWorkshop from '../../assets/poligon-articles/фон цех.png';
+import bgPoligon from '../../assets/poligon-articles/фон полигон.png';
+import readButton from '../../assets/poligon-articles/кнопка читать.png';
+import newBadge from '../../assets/poligon-articles/плашка новое.png';
+
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = React.useState('');
@@ -281,6 +289,207 @@ const PoligonArticlesAllScreen: React.FC = () => {
             objectFit: 'contain',
           }}
         />
+
+        {/* Article Cards */}
+        {/* Card 1 - Академия */}
+        <div style={{
+          position: 'absolute',
+          left: '143px',
+          top: '600px',
+          width: '894px',
+          height: '249px',
+          display: 'flex',
+        }}>
+          <img 
+            src={bgAcademy}
+            alt=""
+            style={{
+              width: '449px',
+              height: '249px',
+              borderRadius: '30px',
+              objectFit: 'cover',
+            }}
+          />
+          <div style={{
+            flex: 1,
+            paddingLeft: '27px',
+            paddingTop: '30px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '32px',
+            lineHeight: '1.5',
+            color: 'white',
+          }}>
+            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+          </div>
+          <img 
+            src={readButton}
+            alt="читать"
+            onClick={() => navigate('/article')}
+            style={{
+              position: 'absolute',
+              left: '101px',
+              top: '86px',
+              width: '247px',
+              height: '80px',
+              cursor: 'pointer',
+              objectFit: 'contain',
+            }}
+          />
+          <img 
+            src={newBadge}
+            alt="новое"
+            style={{
+              position: 'absolute',
+              left: '336px',
+              top: '19px',
+              width: '101px',
+              height: '36px',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+
+        {/* Card 2 - Лаба */}
+        <div style={{
+          position: 'absolute',
+          left: '143px',
+          top: '879px',
+          width: '894px',
+          height: '249px',
+          display: 'flex',
+        }}>
+          <img 
+            src={bgLaba}
+            alt=""
+            style={{
+              width: '449px',
+              height: '249px',
+              borderRadius: '30px',
+              objectFit: 'cover',
+            }}
+          />
+          <div style={{
+            flex: 1,
+            paddingLeft: '27px',
+            paddingTop: '30px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '32px',
+            lineHeight: '1.5',
+            color: 'white',
+          }}>
+            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+          </div>
+          <img 
+            src={readButton}
+            alt="читать"
+            onClick={() => navigate('/article')}
+            style={{
+              position: 'absolute',
+              left: '102px',
+              top: '85px',
+              width: '247px',
+              height: '80px',
+              cursor: 'pointer',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+
+        {/* Card 3 - Цех */}
+        <div style={{
+          position: 'absolute',
+          left: '143px',
+          top: '1158px',
+          width: '894px',
+          height: '249px',
+          display: 'flex',
+        }}>
+          <img 
+            src={bgWorkshop}
+            alt=""
+            style={{
+              width: '450px',
+              height: '249px',
+              borderRadius: '30px',
+              objectFit: 'cover',
+            }}
+          />
+          <div style={{
+            flex: 1,
+            paddingLeft: '27px',
+            paddingTop: '30px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '32px',
+            lineHeight: '1.5',
+            color: 'white',
+          }}>
+            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+          </div>
+          <img 
+            src={readButton}
+            alt="читать"
+            onClick={() => navigate('/article')}
+            style={{
+              position: 'absolute',
+              left: '242px',
+              top: '975px',
+              width: '247px',
+              height: '80px',
+              cursor: 'pointer',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+
+        {/* Card 4 - Полигон */}
+        <div style={{
+          position: 'absolute',
+          left: '143px',
+          top: '1437px',
+          width: '894px',
+          height: '249px',
+          display: 'flex',
+        }}>
+          <img 
+            src={bgPoligon}
+            alt=""
+            style={{
+              width: '447px',
+              height: '249px',
+              borderRadius: '30px',
+              objectFit: 'cover',
+            }}
+          />
+          <div style={{
+            flex: 1,
+            paddingLeft: '27px',
+            paddingTop: '30px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '32px',
+            lineHeight: '1.5',
+            color: 'white',
+          }}>
+            Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+          </div>
+          <img 
+            src={readButton}
+            alt="читать"
+            onClick={() => navigate('/article')}
+            style={{
+              position: 'absolute',
+              left: '102px',
+              top: '85px',
+              width: '247px',
+              height: '80px',
+              cursor: 'pointer',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
 
         {/* Footer */}
         <div style={{
