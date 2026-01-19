@@ -15,13 +15,23 @@ import priceButtonGreen from '../../assets/pricing/кнопка цена зел�
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
 import descriptionText from '../../assets/pricing/description-text.png';
-import buttonI from '../../assets/pricing/кнопка i.png';
-import tooltipPng from '../../assets/pricing/всплывашка про списание.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [showTooltip1, setShowTooltip1] = React.useState(false);
-  const [showTooltip2, setShowTooltip2] = React.useState(false);
+  const [selectedPlan, setSelectedPlan] = React.useState<string | null>(null);
+
+  const handlePayment = () => {
+    if (!selectedPlan) {
+      // Telegram WebApp alert
+      if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showAlert('Вы не выбрали ни одну из подписок');
+      } else {
+        alert('Вы не выбрали ни одну из подписок');
+      }
+      return;
+    }
+    navigate('/main-dashboard-premium');
+  };
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -199,39 +209,6 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Иконка "i" - PNG карточка 1 месяц */}
-            <img 
-              src={buttonI}
-              alt="i"
-              onClick={() => setShowTooltip1(!showTooltip1)}
-              style={{
-                position: 'absolute',
-                left: '364px',
-                top: '9.296px',
-                width: '66px',
-                height: '65.704px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Всплывашка про списание - PNG карточка 1 (показывается по клику) */}
-        {showTooltip1 && (
-          <img 
-            src={tooltipPng}
-            alt=""
-            onClick={() => setShowTooltip1(false)}
-            style={{
-              position: 'absolute',
-              left: '581px',
-              top: '278px',
-              width: '287px',
-              height: '174px',
-              cursor: 'pointer',
-              zIndex: 200,
-            }}
-          />
-        )}
-
             {/* Текст описания тарифа - PNG */}
             <img 
               src={descriptionText}
@@ -246,15 +223,17 @@ export const PricingScreen: React.FC = () => {
             />
 
             {/* Плашка цены 2690 (серая, зачёркнутая) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 172px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              cursor: 'pointer',
-            }}>
+            <div 
+              onClick={() => setSelectedPlan('1month')}
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 172px)',
+                top: '53px',
+                transform: 'translateX(-50%)',
+                width: '176px',
+                height: '57px',
+                cursor: 'pointer',
+              }}>
               <img 
                 src={priceButtonGray}
                 alt=""
@@ -295,15 +274,17 @@ export const PricingScreen: React.FC = () => {
             </div>
 
             {/* Плашка цены 1990 (зелёная) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 348px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              cursor: 'pointer',
-            }}>
+            <div 
+              onClick={() => setSelectedPlan('1month')}
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 348px)',
+                top: '53px',
+                transform: 'translateX(-50%)',
+                width: '176px',
+                height: '57px',
+                cursor: 'pointer',
+              }}>
               <img 
                 src={priceButtonGreen}
                 alt=""
@@ -396,39 +377,6 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Иконка "i" - PNG карточка 3 месяца */}
-            <img 
-              src={buttonI}
-              alt="i"
-              onClick={() => setShowTooltip2(!showTooltip2)}
-              style={{
-                position: 'absolute',
-                left: '576px',
-                top: '1093.296px',
-                width: '66px',
-                height: '65.704px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Всплывашка про списание - PNG карточка 2 (показывается по клику) */}
-        {showTooltip2 && (
-          <img 
-            src={tooltipPng}
-            alt=""
-            onClick={() => setShowTooltip2(false)}
-            style={{
-              position: 'absolute',
-              left: '650px',
-              top: '944px',
-              width: '287px',
-              height: '174px',
-              cursor: 'pointer',
-              zIndex: 200,
-            }}
-          />
-        )}
-
             {/* Текст описания тарифа (8 строк) */}
             <div style={{
               position: 'absolute',
@@ -469,15 +417,17 @@ export const PricingScreen: React.FC = () => {
             </div>
 
             {/* Плашка "8070 руб." (зачеркнутая) - серая плашка */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 172px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              cursor: 'pointer',
-            }}>
+            <div 
+              onClick={() => setSelectedPlan('3months')}
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 172px)',
+                top: '53px',
+                transform: 'translateX(-50%)',
+                width: '176px',
+                height: '57px',
+                cursor: 'pointer',
+              }}>
               <img 
                 src={priceButtonGray}
                 alt=""
@@ -518,15 +468,17 @@ export const PricingScreen: React.FC = () => {
             </div>
 
             {/* Плашка "5490 руб." - зеленая плашка */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 348px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              cursor: 'pointer',
-            }}>
+            <div 
+              onClick={() => setSelectedPlan('3months')}
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 348px)',
+                top: '53px',
+                transform: 'translateX(-50%)',
+                width: '176px',
+                height: '57px',
+                cursor: 'pointer',
+              }}>
               <img 
                 src={priceButtonGreen}
                 alt=""
@@ -560,7 +512,7 @@ export const PricingScreen: React.FC = () => {
 
         {/* Кнопка "оплатить полный доступ" с красным градиентом */}
         <button
-          onClick={() => navigate('/main-dashboard-premium')}
+          onClick={handlePayment}
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
