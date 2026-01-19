@@ -16,6 +16,8 @@ import priceButtonGreen from '../../assets/pricing/кнопка цена зел�
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
 import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
 import descriptionText from '../../assets/pricing/description-text.png';
+import buttonI from '../../assets/pricing/кнопка i.png';
+import tooltipPng from '../../assets/pricing/всплывашка про списание.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -198,51 +200,37 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Иконка "i" - подробнее */}
+            {/* Иконка "i" - PNG */}
             <img 
-              src={infoIcon}
+              src={buttonI}
               alt="i"
               onClick={() => setShowTooltip1(!showTooltip1)}
               style={{
                 position: 'absolute',
-                left: '364px',
-                top: '9.296px',
+                left: '365px',
+                top: '9px',
                 width: '66px',
-                height: '65.704px',
+                height: '65px',
                 cursor: 'pointer',
               }}
             />
 
             {/* Всплывашка про списание - PNG (показывается по клику) */}
         {showTooltip1 && (
-          <div style={{
-            position: 'absolute',
-            left: '581px',
-            top: '278px',
-            width: '287px',
-            height: '174px',
-            zIndex: 200,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            backdropFilter: 'blur(50px)',
-            padding: '30px',
-            boxSizing: 'border-box',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-            whiteSpace: 'pre-wrap',
-          }}
-          onClick={() => setShowTooltip1(false)}
-          >
-            списание средств происходит ежемесячно. Вы можете отменить подписку в любой момент
-          </div>
+          <img 
+            src={tooltipPng}
+            alt=""
+            onClick={() => setShowTooltip1(false)}
+            style={{
+              position: 'absolute',
+              left: '581px',
+              top: '278px',
+              width: '287px',
+              height: '174px',
+              cursor: 'pointer',
+              zIndex: 200,
+            }}
+          />
         )}
 
             {/* Текст описания тарифа - PNG */}
@@ -425,34 +413,20 @@ export const PricingScreen: React.FC = () => {
 
             {/* Всплывашка про списание - PNG (показывается по клику) */}
         {showTooltip2 && (
-          <div style={{
-            position: 'absolute',
-            left: '305px',
-            top: '535px',
-            width: '287px',
-            height: '174px',
-            zIndex: 200,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            backdropFilter: 'blur(50px)',
-            padding: '30px',
-            boxSizing: 'border-box',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-            whiteSpace: 'pre-wrap',
-          }}
-          onClick={() => setShowTooltip2(false)}
-          >
-            списание средств происходит ежемесячно. Вы можете отменить подписку в любой момент
-          </div>
+          <img 
+            src={tooltipPng}
+            alt=""
+            onClick={() => setShowTooltip2(false)}
+            style={{
+              position: 'absolute',
+              left: '305px',
+              top: '1627px',
+              width: '287px',
+              height: '174px',
+              cursor: 'pointer',
+              zIndex: 200,
+            }}
+          />
         )}
 
             {/* Текст описания тарифа (8 строк) */}
