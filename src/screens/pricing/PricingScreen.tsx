@@ -10,7 +10,6 @@ import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import pricingBackground from '../../assets/pricing/background.png';
 import pricingBackground2 from '../../assets/pricing/background2.png';
-import infoIcon from '../../assets/pricing/info-icon.png';
 import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
 import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
 import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
