@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Images
@@ -14,14 +14,11 @@ const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-825
 
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
-import copyButton from '../../assets/prompt-card/кнопка скопировать.png';
 import homeIcon from '../../assets/about-screens/домой.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [copied, setCopied] = useState(false);
-  const timeoutRef = useRef<number | null>(null);
 
   const promptText = 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом';
 
@@ -39,26 +36,16 @@ export const PromptCardScreen: React.FC = () => {
         document.execCommand('copy');
         document.body.removeChild(ta);
       }
-      setCopied(true);
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
+      // Telegram WebApp popup
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'Скопировано в буфер обмена',
+        });
       }
-      timeoutRef.current = window.setTimeout(() => {
-        setCopied(false);
-        timeoutRef.current = null;
-      }, 1800);
     } catch (err) {
       // ignore
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
@@ -66,14 +53,14 @@ export const PromptCardScreen: React.FC = () => {
     <div style={{
       position: 'relative',
       width: '100vw',
-      minHeight: '100vh',
+      height: '100vh',
       background: '#020101',
       overflow: 'hidden',
     }}>
       <div style={{
         position: 'relative',
         width: '1180px',
-        minHeight: '2550px',
+        height: '2550px',
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
@@ -231,26 +218,25 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* Main card background */}
+        {/* Main card background - 368:1111 */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% + 1px)',
+          left: '88px',
           top: '399px',
-          width: '888px',
+          width: '1004px',
           height: '1643px',
-          transform: 'translateX(-50%)',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
         }} />
 
-        {/* Inner black card */}
+        {/* Inner black card - 368:1113 */}
         <div style={{
           position: 'absolute',
-          left: '198px',
-          top: '452px',
-          width: '784px',
+          left: '88px',
+          top: '399px',
+          width: '898px',
           height: '1536px',
           backdropFilter: 'blur(50px)',
           background: 'black',
@@ -258,13 +244,13 @@ export const PromptCardScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* House image */}
+        {/* House image - 32:790 (relative to black card) */}
         <div style={{
           position: 'absolute',
-          left: '198px',
+          left: '139px',
           top: '452px',
-          width: '784px',
-          height: '771px',
+          width: '796px',
+          height: '748px',
           border: '2px solid rgba(0, 0, 0, 0.3)',
           borderRadius: '30px',
           overflow: 'hidden',
@@ -283,13 +269,13 @@ export const PromptCardScreen: React.FC = () => {
           />
         </div>
 
-        {/* 32:795 - "ИИ-копирайтер для блога" */}
+        {/* 368:1127 - "ИИ-копирайтер для блога" */}
         <div style={{
           position: 'absolute',
-          left: '384px',
-          top: '1223px',
+          left: '383px',
+          top: '1285px',
           width: '414px',
-          height: '191px',
+          height: '107px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -304,35 +290,38 @@ export const PromptCardScreen: React.FC = () => {
           <p style={{ margin: 0, lineHeight: 1.2 }}>для блога</p>
         </div>
 
-        {/* Prompt badge */}
+        {/* Prompt badge - 368:1126 */}
         <img 
           src={promptBadge}
           alt="промпт"
           style={{
             position: 'absolute',
-            left: '447px',
-            top: '1398px',
-            width: '257px',
-            height: '73px',
+            left: '467px',
+            top: '1435px',
+            width: '246.93px',
+            height: '79.25px',
             objectFit: 'contain',
           }}
         />
 
-        {/* 32:813 - Наборный текст строго по Figma координатам */}
-        <div style={{
-          position: 'absolute',
-          left: '257px',
-          top: '1501px',
-          width: '666px',
-          height: '276px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: 1.2,
-          color: 'white',
-          textAlign: 'center',
-          overflow: 'hidden',
-        }}>
+        {/* 368:1125 - Наборный текст с onClick */}
+        <div 
+          onClick={handleCopy}
+          style={{
+            position: 'absolute',
+            left: '192px',
+            top: '1575px',
+            width: '796px',
+            height: '276px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '35px',
+            lineHeight: 1.2,
+            color: 'white',
+            textAlign: 'center',
+            overflow: 'hidden',
+            cursor: 'pointer',
+          }}>
           <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
             идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
           </p>
@@ -340,23 +329,6 @@ export const PromptCardScreen: React.FC = () => {
             Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом
           </p>
         </div>
-
-
-        {/* 32:827 - Кнопка скопировать - выравнена как плашка промпт */}
-        <img
-          src={copyButton}
-          alt={copied ? 'скопировано' : 'скопировать'}
-          onClick={handleCopy}
-          style={{
-            position: 'absolute',
-            left: '447px',
-            top: '1780px',
-            width: '257px',
-            height: '73px',
-            objectFit: 'contain',
-            cursor: 'pointer',
-          }}
-        />
 
         {/* Footer */}
         <div style={{
