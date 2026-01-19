@@ -20,6 +20,20 @@ import searchIcon from '../../assets/laba-search-account/иконка поиск
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  
+  const [linkInput, setLinkInput] = React.useState('');
+  const [nicknameInput, setNicknameInput] = React.useState('');
+  const [isLinkFocused, setIsLinkFocused] = React.useState(false);
+  const [isNicknameFocused, setIsNicknameFocused] = React.useState(false);
+
+  const handleSearch = () => {
+    // Mock search - always show "not found" for now
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.showAlert('Ничего не найдено. Проверьте корректность ссылки или ника');
+    } else {
+      alert('Ничего не найдено. Проверьте корректность ссылки или ника');
+    }
+  };
 
   return (
     <div style={{
@@ -315,40 +329,41 @@ export const LabaSearchAccountScreen: React.FC = () => {
             top: '121px',
             width: '800px',
             height: '72px',
-            backdropFilter: 'blur(50px)',
             border: '4px solid rgba(255,255,255,0.3)',
             borderRadius: '62px',
             overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '18px',
           }}>
             <img 
               src={searchIcon}
               alt=""
               style={{
-                position: 'absolute',
-                left: '18px',
-                top: '14px',
                 width: '38px',
                 height: '38px',
+                marginRight: '15px',
               }}
             />
-            {/* Placeholder text (109:635) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% - 331px)',
-              top: '50%',
-              transform: 'translateY(calc(-50% + 0.5px))',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '27px',
-              lineHeight: 1,
-              color: '#848484',
-              width: '545px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              вставьте ссылку напрямую
-            </div>
+            <input
+              type="text"
+              value={linkInput}
+              onChange={(e) => setLinkInput(e.target.value)}
+              onFocus={() => setIsLinkFocused(true)}
+              onBlur={() => setIsLinkFocused(false)}
+              placeholder={isLinkFocused ? '' : 'вставьте ссылку напрямую'}
+              style={{
+                flex: 1,
+                background: 'transparent',
+                border: 'none',
+                outline: 'none',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                fontSize: '27px',
+                color: 'white',
+                paddingRight: '20px',
+              }}
+            />
           </div>
 
           {/* "найти по нику" - CSS (109:636) */}
@@ -373,46 +388,48 @@ export const LabaSearchAccountScreen: React.FC = () => {
             top: '293px',
             width: '800px',
             height: '72px',
-            backdropFilter: 'blur(50px)',
             border: '4px solid rgba(255,255,255,0.3)',
             borderRadius: '62px',
             overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '18px',
           }}>
             <img 
               src={searchIcon}
               alt=""
               style={{
-                position: 'absolute',
-                left: '18px',
-                top: '14px',
                 width: '38px',
                 height: '38px',
+                marginRight: '15px',
               }}
             />
-            {/* Placeholder text (109:639) - bottom: 30.56%, top: 31.94% */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% - 331px)',
-              top: 'calc(31.94% - 4px)',
-              bottom: 'calc(30.56% - 4px)',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '27px',
-              lineHeight: 1,
-              color: '#848484',
-              width: '545px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              напишите юзернейм аккаунта через @
-            </div>
+            <input
+              type="text"
+              value={nicknameInput}
+              onChange={(e) => setNicknameInput(e.target.value)}
+              onFocus={() => setIsNicknameFocused(true)}
+              onBlur={() => setIsNicknameFocused(false)}
+              placeholder={isNicknameFocused ? '' : 'напишите юзернейм аккаунта через @'}
+              style={{
+                flex: 1,
+                background: 'transparent',
+                border: 'none',
+                outline: 'none',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                fontSize: '27px',
+                color: 'white',
+                paddingRight: '20px',
+              }}
+            />
           </div>
 
           {/* Find button PNG (109:645) - bottom: 67.69%, top: 27.15% */}
           <img 
             src={promptPlate}
             alt="найти"
+            onClick={handleSearch}
             style={{
               position: 'absolute',
               left: '50%',

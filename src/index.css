@@ -83,3 +83,9 @@ body {
     opacity: 0.95;
   }
 }
+
+/* Placeholder styles for search inputs */
+input::placeholder {
+  color: #848484;
+  opacity: 1;
+}
