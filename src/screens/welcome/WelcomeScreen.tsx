@@ -11,7 +11,7 @@ import pattern from '../../assets/figma-welcome/pattern.png';
 import supportButton from '../../assets/welcome-elements/support-button.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
-import policyInfoLine from '../../assets/figma-welcome/policy-info-icon.svg';
+import policyInfoIcon from '../../assets/figma-welcome/policy-info-icon.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -520,48 +520,18 @@ export const WelcomeScreen: React.FC = () => {
           height: '119px',
         }}>
           {/* Иконка "i" */}
-          <div style={{
-            position: 'absolute',
-            left: '0px',
-            top: '-5px',
-            width: '41px',
-            height: '41px',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid #ffffff',
-            borderRadius: '33px',
-          }} />
-          <div style={{
-            position: 'absolute',
-            left: '18.7916px',
-            top: '2px',
-            width: '4.2084px',
-            height: '22.9616px',
-          }}>
-            <div style={{
+          <img 
+            src={policyInfoIcon}
+            alt="info"
+            style={{
               position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: '82.13%',
               left: 0,
-              background: '#ffffff',
-              border: '4px solid #ffffff',
-              boxSizing: 'border-box',
-              borderRadius: '33px',
-            }} />
-            <img
-              src={policyInfoLine}
-              alt=""
-              style={{
-                position: 'absolute',
-                top: '24.46%',
-                right: '96.88%',
-                bottom: 0,
-                left: '3.12%',
-                objectFit: 'contain',
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
+              top: 0,
+              width: '41px',
+              height: '41px',
+              objectFit: 'contain',
+            }}
+          />
 
           {/* Текст "политика конфиденциальности" */}
           <div style={{
