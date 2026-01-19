@@ -205,10 +205,10 @@ export const PricingScreen: React.FC = () => {
               onClick={() => setShowTooltip1(!showTooltip1)}
               style={{
                 position: 'absolute',
-                left: '372px',
-                top: '42px',
-                width: '26px',
-                height: '26px',
+                left: '364px',
+                top: '9.296px',
+                width: '66px',
+                height: '65.704px',
                 cursor: 'pointer',
               }}
             />
@@ -217,8 +217,8 @@ export const PricingScreen: React.FC = () => {
         {showTooltip1 && (
           <div style={{
             position: 'absolute',
-            left: '210px',
-            top: '-90px',
+            left: '581px',
+            top: '278px',
             width: '287px',
             height: '174px',
             zIndex: 200,
@@ -226,7 +226,7 @@ export const PricingScreen: React.FC = () => {
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '30px',
             backdropFilter: 'blur(50px)',
-            padding: '20px',
+            padding: '30px',
             boxSizing: 'border-box',
             display: 'flex',
             alignItems: 'center',
@@ -234,7 +234,7 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
-            fontSize: '20px',
+            fontSize: '27px',
             color: 'white',
             textAlign: 'center',
             whiteSpace: 'pre-wrap',
@@ -436,7 +436,7 @@ export const PricingScreen: React.FC = () => {
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '30px',
             backdropFilter: 'blur(50px)',
-            padding: '20px',
+            padding: '30px',
             boxSizing: 'border-box',
             display: 'flex',
             alignItems: 'center',
@@ -444,7 +444,7 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
-            fontSize: '20px',
+            fontSize: '27px',
             color: 'white',
             textAlign: 'center',
             whiteSpace: 'pre-wrap',
