@@ -11,7 +11,6 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import openButton from '../../assets/кнопка перейти.png';
-import newBadge from '../../assets/новое в академии.png';
 import likeIcon from '../../assets/лайк.png';
 import likeEmptyIcon from '../../assets/лайк не поставлен.png';
 import returnButtonInactive from '../../assets/кнопка вернуть не активная.png';
