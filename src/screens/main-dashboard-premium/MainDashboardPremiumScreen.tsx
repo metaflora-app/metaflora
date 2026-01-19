@@ -17,7 +17,7 @@ import tsekhBg from '../../assets/main-dashboard/фон цех.png';
 import poligonBg from '../../assets/main-dashboard/фон полигон.png';
 import chatBg from '../../assets/main-dashboard/фон чат.png';
 import topUpButton from '../../assets/main-dashboard/кнопка пополнить.png';
-import goButton from '../../assets/main-dashboard/кнопка перейти.png';
+import goButton from '../../assets/main-dashboard/кнопка открыть.png';
 
 export const MainDashboardPremiumScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -150,7 +150,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         {/* Блок баланса и метакоины */}
         <div style={{
           position: 'absolute',
-          left: '80px',
+          left: '79px',
           top: '327px',
           width: '1020px',
           height: '200px',
@@ -208,11 +208,11 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Иконка метакоинов - круг */}
+          {/* Иконка метакоинов - круг (364:636) */}
           <div style={{
             position: 'absolute',
-            left: '520px',
-            top: '5px',
+            left: '487px',
+            top: '0px',
             width: '159px',
             height: '159px',
             borderRadius: '80px',
@@ -235,8 +235,8 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           {/* Текст "150 метакоинов" - Gotham Pro Bold */}
           <div style={{
             position: 'absolute',
-            left: '678px',
-            top: '35px',
+            left: '679px',
+            top: '40px',
             width: '347px',
             height: '45px',
             fontFamily: 'Gotham Pro',
@@ -249,16 +249,17 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
           </div>
 
-          {/* Кнопка "пополнить" - PNG */}
+          {/* Кнопка "пополнить" - PNG (356:707) */}
           <img 
             src={topUpButton}
             alt="пополнить"
+            onClick={() => navigate('/pricing')}
             style={{
               position: 'absolute',
               left: '679px',
-              top: '87px',
-              width: '176px',
-              height: '57px',
+              top: '86px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
