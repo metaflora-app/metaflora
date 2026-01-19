@@ -238,14 +238,13 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           width: '781px',
           fontFamily: 'Gotham Pro',
           fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: 1.2,
+          fontSize: '27px',
+          lineHeight: 1,
           color: 'white',
           textAlign: 'center',
+          whiteSpace: 'pre-wrap',
         }}>
-          <p style={{ margin: 0, lineHeight: 1.2 }}>
-            идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
-          </p>
+          идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
         </div>
 
         {/* 32:726 - Плашка промпт */}
@@ -270,35 +269,22 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           width: '795px',
           fontFamily: 'Gotham Pro',
           fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: 1.2,
+          fontSize: '27px',
+          lineHeight: 1,
           color: 'white',
           textAlign: 'center',
+          whiteSpace: 'pre-wrap',
         }}>
-          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
-            A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-          </p>
-          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
-            А второй клип начинается с солнца, которое тоже заполняет кадр:
-          </p>
-          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
-            A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
-          </p>
-          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
-            Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.
-          </p>
-          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
-            A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-          </p>
-          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
-            А второй клип начинается с солнца, которое тоже заполняет кадр:
-          </p>
-          <p style={{ margin: 0, marginBottom: '10px', lineHeight: 1.2 }}>
-            A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.
-          </p>
-          <p style={{ margin: 0, lineHeight: 1.2 }}>
-            Оба объекта оранжевые, оба занимают весь экран
-          </p>
+          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow. </p>
+          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр: </p>
+          <p style={{ margin: 0 }}>&nbsp;</p>
+          <p style={{ margin: 0 }}>A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water. </p>
+          <p style={{ margin: 0 }}>Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.</p>
+          <p style={{ margin: 0 }}>&nbsp;</p>
+          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow. </p>
+          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр: </p>
+          <p style={{ margin: 0 }}>весь экран </p>
+          <p>&nbsp;</p>
         </div>
 
         {/* 368:1134 - Плашка материалы */}
