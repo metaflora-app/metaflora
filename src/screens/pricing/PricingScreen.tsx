@@ -21,15 +21,19 @@ export const PricingScreen: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = React.useState<string | null>(null);
 
   const handlePayment = () => {
+    console.log('handlePayment called, selectedPlan:', selectedPlan);
+    
     if (!selectedPlan) {
       // Telegram WebApp alert
-      if ((window as any).Telegram?.WebApp) {
-        (window as any).Telegram.WebApp.showAlert('Вы не выбрали ни одну из подписок');
+      const tg = (window as any).Telegram?.WebApp;
+      if (tg && typeof tg.showAlert === 'function') {
+        tg.showAlert('Вы не выбрали ни одну из подписок');
       } else {
         alert('Вы не выбрали ни одну из подписок');
       }
       return;
     }
+    
     navigate('/main-dashboard-premium');
   };
 
