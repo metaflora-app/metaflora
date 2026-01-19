@@ -303,8 +303,8 @@ export const MainDashboardFreeScreen: React.FC = () => {
             onClick={() => navigate('/about-laba')}
             style={{
               position: 'absolute',
-              left: '110px',
-              top: '87px',
+              left: '101px',
+              top: '86px',
               width: '247px',
               height: '79px',
               cursor: 'pointer',
