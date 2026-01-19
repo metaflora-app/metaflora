@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-20
 
-### 🚀 Deployed Version: v2.2.7 - LabaNoTrackedScreen Typography Fix
+### 🚀 Deployed Version: v2.2.8 - Laba Search Functionality
 
-**Commit:** `f8b6a24` - fix: update LabaNoTrackedScreen typography to match Figma specs
+**Commit:** `d61e959` - fix: use showPopup instead of showAlert in LabaSearchAccountScreen
 
 **Branch:** `main`
 
@@ -22,8 +22,15 @@
 - ✅ Лаба: 10 screens (intro, main, search, no-tracked, tracked, loading, analysis interactive)
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
-### Latest Updates (2026-01-20 - v2.2.7):
-- ✅ **LabaNoTrackedScreen Typography Fix**:
+### Latest Updates (2026-01-20 - v2.2.8):
+- ✅ **LabaSearchAccountScreen Functionality**:
+  - Added working search input fields with state management
+  - Placeholder disappears on focus
+  - Removed tracking insert image (house background)
+  - Search button shows Telegram WebApp popup: "Ничего не найдено. Проверьте корректность ссылки или ника"
+  - Removed backdropFilter from inputs (border only per Figma)
+
+- ✅ **LabaNoTrackedScreen Typography Fix** (v2.2.7):
   - Title (7:1377) "отслеживание контента": Inter ExtraBold 80px, lineHeight 0 (was 64px)
   - Subtitle (7:1378) "добавьте аккаунт для отслеживания": Gotham Pro Light 40px, lineHeight 0, white color (was 32px, gray)
   - Pixel-perfect from Figma metadata

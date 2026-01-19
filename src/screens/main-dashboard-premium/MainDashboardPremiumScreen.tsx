@@ -253,7 +253,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={topUpButton}
             alt="пополнить"
-            onClick={() => navigate('/pricing')}
+            onClick={() => navigate('/metacoins')}
             style={{
               position: 'absolute',
               left: '679px',

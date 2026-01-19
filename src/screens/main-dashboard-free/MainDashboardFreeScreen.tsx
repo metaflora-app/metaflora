@@ -11,10 +11,8 @@ import bigLogo from '../../assets/demo-access-elements/лого большое �
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import beaverAvatar from '../../assets/main-dashboard/бобер.png';
 import lamaAvatar from '../../assets/main-dashboard/лама.png';
-import metacoinIcon from '../../assets/main-dashboard/кружок подарки.png';
 import cardBackground from '../../assets/main-dashboard/фон под карточку.png';
 import buttonBackground from '../../assets/main-dashboard/фон под кнопкой перейти.png';
-import topUpButton from '../../assets/main-dashboard/кнопка пополнить.png';
 import payButton from '../../assets/main-dashboard/оплатить полный доступ поменьше.png';
 import goButton from '../../assets/main-dashboard/кнопка открыть.png';
 
@@ -195,61 +193,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>демо-курс</p>
           </div>
 
-          {/* Иконка метакоинов - круг (7:253) */}
-          <div style={{
-            position: 'absolute',
-            left: '487px',
-            top: '0px',
-            width: '159px',
-            height: '159px',
-            borderRadius: '80px',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            overflow: 'hidden',
-          }}>
-            <img 
-              src={metacoinIcon}
-              alt="метакоины"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-            />
-          </div>
-
-          {/* Текст "150 метакоинов" - Gotham Pro Bold (26:431) */}
-          <div style={{
-            position: 'absolute',
-            left: '678px',
-            top: '40px',
-            width: '347px',
-            height: '45px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 700,
-            fontSize: '45px',
-            lineHeight: 0,
-            color: 'white',
-            whiteSpace: 'nowrap',
-          }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
-          </div>
-
-          {/* Кнопка "пополнить" - PNG (356:700) */}
-          <img 
-            src={topUpButton}
-            alt="пополнить"
-            onClick={() => navigate('/pricing')}
-            style={{
-              position: 'absolute',
-              left: '679px',
-              top: '86px',
-              width: '247px',
-              height: '79px',
-              cursor: 'pointer',
-            }}
-          />
         </div>
 
         {/* Карточка сервиса (составная) - 894×249px */}
