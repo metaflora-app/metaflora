@@ -13,7 +13,7 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import openButton from '../../assets/кнопка перейти.png';
 import likeIcon from '../../assets/лайк.png';
 import likeEmptyIcon from '../../assets/лайк не поставлен.png';
-import returnButtonInactive from '../../assets/кнопка вернуть.png';
+import returnButton from '../../assets/кнопка вернуть не активная.png';
 import favoriteButtonInactive from '../../assets/кнопка избранное.png';
 import favoriteButtonActive from '../../assets/кнопка избранное активная.png';
 import recentButtonInactive from '../../assets/кнопка недавние.png';
