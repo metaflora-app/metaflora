@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-19
 
-### 🚀 Deployed Version: v2.1.7 - Academy Courses Updated & All Routes Connected
+### 🚀 Deployed Version: v2.2.3 - Prompt First Screen Complete
 
-**Commit:** `9b004cd` - Обновлены заголовки и подзаголовки курсов (v2.1.7)
+**Commit:** `7853394` - fix: поисковая строка и оптимизация (v2.2.3)
 
 **Branch:** `main`
 
