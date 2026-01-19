@@ -134,7 +134,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
         {/* Блок баланса и метакоины */}
         <div style={{
           position: 'absolute',
-          left: '80px',
+          left: '79px',
           top: '327px',
           width: '1020px',
           height: '200px',
@@ -184,11 +184,11 @@ export const MainDashboardFreeScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>демо-курс</p>
           </div>
 
-          {/* Иконка метакоинов - круг (26:430 / 7:253) */}
+          {/* Иконка метакоинов - круг (7:253) */}
           <div style={{
             position: 'absolute',
-            left: '545px',
-            top: '42px',
+            left: '472px',
+            top: '-15px',
             width: '159px',
             height: '159px',
             borderRadius: '80px',
