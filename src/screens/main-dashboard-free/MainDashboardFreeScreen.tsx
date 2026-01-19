@@ -10,6 +10,7 @@ import supportButton from '../../assets/tour-video/support-button.png';
 import bigLogo from '../../assets/demo-access-elements/лого большое в экране демо.png';
 import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import beaverAvatar from '../../assets/main-dashboard/бобер.png';
+import lamaAvatar from '../../assets/main-dashboard/лама.png';
 import metacoinIcon from '../../assets/main-dashboard/кружок подарки.png';
 import cardBackground from '../../assets/main-dashboard/фон под карточку.png';
 import buttonBackground from '../../assets/main-dashboard/фон под кнопкой перейти.png';
@@ -19,6 +20,16 @@ import goButton from '../../assets/main-dashboard/кнопка открыть.pn
 
 export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
+
+  // Чередование бобер/лама при каждом заходе
+  const [isLama, setIsLama] = React.useState(() => {
+    const visits = parseInt(localStorage.getItem('avatar-visits') || '0');
+    localStorage.setItem('avatar-visits', String(visits + 1));
+    return visits % 2 === 1;
+  });
+
+  const avatar = isLama ? lamaAvatar : beaverAvatar;
+  const avatarText = isLama ? 'неопознанную ламу' : 'неопознанный бобёр';
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -109,7 +120,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           }}
         />
 
-        {/* Приветствие "неопознанный бобёр" */}
+        {/* Приветствие "неопознанный бобёр" / "неопознанную ламу" */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -127,7 +138,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             lineHeight: 0,
             color: 'white',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>неопознанный бобёр</p>
+            <p style={{ margin: 0, lineHeight: '1' }}>{avatarText}</p>
           </div>
         </div>
 
