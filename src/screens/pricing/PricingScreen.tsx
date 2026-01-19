@@ -216,22 +216,36 @@ export const PricingScreen: React.FC = () => {
             />
 
             {/* Всплывашка про списание - PNG (показывается по клику) */}
-            {showTooltip1 && (
-              <img 
-                src={tooltip}
-                alt=""
-                onClick={() => setShowTooltip1(false)}
-                style={{
-                  position: 'absolute',
-                  left: '210px',
-                  top: '-90px',
-                  width: '287px',
-                  height: '174px',
-                  cursor: 'pointer',
-                  zIndex: 200,
-                }}
-              />
-            )}
+        {showTooltip1 && (
+          <div style={{
+            position: 'absolute',
+            left: '210px',
+            top: '-90px',
+            width: '287px',
+            height: '174px',
+            zIndex: 200,
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            backdropFilter: 'blur(50px)',
+            padding: '20px',
+            boxSizing: 'border-box',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            color: 'white',
+            textAlign: 'center',
+            whiteSpace: 'pre-wrap',
+          }}
+          onClick={() => setShowTooltip1(false)}
+          >
+            списание средств происходит ежемесячно. Вы можете отменить подписку в любой момент
+          </div>
+        )}
 
             {/* Текст описания тарифа - PNG */}
             <img 
@@ -246,7 +260,7 @@ export const PricingScreen: React.FC = () => {
               }}
             />
 
-            {/* Кнопка "2690 руб." (зачеркнутая) - серая плашка */}
+            {/* Плашка цены 2690 (серая, зачёркнутая) */}
             <div style={{
               position: 'absolute',
               left: 'calc(50% + 172px)',
@@ -276,7 +290,7 @@ export const PricingScreen: React.FC = () => {
                 justifyContent: 'center',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 500,
-                fontSize: '23px',
+                fontSize: '27px',
                 color: 'white',
               }}>
                 2690 руб.
@@ -295,7 +309,7 @@ export const PricingScreen: React.FC = () => {
               />
             </div>
 
-            {/* Кнопка "1990 руб." - зеленая плашка */}
+            {/* Плашка цены 1990 (зелёная) */}
             <div style={{
               position: 'absolute',
               left: 'calc(50% + 348px)',
@@ -325,7 +339,7 @@ export const PricingScreen: React.FC = () => {
                 justifyContent: 'center',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 500,
-                fontSize: '23px',
+                fontSize: '27px',
                 color: 'white',
               }}>
                 1990 руб.
@@ -412,22 +426,36 @@ export const PricingScreen: React.FC = () => {
             />
 
             {/* Всплывашка про списание - PNG (показывается по клику) */}
-            {showTooltip2 && (
-              <img 
-                src={tooltip}
-                alt=""
-                onClick={() => setShowTooltip2(false)}
-                style={{
-                  position: 'absolute',
-                  left: '305px',
-                  top: '535px',
-                  width: '287px',
-                  height: '174px',
-                  cursor: 'pointer',
-                  zIndex: 200,
-                }}
-              />
-            )}
+        {showTooltip2 && (
+          <div style={{
+            position: 'absolute',
+            left: '305px',
+            top: '535px',
+            width: '287px',
+            height: '174px',
+            zIndex: 200,
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            backdropFilter: 'blur(50px)',
+            padding: '20px',
+            boxSizing: 'border-box',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '20px',
+            color: 'white',
+            textAlign: 'center',
+            whiteSpace: 'pre-wrap',
+          }}
+          onClick={() => setShowTooltip2(false)}
+          >
+            списание средств происходит ежемесячно. Вы можете отменить подписку в любой момент
+          </div>
+        )}
 
             {/* Текст описания тарифа (8 строк) */}
             <div style={{
@@ -468,7 +496,7 @@ export const PricingScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Кнопка "8070 руб." (зачеркнутая) - серая плашка */}
+            {/* Плашка "8070 руб." (зачеркнутая) - серая плашка */}
             <div style={{
               position: 'absolute',
               left: 'calc(50% + 172px)',
@@ -498,7 +526,7 @@ export const PricingScreen: React.FC = () => {
                 justifyContent: 'center',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 500,
-                fontSize: '23px',
+                fontSize: '27px',
                 color: 'white',
               }}>
                 8070 руб.
@@ -517,7 +545,7 @@ export const PricingScreen: React.FC = () => {
               />
             </div>
 
-            {/* Кнопка "5490 руб." - зеленая плашка */}
+            {/* Плашка "5490 руб." - зеленая плашка */}
             <div style={{
               position: 'absolute',
               left: 'calc(50% + 348px)',
@@ -547,27 +575,14 @@ export const PricingScreen: React.FC = () => {
                 justifyContent: 'center',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 500,
-                fontSize: '23px',
+                fontSize: '27px',
                 color: 'white',
               }}>
                 5490 руб.
               </div>
             </div>
 
-            {/* Плашка "ВЫГОДНО" - ПОВЕРХ зелёной кнопки */}
-            <img 
-              src={badgeVygodno}
-              alt="выгодно"
-              style={{
-                position: 'absolute',
-                left: 'calc(50% + 390px)',
-                top: '40px',
-                width: '72px',
-                height: '35px',
-                zIndex: 100,
-                pointerEvents: 'none',
-              }}
-            />
+            {/* Плашка "ВЫГОДНО" - УДАЛЕНА */}
           </div>
         </div>
 
