@@ -2086,7 +2086,7 @@ export const LabaTrackedScreen: React.FC = () => {
             style={{
               position: 'fixed',
               inset: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
+              background: 'rgba(0, 0, 0, 0.75)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -2097,9 +2097,8 @@ export const LabaTrackedScreen: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: 'relative',
-                width: '500px',
-                maxHeight: '80vh',
-                background: 'linear-gradient(180deg, rgba(45, 45, 48, 0.98) 0%, rgba(35, 35, 38, 0.98) 100%)',
+                width: '420px',
+                background: 'rgba(28, 28, 30, 0.98)',
                 backdropFilter: 'blur(40px)',
                 borderRadius: '14px',
                 overflow: 'hidden',
@@ -2113,13 +2112,13 @@ export const LabaTrackedScreen: React.FC = () => {
                 fontSize: '17px',
                 color: 'white',
                 textAlign: 'center',
-                padding: '20px 16px 12px',
+                padding: '20px 16px 10px',
               }}>
                 сортировка
               </div>
               
               <div style={{
-                flex: 1,
+                maxHeight: '400px',
                 overflowY: 'auto',
                 padding: '0',
               }}>
@@ -2134,7 +2133,7 @@ export const LabaTrackedScreen: React.FC = () => {
                       fontWeight: 400,
                       fontSize: '17px',
                       color: selectedSort === opt.id ? 'rgba(255, 255, 255, 0.5)' : 'white',
-                      padding: '12px 16px',
+                      padding: '11px 16px',
                       cursor: 'pointer',
                       transition: 'color 0.1s',
                     }}
@@ -2151,11 +2150,11 @@ export const LabaTrackedScreen: React.FC = () => {
                   fontWeight: 400,
                   fontSize: '17px',
                   color: 'white',
-                  padding: '16px',
+                  padding: '14px',
                   textAlign: 'center',
                   cursor: 'pointer',
                   borderTop: '0.5px solid rgba(255, 255, 255, 0.1)',
-                  background: 'rgba(0, 0, 0, 0.2)',
+                  background: 'rgba(50, 50, 52, 0.6)',
                 }}
               >
                 Закрыть
