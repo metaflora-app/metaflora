@@ -592,15 +592,48 @@ export const LabaMainScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Сердечко лайк */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+            {/* Badge "новое" - x=269, y=44 relative to card */}
+            <img
+              src={newBadgePNG}
+              alt="новое"
+              style={{
+                position: 'absolute',
+                left: '269px',
+                top: '44px',
+                width: '101px',
+                height: '36px',
+                objectFit: 'contain',
+              }}
+            />
+
+            {/* Like icon - x=42, y=44 relative to card */}
+            <div 
+              onClick={() => {
+                setLikedCards(prev => {
+                  const newSet = new Set(prev);
+                  if (newSet.has(1)) {
+                    newSet.delete(1);
+                  } else {
+                    newSet.add(1);
+                  }
+                  return newSet;
+                });
+              }}
+              style={{
+                position: 'absolute',
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            >
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
+                  stroke={likedCards.has(1) ? '#FF0000' : 'white'} 
+                  strokeWidth="2" 
+                  fill={likedCards.has(1) ? '#FF0000' : 'none'} />
+              </svg>
             </div>
 
             {/* Play кнопка - EXACT position */}
