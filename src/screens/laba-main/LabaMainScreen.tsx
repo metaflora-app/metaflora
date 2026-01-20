@@ -123,6 +123,7 @@ export const LabaMainScreen: React.FC = () => {
         backgroundImage: `url(${bgPattern})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        backgroundRepeat: 'repeat',
       }} />
 
       <div style={{
