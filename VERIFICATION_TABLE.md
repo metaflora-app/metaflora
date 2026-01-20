@@ -2,6 +2,42 @@
 
 ## Latest Updates (Jan 20, 2026)
 
+### Commit e3be155 - Scroll Indicator Layer Fix
+✅ Fixed scroll indicator rendering order
+- Moved scroll BEFORE sidebar in DOM order
+- Now visually appears UNDER icons as intended
+- Added pointerEvents: 'none' to sidebar
+- Removed zIndex dependency, uses DOM order
+
+### Commit a5fe9fd - Scroll Indicator zIndex
+✅ Changed zIndex from 100000 to 50
+- Initial attempt to place scroll under icons
+
+### Commit b4acc31 - Draggable Scroll Navigation
+✅ Added drag-to-navigate scroll indicator
+- PNG: скролл перемещения (131x131px) at x=301, y=1879
+- Magnetic snap to 4 button positions
+- Smooth transitions with 50px snap threshold
+- Touch and mouse events supported
+- Auto-navigates on drag end
+
+### Commit f73325e - Favorites Navigation Button
+✅ Added invisible button for favorites in LabaSearchScreen
+- Position: x=598px, y=1882px, size: 129x124px
+- Navigation to /laba-favorites
+- Matches Figma node 7:703
+
+### Commit 37483cd - LabaFavoritesScreen Created
+✅ Created full duplicate of LabaMainScreen
+- All hearts red by default (likedCards: [1,2,3,4])
+- Route /laba-favorites added
+- Added 'на избранное' PNG icon (387x372px)
+- Navigation from LabaLoadingScreen updated
+
+### Commit f377eeb - Filter Popup Texts
+
+## Latest Updates (Jan 20, 2026)
+
 ### Commit f377eeb - Filter Popup Texts
 ✅ Updated all filter popup messages to match Figma design
 - Сортировка: >просмотров, <просмотров, >лайков, <лайков, >комментариев, <комментариев
