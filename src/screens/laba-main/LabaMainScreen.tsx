@@ -409,68 +409,63 @@ onBlur={() => {
           }}
         />
 
-        {/* Filter buttons - Row 2 - PNG из Desktop */}
+        {/* Filter badges - Row 2 - активные плашки с Desktop */}
         <img 
-          src={badgeLikes}
+          src={selectedSort ? badgeLikesActive : badgeLikes}
           alt=">лайков"
           style={{
             position: 'absolute',
-            left: 'calc(50% - 151px)',
+            left: '404px',
             top: '406px',
-            transform: 'translateX(-50%)',
             width: '186px',
             height: '79px',
           }}
         />
 
         <img 
-          src={badgeTimeslot}
+          src={selectedDate ? badgeTimeslotActive : badgeTimeslot}
           alt="14 дней"
           style={{
             position: 'absolute',
-            left: 'calc(50% + 93px)',
+            left: '654px',
             top: '406px',
-            transform: 'translateX(-50%)',
             width: '186px',
             height: '79px',
           }}
         />
 
         <img 
-          src={badgeRussian}
+          src={selectedLanguage ? badgeRussianActive : badgeRussian}
           alt="русский"
           style={{
             position: 'absolute',
-            left: 'calc(50% + 343px)',
+            left: '901px',
             top: '406px',
-            transform: 'translateX(-50%)',
             width: '186px',
             height: '79px',
           }}
         />
 
-        {/* Filter buttons - Row 3 - PNG из Desktop */}
+        {/* Filter badges - Row 3 - активные плашки с Desktop */}
         <img 
-          src={badgeScores}
+          src={selectedVirality ? badgeScoresActive : badgeScores}
           alt="9-10 баллов"
           style={{
             position: 'absolute',
-            left: 'calc(50% - 280px)',
+            left: '278px',
             top: '564px',
-            transform: 'translateX(-50%)',
             width: '186px',
             height: '79px',
           }}
         />
 
         <img 
-          src={badgeAccount}
+          src={selectedAccount ? badgeAccountActive : badgeAccount}
           alt="0-10к"
           style={{
             position: 'absolute',
-            left: 'calc(50% - 33px)',
+            left: '516px',
             top: '564px',
-            transform: 'translateX(-50%)',
             width: '186px',
             height: '79px',
           }}
