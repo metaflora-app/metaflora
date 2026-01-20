@@ -72,15 +72,17 @@ export const LabaTrackedScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Background pattern */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: `url(${bgPattern})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'repeat',
-      }} />
+      {/* Background pattern - full screen */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+        }}
+      />
 
       <div style={{
         position: 'relative',
