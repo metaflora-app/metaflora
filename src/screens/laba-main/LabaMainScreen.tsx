@@ -57,6 +57,8 @@ export const LabaMainScreen: React.FC = () => {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [showSortPopup, setShowSortPopup] = React.useState(false);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
+  const [searchValue, setSearchValue] = React.useState('');
+  const [isSearchFocused, setIsSearchFocused] = React.useState(false);
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
@@ -291,24 +293,39 @@ export const LabaMainScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Placeholder text */}
-          <div style={{
-            position: 'absolute',
-            left: 'calc(50% - 365px)',
-            top: 'calc(50% - 1015.5px + 1015.5px)', 
-            transform: 'translateY(-50%)',
-            width: '612px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '27px',
-            color: '#848484',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            lineHeight: 0,
-          }}>
-            найти видео по ключевым словам
-          </div>
+          {/* Search input */}
+          <input
+            type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => {
+              setIsSearchFocused(false);
+              if (searchValue.trim() === '') {
+                if (window.Telegram?.WebApp?.showPopup) {
+                  window.Telegram.WebApp.showPopup({
+                    message: 'ничего не найдено. проверьте корректность ключа'
+                  });
+                }
+              }
+              setTimeout(() => setSearchValue(''), 100);
+            }}
+            placeholder={isSearchFocused ? '' : 'найти видео по ключевым словам'}
+            style={{
+              position: 'absolute',
+              left: '70px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '612px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '27px',
+              color: '#848484',
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+            }}
+          />
 
           {/* Badge "25" - PNG из Desktop */}
           <img 
