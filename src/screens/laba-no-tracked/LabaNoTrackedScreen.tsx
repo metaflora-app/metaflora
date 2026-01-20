@@ -12,7 +12,6 @@ import homeIcon from '../../assets/about-screens/домой.png';
 
 // New assets for laba-no-tracked from Desktop
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
-import startTrackingButton from '../../assets/laba-no-tracked/кнопка начать отслеживание.png';
 import peopleImage from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 export const LabaNoTrackedScreen: React.FC = () => {
