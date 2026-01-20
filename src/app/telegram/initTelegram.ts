@@ -10,6 +10,7 @@ import WebApp from '@twa-dev/sdk';
  * - Expands the app to full viewport height
  * - Sets up CSS custom property --tg-vh based on viewportHeight
  * - Listens to viewport changes and updates --tg-vh dynamically
+ * - Detects webapp mode and adds CSS class for top padding
  */
 export function initTelegram(): void {
   // Ready the WebApp
@@ -17,6 +18,9 @@ export function initTelegram(): void {
 
   // Expand to full height
   WebApp.expand();
+
+  // Detect if running as webapp (not mini-app) and add CSS class
+  detectWebAppMode();
 
   // Set initial viewport height as CSS custom property
   updateViewportHeight();
@@ -37,6 +41,23 @@ export function initTelegram(): void {
   WebApp.BackButton.onClick(() => {
     window.history.back();
   });
+}
+
+/**
+ * Detect if running as webapp (not mini-app) and add CSS class
+ * WebApp mode: opened via direct link, not embedded in Telegram
+ */
+function detectWebAppMode(): void {
+  // Check if platform is not 'tdesktop', 'android', 'ios', 'macos', 'web' (mini-app)
+  // or if viewportStableHeight is significantly different from window.innerHeight
+  const platform = WebApp.platform;
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+  const isMiniApp = platform !== 'unknown' && WebApp.initData !== '';
+  
+  // If not running as mini-app, add webapp-mode class
+  if (!isMiniApp || isStandalone) {
+    document.body.classList.add('webapp-mode');
+  }
 }
 
 /**
