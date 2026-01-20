@@ -17,8 +17,6 @@ import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не сл
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
 const backArrow = "https://www.figma.com/api/mcp/asset/df23cbdc-6a1c-47c3-8b9f-97ecb4397784";
-const homeVector1 = "https://www.figma.com/api/mcp/asset/8f6661d8-2d62-49c8-ae88-5e19d118e967";
-const homeVector2 = "https://www.figma.com/api/mcp/asset/4a9951a6-1fa4-45c0-a766-090a909e4bed";
 const profilePhotoMCP = "https://www.figma.com/api/mcp/asset/fc0179c8-cc8e-471f-8274-5942d8c65827";
 const reelCoverMCP = "https://www.figma.com/api/mcp/asset/74ef0920-3323-42e3-9861-7cc651a7d55c";
 const playIconMCP = "https://www.figma.com/api/mcp/asset/3a4076c0-f5b7-4650-b1b8-abaaa5b4c1e9";
