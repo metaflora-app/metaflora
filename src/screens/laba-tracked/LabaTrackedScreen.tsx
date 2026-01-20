@@ -251,7 +251,7 @@ export const LabaTrackedScreen: React.FC = () => {
           fontWeight: 300,
           fontSize: '40px',
           color: 'white',
-          textAlign: 'center',
+          textAlign: 'left',
           lineHeight: '40px',
         }}>
           добавьте аккаунт для отслеживания
