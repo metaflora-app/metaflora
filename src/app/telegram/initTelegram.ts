@@ -45,19 +45,15 @@ export function initTelegram(): void {
 
 /**
  * Detect if running as webapp (not mini-app) and add CSS class
- * WebApp mode: opened via direct link, not embedded in Telegram
+ * WebApp mode: opened via direct link in browser, not embedded in Telegram
  */
 function detectWebAppMode(): void {
-  // Check if viewportStableHeight is less than window.innerHeight
-  // This indicates system UI (status bar) is present
-  const viewportHeight = WebApp.viewportStableHeight || WebApp.viewportHeight;
-  const windowHeight = window.innerHeight;
-  const topOffset = windowHeight - viewportHeight;
+  // Check if running in standalone browser (not Telegram client)
+  const isInTelegram = window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData !== '';
   
-  // If there's a gap at the top, we're in web-app mode
-  if (topOffset > 0) {
+  // If NOT in Telegram (web browser), add webapp-mode class
+  if (!isInTelegram) {
     document.body.classList.add('webapp-mode');
-    document.documentElement.style.setProperty('--safe-area-top', `${topOffset}px`);
   }
 }
 
