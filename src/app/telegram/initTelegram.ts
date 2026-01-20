@@ -47,9 +47,12 @@ export function initTelegram(): void {
  * Detect if running as webapp (not mini-app) and add CSS class
  */
 function detectWebAppMode(): void {
-  // Check if window height is greater than typical mobile viewport
-  // Web browser has full screen height, mini-app is limited
-  if (window.innerHeight > 800) {
+  // Check if we're NOT in Telegram by checking if WebApp is properly initialized
+  // In real Telegram mini-app, WebApp.version will be set
+  const isRealTelegram = WebApp.version && WebApp.version !== '';
+  
+  // If not in real Telegram client, we're in web browser
+  if (!isRealTelegram) {
     document.body.classList.add('webapp-mode');
   }
 }

@@ -22,7 +22,7 @@ body,
 
 /* Отступ сверху для веб-апп версии (не мини-апп) */
 body.webapp-mode {
-  padding-top: 80px;
+  padding-top: 120px;
 }
 
 body {
