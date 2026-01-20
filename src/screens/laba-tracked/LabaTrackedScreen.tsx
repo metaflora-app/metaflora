@@ -58,10 +58,7 @@ export const LabaTrackedScreen: React.FC = () => {
   ];
 
   const handleSortClick = () => {
-    if (window.Telegram?.WebApp?.showAlert) {
-      const options = sortOptions.map(opt => opt.label).join('\n');
-      window.Telegram.WebApp.showAlert(`сортировка:\n\n${options}\n\nвыберите в плашке ниже`);
-    }
+    setShowSortPopup(true);
   };
 
   return (
