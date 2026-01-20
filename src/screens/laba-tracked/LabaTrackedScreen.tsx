@@ -17,7 +17,6 @@ import newBadgePNG from '../../assets/laba-main/плашка новое.png';
 
 // Card assets from laba-main
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
-import likeIconPNG from '../../assets/laba-main/лайк.png';
 import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
 
 // Figma MCP assets
