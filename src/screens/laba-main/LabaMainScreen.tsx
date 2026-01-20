@@ -66,7 +66,7 @@ export const LabaMainScreen: React.FC = () => {
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
       window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
+        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев'
       });
       setSelectedSort('selected');
     }
@@ -74,13 +74,28 @@ export const LabaMainScreen: React.FC = () => {
 
   const handleFilterClick = (filterType: string) => {
     if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
-      });
-      if (filterType === 'date') setSelectedDate('selected');
-      if (filterType === 'language') setSelectedLanguage('selected');
-      if (filterType === 'virality') setSelectedVirality('selected');
-      if (filterType === 'account') setSelectedAccount('selected');
+      let message = '';
+      
+      switch(filterType) {
+        case 'date':
+          message = 'дата публикации\n\nпоследние 7 дней\nпоследние 14 дней\nпоследние 30 дней\nпоследние 6 месяцев\nпоследний год';
+          setSelectedDate('selected');
+          break;
+        case 'language':
+          message = 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий\nфранцузский';
+          setSelectedLanguage('selected');
+          break;
+        case 'virality':
+          message = 'виральность\n\n0-2 балла\n3-5 баллов\n6-8 баллов\n9-10 баллов';
+          setSelectedVirality('selected');
+          break;
+        case 'account':
+          message = 'размер аккаунта\n\n0-10к\n10к-100к\n100к-300к\n300к-1млн\nбольше 1млн';
+          setSelectedAccount('selected');
+          break;
+      }
+      
+      window.Telegram.WebApp.showPopup({ message });
     }
   };
 
