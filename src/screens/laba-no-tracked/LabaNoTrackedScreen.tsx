@@ -182,7 +182,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
             top: '402px',
             width: '892px',
             height: '1643px',
-            objectFit: 'cover',
+            objectFit: 'contain',
             borderRadius: '30px',
             pointerEvents: 'none',
             zIndex: 2,
