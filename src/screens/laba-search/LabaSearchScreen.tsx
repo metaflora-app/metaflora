@@ -9,6 +9,7 @@ import homeIcon from '../../assets/about-screens/домой.png';
 import leftCard from '../../assets/laba-screens/слева.png';
 import rightCard from '../../assets/laba-screens/справа.png';
 import sidebar from '../../assets/laba-screens/сайдбар.png';
+import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
 
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
 const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";
@@ -16,6 +17,52 @@ const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  
+  const [scrollPosition, setScrollPosition] = React.useState({ x: 301, y: 1879 });
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [activeButton, setActiveButton] = React.useState<string | null>(null);
+  
+  const buttonPositions = [
+    { id: 'main', x: 241, y: 1882, route: '/laba-main' },
+    { id: 'tracked', x: 393, y: 1882, route: '/laba-no-tracked' },
+    { id: 'favorites', x: 598, y: 1882, route: '/laba-favorites' },
+    { id: 'balance', x: 741, y: 1880, route: '/metacoins' },
+  ];
+  
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsDragging(true);
+    e.preventDefault();
+  };
+  
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging) return;
+    
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const containerX = (clientX / scale) - 65; // Center of 131px element
+    
+    setScrollPosition(prev => ({ ...prev, x: containerX }));
+    
+    // Check magnetic snap to buttons
+    const snapThreshold = 50;
+    for (const btn of buttonPositions) {
+      if (Math.abs(containerX - btn.x) < snapThreshold) {
+        setActiveButton(btn.id);
+        setScrollPosition({ x: btn.x, y: 1879 });
+        return;
+      }
+    }
+    setActiveButton(null);
+  };
+  
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    if (activeButton) {
+      const button = buttonPositions.find(b => b.id === activeButton);
+      if (button) {
+        setTimeout(() => navigate(button.route), 200);
+      }
+    }
+  };
 
   return (
     <div style={{
@@ -150,6 +197,30 @@ export const LabaSearchScreen: React.FC = () => {
             width: '688px',
             height: '139px',
             objectFit: 'contain',
+          }}
+        />
+
+        {/* Draggable scroll indicator */}
+        <img
+          src={scrollIndicator}
+          alt="скролл перемещения"
+          onMouseDown={handleDragStart}
+          onMouseMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={handleDragEnd}
+          onTouchStart={handleDragStart}
+          onTouchMove={handleDragMove}
+          onTouchEnd={handleDragEnd}
+          style={{
+            position: 'absolute',
+            left: `${scrollPosition.x}px`,
+            top: `${scrollPosition.y}px`,
+            width: '131px',
+            height: '131px',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            zIndex: 100000,
+            transition: isDragging ? 'none' : 'all 0.3s ease-out',
+            pointerEvents: 'auto',
           }}
         />
 
