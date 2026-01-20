@@ -43,6 +43,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
+  const [showSortPopup, setShowSortPopup] = React.useState(false);
 
   const sortOptions = [
     { id: 'views_desc', label: '>просмотров' },
@@ -57,11 +58,12 @@ export const LabaTrackedScreen: React.FC = () => {
   ];
 
   const handleSortClick = () => {
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
-      });
-    }
+    setShowSortPopup(true);
+  };
+
+  const handleSortSelect = (sortId: string) => {
+    setSelectedSort(sortId);
+    setShowSortPopup(false);
   };
 
   return (
@@ -223,7 +225,7 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Title "отслеживание контента" - 174:801 */}
+        {/* Title "отслеживание контента" - 174:801 x=85, y=193, w=1020, h=80 */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -234,7 +236,7 @@ export const LabaTrackedScreen: React.FC = () => {
           fontWeight: 800,
           fontSize: '80px',
           color: 'white',
-          textAlign: 'center',
+          textAlign: 'left',
           lineHeight: '80px',
         }}>
           отслеживание контента
@@ -2074,6 +2076,87 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
+
+        {/* Custom Sort Popup */}
+        {showSortPopup && (
+          <div 
+            onClick={() => setShowSortPopup(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0, 0, 0, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 9999,
+            }}
+          >
+            <div 
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: 'relative',
+                width: '500px',
+                maxHeight: '80vh',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(20, 20, 20, 0.95)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                padding: '40px 30px',
+                overflow: 'auto',
+              }}
+            >
+              <div style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '36px',
+                color: 'white',
+                textAlign: 'center',
+                marginBottom: '30px',
+              }}>
+                сортировка
+              </div>
+              
+              {sortOptions.map((opt) => (
+                <div
+                  key={opt.id}
+                  onClick={() => handleSortSelect(opt.id)}
+                  style={{
+                    fontFamily: 'Gotham Pro, sans-serif',
+                    fontWeight: selectedSort === opt.id ? 700 : 400,
+                    fontSize: '28px',
+                    color: 'white',
+                    padding: '15px 20px',
+                    marginBottom: '10px',
+                    background: selectedSort === opt.id ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                    borderRadius: '15px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {opt.label}
+                </div>
+              ))}
+
+              <div
+                onClick={() => setShowSortPopup(false)}
+                style={{
+                  fontFamily: 'Gotham Pro, sans-serif',
+                  fontWeight: 500,
+                  fontSize: '28px',
+                  color: 'white',
+                  padding: '15px 20px',
+                  marginTop: '20px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  borderRadius: '15px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                закрыть
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Footer */}
