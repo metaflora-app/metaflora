@@ -72,13 +72,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
         {/* Background pattern */}
         <div style={{
           position: 'absolute',
-          left: 0,
-          top: 0,
-          width: '1180px',
-          height: '2550px',
+          inset: 0,
           backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
-          backgroundSize: 'auto',
         }} />
 
         {/* People in circle background (34:953) - x=151, y=1280, 880x570 - BEHIND ALL */}
