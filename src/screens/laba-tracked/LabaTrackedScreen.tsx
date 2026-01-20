@@ -43,7 +43,6 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
-  const [showSortPopup, setShowSortPopup] = React.useState(false);
 
   const sortOptions = [
     { id: 'views_desc', label: '>просмотров' },
@@ -58,7 +57,11 @@ export const LabaTrackedScreen: React.FC = () => {
   ];
 
   const handleSortClick = () => {
-    setShowSortPopup(true);
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
+      });
+    }
   };
 
   return (
@@ -220,7 +223,7 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Title "отслеживание контента" - 174:801 x=85, y=193, w=1020, h=80 */}
+        {/* Title "отслеживание контента" - 174:801 */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -231,7 +234,7 @@ export const LabaTrackedScreen: React.FC = () => {
           fontWeight: 800,
           fontSize: '80px',
           color: 'white',
-          textAlign: 'left',
+          textAlign: 'center',
           lineHeight: '80px',
         }}>
           отслеживание контента
@@ -248,7 +251,7 @@ export const LabaTrackedScreen: React.FC = () => {
           fontWeight: 300,
           fontSize: '40px',
           color: 'white',
-          textAlign: 'left',
+          textAlign: 'center',
           lineHeight: '40px',
         }}>
           добавьте аккаунт для отслеживания
@@ -534,17 +537,13 @@ export const LabaTrackedScreen: React.FC = () => {
 
         {/* Badge likes - 174:768 PNG with dynamic text */}
         {!accountRemoved && (
-          <div 
-            onClick={() => setShowSortPopup(true)}
-            style={{
-              position: 'absolute',
-              left: '788px',
-              top: '564px',
-              width: '186px',
-              height: '79px',
-              cursor: 'pointer',
-            }}
-          >
+          <div style={{
+            position: 'absolute',
+            left: '788px',
+            top: '564px',
+            width: '186px',
+            height: '79px',
+          }}>
             <img
               src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
               alt="badge"
@@ -567,8 +566,6 @@ export const LabaTrackedScreen: React.FC = () => {
               fontSize: '27px',
               color: 'white',
               textAlign: 'center',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
             }}>
               {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.label || 'выбрать' : 'выбрать'}
             </div>
@@ -2077,90 +2074,6 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
         </div>
-        )}
-
-        {/* Custom Sort Popup - Telegram style */}
-        {showSortPopup && (
-          <div 
-            onClick={() => setShowSortPopup(false)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'rgba(0, 0, 0, 0.75)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 9999,
-            }}
-          >
-            <div 
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                position: 'relative',
-                width: '420px',
-                background: 'rgba(28, 28, 30, 0.98)',
-                backdropFilter: 'blur(40px)',
-                borderRadius: '14px',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div style={{
-                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
-                fontWeight: 600,
-                fontSize: '17px',
-                color: 'white',
-                textAlign: 'center',
-                padding: '20px 16px 10px',
-              }}>
-                сортировка
-              </div>
-              
-              <div style={{
-                maxHeight: '400px',
-                overflowY: 'auto',
-                padding: '0',
-              }}>
-                {sortOptions.map((opt) => (
-                  <div
-                    key={opt.id}
-                    onClick={() => {
-                      setSelectedSort(opt.id);
-                    }}
-                    style={{
-                      fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
-                      fontWeight: 400,
-                      fontSize: '17px',
-                      color: selectedSort === opt.id ? 'rgba(255, 255, 255, 0.5)' : 'white',
-                      padding: '11px 16px',
-                      cursor: 'pointer',
-                      transition: 'color 0.1s',
-                    }}
-                  >
-                    {opt.label}
-                  </div>
-                ))}
-              </div>
-
-              <div
-                onClick={() => setShowSortPopup(false)}
-                style={{
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
-                  fontWeight: 400,
-                  fontSize: '17px',
-                  color: 'white',
-                  padding: '14px',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  borderTop: '0.5px solid rgba(255, 255, 255, 0.1)',
-                  background: 'rgba(50, 50, 52, 0.6)',
-                }}
-              >
-                Закрыть
-              </div>
-            </div>
-          </div>
         )}
 
         {/* Footer */}
