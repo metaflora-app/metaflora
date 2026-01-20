@@ -111,15 +111,14 @@ const PoligonArticlesAllScreen: React.FC = () => {
         <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
+            position: 'absolute',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
             cursor: 'pointer',
             zIndex: 10,
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-          zIndex: 10,
-        }}>
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,
