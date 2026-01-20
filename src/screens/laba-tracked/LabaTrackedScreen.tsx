@@ -2079,14 +2079,14 @@ export const LabaTrackedScreen: React.FC = () => {
         </div>
         )}
 
-        {/* Custom Sort Popup */}
+        {/* Custom Sort Popup - Telegram style */}
         {showSortPopup && (
           <div 
             onClick={() => setShowSortPopup(false)}
             style={{
               position: 'fixed',
               inset: 0,
-              background: 'rgba(0, 0, 0, 0.75)',
+              background: 'rgba(0, 0, 0, 0.7)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -2098,22 +2098,22 @@ export const LabaTrackedScreen: React.FC = () => {
               style={{
                 position: 'relative',
                 width: '500px',
-                maxHeight: '85vh',
-                background: 'rgba(30, 30, 30, 0.98)',
+                maxHeight: '80vh',
+                background: 'linear-gradient(180deg, rgba(45, 45, 48, 0.98) 0%, rgba(35, 35, 38, 0.98) 100%)',
+                backdropFilter: 'blur(40px)',
                 borderRadius: '14px',
-                padding: '0',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
               }}
             >
               <div style={{
-                fontFamily: 'SF Pro Text, -apple-system, sans-serif',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
                 fontWeight: 600,
                 fontSize: '17px',
                 color: 'white',
                 textAlign: 'center',
-                padding: '20px 16px 8px',
+                padding: '20px 16px 12px',
               }}>
                 сортировка
               </div>
@@ -2121,20 +2121,22 @@ export const LabaTrackedScreen: React.FC = () => {
               <div style={{
                 flex: 1,
                 overflowY: 'auto',
-                padding: '8px 0',
+                padding: '0',
               }}>
                 {sortOptions.map((opt) => (
                   <div
                     key={opt.id}
-                    onClick={() => setTempSelectedSort(opt.id)}
+                    onClick={() => {
+                      setSelectedSort(opt.id);
+                    }}
                     style={{
-                      fontFamily: 'SF Pro Text, -apple-system, sans-serif',
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
                       fontWeight: 400,
                       fontSize: '17px',
-                      color: tempSelectedSort === opt.id ? 'rgba(255, 255, 255, 0.5)' : 'white',
-                      padding: '14px 16px',
+                      color: selectedSort === opt.id ? 'rgba(255, 255, 255, 0.5)' : 'white',
+                      padding: '12px 16px',
                       cursor: 'pointer',
-                      transition: 'color 0.15s',
+                      transition: 'color 0.1s',
                     }}
                   >
                     {opt.label}
@@ -2142,38 +2144,21 @@ export const LabaTrackedScreen: React.FC = () => {
                 ))}
               </div>
 
-              <div style={{
-                borderTop: '0.5px solid rgba(255, 255, 255, 0.15)',
-              }}>
-                <div
-                  onClick={handleConfirmSort}
-                  style={{
-                    fontFamily: 'SF Pro Text, -apple-system, sans-serif',
-                    fontWeight: 600,
-                    fontSize: '17px',
-                    color: '#0A84FF',
-                    padding: '16px',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    borderBottom: '0.5px solid rgba(255, 255, 255, 0.15)',
-                  }}
-                >
-                  подтвердить
-                </div>
-                <div
-                  onClick={() => setShowSortPopup(false)}
-                  style={{
-                    fontFamily: 'SF Pro Text, -apple-system, sans-serif',
-                    fontWeight: 400,
-                    fontSize: '17px',
-                    color: 'white',
-                    padding: '16px',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  закрыть
-                </div>
+              <div
+                onClick={() => setShowSortPopup(false)}
+                style={{
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
+                  fontWeight: 400,
+                  fontSize: '17px',
+                  color: 'white',
+                  padding: '16px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  borderTop: '0.5px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(0, 0, 0, 0.2)',
+                }}
+              >
+                Закрыть
               </div>
             </div>
           </div>
