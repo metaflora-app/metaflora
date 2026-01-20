@@ -2094,7 +2094,7 @@ export const LabaTrackedScreen: React.FC = () => {
             style={{
               position: 'fixed',
               inset: 0,
-              background: 'rgba(0, 0, 0, 0.8)',
+              background: 'rgba(0, 0, 0, 0.75)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -2105,12 +2105,10 @@ export const LabaTrackedScreen: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: 'relative',
-                width: '420px',
-                maxHeight: '80vh',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(40, 40, 40, 0.98)',
-                border: '2px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '20px',
+                width: '500px',
+                maxHeight: '85vh',
+                background: 'rgba(30, 30, 30, 0.98)',
+                borderRadius: '14px',
                 padding: '0',
                 overflow: 'hidden',
                 display: 'flex',
@@ -2118,13 +2116,12 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             >
               <div style={{
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 700,
-                fontSize: '32px',
+                fontFamily: 'SF Pro Text, -apple-system, sans-serif',
+                fontWeight: 600,
+                fontSize: '17px',
                 color: 'white',
                 textAlign: 'center',
-                padding: '25px 20px',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                padding: '20px 16px 8px',
               }}>
                 сортировка
               </div>
@@ -2132,21 +2129,20 @@ export const LabaTrackedScreen: React.FC = () => {
               <div style={{
                 flex: 1,
                 overflowY: 'auto',
-                padding: '10px 0',
+                padding: '8px 0',
               }}>
                 {sortOptions.map((opt) => (
                   <div
                     key={opt.id}
                     onClick={() => setTempSelectedSort(opt.id)}
                     style={{
-                      fontFamily: 'Gotham Pro, sans-serif',
+                      fontFamily: 'SF Pro Text, -apple-system, sans-serif',
                       fontWeight: 400,
-                      fontSize: '28px',
+                      fontSize: '17px',
                       color: tempSelectedSort === opt.id ? 'rgba(255, 255, 255, 0.5)' : 'white',
-                      padding: '18px 25px',
+                      padding: '14px 16px',
                       cursor: 'pointer',
-                      transition: 'all 0.15s',
-                      background: tempSelectedSort === opt.id ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                      transition: 'color 0.15s',
                     }}
                   >
                     {opt.label}
@@ -2155,39 +2151,36 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
 
               <div style={{
-                display: 'flex',
-                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                borderTop: '0.5px solid rgba(255, 255, 255, 0.15)',
               }}>
-                <div
-                  onClick={() => setShowSortPopup(false)}
-                  style={{
-                    flex: 1,
-                    fontFamily: 'Gotham Pro, sans-serif',
-                    fontWeight: 500,
-                    fontSize: '28px',
-                    color: 'white',
-                    padding: '20px',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    borderRight: '1px solid rgba(255, 255, 255, 0.1)',
-                  }}
-                >
-                  закрыть
-                </div>
                 <div
                   onClick={handleConfirmSort}
                   style={{
-                    flex: 1,
-                    fontFamily: 'Gotham Pro, sans-serif',
-                    fontWeight: 500,
-                    fontSize: '28px',
+                    fontFamily: 'SF Pro Text, -apple-system, sans-serif',
+                    fontWeight: 600,
+                    fontSize: '17px',
+                    color: '#0A84FF',
+                    padding: '16px',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    borderBottom: '0.5px solid rgba(255, 255, 255, 0.15)',
+                  }}
+                >
+                  подтвердить
+                </div>
+                <div
+                  onClick={() => setShowSortPopup(false)}
+                  style={{
+                    fontFamily: 'SF Pro Text, -apple-system, sans-serif',
+                    fontWeight: 400,
+                    fontSize: '17px',
                     color: 'white',
-                    padding: '20px',
+                    padding: '16px',
                     textAlign: 'center',
                     cursor: 'pointer',
                   }}
                 >
-                  подтвердить
+                  закрыть
                 </div>
               </div>
             </div>
