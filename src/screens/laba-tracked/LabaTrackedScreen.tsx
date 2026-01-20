@@ -10,7 +10,10 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 // Filter buttons from laba-main
 import returnButtonPNG from '../../assets/laba-main/кнопка вернуть.png';
 import sortButtonPNG from '../../assets/laba-main/кнопка сортировка.png';
+import sortButtonActivePNG from '../../assets/laba-main/кнопка сортировка актив.png';
 import likesBadgePNG from '../../assets/laba-main/плашка лайки.png';
+import likesBadgeActivePNG from '../../assets/laba-main/плашка лайки актив.png';
+import newBadgePNG from '../../assets/laba-main/плашка новое.png';
 
 // Card assets from laba-main
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
@@ -33,6 +36,8 @@ const instaLogoIcon = "https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a9
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [isSortActive, setIsSortActive] = React.useState(false);
+  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
 
   return (
     <div style={{
@@ -362,18 +367,54 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Button "убрать аккаунт" - 432:939 - x=335, y=423 relative to account card (151, 405) */}
+          <div
+            onClick={() => {
+              if (window.Telegram?.WebApp?.showPopup) {
+                window.Telegram.WebApp.showPopup({
+                  message: 'аккаунт удален из отслеживаемых'
+                });
+              }
+            }}
+            style={{
+              position: 'absolute',
+              left: '335px',
+              top: '423px',
+              width: '126px',
+              height: '54px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '20px',
+              color: 'white',
+            }}
+          >
+            убрать
+          </div>
         </div>
 
         {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
+          onClick={() => {
+            setIsSortActive(false);
+            setLikedCards(new Set());
+          }}
           style={{
             position: 'absolute',
             left: '788px',
-            top: '405px',
-            width: '186px',
-            height: '79px',
+            top: '406px',
+            width: '246.93px',
+            height: '79.25px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
@@ -381,14 +422,15 @@ export const LabaTrackedScreen: React.FC = () => {
 
         {/* Filter buttons - сортировка - 174:780 PNG: 247x80 */}
         <img
-          src={sortButtonPNG}
+          src={isSortActive ? sortButtonActivePNG : sortButtonPNG}
           alt="сортировка"
+          onClick={() => setIsSortActive(!isSortActive)}
           style={{
             position: 'absolute',
             left: '788px',
             top: '485px',
-            width: '216px',
-            height: '79px',
+            width: '246.93px',
+            height: '79.25px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
@@ -396,7 +438,7 @@ export const LabaTrackedScreen: React.FC = () => {
 
         {/* Badge likes - 174:768 PNG: 558x237 */}
         <img
-          src={likesBadgePNG}
+          src={isSortActive ? likesBadgeActivePNG : likesBadgePNG}
           alt=">лайков"
           style={{
             position: 'absolute',
@@ -493,47 +535,48 @@ export const LabaTrackedScreen: React.FC = () => {
               />
             </div>
 
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            {/* Badge "новое" - 432:929 - x=269, y=44 relative to card */}
+            <img
+              src={newBadgePNG}
+              alt="новое"
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                width: '111px',
-                height: '19px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
+                left: '269px',
+                top: '44px',
+                width: '101px',
+                height: '36px',
+                objectFit: 'contain',
+              }}
+            />
 
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+            {/* Like icon - 173:652 - x=42, y=44 relative to card */}
+            <div 
+              onClick={() => {
+                setLikedCards(prev => {
+                  const newSet = new Set(prev);
+                  if (newSet.has(1)) {
+                    newSet.delete(1);
+                  } else {
+                    newSet.add(1);
+                  }
+                  return newSet;
+                });
+              }}
+              style={{
+                position: 'absolute',
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            >
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
+                  stroke={likedCards.has(1) ? '#FF0000' : 'white'} 
+                  strokeWidth="2" 
+                  fill={likedCards.has(1) ? '#FF0000' : 'none'} />
+              </svg>
             </div>
 
             <div style={{
