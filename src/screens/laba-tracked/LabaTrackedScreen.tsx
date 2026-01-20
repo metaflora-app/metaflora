@@ -471,8 +471,9 @@ export const LabaTrackedScreen: React.FC = () => {
                 </div>
               </div>
             </div>
+              </div>
+            )}
           </div>
-        )}
 
         {/* Plus button when account removed - move to avatar position (7:1184 coords) */}
         {accountRemoved && (
