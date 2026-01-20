@@ -234,6 +234,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setIsSearchFocused(false)}
             placeholder={isSearchFocused ? '' : 'найти по ключевым словам'}
+            enterKeyHint="search"
             style={{
               flex: 1,
               background: 'transparent',
@@ -241,7 +242,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
               outline: 'none',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '27px',
+              fontSize: '32px',
               color: 'white',
               paddingRight: '20px',
             }}
