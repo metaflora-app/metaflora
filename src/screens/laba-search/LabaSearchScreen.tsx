@@ -183,6 +183,21 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
+        {/* Невидимая кнопка на третьей иконке (звезда) → laba-favorites */}
+        <div 
+          onClick={() => navigate('/laba-favorites')}
+          style={{
+            position: 'absolute',
+            left: '598px',
+            top: '1882px',
+            width: '129px',
+            height: '124px',
+            backgroundColor: 'transparent',
+            cursor: 'pointer',
+            zIndex: 99999
+          }}
+        />
+
         {/* Невидимая кнопка на четвертой иконке (баланс) → metacoins */}
         <div 
           onClick={() => navigate('/metacoins')}
