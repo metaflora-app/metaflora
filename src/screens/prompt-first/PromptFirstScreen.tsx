@@ -251,7 +251,6 @@ export const PromptFirstScreen: React.FC = () => {
         backgroundImage: `url(${bgPattern})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'repeat',
       }} />
 
       <div style={{

@@ -79,7 +79,6 @@ export const LabaTrackedScreen: React.FC = () => {
         backgroundImage: `url(${bgPattern})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'repeat',
       }} />
 
       <div style={{
