@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import favoritesIcon from '../../assets/laba-main-buttons/на избранное.png';
 
 export const LabaLoadingScreen = () => {
   const navigate = useNavigate();
@@ -196,17 +197,17 @@ export const LabaLoadingScreen = () => {
           }} />
         </div>
         
-        <div style={{
-          width: '129px',
-          height: '124px',
-          cursor: 'pointer',
-          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          opacity: 0.8
-        }}
-        onClick={() => navigate('/laba-favorites')}
+        <img 
+          src={favoritesIcon}
+          alt="на избранное"
+          style={{
+            width: '129px',
+            height: '124px',
+            cursor: 'pointer',
+            objectFit: 'contain',
+            opacity: 0.8
+          }}
+          onClick={() => navigate('/laba-favorites')}
         />
         
         <div 

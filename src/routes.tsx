@@ -31,6 +31,7 @@ import { LabaMainScreen } from './screens/laba-main';
 import { LabaTrackedScreen } from './screens/laba-tracked';
 import { LabaAnalysisScreen } from './screens/laba-analysis';
 import { MetacoinsScreen } from './screens/metacoins';
+import { LabaFavoritesScreen } from './screens/laba-favorites';
 
 // Temporary placeholder component for deleted screens
 const PlaceholderScreen = ({ name }: { name: string }) => {
@@ -237,7 +238,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/laba-favorites',
-    element: <PlaceholderScreen name="Laba Favorites" />,
+    element: <LabaFavoritesScreen />,
   },
   {
     path: '/laba-tracked',

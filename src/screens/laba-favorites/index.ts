@@ -1,0 +1,1 @@
+export { LabaFavoritesScreen } from './LabaFavoritesScreen';
