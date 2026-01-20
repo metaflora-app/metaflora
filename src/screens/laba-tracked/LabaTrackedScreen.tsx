@@ -40,9 +40,39 @@ const instaLogoIcon = "https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a9
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [isSortActive, setIsSortActive] = React.useState(false);
+  const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
+
+  const sortOptions = [
+    { id: 'views_desc', label: '>просмотров' },
+    { id: 'views_asc', label: '<просмотров' },
+    { id: 'likes_desc', label: '>лайков' },
+    { id: 'likes_asc', label: '<лайков' },
+    { id: 'comments_desc', label: '>комментариев' },
+    { id: 'comments_asc', label: '<комментариев' },
+    { id: 'old', label: 'старые' },
+    { id: 'new', label: 'новые' },
+    { id: 'viral', label: 'виральные' },
+  ];
+
+  const handleSortClick = () => {
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        title: 'сортировка',
+        message: 'выберите параметр сортировки',
+        buttons: sortOptions.map(opt => ({
+          id: opt.id,
+          type: 'default',
+          text: opt.label
+        }))
+      }, (buttonId: string) => {
+        if (buttonId) {
+          setSelectedSort(buttonId);
+        }
+      });
+    }
+  };
 
   return (
     <div style={{
@@ -437,55 +467,59 @@ export const LabaTrackedScreen: React.FC = () => {
             />
 
             {/* Plus button - 7:1188 x=550, y=431 */}
-            <div style={{
-              position: 'absolute',
-              left: '399px',
-            top: '26px',
-            width: '98px',
-            height: '98px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '98px',
-            overflow: 'clip',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: '19px',
-              top: '19px',
-              width: '59px',
-              height: '59px',
-            }}>
-              <div style={{ position: 'absolute', inset: '3.13%' }}>
-                <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
+            <div 
+              onClick={() => navigate('/laba-search-account')}
+              style={{
+                position: 'absolute',
+                left: '399px',
+                top: '26px',
+                width: '98px',
+                height: '98px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '98px',
+                overflow: 'clip',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}>
+              <div style={{
+                position: 'absolute',
+                left: '19px',
+                top: '19px',
+                width: '59px',
+                height: '59px',
+              }}>
+                <div style={{ position: 'absolute', inset: '3.13%' }}>
+                  <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
         )}
 
         {/* Plus button when account removed - move to avatar position (7:1184 coords) */}
         {accountRemoved && (
-          <div style={{
-            position: 'absolute',
-            left: '175px',
-            top: '429px',
-            width: '98px',
-            height: '98px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '98px',
-            overflow: 'clip',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}>
+          <div 
+            onClick={() => navigate('/laba-search-account')}
+            style={{
+              position: 'absolute',
+              left: '175px',
+              top: '429px',
+              width: '98px',
+              height: '98px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '98px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}>
             <div style={{
               position: 'absolute',
               left: '19px',
@@ -506,7 +540,7 @@ export const LabaTrackedScreen: React.FC = () => {
             src={returnButtonPNG}
             alt="вернуть"
             onClick={() => {
-              setIsSortActive(false);
+              setSelectedSort(null);
               setLikedCards(new Set());
             }}
             style={{
@@ -524,9 +558,9 @@ export const LabaTrackedScreen: React.FC = () => {
         {/* Filter buttons - сортировка - 174:780 PNG: 247x80 */}
         {!accountRemoved && (
           <img
-            src={isSortActive ? sortButtonActivePNG : sortButtonInactivePNG}
+            src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
             alt="сортировка"
-            onClick={() => setIsSortActive(!isSortActive)}
+            onClick={handleSortClick}
             style={{
               position: 'absolute',
               left: '788px',
@@ -539,20 +573,41 @@ export const LabaTrackedScreen: React.FC = () => {
           />
         )}
 
-        {/* Badge likes - 174:768 PNG: 558x237 */}
+        {/* Badge likes - 174:768 PNG with dynamic text */}
         {!accountRemoved && (
-          <img
-            src={isSortActive ? likesBadgeActivePNG : likesBadgeInactivePNG}
-            alt=">лайков"
-            style={{
+          <div style={{
+            position: 'absolute',
+            left: '788px',
+            top: '564px',
+            width: '186px',
+            height: '79px',
+          }}>
+            <img
+              src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
+              alt="badge"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+              }}
+            />
+            <div style={{
               position: 'absolute',
-              left: '788px',
-              top: '564px',
-              width: '186px',
-              height: '79px',
-              objectFit: 'contain',
-            }}
-          />
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '27px',
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.label || 'выбрать' : 'выбрать'}
+            </div>
+          </div>
         )}
 
         {/* People image behind frame - hide when account removed */}
