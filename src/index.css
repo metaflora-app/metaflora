@@ -22,11 +22,7 @@ body,
 
 /* Отступ сверху для веб-апп версии (не мини-апп) */
 body.webapp-mode {
-  padding-top: var(--safe-area-top, 42px);
-}
-
-body.webapp-mode #root {
-  height: calc(100% - var(--safe-area-top, 42px));
+  padding-top: 80px;
 }
 
 body {
