@@ -341,33 +341,33 @@ onBlur={() => {
           />
         </div>
 
-        {/* Filter buttons - Row 1 - PNG из Desktop, ТОЧНО как в Figma (inset converted) */}
+        {/* Filter buttons - Row 1 - EXACT Figma coordinates */}
         <img 
           src={buttonReturn} 
           alt="вернуть" 
           onClick={handleReturnClick}
-          style={{ position: 'absolute', left: '99px', top: '327px', width: '186px', height: '79px', cursor: 'pointer' }} 
+          style={{ position: 'absolute', left: '99px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
         <img 
           src={selectedSort ? buttonSortActive : buttonSort} 
           alt="сортировка" 
           onClick={handleSortClick}
-          style={{ position: 'absolute', left: '346px', top: '327px', width: '216px', height: '79px', cursor: 'pointer' }} 
+          style={{ position: 'absolute', left: '346px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
         <img 
           src={selectedDate ? buttonDateActive : buttonDate} 
           alt="дата" 
           onClick={() => handleFilterClick('date')}
-          style={{ position: 'absolute', left: '593px', top: '327px', width: '169px', height: '79px', cursor: 'pointer' }} 
+          style={{ position: 'absolute', left: '593px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
         <img 
           src={selectedLanguage ? buttonLanguageActive : buttonLanguage} 
           alt="язык" 
           onClick={() => handleFilterClick('language')}
-          style={{ position: 'absolute', left: '840px', top: '327px', width: '186px', height: '79px', cursor: 'pointer' }} 
+          style={{ position: 'absolute', left: '840px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
 
-        {/* Filter buttons - Row 2: виральность, аккаунт, формат - PNG из Desktop */}
+        {/* Filter buttons - Row 2 - EXACT Figma coordinates */}
         <img 
           src={selectedVirality ? buttonViralityActive : buttonVirality}
           alt="виральность"
@@ -401,20 +401,20 @@ onBlur={() => {
           alt="формат"
           style={{
             position: 'absolute',
-            left: '712px',
+            left: '711px',
             top: '485px',
             width: '247px',
             height: '79px',
           }}
         />
 
-        {/* Filter badges - Row 2 - активные плашки с Desktop */}
+        {/* Filter badges - Row 2 - EXACT Figma coordinates */}
         <img 
           src={selectedSort ? badgeLikesActive : badgeLikes}
           alt=">лайков"
           style={{
             position: 'absolute',
-            left: '404px',
+            left: '407px',
             top: '406px',
             width: '186px',
             height: '79px',
