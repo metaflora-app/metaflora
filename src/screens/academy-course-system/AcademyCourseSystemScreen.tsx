@@ -6,9 +6,7 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 import goButton from '../../assets/main-dashboard/кнопка перейти.png';
 
@@ -58,41 +56,16 @@ export const AcademyCourseSystemScreen: React.FC = () => {
         }} />
 
         {/* Header */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/academy-courses-all')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        <img 
-          src={homeIcon}
-          alt="домой"
+        <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
             cursor: 'pointer',
-          }}
-        />
-
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,

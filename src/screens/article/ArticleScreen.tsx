@@ -4,9 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 import promptButton from '../../assets/about-screens/промпт плашка.png';
 import materialsButton from '../../assets/about-screens/кнопка материалы.png';
 
@@ -74,41 +72,16 @@ export const ArticleScreen: React.FC = () => {
           </div>
         </div>
 
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        <img 
-          src={homeIcon}
-          alt="домой"
+        <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
             cursor: 'pointer',
-          }}
-        />
-
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,

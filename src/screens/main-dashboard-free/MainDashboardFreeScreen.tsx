@@ -8,7 +8,6 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import bigLogo from '../../assets/demo-access-elements/лого большое в экране демо.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import beaverAvatar from '../../assets/main-dashboard/бобер.png';
 import metacoinIcon from '../../assets/main-dashboard/кружок подарки.png';
 import cardBackground from '../../assets/main-dashboard/фон под карточку.png';
@@ -90,21 +89,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
             top: '97px',
             width: '205px',
             height: '78px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Кнопка "выход" */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/demo-access')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
             cursor: 'pointer',
           }}
         />
