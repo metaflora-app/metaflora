@@ -59,6 +59,16 @@ export const LabaAnalysisScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
+        {/* Background pattern */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+        }} />
+
         {/* Header - Back button */}
         <div
           onClick={() => navigate(-1)}
