@@ -55,53 +55,6 @@ export const LabaAnalysisScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Header - Back button */}
-        <div
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            left: 'calc(50% - 452px)',
-            width: '100px',
-            height: '100px',
-            top: '75px',
-            transform: 'translateX(-50%)',
-            cursor: 'pointer',
-          }}
-        >
-          <div style={{ transform: 'rotate(270deg)' }}>
-            <div style={{
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'hidden',
-              width: '100px',
-              height: '100px',
-              position: 'relative',
-            }}>
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '11px',
-                width: '71px',
-                height: '71px',
-                top: '10px',
-              }}>
-                <div style={{ transform: 'rotate(90deg)', width: '71px', height: '71px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', inset: '3.13%' }}>
-                    <img src={backArrow} alt="" style={{ width: '100%', height: '100%' }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Header - Logo */}
         <div 
           onClick={() => navigate('/main-dashboard-premium')}

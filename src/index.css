@@ -20,6 +20,15 @@ body,
   position: relative;
 }
 
+/* Отступ сверху для веб-апп версии (не мини-апп) */
+body.webapp-mode {
+  padding-top: 42px;
+}
+
+body.webapp-mode #root {
+  height: calc(100% - 42px);
+}
+
 body {
   font-family: "Gotham Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
