@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 // Reused components assets (from laba-search)
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -15,7 +14,6 @@ import card3Months from '../../assets/metacoins/карточка тарифа 3 
 import buyButton from '../../assets/metacoins/купить метакоины.png';
 
 export const MetacoinsScreen: React.FC = () => {
-  const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
 
   // Calculate scale based on viewport width (DESKTOP design width: 1180px)
@@ -56,11 +54,13 @@ export const MetacoinsScreen: React.FC = () => {
         {/* Background pattern */}
         <div style={{
           position: 'absolute',
-          inset: 0,
+          left: 0,
+          top: 0,
+          width: '1180px',
+          height: '2550px',
           backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
         }} />
 
         {/* Header - REUSED from laba-search */}
