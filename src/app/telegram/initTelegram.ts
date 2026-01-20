@@ -13,14 +13,14 @@ import WebApp from '@twa-dev/sdk';
  * - Detects webapp mode and adds CSS class for top padding
  */
 export function initTelegram(): void {
+  // Detect webapp mode FIRST before any Telegram API calls
+  detectWebAppMode();
+
   // Ready the WebApp
   WebApp.ready();
 
   // Expand to full height
   WebApp.expand();
-
-  // Detect if running as webapp (not mini-app) and add CSS class
-  detectWebAppMode();
 
   // Set initial viewport height as CSS custom property
   updateViewportHeight();
@@ -48,11 +48,12 @@ export function initTelegram(): void {
  * WebApp mode: opened via direct link in browser, not embedded in Telegram
  */
 function detectWebAppMode(): void {
-  // Check if running in standalone browser (not Telegram client)
-  const isInTelegram = window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData !== '';
+  // Simple check: if window.innerHeight > 800 (typical mobile in Telegram is ~600-700)
+  // OR if there's no Telegram context, we're in web browser
+  const isBrowser = !window.Telegram?.WebApp?.platform || window.Telegram.WebApp.platform === 'unknown';
+  const hasStatusBar = window.innerHeight > 800;
   
-  // If NOT in Telegram (web browser), add webapp-mode class
-  if (!isInTelegram) {
+  if (isBrowser || hasStatusBar) {
     document.body.classList.add('webapp-mode');
   }
 }
