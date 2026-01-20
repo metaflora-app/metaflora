@@ -331,6 +331,7 @@ onBlur={() => {
               }
             }}
             placeholder={isSearchFocused ? '' : 'найти видео по ключевым словам'}
+            enterKeyHint="search"
             style={{
               position: 'absolute',
               left: '70px',
@@ -339,7 +340,7 @@ onBlur={() => {
               width: '612px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
-              fontSize: '27px',
+              fontSize: '32px',
               color: '#848484',
               background: 'transparent',
               border: 'none',
