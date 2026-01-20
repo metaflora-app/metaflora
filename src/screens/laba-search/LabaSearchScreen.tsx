@@ -187,20 +187,7 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
-        <img 
-          src={sidebar}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '241px',
-            top: '1875px',
-            width: '688px',
-            height: '139px',
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Draggable scroll indicator - ПОД иконками */}
+        {/* Draggable scroll indicator - ПЕРЕД сайдбаром чтобы быть ПОД иконками */}
         <img
           src={scrollIndicator}
           alt="скролл перемещения"
@@ -218,9 +205,22 @@ export const LabaSearchScreen: React.FC = () => {
             width: '131px',
             height: '131px',
             cursor: isDragging ? 'grabbing' : 'grab',
-            zIndex: 50,
             transition: isDragging ? 'none' : 'all 0.3s ease-out',
             pointerEvents: 'auto',
+          }}
+        />
+
+        <img 
+          src={sidebar}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '241px',
+            top: '1875px',
+            width: '688px',
+            height: '139px',
+            objectFit: 'contain',
+            pointerEvents: 'none',
           }}
         />
 
