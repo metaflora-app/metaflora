@@ -48,14 +48,16 @@ export function initTelegram(): void {
  * WebApp mode: opened via direct link, not embedded in Telegram
  */
 function detectWebAppMode(): void {
-  // Use safeAreaInset.top to detect if there's a system status bar
-  const safeAreaTop = WebApp.safeAreaInset?.top || 0;
+  // Check if viewportStableHeight is less than window.innerHeight
+  // This indicates system UI (status bar) is present
+  const viewportHeight = WebApp.viewportStableHeight || WebApp.viewportHeight;
+  const windowHeight = window.innerHeight;
+  const topOffset = windowHeight - viewportHeight;
   
-  // If safeAreaInset.top > 0, we're in web-app mode with status bar
-  if (safeAreaTop > 0) {
+  // If there's a gap at the top, we're in web-app mode
+  if (topOffset > 0) {
     document.body.classList.add('webapp-mode');
-    // Set CSS variable for dynamic padding
-    document.documentElement.style.setProperty('--safe-area-top', `${safeAreaTop}px`);
+    document.documentElement.style.setProperty('--safe-area-top', `${topOffset}px`);
   }
 }
 
