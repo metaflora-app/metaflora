@@ -281,38 +281,36 @@ export const LabaSearchAccountScreen: React.FC = () => {
           />
         </div>
 
-        {/* Main card (109:626) */}
+        {/* Main card (109:626) - главная подложка */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          top: '381px',
+          left: '88px',
+          top: '397px',
           width: '1004px',
-          height: '1661px',
+          height: '1643px',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255,255,255,0.1)',
           border: '4px solid rgba(255,255,255,0.3)',
           borderRadius: '30px',
         }} />
 
-        {/* Black card (109:631) */}
+        {/* Black card (109:631) - подложка вторая черная */}
         <div style={{
           position: 'absolute',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          top: '437px',
-          bottom: '577px',
+          left: '141px',
+          top: '453px',
           width: '898px',
+          height: '1536px',
           backdropFilter: 'blur(50px)',
           background: 'black',
-          border: '1px solid rgba(255,255,255,0.3)',
+          border: '4px solid rgba(255,255,255,0.3)',
           borderRadius: '30px',
           overflow: 'hidden',
         }}>
-          {/* "добавить ссылку" - CSS (109:640) */}
+          {/* "добавить ссылку" - CSS (109:640) - x=190, y=502 relative to frame, so 190-141=49, 502-453=49 */}
           <div style={{
             position: 'absolute',
-            left: '48px',
+            left: '49px',
             top: '49px',
             fontFamily: 'Inter',
             fontWeight: 700,
@@ -323,12 +321,11 @@ export const LabaSearchAccountScreen: React.FC = () => {
             добавить ссылку
           </div>
 
-          {/* Search input 1 (109:633) */}
+          {/* Search input 1 (109:633) - x=190, y=575 relative to frame, so 190-141=49, 575-453=122 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            top: '121px',
+            left: '49px',
+            top: '122px',
             width: '800px',
             height: '72px',
             border: '4px solid rgba(255,255,255,0.3)',
@@ -368,10 +365,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
             />
           </div>
 
-          {/* "найти по нику" - CSS (109:636) */}
+          {/* "найти по нику" - CSS (109:636) - x=190, y=674 relative to frame, so 190-141=49, 674-453=221 */}
           <div style={{
             position: 'absolute',
-            left: '48px',
+            left: '49px',
             top: '221px',
             fontFamily: 'Inter',
             fontWeight: 700,
@@ -382,12 +379,11 @@ export const LabaSearchAccountScreen: React.FC = () => {
             найти по нику
           </div>
 
-          {/* Search input 2 (109:637) */}
+          {/* Search input 2 (109:637) - x=190, y=747 relative to frame, so 190-141=49, 747-453=294 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            top: '293px',
+            left: '49px',
+            top: '294px',
             width: '800px',
             height: '72px',
             border: '4px solid rgba(255,255,255,0.3)',
@@ -427,27 +423,26 @@ export const LabaSearchAccountScreen: React.FC = () => {
             />
           </div>
 
-          {/* Find button PNG (109:645) - bottom: 67.69%, top: 27.15% */}
+          {/* Find button PNG (109:645) - x=467, y=870 relative to frame, so 467-141=326, 870-453=417 */}
           <img 
             src={promptPlate}
             alt="найти"
             onClick={handleSearch}
             style={{
               position: 'absolute',
-              left: '50%',
-              top: 'calc(27.15% - 1px)',
-              bottom: 'calc(67.69% - 1px)',
-              transform: 'translateX(calc(-50% + 0.47px))',
-              width: '247px',
+              left: '326px',
+              top: '417px',
+              width: '246.93px',
+              height: '79.25px',
               cursor: 'pointer',
             }}
           />
 
-          {/* "результат" - CSS (109:664) */}
+          {/* "результат" - CSS (109:664) - x=190, y=986 relative to frame, so 190-141=49, 986-453=533 */}
           <div style={{
             position: 'absolute',
-            left: '48px',
-            top: '547px',
+            left: '49px',
+            top: '533px',
             fontFamily: 'Inter',
             fontWeight: 700,
             fontSize: '40px',
@@ -457,40 +452,38 @@ export const LabaSearchAccountScreen: React.FC = () => {
             результат
           </div>
 
-          {/* Profile photo PNG */}
+          {/* Profile photo PNG (109:665) - x=190, y=1059 relative to frame, so 190-141=49, 1059-453=606 */}
           <img 
             src={profilePhoto}
             alt=""
             style={{
               position: 'absolute',
-              left: '48px',
-              top: '619px',
+              left: '49px',
+              top: '606px',
               width: '190px',
               height: '190px',
               borderRadius: '50%',
             }}
           />
 
-          {/* Instagram logo PNG */}
+          {/* Instagram logo PNG (109:666) - x=396, y=1066 relative to frame, so 396-141=255, 1066-453=613 */}
           <img 
             src={instaLogo}
             alt=""
             style={{
               position: 'absolute',
-              left: '254px',
-              top: '626px',
+              left: '255px',
+              top: '613px',
               width: '64px',
               height: '78px',
             }}
           />
 
-          {/* Username - CSS (109:667) - bottom: 51.37%, top: 45.9% */}
+          {/* Username - CSS (109:667) - x=396, y=1144 relative to frame, so 396-141=255, 1144-453=691 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: 'calc(45.9% - 1px)',
-            bottom: 'calc(51.37% - 1px)',
-            transform: 'translateX(calc(-50% - 27px))',
+            left: '255px',
+            top: '691px',
             width: '334px',
             fontFamily: 'Inter',
             fontWeight: 700,
@@ -498,20 +491,15 @@ export const LabaSearchAccountScreen: React.FC = () => {
             lineHeight: 1,
             color: 'white',
             textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
           }}>
             @mishchenko.is
           </div>
 
-          {/* Followers - CSS (109:668) - bottom: 48.7%, top: 49.61% */}
+          {/* Followers - CSS (109:668) - x=393, y=1201 relative to frame, so 393-141=252, 1201-453=748 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: 'calc(49.61% - 1px)',
-            bottom: 'calc(48.7% - 1px)',
-            transform: 'translateX(calc(-50% - 22px))',
+            left: '252px',
+            top: '748px',
             width: '350px',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
@@ -519,35 +507,30 @@ export const LabaSearchAccountScreen: React.FC = () => {
             lineHeight: 1,
             color: 'white',
             textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
           }}>
             275,5к подписчиков
           </div>
 
-          {/* Tracking button (109:677) */}
+          {/* Tracking button (109:677) - x=325, y=1317 relative to frame, so 325-141=184, 1317-453=864 */}
           <img 
             src={trackingButton}
             alt="начать отслеживание"
             onClick={() => navigate('/laba-tracked')}
             style={{
               position: 'absolute',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              top: '879px',
+              left: '184px',
+              top: '864px',
               width: '530px',
               height: '139px',
               cursor: 'pointer',
             }}
           />
 
-          {/* Balance text */}
+          {/* Balance text (109:690) - x=343, y=1474 relative to frame, so 343-141=202, 1474-453=1021 */}
           <div style={{
             position: 'absolute',
-            left: '50%',
-            top: '1035px',
-            transform: 'translateX(-50%)',
+            left: '202px',
+            top: '1021px',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '32px',

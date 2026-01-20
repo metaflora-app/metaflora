@@ -12,6 +12,7 @@ import startAnalysisButtonPNG from '../../assets/laba-analysis/укорочен�
 import createScenarioButtonPNG from '../../assets/laba-analysis/укороченная кнопка создать сценарий.png';
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
 import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
+import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
@@ -594,9 +595,9 @@ export const LabaAnalysisScreen: React.FC = () => {
             а вы знали, что так вообще возможно?
           </div>
 
-          {/* Button "следить" - 292:694 */}
+          {/* Button "следить" / "не следить" - 292:694 */}
           <img
-            src={followButtonPNG}
+            src={isFollowing ? unfollowButtonPNG : followButtonPNG}
             alt={isFollowing ? 'не следить' : 'следить'}
             onClick={() => {
               setIsFollowing(!isFollowing);

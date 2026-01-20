@@ -120,11 +120,11 @@ export const LabaNoTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Main title (7:1377) - x=85, y=193, 1020x80 */}
+        {/* Main title (7:1377) - x=85, y=207, 1020x80 */}
         <div style={{
           position: 'absolute',
           left: '85px',
-          top: '193px',
+          top: '207px',
           width: '1020px',
           height: '80px',
           fontFamily: 'Inter',
@@ -156,14 +156,14 @@ export const LabaNoTrackedScreen: React.FC = () => {
           <p style={{ margin: 0 }}>добавьте аккаунт для отслеживания</p>
         </div>
 
-        {/* People image PNG (7:1357) - x=143, y=898, 892x1050 - СЗАДИ ВСЕГО */}
+        {/* People image PNG (7:1357) - x=143, y=916, 892x1050 - СЗАДИ ВСЕГО */}
         <img 
           src={peopleImage}
           alt=""
           style={{
             position: 'absolute',
             left: '143px',
-            top: '898px',
+            top: '916px',
             width: '892px',
             height: '1050px',
             objectFit: 'contain',
@@ -172,16 +172,16 @@ export const LabaNoTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Blur overlay PNG (7:1360) - x=143, y=381, 892x1661 - ПОВЕРХ ЛЮДЕЙ */}
+        {/* Blur overlay PNG (7:1360) - x=143, y=402, 892x1643 - ПОВЕРХ ЛЮДЕЙ */}
         <img 
           src={blurOverlay}
           alt=""
           style={{
             position: 'absolute',
             left: '143px',
-            top: '381px',
+            top: '402px',
             width: '892px',
-            height: '1661px',
+            height: '1643px',
             objectFit: 'cover',
             borderRadius: '30px',
             pointerEvents: 'none',
@@ -189,7 +189,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Button PNG (7:1362) includes text - x=147, y=1147 - ПОВЕРХ БЛЮРА */}
+        {/* Button PNG (7:1362) includes text - x=147, y=1168 - ПОВЕРХ БЛЮРА */}
         <img 
           src={startTrackingButton}
           alt="начать отслеживание ₽100"
@@ -197,7 +197,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: '147px',
-            top: '1147px',
+            top: '1168px',
             width: '884px',
             height: 'auto',
             objectFit: 'contain',
