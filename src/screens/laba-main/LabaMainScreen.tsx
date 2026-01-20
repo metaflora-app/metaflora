@@ -9,7 +9,6 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 
 // Laba-main PNG assets
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
-import likeIconPNG from '../../assets/laba-main/лайк.png';
 import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
 import newBadgePNG from '../../assets/laba-main/плашка новое.png';
 
