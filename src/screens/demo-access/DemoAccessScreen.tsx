@@ -6,7 +6,6 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import bigLogo from '../../assets/demo-access-elements/лого большое в экране демо.png';
 import checkIcon from '../../assets/demo-access-elements/иконка что включено в демо.png';
@@ -44,21 +43,6 @@ export const DemoAccessScreen: React.FC = () => {
           backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
         }} />
-
-        {/* Кнопка "выход" (стрелка назад) - готовая PNG */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/tour-video')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
 
         {/* Логотип маленький (верхний) */}
         <div style={{

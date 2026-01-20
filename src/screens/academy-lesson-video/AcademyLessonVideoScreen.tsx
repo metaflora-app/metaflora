@@ -6,13 +6,11 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
 import pauseIcon from '../../assets/tour-video/pause-icon.png';
 import playIcon from '../../assets/tour-video/play-icon.png';
 import expandIcon from '../../assets/tour-video/expand-icon.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
@@ -47,44 +45,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           backgroundRepeat: 'repeat',
         }} />
 
-        {/* Кнопка "выход" (стрелка назад) - готовая PNG */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/academy-courses-all')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Иконка "домой" */}
-        <img 
-          src={homeIcon}
-          alt="домой"
+        {/* Логотип маленький (верхний) */}
+        <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
             cursor: 'pointer',
-          }}
-        />
-
-        {/* Логотип маленький (верхний) */}
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,

@@ -8,7 +8,6 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import bigLogo from '../../assets/demo-access-elements/лого большое в экране демо.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import userPhoto from '../../assets/main-dashboard/фото из тг.png';
 import metacoinIcon from '../../assets/main-dashboard/кружок подарки.png';
 import academyBg from '../../assets/main-dashboard/фон академия.png';
@@ -105,21 +104,6 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             width: '890px',
             height: '814px',
             objectFit: 'contain',
-          }}
-        />
-
-        {/* Кнопка "выход" */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/pricing')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
           }}
         />
 
