@@ -58,12 +58,10 @@ export const LabaTrackedScreen: React.FC = () => {
   ];
 
   const handleSortClick = () => {
-    setShowSortPopup(true);
-  };
-
-  const handleSortSelect = (sortId: string) => {
-    setSelectedSort(sortId);
-    setShowSortPopup(false);
+    if (window.Telegram?.WebApp?.showAlert) {
+      const options = sortOptions.map(opt => opt.label).join('\n');
+      window.Telegram.WebApp.showAlert(`сортировка:\n\n${options}\n\nвыберите в плашке ниже`);
+    }
   };
 
   return (
@@ -539,13 +537,17 @@ export const LabaTrackedScreen: React.FC = () => {
 
         {/* Badge likes - 174:768 PNG with dynamic text */}
         {!accountRemoved && (
-          <div style={{
-            position: 'absolute',
-            left: '788px',
-            top: '564px',
-            width: '186px',
-            height: '79px',
-          }}>
+          <div 
+            onClick={() => setShowSortPopup(true)}
+            style={{
+              position: 'absolute',
+              left: '788px',
+              top: '564px',
+              width: '186px',
+              height: '79px',
+              cursor: 'pointer',
+            }}
+          >
             <img
               src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
               alt="badge"
@@ -568,6 +570,8 @@ export const LabaTrackedScreen: React.FC = () => {
               fontSize: '27px',
               color: 'white',
               textAlign: 'center',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
             }}>
               {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.label || 'выбрать' : 'выбрать'}
             </div>
@@ -2085,34 +2089,37 @@ export const LabaTrackedScreen: React.FC = () => {
             style={{
               position: 'fixed',
               inset: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
+              background: 'rgba(0, 0, 0, 0.8)',
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-end',
               justifyContent: 'center',
               zIndex: 9999,
+              transform: `scale(${scale})`,
+              transformOrigin: 'top left',
             }}
           >
             <div 
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: 'relative',
-                width: '500px',
-                maxHeight: '80vh',
+                width: '100%',
+                maxWidth: '1180px',
+                maxHeight: '70vh',
                 backdropFilter: 'blur(50px)',
-                background: 'rgba(20, 20, 20, 0.95)',
+                background: 'rgba(30, 30, 30, 0.98)',
                 border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                padding: '40px 30px',
+                borderRadius: '30px 30px 0 0',
+                padding: '50px 40px 40px',
                 overflow: 'auto',
               }}
             >
               <div style={{
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 700,
-                fontSize: '36px',
+                fontSize: '50px',
                 color: 'white',
                 textAlign: 'center',
-                marginBottom: '30px',
+                marginBottom: '40px',
               }}>
                 сортировка
               </div>
@@ -2120,16 +2127,20 @@ export const LabaTrackedScreen: React.FC = () => {
               {sortOptions.map((opt) => (
                 <div
                   key={opt.id}
-                  onClick={() => handleSortSelect(opt.id)}
+                  onClick={() => {
+                    setSelectedSort(opt.id);
+                    setShowSortPopup(false);
+                  }}
                   style={{
                     fontFamily: 'Gotham Pro, sans-serif',
                     fontWeight: selectedSort === opt.id ? 700 : 400,
-                    fontSize: '28px',
+                    fontSize: '36px',
                     color: 'white',
-                    padding: '15px 20px',
-                    marginBottom: '10px',
+                    padding: '20px 30px',
+                    marginBottom: '15px',
                     background: selectedSort === opt.id ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                    borderRadius: '15px',
+                    border: '2px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '20px',
                     cursor: 'pointer',
                     transition: 'all 0.2s',
                   }}
@@ -2143,12 +2154,13 @@ export const LabaTrackedScreen: React.FC = () => {
                 style={{
                   fontFamily: 'Gotham Pro, sans-serif',
                   fontWeight: 500,
-                  fontSize: '28px',
+                  fontSize: '36px',
                   color: 'white',
-                  padding: '15px 20px',
-                  marginTop: '20px',
+                  padding: '20px 30px',
+                  marginTop: '30px',
                   background: 'rgba(255, 255, 255, 0.1)',
-                  borderRadius: '15px',
+                  border: '2px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '20px',
                   textAlign: 'center',
                   cursor: 'pointer',
                 }}
