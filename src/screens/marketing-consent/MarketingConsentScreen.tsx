@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -9,7 +8,6 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 
 export const MarketingConsentScreen: React.FC = () => {
-  const navigate = useNavigate();
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
