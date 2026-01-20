@@ -57,20 +57,21 @@ export const LabaTrackedScreen: React.FC = () => {
   ];
 
   const handleSortClick = () => {
+    // Use simple popup for now - ActionSheet requires different API
+    const message = sortOptions.map((opt, idx) => `${idx + 1}. ${opt.label}`).join('\n');
+    
     if (window.Telegram?.WebApp?.showPopup) {
       window.Telegram.WebApp.showPopup({
-        title: 'сортировка',
-        message: 'выберите параметр сортировки',
-        buttons: sortOptions.map(opt => ({
-          id: opt.id,
-          type: 'default',
-          text: opt.label
-        }))
-      }, (buttonId: string) => {
-        if (buttonId) {
-          setSelectedSort(buttonId);
-        }
+        message: `сортировка:\n\n${message}\n\nвыберите номер опции (1-9)`
       });
+    } else {
+      const choice = prompt(`сортировка:\n\n${message}\n\nвыберите номер опции (1-9)`);
+      if (choice) {
+        const idx = parseInt(choice) - 1;
+        if (idx >= 0 && idx < sortOptions.length) {
+          setSelectedSort(sortOptions[idx].id);
+        }
+      }
     }
   };
 
