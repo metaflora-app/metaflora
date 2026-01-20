@@ -200,7 +200,7 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
-        {/* Draggable scroll indicator */}
+        {/* Draggable scroll indicator - ПОД иконками */}
         <img
           src={scrollIndicator}
           alt="скролл перемещения"
@@ -218,7 +218,7 @@ export const LabaSearchScreen: React.FC = () => {
             width: '131px',
             height: '131px',
             cursor: isDragging ? 'grabbing' : 'grab',
-            zIndex: 100000,
+            zIndex: 50,
             transition: isDragging ? 'none' : 'all 0.3s ease-out',
             pointerEvents: 'auto',
           }}
