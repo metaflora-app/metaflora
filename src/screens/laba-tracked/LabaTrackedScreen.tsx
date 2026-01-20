@@ -368,7 +368,7 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Button "убрать аккаунт" - 432:939 - x=335, y=423 relative to account card (151, 405) */}
+          {/* Button "убрать аккаунт" - 432:939 - x=184, y=18 relative to account card */}
           <div
             onClick={() => {
               if (window.Telegram?.WebApp?.showPopup) {
@@ -379,12 +379,12 @@ export const LabaTrackedScreen: React.FC = () => {
             }}
             style={{
               position: 'absolute',
-              left: '335px',
-              top: '423px',
+              left: '184px',
+              top: '18px',
               width: '126px',
               height: '54px',
               backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'black',
               border: '4px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '62px',
               display: 'flex',
@@ -393,7 +393,7 @@ export const LabaTrackedScreen: React.FC = () => {
               cursor: 'pointer',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '20px',
+              fontSize: '24px',
               color: 'white',
             }}
           >
@@ -909,47 +909,34 @@ export const LabaTrackedScreen: React.FC = () => {
               />
             </div>
 
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            {/* Like icon - 173:680 - x=42, y=44 relative to card */}
+            <div 
+              onClick={() => {
+                setLikedCards(prev => {
+                  const newSet = new Set(prev);
+                  if (newSet.has(2)) {
+                    newSet.delete(2);
+                  } else {
+                    newSet.add(2);
+                  }
+                  return newSet;
+                });
+              }}
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                width: '111px',
-                height: '19px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            >
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
+                  stroke={likedCards.has(2) ? '#FF0000' : 'white'} 
+                  strokeWidth="2" 
+                  fill={likedCards.has(2) ? '#FF0000' : 'none'} />
+              </svg>
             </div>
 
             <div style={{
@@ -1282,47 +1269,34 @@ export const LabaTrackedScreen: React.FC = () => {
               />
             </div>
 
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            {/* Like icon - 173:708 - x=42, y=44 relative to card */}
+            <div 
+              onClick={() => {
+                setLikedCards(prev => {
+                  const newSet = new Set(prev);
+                  if (newSet.has(3)) {
+                    newSet.delete(3);
+                  } else {
+                    newSet.add(3);
+                  }
+                  return newSet;
+                });
+              }}
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                width: '111px',
-                height: '19px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            >
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
+                  stroke={likedCards.has(3) ? '#FF0000' : 'white'} 
+                  strokeWidth="2" 
+                  fill={likedCards.has(3) ? '#FF0000' : 'none'} />
+              </svg>
             </div>
 
             <div style={{
@@ -1655,47 +1629,34 @@ export const LabaTrackedScreen: React.FC = () => {
               />
             </div>
 
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
+            {/* Like icon - 173:736 - x=42, y=44 relative to card */}
+            <div 
+              onClick={() => {
+                setLikedCards(prev => {
+                  const newSet = new Set(prev);
+                  if (newSet.has(4)) {
+                    newSet.delete(4);
+                  } else {
+                    newSet.add(4);
+                  }
+                  return newSet;
+                });
+              }}
+              style={{
                 position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                width: '111px',
-                height: '19px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '80.98%',
-              bottom: '89.77%',
-              left: '10.24%',
-            }}>
-              <img src={likeIconPNG} alt="лайк" style={{ width: '100%', height: '100%' }} />
+                left: '42px',
+                top: '44px',
+                width: '36px',
+                height: '36px',
+                cursor: 'pointer',
+              }}
+            >
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
+                  stroke={likedCards.has(4) ? '#FF0000' : 'white'} 
+                  strokeWidth="2" 
+                  fill={likedCards.has(4) ? '#FF0000' : 'none'} />
+              </svg>
             </div>
 
             <div style={{
