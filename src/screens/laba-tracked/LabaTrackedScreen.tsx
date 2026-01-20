@@ -58,8 +58,22 @@ export const LabaTrackedScreen: React.FC = () => {
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
+      const buttons = sortOptions.map((opt, index) => ({
+        id: opt.id,
+        type: 'default' as const,
+        text: opt.label
+      }));
+      
+      buttons.push({ id: 'close', type: 'close' as const, text: 'закрыть' });
+
       window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
+        title: 'сортировка',
+        message: 'выберите параметр сортировки',
+        buttons: buttons
+      }, (buttonId) => {
+        if (buttonId && buttonId !== 'close') {
+          setSelectedSort(buttonId);
+        }
       });
     }
   };
@@ -251,7 +265,7 @@ export const LabaTrackedScreen: React.FC = () => {
           fontWeight: 300,
           fontSize: '40px',
           color: 'white',
-          textAlign: 'center',
+          textAlign: 'left',
           lineHeight: '40px',
         }}>
           добавьте аккаунт для отслеживания
