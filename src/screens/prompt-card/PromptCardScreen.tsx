@@ -25,8 +25,6 @@ const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-825
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -154,44 +152,17 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Back button */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Home button */}
-        <img 
-          src={homeIcon}
-          alt="домой"
+        {/* Logo */}
+        <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
             cursor: 'pointer',
-          }}
-        />
-
-        {/* Logo */}
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,

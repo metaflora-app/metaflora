@@ -11,8 +11,6 @@ import supportButton from '../../assets/tour-video/support-button.png';
 // New assets for laba-no-tracked from Desktop
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
 import peopleImage from '../../assets/laba-no-tracked/люди друг на друге.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
 export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -48,41 +46,16 @@ export const LabaNoTrackedScreen: React.FC = () => {
 
         {/* Header - COPIED FROM laba-search (REUSE) */}
         
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        <img 
-          src={homeIcon}
-          alt="домой"
+        <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
             cursor: 'pointer',
-          }}
-        />
-
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,

@@ -29,8 +29,6 @@ import readButton from '../../assets/poligon-articles/кнопка читать.
 import peopleInCircle from '../../assets/poligon-articles/люди в круге.png';
 import arrowLong from '../../assets/poligon-articles/arrow-long.svg';
 import arrowShort from '../../assets/poligon-articles/arrow-short.svg';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -110,37 +108,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
         </div>
 
         {/* Header */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-            zIndex: 10,
-          }}
-        />
-
-        <img 
-          src={homeIcon}
-          alt="домой"
+        <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
-            position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
             cursor: 'pointer',
             zIndex: 10,
-          }}
-        />
-
-        <div style={{
           position: 'absolute',
           left: '500px',
           top: '61px',

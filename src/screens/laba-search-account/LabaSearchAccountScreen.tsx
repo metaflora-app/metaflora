@@ -14,8 +14,6 @@ import profilePhoto from '../../assets/laba-search-account/фото профил
 import trackingButton from '../../assets/laba-search-account/укороченная кнопка начать отслеживание.png';
 import peopleBackground from '../../assets/laba-search-account/люди друг на друге.png';
 import searchIcon from '../../assets/laba-search-account/иконка поиск.png';
-import exitArrow from '../../assets/tour-elements/выход.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -64,113 +62,16 @@ export const LabaSearchAccountScreen: React.FC = () => {
 
         {/* Header */}
         
-        {/* Back button (109:612) - стрелка повернута на 270deg */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 452px)',
-          top: '75px',
-          width: '100px',
-          height: '100px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'translateX(-50%)',
-        }}>
-          <div style={{ transform: 'rotate(270deg)' }}>
-            <div style={{
-              position: 'relative',
-              width: '100px',
-              height: '100px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255,255,255,0.1)',
-              border: '4px solid rgba(255,255,255,0.3)',
-              borderRadius: '62px',
-              overflow: 'hidden',
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate(-1)}>
-              <div style={{
-                position: 'absolute',
-                left: '11px',
-                top: '10px',
-                width: '71px',
-                height: '71px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{ transform: 'rotate(90deg)' }}>
-                  <img 
-                    src={exitArrow}
-                    alt=""
-                    style={{
-                      width: '71px',
-                      height: '71px',
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Home button (109:607) - иконка повернута на 270deg */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 352px)',
-          top: '75px',
-          width: '100px',
-          height: '100px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'translateX(-50%)',
-        }}>
-          <div style={{ transform: 'rotate(270deg)' }}>
-            <div style={{
-              position: 'relative',
-              width: '100px',
-              height: '100px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255,255,255,0.1)',
-              border: '4px solid rgba(255,255,255,0.3)',
-              borderRadius: '62px',
-              overflow: 'hidden',
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate('/main-dashboard-premium')}>
-              <div style={{
-                position: 'absolute',
-                left: '24px',
-                top: '13px',
-                width: '65px',
-                height: '65px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{ transform: 'rotate(90deg)' }}>
-                  <img 
-                    src={homeIcon}
-                    alt=""
-                    style={{
-                      width: '65px',
-                      height: '65px',
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
+        <div 
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{
+            position: 'absolute',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
+            cursor: 'pointer',
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,
