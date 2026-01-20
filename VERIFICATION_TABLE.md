@@ -1,5 +1,27 @@
 # LabaMainScreen - Verification Table
 
+## Latest Updates (Jan 20, 2026)
+
+### Commit f377eeb - Filter Popup Texts
+✅ Updated all filter popup messages to match Figma design
+- Сортировка: >просмотров, <просмотров, >лайков, <лайков, >комментариев, <комментариев
+- Дата: последние 7/14/30 дней, 6 месяцев, год
+- Язык: русский, английский, испанский, турецкий, французский
+- Виральность: 0-2, 3-5, 6-8, 9-10 баллов
+- Размер аккаунта: 0-10k, 10k-100k, 100k-300k, 300k-1млн, больше 1млн
+
+### Commit 38a97d9 - Inactive/Active PNG Swap
+✅ Swapped inactive and active badge/button states
+- Default: неактив versions (lighter/disabled look)
+- Active: regular versions (highlighted when selected)
+- 14 new inactive PNG files added
+
+### Commit cfaab8f - Exact Figma Coordinates
+✅ Updated positions to exact Figma metadata
+- All buttons: 247x79px (was varied)
+- Badge лайки: 407px (was 404px)
+- Button формат: 711px (was 712px)
+
 ## PNG Assets Dimensions Check
 
 ### Filter Badges (плашки) - Row 2
