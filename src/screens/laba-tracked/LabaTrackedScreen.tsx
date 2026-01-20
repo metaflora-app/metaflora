@@ -8,7 +8,7 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
 // Filter buttons from laba-main
-import returnButtonPNG from '../../assets/laba-main/кнопка вернуть.png';
+import returnButtonPNG from '../../assets/laba-tracked/кнопка вернуть.png';
 import sortButtonInactivePNG from '../../assets/laba-main/кнопка сортировка неактив.png';
 import sortButtonActivePNG from '../../assets/laba-main/кнопка сортировка актив.png';
 import likesBadgeInactivePNG from '../../assets/laba-main/плашка лайки неактив.png';
@@ -57,21 +57,22 @@ export const LabaTrackedScreen: React.FC = () => {
   ];
 
   const handleSortClick = () => {
-    // Use simple popup for now - ActionSheet requires different API
-    const message = sortOptions.map((opt, idx) => `${idx + 1}. ${opt.label}`).join('\n');
-    
     if (window.Telegram?.WebApp?.showPopup) {
+      const buttons = sortOptions.map(opt => ({
+        id: opt.id,
+        type: 'default' as const,
+        text: opt.label
+      }));
+      
       window.Telegram.WebApp.showPopup({
-        message: `сортировка:\n\n${message}\n\nвыберите номер опции (1-9)`
-      });
-    } else {
-      const choice = prompt(`сортировка:\n\n${message}\n\nвыберите номер опции (1-9)`);
-      if (choice) {
-        const idx = parseInt(choice) - 1;
-        if (idx >= 0 && idx < sortOptions.length) {
-          setSelectedSort(sortOptions[idx].id);
+        title: 'сортировка',
+        message: '',
+        buttons: buttons
+      }, (buttonId?: string) => {
+        if (buttonId) {
+          setSelectedSort(buttonId);
         }
-      }
+      });
     }
   };
 
@@ -307,19 +308,18 @@ export const LabaTrackedScreen: React.FC = () => {
           </>
         )}
 
-        {/* Account card with @mishchenko.is - 7:1181 - hide when account removed */}
-        {!accountRemoved && (
-          <div style={{
-            position: 'absolute',
-            left: '151px',
-            top: '405px',
-            width: '522px',
-            height: '162px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-          }}>
+        {/* Account card with @mishchenko.is - 7:1181 */}
+        <div style={{
+          position: 'absolute',
+          left: '151px',
+          top: '405px',
+          width: '522px',
+          height: '162px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }}>
             {/* Profile photo - 7:1184 x=175, y=429 */}
             <div style={{
               position: 'absolute',
@@ -414,38 +414,9 @@ export const LabaTrackedScreen: React.FC = () => {
               <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
             </div>
 
-            {/* Plus button - 7:1188 x=550, y=431 */}
-            <div style={{
-              position: 'absolute',
-              left: '399px',
-            top: '26px',
-            width: '98px',
-            height: '98px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '98px',
-            overflow: 'clip',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: '19px',
-              top: '19px',
-              width: '59px',
-              height: '59px',
-            }}>
-              <div style={{ position: 'absolute', inset: '3.13%' }}>
-                <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
-              </div>
-            </div>
-          </div>
-
             {/* Button "убрать аккаунт" - 432:939 - x=184, y=18 relative to account card */}
-            <img
+            {!accountRemoved && (
+              <img
               src={removeAccountButtonPNG}
               alt="убрать"
               onClick={() => {
@@ -466,9 +437,11 @@ export const LabaTrackedScreen: React.FC = () => {
                 objectFit: 'contain',
               }}
             />
+            )}
 
             {/* Plus button - 7:1188 x=550, y=431 */}
-            <div 
+            {!accountRemoved && (
+              <div 
               onClick={() => navigate('/laba-search-account')}
               style={{
                 position: 'absolute',
