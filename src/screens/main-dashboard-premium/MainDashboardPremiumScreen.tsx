@@ -43,11 +43,13 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         {/* Background pattern (фон точки) */}
         <div style={{
           position: 'absolute',
-          inset: 0,
+          left: 0,
+          top: 0,
+          width: '1180px',
+          height: '2550px',
           backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
         }} />
 
         {/* Header - Маленькое лого */}
@@ -105,9 +107,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             height: '814px',
             objectFit: 'contain',
           }}
-        />
-
-        {/* Приветствие "Иван Сергеевич" (27:688) */}
+        />        {/* Приветствие "Иван Сергеевич" (27:688) */}
         <div style={{
           position: 'absolute',
           left: '85px',

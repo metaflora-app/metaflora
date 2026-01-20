@@ -59,11 +59,13 @@ export const PricingScreen: React.FC = () => {
         {/* Background pattern (фон точки) */}
         <div style={{
           position: 'absolute',
-          inset: 0,
+          left: 0,
+          top: 0,
+          width: '1180px',
+          height: '2550px',
           backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
         }} />
 
         {/* Логотип маленький */}
@@ -76,7 +78,7 @@ export const PricingScreen: React.FC = () => {
             width: '186px',
             height: '131px',
             cursor: 'pointer',
-          }}>
+        }}>
           <div style={{
             position: 'absolute',
             inset: 0,

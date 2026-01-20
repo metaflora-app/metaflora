@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 import leftCard from '../../assets/laba-screens/слева.png';
 import rightCard from '../../assets/laba-screens/справа.png';
 import sidebar from '../../assets/laba-screens/сайдбар.png';

@@ -116,17 +116,15 @@ export const LabaMainScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
+      {/* Background pattern */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url(${bgPattern})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'repeat',
+      }} />
 
       <div style={{
         position: 'relative',
@@ -135,16 +133,6 @@ export const LabaMainScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Background pattern */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }} />
-
         {/* Header - REUSED from prompt-first */}
         {/* Header - Back button */}
         <div 
