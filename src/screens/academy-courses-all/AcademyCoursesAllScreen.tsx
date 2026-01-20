@@ -6,7 +6,6 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import academyBg from '../../assets/main-dashboard/фон академия.png';
 import labaBg from '../../assets/main-dashboard/фон лаба.png';
@@ -58,30 +57,16 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           backgroundImage: `url(${bgPattern})`,
           backgroundRepeat: 'repeat',
           backgroundSize: 'auto',
-        }} />
-
-        {/* Кнопка "выход" */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/about-academy')}
+        }} />        {/* Логотип маленький */}
+        <div 
+          onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
             cursor: 'pointer',
-          }}
-        />
-
-        {/* Логотип маленький */}
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
         }}>
           <div style={{
             position: 'absolute',

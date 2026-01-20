@@ -7,8 +7,6 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
 // New assets for laba-no-tracked from Desktop
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';

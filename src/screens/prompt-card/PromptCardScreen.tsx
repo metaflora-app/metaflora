@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 
 // Telegram WebApp types
 declare global {
@@ -25,7 +24,6 @@ const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-825
 
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 
 export const PromptCardScreen: React.FC = () => {

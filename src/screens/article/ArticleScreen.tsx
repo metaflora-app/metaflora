@@ -4,9 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 import promptButton from '../../assets/about-screens/промпт плашка.png';
 import materialsButton from '../../assets/about-screens/кнопка материалы.png';
 

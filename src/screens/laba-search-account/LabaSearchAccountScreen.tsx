@@ -6,8 +6,6 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import exitArrow from '../../assets/tour-elements/выход.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 
 // Search account specific assets
 import promptPlate from '../../assets/laba-search-account/промпт плашка.png';

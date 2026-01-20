@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import searchIconPNG from '../../assets/иконка поиск.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
-import homeIcon from '../../assets/about-screens/домой.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -260,38 +258,7 @@ export const PromptFirstScreen: React.FC = () => {
         minHeight: '2550px',
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
-      }}>
-        {/* Кнопка "выход" (стрелка назад) */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate(-1)}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Иконка "домой" */}
-        <img 
-          src={homeIcon}
-          alt="домой"
-          onClick={() => navigate('/main-dashboard-premium')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 352px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Header - Logo */}
+      }}>        {/* Header - Logo */}
         <div style={{
           position: 'absolute',
           height: '131px',

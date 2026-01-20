@@ -24,11 +24,19 @@ export function initTelegram(): void {
   // Listen for viewport changes (e.g., when keyboard appears/disappears)
   WebApp.onEvent('viewportChanged', updateViewportHeight);
 
-  // Optional: Set header color if needed
-  // WebApp.setHeaderColor('#000000');
+  // Set header color to match app background
+  WebApp.setHeaderColor('#020101');
   
-  // Optional: Set background color if needed
-  // WebApp.setBackgroundColor('#000000');
+  // Set background color to match app background
+  WebApp.setBackgroundColor('#020101');
+  
+  // Show back button
+  WebApp.BackButton.show();
+  
+  // Handle back button click
+  WebApp.BackButton.onClick(() => {
+    window.history.back();
+  });
 }
 
 /**
