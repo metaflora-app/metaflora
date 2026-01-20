@@ -9,15 +9,20 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 
 // Filter buttons from laba-main
 import returnButtonPNG from '../../assets/laba-main/кнопка вернуть.png';
-import sortButtonPNG from '../../assets/laba-main/кнопка сортировка.png';
+import sortButtonInactivePNG from '../../assets/laba-main/кнопка сортировка неактив.png';
 import sortButtonActivePNG from '../../assets/laba-main/кнопка сортировка актив.png';
-import likesBadgePNG from '../../assets/laba-main/плашка лайки.png';
+import likesBadgeInactivePNG from '../../assets/laba-main/плашка лайки неактив.png';
 import likesBadgeActivePNG from '../../assets/laba-main/плашка лайки актив.png';
 import newBadgePNG from '../../assets/laba-main/плашка новое.png';
+import removeAccountButtonPNG from '../../assets/laba-main/кнопка убрать аккаунт.png';
 
 // Card assets from laba-main
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
 import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
+
+// No tracked screen assets
+import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
+import peopleImageNoTracked from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
@@ -37,6 +42,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [isSortActive, setIsSortActive] = React.useState(false);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
+  const [accountRemoved, setAccountRemoved] = React.useState(false);
 
   return (
     <div style={{
@@ -231,116 +237,156 @@ export const LabaTrackedScreen: React.FC = () => {
           добавьте аккаунт для отслеживания
         </div>
 
-        {/* Account card with @mishchenko.is - 7:1181 */}
-        <div style={{
-          position: 'absolute',
-          left: '151px',
-          top: '405px',
-          width: '522px',
-          height: '162px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-        }}>
-          {/* Profile photo - 7:1184 x=175, y=429 */}
-          <div style={{
-            position: 'absolute',
-            left: '24px',
-            top: '24px',
-            width: '98px',
-            height: '98px',
-            borderRadius: '640px',
-            overflow: 'hidden',
-          }}>
-            <img
-              src={profilePhoto}
+        {/* Show no-tracked elements when account removed */}
+        {accountRemoved && (
+          <>
+            {/* People image PNG (7:1357) - x=143, y=916, 892x1050 */}
+            <img 
+              src={peopleImageNoTracked}
               alt=""
               style={{
                 position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '640px',
+                left: '143px',
+                top: '916px',
+                width: '892px',
+                height: '1050px',
+                objectFit: 'contain',
+                pointerEvents: 'none',
+                zIndex: 1,
               }}
             />
-          </div>
 
-          {/* Instagram icon - 174:787 x=280, y=426 */}
+            {/* Blur overlay PNG (7:1360) - x=143, y=402, 892x1643 */}
+            <img 
+              src={blurOverlay}
+              alt=""
+              onClick={() => navigate('/laba-search-account')}
+              style={{
+                position: 'absolute',
+                left: '143px',
+                top: '402px',
+                width: '892px',
+                height: '1643px',
+                objectFit: 'fill',
+                borderRadius: '30px',
+                cursor: 'pointer',
+                zIndex: 2,
+              }}
+            />
+          </>
+        )}
+
+        {/* Account card with @mishchenko.is - 7:1181 - hide when account removed */}
+        {!accountRemoved && (
           <div style={{
             position: 'absolute',
-            left: '129px',
-            top: '21px',
-            width: '49px',
-            height: '59px',
+            left: '151px',
+            top: '405px',
+            width: '522px',
+            height: '162px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
           }}>
+            {/* Profile photo - 7:1184 x=175, y=429 */}
             <div style={{
               position: 'absolute',
-              inset: 0,
-              opacity: 0.6,
+              left: '24px',
+              top: '24px',
+              width: '98px',
+              height: '98px',
+              borderRadius: '640px',
               overflow: 'hidden',
-              pointerEvents: 'none',
             }}>
               <img
-                src={instagramIcon}
+                src={profilePhoto}
                 alt=""
                 style={{
                   position: 'absolute',
-                  height: '339.84%',
-                  left: '-56.27%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '620.89%',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '640px',
                 }}
               />
             </div>
-          </div>
 
-          {/* Username - 174:788 x=280, y=477, w=235, h=42 */}
-          <div style={{
-            position: 'absolute',
-            left: '129px',
-            top: '72px',
-            width: '235px',
-            height: '42px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'left',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            lineHeight: 0,
-          }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>@mishchenko.is</p>
-          </div>
+            {/* Instagram icon - 174:787 x=280, y=426 */}
+            <div style={{
+              position: 'absolute',
+              left: '129px',
+              top: '21px',
+              width: '49px',
+              height: '59px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img
+                  src={instagramIcon}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
+                  }}
+                />
+              </div>
+            </div>
 
-          {/* Followers - 174:805 x=280, y=522, w=262, h=26 */}
-          <div style={{
-            position: 'absolute',
-            left: '129px',
-            top: '117px',
-            width: '262px',
-            height: '26px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '24px',
-            color: 'white',
-            textAlign: 'left',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            lineHeight: 0,
-          }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
-          </div>
+            {/* Username - 174:788 x=280, y=477, w=235, h=42 */}
+            <div style={{
+              position: 'absolute',
+              left: '129px',
+              top: '72px',
+              width: '235px',
+              height: '42px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '27px',
+              color: 'white',
+              textAlign: 'left',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              lineHeight: 0,
+            }}>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>@mishchenko.is</p>
+            </div>
 
-          {/* Plus button - 7:1188 x=550, y=431 */}
-          <div style={{
-            position: 'absolute',
-            left: '399px',
+            {/* Followers - 174:805 x=280, y=522, w=262, h=26 */}
+            <div style={{
+              position: 'absolute',
+              left: '129px',
+              top: '117px',
+              width: '262px',
+              height: '26px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '24px',
+              color: 'white',
+              textAlign: 'left',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              lineHeight: 0,
+            }}>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
+            </div>
+
+            {/* Plus button - 7:1188 x=550, y=431 */}
+            <div style={{
+              position: 'absolute',
+              left: '399px',
             top: '26px',
             width: '98px',
             height: '98px',
@@ -367,133 +413,196 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Button "убрать аккаунт" - 432:939 - x=184, y=18 relative to account card */}
-          <div
+            {/* Button "убрать аккаунт" - 432:939 - x=184, y=18 relative to account card */}
+            <img
+              src={removeAccountButtonPNG}
+              alt="убрать"
+              onClick={() => {
+                setAccountRemoved(true);
+                if (window.Telegram?.WebApp?.showPopup) {
+                  window.Telegram.WebApp.showPopup({
+                    message: 'аккаунт удален из отслеживаемых'
+                  });
+                }
+              }}
+              style={{
+                position: 'absolute',
+                left: '184px',
+                top: '18px',
+                width: '126px',
+                height: '54px',
+                cursor: 'pointer',
+                objectFit: 'contain',
+              }}
+            />
+
+            {/* Plus button - 7:1188 x=550, y=431 */}
+            <div style={{
+              position: 'absolute',
+              left: '399px',
+            top: '26px',
+            width: '98px',
+            height: '98px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '98px',
+            overflow: 'clip',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '19px',
+              top: '19px',
+              width: '59px',
+              height: '59px',
+            }}>
+              <div style={{ position: 'absolute', inset: '3.13%' }}>
+                <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+
+        {/* Plus button when account removed - move to avatar position (7:1184 coords) */}
+        {accountRemoved && (
+          <div style={{
+            position: 'absolute',
+            left: '175px',
+            top: '429px',
+            width: '98px',
+            height: '98px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '98px',
+            overflow: 'clip',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '19px',
+              top: '19px',
+              width: '59px',
+              height: '59px',
+            }}>
+              <div style={{ position: 'absolute', inset: '3.13%' }}>
+                <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
+        {!accountRemoved && (
+          <img
+            src={returnButtonPNG}
+            alt="вернуть"
             onClick={() => {
-              if (window.Telegram?.WebApp?.showPopup) {
-                window.Telegram.WebApp.showPopup({
-                  message: 'аккаунт удален из отслеживаемых'
-                });
-              }
+              setIsSortActive(false);
+              setLikedCards(new Set());
             }}
             style={{
               position: 'absolute',
-              left: '184px',
-              top: '18px',
-              width: '126px',
-              height: '54px',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              left: '788px',
+              top: '406px',
+              width: '246.93px',
+              height: '79.25px',
+              objectFit: 'contain',
               cursor: 'pointer',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 500,
-              fontSize: '24px',
-              color: 'white',
             }}
-          >
-            убрать
-          </div>
-        </div>
-
-        {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
-        <img
-          src={returnButtonPNG}
-          alt="вернуть"
-          onClick={() => {
-            setIsSortActive(false);
-            setLikedCards(new Set());
-          }}
-          style={{
-            position: 'absolute',
-            left: '788px',
-            top: '406px',
-            width: '246.93px',
-            height: '79.25px',
-            objectFit: 'contain',
-            cursor: 'pointer',
-          }}
-        />
+          />
+        )}
 
         {/* Filter buttons - сортировка - 174:780 PNG: 247x80 */}
-        <img
-          src={isSortActive ? sortButtonActivePNG : sortButtonPNG}
-          alt="сортировка"
-          onClick={() => setIsSortActive(!isSortActive)}
-          style={{
-            position: 'absolute',
-            left: '788px',
-            top: '485px',
-            width: '246.93px',
-            height: '79.25px',
-            objectFit: 'contain',
-            cursor: 'pointer',
-          }}
-        />
+        {!accountRemoved && (
+          <img
+            src={isSortActive ? sortButtonActivePNG : sortButtonInactivePNG}
+            alt="сортировка"
+            onClick={() => setIsSortActive(!isSortActive)}
+            style={{
+              position: 'absolute',
+              left: '788px',
+              top: '485px',
+              width: '246.93px',
+              height: '79.25px',
+              objectFit: 'contain',
+              cursor: 'pointer',
+            }}
+          />
+        )}
 
         {/* Badge likes - 174:768 PNG: 558x237 */}
-        <img
-          src={isSortActive ? likesBadgeActivePNG : likesBadgePNG}
-          alt=">лайков"
-          style={{
-            position: 'absolute',
-            left: '788px',
-            top: '564px',
-            width: '186px',
-            height: '79px',
-            objectFit: 'contain',
-          }}
-        />
+        {!accountRemoved && (
+          <img
+            src={isSortActive ? likesBadgeActivePNG : likesBadgeInactivePNG}
+            alt=">лайков"
+            style={{
+              position: 'absolute',
+              left: '788px',
+              top: '564px',
+              width: '186px',
+              height: '79px',
+              objectFit: 'contain',
+            }}
+          />
+        )}
 
-        {/* People image behind frame */}
-        <div style={{
-          position: 'absolute',
-          height: '1050px',
-          left: '143px',
-          top: '898px',
-          width: '892px',
-          zIndex: 0,
-        }}>
+        {/* People image behind frame - hide when account removed */}
+        {!accountRemoved && (
           <div style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
+            height: '1050px',
+            left: '143px',
+            top: '898px',
+            width: '892px',
+            zIndex: 0,
           }}>
-            <img
-              src={peopleImage}
-              alt=""
-              style={{
-                position: 'absolute',
-                height: '162.05%',
-                left: '-92.74%',
-                maxWidth: 'none',
-                top: '-20.87%',
-                width: '286.41%',
-              }}
-            />
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img
+                src={peopleImage}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '162.05%',
+                  left: '-92.74%',
+                  maxWidth: 'none',
+                  top: '-20.87%',
+                  width: '286.41%',
+                }}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Main content window */}
-        <div style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '1369px',
-          left: 'calc(50% + 3px)',
-          borderRadius: '30px',
-          top: '673px',
-          width: '884px',
-          transform: 'translateX(-50%)',
-          overflow: 'auto',
-          zIndex: 10,
-        }}>
+        {/* Main content window - hide when account removed */}
+        {!accountRemoved && (
+          <div style={{
+            position: 'absolute',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            height: '1369px',
+            left: 'calc(50% + 3px)',
+            borderRadius: '30px',
+            top: '673px',
+            width: '884px',
+            transform: 'translateX(-50%)',
+            overflow: 'auto',
+            zIndex: 10,
+          }}>
           {/* Карточка 1 - Верхняя левая */}
           <div style={{
             position: 'absolute',
@@ -1948,6 +2057,7 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
 
         {/* Footer */}
         <div style={{
