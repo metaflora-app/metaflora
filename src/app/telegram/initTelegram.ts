@@ -29,6 +29,14 @@ export function initTelegram(): void {
   
   // Set background color to match app background
   WebApp.setBackgroundColor('#020101');
+  
+  // Show back button
+  WebApp.BackButton.show();
+  
+  // Handle back button click
+  WebApp.BackButton.onClick(() => {
+    window.history.back();
+  });
 }
 
 /**
