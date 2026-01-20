@@ -15,10 +15,15 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 // Filter buttons PNG
 import buttonReturn from '../../assets/laba-main-buttons/кнопка вернуть.png';
 import buttonSort from '../../assets/laba-main-buttons/кнопка сортировка.png';
+import buttonSortActive from '../../assets/laba-main-buttons/кнопка сортировка актив.png';
 import buttonDate from '../../assets/laba-main-buttons/кнопка дата.png';
+import buttonDateActive from '../../assets/laba-main-buttons/кнопка дата актив.png';
 import buttonLanguage from '../../assets/laba-main-buttons/кнопка язык.png';
+import buttonLanguageActive from '../../assets/laba-main-buttons/кнопка язык актив.png';
 import buttonVirality from '../../assets/laba-main-buttons/кнопка виральность.png';
+import buttonViralityActive from '../../assets/laba-main-buttons/кнопка виральность актив.png';
 import buttonAccount from '../../assets/laba-main-buttons/кнопка аккаунт.png';
+import buttonAccountActive from '../../assets/laba-main-buttons/кнопка аккаунт актив.png';
 import buttonFormat from '../../assets/laba-main-buttons/кнопка формат.png';
 import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
 import badgeTimeslot from '../../assets/laba-main-buttons/плашка таймслот.png';
@@ -42,8 +47,55 @@ const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-8
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
-
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  
+  const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
+  const [selectedVirality, setSelectedVirality] = React.useState<string | null>(null);
+  const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
+  const [showSortPopup, setShowSortPopup] = React.useState(false);
+  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
+
+  const handleSortClick = () => {
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные',
+        buttons: [
+          { type: 'default', text: 'выбрать' },
+          { type: 'close', text: 'закрыть' }
+        ] as any
+      }, () => {
+        setSelectedSort('selected');
+      });
+    }
+  };
+
+  const handleFilterClick = (filterType: string) => {
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные',
+        buttons: [
+          { type: 'default', text: 'выбрать' },
+          { type: 'close', text: 'закрыть' }
+        ] as any
+      }, () => {
+        if (filterType === 'date') setSelectedDate('selected');
+        if (filterType === 'language') setSelectedLanguage('selected');
+        if (filterType === 'virality') setSelectedVirality('selected');
+        if (filterType === 'account') setSelectedAccount('selected');
+      });
+    }
+  };
+
+  const handleReturnClick = () => {
+    setSelectedSort(null);
+    setSelectedDate(null);
+    setSelectedLanguage(null);
+    setSelectedVirality(null);
+    setSelectedAccount(null);
+    setLikedCards(new Set());
+  };
 
   return (
     <div style={{
@@ -273,33 +325,57 @@ export const LabaMainScreen: React.FC = () => {
         </div>
 
         {/* Filter buttons - Row 1 - PNG из Desktop, ТОЧНО как в Figma (inset converted) */}
-        <img src={buttonReturn} alt="вернуть" style={{ position: 'absolute', left: '99px', top: '327px', width: '186px', height: '79px' }} />
-        <img src={buttonSort} alt="сортировка" style={{ position: 'absolute', left: '346px', top: '327px', width: '216px', height: '79px' }} />
-        <img src={buttonDate} alt="дата" style={{ position: 'absolute', left: '593px', top: '327px', width: '169px', height: '79px' }} />
-        <img src={buttonLanguage} alt="язык" style={{ position: 'absolute', left: '840px', top: '327px', width: '186px', height: '79px' }} />
+        <img 
+          src={buttonReturn} 
+          alt="вернуть" 
+          onClick={handleReturnClick}
+          style={{ position: 'absolute', left: '99px', top: '327px', width: '186px', height: '79px', cursor: 'pointer' }} 
+        />
+        <img 
+          src={selectedSort ? buttonSortActive : buttonSort} 
+          alt="сортировка" 
+          onClick={handleSortClick}
+          style={{ position: 'absolute', left: '346px', top: '327px', width: '216px', height: '79px', cursor: 'pointer' }} 
+        />
+        <img 
+          src={selectedDate ? buttonDateActive : buttonDate} 
+          alt="дата" 
+          onClick={() => handleFilterClick('date')}
+          style={{ position: 'absolute', left: '593px', top: '327px', width: '169px', height: '79px', cursor: 'pointer' }} 
+        />
+        <img 
+          src={selectedLanguage ? buttonLanguageActive : buttonLanguage} 
+          alt="язык" 
+          onClick={() => handleFilterClick('language')}
+          style={{ position: 'absolute', left: '840px', top: '327px', width: '186px', height: '79px', cursor: 'pointer' }} 
+        />
 
         {/* Filter buttons - Row 2: виральность, аккаунт, формат - PNG из Desktop */}
         <img 
-          src={buttonVirality}
+          src={selectedVirality ? buttonViralityActive : buttonVirality}
           alt="виральность"
+          onClick={() => handleFilterClick('virality')}
           style={{
             position: 'absolute',
             left: '220px',
             top: '485px',
             width: '247px',
             height: '79px',
+            cursor: 'pointer',
           }}
         />
 
         <img 
-          src={buttonAccount}
+          src={selectedAccount ? buttonAccountActive : buttonAccount}
           alt="аккаунт"
+          onClick={() => handleFilterClick('account')}
           style={{
             position: 'absolute',
             left: '464px',
             top: '485px',
             width: '247px',
             height: '79px',
+            cursor: 'pointer',
           }}
         />
 
