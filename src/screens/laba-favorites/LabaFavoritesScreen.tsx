@@ -114,12 +114,18 @@ export const LabaFavoritesScreen: React.FC = () => {
       width: '100vw',
       minHeight: '100vh',
       background: '#020101',
-      backgroundImage: `url(${bgPattern})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center', 
-      backgroundRepeat: 'repeat',
       overflow: 'hidden',
     }}>
+      {/* Background pattern */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url(${bgPattern})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'repeat',
+      }} />
+
       <div style={{
         position: 'relative',
         width: '1180px',
