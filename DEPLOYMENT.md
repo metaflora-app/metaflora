@@ -2,9 +2,9 @@
 
 ## Deployment Date: 2026-01-20
 
-### 🚀 Deployed Version: v2.2.9 - PoligonArticlesAllScreen Rebuild
+### 🚀 Deployed Version: v2.3.0 - Laba Screens Update: Follow Toggle + Container Height Fix
 
-**Commit:** `8b931f3` - fix: correct article card spacing and add arrow SVGs to shutters - pixel-perfect from Figma
+**Commit:** `981ba4d` - fix: change blur overlay objectFit to contain, lowercase popup message in search screen
 
 **Branch:** `main`
 
@@ -22,7 +22,26 @@
 - ✅ Лаба: 10 screens (intro, main, search, no-tracked, tracked, loading, analysis interactive)
 - ✅ Legal: 2 screens (privacy, marketing consent)
 
-### Latest Updates (2026-01-20 - v2.2.9):
+### Latest Updates (2026-01-20 - v2.3.0):
+- ✅ **Laba Screens Major Update**:
+  - **LabaAnalysisScreen**:
+    - Added follow/unfollow toggle with PNG buttons (кнопка следить / кнопка не следить если отмена)
+    - Telegram WebApp popup on button click
+    - Main container (главная подложка): height 1643px (was 1661px), top 399px
+    - Black container (подложка вторая черная): top 455px
+    - Follow button coordinates: left 602px, top 854px
+  - **LabaNoTrackedScreen**:
+    - Main container (blur overlay): height 1643px, top 402px, objectFit contain (fixed crop issue)
+    - People image: top 916px (was 898px)
+    - Button: top 1168px (was 1147px)
+    - Title: top 207px (was 193px)
+  - **LabaSearchAccountScreen**:
+    - Main container: height 1643px, x=88px, top 397px
+    - Black container: x=141px, top 453px, height 1536px
+    - All elements recalculated relative to black container per Figma metadata (7-1387)
+    - Popup message lowercase: "ничего не найдено. проверьте корректность ссылки или ника"
+
+### Previous Updates (2026-01-20 - v2.2.9):
 - ✅ **PoligonArticlesAllScreen Completely Rebuilt**:
   - Pixel-perfect from Figma metadata (node 7:2312)
   - Title "статьи в полигоне": x=85, y=193, Inter ExtraBold 80px
