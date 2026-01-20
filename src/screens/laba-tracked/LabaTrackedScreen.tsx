@@ -57,8 +57,16 @@ export const LabaTrackedScreen: React.FC = () => {
     { id: 'viral', label: 'виральные' },
   ];
 
+  const [tempSelectedSort, setTempSelectedSort] = React.useState<string | null>(null);
+
   const handleSortClick = () => {
+    setTempSelectedSort(selectedSort);
     setShowSortPopup(true);
+  };
+
+  const handleConfirmSort = () => {
+    setSelectedSort(tempSelectedSort);
+    setShowSortPopup(false);
   };
 
   return (
@@ -2088,81 +2096,99 @@ export const LabaTrackedScreen: React.FC = () => {
               inset: 0,
               background: 'rgba(0, 0, 0, 0.8)',
               display: 'flex',
-              alignItems: 'flex-end',
+              alignItems: 'center',
               justifyContent: 'center',
               zIndex: 9999,
-              transform: `scale(${scale})`,
-              transformOrigin: 'top left',
             }}
           >
             <div 
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: 'relative',
-                width: '100%',
-                maxWidth: '1180px',
-                maxHeight: '70vh',
+                width: '420px',
+                maxHeight: '80vh',
                 backdropFilter: 'blur(50px)',
-                background: 'rgba(30, 30, 30, 0.98)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px 30px 0 0',
-                padding: '50px 40px 40px',
-                overflow: 'auto',
+                background: 'rgba(40, 40, 40, 0.98)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '20px',
+                padding: '0',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               <div style={{
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 700,
-                fontSize: '50px',
+                fontSize: '32px',
                 color: 'white',
                 textAlign: 'center',
-                marginBottom: '40px',
+                padding: '25px 20px',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
               }}>
                 сортировка
               </div>
               
-              {sortOptions.map((opt) => (
+              <div style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '10px 0',
+              }}>
+                {sortOptions.map((opt) => (
+                  <div
+                    key={opt.id}
+                    onClick={() => setTempSelectedSort(opt.id)}
+                    style={{
+                      fontFamily: 'Gotham Pro, sans-serif',
+                      fontWeight: 400,
+                      fontSize: '28px',
+                      color: tempSelectedSort === opt.id ? 'rgba(255, 255, 255, 0.5)' : 'white',
+                      padding: '18px 25px',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s',
+                      background: tempSelectedSort === opt.id ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                    }}
+                  >
+                    {opt.label}
+                  </div>
+                ))}
+              </div>
+
+              <div style={{
+                display: 'flex',
+                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+              }}>
                 <div
-                  key={opt.id}
-                  onClick={() => {
-                    setSelectedSort(opt.id);
-                    setShowSortPopup(false);
-                  }}
+                  onClick={() => setShowSortPopup(false)}
                   style={{
+                    flex: 1,
                     fontFamily: 'Gotham Pro, sans-serif',
-                    fontWeight: selectedSort === opt.id ? 700 : 400,
-                    fontSize: '36px',
+                    fontWeight: 500,
+                    fontSize: '28px',
                     color: 'white',
-                    padding: '20px 30px',
-                    marginBottom: '15px',
-                    background: selectedSort === opt.id ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                    border: '2px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '20px',
+                    padding: '20px',
+                    textAlign: 'center',
                     cursor: 'pointer',
-                    transition: 'all 0.2s',
+                    borderRight: '1px solid rgba(255, 255, 255, 0.1)',
                   }}
                 >
-                  {opt.label}
+                  закрыть
                 </div>
-              ))}
-
-              <div
-                onClick={() => setShowSortPopup(false)}
-                style={{
-                  fontFamily: 'Gotham Pro, sans-serif',
-                  fontWeight: 500,
-                  fontSize: '36px',
-                  color: 'white',
-                  padding: '20px 30px',
-                  marginTop: '30px',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '2px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '20px',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                }}
-              >
-                закрыть
+                <div
+                  onClick={handleConfirmSort}
+                  style={{
+                    flex: 1,
+                    fontFamily: 'Gotham Pro, sans-serif',
+                    fontWeight: 500,
+                    fontSize: '28px',
+                    color: 'white',
+                    padding: '20px',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  подтвердить
+                </div>
               </div>
             </div>
           </div>
