@@ -11,6 +11,7 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 import startAnalysisButtonPNG from '../../assets/laba-analysis/укороченная кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/укороченная кнопка создать сценарий.png';
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
+import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
@@ -29,8 +30,6 @@ export const LabaAnalysisScreen: React.FC = () => {
   const [showAnalysisResults, setShowAnalysisResults] = React.useState(false);
   const [showScenario, setShowScenario] = React.useState(false);
   const [isFollowing, setIsFollowing] = React.useState(false);
-  const [showPopup, setShowPopup] = React.useState(false);
-  const [popupMessage, setPopupMessage] = React.useState('');
 
   return (
     <div style={{
@@ -226,9 +225,9 @@ export const LabaAnalysisScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '88px',
-          top: '381px',
+          top: '399px',
           width: '1004px',
-          height: '1661px',
+          height: '1643px',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
@@ -239,7 +238,7 @@ export const LabaAnalysisScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '141px',
-          top: '437px',
+          top: '455px',
           width: '898px',
           height: '1536px',
           backdropFilter: 'blur(50px)',
@@ -595,13 +594,21 @@ export const LabaAnalysisScreen: React.FC = () => {
             а вы знали, что так вообще возможно?
           </div>
 
-          {/* Button "следить" / "не следить" - 292:694 */}
-          <div
+          {/* Button "следить" - 292:694 */}
+          <img
+            src={followButtonPNG}
+            alt={isFollowing ? 'не следить' : 'следить'}
             onClick={() => {
               setIsFollowing(!isFollowing);
-              setPopupMessage(!isFollowing ? 'теперь вы отслеживаете данный профиль' : 'вы больше не отслеживаете данный профиль');
-              setShowPopup(true);
-              setTimeout(() => setShowPopup(false), 3000);
+              const message = !isFollowing ? 'теперь вы отслеживаете данный профиль' : 'вы больше не отслеживаете данный профиль';
+              
+              if (window.Telegram?.WebApp?.showPopup) {
+                window.Telegram.WebApp.showPopup({
+                  message: message
+                });
+              } else {
+                alert(message);
+              }
             }}
             style={{
               position: 'absolute',
@@ -610,21 +617,8 @@ export const LabaAnalysisScreen: React.FC = () => {
               width: '246.93px',
               height: '79.25px',
               cursor: 'pointer',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 500,
-              fontSize: '30px',
-              color: 'white',
             }}
-          >
-            {isFollowing ? 'не следить' : 'следить'}
-          </div>
+          />
 
           {/* Button "открыть" - 292:742 */}
           <img
@@ -1106,29 +1100,6 @@ export const LabaAnalysisScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Web-app popup */}
-        {showPopup && (
-          <div style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 1000,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.9)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            padding: '40px 60px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '35px',
-            color: 'white',
-            textAlign: 'center',
-            maxWidth: '600px',
-          }}>
-            {popupMessage}
-          </div>
-        )}
       </div>
     </div>
   );
