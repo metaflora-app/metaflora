@@ -387,11 +387,12 @@ export const PromptFirstScreen: React.FC = () => {
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setIsSearchFocused(false)}
             placeholder={isSearchFocused ? '' : 'промпт для ИИ-копирайтера любых текстов'}
+            enterKeyHint="search"
             style={{
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 300,
               color: '#848484',
-              fontSize: '27px',
+              fontSize: '32px',
               background: 'transparent',
               border: 'none',
               outline: 'none',

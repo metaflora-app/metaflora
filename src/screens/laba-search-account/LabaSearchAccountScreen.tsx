@@ -351,6 +351,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               onFocus={() => setIsLinkFocused(true)}
               onBlur={() => setIsLinkFocused(false)}
               placeholder={isLinkFocused ? '' : 'вставьте ссылку напрямую'}
+              enterKeyHint="search"
               style={{
                 flex: 1,
                 background: 'transparent',
@@ -358,7 +359,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 outline: 'none',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 300,
-                fontSize: '27px',
+                fontSize: '32px',
                 color: 'white',
                 paddingRight: '20px',
               }}
@@ -409,6 +410,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               onFocus={() => setIsNicknameFocused(true)}
               onBlur={() => setIsNicknameFocused(false)}
               placeholder={isNicknameFocused ? '' : 'напишите юзернейм аккаунта через @'}
+              enterKeyHint="search"
               style={{
                 flex: 1,
                 background: 'transparent',
@@ -416,7 +418,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 outline: 'none',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 300,
-                fontSize: '27px',
+                fontSize: '32px',
                 color: 'white',
                 paddingRight: '20px',
               }}
