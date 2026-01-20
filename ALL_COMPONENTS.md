@@ -467,5 +467,33 @@ const handleFilterClick = (filterType: string) => {
 
 ---
 
+## 📝 Последние изменения
+
+### 20 января 2026, 23:35
+**Коммит f0f8e55** - Унификация фона точки на ВСЕХ экранах
+- ✅ Заменён элемент "фон точки" на всех 31 экранах (кроме SplashScreen)
+- ✅ Использован ТОЧНЫЙ формат из SplashScreen:
+  ```tsx
+  <div style={{
+    position: 'absolute',
+    inset: 0,
+    backgroundImage: `url(${bgPattern})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+  }} />
+  ```
+- ✅ Обновлены экраны:
+  - Onboarding: Welcome, TourVideo, DemoAccess, Pricing, MainDashboard (Free/Premium)
+  - Промпт/Цех: AboutPrompt, PromptFirst, PromptCard
+  - Академия: AboutAcademy, CoursesAll, CourseSystem/Art/Prompting/Automation, LessonVideo, LessonMaterials
+  - Полигон: AboutPoligon, ArticlesAll, Article
+  - Лаба: AboutLaba, Loading, Search, SearchAccount, NoTracked, Main, Favorites, Tracked, Analysis
+  - Metacoins: MetacoinsScreen
+  - Legal: PrivacyPolicy, MarketingConsent
+
+---
+
 **Файл сгенерирован:** 20 января 2026, 20:30
-**Последний коммит:** 3b88946
+**Обновлён:** 20 января 2026, 23:35
+**Последний коммит:** f0f8e55
