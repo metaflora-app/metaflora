@@ -55,7 +55,6 @@ export const LabaMainScreen: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
   const [selectedVirality, setSelectedVirality] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
-  const [showSortPopup, setShowSortPopup] = React.useState(false);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [searchValue, setSearchValue] = React.useState('');
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
@@ -63,31 +62,21 @@ export const LabaMainScreen: React.FC = () => {
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
       window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные',
-        buttons: [
-          { type: 'default', text: 'выбрать' },
-          { type: 'close', text: 'закрыть' }
-        ] as any
-      }, () => {
-        setSelectedSort('selected');
+        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
       });
+      setSelectedSort('selected');
     }
   };
 
   const handleFilterClick = (filterType: string) => {
     if (window.Telegram?.WebApp?.showPopup) {
       window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные',
-        buttons: [
-          { type: 'default', text: 'выбрать' },
-          { type: 'close', text: 'закрыть' }
-        ] as any
-      }, () => {
-        if (filterType === 'date') setSelectedDate('selected');
-        if (filterType === 'language') setSelectedLanguage('selected');
-        if (filterType === 'virality') setSelectedVirality('selected');
-        if (filterType === 'account') setSelectedAccount('selected');
+        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
       });
+      if (filterType === 'date') setSelectedDate('selected');
+      if (filterType === 'language') setSelectedLanguage('selected');
+      if (filterType === 'virality') setSelectedVirality('selected');
+      if (filterType === 'account') setSelectedAccount('selected');
     }
   };
 
