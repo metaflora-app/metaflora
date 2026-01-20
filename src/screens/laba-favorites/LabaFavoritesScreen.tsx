@@ -181,64 +181,17 @@ export const LabaFavoritesScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Header - Home button - REUSED */}
+        {/* Header - Logo - REUSED */}
         <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            left: 'calc(50% - 352px)',
-            width: '100px',
-            height: '100px',
-            top: '75px',
-            transform: 'translateX(-50%)',
+            height: '131px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
             cursor: 'pointer',
-          }}
-        >
-          <div style={{ transform: 'rotate(270deg)' }}>
-            <div style={{
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'hidden',
-              width: '100px',
-              height: '100px',
-              position: 'relative',
-            }}>
-              <div style={{
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                left: '24px',
-                width: '65px',
-                height: '65px',
-                top: '13px',
-              }}>
-                <div style={{ transform: 'rotate(90deg)', width: '65px', height: '65px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', inset: '19.15% 15.36% -12.9% 12.77%' }}>
-                    <img src={homeVector1} alt="" style={{ width: '100%', height: '100%' }} />
-                  </div>
-                  <div style={{ position: 'absolute', inset: '27.81% 42.67% 33.98% 19.82%' }}>
-                    <img src={homeVector2} alt="" style={{ width: '100%', height: '100%' }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Header - Logo - REUSED */}
-        <div style={{
-          position: 'absolute',
-          height: '131px',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-        }}>
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,

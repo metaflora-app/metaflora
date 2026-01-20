@@ -65,13 +65,16 @@ export const MetacoinsScreen: React.FC = () => {
 
         {/* Header - REUSED from laba-search */}
         
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
+        <div 
+          onClick={() => window.location.href = '/main-dashboard-premium'}
+          style={{
+            position: 'absolute',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            height: '131px',
+            cursor: 'pointer',
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,
