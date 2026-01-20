@@ -48,15 +48,14 @@ export function initTelegram(): void {
  * WebApp mode: opened via direct link, not embedded in Telegram
  */
 function detectWebAppMode(): void {
-  // Check if platform is not 'tdesktop', 'android', 'ios', 'macos', 'web' (mini-app)
-  // or if viewportStableHeight is significantly different from window.innerHeight
-  const platform = WebApp.platform;
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-  const isMiniApp = platform !== 'unknown' && WebApp.initData !== '';
+  // Use safeAreaInset.top to detect if there's a system status bar
+  const safeAreaTop = WebApp.safeAreaInset?.top || 0;
   
-  // If not running as mini-app, add webapp-mode class
-  if (!isMiniApp || isStandalone) {
+  // If safeAreaInset.top > 0, we're in web-app mode with status bar
+  if (safeAreaTop > 0) {
     document.body.classList.add('webapp-mode');
+    // Set CSS variable for dynamic padding
+    document.documentElement.style.setProperty('--safe-area-top', `${safeAreaTop}px`);
   }
 }
 
