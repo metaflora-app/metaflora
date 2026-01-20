@@ -58,18 +58,15 @@ export const LabaTrackedScreen: React.FC = () => {
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
-      const buttons = sortOptions.map(opt => ({
-        id: opt.id,
-        type: 'default' as const,
-        text: opt.label
-      }));
-      
       window.Telegram.WebApp.showPopup({
         title: 'сортировка',
-        message: '',
-        buttons: buttons
-      }, (buttonId?: string) => {
-        if (buttonId) {
+        message: 'выберите параметр',
+        buttons: [
+          { id: 'views_desc', type: 'default', text: '>просмотров' },
+          { id: 'close', type: 'close', text: 'закрыть' }
+        ]
+      }, (buttonId) => {
+        if (buttonId && buttonId !== 'close') {
           setSelectedSort(buttonId);
         }
       });
