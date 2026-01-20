@@ -57,16 +57,8 @@ export const LabaTrackedScreen: React.FC = () => {
     { id: 'viral', label: 'виральные' },
   ];
 
-  const [tempSelectedSort, setTempSelectedSort] = React.useState<string | null>(null);
-
   const handleSortClick = () => {
-    setTempSelectedSort(selectedSort);
     setShowSortPopup(true);
-  };
-
-  const handleConfirmSort = () => {
-    setSelectedSort(tempSelectedSort);
-    setShowSortPopup(false);
   };
 
   return (
