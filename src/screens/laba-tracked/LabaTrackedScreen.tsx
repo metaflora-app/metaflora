@@ -223,7 +223,7 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Title "отслеживание контента" - 174:801 */}
+        {/* Title "отслеживание контента" - 174:801 x=85, y=193, w=1020, h=80 */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -234,7 +234,7 @@ export const LabaTrackedScreen: React.FC = () => {
           fontWeight: 800,
           fontSize: '80px',
           color: 'white',
-          textAlign: 'center',
+          textAlign: 'left',
           lineHeight: '80px',
         }}>
           отслеживание контента
