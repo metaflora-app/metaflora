@@ -27,10 +27,15 @@ import buttonAccount from '../../assets/laba-main-buttons/кнопка акка�
 import buttonAccountActive from '../../assets/laba-main-buttons/кнопка аккаунт актив.png';
 import buttonFormat from '../../assets/laba-main-buttons/кнопка формат.png';
 import badgeLikes from '../../assets/laba-main-buttons/плашка лайки.png';
+import badgeLikesActive from '../../assets/laba-main-buttons/плашка лайки актив.png';
 import badgeTimeslot from '../../assets/laba-main-buttons/плашка таймслот.png';
+import badgeTimeslotActive from '../../assets/laba-main-buttons/плашка таймслот актив.png';
 import badgeRussian from '../../assets/laba-main-buttons/плашка русский.png';
+import badgeRussianActive from '../../assets/laba-main-buttons/плашка русский актив.png';
 import badgeScores from '../../assets/laba-main-buttons/плашка баллы.png';
+import badgeScoresActive from '../../assets/laba-main-buttons/плашка баллы актив.png';
 import badgeAccount from '../../assets/laba-main-buttons/плашка аккаунт.png';
+import badgeAccountActive from '../../assets/laba-main-buttons/плашка аккаунт актив.png';
 import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
 import badgeSearchCost from '../../assets/laba-main-buttons/плашка сколько стоит поиск.png';
 
@@ -288,16 +293,22 @@ export const LabaMainScreen: React.FC = () => {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onFocus={() => setIsSearchFocused(true)}
-            onBlur={() => {
-              setIsSearchFocused(false);
-              if (searchValue.trim() === '') {
-                if (window.Telegram?.WebApp?.showPopup) {
-                  window.Telegram.WebApp.showPopup({
-                    message: 'ничего не найдено. проверьте корректность ключа'
-                  });
+onBlur={() => {
+              setTimeout(() => {
+                setIsSearchFocused(false);
+                setSearchValue('');
+              }, 100);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                if (searchValue.trim() === '') {
+                  if (window.Telegram?.WebApp?.showPopup) {
+                    window.Telegram.WebApp.showPopup({
+                      message: 'ничего не найдено. проверьте корректность ключа'
+                    });
+                  }
                 }
               }
-              setTimeout(() => setSearchValue(''), 100);
             }}
             placeholder={isSearchFocused ? '' : 'найти видео по ключевым словам'}
             style={{
@@ -562,40 +573,6 @@ export const LabaMainScreen: React.FC = () => {
                   borderRadius: '25px',
                 }}
               />
-            </div>
-
-            {/* Плашка "новое" */}
-            <div style={{
-              position: 'absolute',
-              top: '5.63%',
-              right: '9.95%',
-              bottom: '89.77%',
-              left: '57.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                left: 'calc(50% - 0.6px)',
-                top: 'calc(50% - 0.5px)',
-                transform: 'translate(-50%, -50%)',
-                width: '111px',
-                height: '19px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '18px',
-                color: 'white',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новое</p>
-              </div>
             </div>
 
             {/* Badge "новое" - x=269, y=44 relative to card */}
