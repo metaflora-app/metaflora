@@ -8,6 +8,8 @@ import leftCard from '../../assets/laba-screens/слева.png';
 import rightCard from '../../assets/laba-screens/справа.png';
 import sidebar from '../../assets/laba-screens/сайдбар.png';
 import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
 const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";

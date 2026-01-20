@@ -9,6 +9,8 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 import goButton from '../../assets/main-dashboard/кнопка перейти.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
 export const AcademyCoursePromptingScreen: React.FC = () => {
   const navigate = useNavigate();

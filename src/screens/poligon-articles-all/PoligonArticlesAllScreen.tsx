@@ -29,6 +29,8 @@ import readButton from '../../assets/poligon-articles/кнопка читать.
 import peopleInCircle from '../../assets/poligon-articles/люди в круге.png';
 import arrowLong from '../../assets/poligon-articles/arrow-long.svg';
 import arrowShort from '../../assets/poligon-articles/arrow-short.svg';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();

@@ -14,6 +14,8 @@ import profilePhoto from '../../assets/laba-search-account/фото профил
 import trackingButton from '../../assets/laba-search-account/укороченная кнопка начать отслеживание.png';
 import peopleBackground from '../../assets/laba-search-account/люди друг на друге.png';
 import searchIcon from '../../assets/laba-search-account/иконка поиск.png';
+import exitArrow from '../../assets/tour-elements/выход.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();

@@ -25,6 +25,8 @@ const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-825
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+import exitArrow from '../../assets/tour-video/exit-arrow.png';
+import homeIcon from '../../assets/about-screens/домой.png';
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
