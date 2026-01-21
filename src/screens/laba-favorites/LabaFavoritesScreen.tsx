@@ -124,6 +124,17 @@ export const LabaFavoritesScreen: React.FC = () => {
           backgroundRepeat: 'repeat',
         }}
       />
+      {/* Background pattern - full screen */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+        }}
+      />
 
       <div style={{
         position: 'relative',
