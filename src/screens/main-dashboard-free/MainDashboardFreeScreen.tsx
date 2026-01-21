@@ -222,7 +222,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
 
           {/* 2. ПРАВАЯ половина - черная карточка с текстом (26:416) */}
           <div 
-            className="blur-breathe"
+            className="blur-wave"
             style={{
               position: 'absolute',
               inset: '2.01% 0 0 50.22%',
@@ -282,7 +282,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
 
           {/* 4. Шторка вправо (7:233) - затемнение поверх */}
           <div 
-            className="blur-breathe"
+            className="blur-wave"
             style={{
               position: 'absolute',
               inset: '0 0 0 63.07%',
@@ -392,7 +392,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
 
         {/* Белая подложка подписки (26:410) - ПОВЕРХ лого */}
         <div 
-          className="blur-breathe"
+          className="blur-wave"
           style={{
             position: 'absolute',
             left: '144px',
@@ -508,7 +508,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           
           {/* Socials Container */}
           <div 
-            className="blur-breathe"
+            className="blur-wave"
             style={{
               position: 'absolute',
               left: '664px',
