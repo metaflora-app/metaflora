@@ -25,25 +25,9 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
         },
-        assetFileNames: (assetInfo) => {
-          // Aggressive caching for images
-          if (/\.(png|jpe?g|webp|gif|svg)$/.test(assetInfo.name || '')) {
-            return 'assets/images/[name]-[hash][extname]';
-          }
-          return 'assets/[name]-[hash][extname]';
-        },
       },
     },
-    // Increase chunk size limit to reduce number of requests
     chunkSizeWarningLimit: 2000,
-    // Minify aggressively
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
