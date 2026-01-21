@@ -8,6 +8,7 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
 // Laba-main PNG assets
+import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
 import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
 import newBadgePNG from '../../assets/laba-main/плашка новое.png';
 
@@ -812,9 +813,12 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            {/* Невидимая кнопка "анализ" - роут сохранён */}
-            <div
+            {/* Кнопка "анализ" PNG */}
+            <img
+              src={analysisButtonPNG}
+              alt="анализ"
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -823,7 +827,6 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
-                opacity: 0,
               }}
             />
 
