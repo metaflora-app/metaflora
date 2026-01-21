@@ -2,60 +2,16 @@ import React, { useEffect, useState } from 'react';
 import splashLogo from '../assets/figma-welcome/splash-logo.png';
 import bgPattern from '../assets/figma-welcome/pattern.png';
 
-// Import all critical images from all screens
-const CRITICAL_IMAGES = [
-  // Common assets
-  '/src/assets/figma-welcome/pattern.png',
-  '/src/assets/figma-welcome/logo-small.png',
-  '/src/assets/figma-welcome/logo-footer.png',
-  '/src/assets/tour-video/support-button.png',
-  '/src/assets/welcome-elements/socials-icons.png',
-  
-  // Splash
-  '/src/assets/figma-welcome/splash-logo.png',
-  
-  // Welcome
-  '/src/assets/welcome/carousel-1.png',
-  '/src/assets/welcome/carousel-2.png',
-  '/src/assets/welcome/carousel-3.png',
-  
-  // Main screens backgrounds
-  '/src/assets/main-dashboard/фон лаба.png',
-  
-  // Add more critical images as needed
-];
-
 export const GlobalLoader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let loadedCount = 0;
-    const totalImages = CRITICAL_IMAGES.length;
+    // Show splash screen for 8 seconds to allow all assets to load
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 8000);
 
-    const imagePromises = CRITICAL_IMAGES.map((src) => {
-      return new Promise<void>((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          loadedCount++;
-          setProgress(Math.round((loadedCount / totalImages) * 100));
-          resolve();
-        };
-        img.onerror = () => {
-          loadedCount++;
-          setProgress(Math.round((loadedCount / totalImages) * 100));
-          resolve(); // Continue even if image fails
-        };
-        img.src = src;
-      });
-    });
-
-    Promise.all(imagePromises).then(() => {
-      // Small delay to ensure smooth transition
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 300);
-    });
+    return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
