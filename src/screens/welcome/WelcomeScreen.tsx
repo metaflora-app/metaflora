@@ -19,8 +19,11 @@ export const WelcomeScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Carousel state - start at center (slide 1)
-  const [activeSlide, setActiveSlide] = React.useState(1);
+  // Carousel images array
+  const carouselImages = [carouselLeft, carouselCenter, carouselRight];
+  
+  // Carousel state - start at 0
+  const [activeSlide, setActiveSlide] = React.useState(0);
 
   // Auto-scroll carousel every 4 seconds
   React.useEffect(() => {
@@ -33,6 +36,13 @@ export const WelcomeScreen: React.FC = () => {
   // Click on dot to change slide
   const handleDotClick = (index: number) => {
     setActiveSlide(index);
+  };
+
+  // Get image for each position based on active slide
+  const getImageForPosition = (position: number) => {
+    // position: 0=left, 1=center, 2=right
+    const index = (activeSlide + position) % 3;
+    return carouselImages[index];
   };
 
   return (
@@ -166,123 +176,120 @@ export const WelcomeScreen: React.FC = () => {
           overflow: 'visible',
         }}
       >
-        {/* Sliding wrapper */}
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          transform: `translateX(${activeSlide === 0 ? '528px' : activeSlide === 1 ? '0px' : '-528px'})`,
-          transition: 'transform 0.5s ease-out',
-        }}>
-          {/* Слайд 1 - Левая карточка (повёрнута -5°) */}
-          <div 
-            style={{
-              position: 'absolute',
-              left: '-213px',
-              top: '0px',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '10px',
-            }}>
-            <div style={{
-              width: '609.038px',
-              height: '972.654px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{ transform: 'rotate(-5deg)' }}>
-                <div style={{
-                  width: '530px',
-                  height: '930px',
-                  borderRadius: '40px',
-                  position: 'relative',
-                }}>
-                  <img 
-                    src={carouselLeft}
-                    alt="Левая карточка"
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '40px',
-                    }}
-                  />
-                </div>
+        {/* Левая карточка (повёрнута -5°) */}
+        <div 
+          key={`left-${activeSlide}`}
+          className="carousel-slide"
+          style={{
+            position: 'absolute',
+            left: '-213px',
+            top: '0px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '10px',
+          }}>
+          <div style={{
+            width: '609.038px',
+            height: '972.654px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{ transform: 'rotate(-5deg)' }}>
+              <div style={{
+                width: '530px',
+                height: '930px',
+                borderRadius: '40px',
+                position: 'relative',
+              }}>
+                <img 
+                  src={getImageForPosition(0)}
+                  alt="Левая карточка"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '40px',
+                  }}
+                />
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Слайд 2 - Центральная карточка */}
-          <div 
-            style={{
-              position: 'absolute',
-              left: '315px',
-              top: '0px',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '10px',
-            }}>
-            <div style={{
-              width: '530px',
-              height: '930px',
-              borderRadius: '40px',
-              position: 'relative',
-            }}>
-              <img 
-                src={carouselCenter}
-                alt="Центральная карточка"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '40px',
-                }}
-              />
-            </div>
+        {/* Центральная карточка */}
+        <div 
+          key={`center-${activeSlide}`}
+          className="carousel-slide"
+          style={{
+            position: 'absolute',
+            left: '315px',
+            top: '0px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '10px',
+          }}>
+          <div style={{
+            width: '530px',
+            height: '930px',
+            borderRadius: '40px',
+            position: 'relative',
+          }}>
+            <img 
+              src={getImageForPosition(1)}
+              alt="Центральная карточка"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '40px',
+              }}
+            />
           </div>
+        </div>
 
-          {/* Слайд 3 - Правая карточка (повёрнута +5°) */}
-          <div 
-            style={{
-              position: 'absolute',
-              left: '764px',
-              top: '0px',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '10px',
-            }}>
-            <div style={{
-              width: '609.038px',
-              height: '972.654px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{ transform: 'rotate(185deg) scaleY(-1)' }}>
-                <div style={{
-                  width: '530px',
-                  height: '930px',
-                  borderRadius: '40px',
-                  position: 'relative',
-                }}>
-                  <img 
-                    src={carouselRight}
-                    alt="Правая карточка"
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '40px',
-                    }}
-                  />
-                </div>
+        {/* Правая карточка (повёрнута +5°) */}
+        <div 
+          key={`right-${activeSlide}`}
+          className="carousel-slide"
+          style={{
+            position: 'absolute',
+            left: '764px',
+            top: '0px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '10px',
+          }}>
+          <div style={{
+            width: '609.038px',
+            height: '972.654px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{ transform: 'rotate(185deg) scaleY(-1)' }}>
+              <div style={{
+                width: '530px',
+                height: '930px',
+                borderRadius: '40px',
+                position: 'relative',
+              }}>
+                <img 
+                  src={getImageForPosition(2)}
+                  alt="Правая карточка"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '40px',
+                  }}
+                />
               </div>
             </div>
           </div>
