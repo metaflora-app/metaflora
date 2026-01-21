@@ -35,17 +35,17 @@ export const AboutPoligonScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Background pattern (фон точки) */}
-        <div style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          width: '1180px',
-          height: '2550px',
-          backgroundImage: `url(${bgPattern})`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: 'auto',
-        }} />        {/* Логотип маленький */}
+        {/* Background pattern - full screen */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url(${bgPattern})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'repeat',
+          }}
+        />        {/* Логотип маленький */}
         <div 
           onClick={() => navigate('/main-dashboard-premium')}
           style={{
