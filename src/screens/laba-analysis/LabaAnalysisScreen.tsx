@@ -11,6 +11,8 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
 import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
 import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не следить если отмена.png';
+import startAnalysisButtonPNG from '../../assets/laba-analysis/поменьше кнопка начать анализ.png';
+import createScenarioButtonPNG from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
 
 // Figma MCP assets
 const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
@@ -651,14 +653,16 @@ export const LabaAnalysisScreen: React.FC = () => {
               gap: '20px',
               zIndex: 5,
             }}>
-              {/* Невидимая кнопка "начать анализ" - роут сохранён */}
-              <div
+              {/* Кнопка "начать анализ" PNG */}
+              <img
+                src={startAnalysisButtonPNG}
+                alt="начать анализ"
                 onClick={() => setShowAnalysisResults(true)}
+                className="button-inner-glow"
                 style={{
                   width: '530px',
                   height: '139px',
                   cursor: 'pointer',
-                  opacity: 0,
                 }}
               />
 
@@ -825,10 +829,13 @@ export const LabaAnalysisScreen: React.FC = () => {
                 а вы знали, что так вообще возможно?
               </div>
 
-              {/* Невидимая кнопка "создать сценарий" - роут сохранён */}
+              {/* Кнопка "создать сценарий" PNG */}
               {!showScenario && (
-                <div
+                <img
+                  src={createScenarioButtonPNG}
+                  alt="создать сценарий"
                   onClick={() => setShowScenario(true)}
+                  className="button-inner-glow"
                   style={{
                     position: 'absolute',
                     left: '131px',
@@ -836,7 +843,6 @@ export const LabaAnalysisScreen: React.FC = () => {
                     width: '530px',
                     height: '139px',
                     cursor: 'pointer',
-                    opacity: 0,
                   }}
                 />
               )}

@@ -9,8 +9,7 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 
 // New assets for laba-no-tracked from Desktop
-import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
-import peopleImage from '../../assets/laba-no-tracked/люди друг на друге.png';
+import trackingWindow from '../../assets/laba-no-tracked/окошко отслеживание.png';
 
 export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -129,25 +128,9 @@ export const LabaNoTrackedScreen: React.FC = () => {
           <p style={{ margin: 0 }}>добавьте аккаунт для отслеживания</p>
         </div>
 
-        {/* People image PNG (7:1357) - x=143, y=916, 892x1050 - СЗАДИ ВСЕГО */}
+        {/* Tracking window PNG (7:1360) - x=143, y=402, 892x1643 */}
         <img 
-          src={peopleImage}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '916px',
-            width: '892px',
-            height: '1050px',
-            objectFit: 'contain',
-            pointerEvents: 'none',
-            zIndex: 1,
-          }}
-        />
-
-        {/* Blur overlay PNG (7:1360) - x=143, y=402, 892x1643 - ПОВЕРХ ЛЮДЕЙ */}
-        <img 
-          src={blurOverlay}
+          src={trackingWindow}
           alt=""
           style={{
             position: 'absolute',
@@ -155,14 +138,13 @@ export const LabaNoTrackedScreen: React.FC = () => {
             top: '402px',
             width: '892px',
             height: '1643px',
-            objectFit: 'fill',
+            objectFit: 'contain',
             borderRadius: '30px',
-            pointerEvents: 'none',
             zIndex: 2,
           }}
         />
 
-        {/* Невидимая кнопка "начать отслеживание" поверх blur overlay - роут сохранён */}
+        {/* Невидимая кнопка "начать отслеживание" поверх tracking window */}
         <div
           onClick={() => navigate('/laba-search-account')}
           style={{

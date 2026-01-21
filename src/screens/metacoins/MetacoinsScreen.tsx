@@ -9,8 +9,8 @@ import supportButton from '../../assets/tour-video/support-button.png';
 
 // Metacoins specific assets
 import titleImage from '../../assets/metacoins/выберите количество.png';
-import card1Month from '../../assets/metacoins/карточка тарифа 1 месяц.png';
-import card3Months from '../../assets/metacoins/карточка тарифа 3 месяца.png';
+import card5000 from '../../assets/metacoins/карточка 5000 метакоинов.png';
+import card25000 from '../../assets/metacoins/карточка 25 000 метакоинов.png';
 import buyButton from '../../assets/metacoins/купить метакоины.png';
 
 export const MetacoinsScreen: React.FC = () => {
@@ -123,9 +123,9 @@ export const MetacoinsScreen: React.FC = () => {
           }}
         />
 
-        {/* Card 1 - тариф 1 месяц PNG */}
+        {/* Card 1 - 5000 метакоинов PNG */}
         <div
-          onClick={() => setSelectedCard('1month')}
+          onClick={() => setSelectedCard('5000')}
           style={{
             position: 'absolute',
             left: '143px',
@@ -135,9 +135,9 @@ export const MetacoinsScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           <img 
-            src={card1Month}
-            alt="карточка тарифа 1 месяц"
-            className={`${selectedCard === '1month' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-1' : ''}`}
+            src={card5000}
+            alt="карточка 5000 метакоинов"
+            className={`${selectedCard === '5000' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-1' : ''}`}
             style={{
               position: 'absolute',
               inset: 0,
@@ -149,9 +149,9 @@ export const MetacoinsScreen: React.FC = () => {
           />
         </div>
 
-        {/* Card 2 - тариф 3 месяца PNG */}
+        {/* Card 2 - 25 000 метакоинов PNG */}
         <div
-          onClick={() => setSelectedCard('3months')}
+          onClick={() => setSelectedCard('25000')}
           style={{
             position: 'absolute',
             left: '143px',
@@ -161,9 +161,9 @@ export const MetacoinsScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           <img 
-            src={card3Months}
-            alt="карточка тарифа 3 месяца"
-            className={`${selectedCard === '3months' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-2' : ''}`}
+            src={card25000}
+            alt="карточка 25 000 метакоинов"
+            className={`${selectedCard === '25000' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-2' : ''}`}
             style={{
               position: 'absolute',
               inset: 0,
