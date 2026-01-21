@@ -31,6 +31,49 @@ export const AcademyCoursesAllScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Scratch card states for each course card
+  const [scratchStates, setScratchStates] = React.useState(() => ({
+    system: localStorage.getItem('scratch-academy-system') === 'true',
+    art: localStorage.getItem('scratch-academy-art') === 'true',
+    prompting: localStorage.getItem('scratch-academy-prompting') === 'true',
+    automation: localStorage.getItem('scratch-academy-automation') === 'true',
+  }));
+
+  const [dragOffsets, setDragOffsets] = React.useState({
+    system: 0,
+    art: 0,
+    prompting: 0,
+    automation: 0,
+  });
+
+  const [draggingCard, setDraggingCard] = React.useState<string | null>(null);
+
+  const createHandlers = (cardId: keyof typeof scratchStates) => ({
+    handleTouchStart: () => {
+      if (scratchStates[cardId]) return;
+      setDraggingCard(cardId);
+    },
+    handleTouchMove: (e: React.TouchEvent) => {
+      if (draggingCard !== cardId || scratchStates[cardId]) return;
+      const touch = e.touches[0];
+      const cardElement = e.currentTarget.getBoundingClientRect();
+      const offset = touch.clientX - cardElement.left;
+      setDragOffsets(prev => ({ ...prev, [cardId]: Math.max(0, offset) }));
+    },
+    handleTouchEnd: () => {
+      if (draggingCard !== cardId || scratchStates[cardId]) return;
+      setDraggingCard(null);
+      
+      if (dragOffsets[cardId] > 222) {
+        setScratchStates(prev => ({ ...prev, [cardId]: true }));
+        localStorage.setItem(`scratch-academy-${cardId}`, 'true');
+        setDragOffsets(prev => ({ ...prev, [cardId]: 0 }));
+      } else {
+        setDragOffsets(prev => ({ ...prev, [cardId]: 0 }));
+      }
+    },
+  });
+
   return (
     <div style={{
       position: 'relative',
@@ -219,27 +262,39 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Шторка со стрелкой */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0 0 0 63.07%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              fontSize: '40px',
-              color: 'white',
-            }}>
-              →
+          {/* Шторка со стрелкой - scratch card */}
+          {!scratchStates.system && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'system' && dragOffsets.system === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('system').handleTouchStart}
+              onTouchMove={createHandlers('system').handleTouchMove}
+              onTouchEnd={createHandlers('system').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                inset: '0 0 0 50.22%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.system}px)`,
+                transition: draggingCard === 'system' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.system > 0 ? Math.max(0, 1 - dragOffsets.system / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Кнопка "изучить" */}
           <img 
@@ -350,27 +405,39 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Шторка покороче */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0.4% 0 0 80.45%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              fontSize: '30px',
-              color: 'white',
-            }}>
-              →
+          {/* Шторка со стрелкой */}
+          {!scratchStates.art && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'art' && dragOffsets.art === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('art').handleTouchStart}
+              onTouchMove={createHandlers('art').handleTouchMove}
+              onTouchEnd={createHandlers('art').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                inset: '0 0 0 50.22%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.art}px)`,
+                transition: draggingCard === 'art' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.art > 0 ? Math.max(0, 1 - dragOffsets.art / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Кнопка "изучить" */}
           <img 
@@ -481,6 +548,40 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             </div>
           </div>
 
+          {/* Шторка со стрелкой */}
+          {!scratchStates.prompting && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'prompting' && dragOffsets.prompting === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('prompting').handleTouchStart}
+              onTouchMove={createHandlers('prompting').handleTouchMove}
+              onTouchEnd={createHandlers('prompting').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                inset: '0 0 0 50.22%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.prompting}px)`,
+                transition: draggingCard === 'prompting' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.prompting > 0 ? Math.max(0, 1 - dragOffsets.prompting / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
+            </div>
+          )}
+
           {/* Кнопка "изучить" */}
           <img 
             src={studyButton}
@@ -589,6 +690,40 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               </p>
             </div>
           </div>
+
+          {/* Шторка со стрелкой */}
+          {!scratchStates.automation && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'automation' && dragOffsets.automation === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('automation').handleTouchStart}
+              onTouchMove={createHandlers('automation').handleTouchMove}
+              onTouchEnd={createHandlers('automation').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                inset: '0 0 0 50.22%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.automation}px)`,
+                transition: draggingCard === 'automation' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.automation > 0 ? Math.max(0, 1 - dragOffsets.automation / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
+            </div>
+          )}
 
           {/* Кнопка "изучить" */}
           <img 
