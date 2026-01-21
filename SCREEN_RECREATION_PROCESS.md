@@ -447,7 +447,7 @@
 
 ---
 
-## 📝 ОБНОВЛЕНИЯ (2026-01-21, 22:10):
+## 📝 ОБНОВЛЕНИЯ (2026-01-21, 22:30):
 
 ### UI элементы обновлены:
 - ✅ LabaMainScreen & LabaFavoritesScreen: добавлена плашка "начать поиск" с button-inner-glow
@@ -455,18 +455,32 @@
 - ✅ LabaNoTrackedScreen: blur overlay заменён на PNG "окошко отслеживание" + невидимая кнопка
 - ✅ MetacoinsScreen: карточки заменены на "5000 метакоинов" и "25 000 метакоинов"
 - ✅ LabaMainScreen: все 4 карточки с видимыми кнопками "анализ" (PNG)
-- ✅ Коммиты: 3e35c58, 3400338
+- ✅ Коммиты: 3e35c58, 3400338, b157a8a
 
-### Оптимизация производительности:
-- ✅ Splash screen 8 секунд - грузит ВСЕ изображения перед переходом
-- ✅ assetPreloader: принудительная загрузка всех 315+ PNG при старте
-- ✅ screenChainPreloader: проверка загрузки цепочек экранов перед навигацией
-- ✅ MainDashboardPremiumScreen: кнопки "открыть" ждут загрузки всей цепочки экранов
-- ✅ GPU ускорение: translate3d, backface-visibility, will-change на всех анимациях
-- ✅ Коммиты: a4fe684, d017681
+### Система оптимизации производительности:
+- ✅ **Splash screen 8 секунд** - единственная стоп-точка загрузки
+- ✅ **assetPreloader** (utils/assetPreloader.ts):
+  - Использует `import.meta.glob` с `eager: true` для получения ВСЕХ изображений
+  - Грузит все 315+ PNG параллельно на splash screen
+  - Переход на welcome только когда: изображения загружены И 8 секунд прошло
+- ✅ **screenChainAssets** (utils/screenChainAssets.ts):
+  - Статические импорты всех ассетов цепочек экранов (NO dynamic imports)
+  - Academy: 5 критичных изображений
+  - Laba: 11 критичных изображений (main, analysis, tracking)
+  - Tsekh: 5 критичных изображений (prompt-first, prompt-card)
+  - Poligon: 4 критичных изображения (articles, article)
+- ✅ **MainDashboardPremiumScreen**: кнопки "открыть" ждут загрузки всей цепочки перед навигацией
+- ✅ **GPU ускорение**: translateZ(0), backface-visibility на всех элементах и анимациях
+- ✅ Коммиты: a4fe684, d723358, b157a8a
 
-### Цепочки экранов:
-- **Academy**: about-academy → courses → lessons
+### Цепочки экранов (с проверкой загрузки):
+- **Academy**: about-academy → courses → lessons → materials
 - **Laba**: about-laba → laba-main → laba-analysis → laba-no-tracked → laba-favorites
 - **Tsekh**: about-prompt → prompt-first → prompt-card
 - **Poligon**: about-poligon → articles → article
+
+### Результат:
+- Splash screen показывается СРАЗУ (без задержек)
+- Все изображения грузятся за 8 секунд на splash
+- Клик на карточку ждёт загрузки цепочки → навигация
+- Никакой прогрузки элементов "сверху вниз" на экранах
