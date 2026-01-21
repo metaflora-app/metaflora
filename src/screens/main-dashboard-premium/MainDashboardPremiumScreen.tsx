@@ -24,6 +24,53 @@ export const MainDashboardPremiumScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Scratch card states for each card
+  const [scratchStates, setScratchStates] = React.useState(() => ({
+    academy: localStorage.getItem('scratch-academy-premium') === 'true',
+    laba: localStorage.getItem('scratch-laba-premium') === 'true',
+    tsekh: localStorage.getItem('scratch-tsekh-premium') === 'true',
+    poligon: localStorage.getItem('scratch-poligon-premium') === 'true',
+    chat: localStorage.getItem('scratch-chat-premium') === 'true',
+  }));
+
+  const [dragOffsets, setDragOffsets] = React.useState({
+    academy: 0,
+    laba: 0,
+    tsekh: 0,
+    poligon: 0,
+    chat: 0,
+  });
+
+  const [draggingCard, setDraggingCard] = React.useState<string | null>(null);
+
+  const createHandlers = (cardId: keyof typeof scratchStates) => ({
+    handleTouchStart: () => {
+      if (scratchStates[cardId]) return;
+      setDraggingCard(cardId);
+    },
+    handleTouchMove: (e: React.TouchEvent) => {
+      if (draggingCard !== cardId || scratchStates[cardId]) return;
+      const touch = e.touches[0];
+      const cardElement = e.currentTarget.getBoundingClientRect();
+      const offset = touch.clientX - cardElement.left;
+      setDragOffsets(prev => ({ ...prev, [cardId]: Math.max(0, offset) }));
+    },
+    handleTouchEnd: () => {
+      if (draggingCard !== cardId || scratchStates[cardId]) return;
+      setDraggingCard(null);
+      
+      // If dragged more than 50% of card width (445px / 2 = 222px), reveal completely
+      if (dragOffsets[cardId] > 222) {
+        setScratchStates(prev => ({ ...prev, [cardId]: true }));
+        localStorage.setItem(`scratch-${cardId}-premium`, 'true');
+        setDragOffsets(prev => ({ ...prev, [cardId]: 0 }));
+      } else {
+        // Snap back
+        setDragOffsets(prev => ({ ...prev, [cardId]: 0 }));
+      }
+    },
+  });
+
   return (
     <div style={{
       position: 'relative',
@@ -304,28 +351,6 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Шторка (затемнение) со стрелкой */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0 0 0 63.07%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              fontSize: '40px',
-              color: 'white',
-            }}>
-              →
-            </div>
-          </div>
-
           {/* Кнопка "открыть" (356:744) */}
           <img 
             src={goButton}
@@ -422,28 +447,6 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               <p style={{ margin: 0 }}>
                 Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
               </p>
-            </div>
-          </div>
-
-          {/* Шторка покороче со стрелкой */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0.4% 0 0 80.45%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              fontSize: '30px',
-              color: 'white',
-            }}>
-              →
             </div>
           </div>
 

@@ -465,35 +465,6 @@ const PoligonArticlesAllScreen: React.FC = () => {
               </div>
             </div>
           )}
-          {/* Shutter overlay (53:696) - x=564, y=0, 330x249 with arrow */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '564px',
-            top: 0,
-            width: '330px',
-            height: '249px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Arrow SVG (53:697) - x=131, y=124 */}
-            <img 
-              src={arrowLong}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '131px',
-                top: '124px',
-                width: '80px',
-                height: 'auto',
-              }}
-            />
-          </div>
           {/* Read button (53:711) - x=101, y=86, 247x80 */}
           <img 
             src={readButton}
@@ -603,35 +574,6 @@ const PoligonArticlesAllScreen: React.FC = () => {
               </div>
             </div>
           )}
-          {/* Shutter overlay shorter (53:747) - x=719, y=1, 175x249 with arrow */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '719px',
-            top: '1px',
-            width: '175px',
-            height: '249px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Arrow SVG (53:748) - x=66, y=120 */}
-            <img 
-              src={arrowShort}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '66px',
-                top: '120px',
-                width: '40px',
-                height: 'auto',
-              }}
-            />
-          </div>
           {/* Read button (53:725) - x=102, y=85, 247x80 */}
           <img 
             src={readButton}
