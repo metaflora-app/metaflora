@@ -98,13 +98,13 @@ input::placeholder {
 /* Blur wave animation */
 @keyframes blurWave {
   0% {
-    backdrop-filter: blur(45px);
+    backdrop-filter: blur(35px);
   }
   50% {
-    backdrop-filter: blur(52px);
+    backdrop-filter: blur(50px);
   }
   100% {
-    backdrop-filter: blur(45px);
+    backdrop-filter: blur(35px);
   }
 }
 
@@ -114,18 +114,18 @@ input::placeholder {
   -webkit-backface-visibility: hidden;
 }
 
-/* Button pulse animation - smooth scale */
-@keyframes buttonPulse {
+/* Button inner glow animation - brightness change */
+@keyframes buttonInnerGlow {
   0%, 100% {
-    transform: scale(1);
+    filter: brightness(1);
   }
   50% {
-    transform: scale(1.03);
+    filter: brightness(1.3);
   }
 }
 
-.button-pulse {
-  animation: buttonPulse 2.5s ease-in-out infinite;
+.button-inner-glow {
+  animation: buttonInnerGlow 3s ease-in-out infinite;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }

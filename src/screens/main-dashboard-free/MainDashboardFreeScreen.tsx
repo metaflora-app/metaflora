@@ -256,7 +256,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-laba')}
-            className="button-pulse"
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '101px',
@@ -411,7 +411,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           src={payButton}
           alt="оплатить полный доступ"
           onClick={() => navigate('/pricing')}
-          className="button-pulse"
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '144px',
