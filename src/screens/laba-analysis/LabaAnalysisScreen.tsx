@@ -8,8 +8,6 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
 // Analysis-specific assets
-import startAnalysisButtonPNG from '../../assets/laba-analysis/укороченная кнопка начать анализ.png';
-import createScenarioButtonPNG from '../../assets/laba-analysis/укороченная кнопка создать сценарий.png';
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
 import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
 import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не следить если отмена.png';
@@ -653,16 +651,14 @@ export const LabaAnalysisScreen: React.FC = () => {
               gap: '20px',
               zIndex: 5,
             }}>
-              {/* Button "начать анализ" - 292:719 */}
-              <img
-                src={startAnalysisButtonPNG}
-                alt="начать анализ 100"
+              {/* Невидимая кнопка "начать анализ" - роут сохранён */}
+              <div
                 onClick={() => setShowAnalysisResults(true)}
-                className="button-inner-glow"
                 style={{
                   width: '530px',
                   height: '139px',
                   cursor: 'pointer',
+                  opacity: 0,
                 }}
               />
 
@@ -829,13 +825,10 @@ export const LabaAnalysisScreen: React.FC = () => {
                 а вы знали, что так вообще возможно?
               </div>
 
-              {/* Button "создать сценарий" - 292:907 - HIDE when scenario created */}
+              {/* Невидимая кнопка "создать сценарий" - роут сохранён */}
               {!showScenario && (
-                <img
-                  src={createScenarioButtonPNG}
-                  alt="создать сценарий 50"
+                <div
                   onClick={() => setShowScenario(true)}
-                  className="button-inner-glow"
                   style={{
                     position: 'absolute',
                     left: '131px',
@@ -843,6 +836,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     width: '530px',
                     height: '139px',
                     cursor: 'pointer',
+                    opacity: 0,
                   }}
                 />
               )}
