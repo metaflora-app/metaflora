@@ -39,7 +39,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
   const [dragOffset, setDragOffset] = React.useState(0);
   const [isDragging, setIsDragging] = React.useState(false);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = () => {
     if (scratchRevealed) return;
     setIsDragging(true);
   };
