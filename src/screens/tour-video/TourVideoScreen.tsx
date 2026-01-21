@@ -149,33 +149,37 @@ export const TourVideoScreen: React.FC = () => {
           </div>
 
           {/* Blur слой на видео */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }} />
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              overflow: 'clip',
+            }} />
 
           {/* Кнопка плей */}
-          <div style={{
-            position: 'absolute',
-            top: '42.48%',
-            right: '44.33%',
-            bottom: '50.79%',
-            left: '44.67%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              top: '42.48%',
+              right: '44.33%',
+              bottom: '50.79%',
+              left: '44.67%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             {/* Иконка плей - 100% размера круга */}
             <img 
               src={playIcon}
@@ -189,22 +193,24 @@ export const TourVideoScreen: React.FC = () => {
           </div>
 
           {/* Кнопка стоп (пауза) */}
-          <div style={{
-            position: 'absolute',
-            top: '49.97%',
-            right: '44.22%',
-            bottom: '43.31%',
-            left: '44.78%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              top: '49.97%',
+              right: '44.22%',
+              bottom: '43.31%',
+              left: '44.78%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             {/* Иконка паузы - 100% размера круга */}
             <img 
               src={pauseIcon}
@@ -218,19 +224,21 @@ export const TourVideoScreen: React.FC = () => {
           </div>
 
           {/* Кнопка развернуть видео */}
-          <div style={{
-            position: 'absolute',
-            top: '93.89%',
-            right: '1.57%',
-            bottom: '1.17%',
-            left: '90.35%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-          }}>
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              top: '93.89%',
+              right: '1.57%',
+              bottom: '1.17%',
+              left: '90.35%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              overflow: 'clip',
+              cursor: 'pointer',
+            }}>
             {/* Иконка развернуть */}
             <div style={{
               position: 'absolute',
@@ -285,6 +293,7 @@ export const TourVideoScreen: React.FC = () => {
           <img 
             src={tryButtonBg}
             alt=""
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               inset: 0,
@@ -373,17 +382,19 @@ export const TourVideoScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              left: '664px',
+              top: '-2px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              height: '78px',
+              width: '230px',
+            }} />
           
           {/* Иконки соцсетей */}
           <div style={{

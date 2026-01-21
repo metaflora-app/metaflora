@@ -230,6 +230,7 @@ export const DemoAccessScreen: React.FC = () => {
         {/* Кнопка "продолжить" (прозрачная) */}
         <button
           onClick={() => navigate('/main-dashboard-free')}
+          className="blur-wave"
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
@@ -282,6 +283,7 @@ export const DemoAccessScreen: React.FC = () => {
           <img 
             src={payButtonBg}
             alt=""
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               inset: 0,
@@ -370,17 +372,19 @@ export const DemoAccessScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              left: '664px',
+              top: '-2px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              height: '78px',
+              width: '230px',
+            }} />
           
           {/* Иконки соцсетей */}
           <div style={{
