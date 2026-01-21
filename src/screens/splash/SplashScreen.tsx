@@ -18,10 +18,10 @@ export const SplashScreen: React.FC = () => {
       setImagesLoaded(true);
     });
 
-    // Minimum 12 seconds display
+    // Minimum 8 seconds display
     const timer = setTimeout(() => {
       setMinTimeElapsed(true);
-    }, 12000);
+    }, 8000);
 
     return () => clearTimeout(timer);
   }, []);
