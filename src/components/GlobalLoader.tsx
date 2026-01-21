@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import splashLogo from '../assets/splash/logo-splash.png';
+import splashLogo from '../assets/figma-welcome/splash-logo.png';
 import bgPattern from '../assets/figma-welcome/pattern.png';
 
 // Import all critical images from all screens
@@ -12,7 +12,7 @@ const CRITICAL_IMAGES = [
   '/src/assets/welcome-elements/socials-icons.png',
   
   // Splash
-  '/src/assets/splash/logo-splash.png',
+  '/src/assets/figma-welcome/splash-logo.png',
   
   // Welcome
   '/src/assets/welcome/carousel-1.png',
