@@ -296,17 +296,17 @@ export const MainDashboardFreeScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* 3. Кнопка перейти (26:418) - PNG */}
+          {/* 3. Кнопка перейти (354:654) - PNG */}
           <img 
             src={goButton}
             alt="перейти"
             onClick={() => navigate('/about-laba')}
             style={{
               position: 'absolute',
-              left: '96px',
-              top: '87px',
-              width: '257px',
-              height: '73px',
+              left: '101px',
+              top: '85px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />

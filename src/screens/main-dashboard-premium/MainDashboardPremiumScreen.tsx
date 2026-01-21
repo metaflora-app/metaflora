@@ -342,17 +342,17 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:731) */}
           <img 
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-academy')}
             style={{
               position: 'absolute',
-              left: '96px',
-              top: '91px',
-              width: '257px',
-              height: '73px',
+              left: '101px',
+              top: '85px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
@@ -459,17 +459,17 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:744) */}
           <img 
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-laba')}
             style={{
               position: 'absolute',
-              left: '96px',
-              top: '86px',
-              width: '257px',
-              height: '73px',
+              left: '101px',
+              top: '85px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
@@ -531,17 +531,17 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:757) */}
           <img 
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/prompt-card')}
             style={{
               position: 'absolute',
-              left: '96px',
+              left: '101px',
               top: '85px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
@@ -603,17 +603,17 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:770) */}
           <img 
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-poligon')}
             style={{
               position: 'absolute',
-              left: '98px',
+              left: '101px',
               top: '85px',
-              width: '257px',
-              height: '73px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
@@ -675,16 +675,16 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:783) */}
           <img 
             src={goButton}
             alt="открыть"
             style={{
               position: 'absolute',
-              left: '89px',
-              top: '88px',
-              width: '257px',
-              height: '73px',
+              left: '101px',
+              top: '85px',
+              width: '247px',
+              height: '79px',
               cursor: 'pointer',
             }}
           />
