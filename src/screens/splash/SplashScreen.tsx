@@ -10,7 +10,30 @@ export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Show splash for 12 seconds
+    // Force preload ALL images during splash screen
+    const imageModules = import.meta.glob('../../assets/**/*.{png,jpg,jpeg,webp}', { 
+      eager: false,
+      as: 'url'
+    });
+
+    // Start loading all images immediately
+    Promise.all(
+      Object.keys(imageModules).map(async (path) => {
+        try {
+          const module = await imageModules[path]();
+          const img = new Image();
+          img.src = module as string;
+          return new Promise((resolve) => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+        } catch (e) {
+          return Promise.resolve();
+        }
+      })
+    );
+
+    // Navigate after 12 seconds
     const timer = setTimeout(() => {
       navigate('/welcome');
     }, 12000);
