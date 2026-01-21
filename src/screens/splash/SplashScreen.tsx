@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { preloadAllImages } from '../../utils/assetPreloader';
 
 // Background pattern image (dots)
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -8,15 +9,29 @@ import logo from '../../assets/figma-welcome/splash-logo.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
-    // Navigate after 12 seconds
+    // Start preloading ALL images immediately
+    preloadAllImages().then(() => {
+      setImagesLoaded(true);
+    });
+
+    // Minimum 12 seconds display
     const timer = setTimeout(() => {
-      navigate('/welcome');
+      setMinTimeElapsed(true);
     }, 12000);
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, []);
+
+  // Navigate only when BOTH conditions met: images loaded AND 12 seconds passed
+  useEffect(() => {
+    if (imagesLoaded && minTimeElapsed) {
+      navigate('/welcome');
+    }
+  }, [imagesLoaded, minTimeElapsed, navigate]);
 
   return (
     <div
