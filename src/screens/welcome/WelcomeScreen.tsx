@@ -22,8 +22,8 @@ export const WelcomeScreen: React.FC = () => {
   // Carousel images array
   const carouselImages = [carouselLeft, carouselCenter, carouselRight];
   
-  // Carousel state - start at 0
-  const [activeSlide, setActiveSlide] = React.useState(0);
+  // Carousel state - start at 1 (center card is active)
+  const [activeSlide, setActiveSlide] = React.useState(1);
 
   // Auto-scroll carousel every 4 seconds
   React.useEffect(() => {
@@ -39,9 +39,12 @@ export const WelcomeScreen: React.FC = () => {
   };
 
   // Get image for each position based on active slide
+  // Center position shows the active slide image
   const getImageForPosition = (position: number) => {
     // position: 0=left, 1=center, 2=right
-    const index = (activeSlide + position) % 3;
+    // Center (position 1) should show activeSlide image
+    const offset = position - 1; // -1, 0, +1
+    const index = (activeSlide + offset + 3) % 3;
     return carouselImages[index];
   };
 
@@ -178,7 +181,6 @@ export const WelcomeScreen: React.FC = () => {
       >
         {/* Левая карточка (повёрнута -5°) */}
         <div 
-          key={`left-${activeSlide}`}
           className="carousel-slide"
           style={{
             position: 'absolute',
@@ -203,8 +205,10 @@ export const WelcomeScreen: React.FC = () => {
                 position: 'relative',
               }}>
                 <img 
+                  key={`left-${activeSlide}`}
                   src={getImageForPosition(0)}
                   alt="Левая карточка"
+                  className="carousel-slide"
                   style={{
                     position: 'absolute',
                     inset: 0,
@@ -221,7 +225,6 @@ export const WelcomeScreen: React.FC = () => {
 
         {/* Центральная карточка */}
         <div 
-          key={`center-${activeSlide}`}
           className="carousel-slide"
           style={{
             position: 'absolute',
@@ -238,8 +241,10 @@ export const WelcomeScreen: React.FC = () => {
             position: 'relative',
           }}>
             <img 
+              key={`center-${activeSlide}`}
               src={getImageForPosition(1)}
               alt="Центральная карточка"
+              className="carousel-slide"
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -254,7 +259,6 @@ export const WelcomeScreen: React.FC = () => {
 
         {/* Правая карточка (повёрнута +5°) */}
         <div 
-          key={`right-${activeSlide}`}
           className="carousel-slide"
           style={{
             position: 'absolute',
@@ -279,8 +283,10 @@ export const WelcomeScreen: React.FC = () => {
                 position: 'relative',
               }}>
                 <img 
+                  key={`right-${activeSlide}`}
                   src={getImageForPosition(2)}
                   alt="Правая карточка"
+                  className="carousel-slide"
                   style={{
                     position: 'absolute',
                     inset: 0,
