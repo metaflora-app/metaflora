@@ -260,7 +260,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             style={{
               position: 'absolute',
               left: '101px',
-              top: '86px',
+              top: '85px',
               width: '247px',
               height: '79px',
               cursor: 'pointer',

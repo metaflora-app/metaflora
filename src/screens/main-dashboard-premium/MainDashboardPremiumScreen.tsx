@@ -304,7 +304,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" (356:744) */}
+          {/* Кнопка "открыть" (356:731) */}
           <img 
             src={goButton}
             alt="открыть"
@@ -403,7 +403,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:744) */}
           <img 
             src={goButton}
             alt="открыть"
@@ -412,7 +412,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             style={{
               position: 'absolute',
               left: '101px',
-              top: '86px',
+              top: '85px',
               width: '247px',
               height: '79px',
               cursor: 'pointer',
@@ -476,7 +476,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:757) */}
           <img 
             src={goButton}
             alt="открыть"
@@ -549,7 +549,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:770) */}
           <img 
             src={goButton}
             alt="открыть"
@@ -557,7 +557,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             className="button-inner-glow"
             style={{
               position: 'absolute',
-              left: '98px',
+              left: '101px',
               top: '85px',
               width: '247px',
               height: '79px',
@@ -622,15 +622,15 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Кнопка "открыть" */}
+          {/* Кнопка "открыть" (356:783) */}
           <img 
             src={goButton}
             alt="открыть"
             className="button-inner-glow"
             style={{
               position: 'absolute',
-              left: '89px',
-              top: '88px',
+              left: '101px',
+              top: '85px',
               width: '247px',
               height: '79px',
               cursor: 'pointer',
