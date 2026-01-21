@@ -63,15 +63,17 @@ export const WelcomeScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Background pattern (фон точки) */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${pattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }} />
+        {/* Background pattern - full screen */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url(${pattern})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'repeat',
+          }}
+        />
 
       {/* Логотип маленький (верхний) */}
       <div style={{

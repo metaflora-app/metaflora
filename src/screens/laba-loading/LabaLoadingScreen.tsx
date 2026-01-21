@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import favoritesIcon from '../../assets/laba-main-buttons/на избранное.png';
+import bgPattern from '../../assets/figma-welcome/pattern.png';
 
 export const LabaLoadingScreen = () => {
   const navigate = useNavigate();
@@ -12,6 +13,18 @@ export const LabaLoadingScreen = () => {
       position: 'relative',
       padding: '0 24px'
     }}>
+      {/* Background pattern - full screen */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${bgPattern})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'repeat',
+        }}
+      />
+      
       {/* Header */}
       <div style={{
         display: 'flex',
