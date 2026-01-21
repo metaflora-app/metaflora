@@ -32,41 +32,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Scratch card state
-  const [scratchRevealed, setScratchRevealed] = React.useState(() => {
-    return localStorage.getItem('scratch-revealed') === 'true';
-  });
-  const [dragOffset, setDragOffset] = React.useState(0);
-  const [isDragging, setIsDragging] = React.useState(false);
-
-  const handleTouchStart = () => {
-    if (scratchRevealed) return;
-    setIsDragging(true);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || scratchRevealed) return;
-    const touch = e.touches[0];
-    const cardElement = e.currentTarget.getBoundingClientRect();
-    const offset = touch.clientX - cardElement.left;
-    setDragOffset(Math.max(0, offset));
-  };
-
-  const handleTouchEnd = () => {
-    if (!isDragging || scratchRevealed) return;
-    setIsDragging(false);
-    
-    // If dragged more than 50% of card width (445px / 2 = 222px), reveal completely
-    if (dragOffset > 222) {
-      setScratchRevealed(true);
-      localStorage.setItem('scratch-revealed', 'true');
-      setDragOffset(0);
-    } else {
-      // Snap back
-      setDragOffset(0);
-    }
-  };
-
   return (
     <div style={{
       position: 'relative',
@@ -315,45 +280,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
               zIndex: 10,
             }}
           />
-
-          {/* 4. Шторка вправо (7:233) - scratch card overlay */}
-          {!scratchRevealed && (
-            <div 
-              className={`blur-wave ${!isDragging && dragOffset === 0 ? 'scratch-hint' : ''}`}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              style={{
-                position: 'absolute',
-                inset: '2.01% 0 0 50.22%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                overflow: 'clip',
-                pointerEvents: 'auto',
-                transform: `translateX(${dragOffset}px)`,
-                transition: isDragging ? 'none' : 'transform 0.3s ease-out',
-                opacity: dragOffset > 0 ? Math.max(0, 1 - dragOffset / 300) : 1,
-                touchAction: 'pan-x',
-              }}>
-              {/* Стрелка */}
-              <div style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '60px',
-                color: 'white',
-                opacity: 0.8,
-              }}>
-                →
-              </div>
-            </div>
-          )}
 
           {/* 5. Плашка "демо" (26:419) - поверх всего */}
           <div className="button-inner-glow" style={{
