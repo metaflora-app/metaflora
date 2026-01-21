@@ -11,6 +11,7 @@ import supportButton from '../../assets/tour-video/support-button.png';
 // New assets for laba-no-tracked from Desktop
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
 import peopleImage from '../../assets/laba-no-tracked/люди друг на друге.png';
+import trackingButton from '../../assets/laba-no-tracked/кнопка начать отслеживание.png';
 
 export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
