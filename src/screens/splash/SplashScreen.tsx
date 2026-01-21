@@ -6,42 +6,10 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 // Logo image
 import logo from '../../assets/figma-welcome/splash-logo.png';
 
-// Import first 2-3 screens assets to preload during splash
-import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
-import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
-import carouselRight from '../../assets/figma-welcome/carousel-right.png';
-import tourButton1 from '../../assets/welcome-elements/кнопка экскурсия по платформе.png';
-import tourButton2 from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
-import policyPNG from '../../assets/welcome-elements/политика конфиденциальности.png';
-
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Preload first 2-3 screens assets in background (non-blocking)
-    const firstScreensAssets = [
-      logoSmall,
-      logoFooter,
-      supportButton,
-      socialsIcons,
-      carouselLeft,
-      carouselCenter,
-      carouselRight,
-      tourButton1,
-      tourButton2,
-      policyPNG,
-    ];
-
-    // Start preloading in background (don't block splash display)
-    firstScreensAssets.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-
     // Show splash for 12 seconds
     const timer = setTimeout(() => {
       navigate('/welcome');
