@@ -56,8 +56,8 @@ export const MainDashboardFreeScreen: React.FC = () => {
     if (!isDragging || scratchRevealed) return;
     setIsDragging(false);
     
-    // If dragged more than 60% reveal completely
-    if (dragOffset > 250) {
+    // If dragged more than 50% of card width (445px / 2 = 222px), reveal completely
+    if (dragOffset > 222) {
       setScratchRevealed(true);
       localStorage.setItem('scratch-revealed', 'true');
       setDragOffset(0);
@@ -319,7 +319,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           {/* 4. Шторка вправо (7:233) - scratch card overlay */}
           {!scratchRevealed && (
             <div 
-              className="blur-wave"
+              className={`blur-wave ${!isDragging && dragOffset === 0 ? 'scratch-hint' : ''}`}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}

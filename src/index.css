@@ -126,3 +126,20 @@ input::placeholder {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* Scratch card hint animation - nudge right and back */
+@keyframes scratchHint {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(80px);
+  }
+  30% {
+    transform: translateX(0);
+  }
+}
+
+.scratch-hint {
+  animation: scratchHint 3s ease-in-out 0.5s 3;
+}
