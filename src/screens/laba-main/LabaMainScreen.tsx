@@ -8,7 +8,6 @@ import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png'
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
 // Laba-main PNG assets
-import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
 import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
 import newBadgePNG from '../../assets/laba-main/плашка новое.png';
 
@@ -36,7 +35,6 @@ import badgeScoresActive from '../../assets/laba-main-buttons/плашка ба�
 import badgeAccount from '../../assets/laba-main-buttons/плашка аккаунт неактив.png';
 import badgeAccountActive from '../../assets/laba-main-buttons/плашка аккаунт.png';
 import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
-import badgeSearchCost from '../../assets/laba-main-buttons/плашка сколько стоит поиск.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
@@ -260,20 +258,6 @@ onBlur={() => {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-            }}
-          />
-
-          {/* Badge "25" - PNG из Desktop */}
-          <img 
-            src={badgeSearchCost}
-            alt="25"
-            style={{
-              position: 'absolute',
-              left: 'calc(50% + 373px)',
-              top: '-2px',
-              transform: 'translateX(-50%)',
-              width: '130px',
-              height: '72px',
             }}
           />
         </div>
@@ -811,12 +795,9 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            {/* Кнопка "анализ" PNG */}
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
+            {/* Невидимая кнопка "анализ" - роут сохранён */}
+            <div
               onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -825,6 +806,7 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
+                opacity: 0,
               }}
             />
 
@@ -1188,9 +1170,7 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
+            <div
               onClick={() => navigate('/laba-analysis')}
               style={{
                 position: 'absolute',
@@ -1200,6 +1180,7 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
+                opacity: 0,
               }}
             />
 
@@ -1562,9 +1543,7 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
+            <div
               onClick={() => navigate('/laba-analysis')}
               style={{
                 position: 'absolute',
@@ -1574,6 +1553,7 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
+                opacity: 0,
               }}
             />
 
@@ -1936,9 +1916,7 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
+            <div
               onClick={() => navigate('/laba-analysis')}
               style={{
                 position: 'absolute',
@@ -1948,6 +1926,7 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
+                opacity: 0,
               }}
             />
 

@@ -162,21 +162,6 @@ export const LabaNoTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Невидимая кнопка "начать отслеживание" поверх blur overlay - роут сохранён */}
-        <div
-          onClick={() => navigate('/laba-search-account')}
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '402px',
-            width: '892px',
-            height: '1643px',
-            cursor: 'pointer',
-            opacity: 0,
-            zIndex: 3,
-          }}
-        />
-
         {/* Footer (53:847) - x=141, y=2071, 888x124 */}
         <div style={{
           position: 'absolute',
