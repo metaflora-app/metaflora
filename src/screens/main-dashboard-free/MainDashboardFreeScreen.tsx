@@ -8,7 +8,6 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import bigLogo from '../../assets/demo-access-elements/лого большое в экране демо.png';
-import exitArrow from '../../assets/tour-video/exit-arrow.png';
 import beaverAvatar from '../../assets/main-dashboard/бобер.png';
 import lamaAvatar from '../../assets/main-dashboard/лама.png';
 import cardBackground from '../../assets/main-dashboard/фон под карточку.png';
