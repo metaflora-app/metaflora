@@ -160,6 +160,7 @@ export const MetacoinsScreen: React.FC = () => {
           src={buyButton}
           alt="купить метакоины"
           onClick={handleBuyClick}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '143px',
@@ -222,7 +223,7 @@ export const MetacoinsScreen: React.FC = () => {
             </p>
           </div>
           
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

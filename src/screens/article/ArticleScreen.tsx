@@ -152,7 +152,7 @@ export const ArticleScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '88px',
           top: '399px',
@@ -164,7 +164,7 @@ export const ArticleScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '141px',
           top: '452px',
@@ -239,6 +239,7 @@ export const ArticleScreen: React.FC = () => {
         <img 
           src={promptButton}
           alt="промпт"
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '467px',
@@ -272,6 +273,7 @@ export const ArticleScreen: React.FC = () => {
         <img 
           src={materialsButton}
           alt="материалы"
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '467px',
@@ -282,7 +284,7 @@ export const ArticleScreen: React.FC = () => {
           }}
         />
 
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '754px',
           top: '1907px',
@@ -371,7 +373,7 @@ export const ArticleScreen: React.FC = () => {
             <p style={{ margin: 0 }}>Copyright © Все права защищены.</p>
           </div>
 
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

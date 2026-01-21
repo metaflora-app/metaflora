@@ -160,7 +160,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         </div>
 
         {/* Белая подложка (32:710) */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '88px',
           top: '399px',
@@ -173,7 +173,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         }} />
 
         {/* Черная карточка (32:840) - внутри белой подложки */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '141px',
           top: '452px',
@@ -226,6 +226,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         <img 
           src={promptButton}
           alt="промпт"
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '467px',
@@ -265,6 +266,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         <img 
           src={materialsButton}
           alt="материалы"
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '467px',
@@ -316,6 +318,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               alert('Материалы будут отправлены в чат с ботом');
             }
           }}
+          className="blur-wave"
           style={{
             position: 'absolute',
             left: '754px',
@@ -398,7 +401,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             </p>
           </div>
           
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

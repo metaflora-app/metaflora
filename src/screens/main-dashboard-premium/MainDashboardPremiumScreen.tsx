@@ -236,6 +236,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             src={topUpButton}
             alt="пополнить"
             onClick={() => navigate('/metacoins')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '679px',
@@ -275,7 +276,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка (7:308) */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '2.01% 0 0 50.22%',
             backdropFilter: 'blur(50px)',
@@ -304,7 +305,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
 
           {/* Шторка (затемнение) со стрелкой */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 63.07%',
             backdropFilter: 'blur(50px)',
@@ -330,6 +331,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-academy')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '101px',
@@ -341,7 +343,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           />
 
           {/* Плашка "демо" (368:647) */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '336px',
             top: '19px',
@@ -395,7 +397,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0.4% 0 0 50.22%',
             backdropFilter: 'blur(50px)',
@@ -424,7 +426,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
 
           {/* Шторка покороче со стрелкой */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0.4% 0 0 80.45%',
             backdropFilter: 'blur(50px)',
@@ -450,6 +452,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-laba')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '101px',
@@ -489,7 +492,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 50.32%',
             backdropFilter: 'blur(50px)',
@@ -522,6 +525,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-prompt')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '101px',
@@ -561,7 +565,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 49.97%',
             backdropFilter: 'blur(50px)',
@@ -594,6 +598,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-poligon')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '98px',
@@ -633,7 +638,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 49.56%',
             backdropFilter: 'blur(50px)',
@@ -665,6 +670,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '89px',
@@ -740,7 +746,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

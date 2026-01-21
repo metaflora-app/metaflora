@@ -142,7 +142,7 @@ export const AboutPromptScreen: React.FC = () => {
           </div>
 
           {/* Blur слой поверх видео */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
@@ -152,7 +152,7 @@ export const AboutPromptScreen: React.FC = () => {
             overflow: 'clip',
           }}>
             {/* Кнопка Play */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% - 52px)',
               top: '621px',
@@ -179,7 +179,7 @@ export const AboutPromptScreen: React.FC = () => {
             </div>
 
             {/* Кнопка Pause */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% - 52px)',
               top: '731px',
@@ -206,7 +206,7 @@ export const AboutPromptScreen: React.FC = () => {
             </div>
 
             {/* Кнопка Expand - правый нижний угол (7:142) */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: '93.89% 1.57% 1.17% 90.35%',
               backdropFilter: 'blur(50px)',
@@ -271,6 +271,7 @@ export const AboutPromptScreen: React.FC = () => {
           <img 
             src={serviceButton}
             alt=""
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               inset: 0,
@@ -358,7 +359,7 @@ export const AboutPromptScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

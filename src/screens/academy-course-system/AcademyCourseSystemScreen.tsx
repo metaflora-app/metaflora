@@ -161,7 +161,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
         {lessons.map((lesson) => (
           <React.Fragment key={lesson.number}>
             {/* Карточка урока */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: lesson.left,
               top: lesson.top,
@@ -201,6 +201,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                 src={goButton}
                 alt="перейти"
                 onClick={() => navigate('/academy-lesson-video')}
+                className="button-inner-glow"
                 style={{
                   position: 'absolute',
                   left: '50%',
@@ -214,7 +215,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
             </div>
 
             {/* Номер урока - ПОВЕРХ карточки */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: lesson.numberLeft,
               top: lesson.numberTop,
@@ -305,7 +306,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
             </p>
           </div>
           
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

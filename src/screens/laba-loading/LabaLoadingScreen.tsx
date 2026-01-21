@@ -21,7 +21,7 @@ export const LabaLoadingScreen = () => {
         gap: '20px'
       }}>
         {/* Back button */}
-        <div style={{
+        <div className="blur-wave" style={{
           width: '100px',
           height: '100px',
           borderRadius: '62px',
@@ -39,7 +39,7 @@ export const LabaLoadingScreen = () => {
         </div>
 
         {/* Home button */}
-        <div style={{
+        <div className="blur-wave" style={{
           width: '100px',
           height: '100px',
           borderRadius: '62px',
@@ -67,7 +67,7 @@ export const LabaLoadingScreen = () => {
         }} />
 
         {/* Support button */}
-        <div style={{
+        <div className="blur-wave" style={{
           width: '205px',
           height: '78px',
           borderRadius: '62px',
@@ -145,7 +145,7 @@ export const LabaLoadingScreen = () => {
       </div>
 
       {/* Bottom Sidebar */}
-      <div style={{
+      <div className="blur-wave" style={{
         position: 'fixed',
         bottom: '180px',
         left: '50%',
@@ -272,7 +272,7 @@ export const LabaLoadingScreen = () => {
           Copyright © Все права защищены.
         </div>
 
-        <div style={{
+        <div className="blur-wave" style={{
           display: 'flex',
           gap: '8px',
           padding: '8px 16px',

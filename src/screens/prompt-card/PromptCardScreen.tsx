@@ -199,7 +199,7 @@ export const PromptCardScreen: React.FC = () => {
         />
 
         {/* Main card background - 368:1111 */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '88px',
           top: '399px',
@@ -212,7 +212,7 @@ export const PromptCardScreen: React.FC = () => {
         }} />
 
         {/* Inner black card - 368:1113 (inside 368:1112 at x=141, y=452) */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '141px',
           top: '452px',
@@ -273,6 +273,7 @@ export const PromptCardScreen: React.FC = () => {
         <img 
           src={promptBadge}
           alt="промпт"
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '467px',
@@ -376,7 +377,7 @@ export const PromptCardScreen: React.FC = () => {
             transform: 'translateX(-50%)',
           }}>
             {/* Background */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '-17px',
               top: '-15px',

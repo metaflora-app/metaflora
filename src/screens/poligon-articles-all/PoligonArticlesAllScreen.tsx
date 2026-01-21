@@ -240,6 +240,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
           src={isFilterActive('система') ? systemActive : systemInactive}
           alt="система"
           onClick={() => toggleFilter('система')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '467px',
@@ -257,6 +258,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
           src={isFilterActive('искусство') ? artActive : artInactive}
           alt="искусство"
           onClick={() => toggleFilter('искусство')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '714px',
@@ -274,6 +276,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
           src={isFilterActive('промптинг') ? promptingActive : promptingInactive}
           alt="промптинг"
           onClick={() => toggleFilter('промптинг')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '343px',
@@ -291,6 +294,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
           src={isFilterActive('автоматизация') ? automationActive : automationInactive}
           alt="автоматизация"
           onClick={() => toggleFilter('автоматизация')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '590px',
@@ -327,7 +331,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             }}
           />
           {/* New badge (411:766) - x=336, y=19, 101x36 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '336px',
             top: '19px',
@@ -352,7 +356,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             </div>
           </div>
           {/* Black text block (53:694) - x=449, y=0, 445x249 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '449px',
             top: 0,
@@ -384,7 +388,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             </div>
           </div>
           {/* Shutter overlay (53:696) - x=564, y=0, 330x249 with arrow */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '564px',
             top: 0,
@@ -417,6 +421,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             src={readButton}
             alt="читать"
             onClick={() => navigate('/article')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '101px',
@@ -454,7 +459,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             }}
           />
           {/* Black text block (53:745) - x=449, y=1, 445x249 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '449px',
             top: '1px',
@@ -486,7 +491,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             </div>
           </div>
           {/* Shutter overlay shorter (53:747) - x=719, y=1, 175x249 with arrow */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '719px',
             top: '1px',
@@ -519,6 +524,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             src={readButton}
             alt="читать"
             onClick={() => navigate('/article')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '102px',
@@ -556,7 +562,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             }}
           />
           {/* Black text block (53:703) - x=450, y=0, 444x249 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '450px',
             top: 0,
@@ -592,6 +598,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             src={readButton}
             alt="читать"
             onClick={() => navigate('/article')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '102px',
@@ -629,7 +636,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             }}
           />
           {/* Black text block (53:762) - x=447, y=0, 447x249 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '447px',
             top: 0,
@@ -665,6 +672,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             src={readButton}
             alt="читать"
             onClick={() => navigate('/article')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '100px',
@@ -730,7 +738,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             </p>
           </div>
           
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

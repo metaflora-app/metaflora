@@ -92,7 +92,7 @@ export const PromptFirstScreen: React.FC = () => {
         height: '782px',
       }}>
         {/* Черный фон */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           inset: 0,
           backdropFilter: 'blur(50px)',
@@ -142,7 +142,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Плашка "новое" - только на первой карточке */}
         {isFirstCard && (
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             right: '41px',
             top: '44px',
@@ -219,6 +219,7 @@ export const PromptFirstScreen: React.FC = () => {
           src={openButton}
           alt="перейти"
           onClick={() => navigate('/prompt-card')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '50%',
@@ -324,7 +325,7 @@ export const PromptFirstScreen: React.FC = () => {
         </div>
 
         {/* Search bar */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -389,6 +390,7 @@ export const PromptFirstScreen: React.FC = () => {
           src={isFilterActive('избранное') ? favoriteButtonActive : favoriteButtonInactive}
           alt="избранное"
           onClick={() => toggleFilter('избранное')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '467px',
@@ -405,6 +407,7 @@ export const PromptFirstScreen: React.FC = () => {
           src={isFilterActive('недавние') ? recentButtonActive : recentButtonInactive}
           alt="недавние"
           onClick={() => toggleFilter('недавние')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '714px',
@@ -421,6 +424,7 @@ export const PromptFirstScreen: React.FC = () => {
           src={isFilterActive('топ-выбор') ? topPickButtonActive : topPickButtonInactive}
           alt="топ-выбор"
           onClick={() => toggleFilter('топ-выбор')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '343px',
@@ -437,6 +441,7 @@ export const PromptFirstScreen: React.FC = () => {
           src={isFilterActive('новые') ? newButtonActive : newButtonInactive}
           alt="новые"
           onClick={() => toggleFilter('новые')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '590px',
@@ -449,7 +454,7 @@ export const PromptFirstScreen: React.FC = () => {
         />
 
         {/* Empty Cards window - exact Figma coordinates */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
@@ -562,7 +567,7 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

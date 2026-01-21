@@ -206,7 +206,7 @@ export const LabaTrackedScreen: React.FC = () => {
         )}
 
         {/* Account card with @mishchenko.is - 7:1181 */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '151px',
           top: '405px',
@@ -338,24 +338,25 @@ export const LabaTrackedScreen: React.FC = () => {
 
             {/* Plus button - 7:1188 x=550, y=431 */}
             {!accountRemoved && (
-              <div 
-              onClick={() => navigate('/laba-search-account')}
-              style={{
-                position: 'absolute',
-                left: '399px',
-                top: '26px',
-                width: '98px',
-                height: '98px',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '98px',
-                overflow: 'clip',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}>
+          <div 
+            onClick={() => navigate('/laba-search-account')}
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              left: '399px',
+              top: '26px',
+              width: '98px',
+              height: '98px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '98px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}>
               <div style={{
                 position: 'absolute',
                 left: '19px',
@@ -375,6 +376,7 @@ export const LabaTrackedScreen: React.FC = () => {
         {accountRemoved && (
           <div 
             onClick={() => navigate('/laba-search-account')}
+            className="blur-wave"
             style={{
               position: 'absolute',
               left: '175px',
@@ -515,7 +517,7 @@ export const LabaTrackedScreen: React.FC = () => {
 
         {/* Main content window - hide when account removed */}
         {!accountRemoved && (
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
@@ -537,7 +539,7 @@ export const LabaTrackedScreen: React.FC = () => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -613,7 +615,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -638,7 +640,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -865,6 +867,7 @@ export const LabaTrackedScreen: React.FC = () => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -876,7 +879,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -911,7 +914,7 @@ export const LabaTrackedScreen: React.FC = () => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -973,7 +976,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -998,7 +1001,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -1225,6 +1228,7 @@ export const LabaTrackedScreen: React.FC = () => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1236,7 +1240,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1271,7 +1275,7 @@ export const LabaTrackedScreen: React.FC = () => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -1333,7 +1337,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -1358,7 +1362,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -1585,6 +1589,7 @@ export const LabaTrackedScreen: React.FC = () => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1596,7 +1601,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1631,7 +1636,7 @@ export const LabaTrackedScreen: React.FC = () => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -1693,7 +1698,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -1718,7 +1723,7 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -1945,6 +1950,7 @@ export const LabaTrackedScreen: React.FC = () => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1956,7 +1962,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -2048,7 +2054,7 @@ export const LabaTrackedScreen: React.FC = () => {
             transform: 'translate(-50%, -50%)',
             width: '196px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: 'rgba(255, 255, 255, 0.1)',

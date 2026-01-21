@@ -304,7 +304,7 @@ export const LabaSearchScreen: React.FC = () => {
             <p style={{ margin: 0 }}>Copyright © Все права защищены.</p>
           </div>
 
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

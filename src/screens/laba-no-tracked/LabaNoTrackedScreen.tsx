@@ -222,7 +222,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
           </div>
           
           {/* Social background */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

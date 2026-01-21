@@ -287,6 +287,7 @@ export const WelcomeScreen: React.FC = () => {
       {/* Кнопка "экскурсия по платформе" */}
       <button
         onClick={() => navigate('/tour-video')}
+        className="blur-wave"
         style={{
           position: 'absolute',
           left: '143px',
@@ -340,6 +341,7 @@ export const WelcomeScreen: React.FC = () => {
         <img 
           src={tryButtonBg}
           alt=""
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             inset: 0,
@@ -427,7 +429,7 @@ export const WelcomeScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

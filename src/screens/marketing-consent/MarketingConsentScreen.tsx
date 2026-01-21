@@ -105,7 +105,7 @@ export const MarketingConsentScreen: React.FC = () => {
         </div>
 
         {/* Главная подложка (белая) */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '88px',
           top: '560px',
@@ -126,7 +126,7 @@ export const MarketingConsentScreen: React.FC = () => {
           height: '1373px',
         }}>
           {/* Черная подложка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
@@ -256,7 +256,7 @@ export const MarketingConsentScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

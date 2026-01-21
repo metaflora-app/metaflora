@@ -151,7 +151,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </div>
 
           {/* Blur слой на видео */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
@@ -162,7 +162,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           }} />
 
           {/* Кнопка плей */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             top: '42.48%',
             right: '44.33%',
@@ -191,7 +191,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </div>
 
           {/* Кнопка стоп (пауза) */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             top: '49.97%',
             right: '44.22%',
@@ -220,7 +220,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </div>
 
           {/* Кнопка развернуть видео */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             top: '93.89%',
             right: '1.57%',
@@ -287,6 +287,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           <img 
             src={materialsButton}
             alt=""
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               inset: 0,
@@ -375,7 +376,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

@@ -176,7 +176,7 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           {/* Внутренний контейнер карточки */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
@@ -218,7 +218,7 @@ export const PricingScreen: React.FC = () => {
               }}
             />
 
-            {/* Плашка цены 2690 (серая, зачёркнутая) */}
+            {            /* Плашка цены 2690 (серая, зачёркнутая) */}
             <div style={{
               position: 'absolute',
               left: 'calc(50% + 172px)',
@@ -231,6 +231,7 @@ export const PricingScreen: React.FC = () => {
               <img 
                 src={priceButtonGray}
                 alt=""
+                className="button-inner-glow"
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -280,6 +281,7 @@ export const PricingScreen: React.FC = () => {
               <img 
                 src={priceButtonGreen}
                 alt=""
+                className="button-inner-glow"
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -343,7 +345,7 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           {/* Внутренний контейнер карточки */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
@@ -425,6 +427,7 @@ export const PricingScreen: React.FC = () => {
               <img 
                 src={priceButtonGray}
                 alt=""
+                className="button-inner-glow"
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -613,7 +616,7 @@ export const PricingScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

@@ -191,7 +191,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 50.22%',
             backdropFilter: 'blur(50px)',
@@ -220,7 +220,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
 
           {/* Шторка со стрелкой */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 63.07%',
             backdropFilter: 'blur(50px)',
@@ -246,6 +246,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             src={studyButton}
             alt="изучить"
             onClick={() => navigate('/academy-course-system')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '96px',
@@ -266,7 +267,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             height: '36px',
             zIndex: 20,
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: 0,
@@ -278,7 +279,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               border: '2px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: '11px',
@@ -321,7 +322,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0.4% 0 0 50.22%',
             backdropFilter: 'blur(50px)',
@@ -350,7 +351,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
 
           {/* Шторка покороче */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0.4% 0 0 80.45%',
             backdropFilter: 'blur(50px)',
@@ -376,6 +377,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             src={studyButton}
             alt="изучить"
             onClick={() => navigate('/academy-course-art')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '96px',
@@ -396,7 +398,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             height: '38px',
             zIndex: 20,
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: 0,
@@ -408,7 +410,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               border: '2px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: '11px',
@@ -451,7 +453,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 50.32%',
             backdropFilter: 'blur(50px)',
@@ -484,6 +486,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             src={studyButton}
             alt="изучить"
             onClick={() => navigate('/academy-course-prompting')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '96px',
@@ -504,7 +507,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             height: '36px',
             zIndex: 20,
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: 0,
@@ -516,7 +519,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               border: '2px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: '11px',
@@ -559,7 +562,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
 
           {/* Текст справа - черная карточка */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             inset: '0 0 0 49.97%',
             backdropFilter: 'blur(50px)',
@@ -592,6 +595,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             src={studyButton}
             alt="изучить"
             onClick={() => navigate('/academy-course-automation')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '98px',
@@ -612,7 +616,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
             height: '36px',
             zIndex: 20,
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: 0,
@@ -624,7 +628,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               border: '2px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '50%',
               top: '11px',
@@ -703,7 +707,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </div>
           
           {/* Подложка под соцсети */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',

@@ -177,7 +177,7 @@ export const LabaFavoritesScreen: React.FC = () => {
         />
 
         {/* Search bar + 25 badge - EXACT Figma coordinates */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -276,18 +276,21 @@ onBlur={() => {
           src={selectedSort ? buttonSortActive : buttonSort} 
           alt="сортировка" 
           onClick={handleSortClick}
+          className="button-inner-glow"
           style={{ position: 'absolute', left: '346px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
         <img 
           src={selectedDate ? buttonDateActive : buttonDate} 
           alt="дата" 
           onClick={() => handleFilterClick('date')}
+          className="button-inner-glow"
           style={{ position: 'absolute', left: '593px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
         <img 
           src={selectedLanguage ? buttonLanguageActive : buttonLanguage} 
           alt="язык" 
           onClick={() => handleFilterClick('language')}
+          className="button-inner-glow"
           style={{ position: 'absolute', left: '840px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
 
@@ -296,6 +299,7 @@ onBlur={() => {
           src={selectedVirality ? buttonViralityActive : buttonVirality}
           alt="виральность"
           onClick={() => handleFilterClick('virality')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '220px',
@@ -310,6 +314,7 @@ onBlur={() => {
           src={selectedAccount ? buttonAccountActive : buttonAccount}
           alt="аккаунт"
           onClick={() => handleFilterClick('account')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '464px',
@@ -323,6 +328,7 @@ onBlur={() => {
         <img 
           src={buttonFormat}
           alt="формат"
+          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '711px',
@@ -437,7 +443,7 @@ onBlur={() => {
         </div>
 
         {/* Main content window - с СКРОЛЛОМ */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
@@ -459,7 +465,7 @@ onBlur={() => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -537,7 +543,7 @@ onBlur={() => {
             </div>
 
             {/* Play кнопка - EXACT position */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -563,7 +569,7 @@ onBlur={() => {
             </div>
 
             {/* Статистика бар с иконками - ТОЧНО из Figma */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -796,6 +802,7 @@ onBlur={() => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -808,7 +815,7 @@ onBlur={() => {
             />
 
             {/* Временная плашка */}
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -843,7 +850,7 @@ onBlur={() => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -918,7 +925,7 @@ onBlur={() => {
               </svg>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -943,7 +950,7 @@ onBlur={() => {
               </div>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -1170,6 +1177,7 @@ onBlur={() => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1181,7 +1189,7 @@ onBlur={() => {
               }}
             />
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1216,7 +1224,7 @@ onBlur={() => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -1291,7 +1299,7 @@ onBlur={() => {
               </svg>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -1316,7 +1324,7 @@ onBlur={() => {
               </div>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -1543,6 +1551,7 @@ onBlur={() => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1554,7 +1563,7 @@ onBlur={() => {
               }}
             />
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1589,7 +1598,7 @@ onBlur={() => {
             width: '410px',
             height: '782px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               inset: 0,
               backdropFilter: 'blur(50px)',
@@ -1664,7 +1673,7 @@ onBlur={() => {
               </svg>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               top: '22.76%',
               right: '38.78%',
@@ -1689,7 +1698,7 @@ onBlur={() => {
               </div>
             </div>
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: '#000',
@@ -1916,6 +1925,7 @@ onBlur={() => {
               src={analysisButtonPNG}
               alt="анализ" 
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1927,7 +1937,7 @@ onBlur={() => {
               }}
             />
 
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -2018,7 +2028,7 @@ onBlur={() => {
             transform: 'translate(-50%, -50%)',
             width: '196px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: 'rgba(255, 255, 255, 0.1)',

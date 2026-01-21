@@ -132,7 +132,7 @@ export const LabaAnalysisScreen: React.FC = () => {
         </div>
 
         {/* Outer background layer - 292:630 (главная подложка) */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '88px',
           top: '399px',
@@ -145,7 +145,7 @@ export const LabaAnalysisScreen: React.FC = () => {
         }} />
 
         {/* Main card container - 292:631 (подложка вторая черная) */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '141px',
           top: '455px',
@@ -184,7 +184,7 @@ export const LabaAnalysisScreen: React.FC = () => {
 
 
           {/* Play button - 292:735 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '403px',
             top: '363px',
@@ -210,7 +210,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           </div>
 
           {/* Status bar - 292:661 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '174px',
             top: '688px',
@@ -359,7 +359,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           </div>
 
           {/* Date badge "2 месяца назад" - 292:668 */}
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '286px',
             top: '777px',
@@ -520,6 +520,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 alert(message);
               }
             }}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '602px',
@@ -534,6 +535,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           <img
             src={openButtonPNG}
             alt="открыть"
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '663px',
@@ -621,7 +623,7 @@ export const LabaAnalysisScreen: React.FC = () => {
 
           {/* Blur frame overlay - 292:684 - HIDE when analysis started */}
           {!showAnalysisResults && (
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               left: '53px',
               top: '1207px',
@@ -643,6 +645,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 src={startAnalysisButtonPNG}
                 alt="начать анализ 100"
                 onClick={() => setShowAnalysisResults(true)}
+                className="button-inner-glow"
                 style={{
                   width: '530px',
                   height: '139px',
@@ -819,6 +822,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   src={createScenarioButtonPNG}
                   alt="создать сценарий 50"
                   onClick={() => setShowScenario(true)}
+                  className="button-inner-glow"
                   style={{
                     position: 'absolute',
                     left: '131px',
@@ -950,7 +954,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             transform: 'translate(-50%, -50%)',
             width: '196px',
           }}>
-            <div style={{
+            <div className="blur-wave" style={{
               position: 'absolute',
               backdropFilter: 'blur(50px)',
               background: 'rgba(255, 255, 255, 0.1)',

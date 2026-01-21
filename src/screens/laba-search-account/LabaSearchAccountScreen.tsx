@@ -94,7 +94,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
         </div>
 
         {/* Support button (109:609) */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: 'calc(50% + 341.5px)',
           transform: 'translateX(-50%)',
@@ -181,7 +181,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
         </div>
 
         {/* Main card (109:626) - главная подложка */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '88px',
           top: '397px',
@@ -194,7 +194,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
         }} />
 
         {/* Black card (109:631) - подложка вторая черная */}
-        <div style={{
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '141px',
           top: '453px',
@@ -329,6 +329,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             src={promptPlate}
             alt="найти"
             onClick={handleSearch}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '326px',
@@ -417,6 +418,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             src={trackingButton}
             alt="начать отслеживание"
             onClick={() => navigate('/laba-tracked')}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '184px',
@@ -497,7 +499,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             </p>
           </div>
           
-          <div style={{
+          <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',
