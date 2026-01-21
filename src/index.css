@@ -113,3 +113,46 @@ input::placeholder {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* Button glow animation - smooth without flicker */
+@keyframes buttonGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(0,232,255,0.9));
+  }
+}
+
+.button-glow {
+  animation: buttonGlow 3s ease-in-out infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Border shine animation - smooth gradient flow */
+@keyframes borderShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.button-shine-wrapper {
+  position: relative;
+  border-radius: 30px;
+  padding: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 232, 255, 0.6),
+    rgba(240, 216, 37, 0.6),
+    rgba(182, 255, 60, 0.6),
+    rgba(0, 232, 255, 0.6)
+  );
+  background-size: 200% 100%;
+  animation: borderShine 4s linear infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}

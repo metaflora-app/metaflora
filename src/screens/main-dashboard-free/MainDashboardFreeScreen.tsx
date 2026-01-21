@@ -256,6 +256,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             src={goButton}
             alt="открыть"
             onClick={() => navigate('/about-laba')}
+            className="button-glow"
             style={{
               position: 'absolute',
               left: '101px',
@@ -406,20 +407,31 @@ export const MainDashboardFreeScreen: React.FC = () => {
           }} />
 
         {/* Кнопка "оплатить полный доступ" - PNG (7:237) */}
-        <img 
-          src={payButton}
-          alt="оплатить полный доступ"
-          onClick={() => navigate('/pricing')}
+        <div 
+          className="button-shine-wrapper"
           style={{
             position: 'absolute',
-            left: '144px',
-            top: '1375px',
-            width: '887px',
-            height: '140px',
-            objectFit: 'fill',
-            cursor: 'pointer',
+            left: '140px',
+            top: '1371px',
+            width: '895px',
+            height: '148px',
           }}
-        />
+        >
+          <img 
+            src={payButton}
+            alt="оплатить полный доступ"
+            onClick={() => navigate('/pricing')}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'fill',
+              cursor: 'pointer',
+              borderRadius: '26px',
+            }}
+          />
+        </div>
 
         {/* Текст под кнопкой "вы будете перенаправлены" (7:220) */}
         <div style={{
