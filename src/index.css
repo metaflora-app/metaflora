@@ -98,13 +98,13 @@ input::placeholder {
 /* Blur wave animation */
 @keyframes blurWave {
   0% {
-    backdrop-filter: blur(40px);
+    backdrop-filter: blur(42px);
   }
   50% {
     backdrop-filter: blur(52px);
   }
   100% {
-    backdrop-filter: blur(40px);
+    backdrop-filter: blur(42px);
   }
 }
 
@@ -114,13 +114,16 @@ input::placeholder {
   -webkit-backface-visibility: hidden;
 }
 
-/* Button inner glow animation - strong brightness change */
+/* Button inner glow animation - smooth brightness without dimming */
 @keyframes buttonInnerGlow {
-  0%, 100% {
-    filter: brightness(1);
+  0% {
+    filter: brightness(1.2);
   }
   50% {
-    filter: brightness(1.8);
+    filter: brightness(1.5);
+  }
+  100% {
+    filter: brightness(1.2);
   }
 }
 
