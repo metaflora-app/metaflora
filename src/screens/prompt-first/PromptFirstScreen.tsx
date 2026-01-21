@@ -260,13 +260,16 @@ export const PromptFirstScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>        {/* Header - Logo */}
-        <div style={{
-          position: 'absolute',
-          height: '131px',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-        }}>
+        <div 
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{
+            position: 'absolute',
+            height: '131px',
+            left: '500px',
+            top: '61px',
+            width: '186px',
+            cursor: 'pointer',
+          }}>
           <div style={{
             position: 'absolute',
             inset: 0,
