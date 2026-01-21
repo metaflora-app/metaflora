@@ -95,16 +95,16 @@ input::placeholder {
   opacity: 1;
 }
 
-/* Blur wave animation - minimal range to reduce flicker */
+/* Blur wave animation */
 @keyframes blurWave {
   0% {
-    backdrop-filter: blur(45px);
+    backdrop-filter: blur(30px);
   }
   50% {
-    backdrop-filter: blur(55px);
+    backdrop-filter: blur(80px);
   }
   100% {
-    backdrop-filter: blur(45px);
+    backdrop-filter: blur(30px);
   }
 }
 
