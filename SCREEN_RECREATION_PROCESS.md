@@ -428,3 +428,19 @@
 
 ### Исправления навигации:
 - ✅ PromptFirstScreen: лого теперь ведет на /main-dashboard-premium
+
+---
+
+## 📝 ОБНОВЛЕНИЯ (2026-01-21, вечер):
+
+### Унификация позиций кнопок "открыть":
+- ✅ Все кнопки "открыть" на dashboard экранах: **x=101, y=85, 247×79px**
+- ✅ Источник: Figma metadata nodes 354:654, 356:731-783
+- ✅ Обновлено 6 кнопок в MainDashboardFree и MainDashboardPremium
+- ✅ Коммит: f2040a9
+
+### Обновления UI элементов:
+- ✅ MainDashboardFreeScreen: удалена кнопка "назад" (exitArrow)
+- ✅ LabaSearchAccountScreen: обновлён header на PNG кнопку из MetacoinsScreen
+- ✅ Координаты supportButton: 829px, 97px, 205×78px
+- ✅ Коммиты: a79a38b, bd89a0b
