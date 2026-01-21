@@ -15,6 +15,7 @@ import profilePhoto from '../../assets/laba-search-account/фото профил
 import trackingButton from '../../assets/laba-search-account/укороченная кнопка начать отслеживание.png';
 import peopleBackground from '../../assets/laba-search-account/люди друг на друге.png';
 import searchIcon from '../../assets/laba-search-account/иконка поиск.png';
+import searchCostBadge from '../../assets/laba-search-account/плашка сколько стоит поиск.png';
 
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -138,6 +139,20 @@ export const LabaSearchAccountScreen: React.FC = () => {
         }}>
           добавьте аккаунт для отслеживания
         </div>
+
+        {/* Search cost badge (7:1123) - x=746, y=0 in Figma metadata */}
+        <img 
+          src={searchCostBadge}
+          alt="25 метакоинов"
+          style={{
+            position: 'absolute',
+            left: '746px',
+            top: '199px',
+            width: '130px',
+            height: '72px',
+            objectFit: 'contain',
+          }}
+        />
 
         {/* Background people image (109:596) - BEHIND cards */}
         <div style={{
