@@ -12,6 +12,7 @@ import { AboutLabaScreen } from './screens/about-laba';
 import { AboutPoligonScreen } from './screens/about-poligon';
 import { AcademyCoursesAllScreen } from './screens/academy-courses-all';
 import { AcademyCourseSystemScreen } from './screens/academy-course-system';
+import { AcademyCourseDemoScreen } from './screens/academy-course-demo';
 import { AcademyCourseArtScreen } from './screens/academy-course-art';
 import { AcademyCoursePromptingScreen } from './screens/academy-course-prompting';
 import { AcademyCourseAutomationScreen } from './screens/academy-course-automation';
@@ -191,6 +192,10 @@ export const router = createBrowserRouter([
   {
     path: '/academy-course-system',
     element: <AcademyCourseSystemScreen />,
+  },
+  {
+    path: '/academy-course-demo',
+    element: <AcademyCourseDemoScreen />,
   },
   {
     path: '/academy-course-art',

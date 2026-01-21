@@ -255,7 +255,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/about-laba')}
+            onClick={() => navigate('/academy-course-demo')}
             className="button-inner-glow"
             style={{
               position: 'absolute',

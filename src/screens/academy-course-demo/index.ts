@@ -1,0 +1,1 @@
+export { AcademyCourseDemoScreen } from './AcademyCourseDemoScreen';
