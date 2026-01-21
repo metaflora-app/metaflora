@@ -38,6 +38,49 @@ const PoligonArticlesAllScreen: React.FC = () => {
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Scratch card states for each article card
+  const [scratchStates, setScratchStates] = React.useState(() => ({
+    article1: localStorage.getItem('scratch-poligon-article1') === 'true',
+    article2: localStorage.getItem('scratch-poligon-article2') === 'true',
+    article3: localStorage.getItem('scratch-poligon-article3') === 'true',
+    article4: localStorage.getItem('scratch-poligon-article4') === 'true',
+  }));
+
+  const [dragOffsets, setDragOffsets] = React.useState({
+    article1: 0,
+    article2: 0,
+    article3: 0,
+    article4: 0,
+  });
+
+  const [draggingCard, setDraggingCard] = React.useState<string | null>(null);
+
+  const createHandlers = (cardId: keyof typeof scratchStates) => ({
+    handleTouchStart: () => {
+      if (scratchStates[cardId]) return;
+      setDraggingCard(cardId);
+    },
+    handleTouchMove: (e: React.TouchEvent) => {
+      if (draggingCard !== cardId || scratchStates[cardId]) return;
+      const touch = e.touches[0];
+      const cardElement = e.currentTarget.getBoundingClientRect();
+      const offset = touch.clientX - cardElement.left;
+      setDragOffsets(prev => ({ ...prev, [cardId]: Math.max(0, offset) }));
+    },
+    handleTouchEnd: () => {
+      if (draggingCard !== cardId || scratchStates[cardId]) return;
+      setDraggingCard(null);
+      
+      if (dragOffsets[cardId] > 222) {
+        setScratchStates(prev => ({ ...prev, [cardId]: true }));
+        localStorage.setItem(`scratch-poligon-${cardId}`, 'true');
+        setDragOffsets(prev => ({ ...prev, [cardId]: 0 }));
+      } else {
+        setDragOffsets(prev => ({ ...prev, [cardId]: 0 }));
+      }
+    },
+  });
+
   const toggleFilter = (filter: string) => {
     if (filter === 'вернуть') {
       setSelectedFilters([]);
@@ -387,6 +430,41 @@ const PoligonArticlesAllScreen: React.FC = () => {
               <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
+          {/* Scratch card overlay for article1 */}
+          {!scratchStates.article1 && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'article1' && dragOffsets.article1 === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('article1').handleTouchStart}
+              onTouchMove={createHandlers('article1').handleTouchMove}
+              onTouchEnd={createHandlers('article1').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                left: '449px',
+                top: 0,
+                width: '445px',
+                height: '249px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.article1}px)`,
+                transition: draggingCard === 'article1' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.article1 > 0 ? Math.max(0, 1 - dragOffsets.article1 / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
+            </div>
+          )}
           {/* Shutter overlay (53:696) - x=564, y=0, 330x249 with arrow */}
           <div className="blur-wave" style={{
             position: 'absolute',
@@ -490,6 +568,41 @@ const PoligonArticlesAllScreen: React.FC = () => {
               <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
+          {/* Scratch card overlay for article2 */}
+          {!scratchStates.article2 && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'article2' && dragOffsets.article2 === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('article2').handleTouchStart}
+              onTouchMove={createHandlers('article2').handleTouchMove}
+              onTouchEnd={createHandlers('article2').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                left: '449px',
+                top: '1px',
+                width: '445px',
+                height: '249px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.article2}px)`,
+                transition: draggingCard === 'article2' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.article2 > 0 ? Math.max(0, 1 - dragOffsets.article2 / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
+            </div>
+          )}
           {/* Shutter overlay shorter (53:747) - x=719, y=1, 175x249 with arrow */}
           <div className="blur-wave" style={{
             position: 'absolute',
@@ -593,6 +706,41 @@ const PoligonArticlesAllScreen: React.FC = () => {
               <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
+          {/* Scratch card overlay for article3 */}
+          {!scratchStates.article3 && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'article3' && dragOffsets.article3 === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('article3').handleTouchStart}
+              onTouchMove={createHandlers('article3').handleTouchMove}
+              onTouchEnd={createHandlers('article3').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                left: '450px',
+                top: 0,
+                width: '444px',
+                height: '249px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.article3}px)`,
+                transition: draggingCard === 'article3' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.article3 > 0 ? Math.max(0, 1 - dragOffsets.article3 / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
+            </div>
+          )}
           {/* Read button (53:718) - x=102, y=85, 247x80 */}
           <img 
             src={readButton}
@@ -667,6 +815,41 @@ const PoligonArticlesAllScreen: React.FC = () => {
               <p style={{ margin: 0, lineHeight: 'normal' }}>Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе</p>
             </div>
           </div>
+          {/* Scratch card overlay for article4 */}
+          {!scratchStates.article4 && (
+            <div 
+              className={`blur-wave ${draggingCard !== 'article4' && dragOffsets.article4 === 0 ? 'scratch-hint' : ''}`}
+              onTouchStart={createHandlers('article4').handleTouchStart}
+              onTouchMove={createHandlers('article4').handleTouchMove}
+              onTouchEnd={createHandlers('article4').handleTouchEnd}
+              style={{
+                position: 'absolute',
+                left: '447px',
+                top: 0,
+                width: '447px',
+                height: '249px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                pointerEvents: 'auto',
+                transform: `translateX(${dragOffsets.article4}px)`,
+                transition: draggingCard === 'article4' ? 'none' : 'transform 0.3s ease-out',
+                opacity: dragOffsets.article4 > 0 ? Math.max(0, 1 - dragOffsets.article4 / 300) : 1,
+                touchAction: 'pan-x',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <div style={{
+                fontSize: '60px',
+                color: 'white',
+                opacity: 0.8,
+              }}>
+                →
+              </div>
+            </div>
+          )}
           {/* Read button (53:732) - x=241, y=1604 - ABSOLUTE TO SCREEN */}
           <img 
             src={readButton}
