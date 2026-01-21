@@ -35,14 +35,17 @@ export const LabaNoTrackedScreen: React.FC = () => {
         transformOrigin: 'top left',
       }}>
         {/* Background pattern */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }} />
+        {/* Background pattern - full screen */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url(${bgPattern})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'repeat',
+          }}
+        />
 
         {/* Header - COPIED FROM laba-search (REUSE) */}
         
