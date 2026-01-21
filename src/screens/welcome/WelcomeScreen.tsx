@@ -186,7 +186,6 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Слайд 1 - Левая карточка (повёрнута -5°) */}
       <div 
-        onClick={() => handleDotClick(0)}
         style={{
           position: 'absolute',
           left: '-213px',
@@ -194,10 +193,6 @@ export const WelcomeScreen: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           padding: '10px',
-          cursor: 'pointer',
-          opacity: activeSlide === 0 ? 1 : 0.6,
-          transform: activeSlide === 0 ? 'scale(1.05)' : 'scale(1)',
-          transition: 'all 0.3s ease-out',
         }}>
         <div style={{
           width: '609.038px',
@@ -232,7 +227,6 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Слайд 2 - Центральная карточка */}
       <div 
-        onClick={() => handleDotClick(1)}
         style={{
           position: 'absolute',
           left: '315px',
@@ -240,10 +234,6 @@ export const WelcomeScreen: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           padding: '10px',
-          cursor: 'pointer',
-          opacity: activeSlide === 1 ? 1 : 0.6,
-          transform: activeSlide === 1 ? 'scale(1.05)' : 'scale(1)',
-          transition: 'all 0.3s ease-out',
         }}>
         <div style={{
           width: '530px',
@@ -268,7 +258,6 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Слайд 3 - Правая карточка (повёрнута +5°) */}
       <div 
-        onClick={() => handleDotClick(2)}
         style={{
           position: 'absolute',
           left: '764px',
@@ -276,10 +265,6 @@ export const WelcomeScreen: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           padding: '10px',
-          cursor: 'pointer',
-          opacity: activeSlide === 2 ? 1 : 0.6,
-          transform: activeSlide === 2 ? 'scale(1.05)' : 'scale(1)',
-          transition: 'all 0.3s ease-out',
         }}>
         <div style={{
           width: '609.038px',
