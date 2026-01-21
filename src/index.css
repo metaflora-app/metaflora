@@ -95,7 +95,7 @@ input::placeholder {
   opacity: 1;
 }
 
-/* Blur wave animation */
+/* Blur wave animation - optimized for battery */
 @keyframes blurWave {
   0% {
     backdrop-filter: blur(42px);
@@ -109,26 +109,27 @@ input::placeholder {
 }
 
 .blur-wave {
-  animation: blurWave 5s ease-in-out infinite;
+  animation: blurWave 6s ease-in-out infinite;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  will-change: backdrop-filter;
 }
 
-/* Button inner glow animation - opacity based to preserve text color */
+/* Button/badge glow animation - filter brightness to preserve white text */
 @keyframes buttonInnerGlow {
   0% {
-    opacity: 0.85;
+    filter: brightness(1) contrast(1);
   }
   50% {
-    opacity: 1;
+    filter: brightness(1.5) contrast(1.1);
   }
   100% {
-    opacity: 0.85;
+    filter: brightness(1) contrast(1);
   }
 }
 
 .button-inner-glow {
-  animation: buttonInnerGlow 3s ease-in-out infinite;
+  animation: buttonInnerGlow 4s ease-in-out infinite;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
