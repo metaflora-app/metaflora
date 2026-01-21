@@ -21,29 +21,14 @@ export const WelcomeScreen: React.FC = () => {
 
   // Carousel state - start at center (slide 1)
   const [activeSlide, setActiveSlide] = React.useState(1);
-  const [touchStart, setTouchStart] = React.useState<number | null>(null);
 
-  // NO AUTO-SCROLL - only user interaction
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStart === null) return;
-    const touchEnd = e.changedTouches[0].clientX;
-    const diff = touchStart - touchEnd;
-
-    // Swipe left (next slide)
-    if (diff > 50 && activeSlide < 2) {
-      setActiveSlide(activeSlide + 1);
-    }
-    // Swipe right (prev slide)
-    else if (diff < -50 && activeSlide > 0) {
-      setActiveSlide(activeSlide - 1);
-    }
-    setTouchStart(null);
-  };
+  // Auto-scroll carousel every 4 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide(prev => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Click on dot to change slide
   const handleDotClick = (index: number) => {
@@ -170,17 +155,14 @@ export const WelcomeScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Carousel wrapper with touch handlers */}
+      {/* Carousel wrapper */}
       <div
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         style={{
           position: 'absolute',
           left: 0,
           top: '639px',
           width: '1180px',
           height: '1000px',
-          touchAction: 'pan-x',
         }}
       >
         {/* Слайд 1 - Левая карточка (повёрнута -5°) */}
