@@ -127,22 +127,26 @@ input::placeholder {
   -webkit-backface-visibility: hidden;
 }
 
-/* Card pulse animation - subtle opacity pulse */
+/* Card pulse animation - scale based */
 @keyframes cardPulse {
   0%, 100% {
-    opacity: 0.95;
+    transform: scale(1);
   }
   50% {
-    opacity: 1;
+    transform: scale(1.03);
   }
 }
 
 .card-pulse-1 {
   animation: cardPulse 3s ease-in-out infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-pulse-2 {
   animation: cardPulse 3s ease-in-out 1.5s infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Selected card - lift up */

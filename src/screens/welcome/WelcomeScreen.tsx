@@ -19,8 +19,9 @@ export const WelcomeScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Carousel state - 0, 1, 2 for three slides
-  const [activeSlide, setActiveSlide] = React.useState(0);
+  // Carousel state - start at center (slide 1)
+  const [activeSlide, setActiveSlide] = React.useState(1);
+  const [touchStart, setTouchStart] = React.useState<number | null>(null);
 
   // Auto-scroll carousel every 4 seconds
   React.useEffect(() => {
@@ -29,6 +30,26 @@ export const WelcomeScreen: React.FC = () => {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+
+    // Swipe left (next slide)
+    if (diff > 50) {
+      setActiveSlide(prev => (prev + 1) % 3);
+    }
+    // Swipe right (prev slide)
+    else if (diff < -50) {
+      setActiveSlide(prev => (prev - 1 + 3) % 3);
+    }
+    setTouchStart(null);
+  };
 
   return (
     <div style={{
@@ -149,6 +170,20 @@ export const WelcomeScreen: React.FC = () => {
           <p style={{ marginBottom: 0 }}>и другие сервисы</p>
         </div>
       </div>
+
+      {/* Carousel container with touch handlers */}
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: '639px',
+          width: '1180px',
+          height: '1000px',
+          touchAction: 'pan-x',
+        }}
+      />
 
       {/* Слайд 1 - Левая карточка (повёрнута -5°) */}
       <div 
