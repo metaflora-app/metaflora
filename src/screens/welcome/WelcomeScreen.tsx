@@ -208,7 +208,7 @@ export const WelcomeScreen: React.FC = () => {
                   key={`left-${activeSlide}`}
                   src={getImageForPosition(0)}
                   alt="Левая карточка"
-                  className="carousel-slide"
+                  className="carousel-image"
                   style={{
                     position: 'absolute',
                     inset: 0,
@@ -244,7 +244,7 @@ export const WelcomeScreen: React.FC = () => {
               key={`center-${activeSlide}`}
               src={getImageForPosition(1)}
               alt="Центральная карточка"
-              className="carousel-slide"
+              className="carousel-image"
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -275,7 +275,7 @@ export const WelcomeScreen: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <div style={{ transform: 'rotate(185deg) scaleY(-1)' }}>
+            <div style={{ transform: 'rotate(5deg)' }}>
               <div style={{
                 width: '530px',
                 height: '930px',
@@ -286,7 +286,7 @@ export const WelcomeScreen: React.FC = () => {
                   key={`right-${activeSlide}`}
                   src={getImageForPosition(2)}
                   alt="Правая карточка"
-                  className="carousel-slide"
+                  className="carousel-image"
                   style={{
                     position: 'absolute',
                     inset: 0,
