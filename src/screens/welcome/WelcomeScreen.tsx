@@ -28,8 +28,18 @@ export const WelcomeScreen: React.FC = () => {
   // NO AUTO-SCROLL - only manual interaction
 
   // Click on card to change slide
-  const handleCardClick = (index: number) => {
-    setActiveSlide(index);
+  // Position: 0=left, 1=center, 2=right
+  // When clicking left card (position 0), move carousel left (activeSlide - 1)
+  // When clicking right card (position 2), move carousel right (activeSlide + 1)
+  const handleCardClick = (position: number) => {
+    if (position === 0) {
+      // Click on left card - move carousel left
+      setActiveSlide((activeSlide - 1 + 3) % 3);
+    } else if (position === 2) {
+      // Click on right card - move carousel right
+      setActiveSlide((activeSlide + 1) % 3);
+    }
+    // Position 1 (center) - already active, do nothing
   };
 
   // Click on dot to change slide
