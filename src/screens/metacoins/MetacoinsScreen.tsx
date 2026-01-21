@@ -43,9 +43,6 @@ export const MetacoinsScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Backdrop overlay when card selected */}
-      {selectedCard && <div className="backdrop-overlay" />}
-      
       {/* Scaled container - DESKTOP format 1180x2550 */}
       <div style={{
         position: 'relative',

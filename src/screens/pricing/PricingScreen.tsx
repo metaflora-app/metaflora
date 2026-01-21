@@ -48,9 +48,6 @@ export const PricingScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Backdrop overlay when card selected */}
-      {selectedPlan && <div className="backdrop-overlay" />}
-      
       {/* Scaled container */}
       <div style={{
         position: 'relative',
