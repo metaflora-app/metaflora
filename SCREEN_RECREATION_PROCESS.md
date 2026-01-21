@@ -444,3 +444,17 @@
 - ✅ LabaSearchAccountScreen: обновлён header на PNG кнопку из MetacoinsScreen
 - ✅ Координаты supportButton: 829px, 97px, 205×78px
 - ✅ Коммиты: a79a38b, bd89a0b
+
+---
+
+## 📝 ОБНОВЛЕНИЯ (2026-01-21, 09:55):
+
+### Удаление кнопок с метакоинами:
+- ✅ LabaAnalysisScreen: кнопки "начать анализ" и "создать сценарий" → невидимые div (opacity: 0)
+- ✅ LabaNoTrackedScreen: кнопка "начать отслеживание" → невидимый div поверх blur overlay
+- ✅ LabaSearchAccountScreen: кнопка "начать отслеживание" → невидимый div
+- ✅ Все onClick роуты сохранены
+- ✅ Коммиты: 6386249, 27511ba
+
+### НЕ тронуто:
+- ✅ LabaMainScreen: кнопки "начать анализ" остались видимыми (по запросу юзера)
