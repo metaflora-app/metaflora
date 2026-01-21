@@ -6,6 +6,7 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
+import supportButton from '../../assets/tour-video/support-button.png';
 
 // Search account specific assets
 import promptPlate from '../../assets/laba-search-account/промпт плашка.png';
@@ -96,40 +97,19 @@ export const LabaSearchAccountScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Support button (109:609) */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          left: 'calc(50% + 341.5px)',
-          transform: 'translateX(-50%)',
-          top: '97px',
-          width: '205px',
-          height: '78px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255,255,255,0.1)',
-          border: '4px solid rgba(255,255,255,0.3)',
-          borderRadius: '62px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}>
-          <div style={{
+        {/* Support button PNG (109:609) */}
+        <img 
+          src={supportButton}
+          alt="написать в поддержку"
+          style={{
             position: 'absolute',
-            left: 'calc(50% - 68.5px)',
-            top: 'calc(23.08% - 4px)',
-            bottom: 'calc(25.64% - 4px)',
-            width: '145px',
-            fontFamily: 'Gotham Pro',
-            fontSize: '20px',
-            color: 'white',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            lineHeight: 1,
-            whiteSpace: 'pre-wrap',
-          }}>
-            <p style={{ margin: 0, fontWeight: 300 }}>написать </p>
-            <p style={{ margin: 0, fontWeight: 700 }}>в поддержку</p>
-          </div>
-        </div>
+            left: '829px',
+            top: '97px',
+            width: '205px',
+            height: '78px',
+            cursor: 'pointer',
+          }}
+        />
 
         {/* Title - CSS (7:1425) */}
         <div style={{

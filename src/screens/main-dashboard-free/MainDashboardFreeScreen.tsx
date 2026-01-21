@@ -101,21 +101,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
           }}
         />
 
-        {/* Кнопка "выход" */}
-        <img 
-          src={exitArrow}
-          alt="назад"
-          onClick={() => navigate('/demo-access')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 452px)',
-            top: '75px',
-            width: '100px',
-            height: '100px',
-            cursor: 'pointer',
-          }}
-        />
-
         {/* Приветствие "неопознанный бобёр" / "неопознанную ламу" */}
         <div style={{
           position: 'absolute',
