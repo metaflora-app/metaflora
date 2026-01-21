@@ -150,17 +150,17 @@ export const WelcomeScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Левая карточка карусели (повёрнута -5°) */}
-      <div style={{
-        position: 'absolute',
-        left: '-213px',
-        top: '639px',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '10px',
-        transform: `translateX(${activeSlide * 528}px)`,
-        transition: 'transform 0.6s ease-in-out',
-      }}>
+      {/* Слайд 1 - Левая карточка (повёрнута -5°) */}
+      <div 
+        className={`carousel-slide ${activeSlide !== 0 ? 'carousel-slide-hidden' : ''}`}
+        style={{
+          position: 'absolute',
+          left: '-213px',
+          top: '639px',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '10px',
+        }}>
         <div style={{
           width: '609.038px',
           height: '972.654px',
@@ -192,17 +192,17 @@ export const WelcomeScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Центральная карточка карусели */}
-      <div style={{
-        position: 'absolute',
-        left: '315px',
-        top: '639px',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '10px',
-        transform: `translateX(${activeSlide * 528}px)`,
-        transition: 'transform 0.6s ease-in-out',
-      }}>
+      {/* Слайд 2 - Центральная карточка */}
+      <div 
+        className={`carousel-slide ${activeSlide !== 1 ? 'carousel-slide-hidden' : ''}`}
+        style={{
+          position: 'absolute',
+          left: '315px',
+          top: '639px',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '10px',
+        }}>
         <div style={{
           width: '530px',
           height: '930px',
@@ -224,17 +224,17 @@ export const WelcomeScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Правая карточка карусели (повёрнута +5°) */}
-      <div style={{
-        position: 'absolute',
-        left: '764px',
-        top: '639px',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '10px',
-        transform: `translateX(${activeSlide * 528}px)`,
-        transition: 'transform 0.6s ease-in-out',
-      }}>
+      {/* Слайд 3 - Правая карточка (повёрнута +5°) */}
+      <div 
+        className={`carousel-slide ${activeSlide !== 2 ? 'carousel-slide-hidden' : ''}`}
+        style={{
+          position: 'absolute',
+          left: '764px',
+          top: '639px',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '10px',
+        }}>
         <div style={{
           width: '609.038px',
           height: '972.654px',

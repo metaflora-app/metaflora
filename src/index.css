@@ -127,7 +127,7 @@ input::placeholder {
   -webkit-backface-visibility: hidden;
 }
 
-/* Card pulse animation - opacity based to avoid edge flicker */
+/* Card pulse animation - subtle opacity pulse */
 @keyframes cardPulse {
   0%, 100% {
     opacity: 0.95;
@@ -145,10 +145,20 @@ input::placeholder {
   animation: cardPulse 3s ease-in-out 1.5s infinite;
 }
 
-/* Selected card - lift without scale to prevent gray edges */
+/* Selected card - lift up */
 .card-selected {
   position: relative;
   z-index: 100;
   transform: translateY(-20px);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Carousel slide transitions */
+.carousel-slide {
+  transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+}
+
+.carousel-slide-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
