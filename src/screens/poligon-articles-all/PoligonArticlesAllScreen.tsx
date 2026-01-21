@@ -27,8 +27,6 @@ import bgWorkshop from '../../assets/poligon-articles/фон цех.png';
 import bgPoligon from '../../assets/poligon-articles/фон полигон.png';
 import readButton from '../../assets/poligon-articles/кнопка читать.png';
 import peopleInCircle from '../../assets/poligon-articles/люди в круге.png';
-import arrowLong from '../../assets/poligon-articles/arrow-long.svg';
-import arrowShort from '../../assets/poligon-articles/arrow-short.svg';
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
