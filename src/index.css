@@ -101,7 +101,7 @@ input::placeholder {
     backdrop-filter: blur(30px);
   }
   50% {
-    backdrop-filter: blur(80px);
+    backdrop-filter: blur(70px);
   }
   100% {
     backdrop-filter: blur(30px);
