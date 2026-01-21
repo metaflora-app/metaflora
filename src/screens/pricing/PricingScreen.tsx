@@ -48,6 +48,9 @@ export const PricingScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
+      {/* Backdrop overlay when card selected */}
+      {selectedPlan && <div className="backdrop-overlay" />}
+      
       {/* Scaled container */}
       <div style={{
         position: 'relative',
@@ -167,6 +170,7 @@ export const PricingScreen: React.FC = () => {
         {/* КАРТОЧКА ТАРИФ "1 МЕСЯЦ" */}
         <div 
           onClick={() => setSelectedPlan('1month')}
+          className={`${selectedPlan === '1month' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-1' : ''}`}
           style={{
             position: 'absolute',
             left: '144px',
@@ -336,6 +340,7 @@ export const PricingScreen: React.FC = () => {
         {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
         <div 
           onClick={() => setSelectedPlan('3months')}
+          className={`${selectedPlan === '3months' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-2' : ''}`}
           style={{
             position: 'absolute',
             left: '143px',
@@ -511,6 +516,7 @@ export const PricingScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',
+            zIndex: 101,
             top: '1744px',
             transform: 'translateX(-50%)',
             width: '892px',

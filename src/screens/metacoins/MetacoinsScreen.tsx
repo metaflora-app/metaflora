@@ -43,6 +43,9 @@ export const MetacoinsScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
+      {/* Backdrop overlay when card selected */}
+      {selectedCard && <div className="backdrop-overlay" />}
+      
       {/* Scaled container - DESKTOP format 1180x2550 */}
       <div style={{
         position: 'relative',
@@ -128,6 +131,7 @@ export const MetacoinsScreen: React.FC = () => {
           src={card1Month}
           alt="карточка тарифа 1 месяц"
           onClick={() => setSelectedCard('1month')}
+          className={`${selectedCard === '1month' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-1' : ''}`}
           style={{
             position: 'absolute',
             left: '143px',
@@ -144,6 +148,7 @@ export const MetacoinsScreen: React.FC = () => {
           src={card3Months}
           alt="карточка тарифа 3 месяца"
           onClick={() => setSelectedCard('3months')}
+          className={`${selectedCard === '3months' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-2' : ''}`}
           style={{
             position: 'absolute',
             left: '143px',
@@ -169,6 +174,7 @@ export const MetacoinsScreen: React.FC = () => {
             height: '140px',
             cursor: 'pointer',
             objectFit: 'contain',
+            zIndex: 101,
           }}
         />
 
