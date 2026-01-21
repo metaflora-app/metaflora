@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { preloadScreenChain } from '../../utils/screenChainAssets';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -23,6 +24,12 @@ export const MainDashboardPremiumScreen: React.FC = () => {
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Handle navigation with chain preload check
+  const handleNavigateToChain = async (chainName: 'academy' | 'laba' | 'tsekh' | 'poligon', route: string) => {
+    await preloadScreenChain(chainName);
+    navigate(route);
+  };
 
   return (
     <div style={{
@@ -308,7 +315,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/about-academy')}
+            onClick={() => handleNavigateToChain('academy', '/about-academy')}
             className="button-inner-glow"
             style={{
               position: 'absolute',
@@ -407,7 +414,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/about-laba')}
+            onClick={() => handleNavigateToChain('laba', '/about-laba')}
             className="button-inner-glow"
             style={{
               position: 'absolute',
@@ -480,7 +487,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/about-prompt')}
+            onClick={() => handleNavigateToChain('tsekh', '/about-prompt')}
             className="button-inner-glow"
             style={{
               position: 'absolute',
@@ -553,7 +560,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           <img 
             src={goButton}
             alt="открыть"
-            onClick={() => navigate('/about-poligon')}
+            onClick={() => handleNavigateToChain('poligon', '/about-poligon')}
             className="button-inner-glow"
             style={{
               position: 'absolute',
