@@ -28,12 +28,14 @@ body,
   perspective: 1000px;
 }
 
-/* Optimize image rendering */
+/* Optimize image rendering - aggressive GPU */
 img {
   image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  transform: translateZ(0);
-  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Force browser to cache decoded images */
+  content-visibility: auto;
 }
 
 /* Отступ сверху для веб-апп версии (не мини-апп) */
