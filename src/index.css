@@ -95,29 +95,21 @@ input::placeholder {
   opacity: 1;
 }
 
-/* Blur wave animation - smooth without flicker */
+/* Blur wave animation - minimal range to reduce flicker */
 @keyframes blurWave {
   0% {
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(45px);
   }
   50% {
-    backdrop-filter: blur(80px);
+    backdrop-filter: blur(55px);
   }
   100% {
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(45px);
   }
 }
 
 .blur-wave {
-  animation: blurWave 4s ease-in-out infinite;
+  animation: blurWave 5s ease-in-out infinite;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transform: translateZ(0) translate3d(0, 0, 0);
-  -webkit-transform: translateZ(0) translate3d(0, 0, 0);
-  will-change: backdrop-filter;
-  -webkit-font-smoothing: subpixel-antialiased;
-  perspective: 1000px;
-  -webkit-perspective: 1000px;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
 }
