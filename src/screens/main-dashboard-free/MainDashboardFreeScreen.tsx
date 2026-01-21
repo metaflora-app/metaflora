@@ -267,19 +267,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
             }}
           />
           
-          {/* Invisible button over Laba icon to navigate to laba-no-tracked */}
-          <div
-            onClick={() => navigate('/laba-no-tracked')}
-            style={{
-              position: 'absolute',
-              left: '96px',
-              top: '87px',
-              width: '257px',
-              height: '257px',
-              cursor: 'pointer',
-              zIndex: 10,
-            }}
-          />
 
           {/* 5. Плашка "демо" (26:419) - поверх всего */}
           <div className="button-inner-glow" style={{
