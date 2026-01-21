@@ -114,16 +114,16 @@ input::placeholder {
   -webkit-backface-visibility: hidden;
 }
 
-/* Button inner glow animation - smooth brightness without dimming */
+/* Button inner glow animation - opacity based to preserve text color */
 @keyframes buttonInnerGlow {
   0% {
-    filter: brightness(1.2);
+    opacity: 0.85;
   }
   50% {
-    filter: brightness(1.5);
+    opacity: 1;
   }
   100% {
-    filter: brightness(1.2);
+    opacity: 0.85;
   }
 }
 
