@@ -447,14 +447,26 @@
 
 ---
 
-## 📝 ОБНОВЛЕНИЯ (2026-01-21, 09:55):
+## 📝 ОБНОВЛЕНИЯ (2026-01-21, 22:10):
 
-### Удаление кнопок с метакоинами:
-- ✅ LabaAnalysisScreen: кнопки "начать анализ" и "создать сценарий" → невидимые div (opacity: 0)
-- ✅ LabaNoTrackedScreen: кнопка "начать отслеживание" → невидимый div поверх blur overlay
-- ✅ LabaSearchAccountScreen: кнопка "начать отслеживание" → невидимый div
-- ✅ Все onClick роуты сохранены
-- ✅ Коммиты: 6386249, 27511ba
+### UI элементы обновлены:
+- ✅ LabaMainScreen & LabaFavoritesScreen: добавлена плашка "начать поиск" с button-inner-glow
+- ✅ LabaAnalysisScreen: видимые PNG кнопки "начать анализ" и "создать сценарий" (поменьше версии)
+- ✅ LabaNoTrackedScreen: blur overlay заменён на PNG "окошко отслеживание" + невидимая кнопка
+- ✅ MetacoinsScreen: карточки заменены на "5000 метакоинов" и "25 000 метакоинов"
+- ✅ LabaMainScreen: все 4 карточки с видимыми кнопками "анализ" (PNG)
+- ✅ Коммиты: 3e35c58, 3400338
 
-### НЕ тронуто:
-- ✅ LabaMainScreen: кнопки "начать анализ" остались видимыми (по запросу юзера)
+### Оптимизация производительности:
+- ✅ Splash screen 8 секунд - грузит ВСЕ изображения перед переходом
+- ✅ assetPreloader: принудительная загрузка всех 315+ PNG при старте
+- ✅ screenChainPreloader: проверка загрузки цепочек экранов перед навигацией
+- ✅ MainDashboardPremiumScreen: кнопки "открыть" ждут загрузки всей цепочки экранов
+- ✅ GPU ускорение: translate3d, backface-visibility, will-change на всех анимациях
+- ✅ Коммиты: a4fe684, d017681
+
+### Цепочки экранов:
+- **Academy**: about-academy → courses → lessons
+- **Laba**: about-laba → laba-main → laba-analysis → laba-no-tracked → laba-favorites
+- **Tsekh**: about-prompt → prompt-first → prompt-card
+- **Poligon**: about-poligon → articles → article
