@@ -124,38 +124,56 @@ export const MetacoinsScreen: React.FC = () => {
         />
 
         {/* Card 1 - тариф 1 месяц PNG */}
-        <img 
-          src={card1Month}
-          alt="карточка тарифа 1 месяц"
+        <div
           onClick={() => setSelectedCard('1month')}
-          className={`${selectedCard === '1month' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-1' : ''}`}
           style={{
             position: 'absolute',
             left: '143px',
             top: '418px',
             width: '892px',
             height: '603px',
-            objectFit: 'contain',
             cursor: 'pointer',
-          }}
-        />
+          }}>
+          <img 
+            src={card1Month}
+            alt="карточка тарифа 1 месяц"
+            className={`${selectedCard === '1month' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-1' : ''}`}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
 
         {/* Card 2 - тариф 3 месяца PNG */}
-        <img 
-          src={card3Months}
-          alt="карточка тарифа 3 месяца"
+        <div
           onClick={() => setSelectedCard('3months')}
-          className={`${selectedCard === '3months' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-2' : ''}`}
           style={{
             position: 'absolute',
             left: '143px',
             top: '1082px',
             width: '892px',
             height: '603px',
-            objectFit: 'contain',
             cursor: 'pointer',
-          }}
-        />
+          }}>
+          <img 
+            src={card3Months}
+            alt="карточка тарифа 3 месяца"
+            className={`${selectedCard === '3months' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-2' : ''}`}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
 
         {/* Buy button "купить метакоины" (75:729) - x=143, y=1744, 892x140 */}
         <img 

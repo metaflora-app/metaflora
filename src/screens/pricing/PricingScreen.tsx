@@ -167,7 +167,6 @@ export const PricingScreen: React.FC = () => {
         {/* КАРТОЧКА ТАРИФ "1 МЕСЯЦ" */}
         <div 
           onClick={() => setSelectedPlan('1month')}
-          className={`${selectedPlan === '1month' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-1' : ''}`}
           style={{
             position: 'absolute',
             left: '144px',
@@ -177,16 +176,18 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           {/* Внутренний контейнер карточки */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-            pointerEvents: 'none',
-          }}>
+          <div 
+            className={`${selectedPlan === '1month' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-1' : ''}`}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              overflow: 'clip',
+              pointerEvents: 'none',
+            }}>
             {/* Заголовок "1 месяц" */}
             <div style={{
               position: 'absolute',
@@ -337,7 +338,6 @@ export const PricingScreen: React.FC = () => {
         {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
         <div 
           onClick={() => setSelectedPlan('3months')}
-          className={`${selectedPlan === '3months' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-2' : ''}`}
           style={{
             position: 'absolute',
             left: '143px',
@@ -347,16 +347,18 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           {/* Внутренний контейнер карточки */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-            pointerEvents: 'none',
-          }}>
+          <div 
+            className={`${selectedPlan === '3months' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-2' : ''}`}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              overflow: 'clip',
+              pointerEvents: 'none',
+            }}>
 
             {/* Заголовок "3 месяца" */}
             <div style={{
