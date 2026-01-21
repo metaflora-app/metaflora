@@ -14,9 +14,9 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
 import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
 import carouselRight from '../../assets/figma-welcome/carousel-right.png';
-import tourButton1 from '../../assets/welcome/кнопка экскурсия по платформе.png';
-import tourButton2 from '../../assets/welcome/кнопка попробовать бесплатно.png';
-import policyPNG from '../../assets/welcome/политика конфиденциальности.png';
+import tourButton1 from '../../assets/welcome-elements/кнопка экскурсия по платформе.png';
+import tourButton2 from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
+import policyPNG from '../../assets/welcome-elements/политика конфиденциальности.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
