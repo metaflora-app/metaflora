@@ -274,7 +274,7 @@ export const PoligonArticlesAllScreen = () => {
               position: 'relative'
             }}>
               {index === 0 && (
-                <div style={{
+                <div className="button-inner-glow" style={{
                   position: 'absolute',
                   top: '19px',
                   right: '40px',

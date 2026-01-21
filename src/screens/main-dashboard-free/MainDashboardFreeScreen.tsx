@@ -323,7 +323,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
           </div>
 
           {/* 5. Плашка "демо" (26:419) - поверх всего */}
-          <div style={{
+          <div className="button-inner-glow" style={{
             position: 'absolute',
             left: '336px',
             top: '19px',

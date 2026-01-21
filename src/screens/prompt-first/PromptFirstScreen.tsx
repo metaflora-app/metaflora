@@ -142,7 +142,7 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Плашка "новое" - только на первой карточке */}
         {isFirstCard && (
-          <div className="blur-wave" style={{
+          <div className="blur-wave button-inner-glow" style={{
             position: 'absolute',
             right: '41px',
             top: '44px',

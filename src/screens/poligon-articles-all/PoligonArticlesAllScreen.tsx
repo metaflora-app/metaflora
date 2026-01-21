@@ -331,7 +331,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             }}
           />
           {/* New badge (411:766) - x=336, y=19, 101x36 */}
-          <div className="blur-wave" style={{
+          <div className="blur-wave button-inner-glow" style={{
             position: 'absolute',
             left: '336px',
             top: '19px',

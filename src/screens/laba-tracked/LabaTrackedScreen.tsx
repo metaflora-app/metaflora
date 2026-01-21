@@ -575,6 +575,7 @@ export const LabaTrackedScreen: React.FC = () => {
             <img
               src={newBadgePNG}
               alt="новое"
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 left: '269px',
@@ -879,7 +880,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1240,7 +1241,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1601,7 +1602,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1962,7 +1963,7 @@ export const LabaTrackedScreen: React.FC = () => {
               }}
             />
 
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',

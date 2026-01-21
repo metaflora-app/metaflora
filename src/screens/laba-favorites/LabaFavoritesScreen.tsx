@@ -502,6 +502,7 @@ onBlur={() => {
             <img
               src={newBadgePNG}
               alt="новое"
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 left: '269px',
@@ -815,7 +816,7 @@ onBlur={() => {
             />
 
             {/* Временная плашка */}
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -886,6 +887,7 @@ onBlur={() => {
             <img
               src={newBadgePNG}
               alt="новое"
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 left: '269px',
@@ -1189,7 +1191,7 @@ onBlur={() => {
               }}
             />
 
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1260,6 +1262,7 @@ onBlur={() => {
             <img
               src={newBadgePNG}
               alt="новое"
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 left: '269px',
@@ -1563,7 +1566,7 @@ onBlur={() => {
               }}
             />
 
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',
@@ -1634,6 +1637,7 @@ onBlur={() => {
             <img
               src={newBadgePNG}
               alt="новое"
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 left: '269px',
@@ -1937,7 +1941,7 @@ onBlur={() => {
               }}
             />
 
-            <div className="blur-wave" style={{
+            <div className="blur-wave button-inner-glow" style={{
               position: 'absolute',
               left: 'calc(50% + 1px)',
               top: '417px',

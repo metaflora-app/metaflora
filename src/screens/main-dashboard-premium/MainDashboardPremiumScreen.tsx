@@ -343,7 +343,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           />
 
           {/* Плашка "демо" (368:647) */}
-          <div className="blur-wave" style={{
+          <div className="blur-wave button-inner-glow" style={{
             position: 'absolute',
             left: '336px',
             top: '19px',
