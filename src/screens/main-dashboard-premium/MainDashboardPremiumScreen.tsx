@@ -24,6 +24,28 @@ export const MainDashboardPremiumScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Preload laba/tsekh/poligon screens assets when this screen mounts
+  React.useEffect(() => {
+    const labaAssets = [
+      // Laba screens
+      import('../../assets/laba-main/картинка в карточке промпта.png'),
+      import('../../assets/laba-main/плашка новое.png'),
+      import('../../assets/laba-main/кнопка анализ.png'),
+      import('../../assets/laba-main-buttons/кнопка вернуть.png'),
+      import('../../assets/laba-main-buttons/кнопка сортировка.png'),
+      import('../../assets/laba-main-buttons/плашка начать поиск.png'),
+      // Tsekh screens
+      import('../../assets/prompt-first/фон цех.png'),
+      import('../../assets/prompt-first/кнопка топ-выбор активная.png'),
+      import('../../assets/prompt-first/новое в цехе.png'),
+      // Poligon screens
+      import('../../assets/poligon/фон полигон.png'),
+      import('../../assets/article/кнопка плюс.png'),
+    ];
+
+    Promise.all(labaAssets).catch(() => {});
+  }, []);
+
   return (
     <div style={{
       position: 'relative',
