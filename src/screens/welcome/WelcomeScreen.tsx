@@ -181,6 +181,7 @@ export const WelcomeScreen: React.FC = () => {
           width: '1180px',
           height: '1000px',
           touchAction: 'pan-x',
+          zIndex: 10,
         }}
       />
 
