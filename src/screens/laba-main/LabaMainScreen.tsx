@@ -1190,8 +1190,11 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            <div
+            <img
+              src={analysisButtonPNG}
+              alt="анализ"
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1200,7 +1203,6 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
-                opacity: 0,
               }}
             />
 
@@ -1563,8 +1565,11 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            <div
+            <img
+              src={analysisButtonPNG}
+              alt="анализ"
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1573,7 +1578,6 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
-                opacity: 0,
               }}
             />
 
@@ -1936,8 +1940,11 @@ onBlur={() => {
               275,5к подписчиков
             </div>
 
-            <div
+            <img
+              src={analysisButtonPNG}
+              alt="анализ"
               onClick={() => navigate('/laba-analysis')}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
                 bottom: '63px',
@@ -1946,7 +1953,6 @@ onBlur={() => {
                 width: '248px',
                 height: '79px',
                 cursor: 'pointer',
-                opacity: 0,
               }}
             />
 
