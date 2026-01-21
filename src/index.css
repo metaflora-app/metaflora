@@ -95,19 +95,19 @@ input::placeholder {
   opacity: 1;
 }
 
-/* Blur wave animation */
-@keyframes blurWave {
-  0% {
-    backdrop-filter: blur(30px);
+/* Blur breathe animation - slow and smooth */
+@keyframes blurBreathe {
+  0%, 100% {
+    opacity: 0.95;
+    transform: scale(1);
   }
   50% {
-    backdrop-filter: blur(80px);
-  }
-  100% {
-    backdrop-filter: blur(30px);
+    opacity: 1;
+    transform: scale(1.01);
   }
 }
 
-.blur-wave {
-  animation: blurWave 4s ease-in-out infinite;
+.blur-breathe {
+  animation: blurBreathe 6s ease-in-out infinite;
+  will-change: opacity, transform;
 }
