@@ -23,13 +23,7 @@ export const WelcomeScreen: React.FC = () => {
   const [activeSlide, setActiveSlide] = React.useState(1);
   const [touchStart, setTouchStart] = React.useState<number | null>(null);
 
-  // Auto-scroll carousel every 4 seconds
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide(prev => (prev + 1) % 3);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  // NO AUTO-SCROLL - only user interaction
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.touches[0].clientX);
@@ -41,14 +35,19 @@ export const WelcomeScreen: React.FC = () => {
     const diff = touchStart - touchEnd;
 
     // Swipe left (next slide)
-    if (diff > 50) {
-      setActiveSlide(prev => (prev + 1) % 3);
+    if (diff > 50 && activeSlide < 2) {
+      setActiveSlide(activeSlide + 1);
     }
     // Swipe right (prev slide)
-    else if (diff < -50) {
-      setActiveSlide(prev => (prev - 1 + 3) % 3);
+    else if (diff < -50 && activeSlide > 0) {
+      setActiveSlide(activeSlide - 1);
     }
     setTouchStart(null);
+  };
+
+  // Click on dot to change slide
+  const handleDotClick = (index: number) => {
+    setActiveSlide(index);
   };
 
   return (
@@ -187,7 +186,7 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Слайд 1 - Левая карточка (повёрнута -5°) */}
       <div 
-        className={`carousel-slide ${activeSlide !== 0 ? 'carousel-slide-hidden' : ''}`}
+        onClick={() => handleDotClick(0)}
         style={{
           position: 'absolute',
           left: '-213px',
@@ -195,6 +194,10 @@ export const WelcomeScreen: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           padding: '10px',
+          cursor: 'pointer',
+          opacity: activeSlide === 0 ? 1 : 0.6,
+          transform: activeSlide === 0 ? 'scale(1.05)' : 'scale(1)',
+          transition: 'all 0.3s ease-out',
         }}>
         <div style={{
           width: '609.038px',
@@ -229,7 +232,7 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Слайд 2 - Центральная карточка */}
       <div 
-        className={`carousel-slide ${activeSlide !== 1 ? 'carousel-slide-hidden' : ''}`}
+        onClick={() => handleDotClick(1)}
         style={{
           position: 'absolute',
           left: '315px',
@@ -237,6 +240,10 @@ export const WelcomeScreen: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           padding: '10px',
+          cursor: 'pointer',
+          opacity: activeSlide === 1 ? 1 : 0.6,
+          transform: activeSlide === 1 ? 'scale(1.05)' : 'scale(1)',
+          transition: 'all 0.3s ease-out',
         }}>
         <div style={{
           width: '530px',
@@ -261,7 +268,7 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Слайд 3 - Правая карточка (повёрнута +5°) */}
       <div 
-        className={`carousel-slide ${activeSlide !== 2 ? 'carousel-slide-hidden' : ''}`}
+        onClick={() => handleDotClick(2)}
         style={{
           position: 'absolute',
           left: '764px',
@@ -269,6 +276,10 @@ export const WelcomeScreen: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           padding: '10px',
+          cursor: 'pointer',
+          opacity: activeSlide === 2 ? 1 : 0.6,
+          transform: activeSlide === 2 ? 'scale(1.05)' : 'scale(1)',
+          transition: 'all 0.3s ease-out',
         }}>
         <div style={{
           width: '609.038px',
@@ -312,31 +323,43 @@ export const WelcomeScreen: React.FC = () => {
         alignItems: 'center',
       }}>
         {/* Точка 1 */}
-        <div style={{
-          width: activeSlide === 0 ? '63px' : '17px',
-          height: '17px',
-          backgroundColor: activeSlide === 0 ? '#fffdfe' : '#d6d6d6',
-          borderRadius: '33px',
-          transition: 'all 0.3s ease-out',
-        }} />
+        <div 
+          onClick={() => handleDotClick(0)}
+          style={{
+            width: activeSlide === 0 ? '63px' : '17px',
+            height: '17px',
+            backgroundColor: activeSlide === 0 ? '#fffdfe' : '#d6d6d6',
+            borderRadius: '33px',
+            transition: 'all 0.3s ease-out',
+            cursor: 'pointer',
+          }} 
+        />
         
         {/* Точка 2 */}
-        <div style={{
-          width: activeSlide === 1 ? '63px' : '17px',
-          height: '17px',
-          backgroundColor: activeSlide === 1 ? '#fffdfe' : '#d6d6d6',
-          borderRadius: '33px',
-          transition: 'all 0.3s ease-out',
-        }} />
+        <div 
+          onClick={() => handleDotClick(1)}
+          style={{
+            width: activeSlide === 1 ? '63px' : '17px',
+            height: '17px',
+            backgroundColor: activeSlide === 1 ? '#fffdfe' : '#d6d6d6',
+            borderRadius: '33px',
+            transition: 'all 0.3s ease-out',
+            cursor: 'pointer',
+          }} 
+        />
         
         {/* Точка 3 */}
-        <div style={{
-          width: activeSlide === 2 ? '63px' : '17px',
-          height: '17px',
-          backgroundColor: activeSlide === 2 ? '#fffdfe' : '#d6d6d6',
-          borderRadius: '33px',
-          transition: 'all 0.3s ease-out',
-        }} />
+        <div 
+          onClick={() => handleDotClick(2)}
+          style={{
+            width: activeSlide === 2 ? '63px' : '17px',
+            height: '17px',
+            backgroundColor: activeSlide === 2 ? '#fffdfe' : '#d6d6d6',
+            borderRadius: '33px',
+            transition: 'all 0.3s ease-out',
+            cursor: 'pointer',
+          }} 
+        />
       </div>
 
       {/* Кнопка "экскурсия по платформе" */}
