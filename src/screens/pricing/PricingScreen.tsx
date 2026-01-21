@@ -177,7 +177,7 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           {/* Внутренний контейнер карточки */}
-          <div className="blur-wave" style={{
+          <div style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
@@ -347,7 +347,7 @@ export const PricingScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           {/* Внутренний контейнер карточки */}
-          <div className="blur-wave" style={{
+          <div style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
