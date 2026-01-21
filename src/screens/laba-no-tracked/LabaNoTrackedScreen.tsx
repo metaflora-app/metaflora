@@ -145,11 +145,10 @@ export const LabaNoTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Blur overlay PNG (7:1360) - x=143, y=402, 892x1643 - ПОВЕРХ ЛЮДЕЙ - INCLUDES BUTTON */}
+        {/* Blur overlay PNG (7:1360) - x=143, y=402, 892x1643 - ПОВЕРХ ЛЮДЕЙ */}
         <img 
           src={blurOverlay}
           alt=""
-          onClick={() => navigate('/laba-search-account')}
           style={{
             position: 'absolute',
             left: '143px',
@@ -158,8 +157,23 @@ export const LabaNoTrackedScreen: React.FC = () => {
             height: '1643px',
             objectFit: 'fill',
             borderRadius: '30px',
-            cursor: 'pointer',
+            pointerEvents: 'none',
             zIndex: 2,
+          }}
+        />
+
+        {/* Невидимая кнопка "начать отслеживание" поверх blur overlay - роут сохранён */}
+        <div
+          onClick={() => navigate('/laba-search-account')}
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '402px',
+            width: '892px',
+            height: '1643px',
+            cursor: 'pointer',
+            opacity: 0,
+            zIndex: 3,
           }}
         />
 
