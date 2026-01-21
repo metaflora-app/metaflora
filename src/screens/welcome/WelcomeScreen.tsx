@@ -19,6 +19,17 @@ export const WelcomeScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Carousel state - 0, 1, 2 for three slides
+  const [activeSlide, setActiveSlide] = React.useState(0);
+
+  // Auto-scroll carousel every 4 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide(prev => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div style={{
       position: 'relative',
@@ -147,6 +158,8 @@ export const WelcomeScreen: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         padding: '10px',
+        transform: `translateX(${activeSlide * 528}px)`,
+        transition: 'transform 0.6s ease-in-out',
       }}>
         <div style={{
           width: '609.038px',
@@ -187,6 +200,8 @@ export const WelcomeScreen: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         padding: '10px',
+        transform: `translateX(${activeSlide * 528}px)`,
+        transition: 'transform 0.6s ease-in-out',
       }}>
         <div style={{
           width: '530px',
@@ -217,6 +232,8 @@ export const WelcomeScreen: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         padding: '10px',
+        transform: `translateX(${activeSlide * 528}px)`,
+        transition: 'transform 0.6s ease-in-out',
       }}>
         <div style={{
           width: '609.038px',
@@ -259,28 +276,31 @@ export const WelcomeScreen: React.FC = () => {
         gap: '11px',
         alignItems: 'center',
       }}>
-        {/* Точка 1 - неактивная */}
+        {/* Точка 1 */}
         <div style={{
-          width: '17px',
+          width: activeSlide === 0 ? '63px' : '17px',
           height: '17px',
-          backgroundColor: '#d6d6d6',
+          backgroundColor: activeSlide === 0 ? '#fffdfe' : '#d6d6d6',
           borderRadius: '33px',
+          transition: 'all 0.3s ease-out',
         }} />
         
-        {/* Точка 2 - активная */}
+        {/* Точка 2 */}
         <div style={{
-          width: '63px',
+          width: activeSlide === 1 ? '63px' : '17px',
           height: '17px',
-          backgroundColor: '#fffdfe',
+          backgroundColor: activeSlide === 1 ? '#fffdfe' : '#d6d6d6',
           borderRadius: '33px',
+          transition: 'all 0.3s ease-out',
         }} />
         
-        {/* Точка 3 - неактивная */}
+        {/* Точка 3 */}
         <div style={{
-          width: '17px',
+          width: activeSlide === 2 ? '63px' : '17px',
           height: '17px',
-          backgroundColor: '#d6d6d6',
+          backgroundColor: activeSlide === 2 ? '#fffdfe' : '#d6d6d6',
           borderRadius: '33px',
+          transition: 'all 0.3s ease-out',
         }} />
       </div>
 
