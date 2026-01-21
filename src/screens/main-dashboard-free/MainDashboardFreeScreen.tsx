@@ -221,15 +221,17 @@ export const MainDashboardFreeScreen: React.FC = () => {
           </div>
 
           {/* 2. ПРАВАЯ половина - черная карточка с текстом (26:416) */}
-          <div style={{
-            position: 'absolute',
-            inset: '2.01% 0 0 50.22%',
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }}>
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              inset: '2.01% 0 0 50.22%',
+              backdropFilter: 'blur(50px)',
+              background: 'black',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              overflow: 'clip',
+            }}>
             <div style={{
               position: 'absolute',
               inset: '8.43% 4% 8.43% 4%',
@@ -279,16 +281,18 @@ export const MainDashboardFreeScreen: React.FC = () => {
           />
 
           {/* 4. Шторка вправо (7:233) - затемнение поверх */}
-          <div style={{
-            position: 'absolute',
-            inset: '0 0 0 63.07%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-            pointerEvents: 'none',
-          }}>
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              inset: '0 0 0 63.07%',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '30px',
+              overflow: 'clip',
+              pointerEvents: 'none',
+            }}>
             {/* Стрелка */}
             <div style={{
               position: 'absolute',
@@ -387,17 +391,19 @@ export const MainDashboardFreeScreen: React.FC = () => {
         />
 
         {/* Белая подложка подписки (26:410) - ПОВЕРХ лого */}
-        <div style={{
-          position: 'absolute',
-          left: '144px',
-          top: '847px',
-          width: '893px',
-          height: '1196px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-        }} />
+        <div 
+          className="blur-wave"
+          style={{
+            position: 'absolute',
+            left: '144px',
+            top: '847px',
+            width: '893px',
+            height: '1196px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+          }} />
 
         {/* Кнопка "оплатить полный доступ" - PNG (7:237) */}
         <img 
@@ -501,17 +507,19 @@ export const MainDashboardFreeScreen: React.FC = () => {
           </div>
           
           {/* Socials Container */}
-          <div style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
+          <div 
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              left: '664px',
+              top: '-2px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              height: '78px',
+              width: '230px',
+            }} />
           
           {/* Socials Icons */}
           <div style={{
