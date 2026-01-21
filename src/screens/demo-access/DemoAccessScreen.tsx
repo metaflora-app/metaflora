@@ -277,6 +277,7 @@ export const DemoAccessScreen: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
             padding: 0,
+            isolation: 'isolate',
           }}
         >
           {/* PNG кнопка с красным градиентом под текстом */}
@@ -291,18 +292,20 @@ export const DemoAccessScreen: React.FC = () => {
               height: '100%',
               objectFit: 'fill',
               pointerEvents: 'none',
+              zIndex: 0,
             }}
           />
 
           {/* Текст кнопки - поверх градиента */}
           <div style={{
             position: 'relative',
-            zIndex: 1,
+            zIndex: 2,
             fontFamily: 'Gotham Pro',
             fontWeight: 500,
             fontSize: '40px',
             color: 'white',
             textAlign: 'center',
+            mixBlendMode: 'normal',
           }}>
             оплатить полный доступ
           </div>
