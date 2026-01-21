@@ -25,13 +25,12 @@ export const WelcomeScreen: React.FC = () => {
   // Carousel state - start at 1 (center card is active)
   const [activeSlide, setActiveSlide] = React.useState(1);
 
-  // Auto-scroll carousel every 4 seconds
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide(prev => (prev + 1) % 3);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  // NO AUTO-SCROLL - only manual interaction
+
+  // Click on card to change slide
+  const handleCardClick = (index: number) => {
+    setActiveSlide(index);
+  };
 
   // Click on dot to change slide
   const handleDotClick = (index: number) => {
@@ -181,6 +180,7 @@ export const WelcomeScreen: React.FC = () => {
       >
         {/* Левая карточка (повёрнута -5°) */}
         <div 
+          onClick={() => handleCardClick(0)}
           className="carousel-slide"
           style={{
             position: 'absolute',
@@ -189,6 +189,7 @@ export const WelcomeScreen: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             padding: '10px',
+            cursor: 'pointer',
           }}>
           <div style={{
             width: '609.038px',
@@ -225,6 +226,7 @@ export const WelcomeScreen: React.FC = () => {
 
         {/* Центральная карточка */}
         <div 
+          onClick={() => handleCardClick(1)}
           className="carousel-slide"
           style={{
             position: 'absolute',
@@ -233,6 +235,7 @@ export const WelcomeScreen: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             padding: '10px',
+            cursor: 'pointer',
           }}>
           <div style={{
             width: '530px',
@@ -259,6 +262,7 @@ export const WelcomeScreen: React.FC = () => {
 
         {/* Правая карточка (повёрнута +5°) */}
         <div 
+          onClick={() => handleCardClick(2)}
           className="carousel-slide"
           style={{
             position: 'absolute',
@@ -267,6 +271,7 @@ export const WelcomeScreen: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             padding: '10px',
+            cursor: 'pointer',
           }}>
           <div style={{
             width: '609.038px',
