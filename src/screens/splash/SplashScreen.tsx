@@ -13,7 +13,8 @@ export const SplashScreen: React.FC = () => {
     // Force preload ALL images during splash screen
     const imageModules = import.meta.glob('../../assets/**/*.{png,jpg,jpeg,webp}', { 
       eager: false,
-      as: 'url'
+      query: '?url',
+      import: 'default',
     });
 
     // Start loading all images immediately
