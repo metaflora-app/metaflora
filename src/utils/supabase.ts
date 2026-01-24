@@ -7,8 +7,11 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Get Telegram user ID
 export function getTelegramUserId(): number | null {
-  if (typeof window !== 'undefined' && (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id) {
-    return (window.Telegram.WebApp as any).initDataUnsafe.user.id;
+  if (typeof window !== 'undefined') {
+    const telegram = (window as any).Telegram;
+    if (telegram?.WebApp?.initDataUnsafe?.user?.id) {
+      return telegram.WebApp.initDataUnsafe.user.id;
+    }
   }
   return null;
 }
@@ -33,7 +36,8 @@ export async function getOrCreateUser() {
   }
 
   // Create new user with initial 150 metacoins
-  const telegramUser = (window.Telegram?.WebApp as any)?.initDataUnsafe?.user;
+  const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
+  const telegramUser = telegram?.WebApp?.initDataUnsafe?.user;
   const { data: newUser, error: createError } = await supabase
     .from('users')
     .insert({
