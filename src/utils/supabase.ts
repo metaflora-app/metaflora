@@ -20,20 +20,30 @@ export function getTelegramUserId(): number | null {
 export async function getOrCreateUser() {
   const telegramId = getTelegramUserId();
   if (!telegramId) {
-    console.error('No Telegram user ID');
+    console.error('❌ No Telegram user ID');
     return null;
   }
 
+  console.log('🔵 getOrCreateUser called for Telegram ID:', telegramId);
+
   // Check if user exists
-  const { data: existingUser } = await supabase
+  const { data: existingUser, error: selectError } = await supabase
     .from('users')
     .select('*')
     .eq('telegram_id', telegramId)
     .single();
 
+  if (selectError && selectError.code !== 'PGRST116') {
+    console.error('❌ Error fetching user:', selectError);
+    return null;
+  }
+
   if (existingUser) {
+    console.log('✅ Existing user found:', existingUser.id);
     return existingUser;
   }
+
+  console.log('🔵 Creating new user...');
 
   // Create new user WITHOUT initial metacoins (only on subscription purchase)
   const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
@@ -52,17 +62,25 @@ export async function getOrCreateUser() {
     .single();
 
   if (createError) {
-    console.error('Error creating user:', createError);
+    console.error('❌ Error creating user:', createError);
     return null;
   }
 
+  console.log('✅ New user created:', newUser.id);
   return newUser;
 }
 
 // Track metacoins purchase
 export async function trackMetacoinsPurchase(amount: number) {
+  console.log('🔵 trackMetacoinsPurchase called with amount:', amount);
+  
   const user = await getOrCreateUser();
-  if (!user) return false;
+  if (!user) {
+    console.error('❌ trackMetacoinsPurchase: No user found');
+    return false;
+  }
+
+  console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
   const newBalance = user.metacoins_balance + amount;
 
@@ -73,12 +91,14 @@ export async function trackMetacoinsPurchase(amount: number) {
     .eq('id', user.id);
 
   if (updateError) {
-    console.error('Error updating balance:', updateError);
+    console.error('❌ Error updating balance:', updateError);
     return false;
   }
 
+  console.log('✅ Balance updated successfully. New balance:', newBalance);
+
   // Create transaction
-  await supabase.from('metacoins_transactions').insert({
+  const { error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount,
     balance_before: user.metacoins_balance,
@@ -87,6 +107,12 @@ export async function trackMetacoinsPurchase(amount: number) {
     description: `Покупка ${amount} метакоинов`,
   });
 
+  if (transactionError) {
+    console.error('❌ Error creating transaction:', transactionError);
+    return false;
+  }
+
+  console.log('✅ Transaction created successfully');
   return true;
 }
 
@@ -95,11 +121,18 @@ export async function trackMetacoinsSpend(
   actionType: 'analysis' | 'search' | 'scenario' | 'tracking',
   cost: number
 ) {
+  console.log('🔵 trackMetacoinsSpend called:', actionType, 'cost:', cost);
+  
   const user = await getOrCreateUser();
-  if (!user) return false;
+  if (!user) {
+    console.error('❌ trackMetacoinsSpend: No user found');
+    return false;
+  }
+
+  console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
   if (user.metacoins_balance < cost) {
-    console.error('Insufficient balance');
+    console.error('❌ Insufficient balance. Required:', cost, 'Available:', user.metacoins_balance);
     return false;
   }
 
@@ -112,9 +145,11 @@ export async function trackMetacoinsSpend(
     .eq('id', user.id);
 
   if (updateError) {
-    console.error('Error updating balance:', updateError);
+    console.error('❌ Error updating balance:', updateError);
     return false;
   }
+
+  console.log('✅ Balance updated successfully. New balance:', newBalance);
 
   // Create transaction
   const actionNames = {
@@ -124,7 +159,7 @@ export async function trackMetacoinsSpend(
     tracking: 'Отслеживание аккаунта',
   };
 
-  await supabase.from('metacoins_transactions').insert({
+  const { error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount: -cost,
     balance_before: user.metacoins_balance,
@@ -133,18 +168,33 @@ export async function trackMetacoinsSpend(
     description: actionNames[actionType],
   });
 
+  if (transactionError) {
+    console.error('❌ Error creating transaction:', transactionError);
+    return false;
+  }
+
+  console.log('✅ Transaction created successfully');
   return true;
 }
 
 // Track subscription purchase
 export async function trackSubscriptionPurchase(subscriptionType: 'premium', months: number) {
+  console.log('🔵 trackSubscriptionPurchase called:', subscriptionType, 'months:', months);
+  
   const user = await getOrCreateUser();
-  if (!user) return false;
+  if (!user) {
+    console.error('❌ trackSubscriptionPurchase: No user found');
+    return false;
+  }
+
+  console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
   const bonusMetacoins = months === 1 ? 150 : months === 3 ? 500 : 0;
   const newBalance = user.metacoins_balance + bonusMetacoins;
   const expiresAt = new Date();
   expiresAt.setMonth(expiresAt.getMonth() + months);
+
+  console.log('💰 Bonus metacoins:', bonusMetacoins, 'New balance:', newBalance);
 
   // Update user subscription
   const { error: updateError } = await supabase
@@ -157,13 +207,15 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
     .eq('id', user.id);
 
   if (updateError) {
-    console.error('Error updating subscription:', updateError);
+    console.error('❌ Error updating subscription:', updateError);
     return false;
   }
 
+  console.log('✅ Subscription updated successfully');
+
   // Create bonus transaction
   if (bonusMetacoins > 0) {
-    await supabase.from('metacoins_transactions').insert({
+    const { error: transactionError } = await supabase.from('metacoins_transactions').insert({
       user_id: user.id,
       amount: bonusMetacoins,
       balance_before: user.metacoins_balance,
@@ -171,6 +223,13 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
       transaction_type: 'subscription_bonus',
       description: `Бонус ${bonusMetacoins} метакоинов при покупке подписки на ${months} мес.`,
     });
+
+    if (transactionError) {
+      console.error('❌ Error creating bonus transaction:', transactionError);
+      return false;
+    }
+
+    console.log('✅ Bonus transaction created successfully');
   }
 
   return true;
