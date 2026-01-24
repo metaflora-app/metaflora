@@ -188,21 +188,23 @@ export async function trackMetacoinsSpend(
     tracking: 'Отслеживание аккаунта',
   };
 
-  const { error: transactionError } = await supabase.from('metacoins_transactions').insert({
+  const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount: -cost,
     balance_before: currentBalance, // ← ИСПРАВЛЕНО: используем сохраненное значение
     balance_after: newBalance,
     transaction_type: `spend_${actionType}`,
     description: actionNames[actionType],
-  });
+  }).select();
 
   if (transactionError) {
     console.error('❌ Error creating transaction:', transactionError);
+    console.error('❌ Transaction error details:', JSON.stringify(transactionError, null, 2));
     return false;
   }
 
   console.log('✅ Transaction created successfully');
+  console.log('✅ Transaction response:', transactionData);
   return true;
 }
 
