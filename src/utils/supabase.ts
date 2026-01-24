@@ -94,11 +94,12 @@ export async function trackMetacoinsPurchase(amount: number) {
 
   console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
-  const newBalance = user.metacoins_balance + amount;
+  const currentBalance = user.metacoins_balance; // Сохраняем ТЕКУЩИЙ баланс
+  const newBalance = currentBalance + amount;
 
   console.log('🔵 Attempting to update balance...', {
     user_id: user.id,
-    old_balance: user.metacoins_balance,
+    old_balance: currentBalance,
     new_balance: newBalance,
     amount: amount
   });
@@ -125,7 +126,7 @@ export async function trackMetacoinsPurchase(amount: number) {
   const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount,
-    balance_before: user.metacoins_balance,
+    balance_before: currentBalance, // ← ИСПРАВЛЕНО: используем сохраненное значение
     balance_after: newBalance,
     transaction_type: 'purchase',
     description: `Покупка ${amount} метакоинов`,
@@ -157,12 +158,14 @@ export async function trackMetacoinsSpend(
 
   console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
-  if (user.metacoins_balance < cost) {
-    console.error('❌ Insufficient balance. Required:', cost, 'Available:', user.metacoins_balance);
+  const currentBalance = user.metacoins_balance; // Сохраняем ТЕКУЩИЙ баланс
+
+  if (currentBalance < cost) {
+    console.error('❌ Insufficient balance. Required:', cost, 'Available:', currentBalance);
     return false;
   }
 
-  const newBalance = user.metacoins_balance - cost;
+  const newBalance = currentBalance - cost;
 
   // Update user balance
   const { error: updateError } = await supabase
@@ -188,7 +191,7 @@ export async function trackMetacoinsSpend(
   const { error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount: -cost,
-    balance_before: user.metacoins_balance,
+    balance_before: currentBalance, // ← ИСПРАВЛЕНО: используем сохраненное значение
     balance_after: newBalance,
     transaction_type: `spend_${actionType}`,
     description: actionNames[actionType],
@@ -215,8 +218,9 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
 
   console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
+  const currentBalance = user.metacoins_balance; // Сохраняем ТЕКУЩИЙ баланс
   const bonusMetacoins = months === 1 ? 150 : months === 3 ? 500 : 0;
-  const newBalance = user.metacoins_balance + bonusMetacoins;
+  const newBalance = currentBalance + bonusMetacoins;
   const expiresAt = new Date();
   expiresAt.setMonth(expiresAt.getMonth() + months);
 
@@ -224,7 +228,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
   console.log('🔵 Attempting to update subscription...', {
     user_id: user.id,
     subscription_type: subscriptionType,
-    old_balance: user.metacoins_balance,
+    old_balance: currentBalance,
     new_balance: newBalance
   });
 
@@ -255,7 +259,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
     const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
       user_id: user.id,
       amount: bonusMetacoins,
-      balance_before: user.metacoins_balance,
+      balance_before: currentBalance, // ← ИСПРАВЛЕНО: используем сохраненное значение
       balance_after: newBalance,
       transaction_type: 'subscription_bonus',
       description: `Бонус ${bonusMetacoins} метакоинов при покупке подписки на ${months} мес.`,
