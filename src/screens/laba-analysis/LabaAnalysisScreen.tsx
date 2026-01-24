@@ -659,7 +659,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 src={startAnalysisButtonPNG}
                 alt="начать анализ"
                 onClick={async () => {
-                  await trackMetacoinsSpend('analysis', 10);
+                  await trackMetacoinsSpend('analysis', 100);
                   setShowAnalysisResults(true);
                 }}
                 className="button-inner-glow"
@@ -839,7 +839,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   src={createScenarioButtonPNG}
                   alt="создать сценарий"
                   onClick={async () => {
-                    await trackMetacoinsSpend('scenario', 15);
+                    await trackMetacoinsSpend('scenario', 50);
                     setShowScenario(true);
                   }}
                   className="button-inner-glow"

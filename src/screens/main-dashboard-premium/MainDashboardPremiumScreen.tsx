@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getOrCreateUser } from '../../utils/supabase';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -219,7 +220,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             />
           </div>
 
-          {/* Текст "150 метакоинов" - Gotham Pro Bold */}
+          {/* Текст "X метакоинов" - Gotham Pro Bold */}
           <div style={{
             position: 'absolute',
             left: '679px',
@@ -233,7 +234,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             color: 'white',
             whiteSpace: 'nowrap',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>150 метакоинов</p>
+            <p style={{ margin: 0, lineHeight: '1' }}>{metacoinsBalance} метакоинов</p>
           </div>
 
           {/* Кнопка "пополнить" - PNG (356:707) */}

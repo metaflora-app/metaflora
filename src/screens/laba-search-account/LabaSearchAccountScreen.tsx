@@ -402,7 +402,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
             src={trackingButton}
             alt="начать отслеживание"
             onClick={async () => {
-              await trackMetacoinsSpend('search', 5);
+              await trackMetacoinsSpend('search', 25);
+              await trackMetacoinsSpend('tracking', 100);
               navigate('/laba-tracked');
             }}
             className="button-inner-glow"

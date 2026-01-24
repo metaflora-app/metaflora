@@ -39,10 +39,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Track tracking action on mount
-  React.useEffect(() => {
-    trackMetacoinsSpend('tracking', 20);
-  }, []);
+  // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);

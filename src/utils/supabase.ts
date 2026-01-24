@@ -35,7 +35,7 @@ export async function getOrCreateUser() {
     return existingUser;
   }
 
-  // Create new user with initial 150 metacoins
+  // Create new user WITHOUT initial metacoins (only on subscription purchase)
   const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
   const telegramUser = telegram?.WebApp?.initDataUnsafe?.user;
   const { data: newUser, error: createError } = await supabase
@@ -46,7 +46,7 @@ export async function getOrCreateUser() {
       first_name: telegramUser?.first_name || null,
       last_name: telegramUser?.last_name || null,
       subscription_type: 'free',
-      metacoins_balance: 150,
+      metacoins_balance: 0,
     })
     .select()
     .single();
@@ -55,16 +55,6 @@ export async function getOrCreateUser() {
     console.error('Error creating user:', createError);
     return null;
   }
-
-  // Create initial metacoins transaction
-  await supabase.from('metacoins_transactions').insert({
-    user_id: newUser.id,
-    amount: 150,
-    balance_before: 0,
-    balance_after: 150,
-    transaction_type: 'initial',
-    description: 'Начальное начисление метакоинов при регистрации',
-  });
 
   return newUser;
 }
