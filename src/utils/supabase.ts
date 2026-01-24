@@ -28,6 +28,26 @@ export function getTelegramUserId(): number | null {
   return null;
 }
 
+// Get fresh user balance
+export async function getUserBalance(): Promise<number> {
+  const user = await getOrCreateUser();
+  if (!user) return 0;
+  
+  // Fetch fresh data from Supabase
+  const { data, error } = await supabase
+    .from('users')
+    .select('metacoins_balance')
+    .eq('id', user.id)
+    .single();
+  
+  if (error || !data) {
+    console.error('❌ Error fetching balance:', error);
+    return user.metacoins_balance; // fallback to cached value
+  }
+  
+  return data.metacoins_balance;
+}
+
 // Get or create user
 export async function getOrCreateUser() {
   const telegramId = getTelegramUserId();

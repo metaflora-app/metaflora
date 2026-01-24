@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getOrCreateUser } from '../../utils/supabase';
+import { getOrCreateUser, supabase } from '../../utils/supabase';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -31,13 +31,25 @@ export const MainDashboardPremiumScreen: React.FC = () => {
     const loadBalance = async () => {
       const user = await getOrCreateUser();
       if (user) {
-        setMetacoinsBalance(user.metacoins_balance);
+        // Fetch fresh balance from Supabase
+        const { data } = await supabase
+          .from('users')
+          .select('metacoins_balance')
+          .eq('id', user.id)
+          .single();
+        
+        if (data) {
+          console.log('💰 Balance loaded:', data.metacoins_balance);
+          setMetacoinsBalance(data.metacoins_balance);
+        } else {
+          setMetacoinsBalance(user.metacoins_balance);
+        }
       }
     };
 
     loadBalance();
-    // Refresh balance every 10 seconds
-    const interval = setInterval(loadBalance, 10000);
+    // Refresh balance every 3 seconds (faster updates)
+    const interval = setInterval(loadBalance, 3000);
     return () => clearInterval(interval);
   }, []);
 
