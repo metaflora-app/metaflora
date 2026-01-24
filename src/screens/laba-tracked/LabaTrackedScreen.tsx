@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { trackMetacoinsSpend } from '../../utils/supabase';
 
 // Background & header from laba-main
 import bgPattern from '../../assets/figma-welcome/pattern.png';

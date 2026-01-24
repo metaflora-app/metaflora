@@ -21,9 +21,25 @@ import goButton from '../../assets/main-dashboard/кнопка открыть.pn
 
 export const MainDashboardPremiumScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [metacoinsBalance, setMetacoinsBalance] = React.useState<number>(0);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Load user balance
+  React.useEffect(() => {
+    const loadBalance = async () => {
+      const user = await getOrCreateUser();
+      if (user) {
+        setMetacoinsBalance(user.metacoins_balance);
+      }
+    };
+
+    loadBalance();
+    // Refresh balance every 10 seconds
+    const interval = setInterval(loadBalance, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Handle navigation
   const handleNavigateToChain = (_chainName: 'academy' | 'laba' | 'tsekh' | 'poligon', route: string) => {
