@@ -37,7 +37,17 @@ export const PricingScreen: React.FC = () => {
     
     // Track subscription purchase in Supabase
     const months = selectedPlan === '1month' ? 1 : 3;
-    await trackSubscriptionPurchase('premium', months);
+    const success = await trackSubscriptionPurchase('premium', months);
+    
+    if (!success) {
+      console.error('Failed to track subscription purchase');
+      // Show error but still navigate (user already paid)
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'Подписка оформлена, но возникла ошибка синхронизации. Обратитесь в поддержку.'
+        });
+      }
+    }
     
     navigate('/main-dashboard-premium');
   };

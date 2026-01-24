@@ -402,8 +402,32 @@ export const LabaSearchAccountScreen: React.FC = () => {
             src={trackingButton}
             alt="начать отслеживание"
             onClick={async () => {
-              await trackMetacoinsSpend('search', 25);
-              await trackMetacoinsSpend('tracking', 100);
+              const searchSuccess = await trackMetacoinsSpend('search', 25);
+              if (!searchSuccess) {
+                console.error('Failed to track search spend');
+                if (window.Telegram?.WebApp?.showPopup) {
+                  window.Telegram.WebApp.showPopup({
+                    message: 'Недостаточно метакоинов для поиска'
+                  });
+                } else {
+                  alert('Недостаточно метакоинов для поиска');
+                }
+                return;
+              }
+              
+              const trackingSuccess = await trackMetacoinsSpend('tracking', 100);
+              if (!trackingSuccess) {
+                console.error('Failed to track tracking spend');
+                if (window.Telegram?.WebApp?.showPopup) {
+                  window.Telegram.WebApp.showPopup({
+                    message: 'Недостаточно метакоинов для отслеживания'
+                  });
+                } else {
+                  alert('Недостаточно метакоинов для отслеживания');
+                }
+                return;
+              }
+              
               navigate('/laba-tracked');
             }}
             className="button-inner-glow"

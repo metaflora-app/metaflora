@@ -659,8 +659,19 @@ export const LabaAnalysisScreen: React.FC = () => {
                 src={startAnalysisButtonPNG}
                 alt="начать анализ"
                 onClick={async () => {
-                  await trackMetacoinsSpend('analysis', 100);
-                  setShowAnalysisResults(true);
+                  const success = await trackMetacoinsSpend('analysis', 100);
+                  if (success) {
+                    setShowAnalysisResults(true);
+                  } else {
+                    console.error('Failed to track analysis spend');
+                    if (window.Telegram?.WebApp?.showPopup) {
+                      window.Telegram.WebApp.showPopup({
+                        message: 'Недостаточно метакоинов или ошибка сервера'
+                      });
+                    } else {
+                      alert('Недостаточно метакоинов или ошибка сервера');
+                    }
+                  }
                 }}
                 className="button-inner-glow"
                 style={{
@@ -839,8 +850,19 @@ export const LabaAnalysisScreen: React.FC = () => {
                   src={createScenarioButtonPNG}
                   alt="создать сценарий"
                   onClick={async () => {
-                    await trackMetacoinsSpend('scenario', 50);
-                    setShowScenario(true);
+                    const success = await trackMetacoinsSpend('scenario', 50);
+                    if (success) {
+                      setShowScenario(true);
+                    } else {
+                      console.error('Failed to track scenario spend');
+                      if (window.Telegram?.WebApp?.showPopup) {
+                        window.Telegram.WebApp.showPopup({
+                          message: 'Недостаточно метакоинов или ошибка сервера'
+                        });
+                      } else {
+                        alert('Недостаточно метакоинов или ошибка сервера');
+                      }
+                    }
                   }}
                   className="button-inner-glow"
                   style={{

@@ -12,6 +12,18 @@ export function getTelegramUserId(): number | null {
     if (telegram?.WebApp?.initDataUnsafe?.user?.id) {
       return telegram.WebApp.initDataUnsafe.user.id;
     }
+    
+    // Fallback for testing in browser (not through Telegram)
+    // Generate a test ID based on localStorage or create a new one
+    const testIdKey = 'test_telegram_id';
+    let testId = localStorage.getItem(testIdKey);
+    if (!testId) {
+      // Generate random test ID between 100000000 and 999999999
+      testId = String(Math.floor(Math.random() * 900000000) + 100000000);
+      localStorage.setItem(testIdKey, testId);
+      console.warn('⚠️ Using test Telegram ID for browser testing:', testId);
+    }
+    return parseInt(testId, 10);
   }
   return null;
 }
