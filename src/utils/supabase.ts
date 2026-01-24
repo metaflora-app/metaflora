@@ -96,35 +96,49 @@ export async function trackMetacoinsPurchase(amount: number) {
 
   const newBalance = user.metacoins_balance + amount;
 
+  console.log('🔵 Attempting to update balance...', {
+    user_id: user.id,
+    old_balance: user.metacoins_balance,
+    new_balance: newBalance,
+    amount: amount
+  });
+
   // Update user balance
-  const { error: updateError } = await supabase
+  const { data: updateData, error: updateError } = await supabase
     .from('users')
     .update({ metacoins_balance: newBalance, updated_at: new Date().toISOString() })
-    .eq('id', user.id);
+    .eq('id', user.id)
+    .select();
 
   if (updateError) {
     console.error('❌ Error updating balance:', updateError);
+    console.error('❌ Error details:', JSON.stringify(updateError, null, 2));
     return false;
   }
 
   console.log('✅ Balance updated successfully. New balance:', newBalance);
+  console.log('✅ Update response:', updateData);
 
   // Create transaction
-  const { error: transactionError } = await supabase.from('metacoins_transactions').insert({
+  console.log('🔵 Attempting to create transaction...');
+  
+  const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount,
     balance_before: user.metacoins_balance,
     balance_after: newBalance,
     transaction_type: 'purchase',
     description: `Покупка ${amount} метакоинов`,
-  });
+  }).select();
 
   if (transactionError) {
     console.error('❌ Error creating transaction:', transactionError);
+    console.error('❌ Transaction error details:', JSON.stringify(transactionError, null, 2));
     return false;
   }
 
   console.log('✅ Transaction created successfully');
+  console.log('✅ Transaction response:', transactionData);
   return true;
 }
 
@@ -207,41 +221,54 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
   expiresAt.setMonth(expiresAt.getMonth() + months);
 
   console.log('💰 Bonus metacoins:', bonusMetacoins, 'New balance:', newBalance);
+  console.log('🔵 Attempting to update subscription...', {
+    user_id: user.id,
+    subscription_type: subscriptionType,
+    old_balance: user.metacoins_balance,
+    new_balance: newBalance
+  });
 
   // Update user subscription
-  const { error: updateError } = await supabase
+  const { data: updateData, error: updateError } = await supabase
     .from('users')
     .update({
       subscription_type: subscriptionType,
       metacoins_balance: newBalance,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', user.id);
+    .eq('id', user.id)
+    .select();
 
   if (updateError) {
     console.error('❌ Error updating subscription:', updateError);
+    console.error('❌ Update error details:', JSON.stringify(updateError, null, 2));
     return false;
   }
 
   console.log('✅ Subscription updated successfully');
+  console.log('✅ Update response:', updateData);
 
   // Create bonus transaction
   if (bonusMetacoins > 0) {
-    const { error: transactionError } = await supabase.from('metacoins_transactions').insert({
+    console.log('🔵 Attempting to create bonus transaction...');
+    
+    const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
       user_id: user.id,
       amount: bonusMetacoins,
       balance_before: user.metacoins_balance,
       balance_after: newBalance,
       transaction_type: 'subscription_bonus',
       description: `Бонус ${bonusMetacoins} метакоинов при покупке подписки на ${months} мес.`,
-    });
+    }).select();
 
     if (transactionError) {
       console.error('❌ Error creating bonus transaction:', transactionError);
+      console.error('❌ Transaction error details:', JSON.stringify(transactionError, null, 2));
       return false;
     }
 
     console.log('✅ Bonus transaction created successfully');
+    console.log('✅ Transaction response:', transactionData);
   }
 
   return true;
