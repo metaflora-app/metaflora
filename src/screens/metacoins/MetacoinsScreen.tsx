@@ -16,7 +16,6 @@ import buyButton from '../../assets/metacoins/купить метакоины.pn
 
 export const MetacoinsScreen: React.FC = () => {
   const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
-  const [purchasing, setPurchasing] = React.useState(false);
 
   // Calculate scale based on viewport width (DESKTOP design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -34,7 +33,6 @@ export const MetacoinsScreen: React.FC = () => {
       return;
     }
 
-    setPurchasing(true);
     const amount = selectedCard === '5000' ? 5000 : 25000;
 
     // Track purchase in Supabase
@@ -57,8 +55,6 @@ export const MetacoinsScreen: React.FC = () => {
         alert('Ошибка при покупке метакоинов');
       }
     }
-
-    setPurchasing(false);
   };
 
   return (
