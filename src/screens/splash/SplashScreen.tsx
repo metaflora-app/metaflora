@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { preloadAllImages } from '../../utils/assetPreloader';
+import { getOrCreateUser } from '../../utils/supabase';
 
 // Background pattern image (dots)
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -16,6 +17,11 @@ export const SplashScreen: React.FC = () => {
     // Start preloading ALL images immediately
     preloadAllImages().then(() => {
       setImagesLoaded(true);
+    });
+
+    // Initialize or get user from Supabase
+    getOrCreateUser().catch(err => {
+      console.error('Failed to initialize user:', err);
     });
 
     // Minimum 8 seconds display

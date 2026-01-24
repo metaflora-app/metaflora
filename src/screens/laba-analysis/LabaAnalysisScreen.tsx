@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackMetacoinsSpend } from '../../utils/supabase';
 
 // Background & header
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -657,7 +658,10 @@ export const LabaAnalysisScreen: React.FC = () => {
               <img
                 src={startAnalysisButtonPNG}
                 alt="начать анализ"
-                onClick={() => setShowAnalysisResults(true)}
+                onClick={async () => {
+                  await trackMetacoinsSpend('analysis', 10);
+                  setShowAnalysisResults(true);
+                }}
                 className="button-inner-glow"
                 style={{
                   width: '530px',
@@ -834,7 +838,10 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <img
                   src={createScenarioButtonPNG}
                   alt="создать сценарий"
-                  onClick={() => setShowScenario(true)}
+                  onClick={async () => {
+                    await trackMetacoinsSpend('scenario', 15);
+                    setShowScenario(true);
+                  }}
                   className="button-inner-glow"
                   style={{
                     position: 'absolute',

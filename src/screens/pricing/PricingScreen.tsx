@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackSubscriptionPurchase } from '../../utils/supabase';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -19,7 +20,7 @@ export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = React.useState<string | null>(null);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     console.log('handlePayment called, selectedPlan:', selectedPlan);
     
     if (!selectedPlan) {
@@ -33,6 +34,10 @@ export const PricingScreen: React.FC = () => {
       }
       return;
     }
+    
+    // Track subscription purchase in Supabase
+    const months = selectedPlan === '1month' ? 1 : 3;
+    await trackSubscriptionPurchase('premium', months);
     
     navigate('/main-dashboard-premium');
   };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackMetacoinsSpend } from '../../utils/supabase';
 
 // Background & header from laba-main
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -37,6 +38,11 @@ const instaLogoIcon = "https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a9
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Track tracking action on mount
+  React.useEffect(() => {
+    trackMetacoinsSpend('tracking', 20);
+  }, []);
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);

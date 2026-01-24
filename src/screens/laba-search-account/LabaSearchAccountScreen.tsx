@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackMetacoinsSpend } from '../../utils/supabase';
 
 // Reused assets
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -400,7 +401,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
           <img 
             src={trackingButton}
             alt="начать отслеживание"
-            onClick={() => navigate('/laba-tracked')}
+            onClick={async () => {
+              await trackMetacoinsSpend('search', 5);
+              navigate('/laba-tracked');
+            }}
             className="button-inner-glow"
             style={{
               position: 'absolute',
