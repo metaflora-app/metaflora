@@ -200,21 +200,29 @@ export async function trackMetacoinsSpend(
   console.log('🔵 Attempting to update balance from', user.metacoins_balance, 'to', newBalance);
 
   try {
+    console.log('🔵 Step 1: Updating balance in Supabase...');
     // Update balance
-    const { error: updateError } = await supabase
+    const { data: updateData, error: updateError } = await supabase
       .from('users')
       .update({ metacoins_balance: newBalance })
-      .eq('id', user.id);
+      .eq('id', user.id)
+      .select();
 
     if (updateError) {
-      console.error('❌ Error updating balance:', updateError);
+      console.error('❌ Error updating balance:', JSON.stringify(updateError));
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: `Ошибка UPDATE: ${updateError.message || JSON.stringify(updateError)}`
+        });
+      }
       return false;
     }
     
-    console.log('✅ Balance updated successfully in Supabase');
+    console.log('✅ Balance updated successfully in Supabase:', updateData);
 
+    console.log('🔵 Step 2: Creating transaction record...');
     // Create transaction record
-    const { error: txError } = await supabase
+    const { data: txData, error: txError } = await supabase
       .from('metacoins_transactions')
       .insert({
         user_id: user.id,
@@ -223,10 +231,19 @@ export async function trackMetacoinsSpend(
         balance_after: newBalance,
         transaction_type: 'spend',
         description: `Использование: ${actionType}`,
-      });
+      })
+      .select();
 
     if (txError) {
-      console.error('❌ Error creating transaction:', txError);
+      console.error('❌ Error creating transaction:', JSON.stringify(txError));
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: `Ошибка INSERT: ${txError.message || JSON.stringify(txError)}`
+        });
+      }
+      // Don't return false - transaction is optional
+    } else {
+      console.log('✅ Transaction created:', txData);
     }
 
     console.log('✅ Spend successful. New balance:', newBalance);
