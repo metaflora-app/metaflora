@@ -26,12 +26,12 @@ export const MainDashboardPremiumScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Load user balance IMMEDIATELY and keep refreshing
+  // Load user balance on mount and listen for updates
   React.useEffect(() => {
     const loadBalance = async () => {
       const user = await getOrCreateUser();
       if (user) {
-        console.log('💰 Fresh balance from Supabase:', user.metacoins_balance);
+        console.log('💰 Balance loaded:', user.metacoins_balance);
         setMetacoinsBalance(user.metacoins_balance);
       }
     };
@@ -39,19 +39,15 @@ export const MainDashboardPremiumScreen: React.FC = () => {
     // Load immediately on mount
     loadBalance();
     
-    // Refresh balance every 2 seconds
-    const interval = setInterval(loadBalance, 2000);
-    
     // Listen for balance update events
     const handleBalanceUpdate = (event: any) => {
-      console.log('🔔 Balance update event received:', event.detail.newBalance);
+      console.log('🔔 Balance updated:', event.detail.newBalance);
       setMetacoinsBalance(event.detail.newBalance);
     };
     
     window.addEventListener('balanceUpdated', handleBalanceUpdate);
     
     return () => {
-      clearInterval(interval);
       window.removeEventListener('balanceUpdated', handleBalanceUpdate);
     };
   }, []);
