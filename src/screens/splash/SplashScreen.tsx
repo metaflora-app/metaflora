@@ -10,34 +10,30 @@ import logo from '../../assets/figma-welcome/splash-logo.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
-    // Start preloading ALL images immediately
-    preloadAllImages().then(() => {
-      setImagesLoaded(true);
-    });
-
-    // Initialize user and check subscription
-    const initUser = async () => {
+    // Start preloading and user initialization
+    const init = async () => {
+      // Preload images
+      await preloadAllImages();
+      
+      // Get user and check subscription
       const user = await getOrCreateUser();
-      if (user) {
-        console.log('🔵 User loaded:', user.subscription_type, 'Balance:', user.metacoins_balance);
-        // Wait for minimum time and images, then navigate
-        setTimeout(() => {
-          if (user.subscription_type === 'premium') {
-            console.log('✅ Premium user - going to dashboard');
-            navigate('/main-dashboard-premium');
-          } else {
-            console.log('✅ Free user - going to welcome');
-            navigate('/welcome');
-          }
-        }, 3000);
+      
+      // Wait minimum 3 seconds
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Navigate based on subscription
+      if (user && user.subscription_type === 'premium') {
+        console.log('✅ Premium user - going to dashboard');
+        navigate('/main-dashboard-premium');
+      } else {
+        console.log('✅ Free user - going to welcome');
+        navigate('/welcome');
       }
     };
 
-    initUser();
+    init();
   }, [navigate]);
 
   return (

@@ -63,7 +63,6 @@ export async function getUserBalance(): Promise<number> {
 
 // CACHE для хранения последнего известного баланса
 let cachedBalance: number | null = null;
-let lastBalanceUpdate: number = 0;
 
 // Get or create user (ALWAYS fetches fresh data from Supabase)
 export async function getOrCreateUser() {
@@ -115,7 +114,6 @@ export async function getOrCreateUser() {
       const existingUser = users[0];
       // Обновляем кеш баланса
       cachedBalance = existingUser.metacoins_balance;
-      lastBalanceUpdate = timestamp;
       console.log('✅ User found:', existingUser.id, 'Balance:', existingUser.metacoins_balance, 'Sub:', existingUser.subscription_type);
       return existingUser;
     }
