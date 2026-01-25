@@ -200,49 +200,65 @@ export async function trackMetacoinsSpend(
   console.log('🔵 Attempting to update balance from', user.metacoins_balance, 'to', newBalance);
 
   try {
-    console.log('🔵 Step 1: Updating balance in Supabase...');
-    // Update balance
-    const { data: updateData, error: updateError } = await supabase
-      .from('users')
-      .update({ metacoins_balance: newBalance })
-      .eq('id', user.id)
-      .select();
+    console.log('🔵 Step 1: Updating balance in Supabase via direct fetch...');
+    // Use direct fetch instead of Supabase JS client (Telegram WebApp issue)
+    const updateResponse = await fetch(
+      `${supabaseUrl}/rest/v1/users?id=eq.${user.id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation',
+        },
+        body: JSON.stringify({ metacoins_balance: newBalance }),
+      }
+    );
 
-    if (updateError) {
-      console.error('❌ Error updating balance:', JSON.stringify(updateError));
+    if (!updateResponse.ok) {
+      const errorText = await updateResponse.text();
+      console.error('❌ Error updating balance:', updateResponse.status, errorText);
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: `Ошибка UPDATE: ${updateError.message || JSON.stringify(updateError)}`
+          message: `Ошибка UPDATE: ${updateResponse.status} ${errorText}`
         });
       }
       return false;
     }
     
+    const updateData = await updateResponse.json();
     console.log('✅ Balance updated successfully in Supabase:', updateData);
 
-    console.log('🔵 Step 2: Creating transaction record...');
-    // Create transaction record
-    const { data: txData, error: txError } = await supabase
-      .from('metacoins_transactions')
-      .insert({
-        user_id: user.id,
-        amount: -cost,
-        balance_before: user.metacoins_balance,
-        balance_after: newBalance,
-        transaction_type: 'spend',
-        description: `Использование: ${actionType}`,
-      })
-      .select();
-
-    if (txError) {
-      console.error('❌ Error creating transaction:', JSON.stringify(txError));
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: `Ошибка INSERT: ${txError.message || JSON.stringify(txError)}`
-        });
+    console.log('🔵 Step 2: Creating transaction record via direct fetch...');
+    // Create transaction record using direct fetch
+    const txResponse = await fetch(
+      `${supabaseUrl}/rest/v1/metacoins_transactions`,
+      {
+        method: 'POST',
+        headers: {
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation',
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          amount: -cost,
+          balance_before: user.metacoins_balance,
+          balance_after: newBalance,
+          transaction_type: 'spend',
+          description: `Использование: ${actionType}`,
+        }),
       }
-      // Don't return false - transaction is optional
+    );
+
+    if (!txResponse.ok) {
+      const errorText = await txResponse.text();
+      console.error('❌ Error creating transaction:', txResponse.status, errorText);
+      // Don't fail the whole operation if transaction logging fails
     } else {
+      const txData = await txResponse.json();
       console.log('✅ Transaction created:', txData);
     }
 
