@@ -12,6 +12,8 @@ export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
+  const [userChecked, setUserChecked] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
     // Start preloading ALL images immediately
@@ -23,40 +25,39 @@ export const SplashScreen: React.FC = () => {
     const initUser = async () => {
       try {
         const user = await getOrCreateUser();
-        if (user && user.subscription_type === 'premium') {
-          console.log('✅ Premium user detected, skipping onboarding');
-          // Skip onboarding for premium users
-          setTimeout(() => {
-            navigate('/main-dashboard-premium');
-          }, 3000); // Show splash for 3 seconds then go to dashboard
+        if (user) {
+          console.log('✅ User subscription type:', user.subscription_type);
+          setIsPremium(user.subscription_type === 'premium');
         }
+        setUserChecked(true);
       } catch (err) {
         console.error('Failed to initialize user:', err);
+        setUserChecked(true);
       }
     };
     
     initUser();
 
-    // Minimum 8 seconds display for free users
+    // Minimum 3 seconds display
     const timer = setTimeout(() => {
       setMinTimeElapsed(true);
-    }, 8000);
+    }, 3000);
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, []);
 
-  // Navigate only when BOTH conditions met: images loaded AND 8 seconds passed
-  // (only for free users - premium users skip this)
+  // Navigate when ready
   useEffect(() => {
-    if (imagesLoaded && minTimeElapsed) {
-      // Check if we already navigated to premium dashboard
-      getOrCreateUser().then(user => {
-        if (user && user.subscription_type !== 'premium') {
-          navigate('/welcome');
-        }
-      });
+    if (imagesLoaded && minTimeElapsed && userChecked) {
+      if (isPremium) {
+        console.log('✅ Navigating to premium dashboard');
+        navigate('/main-dashboard-premium');
+      } else {
+        console.log('✅ Navigating to welcome (free user)');
+        navigate('/welcome');
+      }
     }
-  }, [imagesLoaded, minTimeElapsed, navigate]);
+  }, [imagesLoaded, minTimeElapsed, userChecked, isPremium, navigate]);
 
   return (
     <div
