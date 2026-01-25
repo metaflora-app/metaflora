@@ -12,10 +12,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
-// In-memory cache
+// In-memory cache - long TTL to survive navigation
 let userCache: any = null;
 let cacheTime = 0;
-const CACHE_DURATION = 500; // 0.5 seconds
+const CACHE_DURATION = 30000; // 30 seconds
 
 // Get Telegram user ID
 export function getTelegramUserId(): number | null {

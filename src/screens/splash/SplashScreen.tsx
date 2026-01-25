@@ -14,14 +14,12 @@ export const SplashScreen: React.FC = () => {
   useEffect(() => {
     // Start preloading and user initialization
     const init = async () => {
-      // Preload images
-      await preloadAllImages();
-      
-      // Get user and check subscription
-      const user = await getOrCreateUser();
-      
-      // Wait minimum 3 seconds
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Start both operations in parallel
+      const [user] = await Promise.all([
+        getOrCreateUser(), // This will cache the user data
+        preloadAllImages(),
+        new Promise(resolve => setTimeout(resolve, 3000)), // Minimum 3 seconds
+      ]);
       
       // Navigate based on subscription
       if (user && user.subscription_type === 'premium') {
