@@ -174,33 +174,39 @@ export async function trackMetacoinsSpend(
   actionType: 'analysis' | 'search' | 'scenario' | 'tracking',
   cost: number
 ) {
-  console.log('🔵 trackMetacoinsSpend called:', actionType, 'cost:', cost);
-  console.log('🔵 Current cache state:', { 
-    hasCachedUser: !!userCache, 
-    cacheAge: userCache ? Date.now() - cacheTime : 'N/A',
-    cachedBalance: userCache?.metacoins_balance 
-  });
+  console.log('🔵 trackMetacoinsSpend START:', actionType, 'cost:', cost);
   
-  // Use cached user first
-  const user = await getOrCreateUser(false);
-  if (!user) {
-    console.error('❌ trackMetacoinsSpend: No user found');
-    return false;
-  }
-
-  console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance, 'Subscription:', user.subscription_type);
-
-  // Check balance from cache
-  if (user.metacoins_balance < cost) {
-    console.error('❌ Insufficient balance. Required:', cost, 'Available:', user.metacoins_balance);
-    return false;
-  }
-
-  const newBalance = user.metacoins_balance - cost;
-  console.log('🔵 Attempting to update balance from', user.metacoins_balance, 'to', newBalance);
-
   try {
+    console.log('🔵 Current cache state:', { 
+      hasCachedUser: !!userCache, 
+      cacheAge: userCache ? Date.now() - cacheTime : 'N/A',
+      cachedBalance: userCache?.metacoins_balance 
+    });
+    
+    // Use cached user first
+    const user = await getOrCreateUser(false);
+    if (!user) {
+      console.error('❌ trackMetacoinsSpend: No user found');
+      alert('DEBUG: No user found');
+      return false;
+    }
+
+    console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance, 'Subscription:', user.subscription_type);
+
+    // Check balance from cache
+    if (user.metacoins_balance < cost) {
+      console.error('❌ Insufficient balance. Required:', cost, 'Available:', user.metacoins_balance);
+      alert(`DEBUG: Insufficient balance. Required: ${cost}, Available: ${user.metacoins_balance}`);
+      return false;
+    }
+
+    const newBalance = user.metacoins_balance - cost;
+    console.log('🔵 Will update balance from', user.metacoins_balance, 'to', newBalance);
+
     console.log('🔵 Step 1: Updating balance in Supabase via direct fetch...');
+    console.log('🔵 Fetch URL:', `${supabaseUrl}/rest/v1/users?id=eq.${user.id}`);
+    console.log('🔵 Fetch body:', JSON.stringify({ metacoins_balance: newBalance }));
+    
     // Use direct fetch instead of Supabase JS client (Telegram WebApp issue)
     const updateResponse = await fetch(
       `${supabaseUrl}/rest/v1/users?id=eq.${user.id}`,
@@ -216,19 +222,18 @@ export async function trackMetacoinsSpend(
       }
     );
 
+    console.log('🔵 Update response status:', updateResponse.status);
+    
     if (!updateResponse.ok) {
       const errorText = await updateResponse.text();
       console.error('❌ Error updating balance:', updateResponse.status, errorText);
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: `Ошибка UPDATE: ${updateResponse.status} ${errorText}`
-        });
-      }
+      alert(`DEBUG UPDATE ERROR: ${updateResponse.status} - ${errorText.substring(0, 100)}`);
       return false;
     }
     
     const updateData = await updateResponse.json();
     console.log('✅ Balance updated successfully in Supabase:', updateData);
+    alert(`DEBUG: Balance updated! Old: ${user.metacoins_balance}, New: ${newBalance}`);
 
     console.log('🔵 Step 2: Creating transaction record via direct fetch...');
     // Create transaction record using direct fetch
@@ -276,6 +281,7 @@ export async function trackMetacoinsSpend(
     return true;
   } catch (error) {
     console.error('❌ Critical error in trackMetacoinsSpend:', error);
+    alert(`DEBUG CATCH ERROR: ${error}`);
     return false;
   }
 }
