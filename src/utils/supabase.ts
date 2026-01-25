@@ -141,6 +141,8 @@ export async function trackMetacoinsPurchase(amount: number) {
       .insert({
         user_id: user.id,
         amount,
+        balance_before: user.metacoins_balance,
+        balance_after: newBalance,
         transaction_type: 'purchase',
         description: `Покупка ${amount} метакоинов`,
       });
@@ -173,6 +175,11 @@ export async function trackMetacoinsSpend(
   cost: number
 ) {
   console.log('🔵 trackMetacoinsSpend called:', actionType, 'cost:', cost);
+  console.log('🔵 Current cache state:', { 
+    hasCachedUser: !!userCache, 
+    cacheAge: userCache ? Date.now() - cacheTime : 'N/A',
+    cachedBalance: userCache?.metacoins_balance 
+  });
   
   // Use cached user first
   const user = await getOrCreateUser(false);
@@ -181,7 +188,7 @@ export async function trackMetacoinsSpend(
     return false;
   }
 
-  console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
+  console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance, 'Subscription:', user.subscription_type);
 
   // Check balance from cache
   if (user.metacoins_balance < cost) {
@@ -190,6 +197,7 @@ export async function trackMetacoinsSpend(
   }
 
   const newBalance = user.metacoins_balance - cost;
+  console.log('🔵 Attempting to update balance from', user.metacoins_balance, 'to', newBalance);
 
   try {
     // Update balance
@@ -202,6 +210,8 @@ export async function trackMetacoinsSpend(
       console.error('❌ Error updating balance:', updateError);
       return false;
     }
+    
+    console.log('✅ Balance updated successfully in Supabase');
 
     // Create transaction record
     const { error: txError } = await supabase
@@ -209,8 +219,9 @@ export async function trackMetacoinsSpend(
       .insert({
         user_id: user.id,
         amount: -cost,
+        balance_before: user.metacoins_balance,
+        balance_after: newBalance,
         transaction_type: 'spend',
-        action_type: actionType,
         description: `Использование: ${actionType}`,
       });
 
@@ -273,7 +284,9 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
       .insert({
         user_id: user.id,
         amount: bonusMetacoins,
-        transaction_type: 'bonus',
+        balance_before: user.metacoins_balance,
+        balance_after: newBalance,
+        transaction_type: 'subscription_bonus',
         description: `Бонус за подписку: ${months} мес.`,
       });
 
