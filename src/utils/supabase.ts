@@ -71,22 +71,31 @@ export async function getOrCreateUser() {
 
   console.log('🔵 getOrCreateUser called for Telegram ID:', telegramId);
 
-  // FORCE fresh data from Supabase with cache-busting timestamp
-  const timestamp = Date.now();
-  const { data: existingUser, error: selectError } = await supabase
-    .from('users')
-    .select('*')
-    .eq('telegram_id', telegramId)
-    .limit(1)
-    .maybeSingle();
+  // Use REST API directly to bypass any caching
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/users?telegram_id=eq.${telegramId}&select=*`,
+    {
+      method: 'GET',
+      headers: {
+        'apikey': supabaseAnonKey,
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+      },
+    }
+  );
 
-  if (selectError) {
-    console.error('❌ Error fetching user:', selectError);
+  if (!response.ok) {
+    console.error('❌ Error fetching user:', response.status, response.statusText);
     return null;
   }
 
-  if (existingUser) {
-    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance, 'Timestamp:', timestamp);
+  const users = await response.json();
+  
+  if (users && users.length > 0) {
+    const existingUser = users[0];
+    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance);
     return existingUser;
   }
 
