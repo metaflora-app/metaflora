@@ -71,9 +71,10 @@ export async function getOrCreateUser() {
 
   console.log('🔵 getOrCreateUser called for Telegram ID:', telegramId);
 
-  // Use REST API directly to bypass any caching
+  // Use REST API with cache-busting timestamp
+  const timestamp = Date.now();
   const response = await fetch(
-    `${supabaseUrl}/rest/v1/users?telegram_id=eq.${telegramId}&select=*`,
+    `${supabaseUrl}/rest/v1/users?telegram_id=eq.${telegramId}&select=*&_=${timestamp}`,
     {
       method: 'GET',
       headers: {
@@ -82,20 +83,24 @@ export async function getOrCreateUser() {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
+        'Expires': '0',
       },
     }
   );
 
   if (!response.ok) {
     console.error('❌ Error fetching user:', response.status, response.statusText);
+    const errorText = await response.text();
+    console.error('❌ Error response:', errorText);
     return null;
   }
 
   const users = await response.json();
+  console.log('🔵 Fetched users from API:', users);
   
   if (users && users.length > 0) {
     const existingUser = users[0];
-    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance);
+    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance, 'Subscription:', existingUser.subscription_type);
     return existingUser;
   }
 
