@@ -17,13 +17,13 @@ import policyInfoIcon from '../../assets/figma-welcome/policy-info-icon.png';
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  // Check if user is premium and redirect
+  // Check if user is premium and redirect IMMEDIATELY
   React.useEffect(() => {
     const checkPremium = async () => {
       const user = await getOrCreateUser();
       if (user && user.subscription_type === 'premium') {
-        console.log('✅ Premium user, redirecting to dashboard');
-        navigate('/main-dashboard-premium');
+        console.log('✅ Premium user detected, redirecting to dashboard');
+        navigate('/main-dashboard-premium', { replace: true });
       }
     };
     checkPremium();
