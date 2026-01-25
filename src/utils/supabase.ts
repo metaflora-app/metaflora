@@ -3,7 +3,20 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = 'https://lwjsbflvsmscfrdkejia.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMjgzMjEsImV4cCI6MjA4NDYwNDMyMX0.sf_9yMijf066geuGGjv0ylxRxKueaaC2J9u5z6Xa6sI';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: false, // Disable session caching
+  },
+  db: {
+    schema: 'public',
+  },
+  global: {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+    },
+  },
+});
 
 // Get Telegram user ID
 export function getTelegramUserId(): number | null {
@@ -58,20 +71,22 @@ export async function getOrCreateUser() {
 
   console.log('🔵 getOrCreateUser called for Telegram ID:', telegramId);
 
-  // ALWAYS fetch fresh user data from Supabase (no caching)
+  // FORCE fresh data from Supabase with cache-busting timestamp
+  const timestamp = Date.now();
   const { data: existingUser, error: selectError } = await supabase
     .from('users')
     .select('*')
     .eq('telegram_id', telegramId)
-    .single();
+    .limit(1)
+    .maybeSingle();
 
-  if (selectError && selectError.code !== 'PGRST116') {
+  if (selectError) {
     console.error('❌ Error fetching user:', selectError);
     return null;
   }
 
   if (existingUser) {
-    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance);
+    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance, 'Timestamp:', timestamp);
     return existingUser;
   }
 
