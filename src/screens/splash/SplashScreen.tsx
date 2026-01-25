@@ -20,9 +20,21 @@ export const SplashScreen: React.FC = () => {
     });
 
     // Initialize or get user from Supabase
-    getOrCreateUser().catch(err => {
-      console.error('Failed to initialize user:', err);
-    });
+    const initUser = async () => {
+      try {
+        const user = await getOrCreateUser();
+        if (user) {
+          // Show Telegram ID in alert for debugging
+          const telegram = (window as any).Telegram;
+          const telegramId = telegram?.WebApp?.initDataUnsafe?.user?.id || 'test ID';
+          alert(`DEBUG: Your Telegram ID: ${telegramId}\nSubscription: ${user.subscription_type}\nBalance: ${user.metacoins_balance}`);
+        }
+      } catch (err) {
+        console.error('Failed to initialize user:', err);
+      }
+    };
+    
+    initUser();
 
     // Minimum 3 seconds display
     const timer = setTimeout(() => {
