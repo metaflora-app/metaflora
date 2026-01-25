@@ -113,7 +113,7 @@ export async function getOrCreateUser(forceRefresh = false) {
 export async function trackMetacoinsPurchase(amount: number) {
   console.log('🔵 trackMetacoinsPurchase called with amount:', amount);
   
-  const user = await getOrCreateUser(true); // Force refresh
+  const user = await getOrCreateUser(false); // Use cache
   if (!user) {
     console.error('❌ trackMetacoinsPurchase: No user found');
     return false;
@@ -174,7 +174,8 @@ export async function trackMetacoinsSpend(
 ) {
   console.log('🔵 trackMetacoinsSpend called:', actionType, 'cost:', cost);
   
-  const user = await getOrCreateUser(true); // Force refresh
+  // Use cached user first
+  const user = await getOrCreateUser(false);
   if (!user) {
     console.error('❌ trackMetacoinsSpend: No user found');
     return false;
@@ -182,7 +183,7 @@ export async function trackMetacoinsSpend(
 
   console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
-  // Check balance
+  // Check balance from cache
   if (user.metacoins_balance < cost) {
     console.error('❌ Insufficient balance. Required:', cost, 'Available:', user.metacoins_balance);
     return false;
@@ -239,7 +240,7 @@ export async function trackMetacoinsSpend(
 export async function trackSubscriptionPurchase(subscriptionType: 'premium', months: number) {
   console.log('🔵 trackSubscriptionPurchase called:', subscriptionType, 'months:', months);
   
-  const user = await getOrCreateUser(true); // Force refresh
+  const user = await getOrCreateUser(false); // Use cache
   if (!user) {
     console.error('❌ trackSubscriptionPurchase: No user found');
     return false;
@@ -301,6 +302,6 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
 
 // Get fresh user balance (for UI updates)
 export async function getUserBalance(): Promise<number> {
-  const user = await getOrCreateUser(true); // Force refresh
+  const user = await getOrCreateUser(false); // Use cache
   return user?.metacoins_balance || 0;
 }
