@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getOrCreateUser } from '../../utils/supabase';
 
 // Images
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
@@ -15,6 +16,18 @@ import policyInfoIcon from '../../assets/figma-welcome/policy-info-icon.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
+
+  // Check if user is premium and redirect
+  React.useEffect(() => {
+    const checkPremium = async () => {
+      const user = await getOrCreateUser();
+      if (user && user.subscription_type === 'premium') {
+        console.log('✅ Premium user, redirecting to dashboard');
+        navigate('/main-dashboard-premium');
+      }
+    };
+    checkPremium();
+  }, [navigate]);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;

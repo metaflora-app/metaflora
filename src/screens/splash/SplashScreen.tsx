@@ -12,8 +12,6 @@ export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
-  const [userChecked, setUserChecked] = useState(false);
-  const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
     // Start preloading ALL images immediately
@@ -21,22 +19,10 @@ export const SplashScreen: React.FC = () => {
       setImagesLoaded(true);
     });
 
-    // Initialize or get user from Supabase and check subscription
-    const initUser = async () => {
-      try {
-        const user = await getOrCreateUser();
-        if (user) {
-          console.log('✅ User subscription type:', user.subscription_type);
-          setIsPremium(user.subscription_type === 'premium');
-        }
-        setUserChecked(true);
-      } catch (err) {
-        console.error('Failed to initialize user:', err);
-        setUserChecked(true);
-      }
-    };
-    
-    initUser();
+    // Initialize or get user from Supabase
+    getOrCreateUser().catch(err => {
+      console.error('Failed to initialize user:', err);
+    });
 
     // Minimum 3 seconds display
     const timer = setTimeout(() => {
@@ -46,18 +32,12 @@ export const SplashScreen: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Navigate when ready
+  // Navigate only when BOTH conditions met: images loaded AND 3 seconds passed
   useEffect(() => {
-    if (imagesLoaded && minTimeElapsed && userChecked) {
-      if (isPremium) {
-        console.log('✅ Navigating to premium dashboard');
-        navigate('/main-dashboard-premium');
-      } else {
-        console.log('✅ Navigating to welcome (free user)');
-        navigate('/welcome');
-      }
+    if (imagesLoaded && minTimeElapsed) {
+      navigate('/welcome');
     }
-  }, [imagesLoaded, minTimeElapsed, userChecked, isPremium, navigate]);
+  }, [imagesLoaded, minTimeElapsed, navigate]);
 
   return (
     <div
