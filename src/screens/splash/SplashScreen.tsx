@@ -22,11 +22,14 @@ export const SplashScreen: React.FC = () => {
       ]);
       
       // Navigate based on subscription
+      console.log('🔍 SplashScreen: User data:', JSON.stringify(user));
+      console.log('🔍 SplashScreen: subscription_type =', user?.subscription_type);
+      
       if (user && user.subscription_type === 'premium') {
         console.log('✅ Premium user - going to dashboard');
         navigate('/main-dashboard-premium');
       } else {
-        console.log('✅ Free user - going to welcome');
+        console.log('✅ Free user (or no user) - going to welcome. User:', user);
         navigate('/welcome');
       }
     };
