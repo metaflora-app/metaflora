@@ -19,23 +19,42 @@ export const SplashScreen: React.FC = () => {
       setImagesLoaded(true);
     });
 
-    // Initialize or get user from Supabase
-    getOrCreateUser().catch(err => {
-      console.error('Failed to initialize user:', err);
-    });
+    // Initialize or get user from Supabase and check subscription
+    const initUser = async () => {
+      try {
+        const user = await getOrCreateUser();
+        if (user && user.subscription_type === 'premium') {
+          console.log('✅ Premium user detected, skipping onboarding');
+          // Skip onboarding for premium users
+          setTimeout(() => {
+            navigate('/main-dashboard-premium');
+          }, 3000); // Show splash for 3 seconds then go to dashboard
+        }
+      } catch (err) {
+        console.error('Failed to initialize user:', err);
+      }
+    };
+    
+    initUser();
 
-    // Minimum 8 seconds display
+    // Minimum 8 seconds display for free users
     const timer = setTimeout(() => {
       setMinTimeElapsed(true);
     }, 8000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigate]);
 
-  // Navigate only when BOTH conditions met: images loaded AND 12 seconds passed
+  // Navigate only when BOTH conditions met: images loaded AND 8 seconds passed
+  // (only for free users - premium users skip this)
   useEffect(() => {
     if (imagesLoaded && minTimeElapsed) {
-      navigate('/welcome');
+      // Check if we already navigated to premium dashboard
+      getOrCreateUser().then(user => {
+        if (user && user.subscription_type !== 'premium') {
+          navigate('/welcome');
+        }
+      });
     }
   }, [imagesLoaded, minTimeElapsed, navigate]);
 

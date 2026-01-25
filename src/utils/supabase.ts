@@ -48,7 +48,7 @@ export async function getUserBalance(): Promise<number> {
   return data.metacoins_balance;
 }
 
-// Get or create user
+// Get or create user (ALWAYS fetches fresh data from Supabase)
 export async function getOrCreateUser() {
   const telegramId = getTelegramUserId();
   if (!telegramId) {
@@ -58,7 +58,7 @@ export async function getOrCreateUser() {
 
   console.log('🔵 getOrCreateUser called for Telegram ID:', telegramId);
 
-  // Check if user exists
+  // ALWAYS fetch fresh user data from Supabase (no caching)
   const { data: existingUser, error: selectError } = await supabase
     .from('users')
     .select('*')
@@ -71,7 +71,7 @@ export async function getOrCreateUser() {
   }
 
   if (existingUser) {
-    console.log('✅ Existing user found:', existingUser.id);
+    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance);
     return existingUser;
   }
 
