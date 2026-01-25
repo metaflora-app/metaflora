@@ -19,25 +19,26 @@ export const SplashScreen: React.FC = () => {
       setImagesLoaded(true);
     });
 
-    // Initialize or get user from Supabase
-    getOrCreateUser().catch(err => {
-      console.error('Failed to initialize user:', err);
-    });
+    // Initialize user and check subscription
+    const initUser = async () => {
+      const user = await getOrCreateUser();
+      if (user) {
+        console.log('🔵 User loaded:', user.subscription_type, 'Balance:', user.metacoins_balance);
+        // Wait for minimum time and images, then navigate
+        setTimeout(() => {
+          if (user.subscription_type === 'premium') {
+            console.log('✅ Premium user - going to dashboard');
+            navigate('/main-dashboard-premium');
+          } else {
+            console.log('✅ Free user - going to welcome');
+            navigate('/welcome');
+          }
+        }, 3000);
+      }
+    };
 
-    // Minimum 3 seconds display
-    const timer = setTimeout(() => {
-      setMinTimeElapsed(true);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Navigate only when BOTH conditions met: images loaded AND 3 seconds passed
-  useEffect(() => {
-    if (imagesLoaded && minTimeElapsed) {
-      navigate('/welcome');
-    }
-  }, [imagesLoaded, minTimeElapsed, navigate]);
+    initUser();
+  }, [navigate]);
 
   return (
     <div

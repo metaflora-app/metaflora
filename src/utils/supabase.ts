@@ -61,6 +61,10 @@ export async function getUserBalance(): Promise<number> {
   return data.metacoins_balance;
 }
 
+// CACHE для хранения последнего известного баланса
+let cachedBalance: number | null = null;
+let lastBalanceUpdate: number = 0;
+
 // Get or create user (ALWAYS fetches fresh data from Supabase)
 export async function getOrCreateUser() {
   const telegramId = getTelegramUserId();
@@ -71,64 +75,91 @@ export async function getOrCreateUser() {
 
   console.log('🔵 getOrCreateUser called for Telegram ID:', telegramId);
 
-  // Use REST API with cache-busting timestamp
-  const timestamp = Date.now();
-  const response = await fetch(
-    `${supabaseUrl}/rest/v1/users?telegram_id=eq.${telegramId}&select=*&_=${timestamp}`,
-    {
-      method: 'GET',
-      headers: {
-        'apikey': supabaseAnonKey,
-        'Authorization': `Bearer ${supabaseAnonKey}`,
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-      },
+  try {
+    // Use REST API with cache-busting
+    const timestamp = Date.now();
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/users?telegram_id=eq.${telegramId}&select=*&_=${timestamp}`,
+      {
+        method: 'GET',
+        headers: {
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error('❌ Error fetching user:', response.status, response.statusText);
+      // Если есть кешированный баланс, используем его
+      if (cachedBalance !== null) {
+        console.warn('⚠️ Using cached balance:', cachedBalance);
+        return {
+          id: 'cached',
+          telegram_id: telegramId,
+          subscription_type: 'premium',
+          metacoins_balance: cachedBalance,
+        } as any;
+      }
+      return null;
     }
-  );
 
-  if (!response.ok) {
-    console.error('❌ Error fetching user:', response.status, response.statusText);
-    const errorText = await response.text();
-    console.error('❌ Error response:', errorText);
+    const users = await response.json();
+    console.log('🔵 Fetched users from API:', users);
+    
+    if (users && users.length > 0) {
+      const existingUser = users[0];
+      // Обновляем кеш баланса
+      cachedBalance = existingUser.metacoins_balance;
+      lastBalanceUpdate = timestamp;
+      console.log('✅ User found:', existingUser.id, 'Balance:', existingUser.metacoins_balance, 'Sub:', existingUser.subscription_type);
+      return existingUser;
+    }
+
+    console.log('🔵 Creating new user...');
+
+    // Create new user
+    const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
+    const telegramUser = telegram?.WebApp?.initDataUnsafe?.user;
+    const { data: newUser, error: createError } = await supabase
+      .from('users')
+      .insert({
+        telegram_id: telegramId,
+        username: telegramUser?.username || null,
+        first_name: telegramUser?.first_name || null,
+        last_name: telegramUser?.last_name || null,
+        subscription_type: 'free',
+        metacoins_balance: 0,
+      })
+      .select()
+      .single();
+
+    if (createError) {
+      console.error('❌ Error creating user:', createError);
+      return null;
+    }
+
+    cachedBalance = 0;
+    console.log('✅ New user created:', newUser.id);
+    return newUser;
+  } catch (error) {
+    console.error('❌ Critical error in getOrCreateUser:', error);
+    // Fallback to cached balance
+    if (cachedBalance !== null) {
+      console.warn('⚠️ Using cached balance due to error:', cachedBalance);
+      return {
+        id: 'cached',
+        telegram_id: telegramId,
+        subscription_type: 'premium',
+        metacoins_balance: cachedBalance,
+      } as any;
+    }
     return null;
   }
-
-  const users = await response.json();
-  console.log('🔵 Fetched users from API:', users);
-  
-  if (users && users.length > 0) {
-    const existingUser = users[0];
-    console.log('✅ Existing user found:', existingUser.id, 'Balance:', existingUser.metacoins_balance, 'Subscription:', existingUser.subscription_type);
-    return existingUser;
-  }
-
-  console.log('🔵 Creating new user...');
-
-  // Create new user WITHOUT initial metacoins (only on subscription purchase)
-  const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
-  const telegramUser = telegram?.WebApp?.initDataUnsafe?.user;
-  const { data: newUser, error: createError } = await supabase
-    .from('users')
-    .insert({
-      telegram_id: telegramId,
-      username: telegramUser?.username || null,
-      first_name: telegramUser?.first_name || null,
-      last_name: telegramUser?.last_name || null,
-      subscription_type: 'free',
-      metacoins_balance: 0,
-    })
-    .select()
-    .single();
-
-  if (createError) {
-    console.error('❌ Error creating user:', createError);
-    return null;
-  }
-
-  console.log('✅ New user created:', newUser.id);
-  return newUser;
 }
 
 // Track metacoins purchase
@@ -168,6 +199,10 @@ export async function trackMetacoinsPurchase(amount: number) {
 
   console.log('✅ Balance updated successfully. New balance:', newBalance);
   console.log('✅ Update response:', updateData);
+
+  // Update cached balance IMMEDIATELY
+  cachedBalance = newBalance;
+  console.log('💾 Cached balance updated to:', cachedBalance);
 
   // Create transaction
   console.log('🔵 Attempting to create transaction...');
@@ -233,6 +268,10 @@ export async function trackMetacoinsSpend(
 
   console.log('✅ Balance updated successfully. New balance:', newBalance);
 
+  // Update cached balance IMMEDIATELY
+  cachedBalance = newBalance;
+  console.log('💾 Cached balance updated to:', cachedBalance);
+
   // Create transaction
   const actionNames = {
     analysis: 'Анализ контента',
@@ -244,7 +283,7 @@ export async function trackMetacoinsSpend(
   const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount: -cost,
-    balance_before: currentBalance, // ← ИСПРАВЛЕНО: используем сохраненное значение
+    balance_before: currentBalance,
     balance_after: newBalance,
     transaction_type: `spend_${actionType}`,
     description: actionNames[actionType],
@@ -311,6 +350,10 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
   console.log('✅ Subscription updated successfully');
   console.log('✅ Update response:', updateData);
 
+  // Update cached balance IMMEDIATELY
+  cachedBalance = newBalance;
+  console.log('💾 Cached balance updated to:', cachedBalance);
+
   // Create bonus transaction
   if (bonusMetacoins > 0) {
     console.log('🔵 Attempting to create bonus transaction...');
@@ -318,7 +361,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
     const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
       user_id: user.id,
       amount: bonusMetacoins,
-      balance_before: currentBalance, // ← ИСПРАВЛЕНО: используем сохраненное значение
+      balance_before: currentBalance,
       balance_after: newBalance,
       transaction_type: 'subscription_bonus',
       description: `Бонус ${bonusMetacoins} метакоинов при покупке подписки на ${months} мес.`,
