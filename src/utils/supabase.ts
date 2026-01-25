@@ -146,7 +146,7 @@ export async function trackMetacoinsPurchase(amount: number) {
   const { data: transactionData, error: transactionError } = await supabase.from('metacoins_transactions').insert({
     user_id: user.id,
     amount,
-    balance_before: currentBalance, // ← ИСПРАВЛЕНО: используем сохраненное значение
+    balance_before: currentBalance,
     balance_after: newBalance,
     transaction_type: 'purchase',
     description: `Покупка ${amount} метакоинов`,
@@ -160,6 +160,10 @@ export async function trackMetacoinsPurchase(amount: number) {
 
   console.log('✅ Transaction created successfully');
   console.log('✅ Transaction response:', transactionData);
+  
+  // Trigger balance refresh event
+  window.dispatchEvent(new CustomEvent('balanceUpdated', { detail: { newBalance } }));
+  
   return true;
 }
 
@@ -225,6 +229,10 @@ export async function trackMetacoinsSpend(
 
   console.log('✅ Transaction created successfully');
   console.log('✅ Transaction response:', transactionData);
+  
+  // Trigger balance refresh event
+  window.dispatchEvent(new CustomEvent('balanceUpdated', { detail: { newBalance } }));
+  
   return true;
 }
 
@@ -296,6 +304,9 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
     console.log('✅ Bonus transaction created successfully');
     console.log('✅ Transaction response:', transactionData);
   }
+
+  // Trigger balance refresh event
+  window.dispatchEvent(new CustomEvent('balanceUpdated', { detail: { newBalance } }));
 
   return true;
 }

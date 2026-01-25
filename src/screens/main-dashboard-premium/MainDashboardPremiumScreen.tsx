@@ -26,31 +26,34 @@ export const MainDashboardPremiumScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Load user balance
+  // Load user balance IMMEDIATELY and keep refreshing
   React.useEffect(() => {
     const loadBalance = async () => {
       const user = await getOrCreateUser();
       if (user) {
-        // Fetch fresh balance from Supabase
-        const { data } = await supabase
-          .from('users')
-          .select('metacoins_balance')
-          .eq('id', user.id)
-          .single();
-        
-        if (data) {
-          console.log('💰 Balance loaded:', data.metacoins_balance);
-          setMetacoinsBalance(data.metacoins_balance);
-        } else {
-          setMetacoinsBalance(user.metacoins_balance);
-        }
+        console.log('💰 Fresh balance from Supabase:', user.metacoins_balance);
+        setMetacoinsBalance(user.metacoins_balance);
       }
     };
 
+    // Load immediately on mount
     loadBalance();
-    // Refresh balance every 3 seconds (faster updates)
-    const interval = setInterval(loadBalance, 3000);
-    return () => clearInterval(interval);
+    
+    // Refresh balance every 2 seconds
+    const interval = setInterval(loadBalance, 2000);
+    
+    // Listen for balance update events
+    const handleBalanceUpdate = (event: any) => {
+      console.log('🔔 Balance update event received:', event.detail.newBalance);
+      setMetacoinsBalance(event.detail.newBalance);
+    };
+    
+    window.addEventListener('balanceUpdated', handleBalanceUpdate);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('balanceUpdated', handleBalanceUpdate);
+    };
   }, []);
 
   // Handle navigation
