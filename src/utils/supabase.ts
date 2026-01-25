@@ -3,6 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = 'https://lwjsbflvsmscfrdkejia.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMjgzMjEsImV4cCI6MjA4NDYwNDMyMX0.sf_9yMijf066geuGGjv0ylxRxKueaaC2J9u5z6Xa6sI';
 
+// API Proxy URL - will be set after deploying the proxy
+const API_PROXY_URL = process.env.VITE_API_PROXY_URL || 'http://localhost:3000';
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: false,
@@ -203,22 +206,19 @@ export async function trackMetacoinsSpend(
     const newBalance = user.metacoins_balance - cost;
     console.log('🔵 Will update balance from', user.metacoins_balance, 'to', newBalance);
 
-    console.log('🔵 Step 1: Updating balance in Supabase via direct fetch...');
-    console.log('🔵 Fetch URL:', `${supabaseUrl}/rest/v1/users?id=eq.${user.id}`);
-    console.log('🔵 Fetch body:', JSON.stringify({ metacoins_balance: newBalance }));
+    console.log('🔵 Step 1: Updating balance via API proxy...');
+    console.log('🔵 API URL:', `${API_PROXY_URL}/api/user/${user.id}/balance`);
+    console.log('🔵 New balance:', newBalance);
     
-    // Use direct fetch instead of Supabase JS client (Telegram WebApp issue)
+    // Use API proxy to bypass Telegram WebApp fetch restrictions
     const updateResponse = await fetch(
-      `${supabaseUrl}/rest/v1/users?id=eq.${user.id}`,
+      `${API_PROXY_URL}/api/user/${user.id}/balance`,
       {
         method: 'PATCH',
         headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`,
           'Content-Type': 'application/json',
-          'Prefer': 'return=representation',
         },
-        body: JSON.stringify({ metacoins_balance: newBalance }),
+        body: JSON.stringify({ balance: newBalance }),
       }
     );
 
@@ -235,17 +235,14 @@ export async function trackMetacoinsSpend(
     console.log('✅ Balance updated successfully in Supabase:', updateData);
     alert(`DEBUG: Balance updated! Old: ${user.metacoins_balance}, New: ${newBalance}`);
 
-    console.log('🔵 Step 2: Creating transaction record via direct fetch...');
-    // Create transaction record using direct fetch
+    console.log('🔵 Step 2: Creating transaction record via API proxy...');
+    // Create transaction record using API proxy
     const txResponse = await fetch(
-      `${supabaseUrl}/rest/v1/metacoins_transactions`,
+      `${API_PROXY_URL}/api/transaction`,
       {
         method: 'POST',
         headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`,
           'Content-Type': 'application/json',
-          'Prefer': 'return=representation',
         },
         body: JSON.stringify({
           user_id: user.id,
