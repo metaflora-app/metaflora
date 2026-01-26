@@ -23,9 +23,9 @@ import topPickButtonActive from '../../assets/кнопка топ-выбор а�
 import newButtonInactive from '../../assets/кнопка новые.png';
 import newButtonActive from '../../assets/кнопка новые активная.png';
 
-// Figma MCP assets
-const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
-const houseImage = "https://www.figma.com/api/mcp/asset/561dab05-4ef7-4239-862d-adee28216da3";
+// New assets
+import threePeopleBg from '../../assets/laba-icons/три человека на фон.png';
+import houseImage from '../../assets/laba-icons/картинка в карточке промпта.png';
 
 
 export const PromptFirstScreen: React.FC = () => {

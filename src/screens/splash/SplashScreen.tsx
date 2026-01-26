@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { preloadAllImages } from '../../utils/assetPreloader';
+import { getOrCreateUser } from '../../utils/supabase';
 
 // Background pattern image (dots)
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -9,29 +10,32 @@ import logo from '../../assets/figma-welcome/splash-logo.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
-    // Start preloading ALL images immediately
-    preloadAllImages().then(() => {
-      setImagesLoaded(true);
-    });
+    // Start preloading and user initialization
+    const init = async () => {
+      // Start both operations in parallel
+      const [user] = await Promise.all([
+        getOrCreateUser(), // This will cache the user data
+        preloadAllImages(),
+        new Promise(resolve => setTimeout(resolve, 3000)), // Minimum 3 seconds
+      ]);
+      
+      // Navigate based on subscription
+      console.log('🔍 SplashScreen: User data:', JSON.stringify(user));
+      console.log('🔍 SplashScreen: subscription_type =', user?.subscription_type);
+      
+      if (user && user.subscription_type === 'premium') {
+        console.log('✅ Premium user - going to dashboard');
+        navigate('/main-dashboard-premium');
+      } else {
+        console.log('✅ Free user (or no user) - going to welcome. User:', user);
+        navigate('/welcome');
+      }
+    };
 
-    // Minimum 8 seconds display
-    const timer = setTimeout(() => {
-      setMinTimeElapsed(true);
-    }, 8000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Navigate only when BOTH conditions met: images loaded AND 12 seconds passed
-  useEffect(() => {
-    if (imagesLoaded && minTimeElapsed) {
-      navigate('/welcome');
-    }
-  }, [imagesLoaded, minTimeElapsed, navigate]);
+    init();
+  }, [navigate]);
 
   return (
     <div

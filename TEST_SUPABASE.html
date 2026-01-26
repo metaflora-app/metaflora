@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест Supabase</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #020101;
+      color: #00ff00;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 { color: #00ff00; }
+    button {
+      background: #00ff00;
+      color: #020101;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    button:hover { background: #00cc00; }
+    .log {
+      background: #111;
+      padding: 10px;
+      margin: 10px 0;
+      border-left: 3px solid #00ff00;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+    .error { border-left-color: #ff0000; color: #ff0000; }
+    .success { border-left-color: #00ff00; color: #00ff00; }
+    .info { border-left-color: #ffff00; color: #ffff00; }
+    #logs { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🔧 Тест Supabase интеграции</h1>
+  
+  <div>
+    <button onclick="testConnection()">1. Проверить подключение</button>
+    <button onclick="testCreateUser()">2. Создать тестового пользователя</button>
+    <button onclick="testPurchase()">3. Тест покупки метакоинов</button>
+    <button onclick="testSpend()">4. Тест траты метакоинов</button>
+    <button onclick="testSubscription()">5. Тест подписки</button>
+    <button onclick="clearLogs()">Очистить логи</button>
+  </div>
+
+  <div id="logs"></div>
+
+  <script>
+    // Supabase config
+    const supabaseUrl = 'https://lwjsbflvsmscfrdkejia.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMjgzMjEsImV4cCI6MjA4NDYwNDMyMX0.sf_9yMijf066geuGGjv0ylxRxKueaaC2J9u5z6Xa6sI';
+    
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+    
+    let testTelegramId = 999888777; // Test ID
+    let testUserId = null;
+
+    function log(message, type = 'info') {
+      const logsDiv = document.getElementById('logs');
+      const logDiv = document.createElement('div');
+      logDiv.className = `log ${type}`;
+      logDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logsDiv.insertBefore(logDiv, logsDiv.firstChild);
+    }
+
+    function clearLogs() {
+      document.getElementById('logs').innerHTML = '';
+    }
+
+    async function testConnection() {
+      log('🔵 Проверка подключения к Supabase...', 'info');
+      
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('count')
+          .limit(1);
+        
+        if (error) {
+          log(`❌ Ошибка подключения: ${error.message}`, 'error');
+          log(`Код ошибки: ${error.code}`, 'error');
+          log(`Детали: ${JSON.stringify(error, null, 2)}`, 'error');
+          return false;
+        }
+        
+        log('✅ Подключение успешно!', 'success');
+        return true;
+      } catch (err) {
+        log(`❌ Критическая ошибка: ${err.message}`, 'error');
+        return false;
+      }
+    }
+
+    async function testCreateUser() {
+      log('🔵 Создание тестового пользователя...', 'info');
+      log(`Telegram ID: ${testTelegramId}`, 'info');
+      
+      try {
+        // Check if user exists
+        const { data: existingUser, error: selectError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('telegram_id', testTelegramId)
+          .single();
+        
+        if (existingUser) {
+          log('✅ Пользователь уже существует', 'success');
+          log(`User ID: ${existingUser.id}`, 'info');
+          log(`Balance: ${existingUser.metacoins_balance}`, 'info');
+          testUserId = existingUser.id;
+          return true;
+        }
+        
+        // Create new user
+        const { data: newUser, error: createError } = await supabase
+          .from('users')
+          .insert({
+            telegram_id: testTelegramId,
+            username: 'test_user',
+            first_name: 'Test',
+            subscription_type: 'free',
+            metacoins_balance: 0,
+          })
+          .select()
+          .single();
+        
+        if (createError) {
+          log(`❌ Ошибка создания: ${createError.message}`, 'error');
+          log(`Код ошибки: ${createError.code}`, 'error');
+          log(`Детали: ${JSON.stringify(createError, null, 2)}`, 'error');
+          return false;
+        }
+        
+        log('✅ Пользователь создан!', 'success');
+        log(`User ID: ${newUser.id}`, 'info');
+        testUserId = newUser.id;
+        return true;
+      } catch (err) {
+        log(`❌ Критическая ошибка: ${err.message}`, 'error');
+        return false;
+      }
+    }
+
+    async function testPurchase() {
+      if (!testUserId) {
+        log('❌ Сначала создайте пользователя (кнопка 2)', 'error');
+        return;
+      }
+      
+      log('🔵 Тест покупки 5000 метакоинов...', 'info');
+      
+      try {
+        // Get current balance
+        const { data: user, error: selectError } = await supabase
+          .from('users')
+          .select('metacoins_balance')
+          .eq('id', testUserId)
+          .single();
+        
+        if (selectError) {
+          log(`❌ Ошибка получения баланса: ${selectError.message}`, 'error');
+          return false;
+        }
+        
+        const currentBalance = user.metacoins_balance;
+        const amount = 5000;
+        const newBalance = currentBalance + amount;
+        
+        log(`Текущий баланс: ${currentBalance}`, 'info');
+        log(`Новый баланс: ${newBalance}`, 'info');
+        
+        // Update balance
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({ 
+            metacoins_balance: newBalance,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', testUserId);
+        
+        if (updateError) {
+          log(`❌ Ошибка обновления баланса: ${updateError.message}`, 'error');
+          log(`Детали: ${JSON.stringify(updateError, null, 2)}`, 'error');
+          return false;
+        }
+        
+        log('✅ Баланс обновлен!', 'success');
+        
+        // Create transaction
+        const { error: transactionError } = await supabase
+          .from('metacoins_transactions')
+          .insert({
+            user_id: testUserId,
+            amount: amount,
+            balance_before: currentBalance,
+            balance_after: newBalance,
+            transaction_type: 'purchase',
+            description: `Покупка ${amount} метакоинов (тест)`,
+          });
+        
+        if (transactionError) {
+          log(`❌ Ошибка создания транзакции: ${transactionError.message}`, 'error');
+          log(`Детали: ${JSON.stringify(transactionError, null, 2)}`, 'error');
+          return false;
+        }
+        
+        log('✅ Транзакция создана!', 'success');
+        return true;
+      } catch (err) {
+        log(`❌ Критическая ошибка: ${err.message}`, 'error');
+        return false;
+      }
+    }
+
+    async function testSpend() {
+      if (!testUserId) {
+        log('❌ Сначала создайте пользователя (кнопка 2)', 'error');
+        return;
+      }
+      
+      log('🔵 Тест траты 100 метакоинов на анализ...', 'info');
+      
+      try {
+        // Get current balance
+        const { data: user, error: selectError } = await supabase
+          .from('users')
+          .select('metacoins_balance')
+          .eq('id', testUserId)
+          .single();
+        
+        if (selectError) {
+          log(`❌ Ошибка получения баланса: ${selectError.message}`, 'error');
+          return false;
+        }
+        
+        const currentBalance = user.metacoins_balance;
+        const cost = 100;
+        
+        if (currentBalance < cost) {
+          log(`❌ Недостаточно средств. Баланс: ${currentBalance}, Нужно: ${cost}`, 'error');
+          log('Сначала купите метакоины (кнопка 3)', 'info');
+          return false;
+        }
+        
+        const newBalance = currentBalance - cost;
+        
+        log(`Текущий баланс: ${currentBalance}`, 'info');
+        log(`Новый баланс: ${newBalance}`, 'info');
+        
+        // Update balance
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({ 
+            metacoins_balance: newBalance,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', testUserId);
+        
+        if (updateError) {
+          log(`❌ Ошибка обновления баланса: ${updateError.message}`, 'error');
+          return false;
+        }
+        
+        log('✅ Баланс обновлен!', 'success');
+        
+        // Create transaction
+        const { error: transactionError } = await supabase
+          .from('metacoins_transactions')
+          .insert({
+            user_id: testUserId,
+            amount: -cost,
+            balance_before: currentBalance,
+            balance_after: newBalance,
+            transaction_type: 'spend_analysis',
+            description: 'Анализ контента (тест)',
+          });
+        
+        if (transactionError) {
+          log(`❌ Ошибка создания транзакции: ${transactionError.message}`, 'error');
+          return false;
+        }
+        
+        log('✅ Транзакция создана!', 'success');
+        return true;
+      } catch (err) {
+        log(`❌ Критическая ошибка: ${err.message}`, 'error');
+        return false;
+      }
+    }
+
+    async function testSubscription() {
+      if (!testUserId) {
+        log('❌ Сначала создайте пользователя (кнопка 2)', 'error');
+        return;
+      }
+      
+      log('🔵 Тест покупки подписки на 1 месяц...', 'info');
+      
+      try {
+        // Get current balance
+        const { data: user, error: selectError } = await supabase
+          .from('users')
+          .select('metacoins_balance')
+          .eq('id', testUserId)
+          .single();
+        
+        if (selectError) {
+          log(`❌ Ошибка получения баланса: ${selectError.message}`, 'error');
+          return false;
+        }
+        
+        const currentBalance = user.metacoins_balance;
+        const bonusMetacoins = 150;
+        const newBalance = currentBalance + bonusMetacoins;
+        
+        log(`Текущий баланс: ${currentBalance}`, 'info');
+        log(`Бонус: ${bonusMetacoins}`, 'info');
+        log(`Новый баланс: ${newBalance}`, 'info');
+        
+        // Update subscription and balance
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({ 
+            subscription_type: 'premium',
+            metacoins_balance: newBalance,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', testUserId);
+        
+        if (updateError) {
+          log(`❌ Ошибка обновления подписки: ${updateError.message}`, 'error');
+          return false;
+        }
+        
+        log('✅ Подписка обновлена!', 'success');
+        
+        // Create bonus transaction
+        const { error: transactionError } = await supabase
+          .from('metacoins_transactions')
+          .insert({
+            user_id: testUserId,
+            amount: bonusMetacoins,
+            balance_before: currentBalance,
+            balance_after: newBalance,
+            transaction_type: 'subscription_bonus',
+            description: 'Бонус 150 метакоинов при покупке подписки на 1 мес. (тест)',
+          });
+        
+        if (transactionError) {
+          log(`❌ Ошибка создания транзакции: ${transactionError.message}`, 'error');
+          return false;
+        }
+        
+        log('✅ Бонусная транзакция создана!', 'success');
+        return true;
+      } catch (err) {
+        log(`❌ Критическая ошибка: ${err.message}`, 'error');
+        return false;
+      }
+    }
+
+    // Auto-test on load
+    window.addEventListener('load', () => {
+      log('🚀 Страница загружена. Нажмите кнопки для тестирования.', 'info');
+      log('Рекомендуемый порядок: 1 → 2 → 3 → 4 → 5', 'info');
+    });
+  </script>
+</body>
+</html>

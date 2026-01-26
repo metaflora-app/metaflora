@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackMetacoinsSpend } from '../../utils/supabase';
 
 // Reused assets
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -400,7 +401,26 @@ export const LabaSearchAccountScreen: React.FC = () => {
           <img 
             src={trackingButton}
             alt="начать отслеживание"
-            onClick={() => navigate('/laba-tracked')}
+            onClick={async () => {
+              console.log('🔵 Starting search and tracking...');
+              
+              // Only charge for tracking (100 metacoins total, not 125)
+              const trackingSuccess = await trackMetacoinsSpend('tracking', 100);
+              if (!trackingSuccess) {
+                console.error('Failed to track tracking spend');
+                if (window.Telegram?.WebApp?.showPopup) {
+                  window.Telegram.WebApp.showPopup({
+                    message: 'Недостаточно метакоинов или ошибка сервера'
+                  });
+                } else {
+                  alert('Недостаточно метакоинов или ошибка сервера');
+                }
+                return;
+              }
+              
+              console.log('✅ Tracking started successfully');
+              navigate('/laba-tracked');
+            }}
             className="button-inner-glow"
             style={{
               position: 'absolute',

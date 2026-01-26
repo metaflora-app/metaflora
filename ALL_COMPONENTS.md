@@ -1,8 +1,29 @@
 # МЕТАФЛОРА* - Все актуальные компоненты
 
-**Дата:** 20 января 2026  
+**Дата:** 25 января 2026  
 **Проект:** Telegram Mini App  
-**Production:** https://web-production-fc84.up.railway.app
+**Production:** https://web-production-fc84.up.railway.app  
+**GitHub:** https://github.com/metaflora-app/metaflora
+
+## 💰 Стоимость действий (метакоины):
+
+| Действие | Стоимость | Экран | Кнопка |
+|----------|-----------|-------|--------|
+| Регистрация | 0 | SplashScreen | Автоматически |
+| Подписка 1 мес | +150 | PricingScreen | "оплатить полный доступ" |
+| Подписка 3 мес | +500 | PricingScreen | "оплатить полный доступ" |
+| Покупка 5000 | +5000 | MetacoinsScreen | "купить метакоины" |
+| Покупка 25000 | +25000 | MetacoinsScreen | "купить метакоины" |
+| Анализ | -100 | LabaAnalysisScreen | "начать анализ" |
+| Сценарий | -50 | LabaAnalysisScreen | "создать сценарий" |
+| Поиск | -25 | LabaSearchAccountScreen | "начать отслеживание" |
+| Слежка | -100 | LabaSearchAccountScreen | "начать отслеживание" |
+
+## 🔗 Связанные файлы:
+
+- **Проблема Supabase:** `/Users/user/.cursor/worktrees/_________/lct/ТЕКУЩАЯ_ПРОБЛЕМА_SUPABASE.md`
+- **Интеграция Supabase:** `/Users/user/.cursor/worktrees/_________/lct/SUPABASE_INTEGRATION.md`
+- **Веб-сервис:** `/Users/user/.cursor/worktrees/_________/kra/metaflora-service/ПОЛНОЕ_ОПИСАНИЕ_ПРОЕКТА.md`
 
 ---
 

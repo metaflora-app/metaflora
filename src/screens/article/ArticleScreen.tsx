@@ -10,11 +10,11 @@ import supportButton from '../../assets/tour-video/support-button.png';
 import promptButton from '../../assets/about-screens/промпт плашка.png';
 import materialsButton from '../../assets/about-screens/кнопка материалы.png';
 
-// Figma assets
-const houseImage = "https://www.figma.com/api/mcp/asset/7a033aad-547d-43bc-891b-d54f93c946d2";
-const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
-const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";
-const peopleCircleImg = "https://www.figma.com/api/mcp/asset/ff88c2f3-4c40-4ea4-81fc-b9b478d773e0";
+// New assets
+import houseImage from '../../assets/laba-icons/изображение дома.png';
+import logoFooterImg from '../../assets/figma-welcome/logo-footer.png';
+import socialsImg from '../../assets/welcome-elements/socials-icons.png';
+import peopleCircleImg from '../../assets/laba-icons/три человека на фон.png';
 
 export const ArticleScreen: React.FC = () => {
   const navigate = useNavigate();

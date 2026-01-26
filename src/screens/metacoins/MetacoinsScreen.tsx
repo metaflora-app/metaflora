@@ -1,4 +1,5 @@
 import React from 'react';
+import { trackMetacoinsPurchase } from '../../utils/supabase';
 
 // Reused components assets (from laba-search)
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -19,7 +20,7 @@ export const MetacoinsScreen: React.FC = () => {
   // Calculate scale based on viewport width (DESKTOP design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  const handleBuyClick = () => {
+  const handleBuyClick = async () => {
     if (!selectedCard) {
       // Telegram WebApp popup
       if (window.Telegram?.WebApp?.showPopup) {
@@ -31,8 +32,29 @@ export const MetacoinsScreen: React.FC = () => {
       }
       return;
     }
-    // TODO: Handle payment logic
-    console.log('Selected card:', selectedCard);
+
+    const amount = selectedCard === '5000' ? 5000 : 25000;
+
+    // Track purchase in Supabase
+    const success = await trackMetacoinsPurchase(amount);
+
+    if (success) {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: `Успешно куплено ${amount} метакоинов!`
+        });
+      } else {
+        alert(`Успешно куплено ${amount} метакоинов!`);
+      }
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'Ошибка при покупке метакоинов'
+        });
+      } else {
+        alert('Ошибка при покупке метакоинов');
+      }
+    }
   };
 
   return (

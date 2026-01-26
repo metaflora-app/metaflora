@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getOrCreateUser } from '../../utils/supabase';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -14,6 +15,15 @@ import payButtonBg from '../../assets/demo-access-elements/кнопка опла
 
 export const DemoAccessScreen: React.FC = () => {
   const navigate = useNavigate();
+
+  // Check if user is premium and redirect
+  React.useEffect(() => {
+    getOrCreateUser().then(user => {
+      if (user?.subscription_type === 'premium') {
+        navigate('/main-dashboard-premium', { replace: true });
+      }
+    });
+  }, [navigate]);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;

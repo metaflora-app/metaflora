@@ -1,11 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackMetacoinsSpend } from '../../utils/supabase';
 
 // Background & header
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 
 // Analysis-specific assets
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
@@ -14,13 +16,21 @@ import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не сл
 import startAnalysisButtonPNG from '../../assets/laba-analysis/поменьше кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
 
-// Figma MCP assets
-const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
-const profilePhotoMCP = "https://www.figma.com/api/mcp/asset/fc0179c8-cc8e-471f-8274-5942d8c65827";
-const reelCoverMCP = "https://www.figma.com/api/mcp/asset/74ef0920-3323-42e3-9861-7cc651a7d55c";
-const playIconMCP = "https://www.figma.com/api/mcp/asset/3a4076c0-f5b7-4650-b1b8-abaaa5b4c1e9";
-const statusBarIconsMCP = "https://www.figma.com/api/mcp/asset/4a231acf-1b1e-4cec-9150-e77681537ce5";
-const instaLogoMCP = "https://www.figma.com/api/mcp/asset/19e1de1d-26ef-46f5-9058-54e116ccfea0";
+// Real images from assets
+import reelCoverImage from '../../assets/laba-real/обложка рилс.png';
+import profilePhotoImage from '../../assets/laba-real/фото профиля.png';
+import instaLogoImage from '../../assets/laba-real/лого инста.png';
+
+// Laba icons
+import playIcon from '../../assets/tour-video/play-icon.png';
+import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
+import likesIcon from '../../assets/laba-icons/иконка лайки.png';
+import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
+
+// Use real images
+const profilePhotoMCP = profilePhotoImage;
+const reelCoverMCP = reelCoverImage;
+const instaLogoMCP = instaLogoImage;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -196,7 +206,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           </div>
 
 
-          {/* Play button - 292:735 */}
+          {/* Play button */}
           <div className="blur-wave" style={{
             position: 'absolute',
             left: '403px',
@@ -207,19 +217,19 @@ export const LabaAnalysisScreen: React.FC = () => {
             background: 'rgba(0, 0, 0, 0.1)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '62px',
-            overflow: 'clip',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <div style={{
-              transform: 'rotate(90deg)',
-              width: '60px',
-              height: '60px',
-              position: 'relative',
-            }}>
-              <img src={playIconMCP} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-            </div>
+            <img 
+              src={playIcon}
+              alt="play"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+              }}
+            />
           </div>
 
           {/* Status bar - 292:661 */}
@@ -250,15 +260,12 @@ export const LabaAnalysisScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={statusBarIconsMCP}
+                  src={viewsIcon}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-69.53%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '426.73%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -279,15 +286,12 @@ export const LabaAnalysisScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={statusBarIconsMCP}
+                  src={likesIcon}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-193.75%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '487.69%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -308,15 +312,12 @@ export const LabaAnalysisScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={statusBarIconsMCP}
+                  src={commentsIcon}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-304.47%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '487.69%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -657,7 +658,21 @@ export const LabaAnalysisScreen: React.FC = () => {
               <img
                 src={startAnalysisButtonPNG}
                 alt="начать анализ"
-                onClick={() => setShowAnalysisResults(true)}
+                onClick={async () => {
+                  const success = await trackMetacoinsSpend('analysis', 100);
+                  if (success) {
+                    setShowAnalysisResults(true);
+                  } else {
+                    console.error('Failed to track analysis spend');
+                    if (window.Telegram?.WebApp?.showPopup) {
+                      window.Telegram.WebApp.showPopup({
+                        message: 'Недостаточно метакоинов или ошибка сервера'
+                      });
+                    } else {
+                      alert('Недостаточно метакоинов или ошибка сервера');
+                    }
+                  }
+                }}
                 className="button-inner-glow"
                 style={{
                   width: '530px',
@@ -834,7 +849,21 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <img
                   src={createScenarioButtonPNG}
                   alt="создать сценарий"
-                  onClick={() => setShowScenario(true)}
+                  onClick={async () => {
+                    const success = await trackMetacoinsSpend('scenario', 50);
+                    if (success) {
+                      setShowScenario(true);
+                    } else {
+                      console.error('Failed to track scenario spend');
+                      if (window.Telegram?.WebApp?.showPopup) {
+                        window.Telegram.WebApp.showPopup({
+                          message: 'Недостаточно метакоинов или ошибка сервера'
+                        });
+                      } else {
+                        alert('Недостаточно метакоинов или ошибка сервера');
+                      }
+                    }
+                  }}
                   className="button-inner-glow"
                   style={{
                     position: 'absolute',
@@ -907,18 +936,19 @@ export const LabaAnalysisScreen: React.FC = () => {
         {/* Footer */}
         <div style={{
           position: 'absolute',
-          height: '124px',
           left: 'calc(50% - 5px)',
           top: '2071px',
           transform: 'translateX(-50%)',
           width: '888px',
+          height: '124px',
         }}>
+          {/* Логотип в подвале */}
           <div style={{
             position: 'absolute',
+            width: '380px',
             height: '83px',
             left: '2px',
             top: '-16px',
-            width: '380px',
           }}>
             <div style={{
               position: 'absolute',
@@ -926,103 +956,123 @@ export const LabaAnalysisScreen: React.FC = () => {
               overflow: 'hidden',
               pointerEvents: 'none',
             }}>
-              <img
-                src={footerLogo}
-                alt=""
+              <img 
+                src={logoFooter}
+                alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
                   height: '526.54%',
                   left: '-37.89%',
-                  maxWidth: 'none',
                   top: '-202.47%',
                   width: '170.37%',
+                  maxWidth: 'none',
                 }}
               />
             </div>
           </div>
-
+          
+          {/* Copyright текст */}
           <div style={{
             position: 'absolute',
-            bottom: '38.71%',
+            left: '2px',
+            top: '56px',
+            width: '433px',
+            height: '20px',
             display: 'flex',
             flexDirection: 'column',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
             justifyContent: 'center',
-            left: 'calc(50% - 442px)',
-            lineHeight: 0,
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
             fontSize: '20px',
+            lineHeight: '0',
             color: 'white',
-            top: '45.16%',
-            width: '433px',
           }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>Copyright © Все права защищены.</p>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
           </div>
-
+          
+          {/* Подложка под соцсети */}
+          <div className="blur-wave" style={{
+            position: 'absolute',
+            left: '664px',
+            top: '-2px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            height: '78px',
+            width: '230px',
+          }} />
+          
+          {/* Иконки соцсетей */}
           <div style={{
             position: 'absolute',
-            height: '51px',
-            left: 'calc(50% + 335px)',
-            top: 'calc(50% - 23.5px)',
-            transform: 'translate(-50%, -50%)',
+            left: '681px',
+            top: '13px',
             width: '196px',
+            height: '51px',
           }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '78px',
-              left: '-17px',
-              borderRadius: '62px',
-              top: '-15px',
-              width: '230px',
-            }} />
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: 0,
               top: 0,
               width: '50px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-377.92%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '517.92%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
+            
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: '54px',
               top: 0,
               width: '142px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-16.64%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '183.64%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

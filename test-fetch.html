@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Supabase Fetch</title>
+</head>
+<body>
+    <h1>Test Supabase Fetch</h1>
+    <button onclick="testFetch()">Test Fetch</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function testFetch() {
+            const result = document.getElementById('result');
+            result.textContent = 'Testing...';
+            
+            try {
+                const response = await fetch(
+                    'https://lwjsbflvsmscfrdkejia.supabase.co/rest/v1/users?telegram_id=eq.994500304',
+                    {
+                        method: 'GET',
+                        headers: {
+                            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMjgzMjEsImV4cCI6MjA4NDYwNDMyMX0.sf_9yMijf066geuGGjv0ylxRxKueaaC2J9u5z6Xa6sI',
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMjgzMjEsImV4cCI6MjA4NDYwNDMyMX0.sf_9yMijf066geuGGjv0ylxRxKueaaC2J9u5z6Xa6sI',
+                        },
+                    }
+                );
+                
+                result.textContent = `Status: ${response.status}\n`;
+                const data = await response.json();
+                result.textContent += JSON.stringify(data, null, 2);
+            } catch (error) {
+                result.textContent = `Error: ${error.message}\n${error.stack}`;
+            }
+        }
+    </script>
+</body>
+</html>

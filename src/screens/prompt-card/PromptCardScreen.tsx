@@ -18,15 +18,15 @@ declare global {
   }
 }
 
-// Figma assets from node 7:1879
-const houseImage = "https://www.figma.com/api/mcp/asset/85e39ff4-6bb7-48a6-8c5f-f40122832e61";
-const logoFooterImg = "https://www.figma.com/api/mcp/asset/ef06372f-ae71-40e7-bc6c-dcb61adf39d8";
-const socialsImg = "https://www.figma.com/api/mcp/asset/f7251028-ceda-4d2b-a148-5d79b505976a";
-const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-8254-9a5dcc88da3b";
-
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
+import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+
+// New assets
+import houseImage from '../../assets/laba-icons/дом на карточке промпта.png';
+import threeLogoImg from '../../assets/laba-icons/три человека на фон.png';
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -378,7 +378,7 @@ export const PromptCardScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={logoFooterImg}
+                src={logoFooter}
                 alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
@@ -451,7 +451,7 @@ export const PromptCardScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={socialsImg}
+                  src={socialsIconsFooter}
                   alt="Telegram"
                   style={{
                     position: 'absolute',
@@ -481,7 +481,7 @@ export const PromptCardScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={socialsImg}
+                  src={socialsIconsFooter}
                   alt="Соцсети"
                   style={{
                     position: 'absolute',

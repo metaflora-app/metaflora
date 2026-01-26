@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { trackSubscriptionPurchase } from '../../utils/supabase';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -19,7 +20,7 @@ export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = React.useState<string | null>(null);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     console.log('handlePayment called, selectedPlan:', selectedPlan);
     
     if (!selectedPlan) {
@@ -32,6 +33,20 @@ export const PricingScreen: React.FC = () => {
         alert('выберите вариант подписки и нажмите кнопку «оплатить полный доступ»');
       }
       return;
+    }
+    
+    // Track subscription purchase in Supabase
+    const months = selectedPlan === '1month' ? 1 : 3;
+    const success = await trackSubscriptionPurchase('premium', months);
+    
+    if (!success) {
+      console.error('Failed to track subscription purchase');
+      // Show error but still navigate (user already paid)
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'Подписка оформлена, но возникла ошибка синхронизации. Обратитесь в поддержку.'
+        });
+      }
     }
     
     navigate('/main-dashboard-premium');

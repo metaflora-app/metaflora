@@ -6,6 +6,7 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 
 // Filter buttons from laba-main
 import returnButtonPNG from '../../assets/laba-tracked/кнопка вернуть.png';
@@ -24,19 +25,23 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
 import peopleImageNoTracked from '../../assets/laba-no-tracked/люди друг на друге.png';
 
-// Figma MCP assets
-const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
-const plusIcon = "https://www.figma.com/api/mcp/asset/ce2c6022-721d-44c1-b0a2-c54c0b0500d6";
-const instagramIcon = "https://www.figma.com/api/mcp/asset/a7d94141-35b1-4809-809c-ed13df5d56f8";
-const profilePhoto = "https://www.figma.com/api/mcp/asset/b15dcf69-e982-4fa0-8cdd-5dde8a1df7dc";
-const peopleImage = "https://www.figma.com/api/mcp/asset/882d0069-a777-43bb-8d98-35cdf5b184ca";
-const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
-const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
-const instaLogoIcon = "https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17";
+// Laba icons
+import playIcon from '../../assets/tour-video/play-icon.png';
+import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
+import likesIcon from '../../assets/laba-icons/иконка лайки.png';
+import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
+import instaLogoIcon from '../../assets/laba-icons/лого инста.png';
+import plusIcon from '../../assets/laba-icons/emojione-monotone_heavy-plus-sign.png';
+import profilePhoto from '../../assets/laba-icons/фото профиля поменьше.png';
+
+const instagramIcon = instaLogoIcon;
+const peopleImage = peopleImageNoTracked;
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
@@ -498,34 +503,20 @@ export const LabaTrackedScreen: React.FC = () => {
 
         {/* People image behind frame - hide when account removed */}
         {!accountRemoved && (
-          <div style={{
-            position: 'absolute',
-            height: '1050px',
-            left: '143px',
-            top: '898px',
-            width: '892px',
-            zIndex: 0,
-          }}>
-            <div style={{
+          <img
+            src={peopleImage}
+            alt=""
+            style={{
               position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
+              left: '143px',
+              top: '898px',
+              width: '892px',
+              height: '1050px',
+              objectFit: 'contain',
+              zIndex: 0,
               pointerEvents: 'none',
-            }}>
-              <img
-                src={peopleImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '162.05%',
-                  left: '-92.74%',
-                  maxWidth: 'none',
-                  top: '-20.87%',
-                  width: '286.41%',
-                }}
-              />
-            </div>
-          </div>
+            }}
+          />
         )}
 
         {/* Main content window - hide when account removed */}
@@ -629,29 +620,30 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
+            {/* Play кнопка */}
             <div className="blur-wave" style={{
               position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
+              left: 'calc(50% - 49px)',
+              top: '178px',
+              width: '98px',
+              height: '98px',
               backdropFilter: 'blur(50px)',
               background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
+              border: '4px solid rgba(255, 255, 0.3)',
               borderRadius: '62px',
-              overflow: 'clip',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
+              <img 
+                src={playIcon}
+                alt="play"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div className="blur-wave" style={{
@@ -681,15 +673,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -709,15 +698,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -737,15 +723,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -812,34 +795,20 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
+            {/* Instagram лого PNG */}
+            <img 
+              src={instaLogoIcon}
+              alt=""
+              style={{
                 position: 'absolute',
-                inset: 0,
+                left: '30px',
+                top: '448px',
+                width: '64px',
+                height: '78px',
                 opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
-            </div>
+                objectFit: 'contain',
+              }}
+            />
 
             <div style={{
               position: 'absolute',
@@ -990,29 +959,30 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
+            {/* Play кнопка */}
             <div className="blur-wave" style={{
               position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
+              left: 'calc(50% - 49px)',
+              top: '178px',
+              width: '98px',
+              height: '98px',
               backdropFilter: 'blur(50px)',
               background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
+              border: '4px solid rgba(255, 255, 0.3)',
               borderRadius: '62px',
-              overflow: 'clip',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
+              <img 
+                src={playIcon}
+                alt="play"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div className="blur-wave" style={{
@@ -1042,15 +1012,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1070,15 +1037,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1098,15 +1062,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1173,34 +1134,20 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
+            {/* Instagram лого PNG */}
+            <img 
+              src={instaLogoIcon}
+              alt=""
+              style={{
                 position: 'absolute',
-                inset: 0,
+                left: '30px',
+                top: '448px',
+                width: '64px',
+                height: '78px',
                 opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
-            </div>
+                objectFit: 'contain',
+              }}
+            />
 
             <div style={{
               position: 'absolute',
@@ -1351,29 +1298,30 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
+            {/* Play кнопка */}
             <div className="blur-wave" style={{
               position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
+              left: 'calc(50% - 49px)',
+              top: '178px',
+              width: '98px',
+              height: '98px',
               backdropFilter: 'blur(50px)',
               background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
+              border: '4px solid rgba(255, 255, 0.3)',
               borderRadius: '62px',
-              overflow: 'clip',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
+              <img 
+                src={playIcon}
+                alt="play"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div className="blur-wave" style={{
@@ -1403,15 +1351,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1431,15 +1376,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1459,15 +1401,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1534,34 +1473,20 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
+            {/* Instagram лого PNG */}
+            <img 
+              src={instaLogoIcon}
+              alt=""
+              style={{
                 position: 'absolute',
-                inset: 0,
+                left: '30px',
+                top: '448px',
+                width: '64px',
+                height: '78px',
                 opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
-            </div>
+                objectFit: 'contain',
+              }}
+            />
 
             <div style={{
               position: 'absolute',
@@ -1712,29 +1637,30 @@ export const LabaTrackedScreen: React.FC = () => {
               </svg>
             </div>
 
+            {/* Play кнопка */}
             <div className="blur-wave" style={{
               position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
+              left: 'calc(50% - 49px)',
+              top: '178px',
+              width: '98px',
+              height: '98px',
               backdropFilter: 'blur(50px)',
               background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
+              border: '4px solid rgba(255, 255, 0.3)',
               borderRadius: '62px',
-              overflow: 'clip',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
+              <img 
+                src={playIcon}
+                alt="play"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div className="blur-wave" style={{
@@ -1764,15 +1690,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1792,15 +1715,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1820,15 +1740,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1895,34 +1812,20 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
 
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
+            {/* Instagram лого PNG */}
+            <img 
+              src={instaLogoIcon}
+              alt=""
+              style={{
                 position: 'absolute',
-                inset: 0,
+                left: '30px',
+                top: '448px',
+                width: '64px',
+                height: '78px',
                 opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
-            </div>
+                objectFit: 'contain',
+              }}
+            />
 
             <div style={{
               position: 'absolute',
@@ -2008,18 +1911,19 @@ export const LabaTrackedScreen: React.FC = () => {
         {/* Footer */}
         <div style={{
           position: 'absolute',
-          height: '124px',
           left: 'calc(50% - 5px)',
-          top: 'calc(50% + 858px)',
-          transform: 'translate(-50%, -50%)',
+          top: '2071px',
+          transform: 'translateX(-50%)',
           width: '888px',
+          height: '124px',
         }}>
+          {/* Логотип в подвале */}
           <div style={{
             position: 'absolute',
+            width: '380px',
             height: '83px',
             left: '2px',
             top: '-16px',
-            width: '380px',
           }}>
             <div style={{
               position: 'absolute',
@@ -2027,105 +1931,123 @@ export const LabaTrackedScreen: React.FC = () => {
               overflow: 'hidden',
               pointerEvents: 'none',
             }}>
-              <img
-                src={footerLogo}
-                alt=""
+              <img 
+                src={logoFooter}
+                alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
                   height: '526.54%',
                   left: '-37.89%',
-                  maxWidth: 'none',
                   top: '-202.47%',
                   width: '170.37%',
+                  maxWidth: 'none',
                 }}
               />
             </div>
           </div>
-
+          
+          {/* Copyright текст */}
           <div style={{
             position: 'absolute',
-            bottom: '38.71%',
+            left: '2px',
+            top: '56px',
+            width: '433px',
+            height: '20px',
             display: 'flex',
             flexDirection: 'column',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
             justifyContent: 'center',
-            left: 'calc(50% - 442px)',
-            lineHeight: 0,
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
             fontSize: '20px',
+            lineHeight: '0',
             color: 'white',
-            top: '45.16%',
-            width: '433px',
           }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>Copyright © Все права защищены.</p>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
           </div>
-
+          
+          {/* Подложка под соцсети */}
+          <div className="blur-wave" style={{
+            position: 'absolute',
+            left: '664px',
+            top: '-2px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            height: '78px',
+            width: '230px',
+          }} />
+          
+          {/* Иконки соцсетей */}
           <div style={{
             position: 'absolute',
-            height: '51px',
-            left: 'calc(50% + 335px)',
-            top: 'calc(50% - 23.5px)',
-            transform: 'translate(-50%, -50%)',
+            left: '681px',
+            top: '13px',
             width: '196px',
+            height: '51px',
           }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '78px',
-              left: '-17px',
-              borderRadius: '62px',
-              top: '-15px',
-              width: '230px',
-            }} />
-            {/* Telegram */}
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: 0,
               top: 0,
               width: '50px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-377.92%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '517.92%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
-            {/* Instagram */}
+            
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: '54px',
               top: 0,
               width: '142px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-16.64%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '183.64%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
