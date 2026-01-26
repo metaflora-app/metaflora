@@ -431,22 +431,6 @@ onBlur={() => {
           }}
         />
 
-        {/* Люди друг на друге - ПОД фреймом */}
-        <img 
-          src={peopleBackground}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '898px',
-            width: '892px',
-            height: '1050px',
-            objectFit: 'contain',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
-
         {/* Main content window - с СКРОЛЛОМ */}
         <div className="blur-wave" style={{
           position: 'absolute',
@@ -548,30 +532,30 @@ onBlur={() => {
               </svg>
             </div>
 
-            {/* Play кнопка - EXACT position */}
+            {/* Play кнопка */}
             <div className="blur-wave" style={{
               position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
+              left: 'calc(50% - 49px)',
+              top: '178px',
+              width: '98px',
+              height: '98px',
               backdropFilter: 'blur(50px)',
               background: 'rgba(0, 0, 0, 0.1)',
               border: '4px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '62px',
-              overflow: 'clip',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
+              <img 
+                src={playIcon}
+                alt="play"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             {/* Статистика бар с иконками - ТОЧНО из Figma */}
@@ -728,32 +712,20 @@ onBlur={() => {
               </div>
             </div>
 
-            {/* Instagram лого PNG - ТОЧНО из Figma node 164:861 */}
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
+            {/* Instagram лого PNG */}
+            <img 
+              src={instaLogo}
+              alt=""
+              style={{
                 position: 'absolute',
-                inset: 0,
+                left: '30px',
+                top: '448px',
+                width: '64px',
+                height: '78px',
                 opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogo}
-                  alt=""
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-            </div>
+                objectFit: 'contain',
+              }}
+            />
 
             <div style={{
               position: 'absolute',

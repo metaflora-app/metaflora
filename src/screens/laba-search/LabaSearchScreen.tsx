@@ -156,22 +156,6 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
-        {/* Люди друг на друге - ПОД фреймом */}
-        <img 
-          src={peopleBackground}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '898px',
-            width: '892px',
-            height: '1050px',
-            objectFit: 'contain',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
-
         <img 
           src={leftCard}
           alt=""

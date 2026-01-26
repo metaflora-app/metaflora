@@ -206,7 +206,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           </div>
 
 
-          {/* Play button - 292:735 */}
+          {/* Play button */}
           <div className="blur-wave" style={{
             position: 'absolute',
             left: '403px',
@@ -217,19 +217,19 @@ export const LabaAnalysisScreen: React.FC = () => {
             background: 'rgba(0, 0, 0, 0.1)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '62px',
-            overflow: 'clip',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <div style={{
-              transform: 'rotate(90deg)',
-              width: '60px',
-              height: '60px',
-              position: 'relative',
-            }}>
-              <img src={playIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
+            <img 
+              src={playIcon}
+              alt="play"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+              }}
+            />
           </div>
 
           {/* Status bar - 292:661 */}
