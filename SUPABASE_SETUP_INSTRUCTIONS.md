@@ -43,7 +43,7 @@
 - **Allowed MIME types:** `image/png, image/jpeg, image/jpg, image/webp`
 
 ### Бакет 2: polygon-covers
-- **Name:** `polygon-covers`
+- **Name:** `image/png, image/jpeg, image/jpg, image/webp`
 - **Public bucket:** ✅ Включить
 - **File size limit:** 5MB
 - **Allowed MIME types:** `image/png, image/jpeg, image/jpg, image/webp`
