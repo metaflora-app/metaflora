@@ -19,6 +19,8 @@ declare global {
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
+import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
 // New assets
 import houseImage from '../../assets/laba-icons/дом на карточке промпта.png';
@@ -330,7 +332,7 @@ export const PromptCardScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={logoFooterImg}
+                src={logoFooter}
                 alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
@@ -403,7 +405,7 @@ export const PromptCardScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={socialsImg}
+                  src={socialsIconsFooter}
                   alt="Telegram"
                   style={{
                     position: 'absolute',
@@ -433,7 +435,7 @@ export const PromptCardScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={socialsImg}
+                  src={socialsIconsFooter}
                   alt="Соцсети"
                   style={{
                     position: 'absolute',
