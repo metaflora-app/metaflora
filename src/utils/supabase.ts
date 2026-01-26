@@ -127,31 +127,40 @@ export async function trackMetacoinsPurchase(amount: number) {
   const newBalance = user.metacoins_balance + amount;
 
   try {
-    // Update balance
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ metacoins_balance: newBalance })
-      .eq('id', user.id);
+    // Update balance via API proxy
+    const updateResponse = await fetch(
+      `${API_PROXY_URL}/api/user/${user.id}/balance`,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ balance: newBalance }),
+      }
+    );
 
-    if (updateError) {
-      console.error('❌ Error updating balance:', updateError);
+    if (!updateResponse.ok) {
+      console.error('❌ Error updating balance:', updateResponse.status);
       return false;
     }
 
-    // Create transaction record
-    const { error: txError } = await supabase
-      .from('metacoins_transactions')
-      .insert({
-        user_id: user.id,
-        amount,
-        balance_before: user.metacoins_balance,
-        balance_after: newBalance,
-        transaction_type: 'purchase',
-        description: `Покупка ${amount} метакоинов`,
-      });
+    // Create transaction record via API proxy
+    const txResponse = await fetch(
+      `${API_PROXY_URL}/api/transaction`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.id,
+          amount,
+          balance_before: user.metacoins_balance,
+          balance_after: newBalance,
+          transaction_type: 'purchase',
+          description: `Покупка ${amount} метакоинов`,
+        }),
+      }
+    );
 
-    if (txError) {
-      console.error('❌ Error creating transaction:', txError);
+    if (!txResponse.ok) {
+      console.error('❌ Error creating transaction:', txResponse.status);
     }
 
     console.log('✅ Purchase successful. New balance:', newBalance);
@@ -227,13 +236,11 @@ export async function trackMetacoinsSpend(
     if (!updateResponse.ok) {
       const errorText = await updateResponse.text();
       console.error('❌ Error updating balance:', updateResponse.status, errorText);
-      alert(`DEBUG UPDATE ERROR: ${updateResponse.status} - ${errorText.substring(0, 100)}`);
       return false;
     }
     
     const updateData = await updateResponse.json();
-    console.log('✅ Balance updated successfully in Supabase:', updateData);
-    alert(`DEBUG: Balance updated! Old: ${user.metacoins_balance}, New: ${newBalance}`);
+    console.log('✅ Balance updated successfully:', updateData);
 
     console.log('🔵 Step 2: Creating transaction record via API proxy...');
     // Create transaction record using API proxy
@@ -278,7 +285,6 @@ export async function trackMetacoinsSpend(
     return true;
   } catch (error) {
     console.error('❌ Critical error in trackMetacoinsSpend:', error);
-    alert(`DEBUG CATCH ERROR: ${error}`);
     return false;
   }
 }
@@ -300,7 +306,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
   const newBalance = user.metacoins_balance + bonusMetacoins;
 
   try {
-    // Update subscription and balance
+    // Update subscription via direct Supabase (subscription_type not in API proxy)
     const { error: updateError } = await supabase
       .from('users')
       .update({ 
@@ -314,20 +320,25 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
       return false;
     }
 
-    // Create transaction record for bonus
-    const { error: txError } = await supabase
-      .from('metacoins_transactions')
-      .insert({
-        user_id: user.id,
-        amount: bonusMetacoins,
-        balance_before: user.metacoins_balance,
-        balance_after: newBalance,
-        transaction_type: 'subscription_bonus',
-        description: `Бонус за подписку: ${months} мес.`,
-      });
+    // Create transaction record via API proxy
+    const txResponse = await fetch(
+      `${API_PROXY_URL}/api/transaction`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.id,
+          amount: bonusMetacoins,
+          balance_before: user.metacoins_balance,
+          balance_after: newBalance,
+          transaction_type: 'subscription_bonus',
+          description: `Бонус за подписку: ${months} мес.`,
+        }),
+      }
+    );
 
-    if (txError) {
-      console.error('❌ Error creating transaction:', txError);
+    if (!txResponse.ok) {
+      console.error('❌ Error creating transaction:', txResponse.status);
     }
 
     console.log('✅ Subscription purchase successful. New balance:', newBalance);
