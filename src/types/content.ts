@@ -7,6 +7,7 @@ export interface WorkshopPrompt {
   id: string;
   title: string;
   description: string | null;
+  prompt_text: string | null;
   cover_image_url: string | null;
   filter_tags: string[] | null;
   is_active: boolean;
@@ -18,6 +19,7 @@ export interface WorkshopPrompt {
 export interface WorkshopPromptInput {
   title: string;
   description?: string;
+  prompt_text?: string;
   cover_image_url?: string;
   filter_tags?: string[];
   is_active?: boolean;
