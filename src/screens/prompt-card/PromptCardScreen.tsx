@@ -192,7 +192,7 @@ export const PromptCardScreen: React.FC = () => {
         }}>
           <p style={{ margin: 0, lineHeight: 1 }}>
             <span style={{ fontWeight: 700 }}>описание:</span>
-            <span style={{ fontWeight: 300 }}> создайте и настройте копирайтера за один промпт</span>
+            <span style={{ fontWeight: 300 }}> {prompt?.description || 'создайте и настройте копирайтера за один промпт'}</span>
           </p>
         </div>
 
@@ -333,7 +333,7 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* Текст промпта с onClick для копирования */}
+        {/* Текст промпта с onClick для копирования и скроллом */}
         <div 
           onClick={handleCopy}
           style={{
@@ -341,6 +341,7 @@ export const PromptCardScreen: React.FC = () => {
             left: '192px',
             top: '1540px',
             width: '796px',
+            height: '390px',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '35px',
@@ -348,6 +349,11 @@ export const PromptCardScreen: React.FC = () => {
             color: 'white',
             textAlign: 'center',
             cursor: 'pointer',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+            padding: '30px 20px',
           }}>
           <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
             {promptText}
