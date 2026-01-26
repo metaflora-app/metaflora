@@ -46,8 +46,6 @@ import badgeStartSearch from '../../assets/laba-main-buttons/плашка нач
 import searchIconMCP from '../../assets/laba-mcp-assets/иконка поиска.png';
 import playIcon from '../../assets/laba-mcp-assets/кнопка добавить аккаунт.png';
 import instaLogoIcon from '../../assets/laba-mcp-assets/лого инста.png';
-import reelCoverImage from '../../assets/laba-mcp-assets/обложка рилс.png';
-import profilePhotoImage from '../../assets/laba-mcp-assets/фото профиля.png';
 
 // Status bar icons (individual imports)
 import statusBarViewsIcon from '../../assets/laba-mcp-assets/иконка просмотры.png';

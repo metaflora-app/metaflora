@@ -405,7 +405,7 @@ export const PromptCardScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={socialsImg}
+                  src={socialsIconsFooter}
                   alt="Telegram"
                   style={{
                     position: 'absolute',
@@ -435,7 +435,7 @@ export const PromptCardScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={socialsImg}
+                  src={socialsIconsFooter}
                   alt="Соцсети"
                   style={{
                     position: 'absolute',

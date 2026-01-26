@@ -45,8 +45,6 @@ import badgeStartSearch from '../../assets/laba-main-buttons/плашка нач
 import searchIconMCP from '../../assets/laba-mcp-assets/иконка поиска.png';
 import playIcon from '../../assets/laba-mcp-assets/кнопка добавить аккаунт.png';
 import instaLogoIcon from '../../assets/laba-mcp-assets/лого инста.png';
-import reelCoverImage from '../../assets/laba-mcp-assets/обложка рилс.png';
-import profilePhotoImage from '../../assets/laba-mcp-assets/фото профиля.png';
 import peopleImageBg from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // Status bar icons (individual imports)
@@ -969,25 +967,15 @@ onBlur={() => {
                 top: '5px',
                 width: '46px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -997,25 +985,15 @@ onBlur={() => {
                 top: '4px',
                 width: '40px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1025,25 +1003,15 @@ onBlur={() => {
                 top: '5px',
                 width: '40px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1342,25 +1310,15 @@ onBlur={() => {
                 top: '5px',
                 width: '46px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1370,25 +1328,15 @@ onBlur={() => {
                 top: '4px',
                 width: '40px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1398,25 +1346,15 @@ onBlur={() => {
                 top: '5px',
                 width: '40px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1715,25 +1653,15 @@ onBlur={() => {
                 top: '5px',
                 width: '46px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1743,25 +1671,15 @@ onBlur={() => {
                 top: '4px',
                 width: '40px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1771,25 +1689,15 @@ onBlur={() => {
                 top: '5px',
                 width: '40px',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
