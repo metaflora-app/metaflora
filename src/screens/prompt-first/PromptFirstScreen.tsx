@@ -60,6 +60,24 @@ export const PromptFirstScreen: React.FC = () => {
     loadPrompts();
   }, [selectedFilters]);
 
+  // Принудительное обновление при первой загрузке (очистка старого кеша)
+  useEffect(() => {
+    const lastCacheClear = localStorage.getItem('metaflora_last_cache_clear');
+    const now = Date.now();
+    
+    // Очищаем кеш каждые 5 минут
+    if (!lastCacheClear || now - parseInt(lastCacheClear) > 5 * 60 * 1000) {
+      const keys = Object.keys(localStorage);
+      keys.forEach(key => {
+        if (key.startsWith('metaflora_content_workshop_prompts')) {
+          localStorage.removeItem(key);
+        }
+      });
+      localStorage.setItem('metaflora_last_cache_clear', now.toString());
+      loadPrompts();
+    }
+  }, []);
+
   const loadPrompts = async () => {
     setLoading(true);
     setError(null);
