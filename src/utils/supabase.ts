@@ -74,6 +74,12 @@ export async function getOrCreateUser(forceRefresh = false) {
     if (data) {
       console.log('✅ User found:', data.id, 'Balance:', data.metacoins_balance, 'Sub:', data.subscription_type);
       
+      // Check if user is blocked
+      if (data.blocked) {
+        alert('Доступ к приложению ограничен. Обратитесь в поддержку.');
+        return null;
+      }
+      
       // Update profile photo if not set or if Telegram has new photo
       const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
       const telegramUser = telegram?.WebApp?.initDataUnsafe?.user;
