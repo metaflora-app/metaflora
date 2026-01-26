@@ -22,8 +22,8 @@ import newButtonInactive from '../../assets/кнопка новые.png';
 import newButtonActive from '../../assets/кнопка новые активная.png';
 
 // Figma MCP assets
-const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
-const houseImage = "https://www.figma.com/api/mcp/asset/561dab05-4ef7-4239-862d-adee28216da3";
+const threePeopleBg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
+const houseImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
 
 
 export const PromptFirstScreen: React.FC = () => {

@@ -42,10 +42,10 @@ import badgeStartSearch from '../../assets/laba-main-buttons/плашка нач
 // REUSED: footer and header components from prompt-first
 
 // Figma MCP assets  
-const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
-const searchIconMCP = "https://www.figma.com/api/mcp/asset/746ea58b-0e0f-40b8-8aa4-d0be923dbe39";
-const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
-const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
+const footerLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
+const searchIconMCP = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
+const playIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
+const statusBarIcons = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -443,7 +443,7 @@ onBlur={() => {
             pointerEvents: 'none',
           }}>
             <img 
-              src="https://www.figma.com/api/mcp/asset/882d0069-a777-43bb-8d98-35cdf5b184ca"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
               alt=""
               style={{
                 position: 'absolute',
@@ -763,7 +763,7 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
                   alt=""
                   style={{
                     position: 'absolute',
@@ -1140,7 +1140,7 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
                   alt=""
                   style={{
                     position: 'absolute',
@@ -1515,7 +1515,7 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
                   alt=""
                   style={{
                     position: 'absolute',
@@ -1890,7 +1890,7 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
                   alt=""
                   style={{
                     position: 'absolute',

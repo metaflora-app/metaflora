@@ -9,8 +9,8 @@ import rightCard from '../../assets/laba-screens/справа.png';
 import sidebar from '../../assets/laba-screens/сайдбар.png';
 import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
 
-const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
-const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";
+const logoFooterImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
+const socialsImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
 
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
