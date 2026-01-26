@@ -35,6 +35,7 @@ import plusIcon from '../../assets/laba-icons/emojione-monotone_heavy-plus-sign.
 import profilePhoto from '../../assets/laba-icons/фото профиля поменьше.png';
 
 const instagramIcon = instaLogoIcon;
+const peopleImage = peopleImageNoTracked;
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -498,6 +499,24 @@ export const LabaTrackedScreen: React.FC = () => {
               {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.label || 'выбрать' : 'выбрать'}
             </div>
           </div>
+        )}
+
+        {/* People image behind frame - hide when account removed */}
+        {!accountRemoved && (
+          <img
+            src={peopleImage}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: '143px',
+              top: '898px',
+              width: '892px',
+              height: '1050px',
+              objectFit: 'contain',
+              zIndex: 0,
+              pointerEvents: 'none',
+            }}
+          />
         )}
 
         {/* Main content window - hide when account removed */}

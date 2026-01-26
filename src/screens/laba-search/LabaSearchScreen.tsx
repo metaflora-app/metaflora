@@ -10,6 +10,7 @@ import sidebar from '../../assets/laba-screens/сайдбар.png';
 import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
+import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -152,6 +153,22 @@ export const LabaSearchScreen: React.FC = () => {
             width: '205px',
             height: '78px',
             cursor: 'pointer',
+          }}
+        />
+
+        {/* Люди друг на друге - ПОД фреймом */}
+        <img 
+          src={peopleBackground}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '898px',
+            width: '892px',
+            height: '1050px',
+            objectFit: 'contain',
+            zIndex: 0,
+            pointerEvents: 'none',
           }}
         />
 
