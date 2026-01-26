@@ -246,8 +246,8 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        {/* Плашка с фильтром */}
-        {filterTag && (
+        {/* Плашка с фильтром - только для "новые" */}
+        {filterTag === 'новые' && (
           <div className="blur-wave button-inner-glow" style={{
             position: 'absolute',
             right: '41px',
