@@ -24,8 +24,6 @@ import newButtonActive from '../../assets/кнопка новые активна
 // New assets
 import threePeopleBg from '../../assets/laba-icons/три человека на фон.png';
 import houseImage from '../../assets/laba-icons/картинка в карточке промпта.png';
-import logoFooterImg from '../../assets/figma-welcome/logo-footer.png';
-import socialsImg from '../../assets/welcome-elements/socials-icons.png';
 
 
 export const PromptFirstScreen: React.FC = () => {

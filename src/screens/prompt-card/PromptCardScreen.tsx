@@ -16,15 +16,13 @@ declare global {
   }
 }
 
-// New assets
-import houseImage from '../../assets/laba-icons/дом на карточке промпта.png';
-import logoFooterImg from '../../assets/figma-welcome/logo-footer.png';
-import socialsImg from '../../assets/welcome-elements/socials-icons.png';
-import threeLogoImg from '../../assets/laba-icons/три человека на фон.png';
-
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+
+// New assets
+import houseImage from '../../assets/laba-icons/дом на карточке промпта.png';
+import threeLogoImg from '../../assets/laba-icons/три человека на фон.png';
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
