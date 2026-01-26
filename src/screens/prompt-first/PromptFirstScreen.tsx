@@ -20,10 +20,8 @@ import topPickButtonInactive from '../../assets/кнопка топ-выбор.p
 import topPickButtonActive from '../../assets/кнопка топ-выбор активная.png';
 import newButtonInactive from '../../assets/кнопка новые.png';
 import newButtonActive from '../../assets/кнопка новые активная.png';
-
-// Figma MCP assets
-const threePeopleBg = "https://www.figma.com/api/mcp/asset/1f6ef230-2b81-4e04-8d67-9a5cf1485327";
-const houseImage = "https://www.figma.com/api/mcp/asset/561dab05-4ef7-4239-862d-adee28216da3";
+import threePeopleBg from '../../assets/три человека на фон.png';
+import houseImage from '../../assets/about-screens/домой.png';
 
 
 export const PromptFirstScreen: React.FC = () => {
