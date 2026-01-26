@@ -60,22 +60,15 @@ export const PromptFirstScreen: React.FC = () => {
     loadPrompts();
   }, [selectedFilters]);
 
-  // Принудительное обновление при первой загрузке (очистка старого кеша)
+  // ПРИНУДИТЕЛЬНАЯ ОЧИСТКА КЕША ПРИ КАЖДОЙ ЗАГРУЗКЕ (для отображения обложек)
   useEffect(() => {
-    const lastCacheClear = localStorage.getItem('metaflora_last_cache_clear');
-    const now = Date.now();
-    
-    // Очищаем кеш каждые 5 минут
-    if (!lastCacheClear || now - parseInt(lastCacheClear) > 5 * 60 * 1000) {
-      const keys = Object.keys(localStorage);
-      keys.forEach(key => {
-        if (key.startsWith('metaflora_content_workshop_prompts')) {
-          localStorage.removeItem(key);
-        }
-      });
-      localStorage.setItem('metaflora_last_cache_clear', now.toString());
-      loadPrompts();
-    }
+    const keys = Object.keys(localStorage);
+    keys.forEach(key => {
+      if (key.startsWith('metaflora_content_workshop_prompts')) {
+        localStorage.removeItem(key);
+      }
+    });
+    console.log('Кеш промптов очищен');
   }, []);
 
   const loadPrompts = async () => {
@@ -246,8 +239,8 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        {/* Плашка с фильтром - только для "новые" */}
-        {filterTag === 'новые' && (
+        {/* Плашка с фильтром - только для "новое" */}
+        {filterTag === 'новое' && (
           <div className="blur-wave button-inner-glow" style={{
             position: 'absolute',
             right: '41px',
