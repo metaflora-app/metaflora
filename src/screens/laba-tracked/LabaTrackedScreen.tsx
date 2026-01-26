@@ -35,7 +35,6 @@ import plusIcon from '../../assets/laba-icons/emojione-monotone_heavy-plus-sign.
 import profilePhoto from '../../assets/laba-icons/фото профиля поменьше.png';
 
 const instagramIcon = instaLogoIcon;
-const peopleImage = peopleImageNoTracked;
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();

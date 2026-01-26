@@ -8,7 +8,6 @@ import leftCard from '../../assets/laba-screens/слева.png';
 import rightCard from '../../assets/laba-screens/справа.png';
 import sidebar from '../../assets/laba-screens/сайдбар.png';
 import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
-import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 

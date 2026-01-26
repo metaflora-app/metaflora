@@ -38,7 +38,6 @@ import badgeAccount from '../../assets/laba-main-buttons/плашка аккау
 import badgeAccountActive from '../../assets/laba-main-buttons/плашка аккаунт.png';
 import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
 import badgeStartSearch from '../../assets/laba-main-buttons/плашка начать поиск.png';
-import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
