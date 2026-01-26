@@ -153,10 +153,10 @@ export const PromptFirstScreen: React.FC = () => {
     ? prompts.filter(prompt => likedCards.includes(prompt.id))
     : prompts;
 
-  // Фильтрация по поисковой строке
+  // Фильтрация по поисковой строке (без алерта)
   if (searchValue.trim()) {
     const searchWords = searchValue.toLowerCase().trim().split(/\s+/);
-    const filteredBySearch = visiblePrompts.filter(prompt => {
+    visiblePrompts = visiblePrompts.filter(prompt => {
       const searchableText = [
         prompt.title,
         prompt.description || '',
@@ -164,21 +164,8 @@ export const PromptFirstScreen: React.FC = () => {
         ...(prompt.search_keywords || [])
       ].join(' ').toLowerCase();
 
-      // Проверяем что все слова из поиска есть в тексте
       return searchWords.every(word => searchableText.includes(word));
     });
-    
-    // Показываем алерт если ничего не найдено
-    if (filteredBySearch.length === 0 && visiblePrompts.length > 0) {
-      const telegram = (window as any).Telegram;
-      if (typeof window !== 'undefined' && telegram?.WebApp?.showPopup) {
-        telegram.WebApp.showPopup({
-          message: 'промпт не найден. проверьте корректность написания'
-        });
-      }
-    }
-    
-    visiblePrompts = filteredBySearch;
   }
 
   // Позиции карточек в сетке (2x2)
@@ -483,6 +470,15 @@ export const PromptFirstScreen: React.FC = () => {
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 searchInputRef.current?.blur();
+                // Показываем алерт если ничего не найдено
+                if (visiblePrompts.length === 0 && prompts.length > 0) {
+                  const telegram = (window as any).Telegram;
+                  if (telegram?.WebApp?.showPopup) {
+                    telegram.WebApp.showPopup({
+                      message: 'промпт не найден. проверьте корректность написания'
+                    });
+                  }
+                }
               }
             }}
             placeholder={isSearchFocused ? '' : 'промпт для ИИ-копирайтера любых текстов'}
