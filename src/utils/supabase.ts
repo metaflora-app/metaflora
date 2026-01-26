@@ -84,6 +84,12 @@ export async function getOrCreateUser(forceRefresh = false) {
     const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
     const telegramUser = telegram?.WebApp?.initDataUnsafe?.user;
     
+    // Get profile photo URL from Telegram
+    let profilePhotoUrl = null;
+    if (telegramUser?.photo_url) {
+      profilePhotoUrl = telegramUser.photo_url;
+    }
+    
     const { data: newUser, error: createError } = await supabase
       .from('users')
       .insert({
@@ -93,6 +99,7 @@ export async function getOrCreateUser(forceRefresh = false) {
         last_name: telegramUser?.last_name || null,
         subscription_type: 'free',
         metacoins_balance: 0,
+        profile_photo_url: profilePhotoUrl,
       })
       .select()
       .single();
@@ -305,6 +312,10 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
   const bonusMetacoins = months * 1000;
   const newBalance = user.metacoins_balance + bonusMetacoins;
 
+  // Calculate subscription end date
+  const endDate = new Date();
+  endDate.setMonth(endDate.getMonth() + months);
+
   try {
     // Update subscription via direct Supabase (subscription_type not in API proxy)
     const { error: updateError } = await supabase
@@ -312,6 +323,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
       .update({ 
         subscription_type: subscriptionType,
         metacoins_balance: newBalance,
+        subscription_end_date: endDate.toISOString(),
       })
       .eq('id', user.id);
 
@@ -345,7 +357,12 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
     console.log('💰 Bonus metacoins:', bonusMetacoins);
     
     // Update cache
-    userCache = { ...user, subscription_type: subscriptionType, metacoins_balance: newBalance };
+    userCache = { 
+      ...user, 
+      subscription_type: subscriptionType, 
+      metacoins_balance: newBalance,
+      subscription_end_date: endDate.toISOString(),
+    };
     cacheTime = Date.now();
     
     // Trigger balance refresh event
