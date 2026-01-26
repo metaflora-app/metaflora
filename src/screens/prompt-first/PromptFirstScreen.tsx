@@ -61,15 +61,15 @@ export const PromptFirstScreen: React.FC = () => {
     loadPrompts();
   }, [selectedFilters]);
 
-  // ПРИНУДИТЕЛЬНАЯ ОЧИСТКА КЕША ПРИ КАЖДОЙ ЗАГРУЗКЕ (для отображения обложек)
+  // ПРИНУДИТЕЛЬНАЯ ОЧИСТКА ВСЕГО КЕША ПРОМПТОВ ПРИ ЗАГРУЗКЕ
   useEffect(() => {
     const keys = Object.keys(localStorage);
     keys.forEach(key => {
-      if (key.startsWith('metaflora_content_workshop_prompts')) {
+      if (key.includes('workshop_prompts') || key.includes('metaflora_content')) {
         localStorage.removeItem(key);
+        console.log('Удален кеш:', key);
       }
     });
-    console.log('Кеш промптов очищен');
   }, []);
 
   const loadPrompts = async () => {
