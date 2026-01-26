@@ -10,6 +10,10 @@ export interface WorkshopPrompt {
   prompt_text: string | null;
   cover_image_url: string | null;
   filter_tags: string[] | null;
+  search_keywords: string[] | null;
+  views_count: number;
+  copies_count: number;
+  likes_count: number;
   is_active: boolean;
   order_index: number;
   created_at: string;
