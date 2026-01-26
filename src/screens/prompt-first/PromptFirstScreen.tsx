@@ -154,10 +154,24 @@ export const PromptFirstScreen: React.FC = () => {
 
   const showOnlyFavorites = selectedFilters.includes('избранное');
 
-  // Фильтруем промпты по избранному
-  const visiblePrompts = showOnlyFavorites 
+  // Фильтруем промпты по избранному и поиску
+  let visiblePrompts = showOnlyFavorites 
     ? prompts.filter(prompt => likedCards.includes(prompt.id))
     : prompts;
+
+  // Фильтрация по поисковой строке
+  if (searchValue.trim()) {
+    const searchLower = searchValue.toLowerCase().trim();
+    visiblePrompts = visiblePrompts.filter(prompt => {
+      const titleMatch = prompt.title.toLowerCase().includes(searchLower);
+      const descMatch = prompt.description?.toLowerCase().includes(searchLower);
+      const keywordsMatch = prompt.search_keywords?.some(kw => 
+        kw.toLowerCase().includes(searchLower) || 
+        searchLower.includes(kw.toLowerCase())
+      );
+      return titleMatch || descMatch || keywordsMatch;
+    });
+  }
 
   // Позиции карточек в сетке (2x2)
   const getCardPosition = (index: number) => {
