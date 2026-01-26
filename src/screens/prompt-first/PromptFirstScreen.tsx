@@ -83,31 +83,10 @@ export const PromptFirstScreen: React.FC = () => {
     setError(null);
     
     try {
-      // Если выбран фильтр "недавние" - загружаем из localStorage
-      if (selectedFilters.includes('недавние')) {
-        const recentIds = JSON.parse(localStorage.getItem('metaflora_recent_prompts') || '[]');
-        const result = await getWorkshopPromptsWithCache({
-          isActive: true,
-          limit: 100,
-          offset: 0,
-        });
-        
-        // Фильтруем только недавние
-        const recentPrompts = result.data.filter(p => recentIds.includes(p.id));
-        setPrompts(recentPrompts);
-        setLoading(false);
-        return;
-      }
-
-      // Определяем активные фильтры (кроме "избранное", "вернуть", "недавние")
-      const activeTagFilters = selectedFilters.filter(f => 
-        !['избранное', 'вернуть', 'недавние'].includes(f)
-      );
-
+      // Загружаем ВСЕ активные промпты (фильтрация на фронте)
       const result = await getWorkshopPromptsWithCache({
-        tags: activeTagFilters.length > 0 ? activeTagFilters : undefined,
         isActive: true,
-        limit: 20,
+        limit: 100,
         offset: 0,
       });
 
@@ -115,7 +94,28 @@ export const PromptFirstScreen: React.FC = () => {
         throw new Error(result.error);
       }
 
-      setPrompts(result.data);
+      // Фильтруем на фронте
+      let filtered = result.data;
+
+      // Фильтр "недавние"
+      if (selectedFilters.includes('недавние')) {
+        const recentIds = JSON.parse(localStorage.getItem('metaflora_recent_prompts') || '[]');
+        filtered = filtered.filter(p => recentIds.includes(p.id));
+      }
+      // Остальные фильтры (новые, топ-выбор)
+      else {
+        const activeTagFilters = selectedFilters.filter(f => 
+          !['избранное', 'вернуть', 'недавние'].includes(f)
+        );
+        
+        if (activeTagFilters.length > 0) {
+          filtered = filtered.filter(p => 
+            p.filter_tags?.some(tag => activeTagFilters.includes(tag))
+          );
+        }
+      }
+
+      setPrompts(filtered);
     } catch (err) {
       console.error('Error loading prompts:', err);
       setError(String(err));
@@ -161,15 +161,17 @@ export const PromptFirstScreen: React.FC = () => {
 
   // Фильтрация по поисковой строке
   if (searchValue.trim()) {
-    const searchLower = searchValue.toLowerCase().trim();
+    const searchWords = searchValue.toLowerCase().trim().split(/\s+/);
     visiblePrompts = visiblePrompts.filter(prompt => {
-      const titleMatch = prompt.title.toLowerCase().includes(searchLower);
-      const descMatch = prompt.description?.toLowerCase().includes(searchLower);
-      const keywordsMatch = prompt.search_keywords?.some(kw => 
-        kw.toLowerCase().includes(searchLower) || 
-        searchLower.includes(kw.toLowerCase())
-      );
-      return titleMatch || descMatch || keywordsMatch;
+      const searchableText = [
+        prompt.title,
+        prompt.description || '',
+        prompt.prompt_text || '',
+        ...(prompt.search_keywords || [])
+      ].join(' ').toLowerCase();
+
+      // Проверяем что все слова из поиска есть в тексте
+      return searchWords.every(word => searchableText.includes(word));
     });
   }
 
@@ -277,7 +279,7 @@ export const PromptFirstScreen: React.FC = () => {
               lineHeight: 0,
               whiteSpace: 'nowrap',
             }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{filterTag}</p>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>{filterTag}</p>
             </div>
           </div>
         )}
