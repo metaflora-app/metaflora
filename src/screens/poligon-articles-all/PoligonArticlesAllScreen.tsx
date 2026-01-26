@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getPolygonArticlesWithCache } from '../../utils/contentApi';
+import type { PolygonArticle } from '../../types/content';
 
 // Reused assets
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -30,11 +32,47 @@ import peopleInCircle from '../../assets/poligon-articles/люди в круге
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = React.useState('');
-  const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
-  const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  
+  // Загрузка статей из Supabase
+  const [articles, setArticles] = useState<PolygonArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  useEffect(() => {
+    loadArticles();
+  }, [selectedFilters]);
+
+  const loadArticles = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const activeFilters = selectedFilters.filter(f => f !== 'вернуть');
+      
+      const result = await getPolygonArticlesWithCache({
+        tags: activeFilters.length > 0 ? activeFilters : undefined,
+        isActive: true,
+        limit: 20,
+        offset: 0,
+      });
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      setArticles(result.data);
+    } catch (err) {
+      console.error('Error loading articles:', err);
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleFilter = (filter: string) => {
     if (filter === 'вернуть') {
@@ -49,6 +87,87 @@ const PoligonArticlesAllScreen: React.FC = () => {
   };
 
   const isFilterActive = (filter: string) => selectedFilters.includes(filter);
+
+  // Функция рендера карточки статьи
+  const renderArticleCard = (article: PolygonArticle, index: number) => {
+    const yPosition = 575 + (index * 315); // Начало с 575px, шаг 315px
+    const bgImages = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
+    const bgImage = article.cover_image_url || bgImages[index % 4];
+
+    return (
+      <div key={article.id} style={{
+        position: 'absolute',
+        left: '141px',
+        top: `${yPosition}px`,
+        width: '894px',
+        height: '249px',
+        zIndex: 2,
+      }}>
+        {/* Background image */}
+        <img 
+          src={bgImage}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '450px',
+            height: '249px',
+            borderRadius: '30px',
+            objectFit: 'cover',
+          }}
+        />
+        {/* Text block */}
+        <div className="blur-wave" style={{
+          position: 'absolute',
+          left: '450px',
+          top: 0,
+          width: '444px',
+          height: '249px',
+          backdropFilter: 'blur(50px)',
+          background: 'black',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
+        }}>
+          <div style={{
+            position: 'absolute',
+            left: '27px',
+            top: '30px',
+            width: '390px',
+            height: '189px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '27px',
+            lineHeight: 0,
+            color: 'white',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}>
+            <p style={{ margin: 0, lineHeight: 'normal' }}>{article.annotation || article.title}</p>
+          </div>
+        </div>
+        {/* Read button */}
+        <img 
+          src={readButton}
+          alt="читать"
+          onClick={() => navigate(`/article/${article.id}`)}
+          className="button-inner-glow"
+          style={{
+            position: 'absolute',
+            left: '102px',
+            top: '85px',
+            width: '247px',
+            height: '80px',
+            cursor: 'pointer',
+            objectFit: 'contain',
+            zIndex: 10,
+          }}
+        />
+      </div>
+    );
+  };
 
   return (
     <div style={{
@@ -305,6 +424,61 @@ const PoligonArticlesAllScreen: React.FC = () => {
           }}
         />
 
+        {/* Loading/Error/Empty states */}
+        {loading && (
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            top: '700px',
+            transform: 'translateX(-50%)',
+            color: 'white',
+            fontSize: '24px',
+            fontFamily: 'Gotham Pro',
+            zIndex: 10,
+          }}>
+            Загрузка статей...
+          </div>
+        )}
+
+        {error && !loading && (
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            top: '700px',
+            transform: 'translateX(-50%)',
+            color: '#ff4444',
+            fontSize: '20px',
+            fontFamily: 'Gotham Pro',
+            textAlign: 'center',
+            maxWidth: '600px',
+            zIndex: 10,
+          }}>
+            Ошибка: {error}
+          </div>
+        )}
+
+        {!loading && !error && articles.length === 0 && (
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            top: '700px',
+            transform: 'translateX(-50%)',
+            color: 'rgba(255, 255, 255, 0.6)',
+            fontSize: '20px',
+            fontFamily: 'Gotham Pro',
+            textAlign: 'center',
+            zIndex: 10,
+          }}>
+            Статьи не найдены
+          </div>
+        )}
+
+        {/* Динамический рендер статей из Supabase */}
+        {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
+
+        {/* Card 1 - Академия (53:685) - FALLBACK если нет данных */}
+        {!loading && !error && articles.length === 0 && (
+        <div style={{ display: 'none' }}>
         {/* Card 1 - Академия (53:685) - x=141, y=577, 894x249 */}
         <div style={{
           position: 'absolute',
@@ -625,6 +799,8 @@ const PoligonArticlesAllScreen: React.FC = () => {
             }}
           />
         </div>
+        </div>
+        )}
 
         {/* Footer */}
         <div style={{

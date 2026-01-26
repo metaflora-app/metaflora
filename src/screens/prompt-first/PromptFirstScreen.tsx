@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getWorkshopPromptsWithCache } from '../../utils/contentApi';
+import type { WorkshopPrompt } from '../../types/content';
 
 // Local PNG assets
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
@@ -28,12 +30,52 @@ const houseImage = "https://www.figma.com/api/mcp/asset/561dab05-4ef7-4239-862d-
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = React.useState('');
-  const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
-  const [likedCards, setLikedCards] = React.useState<number[]>([]);
-  const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [likedCards, setLikedCards] = useState<string[]>([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  
+  // Новые состояния для загрузки из Supabase
+  const [prompts, setPrompts] = useState<WorkshopPrompt[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Загрузка промптов из Supabase
+  useEffect(() => {
+    loadPrompts();
+  }, [selectedFilters]);
+
+  const loadPrompts = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Определяем активные фильтры (кроме "избранное" и "вернуть")
+      const activeTagFilters = selectedFilters.filter(f => 
+        !['избранное', 'вернуть'].includes(f)
+      );
+
+      const result = await getWorkshopPromptsWithCache({
+        tags: activeTagFilters.length > 0 ? activeTagFilters : undefined,
+        isActive: true,
+        limit: 20,
+        offset: 0,
+      });
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      setPrompts(result.data);
+    } catch (err) {
+      console.error('Error loading prompts:', err);
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleFilter = (filter: string) => {
     if (filter === 'вернуть') {
@@ -47,7 +89,7 @@ export const PromptFirstScreen: React.FC = () => {
     }
   };
 
-  const toggleLike = (cardId: number) => {
+  const toggleLike = (cardId: string) => {
     setLikedCards(prev =>
       prev.includes(cardId)
         ? prev.filter(id => id !== cardId)
@@ -61,13 +103,10 @@ export const PromptFirstScreen: React.FC = () => {
 
   const showOnlyFavorites = selectedFilters.includes('избранное');
 
-  // Массив всех карточек
-  const allCards = [1, 2, 3, 4];
-  
-  // Фильтруем карточки по избранному
-  const visibleCards = showOnlyFavorites 
-    ? allCards.filter(cardId => likedCards.includes(cardId))
-    : allCards;
+  // Фильтруем промпты по избранному
+  const visiblePrompts = showOnlyFavorites 
+    ? prompts.filter(prompt => likedCards.includes(prompt.id))
+    : prompts;
 
   // Позиции карточек в сетке (2x2)
   const getCardPosition = (index: number) => {
@@ -79,13 +118,13 @@ export const PromptFirstScreen: React.FC = () => {
     };
   };
 
-  // Рендер одной карточки
-  const renderCard = (cardId: number, index: number) => {
+  // Рендер одной карточки с данными из Supabase
+  const renderCard = (prompt: WorkshopPrompt, index: number) => {
     const position = getCardPosition(index);
-    const isFirstCard = cardId === 1;
+    const filterTag = prompt.filter_tags?.[0];
 
     return (
-      <div key={cardId} style={{
+      <div key={prompt.id} style={{
         position: 'absolute',
         ...position,
         width: '410px',
@@ -101,7 +140,7 @@ export const PromptFirstScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* Фото дома */}
+        {/* Обложка промпта */}
         <div style={{
           position: 'absolute',
           top: '3.45%',
@@ -112,8 +151,8 @@ export const PromptFirstScreen: React.FC = () => {
           borderRadius: '25px',
         }}>
           <img 
-            src={houseImage}
-            alt=""
+            src={prompt.cover_image_url || houseImage}
+            alt={prompt.title}
             style={{
               position: 'absolute',
               inset: 0,
@@ -127,9 +166,9 @@ export const PromptFirstScreen: React.FC = () => {
 
         {/* Сердечко (лайк) */}
         <img 
-          src={likedCards.includes(cardId) ? likeIcon : likeEmptyIcon}
+          src={likedCards.includes(prompt.id) ? likeIcon : likeEmptyIcon}
           alt="лайк"
-          onClick={() => toggleLike(cardId)}
+          onClick={() => toggleLike(prompt.id)}
           style={{
             position: 'absolute',
             left: '42px',
@@ -140,14 +179,16 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        {/* Плашка "новое" - только на первой карточке */}
-        {isFirstCard && (
+        {/* Плашка с фильтром */}
+        {filterTag && (
           <div className="blur-wave button-inner-glow" style={{
             position: 'absolute',
             right: '41px',
             top: '44px',
-            width: '101px',
+            minWidth: '101px',
             height: '36px',
+            paddingLeft: '15px',
+            paddingRight: '15px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '2px solid rgba(255, 255, 255, 0.3)',
@@ -163,15 +204,15 @@ export const PromptFirstScreen: React.FC = () => {
               flexDirection: 'column',
               justifyContent: 'center',
               height: '19px',
-              width: '111px',
               fontFamily: 'Gotham Pro',
               fontWeight: 500,
               fontSize: '20px',
               color: 'white',
               textAlign: 'center',
               lineHeight: 0,
+              whiteSpace: 'nowrap',
             }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>новые</p>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{filterTag}</p>
             </div>
           </div>
         )}
@@ -192,7 +233,7 @@ export const PromptFirstScreen: React.FC = () => {
           color: 'white',
           lineHeight: 0,
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>ИИ-копирайтер для блога</p>
+          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{prompt.title}</p>
         </div>
 
         {/* Описание */}
@@ -211,14 +252,14 @@ export const PromptFirstScreen: React.FC = () => {
           color: 'white',
           lineHeight: 0,
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>настройте ИИ-копирайтера за один промпт</p>
+          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{prompt.description || ''}</p>
         </div>
 
         {/* Кнопка "перейти" */}
         <img 
           src={openButton}
           alt="перейти"
-          onClick={() => navigate('/prompt-card')}
+          onClick={() => navigate(`/prompt-card/${prompt.id}`)}
           className="button-inner-glow"
           style={{
             position: 'absolute',
@@ -475,7 +516,56 @@ export const PromptFirstScreen: React.FC = () => {
           padding: '22px',
         }}>
           {/* Рендерим отфильтрованные карточки */}
-          {visibleCards.map((cardId, index) => renderCard(cardId, index))}
+          {/* Loading state */}
+          {loading && (
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '400px',
+              transform: 'translateX(-50%)',
+              color: 'white',
+              fontSize: '24px',
+              fontFamily: 'Gotham Pro',
+            }}>
+              Загрузка промптов...
+            </div>
+          )}
+
+          {/* Error state */}
+          {error && !loading && (
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '400px',
+              transform: 'translateX(-50%)',
+              color: '#ff4444',
+              fontSize: '20px',
+              fontFamily: 'Gotham Pro',
+              textAlign: 'center',
+              maxWidth: '600px',
+            }}>
+              Ошибка загрузки: {error}
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!loading && !error && visiblePrompts.length === 0 && (
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '400px',
+              transform: 'translateX(-50%)',
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontSize: '20px',
+              fontFamily: 'Gotham Pro',
+              textAlign: 'center',
+            }}>
+              {showOnlyFavorites ? 'Нет избранных промптов' : 'Промпты не найдены'}
+            </div>
+          )}
+
+          {/* Render prompts */}
+          {!loading && !error && visiblePrompts.map((prompt, index) => renderCard(prompt, index))}
         </div>
 
         {/* Три человека на фоне ПОД блюр-фреймом */}

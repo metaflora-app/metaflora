@@ -1,5 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getPolygonArticleById } from '../../utils/contentApi';
+import type { PolygonArticle } from '../../types/content';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -16,7 +18,48 @@ const peopleCircleImg = "https://www.figma.com/api/mcp/asset/ff88c2f3-4c40-4ea4-
 
 export const ArticleScreen: React.FC = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  
+  const [article, setArticle] = useState<PolygonArticle | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      loadArticle(id);
+    } else {
+      setLoading(false);
+    }
+  }, [id]);
+
+  const loadArticle = async (articleId: string) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const result = await getPolygonArticleById(articleId);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      if (!result.data) {
+        throw new Error('Статья не найдена');
+      }
+
+      setArticle(result.data);
+    } catch (err) {
+      console.error('Error loading article:', err);
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const articleTitle = article?.title || 'морфинг через общие элементы';
+  const articleContent = article?.content_text || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего...';
+  const articleCover = article?.cover_image_url || houseImage;
 
   return (
     <div style={{
@@ -193,7 +236,7 @@ export const ArticleScreen: React.FC = () => {
           color: 'white',
           textAlign: 'center',
         }}>
-          <p style={{ margin: 0 }}>морфинг через общие элементы</p>
+          <p style={{ margin: 0 }}>{articleTitle}</p>
         </div>
 
         <div style={{
@@ -209,7 +252,7 @@ export const ArticleScreen: React.FC = () => {
           color: 'white',
           textAlign: 'center',
         }}>
-          <p style={{ margin: 0 }}>идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:</p>
+          <p style={{ margin: 0 }}>{articleContent}</p>
         </div>
 
         <div style={{
@@ -223,8 +266,8 @@ export const ArticleScreen: React.FC = () => {
           overflow: 'hidden',
         }}>
           <img 
-            src={houseImage}
-            alt=""
+            src={articleCover}
+            alt={articleTitle}
             style={{
               position: 'absolute',
               inset: 0,

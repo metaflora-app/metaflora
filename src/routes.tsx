@@ -160,6 +160,10 @@ export const router = createBrowserRouter([
     element: <PromptCardScreen />,
   },
   {
+    path: '/prompt-card/:id',
+    element: <PromptCardScreen />,
+  },
+  {
     path: '/poligon-articles-all',
     element: <PoligonArticlesAllScreen />,
   },
@@ -221,6 +225,10 @@ export const router = createBrowserRouter([
   // Poligon section
   {
     path: '/article',
+    element: <ArticleScreen />,
+  },
+  {
+    path: '/article/:id',
     element: <ArticleScreen />,
   },
   {

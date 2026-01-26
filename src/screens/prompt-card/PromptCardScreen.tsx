@@ -1,5 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getWorkshopPromptById } from '../../utils/contentApi';
+import type { WorkshopPrompt } from '../../types/content';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -28,8 +30,50 @@ import supportButton from '../../assets/tour-video/support-button.png';
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  
+  const [prompt, setPrompt] = useState<WorkshopPrompt | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const promptText = 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом';
+  // Загрузка промпта по ID
+  useEffect(() => {
+    if (id) {
+      loadPrompt(id);
+    } else {
+      // Если ID нет, используем статичные данные (для обратной совместимости)
+      setLoading(false);
+    }
+  }, [id]);
+
+  const loadPrompt = async (promptId: string) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const result = await getWorkshopPromptById(promptId);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      if (!result.data) {
+        throw new Error('Промпт не найден');
+      }
+
+      setPrompt(result.data);
+    } catch (err) {
+      console.error('Error loading prompt:', err);
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Используем данные из Supabase или статичные
+  const promptText = prompt?.description || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом';
+  const promptTitle = prompt?.title || 'ИИ-копирайтер для блога';
+  const promptCoverUrl = prompt?.cover_image_url || houseImage;
 
   const handleCopy = async () => {
     try {
@@ -224,7 +268,7 @@ export const PromptCardScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* House image - 32:790 (inside 368:1112: 141+51=192, 452+53=505) */}
+        {/* Обложка промпта */}
         <div style={{
           position: 'absolute',
           left: '192px',
@@ -235,8 +279,8 @@ export const PromptCardScreen: React.FC = () => {
           overflow: 'hidden',
         }}>
           <img 
-            src={houseImage}
-            alt=""
+            src={promptCoverUrl}
+            alt={promptTitle}
             style={{
               position: 'absolute',
               inset: 0,
@@ -248,13 +292,13 @@ export const PromptCardScreen: React.FC = () => {
           />
         </div>
 
-        {/* 368:1127 - "ИИ-копирайтер для блога" */}
+        {/* Заголовок промпта */}
         <div style={{
           position: 'absolute',
           left: '383px',
           top: '1285px',
           width: '414px',
-          height: '107px',
+          minHeight: '107px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -265,8 +309,13 @@ export const PromptCardScreen: React.FC = () => {
           color: 'white',
           textAlign: 'center',
         }}>
-          <p style={{ margin: 0, lineHeight: 1.2 }}>ИИ-копирайтер</p>
-          <p style={{ margin: 0, lineHeight: 1.2 }}>для блога</p>
+          {loading ? (
+            <p style={{ margin: 0, lineHeight: 1.2, fontSize: '32px', color: 'rgba(255,255,255,0.5)' }}>Загрузка...</p>
+          ) : error ? (
+            <p style={{ margin: 0, lineHeight: 1.2, fontSize: '24px', color: '#ff4444' }}>Ошибка</p>
+          ) : (
+            <p style={{ margin: 0, lineHeight: 1.2 }}>{promptTitle}</p>
+          )}
         </div>
 
         {/* Prompt badge - 368:1126 */}
@@ -284,7 +333,7 @@ export const PromptCardScreen: React.FC = () => {
           }}
         />
 
-        {/* 368:1125 - Наборный текст с onClick */}
+        {/* Текст промпта с onClick для копирования */}
         <div 
           onClick={handleCopy}
           style={{
@@ -301,10 +350,7 @@ export const PromptCardScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
-            идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр:
-          </p>
-          <p style={{ margin: 0, lineHeight: 1.2 }}>
-            Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом
+            {promptText}
           </p>
         </div>
 
