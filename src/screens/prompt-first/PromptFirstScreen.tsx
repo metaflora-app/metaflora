@@ -32,7 +32,15 @@ export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [likedCards, setLikedCards] = useState<string[]>([]);
+  const [likedCards, setLikedCards] = useState<string[]>(() => {
+    // Загружаем лайки из localStorage
+    try {
+      const saved = localStorage.getItem('metaflora_liked_prompts');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   
   // Новые состояния для загрузки из Supabase
@@ -41,6 +49,11 @@ export const PromptFirstScreen: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Сохраняем лайки в localStorage при изменении
+  useEffect(() => {
+    localStorage.setItem('metaflora_liked_prompts', JSON.stringify(likedCards));
+  }, [likedCards]);
 
   // Загрузка промптов из Supabase
   useEffect(() => {
