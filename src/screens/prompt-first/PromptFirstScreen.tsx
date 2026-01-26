@@ -20,8 +20,8 @@ import recentButtonInactive from '../../assets/кнопка недавние.png
 import recentButtonActive from '../../assets/кнопка недавние активная.png';
 import topPickButtonInactive from '../../assets/кнопка топ-выбор.png';
 import topPickButtonActive from '../../assets/кнопка топ-выбор активная.png';
-import newButtonInactive from '../../assets/кнопка новые.png';
-import newButtonActive from '../../assets/кнопка новые активная.png';
+import newButtonInactive from '../../assets/кнопка новое неактивная.png';
+import newButtonActive from '../../assets/кнопка новое активная.png';
 
 // New assets
 import threePeopleBg from '../../assets/laba-icons/три человека на фон.png';
