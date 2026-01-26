@@ -109,11 +109,15 @@ export const PromptFirstScreen: React.FC = () => {
   const toggleFilter = (filter: string) => {
     if (filter === 'вернуть') {
       setSelectedFilters([]);
-    } else {
+    } else if (filter === 'избранное') {
+      // Избранное - тоггл
       setSelectedFilters(prev => 
-        prev.includes(filter) 
-          ? prev.filter(f => f !== filter)
-          : [...prev, filter]
+        prev.includes(filter) ? [] : [filter]
+      );
+    } else {
+      // Остальные фильтры - только один активный
+      setSelectedFilters(prev => 
+        prev.includes(filter) ? [] : [filter]
       );
     }
   };
