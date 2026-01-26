@@ -65,9 +65,25 @@ export const PromptFirstScreen: React.FC = () => {
     setError(null);
     
     try {
-      // Определяем активные фильтры (кроме "избранное" и "вернуть")
+      // Если выбран фильтр "недавние" - загружаем из localStorage
+      if (selectedFilters.includes('недавние')) {
+        const recentIds = JSON.parse(localStorage.getItem('metaflora_recent_prompts') || '[]');
+        const result = await getWorkshopPromptsWithCache({
+          isActive: true,
+          limit: 100,
+          offset: 0,
+        });
+        
+        // Фильтруем только недавние
+        const recentPrompts = result.data.filter(p => recentIds.includes(p.id));
+        setPrompts(recentPrompts);
+        setLoading(false);
+        return;
+      }
+
+      // Определяем активные фильтры (кроме "избранное", "вернуть", "недавние")
       const activeTagFilters = selectedFilters.filter(f => 
-        !['избранное', 'вернуть'].includes(f)
+        !['избранное', 'вернуть', 'недавние'].includes(f)
       );
 
       const result = await getWorkshopPromptsWithCache({

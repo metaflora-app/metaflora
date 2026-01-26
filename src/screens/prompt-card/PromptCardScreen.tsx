@@ -40,11 +40,23 @@ export const PromptCardScreen: React.FC = () => {
   useEffect(() => {
     if (id) {
       loadPrompt(id);
+      // Сохраняем в "недавние"
+      saveToRecent(id);
     } else {
       // Если ID нет, используем статичные данные (для обратной совместимости)
       setLoading(false);
     }
   }, [id]);
+
+  const saveToRecent = (promptId: string) => {
+    try {
+      const recent = JSON.parse(localStorage.getItem('metaflora_recent_prompts') || '[]');
+      const updated = [promptId, ...recent.filter((id: string) => id !== promptId)].slice(0, 20);
+      localStorage.setItem('metaflora_recent_prompts', JSON.stringify(updated));
+    } catch (err) {
+      console.error('Error saving to recent:', err);
+    }
+  };
 
   const loadPrompt = async (promptId: string) => {
     setLoading(true);
