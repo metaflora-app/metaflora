@@ -156,7 +156,7 @@ export const PromptFirstScreen: React.FC = () => {
   // Фильтрация по поисковой строке
   if (searchValue.trim()) {
     const searchWords = searchValue.toLowerCase().trim().split(/\s+/);
-    visiblePrompts = visiblePrompts.filter(prompt => {
+    const filteredBySearch = visiblePrompts.filter(prompt => {
       const searchableText = [
         prompt.title,
         prompt.description || '',
@@ -167,6 +167,15 @@ export const PromptFirstScreen: React.FC = () => {
       // Проверяем что все слова из поиска есть в тексте
       return searchWords.every(word => searchableText.includes(word));
     });
+    
+    // Показываем алерт если ничего не найдено
+    if (filteredBySearch.length === 0 && visiblePrompts.length > 0) {
+      if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showAlert('Промпт не найден. Проверьте корректность написания');
+      }
+    }
+    
+    visiblePrompts = filteredBySearch;
   }
 
   // Позиции карточек в сетке (2x2)
@@ -214,6 +223,12 @@ export const PromptFirstScreen: React.FC = () => {
           <img 
             src={prompt.cover_image_url || houseImage}
             alt={prompt.title}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src !== houseImage) {
+                target.src = houseImage;
+              }
+            }}
             style={{
               position: 'absolute',
               inset: 0,
@@ -615,8 +630,8 @@ export const PromptFirstScreen: React.FC = () => {
             </div>
           )}
 
-          {/* Empty state */}
-          {!loading && !error && visiblePrompts.length === 0 && (
+          {/* Empty state - только для избранного */}
+          {!loading && !error && visiblePrompts.length === 0 && showOnlyFavorites && (
             <div style={{
               position: 'absolute',
               left: '50%',
@@ -627,7 +642,7 @@ export const PromptFirstScreen: React.FC = () => {
               fontFamily: 'Gotham Pro',
               textAlign: 'center',
             }}>
-              {showOnlyFavorites ? 'Нет избранных промптов' : 'Промпты не найдены'}
+              Нет избранных промптов
             </div>
           )}
 
