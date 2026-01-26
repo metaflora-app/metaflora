@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 
 // Laba-main PNG assets
@@ -44,7 +45,7 @@ import peopleBackground from '../../assets/laba-no-tracked/люди друг н�
 
 // Laba icons
 import searchIcon from '../../assets/laba-icons/иконка поиска.png';
-import playIcon from '../../assets/laba-icons/кнопка плей.png';
+import playIcon from '../../assets/tour-video/play-icon.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
@@ -431,34 +432,20 @@ onBlur={() => {
         />
 
         {/* Люди друг на друге - ПОД фреймом */}
-        <div style={{
-          position: 'absolute',
-          height: '1050px',
-          left: '143px',
-          top: '898px',
-          width: '892px',
-          zIndex: 0,
-        }}>
-          <div style={{
+        <img 
+          src={peopleBackground}
+          alt=""
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
+            left: '143px',
+            top: '898px',
+            width: '892px',
+            height: '1050px',
+            objectFit: 'contain',
+            zIndex: 0,
             pointerEvents: 'none',
-          }}>
-            <img 
-              src={peopleBackground}
-              alt=""
-              style={{
-                position: 'absolute',
-                height: '162.05%',
-                left: '-92.74%',
-                maxWidth: 'none',
-                top: '-20.87%',
-                width: '286.41%',
-              }}
-            />
-          </div>
-        </div>
+          }}
+        />
 
         {/* Main content window - с СКРОЛЛОМ */}
         <div className="blur-wave" style={{
@@ -760,12 +747,9 @@ onBlur={() => {
                   src={instaLogo}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -1966,7 +1950,7 @@ onBlur={() => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={socialsIconsFooter}
+                src={logoFooter}
                 alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',

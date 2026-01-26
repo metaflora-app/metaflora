@@ -10,6 +10,7 @@ import sidebar from '../../assets/laba-screens/сайдбар.png';
 import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
 import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -156,34 +157,20 @@ export const LabaSearchScreen: React.FC = () => {
         />
 
         {/* Люди друг на друге - ПОД фреймом */}
-        <div style={{
-          position: 'absolute',
-          height: '1050px',
-          left: '143px',
-          top: '898px',
-          width: '892px',
-          zIndex: 0,
-        }}>
-          <div style={{
+        <img 
+          src={peopleBackground}
+          alt=""
+          style={{
             position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
+            left: '143px',
+            top: '898px',
+            width: '892px',
+            height: '1050px',
+            objectFit: 'contain',
+            zIndex: 0,
             pointerEvents: 'none',
-          }}>
-            <img 
-              src={peopleBackground}
-              alt=""
-              style={{
-                position: 'absolute',
-                height: '162.05%',
-                left: '-92.74%',
-                maxWidth: 'none',
-                top: '-20.87%',
-                width: '286.41%',
-              }}
-            />
-          </div>
-        </div>
+          }}
+        />
 
         <img 
           src={leftCard}
@@ -334,7 +321,7 @@ export const LabaSearchScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={socialsIconsFooter}
+                src={logoFooter}
                 alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',

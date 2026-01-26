@@ -7,6 +7,7 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 
 // Analysis-specific assets
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
@@ -22,7 +23,7 @@ import profilePhotoImage from '../../assets/laba-real/фото профиля.pn
 import instaLogoImage from '../../assets/laba-real/лого инста.png';
 
 // Laba icons
-import playIcon from '../../assets/laba-icons/кнопка плей.png';
+import playIcon from '../../assets/tour-video/play-icon.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
@@ -152,36 +153,6 @@ export const LabaAnalysisScreen: React.FC = () => {
           lineHeight: '40px',
         }}>
           искусственный интеллект проанализирует виральность и напишет сценарий
-        </div>
-
-        {/* Люди друг на друге - ПОД фреймом */}
-        <div style={{
-          position: 'absolute',
-          height: '1050px',
-          left: '143px',
-          top: '898px',
-          width: '892px',
-          zIndex: 0,
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={peopleBackground}
-              alt=""
-              style={{
-                position: 'absolute',
-                height: '162.05%',
-                left: '-92.74%',
-                maxWidth: 'none',
-                top: '-20.87%',
-                width: '286.41%',
-              }}
-            />
-          </div>
         </div>
 
         {/* Outer background layer - 292:630 (главная подложка) */}
@@ -987,7 +958,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={socialsIconsFooter}
+                src={logoFooter}
                 alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',

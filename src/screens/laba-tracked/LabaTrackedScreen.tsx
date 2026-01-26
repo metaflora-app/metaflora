@@ -6,6 +6,7 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 
 // Filter buttons from laba-main
 import returnButtonPNG from '../../assets/laba-tracked/кнопка вернуть.png';
@@ -25,7 +26,7 @@ import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеж
 import peopleImageNoTracked from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // Laba icons
-import playIcon from '../../assets/laba-icons/кнопка плей.png';
+import playIcon from '../../assets/tour-video/play-icon.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
@@ -1985,7 +1986,7 @@ export const LabaTrackedScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={socialsIconsFooter}
+                src={logoFooter}
                 alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
