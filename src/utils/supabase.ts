@@ -73,6 +73,21 @@ export async function getOrCreateUser(forceRefresh = false) {
 
     if (data) {
       console.log('✅ User found:', data.id, 'Balance:', data.metacoins_balance, 'Sub:', data.subscription_type);
+      
+      // Update profile photo if not set or if Telegram has new photo
+      const telegram = typeof window !== 'undefined' ? (window as any).Telegram : null;
+      const telegramUser = telegram?.WebApp?.initDataUnsafe?.user;
+      
+      if (telegramUser?.photo_url && telegramUser.photo_url !== data.profile_photo_url) {
+        console.log('🔵 Updating profile photo URL...');
+        await supabase
+          .from('users')
+          .update({ profile_photo_url: telegramUser.photo_url })
+          .eq('id', data.id);
+        
+        data.profile_photo_url = telegramUser.photo_url;
+      }
+      
       userCache = data;
       cacheTime = now;
       return data;
