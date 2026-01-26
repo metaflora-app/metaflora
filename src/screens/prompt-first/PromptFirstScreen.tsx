@@ -170,8 +170,11 @@ export const PromptFirstScreen: React.FC = () => {
     
     // Показываем алерт если ничего не найдено
     if (filteredBySearch.length === 0 && visiblePrompts.length > 0) {
-      if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showAlert('Промпт не найден. Проверьте корректность написания');
+      const telegram = (window as any).Telegram;
+      if (typeof window !== 'undefined' && telegram?.WebApp?.showPopup) {
+        telegram.WebApp.showPopup({
+          message: 'промпт не найден. проверьте корректность написания'
+        });
       }
     }
     
