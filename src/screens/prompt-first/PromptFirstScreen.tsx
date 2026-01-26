@@ -478,6 +478,8 @@ export const PromptFirstScreen: React.FC = () => {
                       message: 'промпт не найден. проверьте корректность написания'
                     });
                   }
+                  // Очищаем поисковую строку
+                  setSearchValue('');
                 }
               }
             }}
