@@ -30,6 +30,7 @@ import houseImage from '../../assets/laba-icons/картинка в карточ
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [likedCards, setLikedCards] = useState<string[]>(() => {
@@ -95,7 +96,7 @@ export const PromptFirstScreen: React.FC = () => {
         const recentIds = JSON.parse(localStorage.getItem('metaflora_recent_prompts') || '[]');
         filtered = filtered.filter(p => recentIds.includes(p.id));
       }
-      // Остальные фильтры (новые, топ-выбор)
+      // Остальные фильтры (новое, топ-выбор)
       else {
         const activeTagFilters = selectedFilters.filter(f => 
           !['избранное', 'вернуть', 'недавние'].includes(f)
@@ -239,8 +240,8 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        {/* Плашка с фильтром - только для "новое" */}
-        {filterTag === 'новое' && (
+        {/* Плашка с фильтром - только для "новое" (проверяем и "новые" для обратной совместимости) */}
+        {(filterTag === 'новое' || filterTag === 'новые') && (
           <div className="blur-wave button-inner-glow" style={{
             position: 'absolute',
             right: '41px',
@@ -272,7 +273,7 @@ export const PromptFirstScreen: React.FC = () => {
               lineHeight: 0,
               whiteSpace: 'nowrap',
             }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>{filterTag}</p>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>новое</p>
             </div>
           </div>
         )}
@@ -455,11 +456,17 @@ export const PromptFirstScreen: React.FC = () => {
             }}
           />
           <input
+            ref={searchInputRef}
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setIsSearchFocused(false)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                searchInputRef.current?.blur();
+              }
+            }}
             placeholder={isSearchFocused ? '' : 'промпт для ИИ-копирайтера любых текстов'}
             enterKeyHint="search"
             style={{
@@ -542,11 +549,11 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        {/* Filter: новые */}
+        {/* Filter: новое */}
         <img
-          src={isFilterActive('новые') ? newButtonActive : newButtonInactive}
-          alt="новые"
-          onClick={() => toggleFilter('новые')}
+          src={isFilterActive('новое') ? newButtonActive : newButtonInactive}
+          alt="новое"
+          onClick={() => toggleFilter('новое')}
           className="button-inner-glow"
           style={{
             position: 'absolute',
