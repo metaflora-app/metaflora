@@ -15,7 +15,6 @@ import followButtonPNG from '../../assets/laba-analysis/кнопка следи�
 import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 import startAnalysisButtonPNG from '../../assets/laba-analysis/поменьше кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
-import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // Real images from assets
 import reelCoverImage from '../../assets/laba-real/обложка рилс.png';
