@@ -22,22 +22,42 @@ import goButton from '../../assets/main-dashboard/кнопка открыть.pn
 export const MainDashboardPremiumScreen: React.FC = () => {
   const navigate = useNavigate();
   const [metacoinsBalance, setMetacoinsBalance] = React.useState<number>(0);
+  const [userName, setUserName] = React.useState<string>('');
+  const [subscriptionEndDate, setSubscriptionEndDate] = React.useState<string>('');
+  const [profilePhotoUrl, setProfilePhotoUrl] = React.useState<string>(userPhoto);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Load user balance on mount and listen for updates
+  // Load user data on mount and listen for updates
   React.useEffect(() => {
-    const loadBalance = async () => {
+    const loadUserData = async () => {
       const user = await getOrCreateUser();
       if (user) {
         console.log('💰 Balance loaded:', user.metacoins_balance);
         setMetacoinsBalance(user.metacoins_balance);
+        
+        // Set username with @ prefix
+        if (user.username) {
+          setUserName(`@${user.username}`);
+        }
+        
+        // Set subscription end date in DD.MM format
+        if (user.subscription_end_date) {
+          const date = new Date(user.subscription_end_date);
+          const formatted = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+          setSubscriptionEndDate(formatted);
+        }
+        
+        // Set profile photo URL
+        if (user.profile_photo_url) {
+          setProfilePhotoUrl(user.profile_photo_url);
+        }
       }
     };
 
     // Load immediately on mount
-    loadBalance();
+    loadUserData();
     
     // Listen for balance update events
     const handleBalanceUpdate = (event: any) => {
@@ -140,7 +160,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             height: '814px',
             objectFit: 'contain',
           }}
-        />        {/* Приветствие "Иван Сергеевич" (27:688) */}
+        />        {/* Приветствие с username из Supabase (27:688) */}
         <div style={{
           position: 'absolute',
           left: '85px',
@@ -158,7 +178,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             lineHeight: 0,
             color: 'white',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>Иван Сергеевич </p>
+            <p style={{ margin: 0, lineHeight: '1' }}>{userName || 'Загрузка...'}</p>
           </div>
         </div>
 
@@ -170,9 +190,9 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           width: '1020px',
           height: '200px',
         }}>
-          {/* Фото пользователя из ТГ (7:315) */}
+          {/* Фото пользователя из Supabase (7:315) */}
           <img 
-            src={userPhoto}
+            src={profilePhotoUrl}
             alt="фото"
             style={{
               position: 'absolute',
@@ -181,6 +201,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               width: '159px',
               height: '159px',
               borderRadius: '79.5px',
+              objectFit: 'cover',
             }}
           />
 
@@ -200,7 +221,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             <p style={{ margin: 0, lineHeight: '1' }}>комьюнити</p>
           </div>
 
-          {/* Текст "доступ до 31.12" */}
+          {/* Текст "доступ до" с датой из Supabase */}
           <div style={{
             position: 'absolute',
             left: '193px',
@@ -219,7 +240,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               color: 'white',
             }}>
               <p style={{ margin: 0, lineHeight: '1' }}>доступ до </p>
-              <p style={{ margin: 0, lineHeight: '1' }}>31.12</p>
+              <p style={{ margin: 0, lineHeight: '1' }}>{subscriptionEndDate || '...'}</p>
             </div>
           </div>
 
