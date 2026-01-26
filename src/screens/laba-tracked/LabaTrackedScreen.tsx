@@ -24,15 +24,21 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
 import peopleImageNoTracked from '../../assets/laba-no-tracked/люди друг на друге.png';
 
-// Figma MCP assets
-const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
-const plusIcon = "https://www.figma.com/api/mcp/asset/ce2c6022-721d-44c1-b0a2-c54c0b0500d6";
-const instagramIcon = "https://www.figma.com/api/mcp/asset/a7d94141-35b1-4809-809c-ed13df5d56f8";
-const profilePhoto = "https://www.figma.com/api/mcp/asset/b15dcf69-e982-4fa0-8cdd-5dde8a1df7dc";
-const peopleImage = "https://www.figma.com/api/mcp/asset/882d0069-a777-43bb-8d98-35cdf5b184ca";
-const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
-const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
-const instaLogoIcon = "https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17";
+// MCP assets from Figma (downloaded PNG)
+import plusIcon from '../../assets/laba-mcp-assets/кнопка добавить аккаунт.png';
+import instagramIcon from '../../assets/laba-mcp-assets/лого инста.png';
+import profilePhoto from '../../assets/laba-mcp-assets/фото профиля.png';
+import peopleImage from '../../assets/laba-no-tracked/люди друг на друге.png';
+import playIcon from '../../assets/laba-mcp-assets/кнопка добавить аккаунт.png';
+import instaLogoIcon from '../../assets/laba-mcp-assets/лого инста.png';
+
+// Status bar icons (individual imports)
+import statusBarViewsIcon from '../../assets/laba-mcp-assets/иконка просмотры.png';
+import statusBarLikesIcon from '../../assets/laba-mcp-assets/иконка лайки.png';
+import statusBarCommentsIcon from '../../assets/laba-mcp-assets/иконка комментарии.png';
+
+// Footer logo placeholder (keeping SVG for now)
+const footerLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100'%3E%3Ctext x='10' y='50' fill='white' font-size='30' font-weight='bold'%3EМЕТАФЛОРА*%3C/text%3E%3C/svg%3E";
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -254,34 +260,27 @@ export const LabaTrackedScreen: React.FC = () => {
               />
             </div>
 
-            {/* Instagram icon - 174:787 x=280, y=426 */}
+            {/* Instagram icon */}
             <div style={{
               position: 'absolute',
               left: '129px',
               top: '21px',
               width: '49px',
               height: '59px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img
-                  src={instagramIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img
+                src={instagramIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             {/* Username - 174:788 x=280, y=477, w=235, h=42 */}
@@ -673,26 +672,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -701,26 +693,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -729,26 +714,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -818,27 +796,20 @@ export const LabaTrackedScreen: React.FC = () => {
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{
@@ -1034,26 +1005,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1062,26 +1026,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1090,26 +1047,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1179,27 +1129,20 @@ export const LabaTrackedScreen: React.FC = () => {
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{
@@ -1395,26 +1338,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1423,26 +1359,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1451,26 +1380,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1540,27 +1462,20 @@ export const LabaTrackedScreen: React.FC = () => {
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{
@@ -1756,26 +1671,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1784,26 +1692,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1812,26 +1713,19 @@ export const LabaTrackedScreen: React.FC = () => {
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1901,27 +1795,20 @@ export const LabaTrackedScreen: React.FC = () => {
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogoIcon}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{

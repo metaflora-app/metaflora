@@ -14,13 +14,19 @@ import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не сл
 import startAnalysisButtonPNG from '../../assets/laba-analysis/поменьше кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
 
-// Figma MCP assets
-const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
-const profilePhotoMCP = "https://www.figma.com/api/mcp/asset/fc0179c8-cc8e-471f-8274-5942d8c65827";
-const reelCoverMCP = "https://www.figma.com/api/mcp/asset/74ef0920-3323-42e3-9861-7cc651a7d55c";
-const playIconMCP = "https://www.figma.com/api/mcp/asset/3a4076c0-f5b7-4650-b1b8-abaaa5b4c1e9";
-const statusBarIconsMCP = "https://www.figma.com/api/mcp/asset/4a231acf-1b1e-4cec-9150-e77681537ce5";
-const instaLogoMCP = "https://www.figma.com/api/mcp/asset/19e1de1d-26ef-46f5-9058-54e116ccfea0";
+// MCP assets from Figma (downloaded PNG)
+import profilePhotoMCP from '../../assets/laba-mcp-assets/фото профиля.png';
+import reelCoverMCP from '../../assets/laba-mcp-assets/обложка рилс.png';
+import playIconMCP from '../../assets/laba-mcp-assets/кнопка добавить аккаунт.png';
+import instaLogoMCP from '../../assets/laba-mcp-assets/лого инста.png';
+
+// Status bar icons (individual imports)
+import statusBarViewsIcon from '../../assets/laba-mcp-assets/иконка просмотры.png';
+import statusBarLikesIcon from '../../assets/laba-mcp-assets/иконка лайки.png';
+import statusBarCommentsIcon from '../../assets/laba-mcp-assets/иконка комментарии.png';
+
+// Footer logo placeholder (keeping SVG for now)
+const footerLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100'%3E%3Ctext x='10' y='50' fill='white' font-size='30' font-weight='bold'%3EМЕТАФЛОРА*%3C/text%3E%3C/svg%3E";
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -235,91 +241,70 @@ export const LabaAnalysisScreen: React.FC = () => {
             borderRadius: '62px',
             overflow: 'clip',
           }}>
-            {/* Views icon - 292:662 */}
+            {/* Views icon */}
             <div style={{
               position: 'absolute',
               height: '56px',
               left: '55px',
               top: '17px',
               width: '66px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={statusBarIconsMCP}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-69.53%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '426.73%',
-                  }}
-                />
-              </div>
+              <img 
+                src={statusBarViewsIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
-            {/* Likes icon - 292:663 */}
+            {/* Likes icon */}
             <div style={{
               position: 'absolute',
               height: '64px',
               left: '221px',
               top: '13px',
               width: '66px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={statusBarIconsMCP}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-193.75%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '487.69%',
-                  }}
-                />
-              </div>
+              <img 
+                src={statusBarLikesIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
-            {/* Comments icon - 292:664 */}
+            {/* Comments icon */}
             <div style={{
               position: 'absolute',
               height: '66px',
               left: '371px',
               top: '11px',
               width: '68px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={statusBarIconsMCP}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-304.47%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '487.69%',
-                  }}
-                />
-              </div>
+              <img 
+                src={statusBarCommentsIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             {/* 227к - 292:665 */}

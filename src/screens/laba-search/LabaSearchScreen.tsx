@@ -8,9 +8,10 @@ import leftCard from '../../assets/laba-screens/слева.png';
 import rightCard from '../../assets/laba-screens/справа.png';
 import sidebar from '../../assets/laba-screens/сайдбар.png';
 import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
+import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 
-const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
-const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";
+// Footer logo placeholder
+const logoFooterImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100'%3E%3Ctext x='10' y='50' fill='white' font-size='30' font-weight='bold'%3EМЕТАФЛОРА*%3C/text%3E%3C/svg%3E";
 
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -357,7 +358,7 @@ export const LabaSearchScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={socialsImg}
+                src={socialsIconsFooter}
                 alt="Telegram"
                 style={{
                   position: 'absolute',
@@ -386,7 +387,7 @@ export const LabaSearchScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={socialsImg}
+                src={socialsIconsFooter}
                 alt="Соцсети"
                 style={{
                   position: 'absolute',

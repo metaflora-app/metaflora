@@ -11,6 +11,7 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
 import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
 import newBadgePNG from '../../assets/laba-main/плашка новое.png';
+import peopleImageBg from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // Filter buttons PNG
 import buttonReturn from '../../assets/laba-main-buttons/кнопка вернуть.png';
@@ -41,11 +42,20 @@ import badgeStartSearch from '../../assets/laba-main-buttons/плашка нач
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
 
-// Figma MCP assets  
-const footerLogo = "https://www.figma.com/api/mcp/asset/3bd9d147-154a-4929-aab7-9df5b0793789";
-const searchIconMCP = "https://www.figma.com/api/mcp/asset/746ea58b-0e0f-40b8-8aa4-d0be923dbe39";
-const playIcon = "https://www.figma.com/api/mcp/asset/8ca3a30c-2ba8-4c9b-839c-86a31fd5d54e";
-const statusBarIcons = "https://www.figma.com/api/mcp/asset/3f2b218f-ce7e-4476-801e-c4f2c0cb134c";
+// MCP assets from Figma (downloaded PNG)
+import searchIconMCP from '../../assets/laba-mcp-assets/иконка поиска.png';
+import playIcon from '../../assets/laba-mcp-assets/кнопка добавить аккаунт.png';
+import instaLogoIcon from '../../assets/laba-mcp-assets/лого инста.png';
+import reelCoverImage from '../../assets/laba-mcp-assets/обложка рилс.png';
+import profilePhotoImage from '../../assets/laba-mcp-assets/фото профиля.png';
+
+// Status bar icons (individual imports)
+import statusBarViewsIcon from '../../assets/laba-mcp-assets/иконка просмотры.png';
+import statusBarLikesIcon from '../../assets/laba-mcp-assets/иконка лайки.png';
+import statusBarCommentsIcon from '../../assets/laba-mcp-assets/иконка комментарии.png';
+
+// Footer logo placeholder (keeping SVG for now)
+const footerLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -427,7 +437,7 @@ onBlur={() => {
           }}
         />
 
-        {/* Люди друг на друге - ПОД фреймом, ТОЧНО из Figma node 164:1101 */}
+        {/* Люди друг на друге - ПОД фреймом */}
         <div style={{
           position: 'absolute',
           height: '1050px',
@@ -443,7 +453,7 @@ onBlur={() => {
             pointerEvents: 'none',
           }}>
             <img 
-              src="https://www.figma.com/api/mcp/asset/882d0069-a777-43bb-8d98-35cdf5b184ca"
+              src={peopleImageBg}
               alt=""
               style={{
                 position: 'absolute',
@@ -598,91 +608,70 @@ onBlur={() => {
               width: '333px',
               overflow: 'clip',
             }}>
-              {/* Иконка просмотров - crop из общего PNG */}
+              {/* Иконка просмотров */}
               <div style={{
                 position: 'absolute',
                 height: '39px',
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
-              {/* Иконка лайков - crop из общего PNG */}
+              {/* Иконка лайков */}
               <div style={{
                 position: 'absolute',
                 height: '39px',
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
-              {/* Иконка комментариев - crop из общего PNG */}
+              {/* Иконка комментариев */}
               <div style={{
                 position: 'absolute',
                 height: '39px',
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               {/* Статистика текст */}
@@ -747,34 +736,27 @@ onBlur={() => {
               </div>
             </div>
 
-            {/* Instagram лого PNG - ТОЧНО из Figma node 164:861 */}
+            {/* Instagram лого PNG */}
             <div style={{
               position: 'absolute',
               left: '7.32%',
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{
@@ -986,26 +968,19 @@ onBlur={() => {
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1014,26 +989,19 @@ onBlur={() => {
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1042,26 +1010,19 @@ onBlur={() => {
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1131,27 +1092,20 @@ onBlur={() => {
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{
@@ -1361,26 +1315,19 @@ onBlur={() => {
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1389,26 +1336,19 @@ onBlur={() => {
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1417,26 +1357,19 @@ onBlur={() => {
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1506,27 +1439,20 @@ onBlur={() => {
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{
@@ -1736,26 +1662,19 @@ onBlur={() => {
                 left: '21px',
                 top: '5px',
                 width: '46px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarViewsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1764,26 +1683,19 @@ onBlur={() => {
                 left: '132px',
                 top: '4px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarLikesIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1792,26 +1704,19 @@ onBlur={() => {
                 left: '228px',
                 top: '5px',
                 width: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={statusBarIcons}
-                    alt=""
-                    style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
-                    }}
-                  />
-                </div>
+                <img 
+                  src={statusBarCommentsIcon}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               <div style={{
@@ -1881,27 +1786,20 @@ onBlur={() => {
               right: '77.07%',
               top: '448px',
               aspectRatio: '42/51',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: 0.6,
             }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src="https://www.figma.com/api/mcp/asset/939902d8-304e-4ab2-a982-2eb9c0274c17"
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
-                  }}
-                />
-              </div>
+              <img 
+                src={instaLogoIcon}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </div>
 
             <div style={{

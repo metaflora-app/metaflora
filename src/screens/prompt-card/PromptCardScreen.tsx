@@ -16,15 +16,15 @@ declare global {
   }
 }
 
-// Figma assets from node 7:1879
-const houseImage = "https://www.figma.com/api/mcp/asset/85e39ff4-6bb7-48a6-8c5f-f40122832e61";
-const logoFooterImg = "https://www.figma.com/api/mcp/asset/ef06372f-ae71-40e7-bc6c-dcb61adf39d8";
-const socialsImg = "https://www.figma.com/api/mcp/asset/f7251028-ceda-4d2b-a148-5d79b505976a";
-const threeLogoImg = "https://www.figma.com/api/mcp/asset/fcac25b3-9f39-4ac3-8254-9a5dcc88da3b";
-
 // Local PNG assets from repo
 import promptBadge from '../../assets/prompt-card/промпт плашка.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+import houseImage from '../../assets/about-screens/домой.png';
+import threeLogoImg from '../../assets/about-screens/лого люди на фон.png';
+import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
+
+// Footer logo placeholder
+const logoFooterImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100'%3E%3Ctext x='10' y='50' fill='white' font-size='30' font-weight='bold'%3EМЕТАФЛОРА*%3C/text%3E%3C/svg%3E";
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
