@@ -31,15 +31,18 @@ export interface WorkshopPromptInput {
 }
 
 // ПОЛИГОН - Статьи
+export interface ContentBlock {
+  id: string;
+  type: 'text' | 'image' | 'video' | 'prompt';
+  content: string;
+}
+
 export interface PolygonArticle {
   id: string;
   title: string;
   annotation: string | null;
   cover_image_url: string | null;
-  content_text: string | null;
-  video_url: string | null;
-  prompt_text: string | null;
-  materials: ArticleMaterial[] | null;
+  content_blocks: ContentBlock[] | null;
   filter_tags: string[] | null;
   keywords: string[] | null;
   is_active: boolean;
@@ -48,20 +51,11 @@ export interface PolygonArticle {
   updated_at: string;
 }
 
-export interface ArticleMaterial {
-  name: string;
-  url: string;
-  size: string;
-}
-
 export interface PolygonArticleInput {
   title: string;
   annotation?: string;
   cover_image_url?: string;
-  content_text?: string;
-  video_url?: string;
-  prompt_text?: string;
-  materials?: ArticleMaterial[];
+  content_blocks?: ContentBlock[];
   filter_tags?: string[];
   keywords?: string[];
   is_active?: boolean;
@@ -102,7 +96,6 @@ export interface AcademyLesson {
   cover_image_url: string | null;
   annotation: string | null;
   prompt_text: string | null;
-  materials: ArticleMaterial[] | null;
   filter_tags: string[] | null;
   keywords: string[] | null;
   is_active: boolean;
@@ -119,7 +112,6 @@ export interface AcademyLessonInput {
   cover_image_url?: string;
   annotation?: string;
   prompt_text?: string;
-  materials?: ArticleMaterial[];
   filter_tags?: string[];
   keywords?: string[];
   is_active?: boolean;

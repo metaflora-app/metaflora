@@ -58,8 +58,8 @@ export const ArticleScreen: React.FC = () => {
   };
 
   const articleTitle = article?.title || 'морфинг через общие элементы';
-  const articleContent = article?.content_text || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего...';
-  const articleCover = article?.cover_image_url || houseImage;
+  const articleAnnotation = article?.annotation || 'Аннотация статьи';
+  const contentBlocks = article?.content_blocks || [];
 
   return (
     <div style={{
@@ -191,7 +191,7 @@ export const ArticleScreen: React.FC = () => {
         }}>
           <p style={{ margin: 0 }}>
             <span style={{ fontWeight: 700 }}>статья</span>
-            <span style={{ fontWeight: 300 }}> «как перенести реальные предметы в нейрогенерацию»</span>
+            <span style={{ fontWeight: 300 }}> «{articleTitle}»</span>
           </p>
         </div>
 
