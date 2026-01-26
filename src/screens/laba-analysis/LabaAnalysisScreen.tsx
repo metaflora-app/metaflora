@@ -14,19 +14,23 @@ import followButtonPNG from '../../assets/laba-analysis/кнопка следи�
 import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 import startAnalysisButtonPNG from '../../assets/laba-analysis/поменьше кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
+import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // Real images from assets
 import reelCoverImage from '../../assets/laba-real/обложка рилс.png';
 import profilePhotoImage from '../../assets/laba-real/фото профиля.png';
 import instaLogoImage from '../../assets/laba-real/лого инста.png';
 
+// Laba icons
+import playIcon from '../../assets/laba-icons/кнопка плей.png';
+import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
+import likesIcon from '../../assets/laba-icons/иконка лайки.png';
+import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
+
 // Use real images
 const profilePhotoMCP = profilePhotoImage;
 const reelCoverMCP = reelCoverImage;
 const instaLogoMCP = instaLogoImage;
-const playIconMCP = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E";
-const statusBarIconsMCP = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='30'%3E%3Ctext x='10' y='20' fill='white' font-size='14'%3E👁 227k ❤ 40k 💬 2k%3C/text%3E%3C/svg%3E";
-const footerLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='100'%3E%3Ctext x='10' y='50' fill='white' font-size='30' font-weight='bold'%3EМЕТАФЛОРА*%3C/text%3E%3C/svg%3E";
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -150,6 +154,36 @@ export const LabaAnalysisScreen: React.FC = () => {
           искусственный интеллект проанализирует виральность и напишет сценарий
         </div>
 
+        {/* Люди друг на друге - ПОД фреймом */}
+        <div style={{
+          position: 'absolute',
+          height: '1050px',
+          left: '143px',
+          top: '898px',
+          width: '892px',
+          zIndex: 0,
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={peopleBackground}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '162.05%',
+                left: '-92.74%',
+                maxWidth: 'none',
+                top: '-20.87%',
+                width: '286.41%',
+              }}
+            />
+          </div>
+        </div>
+
         {/* Outer background layer - 292:630 (главная подложка) */}
         <div className="blur-wave" style={{
           position: 'absolute',
@@ -224,7 +258,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               height: '60px',
               position: 'relative',
             }}>
-              <img src={playIconMCP} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
+              <img src={playIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             </div>
           </div>
 
@@ -256,15 +290,12 @@ export const LabaAnalysisScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={statusBarIconsMCP}
+                  src={viewsIcon}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-69.53%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '426.73%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -285,15 +316,12 @@ export const LabaAnalysisScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={statusBarIconsMCP}
+                  src={likesIcon}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-193.75%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '487.69%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -314,15 +342,12 @@ export const LabaAnalysisScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src={statusBarIconsMCP}
+                  src={commentsIcon}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.22%',
-                    left: '-304.47%',
-                    maxWidth: 'none',
-                    top: '-115.69%',
-                    width: '487.69%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -941,18 +966,19 @@ export const LabaAnalysisScreen: React.FC = () => {
         {/* Footer */}
         <div style={{
           position: 'absolute',
-          height: '124px',
           left: 'calc(50% - 5px)',
           top: '2071px',
           transform: 'translateX(-50%)',
           width: '888px',
+          height: '124px',
         }}>
+          {/* Логотип в подвале */}
           <div style={{
             position: 'absolute',
+            width: '380px',
             height: '83px',
             left: '2px',
             top: '-16px',
-            width: '380px',
           }}>
             <div style={{
               position: 'absolute',
@@ -960,103 +986,123 @@ export const LabaAnalysisScreen: React.FC = () => {
               overflow: 'hidden',
               pointerEvents: 'none',
             }}>
-              <img
-                src={footerLogo}
-                alt=""
+              <img 
+                src={socialsIconsFooter}
+                alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
                   height: '526.54%',
                   left: '-37.89%',
-                  maxWidth: 'none',
                   top: '-202.47%',
                   width: '170.37%',
+                  maxWidth: 'none',
                 }}
               />
             </div>
           </div>
-
+          
+          {/* Copyright текст */}
           <div style={{
             position: 'absolute',
-            bottom: '38.71%',
+            left: '2px',
+            top: '56px',
+            width: '433px',
+            height: '20px',
             display: 'flex',
             flexDirection: 'column',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
             justifyContent: 'center',
-            left: 'calc(50% - 442px)',
-            lineHeight: 0,
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
             fontSize: '20px',
+            lineHeight: '0',
             color: 'white',
-            top: '45.16%',
-            width: '433px',
           }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>Copyright © Все права защищены.</p>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
           </div>
-
+          
+          {/* Подложка под соцсети */}
+          <div className="blur-wave" style={{
+            position: 'absolute',
+            left: '664px',
+            top: '-2px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            height: '78px',
+            width: '230px',
+          }} />
+          
+          {/* Иконки соцсетей */}
           <div style={{
             position: 'absolute',
-            height: '51px',
-            left: 'calc(50% + 335px)',
-            top: 'calc(50% - 23.5px)',
-            transform: 'translate(-50%, -50%)',
+            left: '681px',
+            top: '13px',
             width: '196px',
+            height: '51px',
           }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '78px',
-              left: '-17px',
-              borderRadius: '62px',
-              top: '-15px',
-              width: '230px',
-            }} />
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: 0,
               top: 0,
               width: '50px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-377.92%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '517.92%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
+            
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: '54px',
               top: 0,
               width: '142px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-16.64%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '183.64%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

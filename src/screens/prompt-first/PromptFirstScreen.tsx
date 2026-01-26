@@ -21,9 +21,11 @@ import topPickButtonActive from '../../assets/кнопка топ-выбор а�
 import newButtonInactive from '../../assets/кнопка новые.png';
 import newButtonActive from '../../assets/кнопка новые активная.png';
 
-// Figma MCP assets
-const threePeopleBg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
-const houseImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
+// New assets
+import threePeopleBg from '../../assets/laba-icons/три человека на фон.png';
+import houseImage from '../../assets/laba-icons/картинка в карточке промпта.png';
+import logoFooterImg from '../../assets/figma-welcome/logo-footer.png';
+import socialsImg from '../../assets/welcome-elements/socials-icons.png';
 
 
 export const PromptFirstScreen: React.FC = () => {

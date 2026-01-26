@@ -37,15 +37,18 @@ import badgeAccount from '../../assets/laba-main-buttons/плашка аккау
 import badgeAccountActive from '../../assets/laba-main-buttons/плашка аккаунт.png';
 import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
 import badgeStartSearch from '../../assets/laba-main-buttons/плашка начать поиск.png';
+import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 // REUSED: heart icon from prompt-first
 // REUSED: footer and header components from prompt-first
 
-// Figma MCP assets  
-const footerLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
-const searchIconMCP = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
-const playIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
-const statusBarIcons = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
+// Laba icons
+import searchIcon from '../../assets/laba-icons/иконка поиска.png';
+import playIcon from '../../assets/laba-icons/кнопка плей.png';
+import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
+import likesIcon from '../../assets/laba-icons/иконка лайки.png';
+import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
+import instaLogo from '../../assets/laba-icons/лого инста.png';
 
 export const LabaFavoritesScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -218,7 +221,7 @@ export const LabaFavoritesScreen: React.FC = () => {
               bottom: '3.13%',
               left: '3.12%',
             }}>
-              <img src={searchIconMCP} alt="" style={{ width: '100%', height: '100%' }} />
+              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%' }} />
             </div>
           </div>
 
@@ -427,7 +430,7 @@ onBlur={() => {
           }}
         />
 
-        {/* Люди друг на друге - ПОД фреймом, ТОЧНО из Figma node 164:1101 */}
+        {/* Люди друг на друге - ПОД фреймом */}
         <div style={{
           position: 'absolute',
           height: '1050px',
@@ -443,7 +446,7 @@ onBlur={() => {
             pointerEvents: 'none',
           }}>
             <img 
-              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
+              src={peopleBackground}
               alt=""
               style={{
                 position: 'absolute',
@@ -613,15 +616,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -642,15 +642,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -671,15 +668,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -763,15 +757,12 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
+                  src={instaLogo}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -994,15 +985,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1022,15 +1010,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1050,15 +1035,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1140,15 +1122,12 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
+                  src={instaLogo}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -1369,15 +1348,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1397,15 +1373,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1425,15 +1398,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1515,15 +1485,12 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
+                  src={instaLogo}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -1744,15 +1711,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={viewsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-69.53%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '426.73%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1772,15 +1736,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={likesIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-193.75%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1800,15 +1761,12 @@ onBlur={() => {
                   pointerEvents: 'none',
                 }}>
                   <img 
-                    src={statusBarIcons}
+                    src={commentsIcon}
                     alt=""
                     style={{
-                      position: 'absolute',
-                      height: '339.22%',
-                      left: '-304.47%',
-                      maxWidth: 'none',
-                      top: '-115.69%',
-                      width: '487.69%',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
                     }}
                   />
                 </div>
@@ -1890,15 +1848,12 @@ onBlur={() => {
                 pointerEvents: 'none',
               }}>
                 <img 
-                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E"
+                  src={instaLogo}
                   alt=""
                   style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
@@ -1984,21 +1939,22 @@ onBlur={() => {
           </div>
         </div>
 
-        {/* Footer - ТОЧНО из Figma 7:908 */}
+        {/* Footer */}
         <div style={{
           position: 'absolute',
-          height: '124px',
           left: 'calc(50% - 5px)',
-          top: 'calc(50% + 858px)',
-          transform: 'translate(-50%, -50%)',
+          top: '2071px',
+          transform: 'translateX(-50%)',
           width: '888px',
+          height: '124px',
         }}>
+          {/* Логотип в подвале */}
           <div style={{
             position: 'absolute',
+            width: '380px',
             height: '83px',
             left: '2px',
             top: '-16px',
-            width: '380px',
           }}>
             <div style={{
               position: 'absolute',
@@ -2007,104 +1963,122 @@ onBlur={() => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={footerLogo}
-                alt=""
+                src={socialsIconsFooter}
+                alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
                   height: '526.54%',
                   left: '-37.89%',
-                  maxWidth: 'none',
                   top: '-202.47%',
                   width: '170.37%',
+                  maxWidth: 'none',
                 }}
               />
             </div>
           </div>
           
+          {/* Copyright текст */}
           <div style={{
             position: 'absolute',
-            bottom: '38.71%',
+            left: '2px',
+            top: '56px',
+            width: '433px',
+            height: '20px',
             display: 'flex',
             flexDirection: 'column',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
             justifyContent: 'center',
-            left: 'calc(50% - 442px)',
-            lineHeight: 0,
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
             fontSize: '20px',
+            lineHeight: '0',
             color: 'white',
-            top: '45.16%',
-            width: '433px',
           }}>
-            <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>Copyright © Все права защищены.</p>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
           </div>
           
+          {/* Подложка под соцсети */}
+          <div className="blur-wave" style={{
+            position: 'absolute',
+            left: '664px',
+            top: '-2px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            height: '78px',
+            width: '230px',
+          }} />
+          
+          {/* Иконки соцсетей */}
           <div style={{
             position: 'absolute',
-            height: '51px',
-            left: 'calc(50% + 335px)',
-            top: 'calc(50% - 23.5px)',
-            transform: 'translate(-50%, -50%)',
+            left: '681px',
+            top: '13px',
             width: '196px',
+            height: '51px',
           }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              height: '78px',
-              left: '-17px',
-              borderRadius: '62px',
-              top: '-15px',
-              width: '230px',
-            }} />
-            {/* Telegram */}
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: 0,
               top: 0,
               width: '50px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img 
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-377.92%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '517.92%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
-            {/* Instagram */}
+            
             <div style={{
               position: 'absolute',
-              height: '51px',
               left: '54px',
               top: 0,
               width: '142px',
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              height: '51px',
             }}>
-              <img 
-                src={socialsIconsFooter}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-16.64%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '183.64%',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

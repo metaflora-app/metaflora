@@ -8,6 +8,7 @@ import leftCard from '../../assets/laba-screens/слева.png';
 import rightCard from '../../assets/laba-screens/справа.png';
 import sidebar from '../../assets/laba-screens/сайдбар.png';
 import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
+import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
 
 const logoFooterImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
 const socialsImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%236366f1' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='20' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E";
@@ -156,6 +157,36 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
+        {/* Люди друг на друге - ПОД фреймом */}
+        <div style={{
+          position: 'absolute',
+          height: '1050px',
+          left: '143px',
+          top: '898px',
+          width: '892px',
+          zIndex: 0,
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}>
+            <img 
+              src={peopleBackground}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '162.05%',
+                left: '-92.74%',
+                maxWidth: 'none',
+                top: '-20.87%',
+                width: '286.41%',
+              }}
+            />
+          </div>
+        </div>
+
         <img 
           src={leftCard}
           alt=""
@@ -281,20 +312,22 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
+        {/* Footer */}
         <div style={{
           position: 'absolute',
           left: 'calc(50% - 5px)',
           top: '2071px',
+          transform: 'translateX(-50%)',
           width: '888px',
           height: '124px',
-          transform: 'translateX(-50%)',
         }}>
+          {/* Логотип в подвале */}
           <div style={{
             position: 'absolute',
-            left: '2px',
-            top: '-16px',
             width: '380px',
             height: '83px',
+            left: '2px',
+            top: '-16px',
           }}>
             <div style={{
               position: 'absolute',
@@ -303,7 +336,7 @@ export const LabaSearchScreen: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <img 
-                src={logoFooterImg}
+                src={socialsIconsFooter}
                 alt="МЕТАФЛОРА*"
                 style={{
                   position: 'absolute',
@@ -317,86 +350,108 @@ export const LabaSearchScreen: React.FC = () => {
             </div>
           </div>
           
+          {/* Copyright текст */}
           <div style={{
             position: 'absolute',
-            left: 'calc(50% - 442px)',
+            left: '2px',
             top: '56px',
             width: '433px',
+            height: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
             fontFamily: 'Gotham Pro',
             fontWeight: 300,
             fontSize: '20px',
+            lineHeight: '0',
             color: 'white',
           }}>
-            <p style={{ margin: 0 }}>Copyright © Все права защищены.</p>
+            <p style={{ 
+              margin: 0,
+              lineHeight: 'normal',
+              whiteSpace: 'pre-wrap',
+            }}>
+              Copyright © Все права защищены.
+            </p>
           </div>
-
+          
+          {/* Подложка под соцсети */}
           <div className="blur-wave" style={{
             position: 'absolute',
             left: '664px',
             top: '-2px',
-            width: '230px',
-            height: '78px',
             backdropFilter: 'blur(50px)',
             background: 'rgba(255, 255, 255, 0.1)',
             border: '4px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '62px',
+            height: '78px',
+            width: '230px',
           }} />
           
+          {/* Иконки соцсетей */}
           <div style={{
             position: 'absolute',
             left: '681px',
             top: '13px',
-            width: '50px',
+            width: '196px',
             height: '51px',
           }}>
             <div style={{
               position: 'absolute',
-              inset: 0,
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              left: 0,
+              top: 0,
+              width: '50px',
+              height: '51px',
             }}>
-              <img 
-                src={socialsImg}
-                alt="Telegram"
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-377.92%',
-                  top: '-118.33%',
-                  width: '517.92%',
-                  maxWidth: 'none',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Telegram"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-377.92%',
+                    top: '-118.33%',
+                    width: '517.92%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
-          </div>
-          
-          <div style={{
-            position: 'absolute',
-            left: '735px',
-            top: '13px',
-            width: '142px',
-            height: '51px',
-          }}>
+            
             <div style={{
               position: 'absolute',
-              inset: 0,
-              opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
+              left: '54px',
+              top: 0,
+              width: '142px',
+              height: '51px',
             }}>
-              <img 
-                src={socialsImg}
-                alt="Соцсети"
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-16.64%',
-                  top: '-118.33%',
-                  width: '183.64%',
-                  maxWidth: 'none',
-                }}
-              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
+                <img 
+                  src={socialsIconsFooter}
+                  alt="Соцсети"
+                  style={{
+                    position: 'absolute',
+                    height: '339.84%',
+                    left: '-16.64%',
+                    top: '-118.33%',
+                    width: '183.64%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
