@@ -35,9 +35,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
   
   // Загрузка статей из Supabase
   const [articles, setArticles] = useState<PolygonArticle[]>([]);
+  const [allArticles, setAllArticles] = useState<PolygonArticle[]>([]); // Все статьи без поиска
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +47,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
 
   useEffect(() => {
     loadArticles();
-  }, [selectedFilters, searchValue]);
+  }, [selectedFilters]); // Убрал searchValue отсюда
 
   const loadArticles = async () => {
     setLoading(true);
@@ -53,11 +55,9 @@ const PoligonArticlesAllScreen: React.FC = () => {
     
     try {
       const activeFilters = selectedFilters.filter(f => f !== 'вернуть');
-      const keywords = searchValue.trim() ? [searchValue.trim()] : undefined;
       
       const result = await getPolygonArticlesWithCache({
         tags: activeFilters.length > 0 ? activeFilters : undefined,
-        keywords: keywords,
         isActive: true,
         limit: 20,
         offset: 0,
@@ -68,11 +68,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
       }
 
       setArticles(result.data);
-      
-      // Очистить поиск если ничего не найдено
-      if (result.data.length === 0 && searchValue.trim()) {
-        setTimeout(() => setSearchValue(''), 1500);
-      }
+      setAllArticles(result.data); // Сохраняем все статьи
     } catch (err) {
       console.error('Error loading articles:', err);
       setError(String(err));
@@ -81,15 +77,46 @@ const PoligonArticlesAllScreen: React.FC = () => {
     }
   };
 
+  // Поиск по ключевым словам при нажатии Enter
+  const handleSearch = () => {
+    if (!searchValue.trim()) {
+      setArticles(allArticles);
+      return;
+    }
+
+    const searchWords = searchValue.toLowerCase().trim().split(/\s+/);
+    const filtered = allArticles.filter(article => {
+      const searchableText = [
+        article.title,
+        article.annotation || '',
+        ...(article.keywords || [])
+      ].join(' ').toLowerCase();
+
+      return searchWords.every(word => searchableText.includes(word));
+    });
+
+    setArticles(filtered);
+
+    // Показать алерт если ничего не найдено
+    if (filtered.length === 0) {
+      const telegram = (window as any).Telegram;
+      if (telegram?.WebApp?.showPopup) {
+        telegram.WebApp.showPopup({
+          message: 'статья не найдена. проверьте корректность написания'
+        });
+      }
+      // Очищаем поиск и возвращаем все статьи
+      setSearchValue('');
+      setArticles(allArticles);
+    }
+  };
+
   const toggleFilter = (filter: string) => {
     if (filter === 'вернуть') {
       setSelectedFilters([]);
     } else {
-      setSelectedFilters(prev => 
-        prev.includes(filter) 
-          ? prev.filter(f => f !== filter)
-          : [...prev, filter]
-      );
+      // ТОЛЬКО ОДИН фильтр можно выбрать
+      setSelectedFilters([filter]);
     }
   };
 
@@ -97,7 +124,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
 
   // Функция рендера карточки статьи
   const renderArticleCard = (article: PolygonArticle, index: number) => {
-    const yPosition = 575 + (index * 315); // Начало с 575px, шаг 315px
+    const yPosition = 600 + (index * 280); // Начало с 600px (было 575px), шаг 280px
     const bgImages = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
     const bgImage = article.cover_image_url || bgImages[index % 4];
 
@@ -349,11 +376,18 @@ const PoligonArticlesAllScreen: React.FC = () => {
             }}
           />
           <input
+            ref={searchInputRef}
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setIsSearchFocused(false)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                searchInputRef.current?.blur();
+                handleSearch();
+              }
+            }}
             placeholder={isSearchFocused ? '' : 'найти по ключевым словам'}
             enterKeyHint="search"
             style={{

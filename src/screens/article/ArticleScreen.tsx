@@ -132,6 +132,7 @@ export const ArticleScreen: React.FC = () => {
               minHeight: '50px',
               whiteSpace: 'pre-wrap',
               wordBreak: 'break-word',
+              lineHeight: 1.3,
               marginBottom: '30px',
             }}
           >
@@ -145,25 +146,30 @@ export const ArticleScreen: React.FC = () => {
             key={block.id}
             style={{
               width: '100%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '20px',
-              overflow: 'visible',
-              minHeight: '362px',
               position: 'relative',
               marginBottom: '30px',
             }}
           >
-            <img
-              src={block.content}
-              alt="Изображение"
-              style={{
-                width: '100%',
-                height: 'auto',
-                objectFit: 'cover',
-                borderRadius: '20px',
-              }}
-            />
-            {/* Кнопка развернуть */}
+            <div style={{
+              width: '100%',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              minHeight: '362px',
+              position: 'relative',
+            }}>
+              <img
+                src={block.content}
+                alt="Изображение"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+            </div>
+            {/* Кнопка развернуть - ПОВЕРХ контейнера */}
             <img
               src={expandButton}
               alt="развернуть"
@@ -185,14 +191,15 @@ export const ArticleScreen: React.FC = () => {
                   `);
                 }
               }}
+              className="button-inner-glow"
               style={{
                 position: 'absolute',
-                right: '15px',
-                bottom: '15px',
-                width: '60px',
-                height: '60px',
+                right: '20px',
+                bottom: '20px',
+                width: '50px',
+                height: '50px',
                 cursor: 'pointer',
-                zIndex: 100,
+                zIndex: 1000,
               }}
             />
           </div>
@@ -223,6 +230,7 @@ export const ArticleScreen: React.FC = () => {
                 minHeight: '50px',
                 whiteSpace: 'pre-wrap',
                 wordBreak: 'break-word',
+                lineHeight: 1.3,
               }}
             >
               {block.content}
@@ -241,7 +249,7 @@ export const ArticleScreen: React.FC = () => {
         }
 
         return (
-          <div key={block.id} style={{ marginTop: '60px', marginBottom: '30px' }}>
+          <div key={block.id} style={{ marginTop: '30px', marginBottom: '30px' }}>
             <img
               src={materialsButton}
               alt="материалы"
@@ -249,7 +257,7 @@ export const ArticleScreen: React.FC = () => {
               style={{
                 width: '247px',
                 height: '79px',
-                margin: '0 auto 30px auto',
+                margin: '0 auto 20px auto',
                 display: 'block',
                 objectFit: 'contain',
               }}
