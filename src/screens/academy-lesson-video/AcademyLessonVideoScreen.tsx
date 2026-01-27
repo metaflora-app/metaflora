@@ -1,5 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { getAcademyLessonById } from '../../utils/contentApi';
+import type { AcademyLesson } from '../../types/content';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -15,9 +17,34 @@ import materialsButton from '../../assets/about-screens/кнопка получ�
 
 export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
-
-  // Calculate scale based on viewport width (design width: 1180px)
+  const [searchParams] = useSearchParams();
+  const lessonId = searchParams.get('lesson');
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  const [lesson, setLesson] = useState<AcademyLesson | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (lessonId) {
+      loadLesson(lessonId);
+    } else {
+      setLoading(false);
+    }
+  }, [lessonId]);
+
+  const loadLesson = async (id: string) => {
+    setLoading(true);
+    try {
+      const result = await getAcademyLessonById(id);
+      if (!result.error && result.data) {
+        setLesson(result.data);
+      }
+    } catch (error) {
+      console.error('Error loading lesson:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={{
@@ -91,7 +118,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           }}
         />
 
-        {/* Заголовок "лучшие языковые модели. урок 1" (27:500) */}
+        {/* Заголовок урока из API */}
         <div style={{
           position: 'absolute',
           left: '94px',
@@ -115,7 +142,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               margin: 0,
               lineHeight: '1',
             }}>
-              лучшие языковые модели. урок 1
+              {lesson?.title || 'лучшие языковые модели. урок 1'}
             </p>
           </div>
         </div>
@@ -266,7 +293,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
 
         {/* Кнопка "получить материалы" - PNG */}
         <button
-          onClick={() => navigate('/academy-lesson-materials')}
+          onClick={() => navigate(`/academy-lesson-materials?lesson=${lessonId}`)}
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',

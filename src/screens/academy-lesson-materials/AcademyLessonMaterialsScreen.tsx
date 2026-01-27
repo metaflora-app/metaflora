@@ -1,5 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { getAcademyLessonById } from '../../utils/contentApi';
+import type { AcademyLesson } from '../../types/content';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -13,9 +15,34 @@ import materialsButton from '../../assets/about-screens/кнопка матер�
 
 export const AcademyLessonMaterialsScreen: React.FC = () => {
   const navigate = useNavigate();
-
-  // Calculate scale based on viewport width (design width: 1180px)
+  const [searchParams] = useSearchParams();
+  const lessonId = searchParams.get('lesson');
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  const [lesson, setLesson] = useState<AcademyLesson | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (lessonId) {
+      loadLesson(lessonId);
+    } else {
+      setLoading(false);
+    }
+  }, [lessonId]);
+
+  const loadLesson = async (id: string) => {
+    setLoading(true);
+    try {
+      const result = await getAcademyLessonById(id);
+      if (!result.error && result.data) {
+        setLesson(result.data);
+      }
+    } catch (error) {
+      console.error('Error loading lesson:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={{
@@ -185,7 +212,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* 32:715 - Заголовок */}
+        {/* Заголовок из API */}
         <div style={{
           position: 'absolute',
           left: '356px',
@@ -201,10 +228,12 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           color: 'white',
           textAlign: 'center',
         }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>морфинг через общие элементы</p>
+          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>
+            {lesson?.title || 'морфинг через общие элементы'}
+          </p>
         </div>
 
-        {/* 32:716 - Описание */}
+        {/* Аннотация из API */}
         <p style={{
           position: 'absolute',
           left: '200px',
@@ -219,126 +248,112 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           textAlign: 'center',
           whiteSpace: 'pre-wrap',
         }}>
-          идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе
+          {lesson?.annotation || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего.'}
         </p>
 
-        {/* 32:726 - Плашка промпт */}
-        <img 
-          src={promptButton}
-          alt="промпт"
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '467px',
-            top: '848px',
-            width: '246.93px',
-            height: '79.25px',
-            objectFit: 'contain',
-          }}
-        />
+        {/* Плашка промпт (показываем если есть промпт) */}
+        {lesson?.prompt_text && (
+          <>
+            <img 
+              src={promptButton}
+              alt="промпт"
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '467px',
+                top: '848px',
+                width: '246.93px',
+                height: '79.25px',
+                objectFit: 'contain',
+              }}
+            />
 
-        {/* 32:717 - Текст промптов */}
-        <div style={{
-          position: 'absolute',
-          left: '193px',
-          top: '968px',
-          width: '795px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: 1,
-          color: 'white',
-          textAlign: 'center',
-          whiteSpace: 'pre-wrap',
-        }}>
-          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.</p>
-          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр:</p>
-          <p style={{ margin: 0 }}>&nbsp;</p>
-          <p style={{ margin: 0 }}>A bright orange sun rising over the ocean horizon, starting as a small glowing orb that fills the frame, golden light reflecting on water.</p>
-          <p style={{ margin: 0 }}>Оба объекта оранжевые, оба занимают весь экран — нейросеть сама выстроит между ними.</p>
-          <p style={{ margin: 0 }}>&nbsp;</p>
-          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.</p>
-          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр:</p>
-          <p style={{ margin: 0 }}>весь экран</p>
-        </div>
+            {/* Текст промпта из API */}
+            <div style={{
+              position: 'absolute',
+              left: '193px',
+              top: '968px',
+              width: '795px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '35px',
+              lineHeight: 1.3,
+              color: 'white',
+              textAlign: 'center',
+              whiteSpace: 'pre-wrap',
+            }}>
+              <p style={{ margin: 0 }}>{lesson.prompt_text}</p>
+            </div>
+          </>
+        )}
 
-        {/* 368:1134 - Плашка материалы */}
-        <img 
-          src={materialsButton}
-          alt="материалы"
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '467px',
-            top: '1781px',
-            width: '246.93px',
-            height: '79.25px',
-            objectFit: 'contain',
-          }}
-        />
+        {/* Плашка материалы (показываем если есть материалы) */}
+        {lesson?.materials && lesson.materials.length > 0 && (
+          <>
+            <img 
+              src={materialsButton}
+              alt="материалы"
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '467px',
+                top: '1781px',
+                width: '246.93px',
+                height: '79.25px',
+                objectFit: 'contain',
+              }}
+            />
 
-        {/* 32:735 - Текст "скачать файлы (5)" */}
-        <div 
-          onClick={() => {
-            if (window.Telegram?.WebApp?.showPopup) {
-              window.Telegram.WebApp.showPopup({
-                message: 'Материалы будут отправлены в чат с ботом',
-              });
-            } else {
-              alert('Материалы будут отправлены в чат с ботом');
-            }
-          }}
-          style={{
-            position: 'absolute',
-            left: '432px',
-            top: '1895px',
-            width: '316px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '32px',
-            lineHeight: 0,
-            color: 'white',
-            textAlign: 'center',
-            cursor: 'pointer',
-          }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>скачать файлы (5)</p>
-        </div>
+            {/* Текст "скачать файлы" */}
+            <div 
+              onClick={async () => {
+                if (!lesson?.materials || lesson.materials.length === 0) return;
+                
+                try {
+                  const response = await fetch('https://metaflora-service-production.up.railway.app/api/bot/send-materials', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      materials: lesson.materials,
+                      lessonTitle: lesson.title,
+                      userId: window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 'unknown',
+                    }),
+                  });
+                  
+                  if (response.ok) {
+                    if (window.Telegram?.WebApp?.showPopup) {
+                      window.Telegram.WebApp.showPopup({
+                        message: 'Материалы отправлены в чат с ботом',
+                      });
+                    }
+                  }
+                } catch (error) {
+                  console.error('Error sending materials:', error);
+                }
+              }}
+              style={{
+                position: 'absolute',
+                left: '432px',
+                top: '1895px',
+                width: '316px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '32px',
+                lineHeight: 0,
+                color: 'white',
+                textAlign: 'center',
+                cursor: 'pointer',
+              }}>
+              <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>
+                скачать файлы ({lesson?.materials?.length || 0})
+              </p>
+            </div>
+          </>
+        )}
 
-        {/* 32:737 - Сайдбар (плюсик) */}
-        <div 
-          onClick={() => {
-            if (window.Telegram?.WebApp?.showPopup) {
-              window.Telegram.WebApp.showPopup({
-                message: 'Материалы будут отправлены в чат с ботом',
-              });
-            } else {
-              alert('Материалы будут отправлены в чат с ботом');
-            }
-          }}
-          className="blur-wave"
-          style={{
-            position: 'absolute',
-            left: '754px',
-            top: '1899px',
-            width: '35px',
-            height: '35px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            fontSize: '20px',
-            color: 'white',
-          }}
-        >
-          +
-        </div>
 
         {/* Footer */}
         <div style={{
