@@ -37,12 +37,24 @@ export interface ContentBlock {
   content: string;
 }
 
+export interface ArticleMaterial {
+  name: string;
+  url: string;
+  size: string;
+}
+
 export interface PolygonArticle {
   id: string;
   title: string;
   annotation: string | null;
   cover_image_url: string | null;
+  // Новый формат (приоритет)
   content_blocks: ContentBlock[] | null;
+  // Старые поля для обратной совместимости
+  content_text?: string | null;
+  video_url?: string | null;
+  prompt_text?: string | null;
+  materials?: ArticleMaterial[] | null;
   filter_tags: string[] | null;
   keywords: string[] | null;
   is_active: boolean;

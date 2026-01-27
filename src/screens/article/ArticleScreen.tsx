@@ -58,7 +58,36 @@ export const ArticleScreen: React.FC = () => {
 
   const articleTitle = article?.title || 'морфинг через общие элементы';
   const articleAnnotation = article?.annotation || 'Аннотация статьи';
-  const contentBlocks = article?.content_blocks || [];
+  
+  // Обратная совместимость: если нет content_blocks, создаем из старых полей
+  const getContentBlocks = () => {
+    if (article?.content_blocks && article.content_blocks.length > 0) {
+      return article.content_blocks;
+    }
+    
+    // Создаем блоки из старых полей для обратной совместимости
+    const legacyBlocks: any[] = [];
+    
+    if (article?.content_text) {
+      legacyBlocks.push({
+        id: 'legacy-text',
+        type: 'text',
+        content: article.content_text,
+      });
+    }
+    
+    if (article?.prompt_text) {
+      legacyBlocks.push({
+        id: 'legacy-prompt',
+        type: 'prompt',
+        content: article.prompt_text,
+      });
+    }
+    
+    return legacyBlocks;
+  };
+  
+  const contentBlocks = getContentBlocks();
 
   // Функция для отправки материалов в бота
   const handleSendMaterials = async () => {
