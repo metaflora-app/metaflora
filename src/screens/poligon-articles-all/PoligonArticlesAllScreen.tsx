@@ -29,7 +29,6 @@ import bgWorkshop from '../../assets/poligon-articles/фон цех.png';
 import bgPoligon from '../../assets/poligon-articles/фон полигон.png';
 import readButton from '../../assets/poligon-articles/кнопка читать.png';
 import peopleInCircle from '../../assets/poligon-articles/люди в круге.png';
-import newBadge from '../../assets/poligon-articles/плашка новое.png';
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -125,20 +124,33 @@ const PoligonArticlesAllScreen: React.FC = () => {
             objectFit: 'cover',
           }}
         />
-        {/* New badge - показываем если статья новая */}
+        {/* New badge CSS - как в сервисе */}
         {article.filter_tags?.includes('новое') && (
-          <img 
-            src={newBadge}
-            alt="новое"
-            style={{
-              position: 'absolute',
-              left: '336px',
-              top: '19px',
-              width: '101px',
-              height: '36px',
-              zIndex: 5,
-            }}
-          />
+          <div className="blur-wave button-inner-glow" style={{
+            position: 'absolute',
+            left: '336px',
+            top: '19px',
+            width: '101px',
+            height: '36px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 5,
+          }}>
+            <div style={{
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '20px',
+              color: 'white',
+              lineHeight: 0,
+            }}>
+              новое
+            </div>
+          </div>
         )}
         {/* Text block */}
         <div className="blur-wave" style={{

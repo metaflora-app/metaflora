@@ -58,7 +58,6 @@ export const ArticleScreen: React.FC = () => {
   };
 
   const articleTitle = article?.title || 'морфинг через общие элементы';
-  const articleAnnotation = article?.annotation || 'Аннотация статьи';
   
   // Обратная совместимость: если нет content_blocks, создаем из старых полей
   const getContentBlocks = () => {
@@ -117,28 +116,23 @@ export const ArticleScreen: React.FC = () => {
     }
   };
 
-  // Рендер блока контента
-  const renderContentBlock = (block: any, yOffset: number) => {
-    const baseTop = 645 + yOffset;
-
+  // Рендер блока контента - ОТНОСИТЕЛЬНОЕ ПОЗИЦИОНИРОВАНИЕ
+  const renderContentBlock = (block: any) => {
     switch (block.type) {
       case 'text':
         return (
           <div
             key={block.id}
             style={{
-              position: 'absolute',
-              left: '174px',
-              top: `${baseTop}px`,
-              width: '833px',
+              fontSize: '35px',
               fontFamily: 'Gotham Pro',
               fontWeight: 300,
-              fontSize: '35px',
-              lineHeight: 1.2,
               color: 'white',
-              textAlign: 'left',
+              textAlign: 'center',
+              minHeight: '50px',
               whiteSpace: 'pre-wrap',
-              marginBottom: '30px',
+              wordBreak: 'break-word',
+              marginBottom: '15px',
             }}
           >
             {block.content}
@@ -150,27 +144,22 @@ export const ArticleScreen: React.FC = () => {
           <div
             key={block.id}
             style={{
-              position: 'absolute',
-              left: '173px',
-              top: `${baseTop}px`,
-              width: '835px',
-              height: '362px',
+              width: '100%',
               border: '2px solid rgba(0, 0, 0, 0.3)',
               borderRadius: '20px',
               overflow: 'hidden',
-              marginBottom: '30px',
+              minHeight: '362px',
+              position: 'relative',
+              marginBottom: '15px',
             }}
           >
             <img
               src={block.content}
               alt="Изображение"
               style={{
-                position: 'absolute',
-                inset: 0,
                 width: '100%',
-                height: '100%',
+                height: 'auto',
                 objectFit: 'cover',
-                pointerEvents: 'none',
               }}
             />
             {/* Кнопка развернуть */}
@@ -178,9 +167,6 @@ export const ArticleScreen: React.FC = () => {
               src={expandButton}
               alt="развернуть"
               onClick={() => {
-                // Открыть изображение в полноэкранном режиме
-                const img = new Image();
-                img.src = block.content;
                 const win = window.open('', '_blank');
                 if (win) {
                   win.document.write(`
@@ -216,34 +202,29 @@ export const ArticleScreen: React.FC = () => {
 
       case 'prompt':
         return (
-          <div key={block.id}>
+          <div key={block.id} style={{ marginBottom: '15px' }}>
             <img
               src={promptButton}
               alt="промпт"
               className="button-inner-glow"
               style={{
-                position: 'absolute',
-                left: '467px',
-                top: `${baseTop}px`,
                 width: '247px',
                 height: '79px',
+                margin: '0 auto 20px auto',
+                display: 'block',
                 objectFit: 'contain',
               }}
             />
             <div
               style={{
-                position: 'absolute',
-                left: '204px',
-                top: `${baseTop + 125}px`,
-                width: '772px',
+                fontSize: '35px',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 300,
-                fontSize: '35px',
-                lineHeight: 1.2,
                 color: 'white',
                 textAlign: 'center',
+                minHeight: '50px',
                 whiteSpace: 'pre-wrap',
-                marginBottom: '30px',
+                wordBreak: 'break-word',
               }}
             >
               {block.content}
@@ -262,29 +243,24 @@ export const ArticleScreen: React.FC = () => {
         }
 
         return (
-          <div key={block.id}>
+          <div key={block.id} style={{ marginTop: '60px', marginBottom: '15px' }}>
             <img
               src={materialsButton}
               alt="материалы"
               className="button-inner-glow"
               style={{
-                position: 'absolute',
-                left: '467px',
-                top: `${baseTop}px`,
                 width: '247px',
                 height: '79px',
+                margin: '0 auto 30px auto',
+                display: 'block',
                 objectFit: 'contain',
               }}
             />
             <div
               onClick={handleSendMaterials}
               style={{
-                position: 'absolute',
-                left: '388px',
-                top: `${baseTop + 118}px`,
-                width: '405px',
                 fontFamily: 'Gotham Pro',
-                fontWeight: 500,
+                fontWeight: 300,
                 fontSize: '32px',
                 lineHeight: 1,
                 color: 'white',
@@ -302,35 +278,8 @@ export const ArticleScreen: React.FC = () => {
     }
   };
 
-  // Вычисляем позиции блоков
-  const renderedBlocks: JSX.Element[] = [];
-  let currentYOffset = articleAnnotation ? 100 : 0; // Начинаем после аннотации
-  
-  contentBlocks.forEach((block) => {
-    const rendered = renderContentBlock(block, currentYOffset);
-    if (rendered) {
-      renderedBlocks.push(rendered);
-    }
-    
-    // Увеличиваем смещение в зависимости от типа блока
-    switch (block.type) {
-      case 'text':
-        // Рассчитываем высоту текста (примерно 35px на строку)
-        const textLines = Math.ceil((block.content?.length || 0) / 40);
-        currentYOffset += Math.max(textLines * 42, 80) + 30;
-        break;
-      case 'image':
-        currentYOffset += 392; // 362px высота + 30px отступ
-        break;
-      case 'prompt':
-        const promptLines = Math.ceil((block.content?.length || 0) / 40);
-        currentYOffset += 125 + Math.max(promptLines * 42, 80) + 30; // Кнопка + текст промпта
-        break;
-      case 'materials':
-        currentYOffset += 200; // Кнопка + текст
-        break;
-    }
-  });
+  // Рендерим блоки - просто map без offset
+  const renderedBlocks = contentBlocks.map((block) => renderContentBlock(block));
 
   return (
     <div style={{
@@ -466,7 +415,8 @@ export const ArticleScreen: React.FC = () => {
           </p>
         </div>
 
-        <div className="blur-wave" style={{
+        {/* Превью карточки - ТОЧНО КАК В СЕРВИСЕ */}
+        <div style={{
           position: 'absolute',
           left: '88px',
           top: '399px',
@@ -476,59 +426,48 @@ export const ArticleScreen: React.FC = () => {
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-        }} />
-
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          left: '141px',
-          top: '452px',
-          width: '898px',
-          height: '1536px',
-          backdropFilter: 'blur(50px)',
-          background: 'black',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-          overflow: 'auto',
-        }} />
-
-        <div style={{
-          position: 'absolute',
-          left: '356px',
-          top: '489px',
-          width: '469px',
-          height: '104px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          fontFamily: 'Inter',
-          fontWeight: 700,
-          fontSize: '52px',
-          lineHeight: 1,
-          color: 'white',
-          textAlign: 'center',
+          zIndex: 10,
         }}>
-          <p style={{ margin: 0 }}>{articleTitle}</p>
-        </div>
-
-        {articleAnnotation && (
+          {/* Черный фон внутри - с отступами */}
           <div style={{
             position: 'absolute',
-            left: '174px',
-            top: '593px',
-            width: '833px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '30px',
-            lineHeight: 1.2,
-            color: 'rgba(255, 255, 255, 0.8)',
-            textAlign: 'center',
+            left: '53px',
+            top: '53px',
+            width: '898px',
+            height: '1536px',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '30px',
+            overflow: 'hidden',
           }}>
-            <p style={{ margin: 0 }}>{articleAnnotation}</p>
-          </div>
-        )}
+            {/* Контент с скроллом И ФЕЙДОМ */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              overflowY: 'auto',
+              padding: '40px',
+              WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+            }}>
+              {/* Заголовок */}
+              <h2 style={{
+                fontFamily: 'Inter',
+                fontWeight: 700,
+                fontSize: '52px',
+                lineHeight: 1,
+                color: 'white',
+                textAlign: 'center',
+                margin: '0 0 40px 0',
+              }}>
+                {articleTitle}
+              </h2>
 
-        {/* Динамический рендер content_blocks */}
-        {renderedBlocks}
+              {/* Динамический рендер content_blocks */}
+              {renderedBlocks}
+            </div>
+          </div>
+        </div>
 
         <div style={{
           position: 'absolute',
