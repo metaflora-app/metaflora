@@ -9,6 +9,7 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import promptButton from '../../assets/about-screens/промпт плашка.png';
 import materialsButton from '../../assets/about-screens/кнопка материалы.png';
+import expandButton from '../../assets/кнопка развернуть.png';
 
 // Figma assets
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
@@ -172,6 +173,44 @@ export const ArticleScreen: React.FC = () => {
                 pointerEvents: 'none',
               }}
             />
+            {/* Кнопка развернуть */}
+            <img
+              src={expandButton}
+              alt="развернуть"
+              onClick={() => {
+                // Открыть изображение в полноэкранном режиме
+                const img = new Image();
+                img.src = block.content;
+                const win = window.open('', '_blank');
+                if (win) {
+                  win.document.write(`
+                    <html>
+                      <head>
+                        <title>Изображение</title>
+                        <style>
+                          body { margin: 0; background: black; display: flex; align-items: center; justify-content: center; height: 100vh; }
+                          img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+                        </style>
+                      </head>
+                      <body><img src="${block.content}" /></body>
+                    </html>
+                  `);
+                }
+              }}
+              style={{
+                position: 'absolute',
+                right: '15px',
+                bottom: '15px',
+                width: '40px',
+                height: '40px',
+                cursor: 'pointer',
+                zIndex: 10,
+                opacity: 0.8,
+                transition: 'opacity 0.2s',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+            />
           </div>
         );
 
@@ -264,27 +303,33 @@ export const ArticleScreen: React.FC = () => {
   };
 
   // Вычисляем позиции блоков
-  let currentYOffset = 0;
-  const renderedBlocks = contentBlocks.map((block) => {
+  const renderedBlocks: JSX.Element[] = [];
+  let currentYOffset = articleAnnotation ? 100 : 0; // Начинаем после аннотации
+  
+  contentBlocks.forEach((block) => {
     const rendered = renderContentBlock(block, currentYOffset);
+    if (rendered) {
+      renderedBlocks.push(rendered);
+    }
     
     // Увеличиваем смещение в зависимости от типа блока
     switch (block.type) {
       case 'text':
-        currentYOffset += 150; // Примерная высота текстового блока
+        // Рассчитываем высоту текста (примерно 35px на строку)
+        const textLines = Math.ceil((block.content?.length || 0) / 40);
+        currentYOffset += Math.max(textLines * 42, 80) + 30;
         break;
       case 'image':
         currentYOffset += 392; // 362px высота + 30px отступ
         break;
       case 'prompt':
-        currentYOffset += 300; // Кнопка + текст промпта
+        const promptLines = Math.ceil((block.content?.length || 0) / 40);
+        currentYOffset += 125 + Math.max(promptLines * 42, 80) + 30; // Кнопка + текст промпта
         break;
       case 'materials':
         currentYOffset += 200; // Кнопка + текст
         break;
     }
-    
-    return rendered;
   });
 
   return (
@@ -465,20 +510,22 @@ export const ArticleScreen: React.FC = () => {
           <p style={{ margin: 0 }}>{articleTitle}</p>
         </div>
 
-        <div style={{
-          position: 'absolute',
-          left: '174px',
-          top: '593px',
-          width: '833px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '30px',
-          lineHeight: 1.2,
-          color: 'rgba(255, 255, 255, 0.8)',
-          textAlign: 'center',
-        }}>
-          <p style={{ margin: 0 }}>{articleAnnotation}</p>
-        </div>
+        {articleAnnotation && (
+          <div style={{
+            position: 'absolute',
+            left: '174px',
+            top: '593px',
+            width: '833px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 300,
+            fontSize: '30px',
+            lineHeight: 1.2,
+            color: 'rgba(255, 255, 255, 0.8)',
+            textAlign: 'center',
+          }}>
+            <p style={{ margin: 0 }}>{articleAnnotation}</p>
+          </div>
+        )}
 
         {/* Динамический рендер content_blocks */}
         {renderedBlocks}

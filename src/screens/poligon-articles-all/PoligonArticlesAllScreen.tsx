@@ -29,6 +29,7 @@ import bgWorkshop from '../../assets/poligon-articles/фон цех.png';
 import bgPoligon from '../../assets/poligon-articles/фон полигон.png';
 import readButton from '../../assets/poligon-articles/кнопка читать.png';
 import peopleInCircle from '../../assets/poligon-articles/люди в круге.png';
+import newBadge from '../../assets/poligon-articles/плашка новое.png';
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
 
   useEffect(() => {
     loadArticles();
-  }, [selectedFilters]);
+  }, [selectedFilters, searchValue]);
 
   const loadArticles = async () => {
     setLoading(true);
@@ -53,9 +54,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
     
     try {
       const activeFilters = selectedFilters.filter(f => f !== 'вернуть');
+      const keywords = searchValue.trim() ? [searchValue.trim()] : undefined;
       
       const result = await getPolygonArticlesWithCache({
         tags: activeFilters.length > 0 ? activeFilters : undefined,
+        keywords: keywords,
         isActive: true,
         limit: 20,
         offset: 0,
@@ -66,6 +69,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
       }
 
       setArticles(result.data);
+      
+      // Очистить поиск если ничего не найдено
+      if (result.data.length === 0 && searchValue.trim()) {
+        setTimeout(() => setSearchValue(''), 1500);
+      }
     } catch (err) {
       console.error('Error loading articles:', err);
       setError(String(err));
@@ -117,6 +125,21 @@ const PoligonArticlesAllScreen: React.FC = () => {
             objectFit: 'cover',
           }}
         />
+        {/* New badge - показываем если статья новая */}
+        {article.filter_tags?.includes('новое') && (
+          <img 
+            src={newBadge}
+            alt="новое"
+            style={{
+              position: 'absolute',
+              left: '336px',
+              top: '19px',
+              width: '101px',
+              height: '36px',
+              zIndex: 5,
+            }}
+          />
+        )}
         {/* Text block */}
         <div className="blur-wave" style={{
           position: 'absolute',
