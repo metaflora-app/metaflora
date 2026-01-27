@@ -1,7 +1,7 @@
 # 🎯 ИНСТРУКЦИЯ ДЛЯ СЛЕДУЮЩЕГО АГЕНТА - CMS ПОЛИГОН
 
 **Дата:** 2026-01-27  
-**Статус:** ЦЕХ готов, ПОЛИГОН в процессе
+**Статус:** ЦЕХ готов, ПОЛИГОН - активная работа
 
 ---
 
@@ -16,7 +16,13 @@
 - ✅ Фильтр "новое" по умолчанию
 - ✅ Кнопка "удалить карточку" → список промптов
 - ✅ API endpoints для промптов
-- ✅ Notion-like редактор контента для Полигона (добавление блоков: текст/фото/видео/промпт в любом порядке)
+- ✅ Notion-like редактор контента для Полигона (базовый)
+- ✅ polygon-card-small: карточка статьи 894×249px из мини-аппа
+- ✅ polygon-card-small: кнопка "удалить карточку"
+- ✅ polygon-card-small: фильтр только "новое"
+- ✅ polygon-card-small: плашка "новое" из assets
+- ✅ polygon-card-small: кнопка "читать" из assets
+- ✅ ArticleCardLargePreview: поддержка content_blocks
 
 ### Мини-апп (metaflora):
 - ✅ Динамическая загрузка промптов из API
@@ -26,29 +32,174 @@
 - ✅ Кеш очищается принудительно при загрузке
 - ✅ Кнопки "новое" (активная/неактивная) обновлены
 - ✅ Поисковая строка очищается при пустом результате
+- ✅ Типы обновлены: ContentBlock, content_blocks в PolygonArticle
+- ✅ ArticleScreen: частичная интеграция с API
 
 **Последние коммиты:**
-- Веб-сервис: `0fb7eb5 feat: add notion-like content editor for polygon`
-- Мини-апп: `dd9acbd fix: force clear all workshop prompts cache on load`
+- Веб-сервис: `dcefdeb feat: complete Notion-like editor - file uploads, no borders, scroll fade, materials counter` ✅ **ЗАДЕПЛОЕНО**
+- Мини-апп: `c521067 feat: update types for content_blocks structure`
+
+**ВАЖНО:** Версия `dcefdeb` задеплоена на Railway и работает! Все элементы на месте:
+- ✅ Заголовок в 2 строки
+- ✅ Зеленая кнопка деплой
+- ✅ Панель действий с "добавить заголовок" и "добавить материал"
+- ✅ Notion-like редактор с кнопками "+"
+- ✅ Scroll fade на контент
+
+**GitHub Token (в .env.local обоих проектов):**
+```
+GITHUB_TOKEN=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
+```
+
+**Supabase (уже в коде):**
+```
+URL: https://lwjsbflvsmscfrdkejia.supabase.co
+Service Role Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2OTAyODMyMSwiZXhwIjoyMDg0NjA0MzIxfQ.zfYvrRAWoeRoOyc-wWTyQPGAzYRHTYPXZwNHL1CRcOY
+```
 
 ---
 
+## 🔑 КРЕДЕНШИАЛЫ И ДОСТУПЫ
+
+**GitHub Token (для деплоя):**
+```bash
+# В .env.local обоих проектов:
+GITHUB_TOKEN=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
+```
+
+**Команда деплоя веб-сервиса:**
+```bash
+cd /Users/user/.cursor/worktrees/_________/kra/metaflora-service
+git add -A
+git commit -m "fix: your commit message"
+git remote set-url origin https://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@github.com/metaflora-app/service.git
+git push origin clean-main:main
+git remote set-url origin git@github.com:metaflora-app/service.git
+```
+
+**Команда деплоя мини-аппа:**
+```bash
+cd /Users/user/Desktop/метафлора
+git add -A
+git commit -m "fix: your commit message"
+git remote set-url origin https://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@github.com/metaflora-app/metaflora.git
+git push origin fix-bonus-with-photo:main
+git remote set-url origin git@github.com:metaflora-app/metaflora.git
+```
+
+---
+
+## ⚠️ КРИТИЧНЫЕ ПРОБЛЕМЫ
+
+### 1. RLS Политики Supabase - ОБЯЗАТЕЛЬНО ВЫПОЛНИТЬ!
+
+Зайди в Supabase SQL Editor (https://supabase.com/dashboard/project/lwjsbflvsmscfrdkejia/sql/new):
+
+```sql
+-- Таблица polygon_articles
+DROP POLICY IF EXISTS "Allow all operations for service role" ON polygon_articles;
+CREATE POLICY "Allow all operations for service role"
+ON polygon_articles FOR ALL TO service_role USING (true) WITH CHECK (true);
+
+-- Storage для polygon-covers
+DROP POLICY IF EXISTS "Allow public read access to polygon covers" ON storage.objects;
+CREATE POLICY "Allow public read access to polygon covers"
+ON storage.objects FOR SELECT USING (bucket_id = 'polygon-covers');
+
+DROP POLICY IF EXISTS "Allow authenticated uploads to polygon covers" ON storage.objects;
+CREATE POLICY "Allow authenticated uploads to polygon covers"
+ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'polygon-covers');
+
+DROP POLICY IF EXISTS "Allow authenticated updates to polygon covers" ON storage.objects;
+CREATE POLICY "Allow authenticated updates to polygon covers"
+ON storage.objects FOR UPDATE USING (bucket_id = 'polygon-covers');
+
+DROP POLICY IF EXISTS "Allow authenticated deletes to polygon covers" ON storage.objects;
+CREATE POLICY "Allow authenticated deletes to polygon covers"
+ON storage.objects FOR DELETE USING (bucket_id = 'polygon-covers');
+```
+
+### 2. polygon-card-large - ГОТОВО! ✅
+
+**Файл:** `/Users/user/.cursor/worktrees/_________/kra/metaflora-service/app/dashboard/content/polygon-card-large/page.tsx`
+
+**Текущая версия (коммит dcefdeb) - ЗАДЕПЛОЕНА:**
+- ✅ Заголовок "карточка статьи" в 2 строки (lineHeight: 1.1)
+- ✅ Кнопка "деплой" зеленая (#4CAF50) как в workshop-card-large
+- ✅ Кнопка "удалить карточку" (красная)
+- ✅ Панель "действия" с двумя секциями:
+  - "добавить заголовок" с кнопкой "открыть"
+  - "добавить материал" с кнопкой "открыть"
+- ✅ Notion-like редактор с блоками (текст/фото/видео/промпт)
+- ✅ Кнопки ↑ ↓ × для управления блоками
+- ✅ Кнопки "+" для вставки блоков после каждого элемента
+- ✅ Scroll fade на черную область контента (maskImage gradient)
+- ✅ Правая карточка подвинута ближе (left: 1050px)
+- ✅ Размеры: подложка 1004×1482px, черный фон 898×1376px
+- ✅ FileUpload для фото/видео
+- ✅ Секция "материалы" внизу (если есть загруженные файлы)
+- ✅ Overflow: hidden на всех textarea/input
+
+**Структура файла (1019 строк):**
+- Заголовок в 2 строки
+- Кнопка деплой (зеленая CSS button)
+- Кнопка удалить карточку
+- Панель действий (left: 353px, width: 481px)
+- Превью карточки (left: 1050px, width: 1004px)
+
+---
+
+## 📋 ТЕКУЩЕЕ СОСТОЯНИЕ ПОЛИГОНА
+
+### Веб-сервис (CMS) - ГОТОВО ✅
+**Коммит:** `aa799ef` + следующий коммит
+
+**polygon-card-large реализовано:**
+- ✅ Заголовок "карточка статьи" в 1 строку
+- ✅ Зеленая кнопка "деплой"
+- ✅ Красная кнопка "удалить карточку"
+- ✅ Панель "действия" расширяется вниз (minHeight, без скролла)
+- ✅ Секция "добавить заголовок" с кнопкой "открыть"
+- ✅ Секция "добавить материалы" с плюсиком
+- ✅ FileUpload для материалов (любые файлы, multiple: true)
+- ✅ Notion-like редактор с 4 плюсиками:
+  - 1-й: текст (contentEditable, сохраняет абзацы)
+  - 2-й: фото (FileUpload)
+  - 3-й: материалы (плашка "материалы" + "скачать файлы (N)")
+  - 4-й: промпт (contentEditable)
+- ✅ Кнопки ↑ ↓ × для управления блоками
+- ✅ Блок материалов показывает плашку PNG + кликабельный текст
+- ✅ API endpoint /api/bot/send-materials для отправки в бота
+- ✅ Правая карточка подвинута (left: 900px)
+- ✅ Scroll fade на превью
+- ✅ Расстояния между блоками: 15px
+
+**ВАЖНО:** Нужно выполнить SQL из `SUPABASE_ALLOW_ALL_MIME_TYPES.sql` для загрузки файлов!
+
+### Мини-апп - ТРЕБУЕТ ОБНОВЛЕНИЯ ⚠️
+
+**Что нужно сделать:**
+
 ## 🎯 ЗАДАЧИ ДЛЯ СЛЕДУЮЩЕГО АГЕНТА - ПОЛИГОН
 
-### 1. Создать preview компоненты для статей (КРИТИЧНО)
+### 1. Обновить мини-апп для статей (КРИТИЧНО)
 
-**ArticleCardSmallPreview.tsx:**
-- Путь: `/Users/user/.cursor/worktrees/_________/kra/metaflora-service/components/previews/ArticleCardSmallPreview.tsx`
-- Скопировать ТОЧНУЮ структуру карточки из `/Users/user/.cursor/worktrees/_________/rpi/src/screens/poligon-articles-all/PoligonArticlesAllScreen.tsx` (функция renderArticleCard)
+**Компоненты для мини-аппа (СОПОСТАВИТЬ!):**
+
+**Экран "Все статьи в полигоне":**
+- Путь: `/Users/user/.cursor/worktrees/_________/rpi/src/screens/poligon-articles-all/PoligonArticlesAllScreen.tsx`
+- Функция: `renderArticleCard`
 - Размеры: 894×249px
-- Элементы: обложка (450px), текстовый блок с blur, кнопка "читать", плашка "новое"
-- Динамическое обновление при вводе данных
+- Элементы: обложка, текст с blur, кнопка "читать", плашка "новое"
 
-**ArticleCardLargePreview.tsx:**
-- Путь: `/Users/user/.cursor/worktrees/_________/kra/metaflora-service/components/previews/ArticleCardLargePreview.tsx`
-- Скопировать структуру из `/Users/user/.cursor/worktrees/_________/rpi/src/screens/article/ArticleScreen.tsx`
-- Отображать content_blocks в правильном порядке (текст/фото/видео/промпт)
-- Масштаб: scale(0.5) для превью
+**Экран "Как выглядит статья":**
+- Путь: `/Users/user/.cursor/worktrees/_________/rpi/src/screens/article/ArticleScreen.tsx`
+- Должен отображать `content_blocks` из API
+- Блоки: text, image, materials (не video!), prompt
+- Блок materials показывает: плашку "материалы" + текст "скачать файлы (N)"
+- При клике на текст - отправка материалов в бота
+
+**ВАЖНО:** Типы уже обновлены в коммите `c521067`, но рендер блоков НЕ реализован!
 
 ### 2. Обновить форму polygon-card-small
 
