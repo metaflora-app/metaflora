@@ -11,7 +11,6 @@ import promptButton from '../../assets/about-screens/промпт плашка.p
 import materialsButton from '../../assets/about-screens/кнопка материалы.png';
 
 // Figma assets
-const houseImage = "https://www.figma.com/api/mcp/asset/7a033aad-547d-43bc-891b-d54f93c946d2";
 const logoFooterImg = "https://www.figma.com/api/mcp/asset/83bbfd9e-39b1-4eee-a1c6-18121694291e";
 const socialsImg = "https://www.figma.com/api/mcp/asset/16f3197d-c198-4ab6-a00b-d05fe08fa6cf";
 const peopleCircleImg = "https://www.figma.com/api/mcp/asset/ff88c2f3-4c40-4ea4-81fc-b9b478d773e0";
@@ -60,6 +59,204 @@ export const ArticleScreen: React.FC = () => {
   const articleTitle = article?.title || 'морфинг через общие элементы';
   const articleAnnotation = article?.annotation || 'Аннотация статьи';
   const contentBlocks = article?.content_blocks || [];
+
+  // Функция для отправки материалов в бота
+  const handleSendMaterials = async () => {
+    if (!article?.id) return;
+    
+    try {
+      const response = await fetch(`https://metaflora-service-production.up.railway.app/api/bot/send-materials`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          articleId: article.id,
+          userId: 'telegram_user_id', // TODO: получить из Telegram WebApp
+        }),
+      });
+
+      if (response.ok) {
+        alert('Материалы отправлены в бота!');
+      } else {
+        alert('Ошибка при отправке материалов');
+      }
+    } catch (error) {
+      console.error('Error sending materials:', error);
+      alert('Ошибка при отправке материалов');
+    }
+  };
+
+  // Рендер блока контента
+  const renderContentBlock = (block: any, yOffset: number) => {
+    const baseTop = 645 + yOffset;
+
+    switch (block.type) {
+      case 'text':
+        return (
+          <div
+            key={block.id}
+            style={{
+              position: 'absolute',
+              left: '174px',
+              top: `${baseTop}px`,
+              width: '833px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              fontSize: '35px',
+              lineHeight: 1.2,
+              color: 'white',
+              textAlign: 'left',
+              whiteSpace: 'pre-wrap',
+              marginBottom: '30px',
+            }}
+          >
+            {block.content}
+          </div>
+        );
+
+      case 'image':
+        return (
+          <div
+            key={block.id}
+            style={{
+              position: 'absolute',
+              left: '173px',
+              top: `${baseTop}px`,
+              width: '835px',
+              height: '362px',
+              border: '2px solid rgba(0, 0, 0, 0.3)',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              marginBottom: '30px',
+            }}
+          >
+            <img
+              src={block.content}
+              alt="Изображение"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        );
+
+      case 'prompt':
+        return (
+          <div key={block.id}>
+            <img
+              src={promptButton}
+              alt="промпт"
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '467px',
+                top: `${baseTop}px`,
+                width: '247px',
+                height: '79px',
+                objectFit: 'contain',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                left: '204px',
+                top: `${baseTop + 125}px`,
+                width: '772px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                fontSize: '35px',
+                lineHeight: 1.2,
+                color: 'white',
+                textAlign: 'center',
+                whiteSpace: 'pre-wrap',
+                marginBottom: '30px',
+              }}
+            >
+              {block.content}
+            </div>
+          </div>
+        );
+
+      case 'materials':
+        // Парсим количество материалов из content (формат: "N" или JSON)
+        let materialsCount = 0;
+        try {
+          const parsed = JSON.parse(block.content);
+          materialsCount = Array.isArray(parsed) ? parsed.length : 0;
+        } catch {
+          materialsCount = parseInt(block.content) || 0;
+        }
+
+        return (
+          <div key={block.id}>
+            <img
+              src={materialsButton}
+              alt="материалы"
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '467px',
+                top: `${baseTop}px`,
+                width: '247px',
+                height: '79px',
+                objectFit: 'contain',
+              }}
+            />
+            <div
+              onClick={handleSendMaterials}
+              style={{
+                position: 'absolute',
+                left: '388px',
+                top: `${baseTop + 118}px`,
+                width: '405px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '32px',
+                lineHeight: 1,
+                color: 'white',
+                textAlign: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              скачать файлы ({materialsCount})
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // Вычисляем позиции блоков
+  let currentYOffset = 0;
+  const renderedBlocks = contentBlocks.map((block) => {
+    const rendered = renderContentBlock(block, currentYOffset);
+    
+    // Увеличиваем смещение в зависимости от типа блока
+    switch (block.type) {
+      case 'text':
+        currentYOffset += 150; // Примерная высота текстового блока
+        break;
+      case 'image':
+        currentYOffset += 392; // 362px высота + 30px отступ
+        break;
+      case 'prompt':
+        currentYOffset += 300; // Кнопка + текст промпта
+        break;
+      case 'materials':
+        currentYOffset += 200; // Кнопка + текст
+        break;
+    }
+    
+    return rendered;
+  });
 
   return (
     <div style={{
@@ -242,129 +439,20 @@ export const ArticleScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '174px',
-          top: '645px',
+          top: '593px',
           width: '833px',
-          height: '180px',
           fontFamily: 'Gotham Pro',
           fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: 1,
-          color: 'white',
+          fontSize: '30px',
+          lineHeight: 1.2,
+          color: 'rgba(255, 255, 255, 0.8)',
           textAlign: 'center',
         }}>
-          <p style={{ margin: 0 }}>{articleContent}</p>
+          <p style={{ margin: 0 }}>{articleAnnotation}</p>
         </div>
 
-        <div style={{
-          position: 'absolute',
-          left: '173px',
-          top: '886px',
-          width: '835px',
-          height: '362px',
-          border: '2px solid rgba(0, 0, 0, 0.3)',
-          borderRadius: '20px',
-          overflow: 'hidden',
-        }}>
-          <img 
-            src={articleCover}
-            alt={articleTitle}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
-
-        <img 
-          src={promptButton}
-          alt="промпт"
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '467px',
-            top: '1302px',
-            width: '247px',
-            height: '79px',
-            objectFit: 'contain',
-          }}
-        />
-
-        <div style={{
-          position: 'absolute',
-          left: '204px',
-          top: '1427px',
-          width: '772px',
-          height: '340px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: 1,
-          color: 'white',
-          textAlign: 'center',
-          overflow: 'auto',
-        }}>
-          <p style={{ margin: 0 }}>A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.</p>
-          <p style={{ margin: 0 }}>А второй клип начинается с солнца, которое тоже заполняет кадр:</p>
-          <p style={{ margin: 0 }}>&nbsp;</p>
-          <p style={{ margin: 0 }}>A bright orange sun rising over the ocean horizon, starting as a small glowing orb that.</p>
-        </div>
-
-        <img 
-          src={materialsButton}
-          alt="материалы"
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '467px',
-            top: '1789px',
-            width: '247px',
-            height: '79px',
-            objectFit: 'contain',
-          }}
-        />
-
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          left: '754px',
-          top: '1907px',
-          width: '35px',
-          height: '35px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-          overflow: 'clip',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            width: '15px',
-            height: '15px',
-            background: 'white',
-            clipPath: 'polygon(45% 0%, 55% 0%, 55% 45%, 100% 45%, 100% 55%, 55% 55%, 55% 100%, 45% 100%, 45% 55%, 0% 55%, 0% 45%, 45% 45%)',
-          }} />
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          left: '388px',
-          top: '1901px',
-          width: '405px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 500,
-          fontSize: '32px',
-          lineHeight: 1,
-          color: 'white',
-          textAlign: 'center',
-        }}>
-          скачать файлы (5)
-        </div>
+        {/* Динамический рендер content_blocks */}
+        {renderedBlocks}
 
         <div style={{
           position: 'absolute',

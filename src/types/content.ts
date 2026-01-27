@@ -33,7 +33,7 @@ export interface WorkshopPromptInput {
 // ПОЛИГОН - Статьи
 export interface ContentBlock {
   id: string;
-  type: 'text' | 'image' | 'video' | 'prompt';
+  type: 'text' | 'image' | 'materials' | 'prompt';
   content: string;
 }
 
