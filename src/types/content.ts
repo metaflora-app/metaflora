@@ -108,6 +108,7 @@ export interface AcademyLesson {
   cover_image_url: string | null;
   annotation: string | null;
   prompt_text: string | null;
+  materials: Material[] | null;
   filter_tags: string[] | null;
   keywords: string[] | null;
   is_active: boolean;

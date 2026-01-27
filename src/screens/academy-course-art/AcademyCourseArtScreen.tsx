@@ -17,7 +17,7 @@ export const AcademyCourseArtScreen: React.FC = () => {
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   const [lessons, setLessons] = useState<AcademyLesson[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     loadLessons();

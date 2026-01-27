@@ -22,7 +22,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     if (lessonId) {

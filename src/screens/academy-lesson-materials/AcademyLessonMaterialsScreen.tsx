@@ -20,7 +20,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     if (lessonId) {
@@ -316,7 +316,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                     body: JSON.stringify({
                       materials: lesson.materials,
                       lessonTitle: lesson.title,
-                      userId: window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 'unknown',
+                      userId: (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id || 'unknown',
                     }),
                   });
                   

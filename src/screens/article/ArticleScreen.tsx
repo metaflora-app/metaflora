@@ -141,23 +141,46 @@ export const ArticleScreen: React.FC = () => {
         );
 
       case 'image':
+        const expandImage = () => {
+          const win = window.open('', '_blank');
+          if (win) {
+            win.document.write(`
+              <html>
+                <head>
+                  <title>Изображение</title>
+                  <style>
+                    body { margin: 0; background: black; display: flex; align-items: center; justify-content: center; height: 100vh; }
+                    img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+                  </style>
+                </head>
+                <body><img src="${block.content}" /></body>
+              </html>
+            `);
+          }
+        };
+        
         return (
           <div
             key={block.id}
             style={{
               width: '100%',
               position: 'relative',
+              marginTop: '30px',
               marginBottom: '30px',
             }}
           >
-            <div style={{
-              width: '100%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '20px',
-              overflow: 'hidden',
-              minHeight: '362px',
-              position: 'relative',
-            }}>
+            <div 
+              onClick={expandImage}
+              style={{
+                width: '100%',
+                border: '2px solid rgba(0, 0, 0, 0.3)',
+                borderRadius: '20px',
+                overflow: 'hidden',
+                minHeight: '362px',
+                position: 'relative',
+                cursor: 'pointer',
+              }}
+            >
               <img
                 src={block.content}
                 alt="Изображение"
@@ -175,21 +198,7 @@ export const ArticleScreen: React.FC = () => {
               alt="развернуть"
               onClick={(e) => {
                 e.stopPropagation();
-                const win = window.open('', '_blank');
-                if (win) {
-                  win.document.write(`
-                    <html>
-                      <head>
-                        <title>Изображение</title>
-                        <style>
-                          body { margin: 0; background: black; display: flex; align-items: center; justify-content: center; height: 100vh; }
-                          img { max-width: 100%; max-height: 100vh; object-fit: contain; }
-                        </style>
-                      </head>
-                      <body><img src="${block.content}" /></body>
-                    </html>
-                  `);
-                }
+                expandImage();
               }}
               className="button-inner-glow"
               style={{
