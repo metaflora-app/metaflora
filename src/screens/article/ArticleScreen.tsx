@@ -132,7 +132,7 @@ export const ArticleScreen: React.FC = () => {
               minHeight: '50px',
               whiteSpace: 'pre-wrap',
               wordBreak: 'break-word',
-              marginBottom: '15px',
+              marginBottom: '30px',
             }}
           >
             {block.content}
@@ -147,10 +147,10 @@ export const ArticleScreen: React.FC = () => {
               width: '100%',
               border: '2px solid rgba(0, 0, 0, 0.3)',
               borderRadius: '20px',
-              overflow: 'hidden',
+              overflow: 'visible',
               minHeight: '362px',
               position: 'relative',
-              marginBottom: '15px',
+              marginBottom: '30px',
             }}
           >
             <img
@@ -160,13 +160,15 @@ export const ArticleScreen: React.FC = () => {
                 width: '100%',
                 height: 'auto',
                 objectFit: 'cover',
+                borderRadius: '20px',
               }}
             />
             {/* Кнопка развернуть */}
             <img
               src={expandButton}
               alt="развернуть"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 const win = window.open('', '_blank');
                 if (win) {
                   win.document.write(`
@@ -187,22 +189,18 @@ export const ArticleScreen: React.FC = () => {
                 position: 'absolute',
                 right: '15px',
                 bottom: '15px',
-                width: '40px',
-                height: '40px',
+                width: '60px',
+                height: '60px',
                 cursor: 'pointer',
-                zIndex: 10,
-                opacity: 0.8,
-                transition: 'opacity 0.2s',
+                zIndex: 100,
               }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
             />
           </div>
         );
 
       case 'prompt':
         return (
-          <div key={block.id} style={{ marginBottom: '15px' }}>
+          <div key={block.id} style={{ marginBottom: '30px', marginTop: '40px' }}>
             <img
               src={promptButton}
               alt="промпт"
@@ -210,7 +208,7 @@ export const ArticleScreen: React.FC = () => {
               style={{
                 width: '247px',
                 height: '79px',
-                margin: '0 auto 20px auto',
+                margin: '0 auto 30px auto',
                 display: 'block',
                 objectFit: 'contain',
               }}
@@ -243,7 +241,7 @@ export const ArticleScreen: React.FC = () => {
         }
 
         return (
-          <div key={block.id} style={{ marginTop: '60px', marginBottom: '15px' }}>
+          <div key={block.id} style={{ marginTop: '60px', marginBottom: '30px' }}>
             <img
               src={materialsButton}
               alt="материалы"
@@ -260,7 +258,7 @@ export const ArticleScreen: React.FC = () => {
               onClick={handleSendMaterials}
               style={{
                 fontFamily: 'Gotham Pro',
-                fontWeight: 300,
+                fontWeight: 500,
                 fontSize: '32px',
                 lineHeight: 1,
                 color: 'white',
@@ -458,7 +456,7 @@ export const ArticleScreen: React.FC = () => {
                 lineHeight: 1,
                 color: 'white',
                 textAlign: 'center',
-                margin: '0 0 40px 0',
+                margin: '0 0 50px 0',
               }}>
                 {articleTitle}
               </h2>
