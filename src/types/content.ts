@@ -98,6 +98,13 @@ export interface AcademyCourseInput {
   order_index?: number;
 }
 
+// Материалы (используется в Полигоне и Академии)
+export interface Material {
+  name: string;
+  url: string;
+  size: string;
+}
+
 // АКАДЕМИЯ - Уроки
 export interface AcademyLesson {
   id: string;
