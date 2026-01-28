@@ -201,7 +201,9 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             controls
             playsInline
             controlsList="nodownload"
-            preload="metadata"
+            preload="auto"
+            webkit-playsinline="true"
+            x-webkit-airplay="allow"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
@@ -212,8 +214,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               width: '100%',
               height: '100%',
               objectFit: 'contain',
-              borderRadius: '40px',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '0',
+              border: 'none',
               backgroundColor: '#000',
             }}
           />
