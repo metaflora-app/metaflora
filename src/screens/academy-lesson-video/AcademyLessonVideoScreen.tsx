@@ -194,7 +194,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           left: '142px',
           top: '401px',
           width: '891px',
-          height: '501px',
+          height: '1457px',
         }}>
           <video
             ref={videoRef}
