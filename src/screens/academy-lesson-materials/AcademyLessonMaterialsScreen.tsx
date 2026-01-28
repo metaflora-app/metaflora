@@ -42,9 +42,12 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
     if (!scrollRef.current || !lessonId || lessonType !== 'academy') return;
     
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+    
+    // Если контент короткий (нет скролла), засчитываем сразу
+    const hasScroll = scrollHeight > clientHeight;
     const scrollPercent = ((scrollTop + clientHeight) / scrollHeight) * 100;
     
-    if (scrollPercent >= 95) {
+    if (!hasScroll || scrollPercent >= 95) {
       const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
       if (!progressData[lessonId]) progressData[lessonId] = {};
       progressData[lessonId].materialsRead = true;
@@ -52,6 +55,13 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       checkLessonCompletion(lessonId);
     }
   };
+
+  useEffect(() => {
+    // Проверить при загрузке - если нет скролла, засчитать сразу
+    if (scrollRef.current && lessonId && lessonType === 'academy') {
+      setTimeout(() => handleScroll(), 500);
+    }
+  }, [lesson]);
 
   useEffect(() => {
     if (lessonId) {
