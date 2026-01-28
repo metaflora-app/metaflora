@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAcademyLessons } from '../../utils/contentApi';
+import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
 import type { AcademyLesson } from '../../types/content';
 
 // Images
@@ -26,7 +26,17 @@ export const AcademyCourseArtScreen: React.FC = () => {
   const loadLessons = async () => {
     setLoading(true);
     try {
-      const result = await getAcademyLessons('искусство', { isActive: true });
+      // Сначала получаем курс по типу
+      const courseResult = await getAcademyCourses({ courseType: 'искусство', isActive: true });
+      if (courseResult.error || !courseResult.data || courseResult.data.length === 0) {
+        console.error('Course not found');
+        return;
+      }
+      
+      const courseId = courseResult.data[0].id;
+      
+      // Теперь получаем уроки по ID курса
+      const result = await getAcademyLessons(courseId, { isActive: true });
       if (!result.error && result.data) {
         setLessons(result.data);
       }
