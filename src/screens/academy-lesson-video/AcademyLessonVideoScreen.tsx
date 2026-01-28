@@ -25,6 +25,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (lessonId) {
@@ -33,6 +35,44 @@ export const AcademyLessonVideoScreen: React.FC = () => {
       setLoading(false);
     }
   }, [lessonId]);
+
+  const checkLessonCompletion = (id: string) => {
+    const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+    const lessonProgress = progressData[id];
+    
+    if (lessonProgress?.videoWatched && lessonProgress?.materialsRead) {
+      const completed = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
+      if (!completed.includes(id)) {
+        completed.push(id);
+        localStorage.setItem('academy-lessons-completed', JSON.stringify(completed));
+      }
+    }
+  };
+
+  const handleVideoProgress = () => {
+    if (!videoRef.current || !lessonId || lessonType !== 'academy') return;
+    
+    const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+    
+    if (progress >= 80) {
+      const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+      if (!progressData[lessonId]) progressData[lessonId] = {};
+      progressData[lessonId].videoWatched = true;
+      localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
+      checkLessonCompletion(lessonId);
+    }
+  };
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const loadLesson = async (id: string) => {
     setLoading(true);
@@ -167,26 +207,46 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           width: '891px',
           height: '1457px',
         }}>
-          {/* Фоновое изображение видео */}
+          {/* Видео элемент */}
           <div style={{
             position: 'absolute',
             inset: 0,
             borderRadius: '40px',
           }}>
-            <img 
-              src={video?.video_url || videoThumbnail}
-              alt="Видео обзор"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '40px',
-                maxWidth: 'none',
-                pointerEvents: 'none',
-              }}
-            />
+            {video?.video_url ? (
+              <video
+                ref={videoRef}
+                src={video.video_url}
+                onTimeUpdate={handleVideoProgress}
+                onEnded={() => {
+                  setIsPlaying(false);
+                  handleVideoProgress();
+                }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '40px',
+                }}
+              />
+            ) : (
+              <img 
+                src={videoThumbnail}
+                alt="Видео обзор"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '40px',
+                  maxWidth: 'none',
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
           </div>
 
           {/* Blur слой на видео */}
@@ -201,62 +261,72 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           }} />
 
           {/* Кнопка плей */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            top: '42.48%',
-            right: '44.33%',
-            bottom: '50.79%',
-            left: '44.67%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Иконка плей - 100% размера круга */}
-            <img 
-              src={playIcon}
-              alt="плей"
+          {!isPlaying && (
+            <div 
+              onClick={togglePlay}
+              className="blur-wave" 
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
+                position: 'absolute',
+                top: '42.48%',
+                right: '44.33%',
+                bottom: '50.79%',
+                left: '44.67%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '62px',
+                overflow: 'clip',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-            />
-          </div>
+            >
+              <img 
+                src={playIcon}
+                alt="плей"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            </div>
+          )}
 
-          {/* Кнопка стоп (пауза) */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            top: '49.97%',
-            right: '44.22%',
-            bottom: '43.31%',
-            left: '44.78%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Иконка паузы - 100% размера круга */}
-            <img 
-              src={pauseIcon}
-              alt="стоп"
+          {/* Кнопка пауза */}
+          {isPlaying && (
+            <div 
+              onClick={togglePlay}
+              className="blur-wave" 
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
+                position: 'absolute',
+                top: '49.97%',
+                right: '44.22%',
+                bottom: '43.31%',
+                left: '44.78%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '62px',
+                overflow: 'clip',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-            />
-          </div>
+            >
+              <img 
+                src={pauseIcon}
+                alt="стоп"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            </div>
+          )}
 
           {/* Кнопка развернуть видео */}
           <div className="blur-wave" style={{

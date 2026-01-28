@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -16,20 +17,61 @@ import peopleLogo from '../../assets/about-screens/лого люди на фон
 
 export const AcademyCoursesAllScreen: React.FC = () => {
   const navigate = useNavigate();
-
-  // Прогресс курсов (4 курса всего)
-  const [courseProgress] = React.useState(() => {
-    const completed = JSON.parse(localStorage.getItem('academy-courses-completed') || '[]');
-    return {
-      completed: completed as string[],
-      percentage: Math.round((completed.length / 4) * 100)
-    };
-  });
-
-  const isCourseCompleted = (courseId: string) => courseProgress.completed.includes(courseId);
-
-  // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  
+  const [totalLessons, setTotalLessons] = useState(0);
+  const [completedLessons, setCompletedLessons] = useState(0);
+  const [courseStatuses, setCourseStatuses] = useState<{[key: string]: 'not_started' | 'in_progress' | 'completed'}>({});
+
+  useEffect(() => {
+    calculateProgress();
+  }, []);
+
+  const calculateProgress = async () => {
+    try {
+      const courseTypes = ['искусство', 'промптинг', 'система', 'автоматизация'];
+      const completedLessonIds = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
+      
+      let total = 0;
+      const statuses: {[key: string]: 'not_started' | 'in_progress' | 'completed'} = {};
+      
+      for (const courseType of courseTypes) {
+        const courseResult = await getAcademyCourses({ courseType, isActive: true });
+        if (!courseResult.data || courseResult.data.length === 0) continue;
+        
+        const courseId = courseResult.data[0].id;
+        const lessonsResult = await getAcademyLessons(courseId, { isActive: true });
+        const lessons = lessonsResult.data || [];
+        
+        total += lessons.length;
+        
+        const completedInCourse = lessons.filter(l => completedLessonIds.includes(l.id)).length;
+        
+        if (completedInCourse === 0) {
+          statuses[courseType] = 'not_started';
+        } else if (completedInCourse === lessons.length && lessons.length > 0) {
+          statuses[courseType] = 'completed';
+        } else {
+          statuses[courseType] = 'in_progress';
+        }
+      }
+      
+      setTotalLessons(total);
+      setCompletedLessons(completedLessonIds.length);
+      setCourseStatuses(statuses);
+    } catch (error) {
+      console.error('Error calculating progress:', error);
+    }
+  };
+
+  const percentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+  const getCourseColor = (courseType: string) => {
+    const status = courseStatuses[courseType];
+    if (status === 'completed') return '#d5fc44';
+    if (status === 'in_progress') return '#f8d050';
+    return '#dc2626';
+  };
 
   return (
     <div style={{
@@ -143,7 +185,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           }}>
             <p style={{ margin: 0, lineHeight: '1' }}>
               <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>пройдено </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>{courseProgress.percentage}% курсов академии. </span>
+              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>{percentage}% уроков академии. </span>
               <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>Сongratulations!</span>
             </p>
           </div>
@@ -265,7 +307,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('system') ? '#d5fc44' : '#f8d050',
+              background: getCourseColor('система'),
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
@@ -374,7 +416,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('art') ? '#d5fc44' : '#f8d050',
+              background: getCourseColor('искусство'),
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
@@ -483,7 +525,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('prompting') ? '#d5fc44' : '#f8d050',
+              background: getCourseColor('промптинг'),
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />
@@ -592,7 +634,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               width: '16px',
               height: '16px',
               backdropFilter: 'blur(50px)',
-              background: isCourseCompleted('automation') ? '#d5fc44' : '#f8d050',
+              background: getCourseColor('автоматизация'),
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
             }} />

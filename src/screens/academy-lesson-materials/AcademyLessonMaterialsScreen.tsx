@@ -23,6 +23,35 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [, setLoading] = useState(true);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const checkLessonCompletion = (id: string) => {
+    const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+    const lessonProgress = progressData[id];
+    
+    if (lessonProgress?.videoWatched && lessonProgress?.materialsRead) {
+      const completed = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
+      if (!completed.includes(id)) {
+        completed.push(id);
+        localStorage.setItem('academy-lessons-completed', JSON.stringify(completed));
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    if (!scrollRef.current || !lessonId || lessonType !== 'academy') return;
+    
+    const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+    const scrollPercent = ((scrollTop + clientHeight) / scrollHeight) * 100;
+    
+    if (scrollPercent >= 95) {
+      const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+      if (!progressData[lessonId]) progressData[lessonId] = {};
+      progressData[lessonId].materialsRead = true;
+      localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
+      checkLessonCompletion(lessonId);
+    }
+  };
 
   useEffect(() => {
     if (lessonId) {
@@ -459,15 +488,19 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           overflow: 'hidden',
         }}>
           {/* Контент с скроллом И ФЕЙДОМ - СКОПИРОВАНО ИЗ ПОЛИГОНА */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflowY: 'auto',
-            padding: '40px',
-            paddingBottom: '120px',
-            WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
-            maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
-          }}>
+          <div 
+            ref={scrollRef}
+            onScroll={handleScroll}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              overflowY: 'auto',
+              padding: '40px',
+              paddingBottom: '120px',
+              WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+            }}
+          >
             {/* Заголовок */}
             <h2 style={{
               fontFamily: 'Inter',
