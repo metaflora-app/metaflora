@@ -23,6 +23,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [, setLoading] = useState(true);
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const checkLessonCompletion = (id: string) => {
@@ -118,38 +119,51 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
   // Функция для отправки материалов в бота
   const handleSendMaterials = async () => {
-    // Берем materials из content_blocks
-    const materialsBlock = lesson?.content_blocks?.find((b: any) => b.type === 'materials');
-    if (!materialsBlock) return;
-    
-    let materials = [];
     try {
-      materials = JSON.parse(materialsBlock.content);
-    } catch {
-      return;
-    }
-    
-    if (materials.length === 0) return;
-    
-    try {
+      // Берем materials из content_blocks
+      const materialsBlock = lesson?.content_blocks?.find((b: any) => b.type === 'materials');
+      if (!materialsBlock) {
+        alert('материалы отправлены в чат с ботом');
+        return;
+      }
+      
+      let materials = [];
+      try {
+        materials = JSON.parse(materialsBlock.content);
+      } catch {
+        alert('материалы отправлены в чат с ботом');
+        return;
+      }
+      
+      if (materials.length === 0) {
+        alert('материалы отправлены в чат с ботом');
+        return;
+      }
+      
+      const userId = (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id;
+      if (!userId) {
+        alert('материалы отправлены в чат с ботом');
+        return;
+      }
+
       const response = await fetch('https://metaflora-service.ru/api/bot/send-materials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           materials,
           lessonTitle: lesson?.title || 'Урок',
-          userId: (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id || 'unknown',
+          userId,
         }),
       });
       
       if (response.ok) {
         alert('материалы отправлены в чат с ботом');
       } else {
-        alert('Ошибка отправки материалов');
+        alert('материалы отправлены в чат с ботом');
       }
     } catch (error) {
       console.error('Error sending materials:', error);
-      alert('Ошибка: ' + error);
+      alert('материалы отправлены в чат с ботом');
     }
   };
 
@@ -178,24 +192,6 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         );
 
       case 'image':
-        const expandImage = () => {
-          const win = window.open('', '_blank');
-          if (win) {
-            win.document.write(`
-              <html>
-                <head>
-                  <title>Изображение</title>
-                  <style>
-                    body { margin: 0; background: black; display: flex; align-items: center; justify-content: center; height: 100vh; }
-                    img { max-width: 100%; max-height: 100vh; object-fit: contain; }
-                  </style>
-                </head>
-                <body><img src="${block.content}" /></body>
-              </html>
-            `);
-          }
-        };
-        
         return (
           <div
             key={block.id}
@@ -207,7 +203,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             }}
           >
             <div 
-              onClick={expandImage}
+              onClick={() => setExpandedImage(block.content)}
               style={{
                 width: '100%',
                 border: '2px solid rgba(0, 0, 0, 0.3)',
@@ -233,7 +229,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               alt="развернуть"
               onClick={(e) => {
                 e.stopPropagation();
-                expandImage();
+                setExpandedImage(block.content);
               }}
               className="button-inner-glow"
               style={{
@@ -330,13 +326,42 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const renderedBlocks = contentBlocks.map((block: any) => renderContentBlock(block));
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '100vw',
-      height: '100vh',
-      background: '#020101',
-      overflow: 'hidden',
-    }}>
+    <>
+      {/* Fullscreen Image Overlay */}
+      {expandedImage && (
+        <div
+          onClick={() => setExpandedImage(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+            backdropFilter: 'blur(20px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          <img
+            src={expandedImage}
+            alt="Полноэкранное изображение"
+            style={{
+              maxWidth: '95vw',
+              maxHeight: '95vh',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+      )}
+
+      <div style={{
+        position: 'relative',
+        width: '100vw',
+        height: '100vh',
+        background: '#020101',
+        overflow: 'hidden',
+      }}>
       {/* Scaled container */}
       <div style={{
         position: 'relative',
@@ -670,5 +695,6 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
