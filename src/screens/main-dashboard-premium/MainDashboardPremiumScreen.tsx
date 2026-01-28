@@ -294,7 +294,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             style={{
               position: 'absolute',
               left: '679px',
-              top: '86px',
+              top: '75px',
               width: '247px',
               height: '79px',
               cursor: 'pointer',
