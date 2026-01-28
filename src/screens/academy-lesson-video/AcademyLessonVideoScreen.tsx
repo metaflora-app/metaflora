@@ -24,7 +24,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [showOverlay] = useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
