@@ -234,9 +234,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
 
               <div 
                 onClick={() => {
-                  setShowOverlay(false);
                   if (videoRef.current) {
                     videoRef.current.play();
+                    setTimeout(() => {
+                      videoRef.current?.requestFullscreen?.();
+                    }, 100);
                   }
                 }}
                 className="blur-wave" 
