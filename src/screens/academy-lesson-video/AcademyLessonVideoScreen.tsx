@@ -221,7 +221,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               borderRadius: '30px',
             }}
           >
-            <source src={video?.video_url || testVideo} type="video/mp4" />
+            <source src={video?.video_url || ''} type="video/mp4" />
           </video>
 
           {/* Blur overlay с кнопкой плей */}
