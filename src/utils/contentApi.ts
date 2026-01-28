@@ -356,7 +356,7 @@ export async function getDemoLessons(
 
 export async function getDemoLessonById(
   id: string
-): Promise<ContentSingleResponse<AcademyLesson>> {
+): Promise<ContentItemResponse<AcademyLesson>> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/content/demo-lessons/${id}`);
     
