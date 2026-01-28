@@ -194,14 +194,19 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           playsInline
           controlsList="nodownload"
           preload="auto"
+          crossOrigin="anonymous"
           style={{
             position: 'absolute',
-            left: '142px',
+            left: '50%',
             top: '401px',
-            width: '891px',
-            height: '1457px',
-            objectFit: 'cover',
+            transform: 'translateX(-50%)',
+            width: '90vw',
+            maxWidth: '891px',
+            height: 'auto',
+            aspectRatio: '16/9',
+            objectFit: 'contain',
             backgroundColor: '#000',
+            borderRadius: '20px',
           }}
         />
 
