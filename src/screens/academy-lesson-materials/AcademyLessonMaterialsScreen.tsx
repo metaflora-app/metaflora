@@ -12,6 +12,7 @@ import supportButton from '../../assets/tour-video/support-button.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 import promptButton from '../../assets/about-screens/промпт плашка.png';
 import materialsButton from '../../assets/about-screens/кнопка материалы.png';
+import expandButton from '../../assets/кнопка развернуть.png';
 
 export const AcademyLessonMaterialsScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -43,6 +44,239 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       setLoading(false);
     }
   };
+
+  // Обратная совместимость: если нет content_blocks, создаем из старых полей
+  const getContentBlocks = () => {
+    if (lesson?.content_blocks && lesson.content_blocks.length > 0) {
+      return lesson.content_blocks;
+    }
+    
+    const legacyBlocks: any[] = [];
+    
+    if (lesson?.annotation) {
+      legacyBlocks.push({
+        id: 'legacy-text',
+        type: 'text',
+        content: lesson.annotation,
+      });
+    }
+    
+    if (lesson?.prompt_text) {
+      legacyBlocks.push({
+        id: 'legacy-prompt',
+        type: 'prompt',
+        content: lesson.prompt_text,
+      });
+    }
+    
+    return legacyBlocks;
+  };
+  
+  const contentBlocks = getContentBlocks();
+
+  // Функция для отправки материалов в бота
+  const handleSendMaterials = async () => {
+    if (!lesson?.materials || lesson.materials.length === 0) return;
+    
+    try {
+      const response = await fetch('https://metaflora-service.ru/api/bot/send-materials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          materials: lesson.materials,
+          lessonTitle: lesson.title,
+          userId: (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id || 'unknown',
+        }),
+      });
+      
+      if (response.ok) {
+        if (window.Telegram?.WebApp?.showPopup) {
+          window.Telegram.WebApp.showPopup({
+            message: 'Материалы отправлены в чат с ботом',
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error sending materials:', error);
+    }
+  };
+
+  // Рендер блока контента - СКОПИРОВАНО ИЗ ПОЛИГОНА
+  const renderContentBlock = (block: any) => {
+    switch (block.type) {
+      case 'text':
+        return (
+          <div
+            key={block.id}
+            style={{
+              fontSize: '35px',
+              fontFamily: 'Gotham Pro',
+              fontWeight: 300,
+              color: 'white',
+              textAlign: 'center',
+              minHeight: '50px',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              lineHeight: 1.3,
+              marginBottom: '30px',
+            }}
+          >
+            {block.content}
+          </div>
+        );
+
+      case 'image':
+        const expandImage = () => {
+          const win = window.open('', '_blank');
+          if (win) {
+            win.document.write(`
+              <html>
+                <head>
+                  <title>Изображение</title>
+                  <style>
+                    body { margin: 0; background: black; display: flex; align-items: center; justify-content: center; height: 100vh; }
+                    img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+                  </style>
+                </head>
+                <body><img src="${block.content}" /></body>
+              </html>
+            `);
+          }
+        };
+        
+        return (
+          <div
+            key={block.id}
+            style={{
+              width: '100%',
+              position: 'relative',
+              marginTop: '30px',
+              marginBottom: '30px',
+            }}
+          >
+            <div 
+              onClick={expandImage}
+              style={{
+                width: '100%',
+                border: '2px solid rgba(0, 0, 0, 0.3)',
+                borderRadius: '20px',
+                overflow: 'hidden',
+                minHeight: '362px',
+                position: 'relative',
+                cursor: 'pointer',
+              }}
+            >
+              <img
+                src={block.content}
+                alt="Изображение"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+            </div>
+            <img
+              src={expandButton}
+              alt="развернуть"
+              onClick={(e) => {
+                e.stopPropagation();
+                expandImage();
+              }}
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                right: '20px',
+                bottom: '20px',
+                width: '50px',
+                height: '50px',
+                cursor: 'pointer',
+                zIndex: 1000,
+              }}
+            />
+          </div>
+        );
+
+      case 'prompt':
+        return (
+          <div key={block.id} style={{ marginBottom: '30px', marginTop: '40px' }}>
+            <img
+              src={promptButton}
+              alt="промпт"
+              className="button-inner-glow"
+              style={{
+                width: '247px',
+                height: '79px',
+                margin: '0 auto 30px auto',
+                display: 'block',
+                objectFit: 'contain',
+              }}
+            />
+            <div
+              style={{
+                fontSize: '35px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                color: 'white',
+                textAlign: 'center',
+                minHeight: '50px',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+                lineHeight: 1.3,
+              }}
+            >
+              {block.content}
+            </div>
+          </div>
+        );
+
+      case 'materials':
+        let materialsCount = 0;
+        try {
+          const parsed = JSON.parse(block.content);
+          materialsCount = Array.isArray(parsed) ? parsed.length : 0;
+        } catch {
+          materialsCount = parseInt(block.content) || 0;
+        }
+
+        return (
+          <div key={block.id} style={{ marginTop: '30px', marginBottom: '30px' }}>
+            <img
+              src={materialsButton}
+              alt="материалы"
+              className="button-inner-glow"
+              style={{
+                width: '247px',
+                height: '79px',
+                margin: '0 auto 20px auto',
+                display: 'block',
+                objectFit: 'contain',
+              }}
+            />
+            <div
+              onClick={handleSendMaterials}
+              style={{
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '32px',
+                lineHeight: 1,
+                color: 'white',
+                textAlign: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              скачать файлы ({materialsCount})
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  const renderedBlocks = contentBlocks.map((block: any) => renderContentBlock(block));
 
   return (
     <div style={{
@@ -205,172 +439,39 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           left: '141px',
           top: '452px',
           width: '898px',
-          minHeight: '1536px',
+          height: '1536px',
           backdropFilter: 'blur(50px)',
           background: 'black',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-        }} />
-
-        {/* Заголовок из API */}
-        <div style={{
-          position: 'absolute',
-          left: '356px',
-          top: '485px',
-          width: '469px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          fontFamily: 'Inter',
-          fontWeight: 700,
-          fontSize: '52px',
-          lineHeight: 0,
-          color: 'white',
-          textAlign: 'center',
+          overflow: 'hidden',
         }}>
-          <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>
-            {lesson?.title || 'морфинг через общие элементы'}
-          </p>
-        </div>
-
-        {/* Аннотация из API */}
-        <p style={{
-          position: 'absolute',
-          left: '200px',
-          top: '633px',
-          width: '781px',
-          margin: 0,
-          fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '35px',
-          lineHeight: 1,
-          color: 'white',
-          textAlign: 'center',
-          whiteSpace: 'pre-wrap',
-        }}>
-          {lesson?.content_blocks?.find((b: any) => b.type === 'text')?.content || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего.'}
-        </p>
-
-        {/* Фото из content_blocks (если есть) */}
-        {lesson?.content_blocks?.find((b: any) => b.type === 'image') && (
-          <img 
-            src={lesson.content_blocks.find((b: any) => b.type === 'image')?.content}
-            alt="lesson image"
-            style={{
-              position: 'absolute',
-              left: '200px',
-              top: '750px',
-              maxWidth: '780px',
-              maxHeight: '400px',
-              objectFit: 'contain',
-              borderRadius: '15px',
-            }}
-          />
-        )}
-
-        {/* Плашка промпт (показываем если есть промпт) */}
-        {lesson?.content_blocks?.find((b: any) => b.type === 'prompt') && (
-          <>
-            <img 
-              src={promptButton}
-              alt="промпт"
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '467px',
-                top: '848px',
-                width: '246.93px',
-                height: '79.25px',
-                objectFit: 'contain',
-              }}
-            />
-
-            {/* Текст промпта из API */}
-            <div style={{
-              position: 'absolute',
-              left: '193px',
-              top: '968px',
-              width: '795px',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '35px',
-              lineHeight: 1.3,
+          {/* Контент с скроллом И ФЕЙДОМ - СКОПИРОВАНО ИЗ ПОЛИГОНА */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflowY: 'auto',
+            padding: '40px',
+            WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+          }}>
+            {/* Заголовок */}
+            <h2 style={{
+              fontFamily: 'Inter',
+              fontWeight: 700,
+              fontSize: '52px',
+              lineHeight: 1,
               color: 'white',
               textAlign: 'center',
-              whiteSpace: 'pre-wrap',
+              margin: '0 0 50px 0',
             }}>
-              <p style={{ margin: 0 }}>{lesson.content_blocks?.find((b: any) => b.type === 'prompt')?.content}</p>
-            </div>
-          </>
-        )}
+              {lesson?.title || 'морфинг через общие элементы'}
+            </h2>
 
-        {/* Плашка материалы (показываем если есть материалы) */}
-        {lesson?.materials && lesson.materials.length > 0 && (
-          <>
-            <img 
-              src={materialsButton}
-              alt="материалы"
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '467px',
-                top: '1781px',
-                width: '246.93px',
-                height: '79.25px',
-                objectFit: 'contain',
-              }}
-            />
-
-            {/* Текст "скачать файлы" */}
-            <div 
-              onClick={async () => {
-                if (!lesson?.materials || lesson.materials.length === 0) return;
-                
-                try {
-                  const response = await fetch('https://metaflora-service-production.up.railway.app/api/bot/send-materials', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      materials: lesson.materials,
-                      lessonTitle: lesson.title,
-                      userId: (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id || 'unknown',
-                    }),
-                  });
-                  
-                  if (response.ok) {
-                    if (window.Telegram?.WebApp?.showPopup) {
-                      window.Telegram.WebApp.showPopup({
-                        message: 'Материалы отправлены в чат с ботом',
-                      });
-                    }
-                  }
-                } catch (error) {
-                  console.error('Error sending materials:', error);
-                }
-              }}
-              style={{
-                position: 'absolute',
-                left: '432px',
-                top: '1895px',
-                width: '316px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '32px',
-                lineHeight: 0,
-                color: 'white',
-                textAlign: 'center',
-                cursor: 'pointer',
-              }}>
-              <p style={{ margin: 0, lineHeight: 1, whiteSpace: 'pre-wrap' }}>
-                скачать файлы ({lesson?.materials?.length || 0})
-              </p>
-            </div>
-          </>
-        )}
-
+            {/* Динамический рендер content_blocks */}
+            {renderedBlocks}
+          </div>
+        </div>
 
         {/* Footer */}
         <div style={{
