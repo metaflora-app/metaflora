@@ -213,7 +213,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
       case 'prompt':
         return (
-          <div key={block.id} style={{ marginBottom: '30px', marginTop: '40px' }}>
+          <div key={block.id} style={{ marginBottom: '30px', marginTop: '30px' }}>
             <img
               src={promptButton}
               alt="промпт"
@@ -221,7 +221,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               style={{
                 width: '247px',
                 height: '79px',
-                margin: '0 auto 30px auto',
+                margin: '0 auto 20px auto',
                 display: 'block',
                 objectFit: 'contain',
               }}
@@ -465,6 +465,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             inset: 0,
             overflowY: 'auto',
             padding: '40px',
+            paddingBottom: '120px',
             WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
             maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
           }}>
