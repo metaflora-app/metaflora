@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
+import type { AcademyLesson } from '../../types/content';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -12,19 +14,48 @@ import goButton from '../../assets/main-dashboard/кнопка перейти.pn
 
 export const AcademyCourseSystemScreen: React.FC = () => {
   const navigate = useNavigate();
-
-  // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  const lessons = [
-    { number: 1, left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
-    { number: 2, left: 'calc(50% + 232.5px)', top: '535px', numberLeft: 'calc(50% + 20px)', numberTop: '507px' },
-    { number: 3, left: 'calc(50% - 236.5px)', top: '797px', numberLeft: 'calc(50% - 449px)', numberTop: '769px' },
-    { number: 4, left: 'calc(50% + 232.5px)', top: '914px', numberLeft: 'calc(50% + 20px)', numberTop: '886px' },
-    { number: 5, left: 'calc(50% - 236.5px)', top: '1176px', numberLeft: 'calc(50% - 449px)', numberTop: '1148px' },
-    { number: 6, left: 'calc(50% + 232.5px)', top: '1293px', numberLeft: 'calc(50% + 20px)', numberTop: '1265px' },
-    { number: 7, left: 'calc(50% - 235.5px)', top: '1566px', numberLeft: 'calc(50% - 449px)', numberTop: '1538px' },
-    { number: 8, left: 'calc(50% + 232.5px)', top: '1683px', numberLeft: 'calc(50% + 20px)', numberTop: '1655px' },
+  const [lessons, setLessons] = useState<AcademyLesson[]>([]);
+  const [, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadLessons();
+  }, []);
+
+  const loadLessons = async () => {
+    setLoading(true);
+    try {
+      // Сначала получаем курс по типу
+      const courseResult = await getAcademyCourses({ courseType: 'система', isActive: true });
+      if (courseResult.error || !courseResult.data || courseResult.data.length === 0) {
+        console.error('Course not found');
+        return;
+      }
+      
+      const courseId = courseResult.data[0].id;
+      
+      // Теперь получаем уроки по ID курса
+      const result = await getAcademyLessons(courseId, { isActive: true });
+      if (!result.error && result.data) {
+        setLessons(result.data);
+      }
+    } catch (error) {
+      console.error('Error loading lessons:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const lessonPositions = [
+    { left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
+    { left: 'calc(50% + 232.5px)', top: '535px', numberLeft: 'calc(50% + 20px)', numberTop: '507px' },
+    { left: 'calc(50% - 236.5px)', top: '797px', numberLeft: 'calc(50% - 449px)', numberTop: '769px' },
+    { left: 'calc(50% + 232.5px)', top: '914px', numberLeft: 'calc(50% + 20px)', numberTop: '886px' },
+    { left: 'calc(50% - 236.5px)', top: '1176px', numberLeft: 'calc(50% - 449px)', numberTop: '1148px' },
+    { left: 'calc(50% + 232.5px)', top: '1293px', numberLeft: 'calc(50% + 20px)', numberTop: '1265px' },
+    { left: 'calc(50% - 235.5px)', top: '1566px', numberLeft: 'calc(50% - 449px)', numberTop: '1538px' },
+    { left: 'calc(50% + 232.5px)', top: '1683px', numberLeft: 'calc(50% + 20px)', numberTop: '1655px' },
   ];
 
   return (
@@ -157,93 +188,98 @@ export const AcademyCourseSystemScreen: React.FC = () => {
           }}
         />
 
-        {/* 8 карточек уроков */}
-        {lessons.map((lesson) => (
-          <React.Fragment key={lesson.number}>
-            {/* Карточка урока */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: lesson.left,
-              top: lesson.top,
-              transform: 'translateX(-50%)',
-              width: lesson.number === 7 ? '427px' : '425px',
-              height: '317px',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              overflow: 'clip',
-            }}>
-              {/* Текст описания - равные отступы */}
-              <div style={{
+        {/* Карточки уроков из API */}
+        {lessons.map((lesson, index) => {
+          const position = lessonPositions[index];
+          if (!position) return null;
+          
+          return (
+            <React.Fragment key={lesson.id}>
+              {/* Карточка урока */}
+              <div className="blur-wave" style={{
                 position: 'absolute',
-                top: '26px',
-                left: '18px',
-                right: '18px',
-                bottom: '130px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '27px',
-                lineHeight: '1.1',
-                color: 'white',
-                textAlign: 'center',
+                left: position.left,
+                top: position.top,
+                transform: 'translateX(-50%)',
+                width: index === 6 ? '427px' : '425px',
+                height: '317px',
+                backdropFilter: 'blur(50px)',
+                background: 'black',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
               }}>
-                <p style={{ margin: 0 }}>
-                  Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса.
-                </p>
-              </div>
-
-              {/* Кнопка "перейти" - равный отступ снизу */}
-              <img 
-                src={goButton}
-                alt="перейти"
-                onClick={() => navigate('/academy-lesson-video')}
-                className="button-inner-glow"
-                style={{
+                {/* Текст описания */}
+                <div style={{
                   position: 'absolute',
-                  left: '50%',
-                  bottom: '26px',
-                  transform: 'translateX(-50%)',
-                  width: '257px',
-                  height: '73px',
-                  cursor: 'pointer',
-                }}
-              />
-            </div>
+                  top: '26px',
+                  left: '18px',
+                  right: '18px',
+                  bottom: '130px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  fontFamily: 'Gotham Pro',
+                  fontWeight: 300,
+                  fontSize: '27px',
+                  lineHeight: '1.1',
+                  color: 'white',
+                  textAlign: 'center',
+                }}>
+                  <p style={{ margin: 0 }}>
+                    {lesson.description || lesson.annotation || 'Описание урока'}
+                  </p>
+                </div>
 
-            {/* Номер урока - ПОВЕРХ карточки */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: lesson.numberLeft,
-              top: lesson.numberTop,
-              transform: 'translateX(-50%)',
-              width: '56px',
-              height: '56px',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: lesson.number === 4 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 10,
-            }}>
-              <div style={{
-                fontFamily: 'Inter',
-                fontWeight: 700,
-                fontSize: '50px',
-                lineHeight: 0,
-                color: 'white',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>{lesson.number}</p>
+                {/* Кнопка "перейти" */}
+                <img 
+                  src={goButton}
+                  alt="перейти"
+                  onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}`)}
+                  className="button-inner-glow"
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    bottom: '26px',
+                    transform: 'translateX(-50%)',
+                    width: '257px',
+                    height: '73px',
+                    cursor: 'pointer',
+                  }}
+                />
               </div>
-            </div>
-          </React.Fragment>
-        ))}
+
+              {/* Номер урока - ПОВЕРХ карточки */}
+              <div className="blur-wave" style={{
+                position: 'absolute',
+                left: position.numberLeft,
+                top: position.numberTop,
+                transform: 'translateX(-50%)',
+                width: '56px',
+                height: '56px',
+                backdropFilter: 'blur(50px)',
+                background: 'black',
+                border: index === 3 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 10,
+              }}>
+                <div style={{
+                  fontFamily: 'Inter',
+                  fontWeight: 700,
+                  fontSize: '32px',
+                  lineHeight: 0,
+                  color: 'white',
+                }}>
+                  <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || index + 1}</p>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        })}
 
         {/* Footer */}
         <div style={{
