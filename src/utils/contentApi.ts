@@ -304,3 +304,84 @@ export async function getAcademyCoursesWithCache(
   
   return result;
 }
+
+// ============================================
+// ДЕМО - КУРСЫ (копия academy)
+// ============================================
+
+export async function getDemoCourses(
+  filters?: { courseType?: string; isActive?: boolean }
+): Promise<ContentListResponse<AcademyCourse>> {
+  try {
+    const params = new URLSearchParams();
+    if (filters?.courseType) params.append('course_type', filters.courseType);
+    if (filters?.isActive !== undefined) params.append('is_active', String(filters.isActive));
+
+    const response = await fetch(`${API_BASE_URL}/api/content/demo-courses?${params}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching demo courses:', error);
+    return { data: [], count: 0, error: String(error) };
+  }
+}
+
+export async function getDemoLessons(
+  courseId: string,
+  filters?: { isActive?: boolean; limit?: number; offset?: number }
+): Promise<ContentListResponse<AcademyLesson>> {
+  try {
+    const params = new URLSearchParams();
+    params.append('course_id', courseId);
+    if (filters?.isActive !== undefined) params.append('is_active', String(filters.isActive));
+    if (filters?.limit) params.append('limit', String(filters.limit));
+    if (filters?.offset) params.append('offset', String(filters.offset));
+
+    const response = await fetch(`${API_BASE_URL}/api/content/demo-lessons?${params}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching demo lessons:', error);
+    return { data: [], count: 0, error: String(error) };
+  }
+}
+
+export async function getDemoLessonById(
+  id: string
+): Promise<ContentSingleResponse<AcademyLesson>> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/content/demo-lessons/${id}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching demo lesson:', error);
+    return { data: null, error: String(error) };
+  }
+}
+
+export async function getDemoVideos(lessonId: string): Promise<ContentListResponse<AcademyVideo>> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/content/demo-videos/${lessonId}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching demo videos:', error);
+    return { data: [], count: 0, error: String(error) };
+  }
+}
