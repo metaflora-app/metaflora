@@ -174,7 +174,6 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                 border: '2px solid rgba(0, 0, 0, 0.3)',
                 borderRadius: '20px',
                 overflow: 'hidden',
-                minHeight: '362px',
                 position: 'relative',
                 cursor: 'pointer',
               }}
@@ -465,7 +464,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             inset: 0,
             overflowY: 'auto',
             padding: '40px',
-            paddingBottom: '200px',
+            paddingBottom: '120px',
             WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
             maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
           }}>
