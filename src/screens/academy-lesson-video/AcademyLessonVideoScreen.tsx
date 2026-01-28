@@ -18,6 +18,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const lessonId = searchParams.get('lesson');
   const lessonType = searchParams.get('type') || 'academy';
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const isTelegramFullscreenSupported = typeof window !== 'undefined' && window.Telegram?.WebApp?.isVersionAtLeast?.('8.0');
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
@@ -201,9 +202,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             ref={videoRef}
             controls={!showOverlay}
             playsInline
-            controlsList="nodownload"
-            preload="metadata"
-            crossOrigin="anonymous"
+            preload="auto"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
@@ -243,9 +242,14 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 onClick={() => {
                   setShowOverlay(false);
                   if (videoRef.current) {
-                    videoRef.current.load();
                     videoRef.current.play().then(() => {
-                      videoRef.current?.requestFullscreen?.().catch(() => {});
+                      // Использовать Telegram API для fullscreen
+                      if (isTelegramFullscreenSupported) {
+                        window.Telegram.WebApp.requestFullscreen();
+                      } else {
+                        // Fallback для старых версий
+                        videoRef.current?.requestFullscreen?.().catch(() => {});
+                      }
                     }).catch(() => {});
                   }
                 }}
