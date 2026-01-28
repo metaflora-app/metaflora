@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getAcademyLessonById } from '../../utils/contentApi';
-import type { AcademyLesson } from '../../types/content';
+import { getAcademyLessonById, getAcademyVideos } from '../../utils/contentApi';
+import type { AcademyLesson, AcademyVideo } from '../../types/content';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -22,6 +22,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
+  const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,6 +39,12 @@ export const AcademyLessonVideoScreen: React.FC = () => {
       const result = await getAcademyLessonById(id);
       if (!result.error && result.data) {
         setLesson(result.data);
+      }
+      
+      // Загрузить видео
+      const videoResult = await getAcademyVideos(id);
+      if (!videoResult.error && videoResult.data && videoResult.data.length > 0) {
+        setVideo(videoResult.data[0]);
       }
     } catch (error) {
       console.error('Error loading lesson:', error);
@@ -162,7 +169,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             borderRadius: '40px',
           }}>
             <img 
-              src={videoThumbnail}
+              src={video?.video_url || videoThumbnail}
               alt="Видео обзор"
               style={{
                 position: 'absolute',

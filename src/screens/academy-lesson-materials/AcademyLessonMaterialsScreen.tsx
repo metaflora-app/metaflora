@@ -248,11 +248,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           textAlign: 'center',
           whiteSpace: 'pre-wrap',
         }}>
-          {lesson?.annotation || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего.'}
+          {lesson?.content_blocks?.find((b: any) => b.type === 'text')?.content || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего.'}
         </p>
 
         {/* Плашка промпт (показываем если есть промпт) */}
-        {lesson?.prompt_text && (
+        {lesson?.content_blocks?.find((b: any) => b.type === 'prompt') && (
           <>
             <img 
               src={promptButton}
@@ -282,7 +282,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               textAlign: 'center',
               whiteSpace: 'pre-wrap',
             }}>
-              <p style={{ margin: 0 }}>{lesson.prompt_text}</p>
+              <p style={{ margin: 0 }}>{lesson.content_blocks?.find((b: any) => b.type === 'prompt')?.content}</p>
             </div>
           </>
         )}
