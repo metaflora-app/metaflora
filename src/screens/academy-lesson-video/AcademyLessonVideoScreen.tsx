@@ -194,44 +194,28 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           height: '1457px',
         }}>
           {/* Видео элемент с нативными контролами */}
-          {video?.video_url ? (
-            <video
-              ref={videoRef}
-              src={video.video_url}
-              poster={videoThumbnail}
-              controls
-              playsInline
-              preload="metadata"
-              onTimeUpdate={handleVideoProgress}
-              onEnded={() => {
-                handleVideoProgress();
-              }}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '40px',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-              }}
-            />
-          ) : (
-            <img 
-              src={videoThumbnail}
-              alt="Видео обзор"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '40px',
-                maxWidth: 'none',
-                pointerEvents: 'none',
-              }}
-            />
-          )}
+          <video
+            ref={videoRef}
+            src={video?.video_url || 'https://www.w3schools.com/html/mov_bbb.mp4'}
+            controls
+            playsInline
+            controlsList="nodownload"
+            preload="metadata"
+            onTimeUpdate={handleVideoProgress}
+            onEnded={() => {
+              handleVideoProgress();
+            }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              borderRadius: '40px',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              backgroundColor: '#000',
+            }}
+          />
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}
