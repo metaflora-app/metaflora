@@ -228,6 +228,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             onEnded={() => {
               handleVideoProgress();
             }}
+            onPause={() => {
+              if (videoRef.current && !videoRef.current.ended) {
+                setShowOverlay(true);
+              }
+            }}
             style={{
               width: '100%',
               height: '100%',
@@ -250,7 +255,9 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 overflow: 'clip',
               }} />
 
-              <div 
+              <img 
+                src={playIcon}
+                alt="плей"
                 onClick={() => {
                   setShowOverlay(false);
                   if (videoRef.current) {
@@ -261,35 +268,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                     });
                   }
                 }}
-                className="blur-wave" 
                 style={{
                   position: 'absolute',
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  width: '150px',
-                  height: '150px',
-                  backdropFilter: 'blur(50px)',
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  border: '4px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '75px',
-                  overflow: 'clip',
+                  width: '98px',
+                  height: '98px',
                   cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  objectFit: 'contain',
                 }}
-              >
-                <img 
-                  src={playIcon}
-                  alt="плей"
-                  style={{
-                    width: '60%',
-                    height: '60%',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
+              />
             </>
           )}
         </div>
