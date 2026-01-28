@@ -9,9 +9,6 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
-import pauseIcon from '../../assets/tour-video/pause-icon.png';
-import playIcon from '../../assets/tour-video/play-icon.png';
-import expandIcon from '../../assets/tour-video/expand-icon.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
 
@@ -25,7 +22,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -63,16 +59,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     }
   };
 
-  const togglePlay = () => {
-    if (!videoRef.current) return;
-    
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
 
   const loadLesson = async (id: string) => {
     setLoading(true);
@@ -207,170 +193,45 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           width: '891px',
           height: '1457px',
         }}>
-          {/* Видео элемент */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '40px',
-          }}>
-            {video?.video_url ? (
-              <video
-                ref={videoRef}
-                src={video.video_url}
-                onTimeUpdate={handleVideoProgress}
-                onEnded={() => {
-                  setIsPlaying(false);
-                  handleVideoProgress();
-                }}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '40px',
-                }}
-              />
-            ) : (
-              <img 
-                src={videoThumbnail}
-                alt="Видео обзор"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '40px',
-                  maxWidth: 'none',
-                  pointerEvents: 'none',
-                }}
-              />
-            )}
-          </div>
-
-          {/* Blur слой на видео */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }} />
-
-          {/* Кнопка плей */}
-          {!isPlaying && (
-            <div 
-              onClick={togglePlay}
-              className="blur-wave" 
-              style={{
-                position: 'absolute',
-                top: '42.48%',
-                right: '44.33%',
-                bottom: '50.79%',
-                left: '44.67%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.1)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+          {/* Видео элемент с нативными контролами */}
+          {video?.video_url ? (
+            <video
+              ref={videoRef}
+              src={video.video_url}
+              poster={videoThumbnail}
+              controls
+              playsInline
+              preload="metadata"
+              onTimeUpdate={handleVideoProgress}
+              onEnded={() => {
+                handleVideoProgress();
               }}
-            >
-              <img 
-                src={playIcon}
-                alt="плей"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-          )}
-
-          {/* Кнопка пауза */}
-          {isPlaying && (
-            <div 
-              onClick={togglePlay}
-              className="blur-wave" 
               style={{
-                position: 'absolute',
-                top: '49.97%',
-                right: '44.22%',
-                bottom: '43.31%',
-                left: '44.78%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.1)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <img 
-                src={pauseIcon}
-                alt="стоп"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-          )}
-
-          {/* Кнопка развернуть видео */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            top: '93.89%',
-            right: '1.57%',
-            bottom: '1.17%',
-            left: '90.35%',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            cursor: 'pointer',
-          }}>
-            {/* Иконка развернуть */}
-            <div style={{
-              position: 'absolute',
-              left: '11px',
-              top: '11px',
-              width: '42px',
-              height: '42px',
-            }}>
-              <div style={{
                 position: 'absolute',
                 inset: 0,
-                overflow: 'hidden',
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '40px',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+              }}
+            />
+          ) : (
+            <img 
+              src={videoThumbnail}
+              alt="Видео обзор"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '40px',
+                maxWidth: 'none',
                 pointerEvents: 'none',
-              }}>
-                <img 
-                  src={expandIcon}
-                  alt="развернуть"
-                  style={{
-                    position: 'absolute',
-                    height: '288.46%',
-                    left: '-164.28%',
-                    top: '-99.18%',
-                    width: '431.44%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+              }}
+            />
+          )}
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}
