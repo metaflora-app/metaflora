@@ -28,6 +28,22 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    const handleClick = () => {
+      if (videoRef.current) {
+        videoRef.current.muted = false;
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    document.addEventListener('touchstart', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+      document.removeEventListener('touchstart', handleClick);
+    };
+  }, []);
+
+  useEffect(() => {
     if (lessonId) {
       loadLesson(lessonId);
     } else {
@@ -203,6 +219,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             src={video?.video_url || testVideo}
             controls={!showOverlay}
             playsInline
+            muted
+            loop
             controlsList="nodownload"
             preload="auto"
             crossOrigin="anonymous"
@@ -235,10 +253,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               <div 
                 onClick={() => {
                   if (videoRef.current) {
+                    videoRef.current.muted = false;
                     videoRef.current.play();
-                    setTimeout(() => {
-                      videoRef.current?.requestFullscreen?.();
-                    }, 100);
+                    videoRef.current.requestFullscreen?.().catch(() => {
+                      // Fallback если fullscreen не работает
+                    });
                   }
                 }}
                 className="blur-wave" 
