@@ -95,7 +95,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           materials,
-          lessonTitle: lesson.title,
+          lessonTitle: lesson?.title || 'Урок',
           userId: (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id || 'unknown',
         }),
       });

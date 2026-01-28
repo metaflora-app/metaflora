@@ -117,6 +117,7 @@ export interface AcademyLesson {
   prompt_text: string | null;
   materials: Material[] | null;
   content_blocks?: ContentBlock[] | null;
+  video_title?: string | null;
   filter_tags: string[] | null;
   keywords: string[] | null;
   is_active: boolean;
