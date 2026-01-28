@@ -275,7 +275,8 @@ export const AcademyCourseDemoScreen: React.FC = () => {
               </div>
             </div>
           </React.Fragment>
-        ))}
+          );
+        })}
 
         {/* Footer */}
         <div style={{
