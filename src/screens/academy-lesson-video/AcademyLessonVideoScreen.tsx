@@ -236,7 +236,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 onClick={() => {
                   setShowOverlay(false);
                   if (videoRef.current) {
-                    videoRef.current.requestFullscreen?.();
                     videoRef.current.play();
                   }
                 }}
@@ -246,12 +245,12 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  width: '98px',
-                  height: '98px',
+                  width: '150px',
+                  height: '150px',
                   backdropFilter: 'blur(50px)',
-                  background: 'rgba(0, 0, 0, 0.1)',
+                  background: 'rgba(0, 0, 0, 0.3)',
                   border: '4px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '62px',
+                  borderRadius: '75px',
                   overflow: 'clip',
                   cursor: 'pointer',
                   display: 'flex',
@@ -263,8 +262,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                   src={playIcon}
                   alt="плей"
                   style={{
-                    width: '100%',
-                    height: '100%',
+                    width: '60%',
+                    height: '60%',
                     objectFit: 'contain',
                   }}
                 />
