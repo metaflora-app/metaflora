@@ -123,28 +123,33 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       // Берем materials из content_blocks
       const materialsBlock = lesson?.content_blocks?.find((b: any) => b.type === 'materials');
       if (!materialsBlock) {
-        alert('материалы отправлены в чат с ботом');
+        console.error('No materials block found');
+        alert('Ошибка: нет материалов в уроке');
         return;
       }
       
       let materials = [];
       try {
         materials = JSON.parse(materialsBlock.content);
-      } catch {
-        alert('материалы отправлены в чат с ботом');
+      } catch (e) {
+        console.error('Failed to parse materials:', e);
+        alert('Ошибка: неверный формат материалов');
         return;
       }
       
       if (materials.length === 0) {
-        alert('материалы отправлены в чат с ботом');
+        alert('Нет файлов для отправки');
         return;
       }
       
       const userId = (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id;
       if (!userId) {
-        alert('материалы отправлены в чат с ботом');
+        console.error('User ID not available');
+        alert('Ошибка: не удалось получить ID пользователя');
         return;
       }
+
+      console.log('Sending materials:', { materials, lessonTitle: lesson?.title, userId });
 
       const response = await fetch('https://metaflora-service.ru/api/bot/send-materials', {
         method: 'POST',
@@ -156,14 +161,18 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         }),
       });
       
-      if (response.ok) {
+      const result = await response.json();
+      console.log('Response:', result);
+      
+      if (response.ok && result.success) {
         alert('материалы отправлены в чат с ботом');
       } else {
-        alert('материалы отправлены в чат с ботом');
+        console.error('API error:', result);
+        alert(`Ошибка API: ${result.error || 'Unknown'}`);
       }
     } catch (error) {
       console.error('Error sending materials:', error);
-      alert('материалы отправлены в чат с ботом');
+      alert(`Ошибка отправки: ${error}`);
     }
   };
 
