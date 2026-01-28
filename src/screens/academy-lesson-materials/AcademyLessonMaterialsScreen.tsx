@@ -101,7 +101,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       });
       
       if (response.ok) {
-        alert('Материалы отправлены в чат с ботом!');
+        alert('материалы отправлены в чат с ботом');
       } else {
         alert('Ошибка отправки материалов');
       }
