@@ -13,7 +13,7 @@ import type {
 } from '../types/content';
 
 // Базовый URL для API (будет использоваться API proxy веб-сервиса)
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://metaflora-service.ru';
 
 // ============================================
 // ЦЕХ - ПРОМПТЫ
