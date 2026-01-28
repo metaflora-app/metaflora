@@ -76,28 +76,38 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
   // Функция для отправки материалов в бота
   const handleSendMaterials = async () => {
-    if (!lesson?.materials || lesson.materials.length === 0) return;
+    // Берем materials из content_blocks
+    const materialsBlock = lesson?.content_blocks?.find((b: any) => b.type === 'materials');
+    if (!materialsBlock) return;
+    
+    let materials = [];
+    try {
+      materials = JSON.parse(materialsBlock.content);
+    } catch {
+      return;
+    }
+    
+    if (materials.length === 0) return;
     
     try {
       const response = await fetch('https://metaflora-service.ru/api/bot/send-materials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          materials: lesson.materials,
+          materials,
           lessonTitle: lesson.title,
           userId: (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id || 'unknown',
         }),
       });
       
       if (response.ok) {
-        if (window.Telegram?.WebApp?.showPopup) {
-          window.Telegram.WebApp.showPopup({
-            message: 'Материалы отправлены в чат с ботом',
-          });
-        }
+        alert('Материалы отправлены в чат с ботом!');
+      } else {
+        alert('Ошибка отправки материалов');
       }
     } catch (error) {
       console.error('Error sending materials:', error);
+      alert('Ошибка: ' + error);
     }
   };
 
