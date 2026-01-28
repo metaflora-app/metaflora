@@ -187,39 +187,23 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         </div>
 
         {/* ВИДЕО БЛОК */}
-        <div style={{
-          position: 'absolute',
-          left: '142px',
-          top: '401px',
-          width: '891px',
-          height: '1457px',
-        }}>
-          {/* Видео элемент с нативными контролами */}
-          <video
-            ref={videoRef}
-            src={video?.video_url || testVideo}
-            controls
-            playsInline
-            controlsList="nodownload"
-            preload="auto"
-            webkit-playsinline="true"
-            x-webkit-airplay="allow"
-            onTimeUpdate={handleVideoProgress}
-            onEnded={() => {
-              handleVideoProgress();
-            }}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              borderRadius: '0',
-              border: 'none',
-              backgroundColor: '#000',
-            }}
-          />
-        </div>
+        <video
+          ref={videoRef}
+          src={video?.video_url || testVideo}
+          controls
+          playsInline
+          controlsList="nodownload"
+          preload="auto"
+          style={{
+            position: 'absolute',
+            left: '142px',
+            top: '401px',
+            width: '891px',
+            height: '1457px',
+            objectFit: 'cover',
+            backgroundColor: '#000',
+          }}
+        />
 
         {/* Кнопка "получить материалы" - PNG */}
         <button
