@@ -241,15 +241,20 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 onClick={() => {
                   setShowOverlay(false);
                   if (videoRef.current) {
-                    videoRef.current.play().then(() => {
-                      // Использовать Telegram API для fullscreen
-                      if (typeof window !== 'undefined' && window.Telegram?.WebApp?.isVersionAtLeast?.('8.0')) {
-                        (window.Telegram.WebApp as any).requestFullscreen();
-                      } else {
-                        // Fallback для старых версий
-                        videoRef.current?.requestFullscreen?.().catch(() => {});
-                      }
-                    }).catch(() => {});
+                    const playPromise = videoRef.current.play();
+                    if (playPromise) {
+                      playPromise.then(() => {
+                        // Использовать Telegram API для fullscreen
+                        if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp?.isVersionAtLeast?.('8.0')) {
+                          ((window as any).Telegram.WebApp as any).requestFullscreen();
+                        } else {
+                          // Fallback для старых версий
+                          if (videoRef.current?.requestFullscreen) {
+                            videoRef.current.requestFullscreen().catch(() => {});
+                          }
+                        }
+                      }).catch(() => {});
+                    }
                   }
                 }}
                 style={{
