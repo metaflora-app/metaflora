@@ -27,21 +27,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [showOverlay, setShowOverlay] = useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    const handleClick = () => {
-      if (videoRef.current) {
-        videoRef.current.muted = false;
-      }
-    };
-
-    document.addEventListener('click', handleClick);
-    document.addEventListener('touchstart', handleClick);
-
-    return () => {
-      document.removeEventListener('click', handleClick);
-      document.removeEventListener('touchstart', handleClick);
-    };
-  }, []);
 
   useEffect(() => {
     if (lessonId) {
@@ -216,13 +201,10 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         }}>
           <video
             ref={videoRef}
-            src={video?.video_url || testVideo}
             controls={!showOverlay}
             playsInline
-            muted
-            loop
             controlsList="nodownload"
-            preload="auto"
+            preload="metadata"
             crossOrigin="anonymous"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
@@ -240,7 +222,9 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               backgroundColor: '#000',
               borderRadius: '30px',
             }}
-          />
+          >
+            <source src={video?.video_url || testVideo} type="video/mp4" />
+          </video>
 
           {/* Blur overlay с кнопкой плей */}
           {showOverlay && (
@@ -261,11 +245,10 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 onClick={() => {
                   setShowOverlay(false);
                   if (videoRef.current) {
-                    videoRef.current.muted = false;
-                    videoRef.current.play();
-                    videoRef.current.requestFullscreen?.().catch(() => {
-                      // Fallback если fullscreen не работает
-                    });
+                    videoRef.current.load();
+                    videoRef.current.play().then(() => {
+                      videoRef.current?.requestFullscreen?.().catch(() => {});
+                    }).catch(() => {});
                   }
                 }}
                 style={{
