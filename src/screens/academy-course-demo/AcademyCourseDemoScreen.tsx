@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getDemoCourses, getDemoLessons } from '../../utils/contentApi';
+import type { AcademyLesson } from '../../types/content';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -12,15 +14,45 @@ import goButton from '../../assets/main-dashboard/кнопка перейти.pn
 
 export const AcademyCourseDemoScreen: React.FC = () => {
   const navigate = useNavigate();
-
-  // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  const lessons = [
-    { number: 1, left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
-    { number: 2, left: 'calc(50% + 232.5px)', top: '535px', numberLeft: 'calc(50% + 20px)', numberTop: '507px' },
-    { number: 3, left: 'calc(50% - 236.5px)', top: '797px', numberLeft: 'calc(50% - 449px)', numberTop: '769px' },
-    { number: 4, left: 'calc(50% + 232.5px)', top: '914px', numberLeft: 'calc(50% + 20px)', numberTop: '886px' },
+  const [lessons, setLessons] = useState<AcademyLesson[]>([]);
+  const [, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadLessons();
+  }, []);
+
+  const loadLessons = async () => {
+    setLoading(true);
+    try {
+      const courseResult = await getDemoCourses({ courseType: 'демо', isActive: true });
+      if (courseResult.error || !courseResult.data || courseResult.data.length === 0) {
+        console.error('Demo course not found');
+        return;
+      }
+      
+      const courseId = courseResult.data[0].id;
+      const result = await getDemoLessons(courseId, { isActive: true });
+      if (!result.error && result.data) {
+        setLessons(result.data);
+      }
+    } catch (error) {
+      console.error('Error loading demo lessons:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const lessonPositions = [
+    { left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
+    { left: 'calc(50% + 232.5px)', top: '535px', numberLeft: 'calc(50% + 20px)', numberTop: '507px' },
+    { left: 'calc(50% - 236.5px)', top: '797px', numberLeft: 'calc(50% - 449px)', numberTop: '769px' },
+    { left: 'calc(50% + 232.5px)', top: '914px', numberLeft: 'calc(50% + 20px)', numberTop: '886px' },
+    { left: 'calc(50% - 236.5px)', top: '1176px', numberLeft: 'calc(50% - 449px)', numberTop: '1148px' },
+    { left: 'calc(50% + 232.5px)', top: '1293px', numberLeft: 'calc(50% + 20px)', numberTop: '1265px' },
+    { left: 'calc(50% - 235.5px)', top: '1566px', numberLeft: 'calc(50% - 449px)', numberTop: '1538px' },
+    { left: 'calc(50% + 232.5px)', top: '1683px', numberLeft: 'calc(50% + 20px)', numberTop: '1655px' },
   ];
 
   return (
@@ -153,16 +185,20 @@ export const AcademyCourseDemoScreen: React.FC = () => {
           }}
         />
 
-        {/* 8 карточек уроков */}
-        {lessons.map((lesson) => (
-          <React.Fragment key={lesson.number}>
+        {/* Карточки уроков из API */}
+        {lessons.map((lesson, index) => {
+          const position = lessonPositions[index];
+          if (!position) return null;
+          
+          return (
+            <React.Fragment key={lesson.id}>
             {/* Карточка урока */}
             <div className="blur-wave" style={{
               position: 'absolute',
-              left: lesson.left,
-              top: lesson.top,
+              left: position.left,
+              top: position.top,
               transform: 'translateX(-50%)',
-              width: lesson.number === 7 ? '427px' : '425px',
+              width: index === 6 ? '427px' : '425px',
               height: '317px',
               backdropFilter: 'blur(50px)',
               background: 'black',
@@ -188,7 +224,7 @@ export const AcademyCourseDemoScreen: React.FC = () => {
                 textAlign: 'center',
               }}>
                 <p style={{ margin: 0 }}>
-                  Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса.
+                  {lesson.description || lesson.annotation || 'Описание урока'}
                 </p>
               </div>
 
@@ -196,7 +232,7 @@ export const AcademyCourseDemoScreen: React.FC = () => {
               <img 
                 src={goButton}
                 alt="перейти"
-                onClick={() => navigate('/academy-lesson-video')}
+                onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}`)}
                 className="button-inner-glow"
                 style={{
                   position: 'absolute',
@@ -213,14 +249,14 @@ export const AcademyCourseDemoScreen: React.FC = () => {
             {/* Номер урока - ПОВЕРХ карточки */}
             <div className="blur-wave" style={{
               position: 'absolute',
-              left: lesson.numberLeft,
-              top: lesson.numberTop,
+              left: position.numberLeft,
+              top: position.numberTop,
               transform: 'translateX(-50%)',
               width: '56px',
               height: '56px',
               backdropFilter: 'blur(50px)',
               background: 'black',
-              border: lesson.number === 4 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '30px',
               overflow: 'clip',
               display: 'flex',
@@ -235,7 +271,7 @@ export const AcademyCourseDemoScreen: React.FC = () => {
                 lineHeight: 0,
                 color: 'white',
               }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>{lesson.number}</p>
+                <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || (index + 1)}</p>
               </div>
             </div>
           </React.Fragment>
