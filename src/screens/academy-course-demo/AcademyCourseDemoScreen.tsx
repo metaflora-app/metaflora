@@ -232,7 +232,7 @@ export const AcademyCourseDemoScreen: React.FC = () => {
               <img 
                 src={goButton}
                 alt="перейти"
-                onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}`)}
+                onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}&type=demo`)}
                 className="button-inner-glow"
                 style={{
                   position: 'absolute',

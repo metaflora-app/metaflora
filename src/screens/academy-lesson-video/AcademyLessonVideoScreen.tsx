@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getAcademyLessonById, getAcademyVideos } from '../../utils/contentApi';
+import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 
 // Images
@@ -19,6 +19,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const lessonId = searchParams.get('lesson');
+  const lessonType = searchParams.get('type') || 'academy';
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
@@ -36,13 +37,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const loadLesson = async (id: string) => {
     setLoading(true);
     try {
-      const result = await getAcademyLessonById(id);
+      const result = lessonType === 'demo' 
+        ? await getDemoLessonById(id)
+        : await getAcademyLessonById(id);
       if (!result.error && result.data) {
         setLesson(result.data);
       }
       
       // Загрузить видео
-      const videoResult = await getAcademyVideos(id);
+      const videoResult = lessonType === 'demo'
+        ? await getDemoVideos(id)
+        : await getAcademyVideos(id);
       if (!videoResult.error && videoResult.data && videoResult.data.length > 0) {
         setVideo(videoResult.data[0]);
       }
@@ -300,7 +305,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
 
         {/* Кнопка "получить материалы" - PNG */}
         <button
-          onClick={() => navigate(`/academy-lesson-materials?lesson=${lessonId}`)}
+          onClick={() => navigate(`/academy-lesson-materials?lesson=${lessonId}&type=${lessonType}`)}
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',

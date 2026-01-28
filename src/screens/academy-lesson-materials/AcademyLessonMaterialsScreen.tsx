@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getAcademyLessonById } from '../../utils/contentApi';
+import { getAcademyLessonById, getDemoLessonById } from '../../utils/contentApi';
 import type { AcademyLesson } from '../../types/content';
 
 // Images
@@ -18,6 +18,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const lessonId = searchParams.get('lesson');
+  const lessonType = searchParams.get('type') || 'academy';
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
@@ -34,7 +35,9 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const loadLesson = async (id: string) => {
     setLoading(true);
     try {
-      const result = await getAcademyLessonById(id);
+      const result = lessonType === 'demo'
+        ? await getDemoLessonById(id)
+        : await getAcademyLessonById(id);
       if (!result.error && result.data) {
         setLesson(result.data);
       }
