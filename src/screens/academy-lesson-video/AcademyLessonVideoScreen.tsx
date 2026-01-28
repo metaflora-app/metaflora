@@ -49,14 +49,16 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const handleVideoProgress = () => {
     if (!videoRef.current || !lessonId || lessonType !== 'academy') return;
     
-    const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-    
-    if (progress >= 80) {
-      const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
-      if (!progressData[lessonId]) progressData[lessonId] = {};
-      progressData[lessonId].videoWatched = true;
-      localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
-      checkLessonCompletion(lessonId);
+    if (videoRef.current.duration) {
+      const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      
+      if (progress >= 80) {
+        const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+        if (!progressData[lessonId]) progressData[lessonId] = {};
+        progressData[lessonId].videoWatched = true;
+        localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
+        checkLessonCompletion(lessonId);
+      }
     }
   };
 
@@ -187,28 +189,34 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         </div>
 
         {/* ВИДЕО БЛОК */}
-        <video
-          ref={videoRef}
-          src={video?.video_url || testVideo}
-          controls
-          playsInline
-          controlsList="nodownload"
-          preload="auto"
-          crossOrigin="anonymous"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '401px',
-            transform: 'translateX(-50%)',
-            width: '90vw',
-            maxWidth: '891px',
-            height: 'auto',
-            aspectRatio: '16/9',
-            objectFit: 'contain',
-            backgroundColor: '#000',
-            borderRadius: '20px',
-          }}
-        />
+        <div style={{
+          position: 'absolute',
+          left: '142px',
+          top: '401px',
+          width: '891px',
+          height: '501px',
+        }}>
+          <video
+            ref={videoRef}
+            src={video?.video_url || testVideo}
+            controls
+            playsInline
+            controlsList="nodownload"
+            preload="auto"
+            crossOrigin="anonymous"
+            onTimeUpdate={handleVideoProgress}
+            onEnded={() => {
+              handleVideoProgress();
+            }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              backgroundColor: '#000',
+              borderRadius: '30px',
+            }}
+          />
+        </div>
 
         {/* Кнопка "получить материалы" - PNG */}
         <button
