@@ -116,6 +116,7 @@ export interface AcademyLesson {
   annotation: string | null;
   prompt_text: string | null;
   materials: Material[] | null;
+  content_blocks?: ContentBlock[] | null;
   filter_tags: string[] | null;
   keywords: string[] | null;
   is_active: boolean;

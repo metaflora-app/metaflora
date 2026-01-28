@@ -251,6 +251,23 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           {lesson?.content_blocks?.find((b: any) => b.type === 'text')?.content || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего.'}
         </p>
 
+        {/* Фото из content_blocks (если есть) */}
+        {lesson?.content_blocks?.find((b: any) => b.type === 'image') && (
+          <img 
+            src={lesson.content_blocks.find((b: any) => b.type === 'image')?.content}
+            alt="lesson image"
+            style={{
+              position: 'absolute',
+              left: '200px',
+              top: '750px',
+              maxWidth: '780px',
+              maxHeight: '400px',
+              objectFit: 'contain',
+              borderRadius: '15px',
+            }}
+          />
+        )}
+
         {/* Плашка промпт (показываем если есть промпт) */}
         {lesson?.content_blocks?.find((b: any) => b.type === 'prompt') && (
           <>
