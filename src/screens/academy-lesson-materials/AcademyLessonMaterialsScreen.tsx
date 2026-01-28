@@ -465,7 +465,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             inset: 0,
             overflowY: 'auto',
             padding: '40px',
-            paddingBottom: '120px',
+            paddingBottom: '200px',
             WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
             maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
           }}>
