@@ -10,6 +10,7 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
+import playIcon from '../../assets/tour-video/play-icon.png';
 // @ts-ignore
 import testVideo from '../../assets/test-video.mp4';
 
@@ -23,6 +24,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -199,7 +201,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           <video
             ref={videoRef}
             src={video?.video_url || testVideo}
-            controls
+            controls={!showOverlay}
             playsInline
             controlsList="nodownload"
             preload="auto"
@@ -216,6 +218,59 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               borderRadius: '30px',
             }}
           />
+
+          {/* Blur overlay с кнопкой плей */}
+          {showOverlay && (
+            <>
+              <div className="blur-wave" style={{
+                position: 'absolute',
+                inset: 0,
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+              }} />
+
+              <div 
+                onClick={() => {
+                  setShowOverlay(false);
+                  if (videoRef.current) {
+                    videoRef.current.requestFullscreen?.();
+                    videoRef.current.play();
+                  }
+                }}
+                className="blur-wave" 
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '98px',
+                  height: '98px',
+                  backdropFilter: 'blur(50px)',
+                  background: 'rgba(0, 0, 0, 0.1)',
+                  border: '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '62px',
+                  overflow: 'clip',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img 
+                  src={playIcon}
+                  alt="плей"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}
