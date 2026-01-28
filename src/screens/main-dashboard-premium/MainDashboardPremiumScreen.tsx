@@ -247,7 +247,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           {/* Иконка метакоинов - круг (364:636) */}
           <div style={{
             position: 'absolute',
-            left: '440px',
+            left: '460px',
             top: '0px',
             width: '159px',
             height: '159px',
@@ -271,8 +271,8 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           {/* Текст "X метакоинов" - Gotham Pro Bold */}
           <div style={{
             position: 'absolute',
-            left: '630px',
-            top: '40px',
+            left: '640px',
+            top: '28px',
             width: '400px',
             height: '45px',
             fontFamily: 'Gotham Pro',
@@ -293,8 +293,8 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             className="button-inner-glow"
             style={{
               position: 'absolute',
-              left: '630px',
-              top: '86px',
+              left: '640px',
+              top: '74px',
               width: '247px',
               height: '79px',
               cursor: 'pointer',

@@ -25,6 +25,12 @@ export const AcademyCoursesAllScreen: React.FC = () => {
 
   useEffect(() => {
     calculateProgress();
+    
+    // Пересчитывать при возврате на экран
+    const handleFocus = () => calculateProgress();
+    window.addEventListener('focus', handleFocus);
+    
+    return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
   const calculateProgress = async () => {
