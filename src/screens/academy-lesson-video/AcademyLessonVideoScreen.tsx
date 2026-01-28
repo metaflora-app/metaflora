@@ -11,8 +11,6 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
 import playIcon from '../../assets/play-button.png';
-// @ts-ignore
-import testVideo from '../../assets/test-video.mp4';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
