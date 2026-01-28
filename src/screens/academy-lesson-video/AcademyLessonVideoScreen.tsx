@@ -8,9 +8,9 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
+import testVideo from '../../assets/test-video.mp4';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -196,7 +196,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           {/* Видео элемент с нативными контролами */}
           <video
             ref={videoRef}
-            src={video?.video_url || 'https://www.w3schools.com/html/mov_bbb.mp4'}
+            src={video?.video_url || testVideo}
             controls
             playsInline
             controlsList="nodownload"
