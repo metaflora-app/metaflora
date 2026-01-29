@@ -548,8 +548,21 @@ const PoligonArticlesAllScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Динамический рендер статей из Supabase */}
-        {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
+        {/* Контейнер для карточек с опциональным скроллом */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: '600px',
+          width: '100%',
+          height: articles.length > 4 ? 'calc(100vh - 700px)' : 'auto',
+          overflowY: articles.length > 4 ? 'auto' : 'visible',
+          WebkitMaskImage: articles.length > 4 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
+          maskImage: articles.length > 4 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
+          zIndex: 2,
+        }}>
+          {/* Динамический рендер статей из Supabase */}
+          {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
+        </div>
 
         {/* Card 1 - Академия (53:685) - FALLBACK если нет данных */}
         {!loading && !error && articles.length === 0 && (
