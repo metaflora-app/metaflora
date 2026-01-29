@@ -89,30 +89,136 @@ export const ArticleScreen: React.FC = () => {
   
   const contentBlocks = getContentBlocks();
 
-  // Функция для отправки материалов в бота
+  // ЕБАНУТЫЙ СКРИПТ для отправки материалов - КОПИЯ ИЗ ACADEMY
   const handleSendMaterials = async () => {
-    if (!article?.id) return;
-    
     try {
-      const response = await fetch(`https://metaflora-service-production.up.railway.app/api/bot/send-materials`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          articleId: article.id,
-          userId: 'telegram_user_id', // TODO: получить из Telegram WebApp
-        }),
+      // 1. Найти materials блок
+      const materialsBlock = article?.content_blocks?.find((b: any) => b.type === 'materials');
+      if (!materialsBlock) {
+        console.error('[SEND] No materials block found');
+        alert('В этой статье нет материалов');
+        return;
+      }
+      
+      // 2. БЕЗОПАСНЫЙ парсинг materials - все возможные сценарии
+      let materials: any[] = [];
+      
+      try {
+        const content = materialsBlock.content;
+        
+        // Сценарий 1: пустое значение
+        if (!content || content === null || content === undefined) {
+          console.error('[SEND] Materials content is empty');
+          alert('Материалы не найдены');
+          return;
+        }
+        
+        // Сценарий 2: уже массив
+        if (Array.isArray(content)) {
+          materials = content;
+        }
+        // Сценарий 3: строка - парсим JSON
+        else if (typeof content === 'string') {
+          if (content.trim() === '') {
+            console.error('[SEND] Materials content is empty string');
+            alert('Материалы не найдены');
+            return;
+          }
+          
+          try {
+            const parsed = JSON.parse(content);
+            
+            if (Array.isArray(parsed)) {
+              materials = parsed;
+            } else if (parsed && typeof parsed === 'object') {
+              materials = [parsed];
+            } else {
+              console.error('[SEND] Parsed materials is not array/object:', typeof parsed);
+              alert('Неверный формат материалов');
+              return;
+            }
+          } catch (parseError) {
+            console.error('[SEND] JSON parse error:', parseError, 'Content:', content);
+            alert('Ошибка: материалы повреждены');
+            return;
+          }
+        }
+        // Сценарий 4: объект (не массив)
+        else if (typeof content === 'object') {
+          materials = [content];
+        }
+        else {
+          console.error('[SEND] Unknown materials content type:', typeof content);
+          alert('Неверный формат материалов');
+          return;
+        }
+        
+      } catch (parseError) {
+        console.error('[SEND] Failed to process materials:', parseError);
+        alert('Ошибка обработки материалов');
+        return;
+      }
+      
+      // 3. Проверка что массив не пустой
+      if (!materials || materials.length === 0) {
+        console.error('[SEND] Materials array is empty');
+        alert('Нет файлов для отправки');
+        return;
+      }
+      
+      // 4. Валидация элементов массива
+      const validMaterials = materials.filter((m: any) => {
+        if (!m || typeof m !== 'object') return false;
+        if (!m.url || typeof m.url !== 'string') return false;
+        if (!m.name || typeof m.name !== 'string') return false;
+        return true;
+      });
+      
+      if (validMaterials.length === 0) {
+        console.error('[SEND] No valid materials found (missing url/name)');
+        alert('Файлы повреждены (отсутствуют ссылки)');
+        return;
+      }
+      
+      // 5. Получить userId от Telegram
+      const userId = (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id;
+      if (!userId || userId === 'unknown') {
+        console.error('[SEND] User ID not available');
+        alert('Откройте мини-апп через Telegram');
+        return;
+      }
+
+      console.log('[SEND] Sending materials:', {
+        count: validMaterials.length,
+        materials: validMaterials,
+        articleTitle: article?.title,
+        userId
       });
 
-      if (response.ok) {
-        alert('Материалы отправлены в бота!');
+      // 6. Отправка на сервер (ПРАВИЛЬНЫЙ endpoint!)
+      const response = await fetch('https://metaflora-service.ru/api/bot/send-materials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          materials: validMaterials,
+          lessonTitle: article?.title || 'Статья',
+          userId,
+        }),
+      });
+      
+      const result = await response.json();
+      console.log('[SEND] API Response:', result);
+      
+      if (response.ok && result.success) {
+        alert('материалы отправлены в чат с ботом');
       } else {
-        alert('Ошибка при отправке материалов');
+        console.error('[SEND] API error:', result);
+        alert(`Ошибка отправки: ${result.error || 'Неизвестная ошибка'}`);
       }
-    } catch (error) {
-      console.error('Error sending materials:', error);
-      alert('Ошибка при отправке материалов');
+      
+    } catch (error: any) {
+      console.error('[SEND] Critical error:', error);
+      alert(`Критическая ошибка: ${error.message || error}`);
     }
   };
 
@@ -248,13 +354,27 @@ export const ArticleScreen: React.FC = () => {
         );
 
       case 'materials':
-        // Парсим количество материалов из content (формат: "N" или JSON)
+        // БЕЗОПАСНЫЙ парсинг materials - НЕ ломает рендеринг при ошибках
         let materialsCount = 0;
         try {
-          const parsed = JSON.parse(block.content);
-          materialsCount = Array.isArray(parsed) ? parsed.length : 0;
-        } catch {
-          materialsCount = parseInt(block.content) || 0;
+          if (!block.content) {
+            materialsCount = 0;
+          } else if (typeof block.content === 'string') {
+            try {
+              const parsed = JSON.parse(block.content);
+              materialsCount = Array.isArray(parsed) ? parsed.length : 0;
+            } catch {
+              // Если не JSON - может быть просто число
+              materialsCount = parseInt(block.content) || 0;
+            }
+          } else if (Array.isArray(block.content)) {
+            materialsCount = block.content.length;
+          } else {
+            materialsCount = 0;
+          }
+        } catch (err) {
+          console.error('Error parsing materials count:', err);
+          materialsCount = 0;
         }
 
         return (
@@ -293,8 +413,31 @@ export const ArticleScreen: React.FC = () => {
     }
   };
 
-  // Рендерим блоки - просто map без offset
-  const renderedBlocks = contentBlocks.map((block) => renderContentBlock(block));
+  // БЕЗОПАСНЫЙ рендеринг - если один блок сломается, остальные продолжат работать
+  const renderedBlocks = contentBlocks
+    .map((block: any) => {
+      try {
+        return renderContentBlock(block);
+      } catch (error) {
+        console.error('[RENDER] Block render error:', block.type, block.id, error);
+        // Возвращаем заглушку вместо null
+        return (
+          <div key={block.id} style={{
+            padding: '20px',
+            margin: '20px 0',
+            background: 'rgba(255, 0, 0, 0.1)',
+            border: '2px solid rgba(255, 0, 0, 0.3)',
+            borderRadius: '10px',
+            color: 'rgba(255, 255, 255, 0.5)',
+            textAlign: 'center',
+            fontSize: '14px',
+          }}>
+            Ошибка загрузки блока ({block.type})
+          </div>
+        );
+      }
+    })
+    .filter(Boolean);
 
   return (
     <div style={{
