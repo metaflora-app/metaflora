@@ -49,15 +49,15 @@ export const AcademyCourseSystemScreen: React.FC = () => {
 
   // Координаты относительно контейнера (если >8) или страницы (если <=8)
   const lessonPositions = lessons.length > 8 ? [
-    // Относительно контейнера: контейнер 380px, фейд 20px, карточки с 30px
-    { left: 'calc(50% - 236.5px)', top: '30px', numberLeft: 'calc(50% - 449px)', numberTop: '2px' },
-    { left: 'calc(50% + 232.5px)', top: '135px', numberLeft: 'calc(50% + 20px)', numberTop: '107px' },
-    { left: 'calc(50% - 236.5px)', top: '397px', numberLeft: 'calc(50% - 449px)', numberTop: '369px' },
-    { left: 'calc(50% + 232.5px)', top: '514px', numberLeft: 'calc(50% + 20px)', numberTop: '486px' },
-    { left: 'calc(50% - 236.5px)', top: '776px', numberLeft: 'calc(50% - 449px)', numberTop: '748px' },
-    { left: 'calc(50% + 232.5px)', top: '893px', numberLeft: 'calc(50% + 20px)', numberTop: '865px' },
-    { left: 'calc(50% - 235.5px)', top: '1166px', numberLeft: 'calc(50% - 449px)', numberTop: '1138px' },
-    { left: 'calc(50% + 232.5px)', top: '1283px', numberLeft: 'calc(50% + 20px)', numberTop: '1255px' },
+    // Относительно контейнера: контейнер 380px, фейд 20px, карточки с 45px
+    { left: 'calc(50% - 236.5px)', top: '45px', numberLeft: 'calc(50% - 449px)', numberTop: '17px' },
+    { left: 'calc(50% + 232.5px)', top: '150px', numberLeft: 'calc(50% + 20px)', numberTop: '122px' },
+    { left: 'calc(50% - 236.5px)', top: '412px', numberLeft: 'calc(50% - 449px)', numberTop: '384px' },
+    { left: 'calc(50% + 232.5px)', top: '529px', numberLeft: 'calc(50% + 20px)', numberTop: '501px' },
+    { left: 'calc(50% - 236.5px)', top: '791px', numberLeft: 'calc(50% - 449px)', numberTop: '763px' },
+    { left: 'calc(50% + 232.5px)', top: '908px', numberLeft: 'calc(50% + 20px)', numberTop: '880px' },
+    { left: 'calc(50% - 235.5px)', top: '1181px', numberLeft: 'calc(50% - 449px)', numberTop: '1153px' },
+    { left: 'calc(50% + 232.5px)', top: '1298px', numberLeft: 'calc(50% + 20px)', numberTop: '1270px' },
   ] : [
     // Оригинальные координаты для <=8
     { left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
