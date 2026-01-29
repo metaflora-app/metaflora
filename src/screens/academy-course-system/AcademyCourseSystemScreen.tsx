@@ -47,7 +47,20 @@ export const AcademyCourseSystemScreen: React.FC = () => {
     }
   };
 
-  const lessonPositions = [
+  // Координаты относительно контейнера (если >8) или страницы (если <=8)
+  const containerOffset = 430; // начало контейнера
+  const lessonPositions = lessons.length > 8 ? [
+    // Относительно контейнера (вычитаем containerOffset)
+    { left: 'calc(50% - 236.5px)', top: '0px', numberLeft: 'calc(50% - 449px)', numberTop: '-28px' },
+    { left: 'calc(50% + 232.5px)', top: '105px', numberLeft: 'calc(50% + 20px)', numberTop: '77px' },
+    { left: 'calc(50% - 236.5px)', top: '367px', numberLeft: 'calc(50% - 449px)', numberTop: '339px' },
+    { left: 'calc(50% + 232.5px)', top: '484px', numberLeft: 'calc(50% + 20px)', numberTop: '456px' },
+    { left: 'calc(50% - 236.5px)', top: '746px', numberLeft: 'calc(50% - 449px)', numberTop: '718px' },
+    { left: 'calc(50% + 232.5px)', top: '863px', numberLeft: 'calc(50% + 20px)', numberTop: '835px' },
+    { left: 'calc(50% - 235.5px)', top: '1136px', numberLeft: 'calc(50% - 449px)', numberTop: '1108px' },
+    { left: 'calc(50% + 232.5px)', top: '1253px', numberLeft: 'calc(50% + 20px)', numberTop: '1225px' },
+  ] : [
+    // Оригинальные координаты для <=8
     { left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
     { left: 'calc(50% + 232.5px)', top: '535px', numberLeft: 'calc(50% + 20px)', numberTop: '507px' },
     { left: 'calc(50% - 236.5px)', top: '797px', numberLeft: 'calc(50% - 449px)', numberTop: '769px' },
