@@ -185,17 +185,124 @@ export const AcademyCourseSystemScreen: React.FC = () => {
             width: '890px',
             height: '1166px',
             objectFit: 'contain',
+            zIndex: 1,
           }}
         />
 
-        {/* Карточки уроков из API */}
-        {lessons.map((lesson, index) => {
+        {/* СКРОЛЛ КОНТЕЙНЕР ТОЛЬКО ЕСЛИ >8 */}
+        {lessons.length > 8 ? (
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: '430px',
+            width: '1180px',
+            height: '1600px',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%)',
+            zIndex: 2,
+          }}>
+            <div style={{
+              position: 'relative',
+              width: '1180px',
+              minHeight: `${lessons.length * 350}px`,
+            }}>
+              {lessons.map((lesson, index) => {
+                const position = lessonPositions[index];
+                if (!position) return null;
+                
+                return (
+                  <React.Fragment key={lesson.id}>
+                    <div className="blur-wave" style={{
+                      position: 'absolute',
+                      left: position.left,
+                      top: position.top,
+                      transform: 'translateX(-50%)',
+                      width: index === 6 ? '427px' : '425px',
+                      height: '317px',
+                      backdropFilter: 'blur(50px)',
+                      background: 'black',
+                      border: '4px solid rgba(255, 255, 255, 0.3)',
+                      borderRadius: '30px',
+                      overflow: 'clip',
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: '26px',
+                        left: '18px',
+                        right: '18px',
+                        bottom: '130px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        fontFamily: 'Gotham Pro',
+                        fontWeight: 300,
+                        fontSize: '27px',
+                        lineHeight: '1.1',
+                        color: 'white',
+                        textAlign: 'center',
+                      }}>
+                        <p style={{ margin: 0 }}>
+                          {lesson.description || lesson.annotation || 'Описание урока'}
+                        </p>
+                      </div>
+                      <img 
+                        src={goButton}
+                        alt="перейти"
+                        onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}`)}
+                        className="button-inner-glow"
+                        style={{
+                          position: 'absolute',
+                          left: '50%',
+                          bottom: '26px',
+                          transform: 'translateX(-50%)',
+                          width: '257px',
+                          height: '73px',
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </div>
+                    <div className="blur-wave" style={{
+                      position: 'absolute',
+                      left: position.numberLeft,
+                      top: position.numberTop,
+                      transform: 'translateX(-50%)',
+                      width: '56px',
+                      height: '56px',
+                      backdropFilter: 'blur(50px)',
+                      background: 'black',
+                      border: index === 3 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
+                      borderRadius: '30px',
+                      overflow: 'clip',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 10,
+                    }}>
+                      <div style={{
+                        fontFamily: 'Inter',
+                        fontWeight: 700,
+                        fontSize: '32px',
+                        lineHeight: 0,
+                        color: 'white',
+                      }}>
+                        <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || index + 1}</p>
+                      </div>
+                    </div>
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          /* БЕЗ скролла если <=8 */
+          lessons.map((lesson, index) => {
             const position = lessonPositions[index];
             if (!position) return null;
             
             return (
               <React.Fragment key={lesson.id}>
-                {/* Карточка урока */}
                 <div className="blur-wave" style={{
                   position: 'absolute',
                   left: position.left,
@@ -209,7 +316,6 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                   borderRadius: '30px',
                   overflow: 'clip',
                 }}>
-                  {/* Текст описания */}
                   <div style={{
                     position: 'absolute',
                     top: '26px',
@@ -230,8 +336,6 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                       {lesson.description || lesson.annotation || 'Описание урока'}
                     </p>
                   </div>
-
-                  {/* Кнопка "перейти" */}
                   <img 
                     src={goButton}
                     alt="перейти"
@@ -248,8 +352,6 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                     }}
                   />
                 </div>
-
-                {/* Номер урока - ПОВЕРХ карточки */}
                 <div className="blur-wave" style={{
                   position: 'absolute',
                   left: position.numberLeft,
@@ -279,34 +381,7 @@ export const AcademyCourseSystemScreen: React.FC = () => {
                 </div>
               </React.Fragment>
             );
-          })}
-
-        {/* Фейд overlay ЕСЛИ уроков >8 - НЕ влияет на layout */}
-        {lessons.length > 8 && (
-          <>
-            {/* Фейд сверху - от черного к прозрачному */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: '370px',
-              width: '100%',
-              height: '120px',
-              background: 'linear-gradient(to bottom, rgba(2, 1, 1, 1) 0%, rgba(2, 1, 1, 0.8) 30%, transparent 100%)',
-              pointerEvents: 'none',
-              zIndex: 100,
-            }} />
-            {/* Фейд снизу - от прозрачного к черному */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: '1850px',
-              width: '100%',
-              height: '150px',
-              background: 'linear-gradient(to bottom, transparent 0%, rgba(2, 1, 1, 0.8) 70%, rgba(2, 1, 1, 1) 100%)',
-              pointerEvents: 'none',
-              zIndex: 100,
-            }} />
-          </>
+          })
         )}
 
         {/* Footer */}
