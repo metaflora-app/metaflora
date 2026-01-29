@@ -551,34 +551,6 @@ const PoligonArticlesAllScreen: React.FC = () => {
         {/* Динамический рендер статей из Supabase */}
         {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
 
-        {/* Фейд overlay ЕСЛИ статей >4 - НЕ влияет на layout */}
-        {!loading && !error && articles.length > 4 && (
-          <>
-            {/* Фейд сверху - от черного к прозрачному */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: '550px',
-              width: '100%',
-              height: '120px',
-              background: 'linear-gradient(to bottom, rgba(2, 1, 1, 1) 0%, rgba(2, 1, 1, 0.8) 30%, transparent 100%)',
-              pointerEvents: 'none',
-              zIndex: 100,
-            }} />
-            {/* Фейд снизу - от прозрачного к черному */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: '1850px',
-              width: '100%',
-              height: '150px',
-              background: 'linear-gradient(to bottom, transparent 0%, rgba(2, 1, 1, 0.8) 70%, rgba(2, 1, 1, 1) 100%)',
-              pointerEvents: 'none',
-              zIndex: 100,
-            }} />
-          </>
-        )}
-
         {/* Card 1 - Академия (53:685) - FALLBACK если нет данных */}
         {!loading && !error && articles.length === 0 && (
         <div style={{ display: 'none' }}>

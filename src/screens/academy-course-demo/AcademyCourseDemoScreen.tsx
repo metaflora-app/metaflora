@@ -278,34 +278,6 @@ export const AcademyCourseDemoScreen: React.FC = () => {
             );
           })}
 
-        {/* Фейд overlay ЕСЛИ уроков >8 - НЕ влияет на layout */}
-        {lessons.length > 8 && (
-          <>
-            {/* Фейд сверху - от черного к прозрачному */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: '370px',
-              width: '100%',
-              height: '120px',
-              background: 'linear-gradient(to bottom, rgba(2, 1, 1, 1) 0%, rgba(2, 1, 1, 0.8) 30%, transparent 100%)',
-              pointerEvents: 'none',
-              zIndex: 100,
-            }} />
-            {/* Фейд снизу - от прозрачного к черному */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: '1850px',
-              width: '100%',
-              height: '150px',
-              background: 'linear-gradient(to bottom, transparent 0%, rgba(2, 1, 1, 0.8) 70%, rgba(2, 1, 1, 1) 100%)',
-              pointerEvents: 'none',
-              zIndex: 100,
-            }} />
-          </>
-        )}
-
         {/* Footer */}
         <div style={{
           position: 'absolute',
