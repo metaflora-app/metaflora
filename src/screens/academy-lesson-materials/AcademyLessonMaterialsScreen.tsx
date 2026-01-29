@@ -117,62 +117,141 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   
   const contentBlocks = getContentBlocks();
 
-  // Функция для отправки материалов в бота
+  // ЕБАНУТЫЙ СКРИПТ для отправки материалов с защитой от ВСЕХ сценариев
   const handleSendMaterials = async () => {
     try {
-      // Берем materials из content_blocks
+      // 1. Найти materials блок
       const materialsBlock = lesson?.content_blocks?.find((b: any) => b.type === 'materials');
       if (!materialsBlock) {
-        console.error('No materials block found');
-        alert('Ошибка: нет материалов в уроке');
+        console.error('[SEND] No materials block found');
+        alert('В этом уроке нет материалов');
         return;
       }
       
-      let materials = [];
+      // 2. БЕЗОПАСНЫЙ парсинг materials - все возможные сценарии
+      let materials: any[] = [];
+      
       try {
-        materials = JSON.parse(materialsBlock.content);
-      } catch (e) {
-        console.error('Failed to parse materials:', e);
-        alert('Ошибка: неверный формат материалов');
+        const content = materialsBlock.content;
+        
+        // Сценарий 1: пустое значение
+        if (!content || content === null || content === undefined) {
+          console.error('[SEND] Materials content is empty');
+          alert('Материалы не найдены');
+          return;
+        }
+        
+        // Сценарий 2: уже массив (не должно быть, но на всякий)
+        if (Array.isArray(content)) {
+          materials = content;
+        }
+        // Сценарий 3: строка - парсим JSON
+        else if (typeof content === 'string') {
+          // Пустая строка
+          if (content.trim() === '') {
+            console.error('[SEND] Materials content is empty string');
+            alert('Материалы не найдены');
+            return;
+          }
+          
+          // Попытка парсинга
+          try {
+            const parsed = JSON.parse(content);
+            
+            // Проверяем что получилось
+            if (Array.isArray(parsed)) {
+              materials = parsed;
+            } else if (parsed && typeof parsed === 'object') {
+              // Одиночный объект - оборачиваем в массив
+              materials = [parsed];
+            } else {
+              console.error('[SEND] Parsed materials is not array/object:', typeof parsed);
+              alert('Неверный формат материалов');
+              return;
+            }
+          } catch (parseError) {
+            console.error('[SEND] JSON parse error:', parseError, 'Content:', content);
+            alert('Ошибка: материалы повреждены');
+            return;
+          }
+        }
+        // Сценарий 4: объект (не массив)
+        else if (typeof content === 'object') {
+          materials = [content];
+        }
+        // Сценарий 5: что-то другое
+        else {
+          console.error('[SEND] Unknown materials content type:', typeof content);
+          alert('Неверный формат материалов');
+          return;
+        }
+        
+      } catch (parseError) {
+        console.error('[SEND] Failed to process materials:', parseError);
+        alert('Ошибка обработки материалов');
         return;
       }
       
-      if (materials.length === 0) {
+      // 3. Проверка что массив не пустой
+      if (!materials || materials.length === 0) {
+        console.error('[SEND] Materials array is empty');
         alert('Нет файлов для отправки');
         return;
       }
       
+      // 4. Валидация элементов массива
+      const validMaterials = materials.filter((m: any) => {
+        if (!m || typeof m !== 'object') return false;
+        if (!m.url || typeof m.url !== 'string') return false;
+        if (!m.name || typeof m.name !== 'string') return false;
+        return true;
+      });
+      
+      if (validMaterials.length === 0) {
+        console.error('[SEND] No valid materials found (missing url/name)');
+        alert('Файлы повреждены (отсутствуют ссылки)');
+        return;
+      }
+      
+      // 5. Получить userId от Telegram
       const userId = (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id;
-      if (!userId) {
-        console.error('User ID not available');
-        alert('Ошибка: не удалось получить ID пользователя');
+      if (!userId || userId === 'unknown') {
+        console.error('[SEND] User ID not available');
+        alert('Откройте мини-апп через Telegram');
         return;
       }
 
-      console.log('Sending materials:', { materials, lessonTitle: lesson?.title, userId });
+      console.log('[SEND] Sending materials:', {
+        count: validMaterials.length,
+        materials: validMaterials,
+        lessonTitle: lesson?.title,
+        userId
+      });
 
+      // 6. Отправка на сервер
       const response = await fetch('https://metaflora-service.ru/api/bot/send-materials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          materials,
+          materials: validMaterials,
           lessonTitle: lesson?.title || 'Урок',
           userId,
         }),
       });
       
       const result = await response.json();
-      console.log('Response:', result);
+      console.log('[SEND] API Response:', result);
       
       if (response.ok && result.success) {
-        alert('материалы отправлены в чат с ботом');
+        alert(`материалы отправлены в чат с ботом (${validMaterials.length} файлов)`);
       } else {
-        console.error('API error:', result);
-        alert(`Ошибка API: ${result.error || 'Unknown'}`);
+        console.error('[SEND] API error:', result);
+        alert(`Ошибка отправки: ${result.error || 'Неизвестная ошибка'}`);
       }
-    } catch (error) {
-      console.error('Error sending materials:', error);
-      alert(`Ошибка отправки: ${error}`);
+      
+    } catch (error: any) {
+      console.error('[SEND] Critical error:', error);
+      alert(`Критическая ошибка: ${error.message || error}`);
     }
   };
 
@@ -288,12 +367,27 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         );
 
       case 'materials':
+        // БЕЗОПАСНЫЙ парсинг materials - НЕ ломает рендеринг при ошибках
         let materialsCount = 0;
         try {
-          const parsed = JSON.parse(block.content);
-          materialsCount = Array.isArray(parsed) ? parsed.length : 0;
-        } catch {
-          materialsCount = parseInt(block.content) || 0;
+          if (!block.content) {
+            materialsCount = 0;
+          } else if (typeof block.content === 'string') {
+            try {
+              const parsed = JSON.parse(block.content);
+              materialsCount = Array.isArray(parsed) ? parsed.length : 0;
+            } catch {
+              // Если не JSON - может быть просто число
+              materialsCount = parseInt(block.content) || 0;
+            }
+          } else if (Array.isArray(block.content)) {
+            materialsCount = block.content.length;
+          } else {
+            materialsCount = 0;
+          }
+        } catch (err) {
+          console.error('Error parsing materials count:', err);
+          materialsCount = 0;
         }
 
         return (
@@ -332,7 +426,31 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
     }
   };
 
-  const renderedBlocks = contentBlocks.map((block: any) => renderContentBlock(block));
+  // БЕЗОПАСНЫЙ рендеринг - если один блок сломается, остальные продолжат работать
+  const renderedBlocks = contentBlocks
+    .map((block: any) => {
+      try {
+        return renderContentBlock(block);
+      } catch (error) {
+        console.error('[RENDER] Block render error:', block.type, block.id, error);
+        // Возвращаем заглушку вместо null, чтобы видеть что блок сломан
+        return (
+          <div key={block.id} style={{
+            padding: '20px',
+            margin: '20px 0',
+            background: 'rgba(255, 0, 0, 0.1)',
+            border: '2px solid rgba(255, 0, 0, 0.3)',
+            borderRadius: '10px',
+            color: 'rgba(255, 255, 255, 0.5)',
+            textAlign: 'center',
+            fontSize: '14px',
+          }}>
+            Ошибка загрузки блока ({block.type})
+          </div>
+        );
+      }
+    })
+    .filter(Boolean); // Убираем null если есть
 
   return (
     <>
