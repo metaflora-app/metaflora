@@ -48,14 +48,14 @@ export const AcademyCourseAutomationScreen: React.FC = () => {
   };
 
   const lessonPositions = lessons.length > 8 ? [
-    { left: 'calc(50% - 236.5px)', top: '45px', numberLeft: 'calc(50% - 449px)', numberTop: '17px' },
-    { left: 'calc(50% + 232.5px)', top: '150px', numberLeft: 'calc(50% + 20px)', numberTop: '122px' },
-    { left: 'calc(50% - 236.5px)', top: '412px', numberLeft: 'calc(50% - 449px)', numberTop: '384px' },
-    { left: 'calc(50% + 232.5px)', top: '529px', numberLeft: 'calc(50% + 20px)', numberTop: '501px' },
-    { left: 'calc(50% - 236.5px)', top: '791px', numberLeft: 'calc(50% - 449px)', numberTop: '763px' },
-    { left: 'calc(50% + 232.5px)', top: '908px', numberLeft: 'calc(50% + 20px)', numberTop: '880px' },
-    { left: 'calc(50% - 235.5px)', top: '1181px', numberLeft: 'calc(50% - 449px)', numberTop: '1153px' },
-    { left: 'calc(50% + 232.5px)', top: '1298px', numberLeft: 'calc(50% + 20px)', numberTop: '1270px' },
+    { left: 'calc(50% - 236.5px)', top: '40px', numberLeft: 'calc(50% - 449px)', numberTop: '12px' },
+    { left: 'calc(50% + 232.5px)', top: '145px', numberLeft: 'calc(50% + 20px)', numberTop: '117px' },
+    { left: 'calc(50% - 236.5px)', top: '407px', numberLeft: 'calc(50% - 449px)', numberTop: '379px' },
+    { left: 'calc(50% + 232.5px)', top: '524px', numberLeft: 'calc(50% + 20px)', numberTop: '496px' },
+    { left: 'calc(50% - 236.5px)', top: '786px', numberLeft: 'calc(50% - 449px)', numberTop: '758px' },
+    { left: 'calc(50% + 232.5px)', top: '903px', numberLeft: 'calc(50% + 20px)', numberTop: '875px' },
+    { left: 'calc(50% - 235.5px)', top: '1176px', numberLeft: 'calc(50% - 449px)', numberTop: '1148px' },
+    { left: 'calc(50% + 232.5px)', top: '1293px', numberLeft: 'calc(50% + 20px)', numberTop: '1265px' },
   ] : [
     { left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
     { left: 'calc(50% + 232.5px)', top: '535px', numberLeft: 'calc(50% + 20px)', numberTop: '507px' },

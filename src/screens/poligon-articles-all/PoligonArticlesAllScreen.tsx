@@ -132,7 +132,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
   const renderArticleCard = (article: PolygonArticle, index: number, useScrollContainer: boolean) => {
     // Если контейнер - координаты относительно него, иначе - от страницы
     const yPosition = useScrollContainer 
-      ? 50 + (index * 280)  // Контейнер на 550px, карточки с 50px внутри
+      ? 100 + (index * 280)  // Контейнер на 550px, карточки с 100px внутри = 650px от страницы
       : 600 + (index * 280); // Оригинальные координаты
     const bgImages = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
     const bgImage = article.cover_image_url || bgImages[index % 4];
