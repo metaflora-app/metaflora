@@ -185,19 +185,8 @@ export const AcademyCourseDemoScreen: React.FC = () => {
           }}
         />
 
-        {/* Контейнер для карточек с опциональным скроллом */}
-        <div style={{
-          position: 'absolute',
-          left: 0,
-          top: '430px',
-          width: '100%',
-          height: lessons.length > 8 ? 'calc(100vh - 600px)' : 'auto',
-          overflowY: lessons.length > 8 ? 'auto' : 'visible',
-          WebkitMaskImage: lessons.length > 8 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
-          maskImage: lessons.length > 8 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
-        }}>
-          {/* Карточки уроков из API */}
-          {lessons.map((lesson, index) => {
+        {/* Карточки уроков из API */}
+        {lessons.map((lesson, index) => {
             const position = lessonPositions[index];
             if (!position) return null;
             
@@ -285,10 +274,37 @@ export const AcademyCourseDemoScreen: React.FC = () => {
                   <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || (index + 1)}</p>
                 </div>
               </div>
-            </React.Fragment>
+              </React.Fragment>
             );
           })}
-        </div>
+
+        {/* Фейд overlay ЕСЛИ уроков >8 - НЕ влияет на layout */}
+        {lessons.length > 8 && (
+          <>
+            {/* Фейд сверху */}
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              top: '430px',
+              width: '100%',
+              height: '100px',
+              background: 'linear-gradient(to bottom, #020101 0%, transparent 100%)',
+              pointerEvents: 'none',
+              zIndex: 100,
+            }} />
+            {/* Фейд снизу */}
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              top: '1900px',
+              width: '100%',
+              height: '100px',
+              background: 'linear-gradient(to bottom, transparent 0%, #020101 100%)',
+              pointerEvents: 'none',
+              zIndex: 100,
+            }} />
+          </>
+        )}
 
         {/* Footer */}
         <div style={{

@@ -548,21 +548,36 @@ const PoligonArticlesAllScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Контейнер для карточек с опциональным скроллом */}
-        <div style={{
-          position: 'absolute',
-          left: 0,
-          top: '600px',
-          width: '100%',
-          height: articles.length > 4 ? 'calc(100vh - 700px)' : 'auto',
-          overflowY: articles.length > 4 ? 'auto' : 'visible',
-          WebkitMaskImage: articles.length > 4 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
-          maskImage: articles.length > 4 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
-          zIndex: 2,
-        }}>
-          {/* Динамический рендер статей из Supabase */}
-          {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
-        </div>
+        {/* Динамический рендер статей из Supabase */}
+        {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
+
+        {/* Фейд overlay ЕСЛИ статей >4 - НЕ влияет на layout */}
+        {!loading && !error && articles.length > 4 && (
+          <>
+            {/* Фейд сверху */}
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              top: '600px',
+              width: '100%',
+              height: '100px',
+              background: 'linear-gradient(to bottom, #020101 0%, transparent 100%)',
+              pointerEvents: 'none',
+              zIndex: 100,
+            }} />
+            {/* Фейд снизу */}
+            <div style={{
+              position: 'absolute',
+              left: 0,
+              top: '1900px',
+              width: '100%',
+              height: '100px',
+              background: 'linear-gradient(to bottom, transparent 0%, #020101 100%)',
+              pointerEvents: 'none',
+              zIndex: 100,
+            }} />
+          </>
+        )}
 
         {/* Card 1 - Академия (53:685) - FALLBACK если нет данных */}
         {!loading && !error && articles.length === 0 && (
