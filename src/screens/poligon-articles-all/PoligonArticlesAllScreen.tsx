@@ -45,9 +45,14 @@ const PoligonArticlesAllScreen: React.FC = () => {
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Загрузить статьи при монтировании И при изменении фильтров
   useEffect(() => {
     loadArticles();
-  }, [selectedFilters]); // Убрал searchValue отсюда
+  }, []); // Первая загрузка при монтировании
+  
+  useEffect(() => {
+    loadArticles();
+  }, [selectedFilters]); // Перезагрузка при изменении фильтров
 
   const loadArticles = async () => {
     setLoading(true);
@@ -56,7 +61,8 @@ const PoligonArticlesAllScreen: React.FC = () => {
     try {
       const activeFilters = selectedFilters.filter(f => f !== 'вернуть');
       
-      const result = await getPolygonArticlesWithCache({
+      // УБРАЛ КЭШ - теперь всегда свежие данные
+      const result = await getPolygonArticles({
         tags: activeFilters.length > 0 ? activeFilters : undefined,
         isActive: true,
         limit: 20,

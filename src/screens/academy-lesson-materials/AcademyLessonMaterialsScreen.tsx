@@ -243,7 +243,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       console.log('[SEND] API Response:', result);
       
       if (response.ok && result.success) {
-        alert(`материалы отправлены в чат с ботом (${validMaterials.length} файлов)`);
+        alert(`материалы отправлены в чат с ботом`);
       } else {
         console.error('[SEND] API error:', result);
         alert(`Ошибка отправки: ${result.error || 'Неизвестная ошибка'}`);
