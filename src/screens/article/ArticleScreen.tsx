@@ -24,6 +24,7 @@ export const ArticleScreen: React.FC = () => {
   const [article, setArticle] = useState<PolygonArticle | null>(null);
   const [, setLoading] = useState(true);
   const [, setError] = useState<string | null>(null);
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -247,24 +248,6 @@ export const ArticleScreen: React.FC = () => {
         );
 
       case 'image':
-        const expandImage = () => {
-          const win = window.open('', '_blank');
-          if (win) {
-            win.document.write(`
-              <html>
-                <head>
-                  <title>Изображение</title>
-                  <style>
-                    body { margin: 0; background: black; display: flex; align-items: center; justify-content: center; height: 100vh; }
-                    img { max-width: 100%; max-height: 100vh; object-fit: contain; }
-                  </style>
-                </head>
-                <body><img src="${block.content}" /></body>
-              </html>
-            `);
-          }
-        };
-        
         return (
           <div
             key={block.id}
@@ -276,13 +259,12 @@ export const ArticleScreen: React.FC = () => {
             }}
           >
             <div 
-              onClick={expandImage}
+              onClick={() => setExpandedImage(block.content)}
               style={{
                 width: '100%',
                 border: '2px solid rgba(0, 0, 0, 0.3)',
                 borderRadius: '20px',
                 overflow: 'hidden',
-                minHeight: '362px',
                 position: 'relative',
                 cursor: 'pointer',
               }}
@@ -298,13 +280,12 @@ export const ArticleScreen: React.FC = () => {
                 }}
               />
             </div>
-            {/* Кнопка развернуть - ПОВЕРХ контейнера */}
             <img
               src={expandButton}
               alt="развернуть"
               onClick={(e) => {
                 e.stopPropagation();
-                expandImage();
+                setExpandedImage(block.content);
               }}
               className="button-inner-glow"
               style={{
@@ -440,6 +421,35 @@ export const ArticleScreen: React.FC = () => {
     .filter(Boolean);
 
   return (
+    <>
+      {/* Fullscreen Image Overlay - КАК В ACADEMY */}
+      {expandedImage && (
+        <div
+          onClick={() => setExpandedImage(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+            backdropFilter: 'blur(20px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          <img
+            src={expandedImage}
+            alt="Полноэкранное изображение"
+            style={{
+              maxWidth: '95vw',
+              maxHeight: '95vh',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+      )}
+
     <div style={{
       position: 'relative',
       width: '100vw',
@@ -749,5 +759,6 @@ export const ArticleScreen: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
