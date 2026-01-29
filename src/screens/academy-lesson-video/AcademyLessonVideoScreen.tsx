@@ -201,8 +201,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             ref={videoRef}
             controls={!showOverlay}
             playsInline
-            preload="auto"
-            crossOrigin="anonymous"
+            preload="metadata"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
@@ -213,17 +212,15 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               }
             }}
             onError={(e) => {
-              console.error('Video error:', e);
-              console.error('Video URL:', video?.video_url);
-              const telegram = (window as any).Telegram;
-              if (telegram?.WebApp?.showPopup) {
-                telegram.WebApp.showPopup({
-                  message: 'ошибка загрузки видео. попробуйте перезагрузить страницу'
-                });
-              }
+              console.error('[VIDEO ERROR]', e);
+              console.error('[VIDEO URL]', video?.video_url);
+              console.error('[VIDEO READYSTATE]', videoRef.current?.readyState);
+              console.error('[VIDEO NETWORKERROR]', videoRef.current?.error);
             }}
-            onLoadStart={() => console.log('Video load start:', video?.video_url)}
-            onLoadedData={() => console.log('Video loaded successfully')}
+            onLoadStart={() => console.log('[VIDEO] Load start:', video?.video_url)}
+            onLoadedMetadata={() => console.log('[VIDEO] Metadata loaded')}
+            onCanPlay={() => console.log('[VIDEO] Can play')}
+            onWaiting={() => console.log('[VIDEO] Waiting for data...')}
             style={{
               width: '100%',
               height: '100%',
