@@ -48,7 +48,6 @@ export const AcademyCourseSystemScreen: React.FC = () => {
   };
 
   // Координаты относительно контейнера (если >8) или страницы (если <=8)
-  const containerOffset = 430; // начало контейнера
   const lessonPositions = lessons.length > 8 ? [
     // Относительно контейнера (вычитаем containerOffset)
     { left: 'calc(50% - 236.5px)', top: '0px', numberLeft: 'calc(50% - 449px)', numberTop: '-28px' },
