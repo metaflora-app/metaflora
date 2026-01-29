@@ -49,15 +49,15 @@ export const AcademyCourseSystemScreen: React.FC = () => {
 
   // Координаты относительно контейнера (если >8) или страницы (если <=8)
   const lessonPositions = lessons.length > 8 ? [
-    // Относительно контейнера (вычитаем containerOffset)
-    { left: 'calc(50% - 236.5px)', top: '0px', numberLeft: 'calc(50% - 449px)', numberTop: '-28px' },
-    { left: 'calc(50% + 232.5px)', top: '105px', numberLeft: 'calc(50% + 20px)', numberTop: '77px' },
-    { left: 'calc(50% - 236.5px)', top: '367px', numberLeft: 'calc(50% - 449px)', numberTop: '339px' },
-    { left: 'calc(50% + 232.5px)', top: '484px', numberLeft: 'calc(50% + 20px)', numberTop: '456px' },
-    { left: 'calc(50% - 236.5px)', top: '746px', numberLeft: 'calc(50% - 449px)', numberTop: '718px' },
-    { left: 'calc(50% + 232.5px)', top: '863px', numberLeft: 'calc(50% + 20px)', numberTop: '835px' },
-    { left: 'calc(50% - 235.5px)', top: '1136px', numberLeft: 'calc(50% - 449px)', numberTop: '1108px' },
-    { left: 'calc(50% + 232.5px)', top: '1253px', numberLeft: 'calc(50% + 20px)', numberTop: '1225px' },
+    // Относительно контейнера: контейнер начинается с 380px, фейд 50px, карточки с 80px
+    { left: 'calc(50% - 236.5px)', top: '80px', numberLeft: 'calc(50% - 449px)', numberTop: '52px' },
+    { left: 'calc(50% + 232.5px)', top: '185px', numberLeft: 'calc(50% + 20px)', numberTop: '157px' },
+    { left: 'calc(50% - 236.5px)', top: '447px', numberLeft: 'calc(50% - 449px)', numberTop: '419px' },
+    { left: 'calc(50% + 232.5px)', top: '564px', numberLeft: 'calc(50% + 20px)', numberTop: '536px' },
+    { left: 'calc(50% - 236.5px)', top: '826px', numberLeft: 'calc(50% - 449px)', numberTop: '798px' },
+    { left: 'calc(50% + 232.5px)', top: '943px', numberLeft: 'calc(50% + 20px)', numberTop: '915px' },
+    { left: 'calc(50% - 235.5px)', top: '1216px', numberLeft: 'calc(50% - 449px)', numberTop: '1188px' },
+    { left: 'calc(50% + 232.5px)', top: '1333px', numberLeft: 'calc(50% + 20px)', numberTop: '1305px' },
   ] : [
     // Оригинальные координаты для <=8
     { left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
@@ -206,13 +206,13 @@ export const AcademyCourseSystemScreen: React.FC = () => {
           <div style={{
             position: 'absolute',
             left: 0,
-            top: '430px',
+            top: '380px',
             width: '1180px',
             height: '1600px',
             overflowY: 'auto',
             overflowX: 'hidden',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%)',
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 50px, black calc(100% - 50px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 50px, black calc(100% - 50px), transparent 100%)',
             zIndex: 2,
           }}>
             <div style={{
