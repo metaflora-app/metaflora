@@ -220,6 +220,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             }}
           >
             <source src={video?.video_url || ''} type="video/mp4" />
+            Your browser does not support the video tag.
           </video>
 
           {/* Blur overlay с кнопкой плей */}

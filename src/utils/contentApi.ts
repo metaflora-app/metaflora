@@ -44,7 +44,9 @@ export async function getWorkshopPrompts(
 
 export async function getWorkshopPromptById(id: string): Promise<ContentItemResponse<WorkshopPrompt>> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/content/workshop-prompts/${id}`);
+    // Добавляем timestamp для обхода кэша браузера
+    const timestamp = new Date().getTime();
+    const response = await fetch(`${API_BASE_URL}/api/content/workshop-prompts/${id}?t=${timestamp}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -155,7 +157,9 @@ export async function getAcademyLessons(
 
 export async function getAcademyLessonById(id: string): Promise<ContentItemResponse<AcademyLesson>> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/content/academy-lessons/${id}`);
+    // Добавляем timestamp для обхода кэша браузера
+    const timestamp = new Date().getTime();
+    const response = await fetch(`${API_BASE_URL}/api/content/academy-lessons/${id}?t=${timestamp}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -174,7 +178,9 @@ export async function getAcademyLessonById(id: string): Promise<ContentItemRespo
 
 export async function getAcademyVideos(lessonId: string): Promise<ContentListResponse<AcademyVideo>> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/content/academy-videos/${lessonId}`);
+    // Добавляем timestamp для обхода кэша браузера
+    const timestamp = new Date().getTime();
+    const response = await fetch(`${API_BASE_URL}/api/content/academy-videos/${lessonId}?t=${timestamp}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -358,7 +364,9 @@ export async function getDemoLessonById(
   id: string
 ): Promise<ContentItemResponse<AcademyLesson>> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/content/demo-lessons/${id}`);
+    // Добавляем timestamp для обхода кэша браузера
+    const timestamp = new Date().getTime();
+    const response = await fetch(`${API_BASE_URL}/api/content/demo-lessons/${id}?t=${timestamp}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -373,7 +381,9 @@ export async function getDemoLessonById(
 
 export async function getDemoVideos(lessonId: string): Promise<ContentListResponse<AcademyVideo>> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/content/demo-videos/${lessonId}`);
+    // Добавляем timestamp для обхода кэша браузера
+    const timestamp = new Date().getTime();
+    const response = await fetch(`${API_BASE_URL}/api/content/demo-videos/${lessonId}?t=${timestamp}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
