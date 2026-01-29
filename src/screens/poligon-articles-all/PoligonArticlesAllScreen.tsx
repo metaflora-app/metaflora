@@ -61,7 +61,8 @@ const PoligonArticlesAllScreen: React.FC = () => {
     try {
       const activeFilters = selectedFilters.filter(f => f !== 'вернуть');
       
-      const result = await getPolygonArticlesWithCache({
+      // УБРАЛ КЭШ - теперь всегда свежие данные
+      const result = await getPolygonArticles({
         tags: activeFilters.length > 0 ? activeFilters : undefined,
         isActive: true,
         limit: 20,

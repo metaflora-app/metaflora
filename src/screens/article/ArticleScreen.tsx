@@ -39,7 +39,9 @@ export const ArticleScreen: React.FC = () => {
     setError(null);
     
     try {
-      const result = await getPolygonArticleById(articleId);
+      // Добавляем timestamp для обхода кэша
+      const timestamp = new Date().getTime();
+      const result = await getPolygonArticleById(articleId + `?t=${timestamp}`);
 
       if (result.error) {
         throw new Error(result.error);
@@ -50,6 +52,10 @@ export const ArticleScreen: React.FC = () => {
       }
 
       setArticle(result.data);
+      
+      // Логируем content_blocks для отладки
+      console.log('[ARTICLE] Content blocks:', result.data.content_blocks);
+      console.log('[ARTICLE] Materials block:', result.data.content_blocks?.find((b: any) => b.type === 'materials'));
     } catch (err) {
       console.error('Error loading article:', err);
       setError(String(err));
