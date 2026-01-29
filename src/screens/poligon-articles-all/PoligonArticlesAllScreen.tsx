@@ -129,11 +129,9 @@ const PoligonArticlesAllScreen: React.FC = () => {
   const isFilterActive = (filter: string) => selectedFilters.includes(filter);
 
   // Функция рендера карточки статьи
-  const renderArticleCard = (article: PolygonArticle, index: number, useScrollContainer: boolean) => {
-    // Если контейнер - координаты относительно него, иначе - от страницы
-    const yPosition = useScrollContainer 
-      ? 30 + (index * 280)  // Контейнер 550px, карточки с 30px, шаг 280px (как оригинал)
-      : 600 + (index * 280); // Оригинальные координаты
+  const renderArticleCard = (article: PolygonArticle, index: number) => {
+    // ВСЕГДА используем координаты контейнера (независимо от фильтров)
+    const yPosition = 30 + (index * 280);
     const bgImages = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
     const bgImage = article.cover_image_url || bgImages[index % 4];
 
@@ -551,31 +549,31 @@ const PoligonArticlesAllScreen: React.FC = () => {
           </div>
         )}
 
-        {/* СКРОЛЛ КОНТЕЙНЕР ТОЛЬКО ЕСЛИ >4 */}
-        {!loading && !error && articles.length > 4 ? (
+        {/* КОНТЕЙНЕР - ВСЕГДА! Скролл/фейд только при >4 */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: '550px',
+          width: '1180px',
+          height: '1450px',
+          overflowY: !loading && !error && articles.length > 4 ? 'auto' : 'visible',
+          overflowX: 'hidden',
+          WebkitMaskImage: !loading && !error && articles.length > 4 
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
+          maskImage: !loading && !error && articles.length > 4
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
+          zIndex: 2,
+        }}>
           <div style={{
-            position: 'absolute',
-            left: 0,
-            top: '550px',
+            position: 'relative',
             width: '1180px',
-            height: '1450px',
-            overflowY: 'auto',
-            overflowX: 'hidden',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)',
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)',
-            zIndex: 2,
+            minHeight: !loading && !error ? `${Math.max(articles.length, 1) * 300}px` : '300px',
           }}>
-            <div style={{
-              position: 'relative',
-              width: '1180px',
-              minHeight: `${articles.length * 300}px`,
-            }}>
-              {articles.map((article, index) => renderArticleCard(article, index, true))}
-            </div>
+            {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
           </div>
-        ) : (
-          !loading && !error && articles.map((article, index) => renderArticleCard(article, index, false))
-        )}
+        </div>
 
         {/* Card 1 - Академия (53:685) - FALLBACK если нет данных */}
         {!loading && !error && articles.length === 0 && (
