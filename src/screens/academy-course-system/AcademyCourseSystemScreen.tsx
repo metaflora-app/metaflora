@@ -188,98 +188,110 @@ export const AcademyCourseSystemScreen: React.FC = () => {
           }}
         />
 
-        {/* Карточки уроков из API */}
-        {lessons.map((lesson, index) => {
-          const position = lessonPositions[index];
-          if (!position) return null;
-          
-          return (
-            <React.Fragment key={lesson.id}>
-              {/* Карточка урока */}
-              <div className="blur-wave" style={{
-                position: 'absolute',
-                left: position.left,
-                top: position.top,
-                transform: 'translateX(-50%)',
-                width: index === 6 ? '427px' : '425px',
-                height: '317px',
-                backdropFilter: 'blur(50px)',
-                background: 'black',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                overflow: 'clip',
-              }}>
-                {/* Текст описания */}
-                <div style={{
+        {/* Контейнер для карточек с опциональным скроллом */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: '430px',
+          width: '100%',
+          height: lessons.length > 8 ? 'calc(100vh - 600px)' : 'auto',
+          overflowY: lessons.length > 8 ? 'auto' : 'visible',
+          WebkitMaskImage: lessons.length > 8 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
+          maskImage: lessons.length > 8 ? 'linear-gradient(to bottom, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)' : 'none',
+        }}>
+          {/* Карточки уроков из API */}
+          {lessons.map((lesson, index) => {
+            const position = lessonPositions[index];
+            if (!position) return null;
+            
+            return (
+              <React.Fragment key={lesson.id}>
+                {/* Карточка урока */}
+                <div className="blur-wave" style={{
                   position: 'absolute',
-                  top: '26px',
-                  left: '18px',
-                  right: '18px',
-                  bottom: '130px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  fontFamily: 'Gotham Pro',
-                  fontWeight: 300,
-                  fontSize: '27px',
-                  lineHeight: '1.1',
-                  color: 'white',
-                  textAlign: 'center',
+                  left: position.left,
+                  top: position.top,
+                  transform: 'translateX(-50%)',
+                  width: index === 6 ? '427px' : '425px',
+                  height: '317px',
+                  backdropFilter: 'blur(50px)',
+                  background: 'black',
+                  border: '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '30px',
+                  overflow: 'clip',
                 }}>
-                  <p style={{ margin: 0 }}>
-                    {lesson.description || lesson.annotation || 'Описание урока'}
-                  </p>
-                </div>
-
-                {/* Кнопка "перейти" */}
-                <img 
-                  src={goButton}
-                  alt="перейти"
-                  onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}`)}
-                  className="button-inner-glow"
-                  style={{
+                  {/* Текст описания */}
+                  <div style={{
                     position: 'absolute',
-                    left: '50%',
-                    bottom: '26px',
-                    transform: 'translateX(-50%)',
-                    width: '257px',
-                    height: '73px',
-                    cursor: 'pointer',
-                  }}
-                />
-              </div>
+                    top: '26px',
+                    left: '18px',
+                    right: '18px',
+                    bottom: '130px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    fontFamily: 'Gotham Pro',
+                    fontWeight: 300,
+                    fontSize: '27px',
+                    lineHeight: '1.1',
+                    color: 'white',
+                    textAlign: 'center',
+                  }}>
+                    <p style={{ margin: 0 }}>
+                      {lesson.description || lesson.annotation || 'Описание урока'}
+                    </p>
+                  </div>
 
-              {/* Номер урока - ПОВЕРХ карточки */}
-              <div className="blur-wave" style={{
-                position: 'absolute',
-                left: position.numberLeft,
-                top: position.numberTop,
-                transform: 'translateX(-50%)',
-                width: '56px',
-                height: '56px',
-                backdropFilter: 'blur(50px)',
-                background: 'black',
-                border: index === 3 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                overflow: 'clip',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 10,
-              }}>
-                <div style={{
-                  fontFamily: 'Inter',
-                  fontWeight: 700,
-                  fontSize: '32px',
-                  lineHeight: 0,
-                  color: 'white',
-                }}>
-                  <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || index + 1}</p>
+                  {/* Кнопка "перейти" */}
+                  <img 
+                    src={goButton}
+                    alt="перейти"
+                    onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}`)}
+                    className="button-inner-glow"
+                    style={{
+                      position: 'absolute',
+                      left: '50%',
+                      bottom: '26px',
+                      transform: 'translateX(-50%)',
+                      width: '257px',
+                      height: '73px',
+                      cursor: 'pointer',
+                    }}
+                  />
                 </div>
-              </div>
-            </React.Fragment>
-          );
-        })}
+
+                {/* Номер урока - ПОВЕРХ карточки */}
+                <div className="blur-wave" style={{
+                  position: 'absolute',
+                  left: position.numberLeft,
+                  top: position.numberTop,
+                  transform: 'translateX(-50%)',
+                  width: '56px',
+                  height: '56px',
+                  backdropFilter: 'blur(50px)',
+                  background: 'black',
+                  border: index === 3 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '30px',
+                  overflow: 'clip',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10,
+                }}>
+                  <div style={{
+                    fontFamily: 'Inter',
+                    fontWeight: 700,
+                    fontSize: '32px',
+                    lineHeight: 0,
+                    color: 'white',
+                  }}>
+                    <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || index + 1}</p>
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+          })}
+        </div>
 
         {/* Footer */}
         <div style={{

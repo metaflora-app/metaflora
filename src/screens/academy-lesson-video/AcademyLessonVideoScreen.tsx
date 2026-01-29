@@ -202,6 +202,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             controls={!showOverlay}
             playsInline
             preload="auto"
+            crossOrigin="anonymous"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
@@ -211,6 +212,18 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 setShowOverlay(true);
               }
             }}
+            onError={(e) => {
+              console.error('Video error:', e);
+              console.error('Video URL:', video?.video_url);
+              const telegram = (window as any).Telegram;
+              if (telegram?.WebApp?.showPopup) {
+                telegram.WebApp.showPopup({
+                  message: 'ошибка загрузки видео. попробуйте перезагрузить страницу'
+                });
+              }
+            }}
+            onLoadStart={() => console.log('Video load start:', video?.video_url)}
+            onLoadedData={() => console.log('Video loaded successfully')}
             style={{
               width: '100%',
               height: '100%',
