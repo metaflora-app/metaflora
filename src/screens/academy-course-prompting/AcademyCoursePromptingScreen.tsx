@@ -47,7 +47,16 @@ export const AcademyCoursePromptingScreen: React.FC = () => {
     }
   };
 
-  const lessonPositions = [
+  const lessonPositions = lessons.length > 8 ? [
+    { left: 'calc(50% - 236.5px)', top: '45px', numberLeft: 'calc(50% - 449px)', numberTop: '17px' },
+    { left: 'calc(50% + 232.5px)', top: '150px', numberLeft: 'calc(50% + 20px)', numberTop: '122px' },
+    { left: 'calc(50% - 236.5px)', top: '412px', numberLeft: 'calc(50% - 449px)', numberTop: '384px' },
+    { left: 'calc(50% + 232.5px)', top: '529px', numberLeft: 'calc(50% + 20px)', numberTop: '501px' },
+    { left: 'calc(50% - 236.5px)', top: '791px', numberLeft: 'calc(50% - 449px)', numberTop: '763px' },
+    { left: 'calc(50% + 232.5px)', top: '908px', numberLeft: 'calc(50% + 20px)', numberTop: '880px' },
+    { left: 'calc(50% - 235.5px)', top: '1181px', numberLeft: 'calc(50% - 449px)', numberTop: '1153px' },
+    { left: 'calc(50% + 232.5px)', top: '1298px', numberLeft: 'calc(50% + 20px)', numberTop: '1270px' },
+  ] : [
     { left: 'calc(50% - 236.5px)', top: '430px', numberLeft: 'calc(50% - 449px)', numberTop: '402px' },
     { left: 'calc(50% + 232.5px)', top: '535px', numberLeft: 'calc(50% + 20px)', numberTop: '507px' },
     { left: 'calc(50% - 236.5px)', top: '797px', numberLeft: 'calc(50% - 449px)', numberTop: '769px' },
@@ -187,8 +196,26 @@ export const AcademyCoursePromptingScreen: React.FC = () => {
           }}
         />
 
-        {/* Карточки уроков из API */}
-        {lessons.map((lesson, index) => {
+        {/* СКРОЛЛ КОНТЕЙНЕР ТОЛЬКО ЕСЛИ >8 */}
+        {lessons.length > 8 ? (
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: '380px',
+            width: '1180px',
+            height: '1600px',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)',
+            zIndex: 2,
+          }}>
+            <div style={{
+              position: 'relative',
+              width: '1180px',
+              minHeight: `${lessons.length * 350}px`,
+            }}>
+              {lessons.map((lesson, index) => {
             const position = lessonPositions[index];
             if (!position) return null;
             
@@ -276,9 +303,98 @@ export const AcademyCoursePromptingScreen: React.FC = () => {
                     <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || index + 1}</p>
                   </div>
                 </div>
+                    </React.Fragment>
+                  );
+                })}
+            </div>
+          </div>
+        ) : (
+          lessons.map((lesson, index) => {
+            const position = lessonPositions[index];
+            if (!position) return null;
+            
+            return (
+              <React.Fragment key={lesson.id}>
+                <div className="blur-wave" style={{
+                  position: 'absolute',
+                  left: position.left,
+                  top: position.top,
+                  transform: 'translateX(-50%)',
+                  width: index === 6 ? '427px' : '425px',
+                  height: '317px',
+                  backdropFilter: 'blur(50px)',
+                  background: 'black',
+                  border: '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '30px',
+                  overflow: 'clip',
+                }}>
+                  <div style={{
+                    position: 'absolute',
+                    top: '26px',
+                    left: '18px',
+                    right: '18px',
+                    bottom: '130px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    fontFamily: 'Gotham Pro',
+                    fontWeight: 300,
+                    fontSize: '27px',
+                    lineHeight: '1.1',
+                    color: 'white',
+                    textAlign: 'center',
+                  }}>
+                    <p style={{ margin: 0 }}>
+                      {lesson.description || lesson.annotation || 'Описание урока'}
+                    </p>
+                  </div>
+                  <img 
+                    src={goButton}
+                    alt="перейти"
+                    onClick={() => navigate(`/academy-lesson-video?lesson=${lesson.id}`)}
+                    className="button-inner-glow"
+                    style={{
+                      position: 'absolute',
+                      left: '50%',
+                      bottom: '26px',
+                      transform: 'translateX(-50%)',
+                      width: '257px',
+                      height: '73px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </div>
+                <div className="blur-wave" style={{
+                  position: 'absolute',
+                  left: position.numberLeft,
+                  top: position.numberTop,
+                  transform: 'translateX(-50%)',
+                  width: '56px',
+                  height: '56px',
+                  backdropFilter: 'blur(50px)',
+                  background: 'black',
+                  border: index === 3 ? '1px solid rgba(255, 255, 255, 0.3)' : '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '30px',
+                  overflow: 'clip',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 10,
+                }}>
+                  <div style={{
+                    fontFamily: 'Inter',
+                    fontWeight: 700,
+                    fontSize: '32px',
+                    lineHeight: 0,
+                    color: 'white',
+                  }}>
+                    <p style={{ margin: 0, lineHeight: '1' }}>{lesson.lesson_number || index + 1}</p>
+                  </div>
+                </div>
               </React.Fragment>
             );
-          })}
+          })
+        )}
 
         {/* Footer */}
         <div style={{

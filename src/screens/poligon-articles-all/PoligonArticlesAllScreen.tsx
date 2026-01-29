@@ -129,8 +129,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
   const isFilterActive = (filter: string) => selectedFilters.includes(filter);
 
   // Функция рендера карточки статьи
-  const renderArticleCard = (article: PolygonArticle, index: number) => {
-    const yPosition = 600 + (index * 280); // Начало с 600px (было 575px), шаг 280px
+  const renderArticleCard = (article: PolygonArticle, index: number, useScrollContainer: boolean) => {
+    // Если контейнер - координаты относительно него, иначе - от страницы
+    const yPosition = useScrollContainer 
+      ? 50 + (index * 280)  // Контейнер на 550px, карточки с 50px внутри
+      : 600 + (index * 280); // Оригинальные координаты
     const bgImages = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
     const bgImage = article.cover_image_url || bgImages[index % 4];
 
@@ -548,8 +551,31 @@ const PoligonArticlesAllScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Динамический рендер статей из Supabase */}
-        {!loading && !error && articles.map((article, index) => renderArticleCard(article, index))}
+        {/* СКРОЛЛ КОНТЕЙНЕР ТОЛЬКО ЕСЛИ >4 */}
+        {!loading && !error && articles.length > 4 ? (
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: '550px',
+            width: '1180px',
+            height: '1450px',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)',
+            zIndex: 2,
+          }}>
+            <div style={{
+              position: 'relative',
+              width: '1180px',
+              minHeight: `${articles.length * 300}px`,
+            }}>
+              {articles.map((article, index) => renderArticleCard(article, index, true))}
+            </div>
+          </div>
+        ) : (
+          !loading && !error && articles.map((article, index) => renderArticleCard(article, index, false))
+        )}
 
         {/* Card 1 - Академия (53:685) - FALLBACK если нет данных */}
         {!loading && !error && articles.length === 0 && (
