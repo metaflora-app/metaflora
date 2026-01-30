@@ -6,7 +6,8 @@ import {
   analyzeReel, 
   generateScenario, 
   getTelegramUserId,
-  formatCount 
+  formatCount,
+  convertInstagramImageUrl 
 } from '../../utils/labaApi';
 import { Reel, Analysis, Scenario } from '../../types/laba';
 
@@ -59,6 +60,11 @@ export const LabaAnalysisScreen: React.FC = () => {
   const [showAnalysisResults, setShowAnalysisResults] = React.useState(false);
   const [showScenario, setShowScenario] = React.useState(false);
   const [isFollowing, setIsFollowing] = React.useState(false);
+  
+  // Конвертируем Instagram URL в прокси URL
+  const avatarUrl = React.useMemo(() => {
+    return convertInstagramImageUrl(reel?.accountProfilePicUrl);
+  }, [reel?.accountProfilePicUrl]);
   
   // Redirect if no reel provided
   React.useEffect(() => {
@@ -499,7 +505,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Profile photo - 292:675 - РЕАЛЬНАЯ АВАТАРКА */}
+          {/* Profile photo - 292:675 - РЕАЛЬНАЯ АВАТАРКА через прокси */}
           <div style={{
             position: 'absolute',
             left: '53px',
@@ -510,10 +516,17 @@ export const LabaAnalysisScreen: React.FC = () => {
             overflow: 'hidden',
             background: 'rgba(255, 255, 255, 0.1)',
           }}>
-            {reel.accountProfilePicUrl ? (
+            {avatarUrl ? (
               <img
-                src={reel.accountProfilePicUrl}
+                src={avatarUrl}
                 alt={reel.accountUsername}
+                crossOrigin="anonymous"
+                onError={(e) => {
+                  console.error('[ANALYSIS-AVATAR] ❌ Ошибка загрузки:', avatarUrl);
+                  e.currentTarget.style.display = 'none';
+                  const fallback = e.currentTarget.parentElement?.querySelector('.fallback-avatar') as HTMLElement;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -523,20 +536,21 @@ export const LabaAnalysisScreen: React.FC = () => {
                   borderRadius: '640px',
                 }}
               />
-            ) : (
-              <div style={{
+            ) : null}
+            <div 
+              className="fallback-avatar"
+              style={{
                 position: 'absolute',
                 inset: 0,
-                display: 'flex',
+                display: avatarUrl ? 'none' : 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '80px',
                 color: 'white',
                 fontWeight: 700,
               }}>
-                {reel.accountUsername.charAt(0).toUpperCase()}
-              </div>
-            )}
+              {reel.accountUsername.charAt(0).toUpperCase()}
+            </div>
           </div>
 
           {/* Instagram logo - 292:676 */}
