@@ -533,25 +533,19 @@ onBlur={() => {
           }}
         />
 
-        {/* Main content window - с СКРОЛЛОМ и FADE - ПОДНЯТО ВЫШЕ */}
+        {/* Main content window - с СКРОЛЛОМ БЕЗ ФЕЙДА - СКОПИРОВАНО ИЗ LabaFavoritesScreen */}
         <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '1392px',
+          height: '1369px',
           left: 'calc(50% + 3px)',
           borderRadius: '30px',
-          top: '650px',
+          top: '673px',
           width: '884px',
           transform: 'translateX(-50%)',
           overflow: 'auto',
-          WebkitMaskImage: !loading && !searchLoading && reels.length > 2
-            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
-            : 'none',
-          maskImage: !loading && !searchLoading && reels.length > 2
-            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
-            : 'none',
           zIndex: 10,
         }}>
           {/* Reels cards - Dynamic rendering */}
