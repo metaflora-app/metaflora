@@ -36,6 +36,10 @@ interface UIState {
   labaFavorites: string[];
   addToFavorites: (postId: string) => void;
   removeFromFavorites: (postId: string) => void;
+  
+  // Laba reels cache (для сохранения списка при переходах)
+  labaReelsCache: any[];
+  setLabaReelsCache: (reels: any[]) => void;
 }
 
 const UIStateContext = createContext<UIState | undefined>(undefined);
@@ -81,6 +85,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
   // Laba
   const [labaTrackedAccounts, setLabaTrackedAccounts] = useState<string[]>([]);
   const [labaFavorites, setLabaFavorites] = useState<string[]>([]);
+  const [labaReelsCache, setLabaReelsCache] = useState<any[]>([]);
 
   const addToTracked = (accountId: string) => {
     setLabaTrackedAccounts(prev => [...new Set([...prev, accountId])]);
@@ -121,6 +126,8 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
     labaFavorites,
     addToFavorites,
     removeFromFavorites,
+    labaReelsCache,
+    setLabaReelsCache,
   };
 
   return (

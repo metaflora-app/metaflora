@@ -419,7 +419,7 @@ export const LabaFavoritesScreen: React.FC = () => {
           }}
         />
 
-        {/* Main content window - с СКРОЛЛОМ */}
+        {/* Main content window - с СКРОЛЛОМ - ТОЛЬКО ВЕРТИКАЛЬНЫЙ */}
         <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
@@ -431,7 +431,8 @@ export const LabaFavoritesScreen: React.FC = () => {
           top: '673px',
           width: '884px',
           transform: 'translateX(-50%)',
-          overflow: 'auto',
+          overflowX: 'hidden',
+          overflowY: 'auto',
           zIndex: 10,
         }}>
           {/* Reels cards - Dynamic rendering (БЕЗ текста "нет избранных") */}

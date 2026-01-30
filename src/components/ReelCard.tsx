@@ -269,8 +269,15 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         fontSize: '40px',
         color: 'white',
         lineHeight: 0,
+        overflow: 'hidden',
       }}>
-        <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>
+        <p style={{ 
+          lineHeight: 'normal', 
+          margin: 0,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}>
           @{reel.accountUsername}
         </p>
       </div>

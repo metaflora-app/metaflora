@@ -13,6 +13,7 @@ import {
 } from '../../utils/labaApi';
 import { Reel } from '../../types/laba';
 import { ReelCard } from '../../components/ReelCard';
+import { useUIState } from '../../contexts/UIStateContext';
 
 // REUSED from prompt-first screen
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
@@ -67,10 +68,11 @@ import instaLogo from '../../assets/laba-icons/лого инста.png';
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const { labaReelsCache, setLabaReelsCache } = useUIState();
   
-  // Reels data
-  const [reels, setReels] = React.useState<Reel[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  // Reels data - восстанавливаем из кэша при возврате
+  const [reels, setReels] = React.useState<Reel[]>(labaReelsCache);
+  const [loading, setLoading] = React.useState(labaReelsCache.length === 0);
   const [searchLoading, setSearchLoading] = React.useState(false);
   
   // UI state
@@ -83,13 +85,21 @@ export const LabaMainScreen: React.FC = () => {
   const [searchValue, setSearchValue] = React.useState('');
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
 
-  // Load top reels on mount
+  // Load top reels on mount (только если кэш пустой)
   React.useEffect(() => {
+    if (labaReelsCache.length > 0) {
+      // Восстанавливаем из кэша
+      setLoading(false);
+      return;
+    }
+    
     const fetchTopReels = async () => {
       try {
         setLoading(true);
         const topReels = await getTopReels('нейросети');
-        setReels(topReels.slice(0, 4));
+        const slicedReels = topReels.slice(0, 4);
+        setReels(slicedReels);
+        setLabaReelsCache(slicedReels); // Сохраняем в кэш
       } catch (error) {
         console.error('Ошибка загрузки топ reels:', error);
         showMessage('ошибка загрузки топ reels', 'alert');
@@ -99,7 +109,14 @@ export const LabaMainScreen: React.FC = () => {
     };
     
     fetchTopReels();
-  }, []);
+  }, [labaReelsCache.length, setLabaReelsCache]);
+  
+  // Сохраняем reels в кэш при изменении
+  React.useEffect(() => {
+    if (reels.length > 0) {
+      setLabaReelsCache(reels);
+    }
+  }, [reels, setLabaReelsCache]);
 
   // Handle search - с popup перед запуском
   const handleSearch = async () => {
@@ -599,7 +616,7 @@ onBlur={() => {
           }}
         />
 
-        {/* Main content window - с СКРОЛЛОМ БЕЗ ФЕЙДА - СКОПИРОВАНО ИЗ LabaFavoritesScreen */}
+        {/* Main content window - с СКРОЛЛОМ БЕЗ ФЕЙДА - ТОЛЬКО ВЕРТИКАЛЬНЫЙ */}
         <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
@@ -611,7 +628,8 @@ onBlur={() => {
           top: '673px',
           width: '884px',
           transform: 'translateX(-50%)',
-          overflow: 'auto',
+          overflowX: 'hidden',
+          overflowY: 'auto',
           zIndex: 10,
         }}>
           {/* Reels cards - Dynamic rendering (БЕЗ loading текстов) */}
