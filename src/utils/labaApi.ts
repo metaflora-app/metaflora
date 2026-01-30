@@ -24,8 +24,8 @@ import {
   TopReelCategory,
 } from '../types/laba';
 
-// TODO: Заменить на production URL после деплоя
-const API_URL = import.meta.env.VITE_API_URL || 'https://metaflora-service.ru';
+// Production URL от Railway
+const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
 
 // ================================================
 // ОСНОВНЫЕ API ФУНКЦИИ
