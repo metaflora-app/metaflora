@@ -70,8 +70,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
     }
     
     // Показываем popup ПЕРЕД запуском поиска
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
+    if ((window as any).Telegram?.WebApp?.showPopup) {
+      (window as any).Telegram.WebApp.showPopup({
         message: 'начинаем поиск аккаунта...\n\nэто займет 5-10 секунд\nнажмите ок и дождитесь загрузки',
         buttons: [
           {
@@ -80,7 +80,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             text: 'ок'
           }
         ]
-      }, async (buttonId) => {
+      }, async (buttonId: string) => {
         // Функция запускается ТОЛЬКО после нажатия ОК
         if (buttonId === 'start_account_search') {
           try {
@@ -91,15 +91,15 @@ export const LabaSearchAccountScreen: React.FC = () => {
             setFoundAccount(account);
             
             // Показываем результат
-            if (window.Telegram?.WebApp?.showPopup) {
-              window.Telegram.WebApp.showPopup({
+            if ((window as any).Telegram?.WebApp?.showPopup) {
+              (window as any).Telegram.WebApp.showPopup({
                 message: `аккаунт найден\n\n@${account.username}\n${account.followersCount} подписчиков`
               });
             }
           } catch (error: any) {
             console.error('Ошибка поиска аккаунта:', error);
-            if (window.Telegram?.WebApp?.showPopup) {
-              window.Telegram.WebApp.showPopup({
+            if ((window as any).Telegram?.WebApp?.showPopup) {
+              (window as any).Telegram.WebApp.showPopup({
                 message: error.message || 'ничего не найдено\n\nпроверьте корректность ссылки или ника'
               });
             }

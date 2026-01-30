@@ -127,8 +127,8 @@ export const LabaMainScreen: React.FC = () => {
     setSearchValue('');
     
     // Показываем popup ПЕРЕД запуском поиска
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
+    if ((window as any).Telegram?.WebApp?.showPopup) {
+      (window as any).Telegram.WebApp.showPopup({
         message: 'начинаем поиск reels...\n\nэто займет 10-30 секунд\nнажмите ок и дождитесь загрузки',
         buttons: [
           {
@@ -137,7 +137,7 @@ export const LabaMainScreen: React.FC = () => {
             text: 'ок'
           }
         ]
-      }, async (buttonId) => {
+      }, async (buttonId: string) => {
         // Функция запускается ТОЛЬКО после нажатия ОК
         if (buttonId === 'start_search') {
           try {
@@ -145,22 +145,22 @@ export const LabaMainScreen: React.FC = () => {
             const foundReels = await searchReels(keyword, userId);
             
             // Показываем результат
-            if (window.Telegram?.WebApp?.showPopup) {
+            if ((window as any).Telegram?.WebApp?.showPopup) {
               if (foundReels.length === 0) {
-                window.Telegram.WebApp.showPopup({
+                (window as any).Telegram.WebApp.showPopup({
                   message: 'ничего не найдено\n\nпопробуйте другое ключевое слово'
                 });
               } else {
                 setReels(foundReels);
-                window.Telegram.WebApp.showPopup({
+                (window as any).Telegram.WebApp.showPopup({
                   message: `найдено ${foundReels.length} reels`
                 });
               }
             }
           } catch (error: any) {
             console.error('Ошибка поиска:', error);
-            if (window.Telegram?.WebApp?.showPopup) {
-              window.Telegram.WebApp.showPopup({
+            if ((window as any).Telegram?.WebApp?.showPopup) {
+              (window as any).Telegram.WebApp.showPopup({
                 message: error.message || 'ошибка поиска\n\nпопробуйте позже'
               });
             }
