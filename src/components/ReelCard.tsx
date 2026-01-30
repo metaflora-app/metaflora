@@ -158,7 +158,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         />
       </div>
 
-      {/* Statistics bar - ДИНАМИЧЕСКОЕ ПОЗИЦИОНИРОВАНИЕ */}
+      {/* Statistics bar - ДИНАМИЧЕСКОЕ ПОЗИЦИОНИРОВАНИЕ с минимальным gap */}
       <div className="blur-wave" style={{
         position: 'absolute',
         backdropFilter: 'blur(50px)',
@@ -180,7 +180,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '2px',
         }}>
           <img src={viewsIcon} alt="" style={{ width: '46px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
           <div style={{
@@ -198,7 +198,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '2px',
         }}>
           <img src={likesIcon} alt="" style={{ width: '40px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
           <div style={{
@@ -216,7 +216,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '2px',
         }}>
           <img src={commentsIcon} alt="" style={{ width: '40px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
           <div style={{
