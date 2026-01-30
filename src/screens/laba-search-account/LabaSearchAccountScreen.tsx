@@ -417,22 +417,44 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 результат
               </div>
 
-              {/* Profile photo PNG (109:665) - x=190, y=1059 relative to frame, so 190-141=49, 1059-453=606 */}
-              <img 
-                src={foundAccount.profilePhotoUrl}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  left: '49px',
-                  top: '606px',
-                  width: '190px',
-                  height: '190px',
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                }}
-              />
+              {/* Profile photo PNG (109:665) - РЕАЛЬНАЯ АВАТАРКА */}
+              <div style={{
+                position: 'absolute',
+                left: '49px',
+                top: '606px',
+                width: '190px',
+                height: '190px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                background: 'rgba(255, 255, 255, 0.1)',
+              }}>
+                {foundAccount.profilePhotoUrl ? (
+                  <img 
+                    src={foundAccount.profilePhotoUrl}
+                    alt={foundAccount.username}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '80px',
+                    color: 'white',
+                    fontWeight: 700,
+                  }}>
+                    {foundAccount.username.charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
 
-          {/* Instagram logo PNG (109:666) - x=396, y=1066 relative to frame, so 396-141=255, 1066-453=613 */}
+          {/* Instagram logo PNG (109:666) - справа от аватарки */}
           <img 
             src={instaLogo}
             alt=""
@@ -442,37 +464,36 @@ export const LabaSearchAccountScreen: React.FC = () => {
               top: '613px',
               width: '64px',
               height: '78px',
+              opacity: 0.6,
             }}
           />
 
-              {/* Username - CSS (109:667) - x=396, y=1144 relative to frame, so 396-141=255, 1144-453=691 */}
+              {/* Username - выровнен строго по лого инста */}
               <div style={{
                 position: 'absolute',
                 left: '255px',
                 top: '691px',
-                width: '334px',
                 fontFamily: 'Inter',
                 fontWeight: 700,
                 fontSize: '40px',
                 lineHeight: 1,
                 color: 'white',
-                textAlign: 'center',
+                whiteSpace: 'nowrap',
               }}>
                 @{foundAccount.username}
               </div>
 
-              {/* Followers - CSS (109:668) - x=393, y=1201 relative to frame, so 393-141=252, 1201-453=748 */}
+              {/* Followers - в одну строку под username */}
               <div style={{
                 position: 'absolute',
-                left: '252px',
+                left: '255px',
                 top: '748px',
-                width: '350px',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 300,
                 fontSize: '32px',
                 lineHeight: 1,
                 color: 'white',
-                textAlign: 'center',
+                whiteSpace: 'nowrap',
               }}>
                 {foundAccount.followersCount.toLocaleString()} подписчиков
               </div>

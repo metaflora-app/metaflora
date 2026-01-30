@@ -266,14 +266,20 @@ export const LabaAnalysisScreen: React.FC = () => {
           background: 'black',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-          overflow: showAnalysisResults ? 'auto' : 'hidden',
-          WebkitMaskImage: showAnalysisResults 
-            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
-            : 'none',
-          maskImage: showAnalysisResults
-            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
-            : 'none',
+          overflow: 'hidden',
         }}>
+          {/* Скроллируемый контейнер с fade */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflowY: showAnalysisResults ? 'auto' : 'hidden',
+            WebkitMaskImage: showAnalysisResults 
+              ? 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)'
+              : 'none',
+            maskImage: showAnalysisResults
+              ? 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)'
+              : 'none',
+          }}>
           {/* Reel cover image - 292:652 */}
           <div style={{
             position: 'absolute',
@@ -502,19 +508,35 @@ export const LabaAnalysisScreen: React.FC = () => {
             height: '190px',
             borderRadius: '640px',
             overflow: 'hidden',
+            background: 'rgba(255, 255, 255, 0.1)',
           }}>
-            <img
-              src={reel.accountProfilePicUrl || profilePhotoMCP}
-              alt={reel.accountUsername}
-              style={{
+            {reel.accountProfilePicUrl ? (
+              <img
+                src={reel.accountProfilePicUrl}
+                alt={reel.accountUsername}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '640px',
+                }}
+              />
+            ) : (
+              <div style={{
                 position: 'absolute',
                 inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '640px',
-              }}
-            />
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '80px',
+                color: 'white',
+                fontWeight: 700,
+              }}>
+                {reel.accountUsername.charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
 
           {/* Instagram logo - 292:676 */}
@@ -1043,6 +1065,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               )}
             </div>
           )}
+          </div>
         </div>
 
         {/* Footer */}

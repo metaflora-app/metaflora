@@ -261,7 +261,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         </div>
       </div>
 
-      {/* Profile photo 80x80 */}
+      {/* Profile photo 80x80 - РЕАЛЬНАЯ АВАТАРКА */}
       <div style={{
         position: 'absolute',
         left: '30px',
@@ -270,17 +270,33 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         height: '80px',
         borderRadius: '200px',
         overflow: 'hidden',
+        background: 'rgba(255, 255, 255, 0.1)',
       }}>
-        <img
-          src={reel.accountProfilePicUrl || instaLogo}
-          alt={reel.accountUsername}
-          style={{
+        {reel.accountProfilePicUrl ? (
+          <img
+            src={reel.accountProfilePicUrl}
+            alt={reel.accountUsername}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '200px',
+            }}
+          />
+        ) : (
+          <div style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            borderRadius: '200px',
-          }}
-        />
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '32px',
+            color: 'white',
+            fontWeight: 700,
+          }}>
+            {reel.accountUsername.charAt(0).toUpperCase()}
+          </div>
+        )}
       </div>
 
       {/* Instagram logo - справа от аватарки */}
@@ -298,7 +314,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         }}
       />
 
-      {/* Account username - слева под лого, одна строка */}
+      {/* Account username - выровнен строго по лого инста */}
       <div style={{
         position: 'absolute',
         left: '120px',
@@ -308,11 +324,15 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         fontSize: '28px',
         color: 'white',
         lineHeight: '1',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        maxWidth: '260px',
       }}>
         @{reel.accountUsername}
       </div>
 
-      {/* Account followers - слева под username, одна строка */}
+      {/* Account followers - в одну строку под username */}
       <div style={{
         position: 'absolute',
         left: '120px',
@@ -322,6 +342,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         fontSize: '20px',
         color: 'white',
         lineHeight: '1',
+        whiteSpace: 'nowrap',
       }}>
         {formatCount(reel.accountFollowers)} подписчиков
       </div>
