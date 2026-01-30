@@ -39,6 +39,11 @@ export const ReelCard: React.FC<ReelCardProps> = ({
     return convertInstagramImageUrl(reel.accountProfilePicUrl);
   }, [reel.accountProfilePicUrl]);
   
+  // Конвертируем обложку через прокси
+  const coverUrl = React.useMemo(() => {
+    return convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl;
+  }, [reel.coverImageUrl]);
+  
   return (
     <div style={{
       position: 'absolute',
@@ -56,7 +61,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         borderRadius: '30px',
       }} />
       
-      {/* Cover image */}
+      {/* Cover image - через прокси */}
       <div style={{
         position: 'absolute',
         top: '3.45%',
@@ -68,8 +73,12 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         overflow: 'hidden',
       }}>
         <img 
-          src={reel.coverImageUrl}
+          src={coverUrl}
           alt=""
+          crossOrigin="anonymous"
+          onError={(e) => {
+            console.error('[COVER] ❌ Ошибка загрузки обложки:', coverUrl);
+          }}
           style={{
             position: 'absolute',
             inset: 0,
@@ -196,168 +205,131 @@ export const ReelCard: React.FC<ReelCardProps> = ({
           <img src={commentsIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
 
-        {/* Views count */}
+        {/* Views count - ШРИФТ 25px по Figma */}
         <div style={{
           position: 'absolute',
-          bottom: 'calc(30.77% - 2px)',
+          bottom: 'calc(30.77% - 0.77px)',
           display: 'flex',
           flexDirection: 'column',
           fontFamily: 'Gotham Pro, sans-serif',
           fontWeight: 500,
           justifyContent: 'center',
-          left: 'calc(50% - 68px)',
+          left: 'calc(50% - 72px)',
           lineHeight: 0,
-          fontSize: '27px',
+          fontSize: '25px',
           textAlign: 'center',
           color: 'white',
-          top: 'calc(30.77% - 2px)',
+          top: 'calc(30.77% - 0.77px)',
           transform: 'translateX(-50%)',
           width: '73px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>
+          <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>
             {formatCount(reel.viewsCount)}
           </p>
         </div>
 
-        {/* Likes count */}
+        {/* Likes count - ШРИФТ 25px по Figma */}
         <div style={{
           position: 'absolute',
-          bottom: 'calc(31.39% - 2px)',
+          bottom: 'calc(31.39% - 0.74px)',
           display: 'flex',
           flexDirection: 'column',
           fontFamily: 'Gotham Pro, sans-serif',
           fontWeight: 500,
           justifyContent: 'center',
-          left: 'calc(50% + 33px)',
+          left: 'calc(50% + 28px)',
           lineHeight: 0,
-          fontSize: '27px',
+          fontSize: '25px',
           textAlign: 'center',
           color: 'white',
-          top: 'calc(30.77% - 2px)',
+          top: 'calc(30.77% - 0.77px)',
           transform: 'translateX(-50%)',
           width: '55px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>
+          <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>
             {formatCount(reel.likesCount)}
           </p>
         </div>
 
-        {/* Comments count */}
+        {/* Comments count - ШРИФТ 25px по Figma */}
         <div style={{
           position: 'absolute',
-          bottom: 'calc(31.39% - 2px)',
+          bottom: 'calc(31.39% - 0.74px)',
           display: 'flex',
           flexDirection: 'column',
           fontFamily: 'Gotham Pro, sans-serif',
           fontWeight: 500,
           justifyContent: 'center',
-          left: 'calc(50% + 120px)',
+          left: 'calc(50% + 114px)',
           lineHeight: 0,
-          fontSize: '27px',
+          fontSize: '25px',
           textAlign: 'center',
           color: 'white',
-          top: 'calc(30.77% - 2px)',
+          top: 'calc(30.77% - 0.77px)',
           transform: 'translateX(-50%)',
           width: '35px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>
+          <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>
             {formatCount(reel.commentsCount)}
           </p>
         </div>
       </div>
 
-      {/* Profile photo 80x80 - РЕАЛЬНАЯ АВАТАРКА через прокси */}
-      <div style={{
-        position: 'absolute',
-        left: '30px',
-        top: '445px',
-        width: '80px',
-        height: '80px',
-        borderRadius: '200px',
-        overflow: 'hidden',
-        background: 'rgba(255, 255, 255, 0.1)',
-      }}>
-        {avatarUrl ? (
-          <img
-            src={avatarUrl}
-            alt={reel.accountUsername}
-            crossOrigin="anonymous"
-            onError={(e) => {
-              console.error('[REEL-AVATAR] ❌ Ошибка загрузки:', avatarUrl);
-              e.currentTarget.style.display = 'none';
-              const fallback = e.currentTarget.parentElement?.querySelector('.fallback-avatar') as HTMLElement;
-              if (fallback) fallback.style.display = 'flex';
-            }}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '200px',
-            }}
-          />
-        ) : null}
-        <div 
-          className="fallback-avatar"
-          style={{
-            width: '100%',
-            height: '100%',
-            display: avatarUrl ? 'none' : 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '32px',
-            color: 'white',
-            fontWeight: 700,
-          }}>
-          {reel.accountUsername.charAt(0).toUpperCase()}
-        </div>
-      </div>
-
-      {/* Instagram logo - справа от аватарки */}
+      {/* Instagram logo - ПО FIGMA: left 7.32%, top 448px, aspect 42/51 */}
       <img 
         src={instaLogo}
         alt=""
         style={{
           position: 'absolute',
-          left: '120px',
-          top: '450px',
-          width: '32px',
-          height: '39px',
+          left: '7.32%',
+          top: '448px',
+          width: '42px',
+          height: '51px',
           opacity: 0.6,
           objectFit: 'contain',
         }}
       />
 
-      {/* Account username - выровнен строго по лого инста */}
+      {/* Account username - ПО FIGMA: inset 67.26% 9.51% 27.37% 9.02%, fontSize 40px, БЕЗ center */}
       <div style={{
         position: 'absolute',
-        left: '120px',
-        top: '495px',
+        left: '9.02%',
+        right: '9.51%',
+        top: '67.26%',
+        bottom: '27.37%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
         fontFamily: 'Inter, sans-serif',
         fontWeight: 700,
-        fontSize: '28px',
+        fontSize: '40px',
         color: 'white',
-        lineHeight: '1',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        maxWidth: '260px',
+        lineHeight: 0,
       }}>
-        @{reel.accountUsername}
+        <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>
+          @{reel.accountUsername}
+        </p>
       </div>
 
-      {/* Account followers - в одну строку под username */}
+      {/* Account followers - ПО FIGMA: inset 74.55% 8.54% 22.12% 10.24%, fontSize 32px, БЕЗ center */}
       <div style={{
         position: 'absolute',
-        left: '120px',
-        top: '530px',
+        left: '10.24%',
+        right: '8.54%',
+        top: '74.55%',
+        bottom: '22.12%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
         fontFamily: 'Gotham Pro, sans-serif',
         fontWeight: 300,
-        fontSize: '20px',
+        fontSize: '32px',
         color: 'white',
-        lineHeight: '1',
-        whiteSpace: 'nowrap',
+        lineHeight: 0,
       }}>
-        {formatCount(reel.accountFollowers)} подписчиков
+        <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>
+          {formatCount(reel.accountFollowers)} подписчиков
+        </p>
       </div>
 
       {/* Analysis button */}

@@ -255,16 +255,28 @@ export async function getFavorites(userId: number): Promise<Reel[]> {
 // ================================================
 
 /**
- * Форматирование чисел для отображения (227000 → "227к")
+ * Форматирование чисел для отображения (227000 → "227к") - ОКРУГЛЕНИЕ ДО ЦЕЛОГО
  */
 export function formatCount(count: number): string {
   if (count >= 1000000) {
-    return `${(count / 1000000).toFixed(1).replace(/\.0$/, '')}м`;
+    return `${Math.round(count / 1000000)}М`;
   }
   if (count >= 1000) {
-    return `${(count / 1000).toFixed(1).replace(/\.0$/, '')}к`;
+    return `${Math.round(count / 1000)}к`;
   }
   return count.toString();
+}
+
+/**
+ * Правильное склонение слов
+ */
+function pluralize(count: number, one: string, few: string, many: string): string {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+  return many;
 }
 
 /**
@@ -277,16 +289,19 @@ export function formatTimeAgo(dateString: string): string {
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
+  const diffWeeks = Math.floor(diffDays / 7);
   const diffMonths = Math.floor(diffDays / 30);
-
-  if (diffMins < 1) return 'только что';
-  if (diffMins < 60) return `${diffMins} минут назад`;
-  if (diffHours < 24) return `${diffHours} часов назад`;
-  if (diffDays < 30) return `${diffDays} дней назад`;
-  if (diffMonths < 12) return `${diffMonths} месяца назад`;
-  
   const diffYears = Math.floor(diffMonths / 12);
-  return `${diffYears} года назад`;
+
+  if (diffMins < 1) return 'сегодня';
+  if (diffMins < 60) return `${diffMins} ${pluralize(diffMins, 'минуту', 'минуты', 'минут')} назад`;
+  if (diffHours < 24) return `${diffHours} ${pluralize(diffHours, 'час', 'часа', 'часов')} назад`;
+  if (diffDays === 1) return '1 день назад';
+  if (diffDays < 7) return `${diffDays} ${pluralize(diffDays, 'день', 'дня', 'дней')} назад`;
+  if (diffWeeks < 4) return `${diffWeeks} ${pluralize(diffWeeks, 'неделю', 'недели', 'недель')} назад`;
+  if (diffMonths < 12) return `${diffMonths} ${pluralize(diffMonths, 'месяц', 'месяца', 'месяцев')} назад`;
+  
+  return `${diffYears} ${pluralize(diffYears, 'год', 'года', 'лет')} назад`;
 }
 
 /**
