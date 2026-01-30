@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { 
   searchAccount, 
   trackAccount, 
-  getTelegramUserId 
+  getTelegramUserId,
+  convertInstagramImageUrl 
 } from '../../utils/labaApi';
 import { InstagramAccount } from '../../types/laba';
 
@@ -37,6 +38,15 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [foundAccount, setFoundAccount] = React.useState<InstagramAccount | null>(null);
   const [searching, setSearching] = React.useState(false);
   const [tracking, setTracking] = React.useState(false);
+
+  // Конвертируем Instagram URL в прокси URL
+  const avatarUrl = React.useMemo(() => {
+    if (!foundAccount?.profilePhotoUrl) return null;
+    const converted = convertInstagramImageUrl(foundAccount.profilePhotoUrl);
+    console.log('[AVATAR] Оригинальный URL:', foundAccount.profilePhotoUrl);
+    console.log('[AVATAR] Конвертированный URL:', converted);
+    return converted;
+  }, [foundAccount?.profilePhotoUrl]);
 
   // Отладка: логируем когда foundAccount меняется
   React.useEffect(() => {
@@ -429,7 +439,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 результат
               </div>
 
-              {/* Profile photo PNG (109:665) - РЕАЛЬНАЯ АВАТАРКА */}
+              {/* Profile photo PNG (109:665) - РЕАЛЬНАЯ АВАТАРКА через прокси */}
               <div style={{
                 position: 'absolute',
                 left: '49px',
@@ -440,17 +450,14 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 overflow: 'hidden',
                 background: 'rgba(255, 255, 255, 0.1)',
               }}>
-                {foundAccount.profilePhotoUrl && foundAccount.profilePhotoUrl !== '' ? (
+                {avatarUrl ? (
                   <img 
-                    src={foundAccount.profilePhotoUrl}
+                    src={avatarUrl}
                     alt={foundAccount.username}
                     crossOrigin="anonymous"
-                    referrerPolicy="no-referrer"
                     onError={(e) => {
-                      console.error('[AVATAR] Ошибка загрузки:', foundAccount.profilePhotoUrl);
-                      console.error('[AVATAR] Тип URL:', typeof foundAccount.profilePhotoUrl);
-                      console.error('[AVATAR] Длина URL:', foundAccount.profilePhotoUrl?.length);
-                      console.error('[AVATAR] Error event:', e);
+                      console.error('[AVATAR] ❌ Ошибка загрузки через прокси:', avatarUrl);
+                      console.error('[AVATAR] Оригинальный URL:', foundAccount.profilePhotoUrl);
                       e.currentTarget.style.display = 'none';
                       const fallback = e.currentTarget.parentElement?.querySelector('.fallback-avatar') as HTMLElement;
                       if (fallback) {
@@ -459,7 +466,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                       }
                     }}
                     onLoad={() => {
-                      console.log('[AVATAR] ✅ Успешно загружена:', foundAccount.profilePhotoUrl);
+                      console.log('[AVATAR] ✅ Успешно загружена через прокси');
                     }}
                     style={{
                       width: '100%',
@@ -469,7 +476,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   />
                 ) : (
                   <>
-                    {console.log('[AVATAR] ⚠️ profilePhotoUrl пустой или undefined')}
+                    {console.log('[AVATAR] ⚠️ avatarUrl пустой, показываем fallback')}
                   </>
                 )}
                 <div 
@@ -477,7 +484,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   style={{
                     width: '100%',
                     height: '100%',
-                    display: (foundAccount.profilePhotoUrl && foundAccount.profilePhotoUrl !== '') ? 'none' : 'flex',
+                    display: avatarUrl ? 'none' : 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontSize: '80px',
@@ -488,7 +495,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 </div>
               </div>
 
-          {/* Instagram logo PNG (109:666) - left 255px, width 64px */}
+          {/* Instagram logo PNG (109:666) */}
           <img 
             src={instaLogo}
             alt=""
@@ -502,10 +509,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }}
           />
 
-              {/* Username - выровнен по ПРАВОЙ границе лого: 255 + 64 = 319px */}
+              {/* Username - выровнен по лого */}
               <div style={{
                 position: 'absolute',
-                left: '319px',
+                left: '255px',
                 top: '691px',
                 fontFamily: 'Inter',
                 fontWeight: 700,
@@ -517,10 +524,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 @{foundAccount.username}
               </div>
 
-              {/* Followers - выровнен по ПРАВОЙ границе лого: 319px */}
+              {/* Followers - выровнен по лого */}
               <div style={{
                 position: 'absolute',
-                left: '319px',
+                left: '255px',
                 top: '748px',
                 fontFamily: 'Gotham Pro',
                 fontWeight: 300,
