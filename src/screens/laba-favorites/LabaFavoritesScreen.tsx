@@ -142,18 +142,24 @@ export const LabaFavoritesScreen: React.FC = () => {
     setLikedCards(new Set());
   };
 
-  // Handle favorite toggle - УДАЛЕНИЕ ИЗ ИЗБРАННОГО
+  // Handle favorite toggle - УДАЛЕНИЕ ИЗ ИЗБРАННОГО (оптимистичное обновление)
   const handleToggleFavorite = async (reelId: string) => {
     const userId = getTelegramUserId();
     if (!userId) return;
     
+    // СРАЗУ удаляем из UI (оптимистичное обновление)
+    const removedReel = reels.find(r => r.id === reelId);
+    setReels(prev => prev.filter(r => r.id !== reelId));
+    
+    // Затем отправляем запрос на сервер
     try {
       await toggleFavorite(reelId, userId);
-      
-      // Удаляем reel из списка
-      setReels(prev => prev.filter(r => r.id !== reelId));
     } catch (error) {
       console.error('Ошибка удаления из избранного:', error);
+      // Откатываем изменения при ошибке (возвращаем reel обратно)
+      if (removedReel) {
+        setReels(prev => [...prev, removedReel]);
+      }
     }
   };
 
@@ -510,24 +516,8 @@ onBlur={() => {
           overflow: 'auto',
           zIndex: 10,
         }}>
-          {/* Loading state */}
-          {loading && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              загружаем избранное...
-            </div>
-          )}
-          
-          {/* Reels cards - Dynamic rendering */}
-          {!loading && reels.map((reel, index) => (
+          {/* Reels cards - Dynamic rendering (БЕЗ loading текста) */}
+          {reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
               reel={reel}
@@ -538,7 +528,7 @@ onBlur={() => {
           ))}
           
           {/* No favorites */}
-          {!loading && reels.length === 0 && (
+          {reels.length === 0 && (
             <div style={{
               position: 'absolute',
               left: '50%',

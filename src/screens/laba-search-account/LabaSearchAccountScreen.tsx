@@ -69,21 +69,45 @@ export const LabaSearchAccountScreen: React.FC = () => {
       return;
     }
     
-    try {
-      setSearching(true);
-      const account = await searchAccount(query);
-      console.log('[SEARCH] Найден аккаунт:', account);
-      console.log('[SEARCH] profilePhotoUrl:', account.profilePhotoUrl);
-      setFoundAccount(account);
-    } catch (error: any) {
-      console.error('Ошибка поиска аккаунта:', error);
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: error.message || 'ничего не найдено. проверьте корректность ссылки или ника'
-        });
-      }
-    } finally {
-      setSearching(false);
+    // Показываем popup ПЕРЕД запуском поиска
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        message: 'начинаем поиск аккаунта...\n\nэто займет 5-10 секунд\nнажмите ок и дождитесь загрузки',
+        buttons: [
+          {
+            id: 'start_account_search',
+            type: 'default',
+            text: 'ок'
+          }
+        ]
+      }, async (buttonId) => {
+        // Функция запускается ТОЛЬКО после нажатия ОК
+        if (buttonId === 'start_account_search') {
+          try {
+            setSearching(true);
+            const account = await searchAccount(query);
+            console.log('[SEARCH] Найден аккаунт:', account);
+            console.log('[SEARCH] profilePhotoUrl:', account.profilePhotoUrl);
+            setFoundAccount(account);
+            
+            // Показываем результат
+            if (window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: `аккаунт найден\n\n@${account.username}\n${account.followersCount} подписчиков`
+              });
+            }
+          } catch (error: any) {
+            console.error('Ошибка поиска аккаунта:', error);
+            if (window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: error.message || 'ничего не найдено\n\nпроверьте корректность ссылки или ника'
+              });
+            }
+          } finally {
+            setSearching(false);
+          }
+        }
+      });
     }
   };
 

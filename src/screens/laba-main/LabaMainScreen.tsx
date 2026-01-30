@@ -101,57 +101,109 @@ export const LabaMainScreen: React.FC = () => {
     fetchTopReels();
   }, []);
 
-  // Handle search
+  // Handle search - с popup перед запуском
   const handleSearch = async () => {
     if (!searchValue.trim()) {
-      showMessage('введите ключевое слово для поиска', 'popup');
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'введите ключевое слово для поиска'
+        });
+      }
       return;
     }
     
     const userId = getTelegramUserId();
     if (!userId) {
-      showMessage('ошибка получения telegram user id', 'alert');
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'ошибка получения telegram user id'
+        });
+      }
       return;
     }
     
-    try {
-      setSearchLoading(true);
-      const foundReels = await searchReels(searchValue, userId);
-      
-      if (foundReels.length === 0) {
-        showMessage('ничего не найдено. попробуйте другое ключевое слово', 'popup');
-      } else {
-        setReels(foundReels);
-        setSearchValue('');
-        showMessage(`найдено ${foundReels.length} reels`, 'popup');
-      }
-    } catch (error: any) {
-      console.error('Ошибка поиска:', error);
-      showMessage(error.message || 'ошибка поиска. попробуйте позже', 'popup');
-    } finally {
-      setSearchLoading(false);
+    // Сохраняем значение и СРАЗУ очищаем поле
+    const keyword = searchValue.trim();
+    setSearchValue('');
+    
+    // Показываем popup ПЕРЕД запуском поиска
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        message: 'начинаем поиск reels...\n\nэто займет 10-30 секунд\nнажмите ок и дождитесь загрузки',
+        buttons: [
+          {
+            id: 'start_search',
+            type: 'default',
+            text: 'ок'
+          }
+        ]
+      }, async (buttonId) => {
+        // Функция запускается ТОЛЬКО после нажатия ОК
+        if (buttonId === 'start_search') {
+          try {
+            setSearchLoading(true);
+            const foundReels = await searchReels(keyword, userId);
+            
+            // Показываем результат
+            if (window.Telegram?.WebApp?.showPopup) {
+              if (foundReels.length === 0) {
+                window.Telegram.WebApp.showPopup({
+                  message: 'ничего не найдено\n\nпопробуйте другое ключевое слово'
+                });
+              } else {
+                setReels(foundReels);
+                window.Telegram.WebApp.showPopup({
+                  message: `найдено ${foundReels.length} reels`
+                });
+              }
+            }
+          } catch (error: any) {
+            console.error('Ошибка поиска:', error);
+            if (window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: error.message || 'ошибка поиска\n\nпопробуйте позже'
+              });
+            }
+          } finally {
+            setSearchLoading(false);
+          }
+        }
+      });
     }
   };
 
-  // Handle favorite toggle
+  // Handle favorite toggle - ОПТИМИСТИЧНОЕ ОБНОВЛЕНИЕ (UI меняется сразу)
   const handleToggleFavorite = async (reelId: string) => {
     const userId = getTelegramUserId();
     if (!userId) return;
     
+    // СРАЗУ меняем UI (оптимистичное обновление)
+    const wasLiked = likedCards.has(reelId);
+    setLikedCards(prev => {
+      const newSet = new Set(prev);
+      if (wasLiked) {
+        newSet.delete(reelId);
+      } else {
+        newSet.add(reelId);
+      }
+      return newSet;
+    });
+    
+    // Затем отправляем запрос на сервер
     try {
-      const isFavorite = await toggleFavorite(reelId, userId);
-      
+      await toggleFavorite(reelId, userId);
+    } catch (error) {
+      console.error('Ошибка избранного:', error);
+      // Откатываем изменения при ошибке
       setLikedCards(prev => {
         const newSet = new Set(prev);
-        if (isFavorite) {
+        if (wasLiked) {
           newSet.add(reelId);
         } else {
           newSet.delete(reelId);
         }
         return newSet;
       });
-    } catch (error) {
-      console.error('Ошибка избранного:', error);
     }
   };
 
@@ -577,7 +629,7 @@ onBlur={() => {
             }}>
               ищем reels...<br/>
               <span style={{ fontSize: '24px', opacity: 0.7 }}>
-                это может занять 10-20 секунд
+                это может занять 10-30 секунд
               </span>
             </div>
           )}

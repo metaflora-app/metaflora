@@ -76,6 +76,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         <img 
           src={coverUrl}
           alt=""
+          loading="lazy"
           crossOrigin="anonymous"
           onError={(e) => {
             console.error('[COVER] ❌ Ошибка загрузки обложки:', coverUrl);
@@ -108,7 +109,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         />
       )}
 
-      {/* Like icon */}
+      {/* Like icon - с ярким свечением */}
       <div 
         onClick={() => onToggleFavorite(reel.id)}
         style={{
@@ -118,6 +119,11 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
           width: '36px',
           height: '36px',
           cursor: 'pointer',
+          filter: isFavorite 
+            ? 'drop-shadow(0 0 8px #FF0000) drop-shadow(0 0 16px #FF0000)' 
+            : 'none',
+          transition: 'filter 0.2s ease-in-out',
+          willChange: 'filter',
         }}
       >
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
