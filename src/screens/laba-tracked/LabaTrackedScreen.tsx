@@ -1,6 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// API and types
+import { 
+  getTrackedAccounts, 
+  getTrackedReels, 
+  untrackAccount,
+  getTelegramUserId 
+} from '../../utils/labaApi';
+import { TrackedAccount, Reel } from '../../types/laba';
+
 // Background & header from laba-main
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
@@ -45,6 +54,80 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
+  
+  // Tracked accounts data
+  const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
+  const [reels, setReels] = React.useState<Reel[]>([]);
+  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  // Load tracked accounts
+  React.useEffect(() => {
+    const fetchAccounts = async () => {
+      const userId = getTelegramUserId();
+      if (!userId) return;
+      
+      try {
+        setLoading(true);
+        const trackedAccounts = await getTrackedAccounts(userId);
+        setAccounts(trackedAccounts);
+        
+        if (trackedAccounts.length > 0) {
+          setSelectedAccountId(trackedAccounts[0].id);
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки аккаунтов:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchAccounts();
+  }, []);
+
+  // Load reels for selected account
+  React.useEffect(() => {
+    if (!selectedAccountId) return;
+    
+    const fetchReels = async () => {
+      const userId = getTelegramUserId();
+      if (!userId) return;
+      
+      try {
+        const accountReels = await getTrackedReels(selectedAccountId, userId);
+        setReels(accountReels);
+      } catch (error) {
+        console.error('Ошибка загрузки reels:', error);
+      }
+    };
+    
+    fetchReels();
+  }, [selectedAccountId]);
+
+  // Handle remove account
+  const handleRemoveAccount = async () => {
+    if (!selectedAccountId) return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) return;
+    
+    try {
+      await untrackAccount(selectedAccountId, userId);
+      
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'аккаунт удален из отслеживаемых'
+        });
+      }
+      
+      const updatedAccounts = accounts.filter(a => a.id !== selectedAccountId);
+      setAccounts(updatedAccounts);
+      setSelectedAccountId(updatedAccounts[0]?.id || null);
+      setAccountRemoved(true);
+    } catch (error) {
+      console.error('Ошибка удаления:', error);
+    }
+  };
 
   const sortOptions = [
     { id: 'views_desc', label: '>просмотров' },
