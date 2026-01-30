@@ -533,16 +533,16 @@ onBlur={() => {
           }}
         />
 
-        {/* Main content window - с СКРОЛЛОМ и FADE */}
+        {/* Main content window - с СКРОЛЛОМ и FADE - ПОДНЯТО ВЫШЕ */}
         <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
           background: 'rgba(255, 255, 255, 0.1)',
           border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '1369px',
+          height: '1392px',
           left: 'calc(50% + 3px)',
           borderRadius: '30px',
-          top: '673px',
+          top: '650px',
           width: '884px',
           transform: 'translateX(-50%)',
           overflow: 'auto',

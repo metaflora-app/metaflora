@@ -158,7 +158,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         />
       </div>
 
-      {/* Statistics bar */}
+      {/* Statistics bar - ДИНАМИЧЕСКОЕ ПОЗИЦИОНИРОВАНИЕ */}
       <div className="blur-wave" style={{
         position: 'absolute',
         backdropFilter: 'blur(50px)',
@@ -171,120 +171,77 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         transform: 'translateX(-50%)',
         width: '333px',
         overflow: 'clip',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        padding: '0 15px',
       }}>
-        {/* Views icon */}
+        {/* Views: иконка + число */}
         <div style={{
-          position: 'absolute',
-          height: '39px',
-          left: '21px',
-          top: '5px',
-          width: '46px',
-        }}>
-          <img src={viewsIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
-
-        {/* Likes icon */}
-        <div style={{
-          position: 'absolute',
-          height: '39px',
-          left: '132px',
-          top: '4px',
-          width: '40px',
-        }}>
-          <img src={likesIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
-
-        {/* Comments icon */}
-        <div style={{
-          position: 'absolute',
-          height: '39px',
-          left: '228px',
-          top: '5px',
-          width: '40px',
-        }}>
-          <img src={commentsIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </div>
-
-        {/* Views count - ШРИФТ 25px по Figma */}
-        <div style={{
-          position: 'absolute',
-          bottom: 'calc(30.77% - 0.77px)',
           display: 'flex',
-          flexDirection: 'column',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 500,
-          justifyContent: 'center',
-          left: 'calc(50% - 72px)',
-          lineHeight: 0,
-          fontSize: '25px',
-          textAlign: 'center',
-          color: 'white',
-          top: 'calc(30.77% - 0.77px)',
-          transform: 'translateX(-50%)',
-          width: '73px',
+          alignItems: 'center',
+          gap: '8px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>
+          <img src={viewsIcon} alt="" style={{ width: '46px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
+          <div style={{
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '25px',
+            color: 'white',
+            whiteSpace: 'nowrap',
+          }}>
             {formatCount(reel.viewsCount)}
-          </p>
+          </div>
         </div>
 
-        {/* Likes count - ШРИФТ 25px по Figma */}
+        {/* Likes: иконка + число */}
         <div style={{
-          position: 'absolute',
-          bottom: 'calc(31.39% - 0.74px)',
           display: 'flex',
-          flexDirection: 'column',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 500,
-          justifyContent: 'center',
-          left: 'calc(50% + 28px)',
-          lineHeight: 0,
-          fontSize: '25px',
-          textAlign: 'center',
-          color: 'white',
-          top: 'calc(30.77% - 0.77px)',
-          transform: 'translateX(-50%)',
-          width: '55px',
+          alignItems: 'center',
+          gap: '8px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>
+          <img src={likesIcon} alt="" style={{ width: '40px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
+          <div style={{
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '25px',
+            color: 'white',
+            whiteSpace: 'nowrap',
+          }}>
             {formatCount(reel.likesCount)}
-          </p>
+          </div>
         </div>
 
-        {/* Comments count - ШРИФТ 25px по Figma */}
+        {/* Comments: иконка + число */}
         <div style={{
-          position: 'absolute',
-          bottom: 'calc(31.39% - 0.74px)',
           display: 'flex',
-          flexDirection: 'column',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 500,
-          justifyContent: 'center',
-          left: 'calc(50% + 114px)',
-          lineHeight: 0,
-          fontSize: '25px',
-          textAlign: 'center',
-          color: 'white',
-          top: 'calc(30.77% - 0.77px)',
-          transform: 'translateX(-50%)',
-          width: '35px',
+          alignItems: 'center',
+          gap: '8px',
         }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>
+          <img src={commentsIcon} alt="" style={{ width: '40px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
+          <div style={{
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '25px',
+            color: 'white',
+            whiteSpace: 'nowrap',
+          }}>
             {formatCount(reel.commentsCount)}
-          </p>
+          </div>
         </div>
       </div>
 
-      {/* Instagram logo - ПО FIGMA: left 7.32%, top 448px, aspect 42/51 */}
+      {/* Instagram logo - ПО FIGMA: left 7.32%, right 77.07%, top 448px, aspect 42/51 */}
       <img 
         src={instaLogo}
         alt=""
         style={{
           position: 'absolute',
           left: '7.32%',
+          right: '77.07%',
           top: '448px',
-          width: '42px',
-          height: '51px',
+          height: 'auto',
+          aspectRatio: '42/51',
           opacity: 0.6,
           objectFit: 'contain',
         }}
