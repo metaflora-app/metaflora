@@ -430,24 +430,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }}
           />
 
-          {/* Loading state */}
-          {searching && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '700px',
-              transform: 'translateX(-50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              ищем аккаунт...
-            </div>
-          )}
-
-          {/* Result section - show only after search */}
-          {!searching && foundAccount && (
+          {/* Result section - show only after search (БЕЗ loading текста) */}
+          {foundAccount && (
             <>
               {/* "результат" - CSS (109:664) - x=190, y=986 relative to frame, so 190-141=49, 986-453=533 */}
               <div style={{

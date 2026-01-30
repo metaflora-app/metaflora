@@ -85,6 +85,15 @@ export const LabaFavoritesScreen: React.FC = () => {
         const favoriteReels = await getFavorites(userId);
         setReels(favoriteReels);
         
+        // Если нет избранных - показываем popup
+        if (favoriteReels.length === 0) {
+          if ((window as any).Telegram?.WebApp?.showPopup) {
+            (window as any).Telegram.WebApp.showPopup({
+              message: 'reels не добавлены в избранное'
+            });
+          }
+        }
+        
         // Pre-populate liked cards (static cards use numbers 1-4)
         setLikedCards(new Set([1, 2, 3, 4]));
       } catch (error) {
@@ -246,97 +255,6 @@ export const LabaFavoritesScreen: React.FC = () => {
             cursor: 'pointer',
           }}
         />
-
-        {/* Search bar + 25 badge - EXACT Figma coordinates */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          border: '2px solid rgba(255, 255, 255, 0.3)',
-          height: '72px',
-          left: 'calc(50% + 3px)',
-          borderRadius: '62px',
-          top: '223px',
-          transform: 'translateX(-50%)',
-          width: '876px',
-          overflow: 'clip',
-        }}>
-          {/* Search icon */}
-          <div style={{
-            position: 'absolute',
-            left: '22px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: '38px',
-            height: '38px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              top: '3.12%',
-              right: '3.12%',
-              bottom: '3.13%',
-              left: '3.12%',
-            }}>
-              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%' }} />
-            </div>
-          </div>
-
-          {/* Search input */}
-          <input
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            onFocus={() => setIsSearchFocused(true)}
-onBlur={() => {
-              setTimeout(() => {
-                setIsSearchFocused(false);
-                setSearchValue('');
-              }, 100);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                if (searchValue.trim() === '') {
-                  if (window.Telegram?.WebApp?.showPopup) {
-                    window.Telegram.WebApp.showPopup({
-                      message: 'ничего не найдено. проверьте корректность ключа'
-                    });
-                  }
-                }
-              }
-            }}
-            placeholder={isSearchFocused ? '' : 'найти видео по ключевым словам'}
-            enterKeyHint="search"
-            style={{
-              position: 'absolute',
-              left: '70px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '612px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: '#848484',
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-            }}
-          />
-
-          {/* Badge "начать поиск" - PNG из Desktop */}
-          <img 
-            src={badgeStartSearch}
-            alt="начать поиск"
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: 'calc(50% + 373px)',
-              top: '-2px',
-              transform: 'translateX(-50%)',
-              width: '130px',
-              height: '72px',
-              cursor: 'pointer',
-            }}
-          />
-        </div>
 
         {/* Filter buttons - Row 1 - EXACT Figma coordinates */}
         <img 
@@ -516,7 +434,7 @@ onBlur={() => {
           overflow: 'auto',
           zIndex: 10,
         }}>
-          {/* Reels cards - Dynamic rendering (БЕЗ loading текста) */}
+          {/* Reels cards - Dynamic rendering (БЕЗ текста "нет избранных") */}
           {reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
@@ -526,22 +444,6 @@ onBlur={() => {
               onToggleFavorite={handleToggleFavorite}
             />
           ))}
-          
-          {/* No favorites */}
-          {reels.length === 0 && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              нет избранных reels
-            </div>
-          )}
         </div>
 
         {/* Footer */}

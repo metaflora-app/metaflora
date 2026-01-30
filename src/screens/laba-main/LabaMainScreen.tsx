@@ -104,8 +104,8 @@ export const LabaMainScreen: React.FC = () => {
   // Handle search - с popup перед запуском
   const handleSearch = async () => {
     if (!searchValue.trim()) {
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
           message: 'введите ключевое слово для поиска'
         });
       }
@@ -114,17 +114,22 @@ export const LabaMainScreen: React.FC = () => {
     
     const userId = getTelegramUserId();
     if (!userId) {
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
           message: 'ошибка получения telegram user id'
         });
       }
       return;
     }
     
-    // Сохраняем значение и СРАЗУ очищаем поле
+    // Сохраняем значение (НЕ очищаем поле!)
     const keyword = searchValue.trim();
-    setSearchValue('');
+    
+    // УБИРАЕМ КЛАВИАТУРУ
+    const inputElement = document.querySelector('input[type="text"]') as HTMLInputElement;
+    if (inputElement) {
+      inputElement.blur();
+    }
     
     // Показываем popup ПЕРЕД запуском поиска
     if ((window as any).Telegram?.WebApp?.showPopup) {
@@ -149,11 +154,17 @@ export const LabaMainScreen: React.FC = () => {
               if (foundReels.length === 0) {
                 (window as any).Telegram.WebApp.showPopup({
                   message: 'ничего не найдено\n\nпопробуйте другое ключевое слово'
+                }, () => {
+                  // ОЧИЩАЕМ ПОЛЕ ПОСЛЕ ЗАКРЫТИЯ POPUP
+                  setSearchValue('');
                 });
               } else {
                 setReels(foundReels);
                 (window as any).Telegram.WebApp.showPopup({
                   message: `найдено ${foundReels.length} reels`
+                }, () => {
+                  // ОЧИЩАЕМ ПОЛЕ ПОСЛЕ ЗАКРЫТИЯ POPUP
+                  setSearchValue('');
                 });
               }
             }
@@ -162,6 +173,9 @@ export const LabaMainScreen: React.FC = () => {
             if ((window as any).Telegram?.WebApp?.showPopup) {
               (window as any).Telegram.WebApp.showPopup({
                 message: error.message || 'ошибка поиска\n\nпопробуйте позже'
+              }, () => {
+                // ОЧИЩАЕМ ПОЛЕ ПОСЛЕ ЗАКРЫТИЯ POPUP
+                setSearchValue('');
               });
             }
           } finally {
@@ -600,41 +614,8 @@ onBlur={() => {
           overflow: 'auto',
           zIndex: 10,
         }}>
-          {/* Reels cards - Dynamic rendering */}
-          {loading && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              загружаем топ reels...
-            </div>
-          )}
-          
-          {searchLoading && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              ищем reels...<br/>
-              <span style={{ fontSize: '24px', opacity: 0.7 }}>
-                это может занять 10-30 секунд
-              </span>
-            </div>
-          )}
-          
-          {!loading && !searchLoading && reels.map((reel, index) => (
+          {/* Reels cards - Dynamic rendering (БЕЗ loading текстов) */}
+          {reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
               reel={reel}
@@ -643,21 +624,6 @@ onBlur={() => {
               onToggleFavorite={handleToggleFavorite}
             />
           ))}
-          
-          {!loading && !searchLoading && reels.length === 0 && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              нет reels для отображения
-            </div>
-          )}
         </div>
 
         {/* Footer */}
