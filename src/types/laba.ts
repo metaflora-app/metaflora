@@ -22,6 +22,7 @@ export interface Reel {
   isNew: boolean;
   accountUsername: string;
   accountFollowers: number;
+  accountProfilePicUrl?: string | null; // Аватарка аккаунта
   trackedAccountId?: string | null; // Присутствует если reel из отслеживаемого аккаунта
 }
 

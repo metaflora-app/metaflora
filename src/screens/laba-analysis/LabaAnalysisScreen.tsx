@@ -267,6 +267,12 @@ export const LabaAnalysisScreen: React.FC = () => {
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: showAnalysisResults ? 'auto' : 'hidden',
+          WebkitMaskImage: showAnalysisResults 
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
+          maskImage: showAnalysisResults
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
         }}>
           {/* Reel cover image - 292:652 */}
           <div style={{
@@ -411,50 +417,50 @@ export const LabaAnalysisScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Views count */}
+            {/* Views count - 292:665 */}
             <div style={{
               position: 'absolute',
-              left: '121px',
-              top: '50%',
-              transform: 'translateY(-50%)',
+              left: '123px',
+              top: '27px',
               width: '109px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '35px',
+              fontSize: '40px',
               color: 'white',
-              textAlign: 'left',
+              textAlign: 'center',
+              lineHeight: '1',
             }}>
               {formatCount(reel.viewsCount)}
             </div>
 
-            {/* 40к - 292:666 */}
+            {/* Likes count - 292:666 */}
             <div style={{
               position: 'absolute',
-              left: '287px',
-              top: '50%',
-              transform: 'translateY(-50%)',
+              left: '289px',
+              top: '28px',
               width: '92px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '35px',
+              fontSize: '40px',
               color: 'white',
-              textAlign: 'left',
+              textAlign: 'center',
+              lineHeight: '1',
             }}>
               {formatCount(reel.likesCount)}
             </div>
 
-            {/* 2к - 292:667 */}
+            {/* Comments count - 292:667 */}
             <div style={{
               position: 'absolute',
-              left: '439px',
-              top: '50%',
-              transform: 'translateY(-50%)',
+              left: '441px',
+              top: '27px',
               width: '67px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '35px',
+              fontSize: '40px',
               color: 'white',
-              textAlign: 'left',
+              textAlign: 'center',
+              lineHeight: '1',
             }}>
               {formatCount(reel.commentsCount)}
             </div>
@@ -487,7 +493,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Profile photo - 292:675 */}
+          {/* Profile photo - 292:675 - РЕАЛЬНАЯ АВАТАРКА */}
           <div style={{
             position: 'absolute',
             left: '53px',
@@ -498,8 +504,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             overflow: 'hidden',
           }}>
             <img
-              src={profilePhotoMCP}
-              alt=""
+              src={reel.accountProfilePicUrl || profilePhotoMCP}
+              alt={reel.accountUsername}
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -541,38 +547,36 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Username - 292:677 */}
+          {/* Username и подписчики - В ОДНУ СТРОКУ слева под лого инста */}
           <div style={{
             position: 'absolute',
             left: '259px',
-            top: '935px',
-            width: '334px',
-            height: '42px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '42px',
+            top: '950px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
           }}>
-            @{reel.accountUsername}
-          </div>
+            {/* Username - 292:677 */}
+            <div style={{
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              lineHeight: '42px',
+            }}>
+              @{reel.accountUsername}
+            </div>
 
-          {/* Followers - 292:678 */}
-          <div style={{
-            position: 'absolute',
-            left: '256px',
-            top: '992px',
-            width: '350px',
-            height: '26px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '32px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '26px',
-          }}>
-            {formatCount(reel.accountFollowers)} подписчиков
+            {/* Followers - 292:678 */}
+            <div style={{
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              lineHeight: '26px',
+            }}>
+              {formatCount(reel.accountFollowers)} подписчиков
+            </div>
           </div>
 
           {/* Description label - 292:680 */}
@@ -603,7 +607,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             color: 'white',
             lineHeight: '42px',
           }}>
-            а вы знали, что так вообще возможно?
+            {reel.caption || 'без описания'}
           </div>
 
           {/* Button "следить" / "не следить" - 292:694 */}
