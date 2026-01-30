@@ -28,6 +28,29 @@ import {
 const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
 
 // ================================================
+// УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ
+// ================================================
+
+/**
+ * Конвертирует Instagram CDN URL в прокси URL через наш сервер
+ * Решает проблему CORS и загрузки изображений из Instagram
+ */
+export function convertInstagramImageUrl(url: string | null | undefined): string | null {
+  if (!url || url === '') return null;
+  
+  // Если это уже наш прокси URL - возвращаем как есть
+  if (url.startsWith(API_URL)) return url;
+  
+  // Если это Instagram CDN - проксируем через наш сервер
+  if (url.includes('cdninstagram.com') || url.includes('instagram.com')) {
+    return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}`;
+  }
+  
+  // Для остальных URL возвращаем как есть
+  return url;
+}
+
+// ================================================
 // ОСНОВНЫЕ API ФУНКЦИИ
 // ================================================
 
