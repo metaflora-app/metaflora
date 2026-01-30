@@ -52,6 +52,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
     try {
       setSearching(true);
       const account = await searchAccount(query);
+      console.log('[SEARCH] Найден аккаунт:', account);
+      console.log('[SEARCH] profilePhotoUrl:', account.profilePhotoUrl);
       setFoundAccount(account);
     } catch (error: any) {
       console.error('Ошибка поиска аккаунта:', error);
@@ -432,29 +434,36 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   <img 
                     src={foundAccount.profilePhotoUrl}
                     alt={foundAccount.username}
+                    onError={(e) => {
+                      console.error('Ошибка загрузки аватарки:', foundAccount.profilePhotoUrl);
+                      e.currentTarget.style.display = 'none';
+                      const fallback = e.currentTarget.parentElement?.querySelector('.fallback-avatar') as HTMLElement;
+                      if (fallback) fallback.style.display = 'flex';
+                    }}
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
                     }}
                   />
-                ) : (
-                  <div style={{
+                ) : null}
+                <div 
+                  className="fallback-avatar"
+                  style={{
                     width: '100%',
                     height: '100%',
-                    display: 'flex',
+                    display: foundAccount.profilePhotoUrl ? 'none' : 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontSize: '80px',
                     color: 'white',
                     fontWeight: 700,
                   }}>
-                    {foundAccount.username.charAt(0).toUpperCase()}
-                  </div>
-                )}
+                  {foundAccount.username.charAt(0).toUpperCase()}
+                </div>
               </div>
 
-          {/* Instagram logo PNG (109:666) - справа от аватарки */}
+          {/* Instagram logo PNG (109:666) - ТОЧНО по Figma: left 396px, top 1066px */}
           <img 
             src={instaLogo}
             alt=""
@@ -468,7 +477,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }}
           />
 
-              {/* Username - выровнен строго по лого инста */}
+              {/* Username - ТОЧНО по Figma: left 396px, top 1144px */}
               <div style={{
                 position: 'absolute',
                 left: '255px',
@@ -476,14 +485,14 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 fontFamily: 'Inter',
                 fontWeight: 700,
                 fontSize: '40px',
-                lineHeight: 1,
+                lineHeight: '42px',
                 color: 'white',
                 whiteSpace: 'nowrap',
               }}>
                 @{foundAccount.username}
               </div>
 
-              {/* Followers - в одну строку под username */}
+              {/* Followers - ТОЧНО по Figma: left 393px -> 255px (как username), top 1201px -> 748px */}
               <div style={{
                 position: 'absolute',
                 left: '255px',
@@ -491,7 +500,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 fontFamily: 'Gotham Pro',
                 fontWeight: 300,
                 fontSize: '32px',
-                lineHeight: 1,
+                lineHeight: '26px',
                 color: 'white',
                 whiteSpace: 'nowrap',
               }}>
