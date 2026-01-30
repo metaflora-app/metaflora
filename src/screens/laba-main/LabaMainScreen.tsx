@@ -533,7 +533,7 @@ onBlur={() => {
           }}
         />
 
-        {/* Main content window - с СКРОЛЛОМ */}
+        {/* Main content window - с СКРОЛЛОМ и FADE */}
         <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
@@ -546,6 +546,12 @@ onBlur={() => {
           width: '884px',
           transform: 'translateX(-50%)',
           overflow: 'auto',
+          WebkitMaskImage: !loading && !searchLoading && reels.length > 2
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
+          maskImage: !loading && !searchLoading && reels.length > 2
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
           zIndex: 10,
         }}>
           {/* Reels cards - Dynamic rendering */}

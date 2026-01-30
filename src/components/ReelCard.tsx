@@ -261,55 +261,67 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         </div>
       </div>
 
-      {/* Instagram logo */}
+      {/* Profile photo 80x80 */}
+      <div style={{
+        position: 'absolute',
+        left: '30px',
+        top: '445px',
+        width: '80px',
+        height: '80px',
+        borderRadius: '200px',
+        overflow: 'hidden',
+      }}>
+        <img
+          src={reel.accountProfilePicUrl || instaLogo}
+          alt={reel.accountUsername}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            borderRadius: '200px',
+          }}
+        />
+      </div>
+
+      {/* Instagram logo - справа от аватарки */}
       <img 
         src={instaLogo}
         alt=""
         style={{
           position: 'absolute',
-          left: '30px',
-          top: '448px',
-          width: '64px',
-          height: '78px',
+          left: '120px',
+          top: '450px',
+          width: '32px',
+          height: '39px',
           opacity: 0.6,
           objectFit: 'contain',
         }}
       />
 
-      {/* Account username */}
+      {/* Account username - слева под лого, одна строка */}
       <div style={{
         position: 'absolute',
-        top: '67.26%',
-        right: '11.22%',
-        bottom: '27.37%',
-        left: '7.32%',
+        left: '120px',
+        top: '495px',
         fontFamily: 'Inter, sans-serif',
         fontWeight: 700,
-        fontSize: '40px',
+        fontSize: '28px',
         color: 'white',
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
+        lineHeight: '1',
       }}>
         @{reel.accountUsername}
       </div>
 
-      {/* Account followers */}
+      {/* Account followers - слева под username, одна строка */}
       <div style={{
         position: 'absolute',
-        top: '74.55%',
-        right: '8.05%',
-        bottom: '22.12%',
-        left: '6.59%',
+        left: '120px',
+        top: '530px',
         fontFamily: 'Gotham Pro, sans-serif',
         fontWeight: 300,
-        fontSize: '32px',
+        fontSize: '20px',
         color: 'white',
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
+        lineHeight: '1',
       }}>
         {formatCount(reel.accountFollowers)} подписчиков
       </div>
