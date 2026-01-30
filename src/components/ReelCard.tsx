@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Reel } from '../types/laba';
-import { formatCount, formatTimeAgo } from '../utils/labaApi';
+import { formatCount, formatTimeAgo, convertInstagramImageUrl } from '../utils/labaApi';
 
 // Assets
 import newBadgePNG from '../assets/laba-main/плашка новое.png';
@@ -33,6 +33,11 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   
   const left = isLeftColumn ? '22px' : '444px';
   const top = `${23 + rowIndex * 805}px`;
+  
+  // Конвертируем Instagram URL в прокси URL
+  const avatarUrl = React.useMemo(() => {
+    return convertInstagramImageUrl(reel.accountProfilePicUrl);
+  }, [reel.accountProfilePicUrl]);
   
   return (
     <div style={{
@@ -261,7 +266,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         </div>
       </div>
 
-      {/* Profile photo 80x80 - РЕАЛЬНАЯ АВАТАРКА */}
+      {/* Profile photo 80x80 - РЕАЛЬНАЯ АВАТАРКА через прокси */}
       <div style={{
         position: 'absolute',
         left: '30px',
@@ -272,10 +277,17 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         overflow: 'hidden',
         background: 'rgba(255, 255, 255, 0.1)',
       }}>
-        {reel.accountProfilePicUrl ? (
+        {avatarUrl ? (
           <img
-            src={reel.accountProfilePicUrl}
+            src={avatarUrl}
             alt={reel.accountUsername}
+            crossOrigin="anonymous"
+            onError={(e) => {
+              console.error('[REEL-AVATAR] ❌ Ошибка загрузки:', avatarUrl);
+              e.currentTarget.style.display = 'none';
+              const fallback = e.currentTarget.parentElement?.querySelector('.fallback-avatar') as HTMLElement;
+              if (fallback) fallback.style.display = 'flex';
+            }}
             style={{
               width: '100%',
               height: '100%',
@@ -283,20 +295,21 @@ export const ReelCard: React.FC<ReelCardProps> = ({
               borderRadius: '200px',
             }}
           />
-        ) : (
-          <div style={{
+        ) : null}
+        <div 
+          className="fallback-avatar"
+          style={{
             width: '100%',
             height: '100%',
-            display: 'flex',
+            display: avatarUrl ? 'none' : 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '32px',
             color: 'white',
             fontWeight: 700,
           }}>
-            {reel.accountUsername.charAt(0).toUpperCase()}
-          </div>
-        )}
+          {reel.accountUsername.charAt(0).toUpperCase()}
+        </div>
       </div>
 
       {/* Instagram logo - справа от аватарки */}
