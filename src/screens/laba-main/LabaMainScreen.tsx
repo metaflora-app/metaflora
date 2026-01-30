@@ -97,9 +97,9 @@ export const LabaMainScreen: React.FC = () => {
       try {
         setLoading(true);
         const topReels = await getTopReels('нейросети');
-        const slicedReels = topReels.slice(0, 4);
-        setReels(slicedReels);
-        setLabaReelsCache(slicedReels); // Сохраняем в кэш
+        // Показываем все 60 топ reels (не ограничиваем до 4)
+        setReels(topReels);
+        setLabaReelsCache(topReels); // Сохраняем в кэш
       } catch (error) {
         console.error('Ошибка загрузки топ reels:', error);
         showMessage('ошибка загрузки топ reels', 'alert');
