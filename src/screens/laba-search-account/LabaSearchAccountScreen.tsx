@@ -38,6 +38,16 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [searching, setSearching] = React.useState(false);
   const [tracking, setTracking] = React.useState(false);
 
+  // Отладка: логируем когда foundAccount меняется
+  React.useEffect(() => {
+    if (foundAccount) {
+      console.log('[DEBUG] foundAccount изменился:', foundAccount);
+      console.log('[DEBUG] profilePhotoUrl:', foundAccount.profilePhotoUrl);
+      console.log('[DEBUG] Тип profilePhotoUrl:', typeof foundAccount.profilePhotoUrl);
+      console.log('[DEBUG] Пустой?:', !foundAccount.profilePhotoUrl || foundAccount.profilePhotoUrl === '');
+    }
+  }, [foundAccount]);
+
   const handleSearch = async () => {
     const query = linkInput || nicknameInput;
     if (!query.trim()) {
@@ -434,16 +444,22 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   <img 
                     src={foundAccount.profilePhotoUrl}
                     alt={foundAccount.username}
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
                     onError={(e) => {
                       console.error('[AVATAR] Ошибка загрузки:', foundAccount.profilePhotoUrl);
                       console.error('[AVATAR] Тип URL:', typeof foundAccount.profilePhotoUrl);
                       console.error('[AVATAR] Длина URL:', foundAccount.profilePhotoUrl?.length);
+                      console.error('[AVATAR] Error event:', e);
                       e.currentTarget.style.display = 'none';
                       const fallback = e.currentTarget.parentElement?.querySelector('.fallback-avatar') as HTMLElement;
-                      if (fallback) fallback.style.display = 'flex';
+                      if (fallback) {
+                        fallback.style.display = 'flex';
+                        console.log('[AVATAR] Показан fallback');
+                      }
                     }}
                     onLoad={() => {
-                      console.log('[AVATAR] Успешно загружена:', foundAccount.profilePhotoUrl);
+                      console.log('[AVATAR] ✅ Успешно загружена:', foundAccount.profilePhotoUrl);
                     }}
                     style={{
                       width: '100%',
@@ -451,7 +467,11 @@ export const LabaSearchAccountScreen: React.FC = () => {
                       objectFit: 'cover',
                     }}
                   />
-                ) : null}
+                ) : (
+                  <>
+                    {console.log('[AVATAR] ⚠️ profilePhotoUrl пустой или undefined')}
+                  </>
+                )}
                 <div 
                   className="fallback-avatar"
                   style={{
