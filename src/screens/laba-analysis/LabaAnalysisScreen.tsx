@@ -1,6 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { trackMetacoinsSpend } from '../../utils/supabase';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+// API and types
+import { 
+  analyzeReel, 
+  generateScenario, 
+  getTelegramUserId,
+  formatCount 
+} from '../../utils/labaApi';
+import { Reel, Analysis, Scenario } from '../../types/laba';
 
 // Background & header
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -29,15 +37,95 @@ import commentsIcon from '../../assets/laba-icons/иконка коммента�
 
 // Use real images
 const profilePhotoMCP = profilePhotoImage;
-const reelCoverMCP = reelCoverImage;
 const instaLogoMCP = instaLogoImage;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  
+  // Get reel from location state
+  const reel = (location.state as { reel?: Reel })?.reel;
+  
+  // Analysis data
+  const [analysis, setAnalysis] = React.useState<Analysis | null>(null);
+  const [scenario, setScenario] = React.useState<Scenario | null>(null);
+  
+  // Loading states
+  const [analyzing, setAnalyzing] = React.useState(false);
+  const [generatingScenario, setGeneratingScenario] = React.useState(false);
+  
+  // UI state
   const [showAnalysisResults, setShowAnalysisResults] = React.useState(false);
   const [showScenario, setShowScenario] = React.useState(false);
   const [isFollowing, setIsFollowing] = React.useState(false);
+  
+  // Redirect if no reel provided
+  React.useEffect(() => {
+    if (!reel) {
+      navigate('/laba-main');
+    }
+  }, [reel, navigate]);
+
+  // Handle start analysis
+  const handleStartAnalysis = async () => {
+    if (!reel) return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) {
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert('ошибка получения telegram user id');
+      }
+      return;
+    }
+    
+    try {
+      setAnalyzing(true);
+      const analysisResult = await analyzeReel(reel.id, userId);
+      setAnalysis(analysisResult);
+      setShowAnalysisResults(true);
+    } catch (error: any) {
+      console.error('Ошибка анализа:', error);
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка анализа');
+      } else {
+        alert(error.message || 'ошибка анализа');
+      }
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
+  // Handle generate scenario
+  const handleGenerateScenario = async () => {
+    if (!analysis?.id) return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) {
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert('ошибка получения telegram user id');
+      }
+      return;
+    }
+    
+    try {
+      setGeneratingScenario(true);
+      const scenarioResult = await generateScenario(analysis.id, userId);
+      setScenario(scenarioResult);
+      setShowScenario(true);
+    } catch (error: any) {
+      console.error('Ошибка генерации сценария:', error);
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка генерации сценария');
+      } else {
+        alert(error.message || 'ошибка генерации сценария');
+      }
+    } finally {
+      setGeneratingScenario(false);
+    }
+  };
+
+  if (!reel) return null;
 
   return (
     <div style={{
@@ -179,6 +267,12 @@ export const LabaAnalysisScreen: React.FC = () => {
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: showAnalysisResults ? 'auto' : 'hidden',
+          WebkitMaskImage: showAnalysisResults 
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
+          maskImage: showAnalysisResults
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
         }}>
           {/* Reel cover image - 292:652 */}
           <div style={{
@@ -192,7 +286,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             overflow: 'hidden',
           }}>
             <img
-              src={reelCoverMCP}
+              src={reel.coverImageUrl}
               alt=""
               style={{
                 position: 'absolute',
@@ -323,52 +417,52 @@ export const LabaAnalysisScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* 227к - 292:665 */}
+            {/* Views count - 292:665 */}
             <div style={{
               position: 'absolute',
-              left: '121px',
-              top: '50%',
-              transform: 'translateY(-50%)',
+              left: '123px',
+              top: '27px',
               width: '109px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '35px',
+              fontSize: '40px',
               color: 'white',
-              textAlign: 'left',
+              textAlign: 'center',
+              lineHeight: '1',
             }}>
-              227к
+              {formatCount(reel.viewsCount)}
             </div>
 
-            {/* 40к - 292:666 */}
+            {/* Likes count - 292:666 */}
             <div style={{
               position: 'absolute',
-              left: '287px',
-              top: '50%',
-              transform: 'translateY(-50%)',
+              left: '289px',
+              top: '28px',
               width: '92px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '35px',
+              fontSize: '40px',
               color: 'white',
-              textAlign: 'left',
+              textAlign: 'center',
+              lineHeight: '1',
             }}>
-              40к
+              {formatCount(reel.likesCount)}
             </div>
 
-            {/* 2к - 292:667 */}
+            {/* Comments count - 292:667 */}
             <div style={{
               position: 'absolute',
-              left: '439px',
-              top: '50%',
-              transform: 'translateY(-50%)',
+              left: '441px',
+              top: '27px',
               width: '67px',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '35px',
+              fontSize: '40px',
               color: 'white',
-              textAlign: 'left',
+              textAlign: 'center',
+              lineHeight: '1',
             }}>
-              2к
+              {formatCount(reel.commentsCount)}
             </div>
           </div>
 
@@ -399,7 +493,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Profile photo - 292:675 */}
+          {/* Profile photo - 292:675 - РЕАЛЬНАЯ АВАТАРКА */}
           <div style={{
             position: 'absolute',
             left: '53px',
@@ -410,8 +504,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             overflow: 'hidden',
           }}>
             <img
-              src={profilePhotoMCP}
-              alt=""
+              src={reel.accountProfilePicUrl || profilePhotoMCP}
+              alt={reel.accountUsername}
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -453,38 +547,36 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Username - 292:677 */}
+          {/* Username и подписчики - В ОДНУ СТРОКУ слева под лого инста */}
           <div style={{
             position: 'absolute',
             left: '259px',
-            top: '935px',
-            width: '334px',
-            height: '42px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '42px',
+            top: '950px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
           }}>
-            @mishchenko.is
-          </div>
+            {/* Username - 292:677 */}
+            <div style={{
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              lineHeight: '42px',
+            }}>
+              @{reel.accountUsername}
+            </div>
 
-          {/* Followers - 292:678 */}
-          <div style={{
-            position: 'absolute',
-            left: '256px',
-            top: '992px',
-            width: '350px',
-            height: '26px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '32px',
-            color: 'white',
-            textAlign: 'center',
-            lineHeight: '26px',
-          }}>
-            275,5к подписчиков
+            {/* Followers - 292:678 */}
+            <div style={{
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '32px',
+              color: 'white',
+              lineHeight: '26px',
+            }}>
+              {formatCount(reel.accountFollowers)} подписчиков
+            </div>
           </div>
 
           {/* Description label - 292:680 */}
@@ -515,7 +607,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             color: 'white',
             lineHeight: '42px',
           }}>
-            а вы знали, что так вообще возможно?
+            {reel.caption || 'без описания'}
           </div>
 
           {/* Button "следить" / "не следить" - 292:694 */}
@@ -549,6 +641,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           <img
             src={openButtonPNG}
             alt="открыть"
+            onClick={() => window.open(reel.reelUrl, '_blank')}
             className="button-inner-glow"
             style={{
               position: 'absolute',
@@ -561,7 +654,47 @@ export const LabaAnalysisScreen: React.FC = () => {
           />
 
           {/* Under blur frame - 292:734 (под фон закрытый) - HIDE when analysis started */}
-          {!showAnalysisResults && (
+          {/* Analyzing loader */}
+          {analyzing && (
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              zIndex: 100,
+            }}>
+              анализируем видео...<br/>
+              <span style={{ fontSize: '24px', opacity: 0.7 }}>
+                это может занять 30-60 секунд
+              </span>
+            </div>
+          )}
+          
+          {/* Generating scenario loader */}
+          {generatingScenario && (
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              zIndex: 100,
+            }}>
+              создаем сценарий...<br/>
+              <span style={{ fontSize: '24px', opacity: 0.7 }}>
+                это может занять 20-40 секунд
+              </span>
+            </div>
+          )}
+
+          {!showAnalysisResults && !analyzing && (
             <div style={{
               position: 'absolute',
               left: '84px',
@@ -636,7 +769,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           )}
 
           {/* Blur frame overlay - 292:684 - HIDE when analysis started */}
-          {!showAnalysisResults && (
+          {!showAnalysisResults && !analyzing && (
             <div className="blur-wave" style={{
               position: 'absolute',
               left: '53px',
@@ -658,26 +791,13 @@ export const LabaAnalysisScreen: React.FC = () => {
               <img
                 src={startAnalysisButtonPNG}
                 alt="начать анализ"
-                onClick={async () => {
-                  const success = await trackMetacoinsSpend('analysis', 100);
-                  if (success) {
-                    setShowAnalysisResults(true);
-                  } else {
-                    console.error('Failed to track analysis spend');
-                    if (window.Telegram?.WebApp?.showPopup) {
-                      window.Telegram.WebApp.showPopup({
-                        message: 'Недостаточно метакоинов или ошибка сервера'
-                      });
-                    } else {
-                      alert('Недостаточно метакоинов или ошибка сервера');
-                    }
-                  }
-                }}
+                onClick={handleStartAnalysis}
                 className="button-inner-glow"
                 style={{
                   width: '530px',
                   height: '139px',
-                  cursor: 'pointer',
+                  cursor: analyzing ? 'wait' : 'pointer',
+                  opacity: analyzing ? 0.6 : 1,
                 }}
               />
 
@@ -720,7 +840,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 виральность
               </div>
 
-              {/* 7.7 баллов - 292:899 */}
+              {/* Virality score */}
               <div style={{
                 position: 'absolute',
                 left: '0px',
@@ -733,10 +853,10 @@ export const LabaAnalysisScreen: React.FC = () => {
                 color: '#d5fc44',
                 lineHeight: '46px',
               }}>
-                7.7 баллов
+                {analysis?.viralityScore || 0} баллов
               </div>
 
-              {/* Text 1 - 292:894 */}
+              {/* Hook text */}
               <div style={{
                 position: 'absolute',
                 left: '0px',
@@ -748,7 +868,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 color: 'white',
                 lineHeight: '42px',
               }}>
-                а вы знали, что так вообще возможно?
+                {analysis?.hookText || '...'}
               </div>
 
               {/* хук - 292:896 */}
@@ -767,7 +887,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 хук
               </div>
 
-              {/* Text 2 - 292:897 */}
+              {/* Hook text duplicate (в ТЗ здесь тоже хук) */}
               <div style={{
                 position: 'absolute',
                 left: '0px',
@@ -779,7 +899,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 color: 'white',
                 lineHeight: '42px',
               }}>
-                а вы знали, что так вообще возможно?
+                {analysis?.hookText || '...'}
               </div>
 
               {/* транскрибация - 292:901 */}
@@ -798,7 +918,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 транскрибация
               </div>
 
-              {/* Text 3 - 292:902 */}
+              {/* Transcription */}
               <div style={{
                 position: 'absolute',
                 left: '0px',
@@ -809,8 +929,10 @@ export const LabaAnalysisScreen: React.FC = () => {
                 fontSize: '35px',
                 color: 'white',
                 lineHeight: '42px',
+                maxHeight: '200px',
+                overflow: 'auto',
               }}>
-                а вы знали, что так вообще возможно?
+                {analysis?.transcription || '...'}
               </div>
 
               {/* суть видео - 292:904 */}
@@ -829,7 +951,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 суть видео
               </div>
 
-              {/* Text 4 - 292:905 */}
+              {/* Video summary */}
               <div style={{
                 position: 'absolute',
                 left: '0px',
@@ -841,7 +963,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 color: 'white',
                 lineHeight: '42px',
               }}>
-                а вы знали, что так вообще возможно?
+                {analysis?.videoSummary || '...'}
               </div>
 
               {/* Кнопка "создать сценарий" PNG */}
@@ -849,21 +971,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <img
                   src={createScenarioButtonPNG}
                   alt="создать сценарий"
-                  onClick={async () => {
-                    const success = await trackMetacoinsSpend('scenario', 50);
-                    if (success) {
-                      setShowScenario(true);
-                    } else {
-                      console.error('Failed to track scenario spend');
-                      if (window.Telegram?.WebApp?.showPopup) {
-                        window.Telegram.WebApp.showPopup({
-                          message: 'Недостаточно метакоинов или ошибка сервера'
-                        });
-                      } else {
-                        alert('Недостаточно метакоинов или ошибка сервера');
-                      }
-                    }
-                  }}
+                  onClick={handleGenerateScenario}
                   className="button-inner-glow"
                   style={{
                     position: 'absolute',
@@ -871,7 +979,8 @@ export const LabaAnalysisScreen: React.FC = () => {
                     top: '621px',
                     width: '530px',
                     height: '139px',
-                    cursor: 'pointer',
+                    cursor: generatingScenario ? 'wait' : 'pointer',
+                    opacity: generatingScenario ? 0.6 : 1,
                   }}
                 />
               )}
@@ -913,7 +1022,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     новый сценарий
                   </div>
 
-                  {/* Text под сценарием - 292:917 */}
+                  {/* Scenario text */}
                   <div style={{
                     position: 'absolute',
                     left: '0px',
@@ -924,8 +1033,11 @@ export const LabaAnalysisScreen: React.FC = () => {
                     fontSize: '35px',
                     color: 'white',
                     lineHeight: '42px',
+                    maxHeight: '300px',
+                    overflow: 'auto',
+                    whiteSpace: 'pre-wrap',
                   }}>
-                    а вы знали, что так вообще возможно?
+                    {scenario?.text || '...'}
                   </div>
                 </>
               )}

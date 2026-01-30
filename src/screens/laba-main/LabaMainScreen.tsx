@@ -1,6 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// API and types
+import { 
+  getTopReels, 
+  searchReels, 
+  toggleFavorite, 
+  formatCount, 
+  formatTimeAgo, 
+  getTelegramUserId,
+  showMessage 
+} from '../../utils/labaApi';
+import { Reel } from '../../types/laba';
+import { ReelCard } from '../../components/ReelCard';
+
 // REUSED from prompt-first screen
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
@@ -55,14 +68,92 @@ export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   
+  // Reels data
+  const [reels, setReels] = React.useState<Reel[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [searchLoading, setSearchLoading] = React.useState(false);
+  
+  // UI state
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
   const [selectedVirality, setSelectedVirality] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
-  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
+  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [searchValue, setSearchValue] = React.useState('');
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+
+  // Load top reels on mount
+  React.useEffect(() => {
+    const fetchTopReels = async () => {
+      try {
+        setLoading(true);
+        const topReels = await getTopReels('нейросети');
+        setReels(topReels.slice(0, 4));
+      } catch (error) {
+        console.error('Ошибка загрузки топ reels:', error);
+        showMessage('ошибка загрузки топ reels', 'alert');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchTopReels();
+  }, []);
+
+  // Handle search
+  const handleSearch = async () => {
+    if (!searchValue.trim()) {
+      showMessage('введите ключевое слово для поиска', 'popup');
+      return;
+    }
+    
+    const userId = getTelegramUserId();
+    if (!userId) {
+      showMessage('ошибка получения telegram user id', 'alert');
+      return;
+    }
+    
+    try {
+      setSearchLoading(true);
+      const foundReels = await searchReels(searchValue, userId);
+      
+      if (foundReels.length === 0) {
+        showMessage('ничего не найдено. попробуйте другое ключевое слово', 'popup');
+      } else {
+        setReels(foundReels);
+        setSearchValue('');
+        showMessage(`найдено ${foundReels.length} reels`, 'popup');
+      }
+    } catch (error: any) {
+      console.error('Ошибка поиска:', error);
+      showMessage(error.message || 'ошибка поиска. попробуйте позже', 'popup');
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
+  // Handle favorite toggle
+  const handleToggleFavorite = async (reelId: string) => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
+    
+    try {
+      const isFavorite = await toggleFavorite(reelId, userId);
+      
+      setLikedCards(prev => {
+        const newSet = new Set(prev);
+        if (isFavorite) {
+          newSet.add(reelId);
+        } else {
+          newSet.delete(reelId);
+        }
+        return newSet;
+      });
+    } catch (error) {
+      console.error('Ошибка избранного:', error);
+    }
+  };
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
@@ -240,13 +331,7 @@ onBlur={() => {
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                if (searchValue.trim() === '') {
-                  if (window.Telegram?.WebApp?.showPopup) {
-                    window.Telegram.WebApp.showPopup({
-                      message: 'ничего не найдено. проверьте корректность ключа'
-                    });
-                  }
-                }
+                handleSearch();
               }
             }}
             placeholder={isSearchFocused ? '' : 'найти видео по ключевым словам'}
@@ -271,6 +356,7 @@ onBlur={() => {
           <img 
             src={badgeStartSearch}
             alt="начать поиск"
+            onClick={handleSearch}
             className="button-inner-glow"
             style={{
               position: 'absolute',
@@ -447,7 +533,7 @@ onBlur={() => {
           }}
         />
 
-        {/* Main content window - с СКРОЛЛОМ */}
+        {/* Main content window - с СКРОЛЛОМ и FADE */}
         <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
@@ -460,1458 +546,72 @@ onBlur={() => {
           width: '884px',
           transform: 'translateX(-50%)',
           overflow: 'auto',
+          WebkitMaskImage: !loading && !searchLoading && reels.length > 2
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
+          maskImage: !loading && !searchLoading && reels.length > 2
+            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
+            : 'none',
           zIndex: 10,
         }}>
-          {/* Карточка 1 - Верхняя левая - EXACT Figma coordinates */}
-          <div style={{
-            position: 'absolute',
-            left: '22px',
-            top: '23px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            {/* Картинка в карточке промпта PNG */}
+          {/* Reels cards - Dynamic rendering */}
+          {loading && (
             <div style={{
               position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Badge "новое" - x=269, y=44 relative to card */}
-            <img
-              src={newBadgePNG}
-              alt="новое"
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '269px',
-                top: '44px',
-                width: '101px',
-                height: '36px',
-                objectFit: 'contain',
-              }}
-            />
-
-            {/* Like icon - x=42, y=44 relative to card */}
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(1)) {
-                    newSet.delete(1);
-                  } else {
-                    newSet.add(1);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(1) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(1) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            {/* Play кнопка */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 49px)',
-              top: '178px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <img 
-                src={playIcon}
-                alt="play"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            {/* Статистика бар с иконками - ТОЧНО из Figma */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              {/* Иконка просмотров - crop из общего PNG */}
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Иконка лайков - crop из общего PNG */}
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Иконка комментариев - crop из общего PNG */}
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Статистика текст */}
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            {/* Instagram лого PNG */}
-            <img 
-              src={instaLogo}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '30px',
-                top: '448px',
-                width: '64px',
-                height: '78px',
-                opacity: 0.6,
-                objectFit: 'contain',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
               fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
               fontSize: '32px',
               color: 'white',
               textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
             }}>
-              275,5к подписчиков
+              загружаем топ reels...
             </div>
-
-            {/* Кнопка "анализ" PNG */}
-            <img
-              src={analysisButtonPNG}
-              alt="анализ"
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
-            />
-
-            {/* Временная плашка */}
-            <div className="blur-wave button-inner-glow" style={{
-              position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
-
-          {/* Карточка 2 - Верхняя правая */}
-          <div style={{
-            position: 'absolute',
-            left: '444px',
-            top: '23px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
+          )}
+          
+          {searchLoading && (
             <div style={{
               position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Badge "новое" - x=269, y=44 relative to card */}
-            <img
-              src={newBadgePNG}
-              alt="новое"
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '269px',
-                top: '44px',
-                width: '101px',
-                height: '36px',
-                objectFit: 'contain',
-              }}
-            />
-
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(2)) {
-                    newSet.delete(2);
-                  } else {
-                    newSet.add(2);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(2) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(2) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogo}
-                  alt=""
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
               fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
               fontSize: '32px',
               color: 'white',
               textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
             }}>
-              275,5к подписчиков
+              ищем reels...<br/>
+              <span style={{ fontSize: '24px', opacity: 0.7 }}>
+                это может занять 10-20 секунд
+              </span>
             </div>
-
-            <img
-              src={analysisButtonPNG}
-              alt="анализ"
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
+          )}
+          
+          {!loading && !searchLoading && reels.map((reel, index) => (
+            <ReelCard
+              key={reel.id}
+              reel={reel}
+              index={index}
+              isFavorite={likedCards.has(reel.id)}
+              onToggleFavorite={handleToggleFavorite}
             />
-
+          ))}
+          
+          {!loading && !searchLoading && reels.length === 0 && (
             <div style={{
               position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
-
-          {/* Карточка 3 - Нижняя левая */}
-          <div style={{
-            position: 'absolute',
-            left: '22px',
-            top: '828px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Badge "новое" - x=269, y=44 relative to card */}
-            <img
-              src={newBadgePNG}
-              alt="новое"
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '269px',
-                top: '44px',
-                width: '101px',
-                height: '36px',
-                objectFit: 'contain',
-              }}
-            />
-
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(3)) {
-                    newSet.delete(3);
-                  } else {
-                    newSet.add(3);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(3) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(3) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogo}
-                  alt=""
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
               fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
               fontSize: '32px',
               color: 'white',
               textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
             }}>
-              275,5к подписчиков
+              нет reels для отображения
             </div>
-
-            <img
-              src={analysisButtonPNG}
-              alt="анализ"
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
-
-          {/* Карточка 4 - Нижняя правая */}
-          <div style={{
-            position: 'absolute',
-            left: '444px',
-            top: '828px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Badge "новое" - x=269, y=44 relative to card */}
-            <img
-              src={newBadgePNG}
-              alt="новое"
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '269px',
-                top: '44px',
-                width: '101px',
-                height: '36px',
-                objectFit: 'contain',
-              }}
-            />
-
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(4)) {
-                    newSet.delete(4);
-                  } else {
-                    newSet.add(4);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(4) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(4) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '22.76%',
-              right: '38.78%',
-              bottom: '64.71%', 
-              left: '37.32%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                transform: 'rotate(90deg)',
-                width: '60px',
-                height: '60px',
-                position: 'relative',
-              }}>
-                <img src={playIcon} alt="" style={{ width: '100%', height: '100%', maxWidth: 'none' }} />
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              left: '7.32%',
-              right: '77.07%',
-              top: '448px',
-              aspectRatio: '42/51',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={instaLogo}
-                  alt=""
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              275,5к подписчиков
-            </div>
-
-            <img
-              src={analysisButtonPNG}
-              alt="анализ"
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Footer */}

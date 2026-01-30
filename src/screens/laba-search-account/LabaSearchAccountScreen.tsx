@@ -1,6 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { trackMetacoinsSpend } from '../../utils/supabase';
+
+// API and types
+import { 
+  searchAccount, 
+  trackAccount, 
+  getTelegramUserId 
+} from '../../utils/labaApi';
+import { InstagramAccount } from '../../types/laba';
 
 // Reused assets
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -25,15 +32,68 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [nicknameInput, setNicknameInput] = React.useState('');
   const [isLinkFocused, setIsLinkFocused] = React.useState(false);
   const [isNicknameFocused, setIsNicknameFocused] = React.useState(false);
+  
+  // Account data
+  const [foundAccount, setFoundAccount] = React.useState<InstagramAccount | null>(null);
+  const [searching, setSearching] = React.useState(false);
+  const [tracking, setTracking] = React.useState(false);
 
-  const handleSearch = () => {
-    // Mock search - always show "not found" for now
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'ничего не найдено. проверьте корректность ссылки или ника'
-      });
-    } else {
-      alert('ничего не найдено. проверьте корректность ссылки или ника');
+  const handleSearch = async () => {
+    const query = linkInput || nicknameInput;
+    if (!query.trim()) {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'введите ссылку или ник аккаунта'
+        });
+      }
+      return;
+    }
+    
+    try {
+      setSearching(true);
+      const account = await searchAccount(query);
+      setFoundAccount(account);
+    } catch (error: any) {
+      console.error('Ошибка поиска аккаунта:', error);
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: error.message || 'ничего не найдено. проверьте корректность ссылки или ника'
+        });
+      }
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const handleStartTracking = async () => {
+    if (!foundAccount) return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) {
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert('ошибка получения telegram user id');
+      }
+      return;
+    }
+    
+    try {
+      setTracking(true);
+      await trackAccount(foundAccount.username, userId);
+      
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'аккаунт добавлен в отслеживаемые'
+        });
+      }
+      
+      navigate('/laba-tracked');
+    } catch (error: any) {
+      console.error('Ошибка отслеживания:', error);
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
+      }
+    } finally {
+      setTracking(false);
     }
   };
 
@@ -324,33 +384,53 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }}
           />
 
-          {/* "результат" - CSS (109:664) - x=190, y=986 relative to frame, so 190-141=49, 986-453=533 */}
-          <div style={{
-            position: 'absolute',
-            left: '49px',
-            top: '533px',
-            fontFamily: 'Inter',
-            fontWeight: 700,
-            fontSize: '40px',
-            lineHeight: 1,
-            color: 'white',
-          }}>
-            результат
-          </div>
-
-          {/* Profile photo PNG (109:665) - x=190, y=1059 relative to frame, so 190-141=49, 1059-453=606 */}
-          <img 
-            src={profilePhoto}
-            alt=""
-            style={{
+          {/* Loading state */}
+          {searching && (
+            <div style={{
               position: 'absolute',
-              left: '49px',
-              top: '606px',
-              width: '190px',
-              height: '190px',
-              borderRadius: '50%',
-            }}
-          />
+              left: '50%',
+              top: '700px',
+              transform: 'translateX(-50%)',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+            }}>
+              ищем аккаунт...
+            </div>
+          )}
+
+          {/* Result section - show only after search */}
+          {!searching && foundAccount && (
+            <>
+              {/* "результат" - CSS (109:664) - x=190, y=986 relative to frame, so 190-141=49, 986-453=533 */}
+              <div style={{
+                position: 'absolute',
+                left: '49px',
+                top: '533px',
+                fontFamily: 'Inter',
+                fontWeight: 700,
+                fontSize: '40px',
+                lineHeight: 1,
+                color: 'white',
+              }}>
+                результат
+              </div>
+
+              {/* Profile photo PNG (109:665) - x=190, y=1059 relative to frame, so 190-141=49, 1059-453=606 */}
+              <img 
+                src={foundAccount.profilePhotoUrl}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  left: '49px',
+                  top: '606px',
+                  width: '190px',
+                  height: '190px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                }}
+              />
 
           {/* Instagram logo PNG (109:666) - x=396, y=1066 relative to frame, so 396-141=255, 1066-453=613 */}
           <img 
@@ -365,88 +445,72 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }}
           />
 
-          {/* Username - CSS (109:667) - x=396, y=1144 relative to frame, so 396-141=255, 1144-453=691 */}
-          <div style={{
-            position: 'absolute',
-            left: '255px',
-            top: '691px',
-            width: '334px',
-            fontFamily: 'Inter',
-            fontWeight: 700,
-            fontSize: '40px',
-            lineHeight: 1,
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            @mishchenko.is
-          </div>
+              {/* Username - CSS (109:667) - x=396, y=1144 relative to frame, so 396-141=255, 1144-453=691 */}
+              <div style={{
+                position: 'absolute',
+                left: '255px',
+                top: '691px',
+                width: '334px',
+                fontFamily: 'Inter',
+                fontWeight: 700,
+                fontSize: '40px',
+                lineHeight: 1,
+                color: 'white',
+                textAlign: 'center',
+              }}>
+                @{foundAccount.username}
+              </div>
 
-          {/* Followers - CSS (109:668) - x=393, y=1201 relative to frame, so 393-141=252, 1201-453=748 */}
-          <div style={{
-            position: 'absolute',
-            left: '252px',
-            top: '748px',
-            width: '350px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: 1,
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            275,5к подписчиков
-          </div>
+              {/* Followers - CSS (109:668) - x=393, y=1201 relative to frame, so 393-141=252, 1201-453=748 */}
+              <div style={{
+                position: 'absolute',
+                left: '252px',
+                top: '748px',
+                width: '350px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                fontSize: '32px',
+                lineHeight: 1,
+                color: 'white',
+                textAlign: 'center',
+              }}>
+                {foundAccount.followersCount.toLocaleString()} подписчиков
+              </div>
 
-          {/* Tracking button (109:677) - x=325, y=1317 relative to frame, so 325-141=184, 1317-453=864 */}
-          <img 
-            src={trackingButton}
-            alt="начать отслеживание"
-            onClick={async () => {
-              console.log('🔵 Starting search and tracking...');
-              
-              // Only charge for tracking (100 metacoins total, not 125)
-              const trackingSuccess = await trackMetacoinsSpend('tracking', 100);
-              if (!trackingSuccess) {
-                console.error('Failed to track tracking spend');
-                if (window.Telegram?.WebApp?.showPopup) {
-                  window.Telegram.WebApp.showPopup({
-                    message: 'Недостаточно метакоинов или ошибка сервера'
-                  });
-                } else {
-                  alert('Недостаточно метакоинов или ошибка сервера');
-                }
-                return;
-              }
-              
-              console.log('✅ Tracking started successfully');
-              navigate('/laba-tracked');
-            }}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '184px',
-              top: '864px',
-              width: '530px',
-              height: '139px',
-              cursor: 'pointer',
-            }}
-          />
+              {/* Tracking button (109:677) - x=325, y=1317 relative to frame, so 325-141=184, 1317-453=864 */}
+              <img 
+                src={trackingButton}
+                alt="начать отслеживание"
+                onClick={handleStartTracking}
+                className="button-inner-glow"
+                style={{
+                  position: 'absolute',
+                  left: '184px',
+                  top: '864px',
+                  width: '530px',
+                  height: '139px',
+                  cursor: tracking ? 'wait' : 'pointer',
+                  opacity: tracking ? 0.6 : 1,
+                }}
+              />
 
-          {/* Balance text (109:690) - x=343, y=1474 relative to frame, so 343-141=202, 1474-453=1021 */}
-          <div style={{
-            position: 'absolute',
-            left: '202px',
-            top: '1021px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: 1,
-            color: 'white',
-            textAlign: 'center',
-            width: '495px',
-          }}>
-            вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-          </div>
+              {/* Balance text (109:690) - x=343, y=1474 relative to frame, so 343-141=202, 1474-453=1021 */}
+              <div style={{
+                position: 'absolute',
+                left: '202px',
+                top: '1021px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                fontSize: '32px',
+                lineHeight: 1,
+                color: 'white',
+                textAlign: 'center',
+                width: '495px',
+              }}>
+                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+              </div>
+            </>
+          )}
 
           {/* Background image PNG - REMOVED */}
         </div>
