@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // API and types
-import { getFavorites, getTelegramUserId } from '../../utils/labaApi';
+import { getFavorites, toggleFavorite, getTelegramUserId } from '../../utils/labaApi';
 import { Reel } from '../../types/laba';
 import { ReelCard } from '../../components/ReelCard';
 
@@ -140,6 +140,21 @@ export const LabaFavoritesScreen: React.FC = () => {
     setSelectedVirality(null);
     setSelectedAccount(null);
     setLikedCards(new Set());
+  };
+
+  // Handle favorite toggle - УДАЛЕНИЕ ИЗ ИЗБРАННОГО
+  const handleToggleFavorite = async (reelId: string) => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
+    
+    try {
+      await toggleFavorite(reelId, userId);
+      
+      // Удаляем reel из списка
+      setReels(prev => prev.filter(r => r.id !== reelId));
+    } catch (error) {
+      console.error('Ошибка удаления из избранного:', error);
+    }
   };
 
   return (
@@ -518,7 +533,7 @@ onBlur={() => {
               reel={reel}
               index={index}
               isFavorite={true}
-              onToggleFavorite={() => {}}
+              onToggleFavorite={handleToggleFavorite}
             />
           ))}
           

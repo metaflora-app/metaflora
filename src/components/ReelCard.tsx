@@ -19,7 +19,8 @@ interface ReelCardProps {
   onToggleFavorite: (reelId: string) => void;
 }
 
-export const ReelCard: React.FC<ReelCardProps> = ({ 
+// МЕМОИЗИРОВАННЫЙ КОМПОНЕНТ - оптимизация рендеринга для экономии батареи
+export const ReelCard: React.FC<ReelCardProps> = React.memo(({ 
   reel, 
   index, 
   isFavorite, 
@@ -334,4 +335,15 @@ export const ReelCard: React.FC<ReelCardProps> = ({
       </div>
     </div>
   );
-};
+}, (prevProps, nextProps) => {
+  // Кастомная функция сравнения для мемоизации
+  // Перерендериваем ТОЛЬКО если изменились эти поля
+  return (
+    prevProps.reel.id === nextProps.reel.id &&
+    prevProps.index === nextProps.index &&
+    prevProps.isFavorite === nextProps.isFavorite &&
+    prevProps.reel.viewsCount === nextProps.reel.viewsCount &&
+    prevProps.reel.likesCount === nextProps.reel.likesCount &&
+    prevProps.reel.commentsCount === nextProps.reel.commentsCount
+  );
+});

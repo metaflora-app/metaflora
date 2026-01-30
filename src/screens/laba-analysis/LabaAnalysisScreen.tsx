@@ -92,10 +92,11 @@ export const LabaAnalysisScreen: React.FC = () => {
       setShowAnalysisResults(true);
     } catch (error: any) {
       console.error('Ошибка анализа:', error);
-      if ((window as any).Telegram?.WebApp?.showAlert) {
-        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка анализа');
-      } else {
-        alert(error.message || 'ошибка анализа');
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: `${error.message || 'ошибка анализа'}\n\n(не закрывайте окно, иначе действие может прерваться)`,
+          buttons: [{ type: 'close' }]
+        });
       }
     } finally {
       setAnalyzing(false);
@@ -121,10 +122,11 @@ export const LabaAnalysisScreen: React.FC = () => {
       setShowScenario(true);
     } catch (error: any) {
       console.error('Ошибка генерации сценария:', error);
-      if ((window as any).Telegram?.WebApp?.showAlert) {
-        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка генерации сценария');
-      } else {
-        alert(error.message || 'ошибка генерации сценария');
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: `${error.message || 'ошибка генерации сценария'}\n\n(не закрывайте окно, иначе действие может прерваться)`,
+          buttons: [{ type: 'close' }]
+        });
       }
     } finally {
       setGeneratingScenario(false);
@@ -656,10 +658,9 @@ export const LabaAnalysisScreen: React.FC = () => {
               
               if (window.Telegram?.WebApp?.showPopup) {
                 window.Telegram.WebApp.showPopup({
-                  message: message
+                  message: `${message}\n\n(не закрывайте окно, иначе действие может прерваться)`,
+                  buttons: [{ type: 'close' }]
                 });
-              } else {
-                alert(message);
               }
             }}
             className="button-inner-glow"
