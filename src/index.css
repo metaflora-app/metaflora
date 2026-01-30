@@ -208,3 +208,13 @@ input::placeholder {
     opacity: 1;
   }
 }
+
+/* Pulse animation for blur placeholder cards */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
