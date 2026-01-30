@@ -1,6 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// API and types
+import { getFavorites, getTelegramUserId } from '../../utils/labaApi';
+import { Reel } from '../../types/laba';
+import { ReelCard } from '../../components/ReelCard';
+
 // REUSED from prompt-first screen
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
@@ -55,14 +60,42 @@ export const LabaFavoritesScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   
+  // Favorites data
+  const [reels, setReels] = React.useState<Reel[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  
+  // UI state
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
   const [selectedVirality, setSelectedVirality] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
-  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set([1, 2, 3, 4]));
+  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [searchValue, setSearchValue] = React.useState('');
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+  
+  // Load favorites on mount
+  React.useEffect(() => {
+    const fetchFavorites = async () => {
+      const userId = getTelegramUserId();
+      if (!userId) return;
+      
+      try {
+        setLoading(true);
+        const favoriteReels = await getFavorites(userId);
+        setReels(favoriteReels);
+        
+        // Pre-populate liked cards (static cards use numbers 1-4)
+        setLikedCards(new Set([1, 2, 3, 4]));
+      } catch (error) {
+        console.error('Ошибка загрузки избранного:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchFavorites();
+  }, []);
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {

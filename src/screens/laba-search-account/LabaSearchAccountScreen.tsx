@@ -1,6 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { trackMetacoinsSpend } from '../../utils/supabase';
+
+// API and types
+import { 
+  searchAccount, 
+  trackAccount, 
+  getTelegramUserId 
+} from '../../utils/labaApi';
+import { InstagramAccount } from '../../types/laba';
 
 // Reused assets
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -25,15 +32,68 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [nicknameInput, setNicknameInput] = React.useState('');
   const [isLinkFocused, setIsLinkFocused] = React.useState(false);
   const [isNicknameFocused, setIsNicknameFocused] = React.useState(false);
+  
+  // Account data
+  const [foundAccount, setFoundAccount] = React.useState<InstagramAccount | null>(null);
+  const [searching, setSearching] = React.useState(false);
+  const [tracking, setTracking] = React.useState(false);
 
-  const handleSearch = () => {
-    // Mock search - always show "not found" for now
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'ничего не найдено. проверьте корректность ссылки или ника'
-      });
-    } else {
-      alert('ничего не найдено. проверьте корректность ссылки или ника');
+  const handleSearch = async () => {
+    const query = linkInput || nicknameInput;
+    if (!query.trim()) {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'введите ссылку или ник аккаунта'
+        });
+      }
+      return;
+    }
+    
+    try {
+      setSearching(true);
+      const account = await searchAccount(query);
+      setFoundAccount(account);
+    } catch (error: any) {
+      console.error('Ошибка поиска аккаунта:', error);
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: error.message || 'ничего не найдено. проверьте корректность ссылки или ника'
+        });
+      }
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const handleStartTracking = async () => {
+    if (!foundAccount) return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) {
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert('ошибка получения telegram user id');
+      }
+      return;
+    }
+    
+    try {
+      setTracking(true);
+      await trackAccount(foundAccount.username, userId);
+      
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'аккаунт добавлен в отслеживаемые'
+        });
+      }
+      
+      navigate('/laba-tracked');
+    } catch (error: any) {
+      console.error('Ошибка отслеживания:', error);
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
+      }
+    } finally {
+      setTracking(false);
     }
   };
 
@@ -404,22 +464,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             onClick={async () => {
               console.log('🔵 Starting search and tracking...');
               
-              // Only charge for tracking (100 metacoins total, not 125)
-              const trackingSuccess = await trackMetacoinsSpend('tracking', 100);
-              if (!trackingSuccess) {
-                console.error('Failed to track tracking spend');
-                if (window.Telegram?.WebApp?.showPopup) {
-                  window.Telegram.WebApp.showPopup({
-                    message: 'Недостаточно метакоинов или ошибка сервера'
-                  });
-                } else {
-                  alert('Недостаточно метакоинов или ошибка сервера');
-                }
-                return;
-              }
-              
-              console.log('✅ Tracking started successfully');
-              navigate('/laba-tracked');
+              handleStartTracking();
             }}
             className="button-inner-glow"
             style={{
