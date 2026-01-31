@@ -265,7 +265,7 @@ export const LabaAnalysisScreen: React.FC = () => {
           borderRadius: '30px',
         }} />
 
-        {/* Main card container - 292:631 (подложка вторая черная) */}
+        {/* Main card container - 292:631 (подложка вторая черная) - СКРОЛЛ СРАЗУ НА ТЕМНОЙ ОБЛАСТИ */}
         <div className="blur-wave" style={{
           position: 'absolute',
           left: '141px',
@@ -277,16 +277,16 @@ export const LabaAnalysisScreen: React.FC = () => {
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
           overflow: 'hidden',
+          overflowY: 'auto',
+          WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
         }}>
-          {/* Скроллируемый контейнер с fade - СКРОЛЛ ВСЕГДА */}
+          {/* Контент внутри скроллируемой области */}
           <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflowY: 'auto',
-            WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
-            maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+            position: 'relative',
+            minHeight: '100%',
           }}>
-          {/* Reel cover image - 292:652 */}
+          {/* Reel cover image - 292:652 - УЖЕ КОНВЕРТИРОВАННАЯ ИЗ МАЛЕНЬКОЙ КАРТОЧКИ */}
           <div style={{
             position: 'absolute',
             left: '53px',
@@ -311,22 +311,25 @@ export const LabaAnalysisScreen: React.FC = () => {
             />
           </div>
 
-
           {/* Play button */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '403px',
-            top: '363px',
-            width: '98px',
-            height: '98px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(0, 0, 0, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          <div 
+            onClick={() => window.open(reel.reelUrl, '_blank')}
+            className="blur-wave" 
+            style={{
+              position: 'absolute',
+              left: '403px',
+              top: '363px',
+              width: '98px',
+              height: '98px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(0, 0, 0, 0.1)',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '62px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}>
             <img 
               src={playIcon}
               alt="play"
@@ -338,7 +341,9 @@ export const LabaAnalysisScreen: React.FC = () => {
             />
           </div>
 
-          {/* Status bar - 292:661 - FLEX VERSION с кеглем 35px */}
+
+
+          {/* Status bar - 292:661 - FLEX VERSION с кеглем 35px и меньше gap */}
           <div className="blur-wave" style={{
             position: 'absolute',
             left: '174px',
@@ -352,14 +357,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '40px',
-            padding: '0 30px',
+            gap: '50px',
+            padding: '0 40px',
           }}>
             {/* Views */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '4px',
             }}>
               <img 
                 src={viewsIcon}
@@ -387,7 +392,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '4px',
             }}>
               <img 
                 src={likesIcon}
@@ -415,7 +420,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '4px',
             }}>
               <img 
                 src={commentsIcon}
@@ -515,14 +520,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Instagram logo - 292:676 - НОРМАЛЬНОЕ */}
+          {/* Instagram logo - 292:676 - НОРМАЛЬНОЕ НИЖЕ */}
           <img 
             src={instaLogoMCP}
             alt=""
             style={{
               position: 'absolute',
               left: '259px',
-              top: '857px',
+              top: '890px',
               width: '64px',
               height: '78px',
               opacity: 0.6,
@@ -561,77 +566,73 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Description label - 292:680 */}
+          {/* Description блок - ДИНАМИЧЕСКИЙ РЕНДЕРИНГ */}
           <div style={{
             position: 'absolute',
             left: '53px',
             top: '1095px',
-            width: '373px',
-            height: '46px',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700,
-            fontSize: '40px',
-            color: 'white',
-            lineHeight: '46px',
+            width: '796px',
           }}>
-            описание
-          </div>
-
-          {/* Description text - 292:682 */}
-          <div style={{
-            position: 'absolute',
-            left: '53px',
-            top: '1148px',
-            width: '723px',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 300,
-            fontSize: '35px',
-            color: 'white',
-            lineHeight: '42px',
-            marginBottom: '30px',
-          }}>
-            {reel.caption || 'без описания'}
-          </div>
-
-          {/* Кнопка "начать анализ" ПОД описанием */}
-          {!showAnalysisResults && !analyzing && (
+            {/* Description label */}
             <div style={{
-              position: 'absolute',
-              left: '53px',
-              top: '1230px',
-              width: '796px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '20px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '40px',
+              color: 'white',
+              lineHeight: '46px',
+              marginBottom: '12px',
             }}>
-              <img
-                src={startAnalysisButtonPNG}
-                alt="начать анализ"
-                onClick={handleStartAnalysis}
-                className="button-inner-glow"
-                style={{
-                  width: '530px',
-                  height: '139px',
-                  cursor: analyzing ? 'wait' : 'pointer',
-                  opacity: analyzing ? 0.6 : 1,
-                }}
-              />
-
-              {/* Text "вы можете пополнить баланс" */}
-              <div style={{
-                width: '495px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 300,
-                fontSize: '32px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: '32px',
-              }}>
-                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-              </div>
+              описание
             </div>
-          )}
+
+            {/* Description text */}
+            <div style={{
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '35px',
+              color: 'white',
+              lineHeight: '42px',
+              marginBottom: '30px',
+            }}>
+              {reel.caption || 'без описания'}
+            </div>
+
+            {/* Кнопка "начать анализ" ПОД описанием - ДИНАМИЧЕСКИ */}
+            {!showAnalysisResults && !analyzing && (
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '20px',
+              }}>
+                <img
+                  src={startAnalysisButtonPNG}
+                  alt="начать анализ"
+                  onClick={handleStartAnalysis}
+                  className="button-inner-glow"
+                  style={{
+                    width: '530px',
+                    height: '139px',
+                    cursor: analyzing ? 'wait' : 'pointer',
+                    opacity: analyzing ? 0.6 : 1,
+                  }}
+                />
+
+                {/* Text "вы можете пополнить баланс" */}
+                <div style={{
+                  width: '495px',
+                  fontFamily: 'Gotham Pro, sans-serif',
+                  fontWeight: 300,
+                  fontSize: '32px',
+                  color: 'white',
+                  textAlign: 'center',
+                  lineHeight: '32px',
+                }}>
+                  вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Button "следить" / "не следить" - 292:694 */}
           <img
