@@ -35,6 +35,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1
  * Конвертирует Instagram CDN URL в прокси URL через наш сервер
  * Решает проблему CORS и загрузки изображений из Instagram
  * ПРОКСИРУЕТ АБСОЛЮТНО ЛЮБУЮ ССЫЛКУ INSTAGRAM/FACEBOOK
+ * КОНВЕРТИРУЕТ ВСЕ ФОРМАТЫ В JPEG
  */
 export function convertInstagramImageUrl(url: string | null | undefined): string | null {
   if (!url || url === '') return null;
@@ -44,8 +45,9 @@ export function convertInstagramImageUrl(url: string | null | undefined): string
   
   // ПРОКСИРУЕМ ЛЮБУЮ ССЫЛКУ КОТОРАЯ НАЧИНАЕТСЯ С http/https
   // Это гарантирует что ВСЕ внешние изображения пройдут через прокси
+  // ДОБАВЛЯЕМ &format=jpeg ДЛЯ КОНВЕРТАЦИИ ВСЕХ ФОРМАТОВ В JPEG
   if (url.startsWith('http://') || url.startsWith('https://')) {
-    return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}`;
+    return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}&format=jpeg`;
   }
   
   // Для относительных URL возвращаем как есть

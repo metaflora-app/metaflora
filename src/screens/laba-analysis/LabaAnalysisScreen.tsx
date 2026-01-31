@@ -278,17 +278,13 @@ export const LabaAnalysisScreen: React.FC = () => {
           borderRadius: '30px',
           overflow: 'hidden',
         }}>
-          {/* Скроллируемый контейнер с fade */}
+          {/* Скроллируемый контейнер с fade - СКРОЛЛ ВСЕГДА */}
           <div style={{
             position: 'absolute',
             inset: 0,
-            overflowY: showAnalysisResults ? 'auto' : 'hidden',
-            WebkitMaskImage: showAnalysisResults 
-              ? 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)'
-              : 'none',
-            maskImage: showAnalysisResults
-              ? 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)'
-              : 'none',
+            overflowY: 'auto',
+            WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
           }}>
           {/* Reel cover image - 292:652 */}
           <div style={{
@@ -342,7 +338,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             />
           </div>
 
-          {/* Status bar - 292:661 - FLEX VERSION */}
+          {/* Status bar - 292:661 - FLEX VERSION с кеглем 35px */}
           <div className="blur-wave" style={{
             position: 'absolute',
             left: '174px',
@@ -377,9 +373,11 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 500,
-                fontSize: '40px',
+                fontSize: '35px',
                 color: 'white',
                 lineHeight: '1',
+                display: 'flex',
+                alignItems: 'center',
               }}>
                 {formatCount(reel.viewsCount)}
               </div>
@@ -403,9 +401,11 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 500,
-                fontSize: '40px',
+                fontSize: '35px',
                 color: 'white',
                 lineHeight: '1',
+                display: 'flex',
+                alignItems: 'center',
               }}>
                 {formatCount(reel.likesCount)}
               </div>
@@ -429,9 +429,11 @@ export const LabaAnalysisScreen: React.FC = () => {
               <div style={{
                 fontFamily: 'Gotham Pro, sans-serif',
                 fontWeight: 500,
-                fontSize: '40px',
+                fontSize: '35px',
                 color: 'white',
                 lineHeight: '1',
+                display: 'flex',
+                alignItems: 'center',
               }}>
                 {formatCount(reel.commentsCount)}
               </div>
@@ -513,35 +515,19 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Instagram logo - 292:676 */}
-          <div style={{
-            position: 'absolute',
-            left: '259px',
-            top: '857px',
-            width: '64px',
-            height: '78px',
-          }}>
-            <div style={{
+          {/* Instagram logo - 292:676 - НОРМАЛЬНОЕ */}
+          <img 
+            src={instaLogoMCP}
+            alt=""
+            style={{
               position: 'absolute',
-              inset: 0,
+              left: '259px',
+              top: '857px',
+              width: '64px',
+              height: '78px',
               opacity: 0.6,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img
-                src={instaLogoMCP}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '339.84%',
-                  left: '-56.27%',
-                  maxWidth: 'none',
-                  top: '-118.33%',
-                  width: '620.89%',
-                }}
-              />
-            </div>
-          </div>
+            }}
+          />
 
           {/* Username и подписчики - В ОДНУ СТРОКУ слева под лого инста */}
           <div style={{
@@ -602,9 +588,50 @@ export const LabaAnalysisScreen: React.FC = () => {
             fontSize: '35px',
             color: 'white',
             lineHeight: '42px',
+            marginBottom: '30px',
           }}>
             {reel.caption || 'без описания'}
           </div>
+
+          {/* Кнопка "начать анализ" ПОД описанием */}
+          {!showAnalysisResults && !analyzing && (
+            <div style={{
+              position: 'absolute',
+              left: '53px',
+              top: '1230px',
+              width: '796px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '20px',
+            }}>
+              <img
+                src={startAnalysisButtonPNG}
+                alt="начать анализ"
+                onClick={handleStartAnalysis}
+                className="button-inner-glow"
+                style={{
+                  width: '530px',
+                  height: '139px',
+                  cursor: analyzing ? 'wait' : 'pointer',
+                  opacity: analyzing ? 0.6 : 1,
+                }}
+              />
+
+              {/* Text "вы можете пополнить баланс" */}
+              <div style={{
+                width: '495px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '32px',
+                color: 'white',
+                textAlign: 'center',
+                lineHeight: '32px',
+              }}>
+                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+              </div>
+            </div>
+          )}
 
           {/* Button "следить" / "не следить" - 292:694 */}
           <img
@@ -688,43 +715,16 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           )}
 
-          {/* Кнопка "начать анализ" БЕЗ блюр-фрейма */}
-          {!showAnalysisResults && !analyzing && (
+
+          {/* BlurAnalysisCard при analyzing */}
+          {analyzing && !showAnalysisResults && (
             <div style={{
               position: 'absolute',
               left: '53px',
               top: '1250px',
               width: '796px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '20px',
             }}>
-              <img
-                src={startAnalysisButtonPNG}
-                alt="начать анализ"
-                onClick={handleStartAnalysis}
-                className="button-inner-glow"
-                style={{
-                  width: '530px',
-                  height: '139px',
-                  cursor: analyzing ? 'wait' : 'pointer',
-                  opacity: analyzing ? 0.6 : 1,
-                }}
-              />
-
-              {/* Text "вы можете пополнить баланс" */}
-              <div style={{
-                width: '495px',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 300,
-                fontSize: '32px',
-                color: 'white',
-                textAlign: 'center',
-                lineHeight: '32px',
-              }}>
-                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-              </div>
+              <BlurAnalysisCard />
             </div>
           )}
 
@@ -736,7 +736,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               top: '1250px',
               width: '796px',
             }}>
-              {analyzing ? (
+              {generatingScenario ? (
                 <BlurAnalysisCard />
               ) : (
                 <div style={{
@@ -874,9 +874,6 @@ export const LabaAnalysisScreen: React.FC = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* BlurAnalysisCard при генерации сценария */}
-                  {generatingScenario && <BlurAnalysisCard />}
 
                   {/* Scenario results - SHOW when "создать сценарий" clicked */}
                   {showScenario && (
