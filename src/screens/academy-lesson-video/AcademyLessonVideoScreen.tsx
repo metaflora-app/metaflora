@@ -28,22 +28,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [showOverlay, setShowOverlay] = useState(true);
   
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  
-  // Сбрасываем блюр при каждом монтировании компонента
-  useEffect(() => {
-    setShowOverlay(true);
-    
-    // Проверяем был ли уже показан блюр для этого урока (из Supabase)
-    const checkVideoViewed = async () => {
-      const userId = getTelegramUserId();
-      if (!userId || !lessonId) return;
-      
-      const viewed = await wasVideoViewed(userId, lessonId);
-      setShowOverlay(!viewed);
-    };
-    
-    checkVideoViewed();
-  }, [lessonId]);
 
 
   useEffect(() => {
@@ -270,15 +254,12 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               <img 
                 src={playIcon}
                 alt="плей"
-                onClick={async () => {
+                onClick={() => {
                   setShowOverlay(false);
-                  // Сохраняем что видео было просмотрено (в Supabase)
-                  const userId = getTelegramUserId();
-                  if (lessonId && userId) {
-                    await markVideoViewed(userId, lessonId);
-                  }
                   if (videoRef.current) {
-                    videoRef.current.play().catch(() => {});
+                    videoRef.current.play().catch((err) => {
+                      console.error('Play error:', err);
+                    });
                   }
                 }}
                 style={{
