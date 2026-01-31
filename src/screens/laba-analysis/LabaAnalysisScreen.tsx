@@ -70,6 +70,11 @@ export const LabaAnalysisScreen: React.FC = () => {
     return convertInstagramImageUrl(reel?.accountProfilePicUrl);
   }, [reel?.accountProfilePicUrl]);
   
+  // Конвертируем обложку через прокси
+  const coverUrl = React.useMemo(() => {
+    return convertInstagramImageUrl(reel?.coverImageUrl) || reel?.coverImageUrl || '';
+  }, [reel?.coverImageUrl]);
+  
   // Redirect if no reel provided
   React.useEffect(() => {
     if (!reel) {
@@ -94,6 +99,13 @@ export const LabaAnalysisScreen: React.FC = () => {
       const analysisResult = await analyzeReel(reel.id, userId);
       setAnalysis(analysisResult);
       setShowAnalysisResults(true);
+      
+      // Попап успешного завершения
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: 'анализ успешно завершен'
+        });
+      }
     } catch (error: any) {
       console.error('Ошибка анализа:', error);
       if ((window as any).Telegram?.WebApp?.showPopup) {
@@ -123,6 +135,13 @@ export const LabaAnalysisScreen: React.FC = () => {
       const scenarioResult = await generateScenario(analysis.id, userId);
       setScenario(scenarioResult);
       setShowScenario(true);
+      
+      // Попап успешного завершения
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: 'сценарий успешно создан'
+        });
+      }
     } catch (error: any) {
       console.error('Ошибка генерации сценария:', error);
       if ((window as any).Telegram?.WebApp?.showPopup) {
@@ -286,7 +305,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             position: 'relative',
             minHeight: '100%',
           }}>
-          {/* Reel cover image - 292:652 - УЖЕ КОНВЕРТИРОВАННАЯ ИЗ МАЛЕНЬКОЙ КАРТОЧКИ */}
+          {/* Reel cover image - 292:652 - ЧЕРЕЗ ПРОКСИ */}
           <div style={{
             position: 'absolute',
             left: '53px',
@@ -298,8 +317,16 @@ export const LabaAnalysisScreen: React.FC = () => {
             overflow: 'hidden',
           }}>
             <img
-              src={reel.coverImageUrl}
+              src={coverUrl}
               alt=""
+              crossOrigin="anonymous"
+              onError={(e) => {
+                console.error('[COVER] ❌ Ошибка загрузки:', coverUrl);
+                console.error('[COVER] Оригинальный URL:', reel.coverImageUrl);
+              }}
+              onLoad={() => {
+                console.log('[COVER] ✅ Загружена');
+              }}
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -343,7 +370,7 @@ export const LabaAnalysisScreen: React.FC = () => {
 
 
 
-          {/* Status bar - 292:661 - FLEX VERSION с кеглем 35px и меньше gap */}
+          {/* Status bar - 292:661 - FLEX VERSION с кеглем 35px */}
           <div className="blur-wave" style={{
             position: 'absolute',
             left: '174px',
@@ -357,8 +384,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '50px',
-            padding: '0 40px',
+            gap: '35px',
+            padding: '0 45px',
           }}>
             {/* Views */}
             <div style={{
@@ -520,14 +547,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Instagram logo - 292:676 - НОРМАЛЬНОЕ НИЖЕ */}
+          {/* Instagram logo - 292:676 - НОРМАЛЬНОЕ */}
           <img 
             src={instaLogoMCP}
             alt=""
             style={{
               position: 'absolute',
               left: '259px',
-              top: '890px',
+              top: '870px',
               width: '64px',
               height: '78px',
               opacity: 0.6,
@@ -566,12 +593,14 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Description блок - ДИНАМИЧЕСКИЙ РЕНДЕРИНГ */}
+          {/* ПОЛНЫЙ БЛОК: описание + кнопка/анализ - ВСЕ ДИНАМИЧЕСКИ */}
           <div style={{
             position: 'absolute',
             left: '53px',
             top: '1095px',
             width: '796px',
+            display: 'flex',
+            flexDirection: 'column',
           }}>
             {/* Description label */}
             <div style={{
@@ -597,28 +626,33 @@ export const LabaAnalysisScreen: React.FC = () => {
               {reel.caption || 'без описания'}
             </div>
 
-            {/* Кнопка "начать анализ" ПОД описанием - ДИНАМИЧЕСКИ */}
+            {/* Кнопка "начать анализ" ПОД описанием */}
             {!showAnalysisResults && !analyzing && (
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '20px',
+                marginTop: '20px',
               }}>
                 <img
                   src={startAnalysisButtonPNG}
                   alt="начать анализ"
-                  onClick={handleStartAnalysis}
+                  onClick={() => {
+                    if (window.Telegram?.WebApp?.showPopup) {
+                      window.Telegram.WebApp.showPopup({
+                        message: 'анализируем видео...\n\nэто может занять 30-60 секунд'
+                      });
+                    }
+                    handleStartAnalysis();
+                  }}
                   className="button-inner-glow"
                   style={{
                     width: '530px',
                     height: '139px',
-                    cursor: analyzing ? 'wait' : 'pointer',
-                    opacity: analyzing ? 0.6 : 1,
+                    cursor: 'pointer',
                   }}
                 />
-
-                {/* Text "вы можете пополнить баланс" */}
                 <div style={{
                   width: '495px',
                   fontFamily: 'Gotham Pro, sans-serif',
@@ -630,6 +664,207 @@ export const LabaAnalysisScreen: React.FC = () => {
                 }}>
                   вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
                 </div>
+              </div>
+            )}
+
+            {/* BlurAnalysisCard при analyzing */}
+            {analyzing && !showAnalysisResults && (
+              <div style={{ marginTop: '20px' }}>
+                <BlurAnalysisCard />
+              </div>
+            )}
+
+            {/* Analysis results - показываем ВСЕ блоки БЕЗ блюра */}
+            {showAnalysisResults && (
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '30px',
+                marginTop: '20px',
+              }}>
+                {/* виральность */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    color: 'white',
+                    lineHeight: '46px',
+                  }}>
+                    виральность
+                  </div>
+                  <div style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    color: '#d5fc44',
+                    lineHeight: '46px',
+                  }}>
+                    {analysis?.viralityScore || 0} баллов
+                  </div>
+                  <div style={{
+                    fontFamily: 'Gotham Pro, sans-serif',
+                    fontWeight: 300,
+                    fontSize: '35px',
+                    color: 'white',
+                    lineHeight: '42px',
+                  }}>
+                    {analysis?.hookText || '...'}
+                  </div>
+                </div>
+
+                {/* хук */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    color: 'white',
+                    lineHeight: '46px',
+                  }}>
+                    хук
+                  </div>
+                  <div style={{
+                    fontFamily: 'Gotham Pro, sans-serif',
+                    fontWeight: 300,
+                    fontSize: '35px',
+                    color: 'white',
+                    lineHeight: '42px',
+                  }}>
+                    {analysis?.hookText || '...'}
+                  </div>
+                </div>
+
+                {/* транскрибация */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    color: 'white',
+                    lineHeight: '46px',
+                  }}>
+                    транскрибация
+                  </div>
+                  <div style={{
+                    fontFamily: 'Gotham Pro, sans-serif',
+                    fontWeight: 300,
+                    fontSize: '35px',
+                    color: 'white',
+                    lineHeight: '42px',
+                  }}>
+                    {analysis?.transcription || '...'}
+                  </div>
+                </div>
+
+                {/* суть видео */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    color: 'white',
+                    lineHeight: '46px',
+                  }}>
+                    суть видео
+                  </div>
+                  <div style={{
+                    fontFamily: 'Gotham Pro, sans-serif',
+                    fontWeight: 300,
+                    fontSize: '35px',
+                    color: 'white',
+                    lineHeight: '42px',
+                  }}>
+                    {analysis?.videoSummary || '...'}
+                  </div>
+                </div>
+
+                {/* Кнопка "создать сценарий" БЕЗ блюра */}
+                {!showScenario && !generatingScenario && (
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '20px',
+                    marginTop: '20px',
+                  }}>
+                    <img
+                      src={createScenarioButtonPNG}
+                      alt="создать сценарий"
+                      onClick={() => {
+                        if (window.Telegram?.WebApp?.showPopup) {
+                          window.Telegram.WebApp.showPopup({
+                            message: 'создаем сценарий...\n\nэто может занять 20-40 секунд'
+                          });
+                        }
+                        handleGenerateScenario();
+                      }}
+                      className="button-inner-glow"
+                      style={{
+                        width: '530px',
+                        height: '139px',
+                        cursor: 'pointer',
+                      }}
+                    />
+                    <div style={{
+                      width: '495px',
+                      fontFamily: 'Gotham Pro, sans-serif',
+                      fontWeight: 300,
+                      fontSize: '32px',
+                      color: 'white',
+                      textAlign: 'center',
+                      lineHeight: '32px',
+                    }}>
+                      вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* BlurAnalysisCard ТОЛЬКО для блока сценария */}
+                {generatingScenario && (
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px',
+                    marginTop: '20px',
+                  }}>
+                    <div style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 700,
+                      fontSize: '40px',
+                      color: 'white',
+                      lineHeight: '46px',
+                    }}>
+                      новый сценарий
+                    </div>
+                    <BlurAnalysisCard />
+                  </div>
+                )}
+
+                {/* Scenario results - после создания */}
+                {showScenario && !generatingScenario && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px' }}>
+                    <div style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 700,
+                      fontSize: '40px',
+                      color: 'white',
+                      lineHeight: '46px',
+                    }}>
+                      новый сценарий
+                    </div>
+                    <div style={{
+                      fontFamily: 'Gotham Pro, sans-serif',
+                      fontWeight: 300,
+                      fontSize: '35px',
+                      color: 'white',
+                      lineHeight: '42px',
+                      whiteSpace: 'pre-wrap',
+                    }}>
+                      {scenario?.text || '...'}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -675,235 +910,6 @@ export const LabaAnalysisScreen: React.FC = () => {
             }}
           />
 
-          {/* Under blur frame - 292:734 (под фон закрытый) - HIDE when analysis started */}
-          {/* Analyzing loader */}
-          {analyzing && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              zIndex: 100,
-            }}>
-              анализируем видео...<br/>
-              <span style={{ fontSize: '24px', opacity: 0.7 }}>
-                это может занять 30-60 секунд
-              </span>
-            </div>
-          )}
-          
-          {/* Generating scenario loader */}
-          {generatingScenario && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              zIndex: 100,
-            }}>
-              создаем сценарий...<br/>
-              <span style={{ fontSize: '24px', opacity: 0.7 }}>
-                это может занять 20-40 секунд
-              </span>
-            </div>
-          )}
-
-
-          {/* BlurAnalysisCard при analyzing */}
-          {analyzing && !showAnalysisResults && (
-            <div style={{
-              position: 'absolute',
-              left: '53px',
-              top: '1250px',
-              width: '796px',
-            }}>
-              <BlurAnalysisCard />
-            </div>
-          )}
-
-          {/* Analysis results - SHOW when button clicked - ДИНАМИЧЕСКИЙ РЕНДЕРИНГ */}
-          {showAnalysisResults && (
-            <div style={{
-              position: 'absolute',
-              left: '53px',
-              top: '1250px',
-              width: '796px',
-            }}>
-              {generatingScenario ? (
-                <BlurAnalysisCard />
-              ) : (
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '30px',
-                }}>
-                  {/* виральность */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontWeight: 700,
-                      fontSize: '40px',
-                      color: 'white',
-                      lineHeight: '46px',
-                    }}>
-                      виральность
-                    </div>
-                    <div style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontWeight: 700,
-                      fontSize: '40px',
-                      color: '#d5fc44',
-                      lineHeight: '46px',
-                    }}>
-                      {analysis?.viralityScore || 0} баллов
-                    </div>
-                    <div style={{
-                      fontFamily: 'Gotham Pro, sans-serif',
-                      fontWeight: 300,
-                      fontSize: '35px',
-                      color: 'white',
-                      lineHeight: '42px',
-                    }}>
-                      {analysis?.hookText || '...'}
-                    </div>
-                  </div>
-
-                  {/* хук */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontWeight: 700,
-                      fontSize: '40px',
-                      color: 'white',
-                      lineHeight: '46px',
-                    }}>
-                      хук
-                    </div>
-                    <div style={{
-                      fontFamily: 'Gotham Pro, sans-serif',
-                      fontWeight: 300,
-                      fontSize: '35px',
-                      color: 'white',
-                      lineHeight: '42px',
-                    }}>
-                      {analysis?.hookText || '...'}
-                    </div>
-                  </div>
-
-                  {/* транскрибация */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontWeight: 700,
-                      fontSize: '40px',
-                      color: 'white',
-                      lineHeight: '46px',
-                    }}>
-                      транскрибация
-                    </div>
-                    <div style={{
-                      fontFamily: 'Gotham Pro, sans-serif',
-                      fontWeight: 300,
-                      fontSize: '35px',
-                      color: 'white',
-                      lineHeight: '42px',
-                    }}>
-                      {analysis?.transcription || '...'}
-                    </div>
-                  </div>
-
-                  {/* суть видео */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontWeight: 700,
-                      fontSize: '40px',
-                      color: 'white',
-                      lineHeight: '46px',
-                    }}>
-                      суть видео
-                    </div>
-                    <div style={{
-                      fontFamily: 'Gotham Pro, sans-serif',
-                      fontWeight: 300,
-                      fontSize: '35px',
-                      color: 'white',
-                      lineHeight: '42px',
-                    }}>
-                      {analysis?.videoSummary || '...'}
-                    </div>
-                  </div>
-
-                  {/* Кнопка "создать сценарий" ПОСЛЕ текста */}
-                  {!showScenario && !generatingScenario && (
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '20px',
-                      marginTop: '20px',
-                    }}>
-                      <img
-                        src={createScenarioButtonPNG}
-                        alt="создать сценарий"
-                        onClick={handleGenerateScenario}
-                        className="button-inner-glow"
-                        style={{
-                          width: '530px',
-                          height: '139px',
-                          cursor: 'pointer',
-                        }}
-                      />
-                      <div style={{
-                        width: '495px',
-                        fontFamily: 'Gotham Pro, sans-serif',
-                        fontWeight: 300,
-                        fontSize: '32px',
-                        color: 'white',
-                        textAlign: 'center',
-                        lineHeight: '32px',
-                      }}>
-                        вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Scenario results - SHOW when "создать сценарий" clicked */}
-                  {showScenario && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px' }}>
-                      <div style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: 700,
-                        fontSize: '40px',
-                        color: 'white',
-                        lineHeight: '46px',
-                      }}>
-                        новый сценарий
-                      </div>
-                      <div style={{
-                        fontFamily: 'Gotham Pro, sans-serif',
-                        fontWeight: 300,
-                        fontSize: '35px',
-                        color: 'white',
-                        lineHeight: '42px',
-                        whiteSpace: 'pre-wrap',
-                      }}>
-                        {scenario?.text || '...'}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
           </div>
         </div>
 
