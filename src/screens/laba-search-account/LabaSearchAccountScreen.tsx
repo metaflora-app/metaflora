@@ -446,22 +446,23 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }} />
           )}
 
-          {/* Result section - всегда показываем текст "результат" и кнопку */}
-          {(foundAccount || searching) && (
+          {/* "результат" - ВСЕГДА показываем */}
+          <div style={{
+            position: 'absolute',
+            left: '49px',
+            top: '533px',
+            fontFamily: 'Inter',
+            fontWeight: 700,
+            fontSize: '40px',
+            lineHeight: 1,
+            color: 'white',
+          }}>
+            результат
+          </div>
+
+          {/* Result section - показываем после поиска */}
+          {foundAccount && !searching && (
             <>
-              {/* "результат" - CSS (109:664) - x=190, y=986 relative to frame, so 190-141=49, 986-453=533 */}
-              <div style={{
-                position: 'absolute',
-                left: '49px',
-                top: '533px',
-                fontFamily: 'Inter',
-                fontWeight: 700,
-                fontSize: '40px',
-                lineHeight: 1,
-                color: 'white',
-              }}>
-                результат
-              </div>
 
               {/* Profile photo PNG (109:665) - РЕАЛЬНАЯ АВАТАРКА через прокси - показываем только если не searching */}
               {!searching && foundAccount && (
@@ -570,41 +571,40 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 {foundAccount.followersCount.toLocaleString()} подписчиков
               </div>
               )}
+              {/* Tracking button (109:677) */}
+              <img 
+                src={trackingButton}
+                alt="начать отслеживание"
+                onClick={handleStartTracking}
+                className="button-inner-glow"
+                style={{
+                  position: 'absolute',
+                  left: '184px',
+                  top: '864px',
+                  width: '530px',
+                  height: '139px',
+                  cursor: tracking ? 'wait' : 'pointer',
+                  opacity: tracking ? 0.6 : 1,
+                }}
+              />
+
+              {/* Balance text (109:690) */}
+              <div style={{
+                position: 'absolute',
+                left: '202px',
+                top: '1021px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                fontSize: '32px',
+                lineHeight: 1,
+                color: 'white',
+                textAlign: 'center',
+                width: '495px',
+              }}>
+                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
+              </div>
             </>
           )}
-
-          {/* Tracking button (109:677) - ВСЕГДА показываем */}
-          <img 
-            src={trackingButton}
-            alt="начать отслеживание"
-            onClick={handleStartTracking}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '184px',
-              top: '864px',
-              width: '530px',
-              height: '139px',
-              cursor: tracking || !foundAccount ? 'not-allowed' : 'pointer',
-              opacity: !foundAccount ? 0.3 : tracking ? 0.6 : 1,
-            }}
-          />
-
-          {/* Balance text (109:690) - ВСЕГДА показываем */}
-          <div style={{
-            position: 'absolute',
-            left: '202px',
-            top: '1021px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '32px',
-            lineHeight: 1,
-            color: 'white',
-            textAlign: 'center',
-            width: '495px',
-          }}>
-            вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-          </div>
 
           {/* Background image PNG - REMOVED */}
         </div>

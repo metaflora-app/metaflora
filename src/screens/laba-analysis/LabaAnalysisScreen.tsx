@@ -26,14 +26,20 @@ import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не сл
 import startAnalysisButtonPNG from '../../assets/laba-analysis/поменьше кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
 
-// Instagram logo from laba-search-account
-import instaLogo from '../../assets/laba-search-account/лого инста.png';
+// Real images from assets
+import reelCoverImage from '../../assets/laba-real/обложка рилс.png';
+import profilePhotoImage from '../../assets/laba-real/фото профиля.png';
+import instaLogoImage from '../../assets/laba-real/лого инста.png';
 
 // Laba icons
 import playIcon from '../../assets/tour-video/play-icon.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
+
+// Use real images
+const profilePhotoMCP = profilePhotoImage;
+const instaLogoMCP = instaLogoImage;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -61,11 +67,6 @@ export const LabaAnalysisScreen: React.FC = () => {
     return convertInstagramImageUrl(reel?.accountProfilePicUrl);
   }, [reel?.accountProfilePicUrl]);
   
-  // Конвертируем обложку через прокси
-  const coverUrl = React.useMemo(() => {
-    return convertInstagramImageUrl(reel?.coverImageUrl) || reel?.coverImageUrl;
-  }, [reel?.coverImageUrl]);
-  
   // Redirect if no reel provided
   React.useEffect(() => {
     if (!reel) {
@@ -85,36 +86,20 @@ export const LabaAnalysisScreen: React.FC = () => {
       return;
     }
     
-    // Показываем поп-ап перед началом анализа
-    if ((window as any).Telegram?.WebApp?.showPopup) {
-      (window as any).Telegram.WebApp.showPopup({
-        message: 'анализируем видео...\n\nэто может занять 30-60 секунд\nнажмите ок и дождитесь загрузки',
-        buttons: [
-          {
-            id: 'start_analysis',
-            type: 'default',
-            text: 'ок'
-          }
-        ]
-      }, async (buttonId: string) => {
-        if (buttonId === 'start_analysis') {
-          try {
-            setAnalyzing(true);
-            const analysisResult = await analyzeReel(reel.id, userId);
-            setAnalysis(analysisResult);
-            setShowAnalysisResults(true);
-          } catch (error: any) {
-            console.error('Ошибка анализа:', error);
-            if ((window as any).Telegram?.WebApp?.showPopup) {
-              (window as any).Telegram.WebApp.showPopup({
-                message: `${error.message || 'ошибка анализа'}\n\n(не закрывайте окно, иначе действие может прерваться)`
-              });
-            }
-          } finally {
-            setAnalyzing(false);
-          }
-        }
-      });
+    try {
+      setAnalyzing(true);
+      const analysisResult = await analyzeReel(reel.id, userId);
+      setAnalysis(analysisResult);
+      setShowAnalysisResults(true);
+    } catch (error: any) {
+      console.error('Ошибка анализа:', error);
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: `${error.message || 'ошибка анализа'}\n\n(не закрывайте окно, иначе действие может прерваться)`
+        });
+      }
+    } finally {
+      setAnalyzing(false);
     }
   };
 
@@ -130,36 +115,20 @@ export const LabaAnalysisScreen: React.FC = () => {
       return;
     }
     
-    // Показываем поп-ап перед началом генерации
-    if ((window as any).Telegram?.WebApp?.showPopup) {
-      (window as any).Telegram.WebApp.showPopup({
-        message: 'создаем сценарий...\n\nэто может занять 20-40 секунд\nнажмите ок и дождитесь загрузки',
-        buttons: [
-          {
-            id: 'start_scenario',
-            type: 'default',
-            text: 'ок'
-          }
-        ]
-      }, async (buttonId: string) => {
-        if (buttonId === 'start_scenario') {
-          try {
-            setGeneratingScenario(true);
-            const scenarioResult = await generateScenario(analysis.id, userId);
-            setScenario(scenarioResult);
-            setShowScenario(true);
-          } catch (error: any) {
-            console.error('Ошибка генерации сценария:', error);
-            if ((window as any).Telegram?.WebApp?.showPopup) {
-              (window as any).Telegram.WebApp.showPopup({
-                message: `${error.message || 'ошибка генерации сценария'}\n\n(не закрывайте окно, иначе действие может прерваться)`
-              });
-            }
-          } finally {
-            setGeneratingScenario(false);
-          }
-        }
-      });
+    try {
+      setGeneratingScenario(true);
+      const scenarioResult = await generateScenario(analysis.id, userId);
+      setScenario(scenarioResult);
+      setShowScenario(true);
+    } catch (error: any) {
+      console.error('Ошибка генерации сценария:', error);
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: `${error.message || 'ошибка генерации сценария'}\n\n(не закрывайте окно, иначе действие может прерваться)`
+        });
+      }
+    } finally {
+      setGeneratingScenario(false);
     }
   };
 
@@ -330,12 +299,8 @@ export const LabaAnalysisScreen: React.FC = () => {
             overflow: 'hidden',
           }}>
             <img
-              src={coverUrl}
+              src={reel.coverImageUrl}
               alt=""
-              crossOrigin="anonymous"
-              onError={(e) => {
-                console.error('[COVER] ❌ Ошибка загрузки обложки:', coverUrl);
-              }}
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -349,25 +314,20 @@ export const LabaAnalysisScreen: React.FC = () => {
 
 
           {/* Play button */}
-          <div 
-            className="blur-wave" 
-            onClick={() => window.open(reel.reelUrl, '_blank')}
-            style={{
-              position: 'absolute',
-              left: '403px',
-              top: '363px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}
-          >
+          <div className="blur-wave" style={{
+            position: 'absolute',
+            left: '403px',
+            top: '363px',
+            width: '98px',
+            height: '98px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0, 0, 0, 0.1)',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '62px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
             <img 
               src={playIcon}
               alt="play"
@@ -473,7 +433,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* Views count - 292:665 */}
             <div style={{
               position: 'absolute',
-              left: '121px',
+              left: '123px',
               top: '27px',
               width: '109px',
               fontFamily: 'Gotham Pro, sans-serif',
@@ -489,7 +449,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* Likes count - 292:666 */}
             <div style={{
               position: 'absolute',
-              left: '287px',
+              left: '289px',
               top: '28px',
               width: '92px',
               fontFamily: 'Gotham Pro, sans-serif',
@@ -505,7 +465,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             {/* Comments count - 292:667 */}
             <div style={{
               position: 'absolute',
-              left: '439px',
+              left: '441px',
               top: '27px',
               width: '67px',
               fontFamily: 'Gotham Pro, sans-serif',
@@ -519,7 +479,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Date badge - 292:668 */}
+          {/* Date badge "2 месяца назад" - 292:668 */}
           <div className="blur-wave" style={{
             position: 'absolute',
             left: '286px',
@@ -542,7 +502,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               color: 'white',
               textAlign: 'center',
             }}>
-              {reel.publishedAt ? formatTimeAgo(reel.publishedAt) : ''}
+              {reel ? formatTimeAgo(reel.publishedAt) : ''}
             </div>
           </div>
 
@@ -595,19 +555,34 @@ export const LabaAnalysisScreen: React.FC = () => {
           </div>
 
           {/* Instagram logo - 292:676 */}
-          <img 
-            src={instaLogo}
-            alt=""
-            style={{
+          <div style={{
+            position: 'absolute',
+            left: '259px',
+            top: '857px',
+            width: '64px',
+            height: '78px',
+          }}>
+            <div style={{
               position: 'absolute',
-              left: '259px',
-              top: '857px',
-              width: '64px',
-              height: '78px',
+              inset: 0,
               opacity: 0.6,
-              objectFit: 'contain',
-            }}
-          />
+              overflow: 'hidden',
+              pointerEvents: 'none',
+            }}>
+              <img
+                src={instaLogoMCP}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '339.84%',
+                  left: '-56.27%',
+                  maxWidth: 'none',
+                  top: '-118.33%',
+                  width: '620.89%',
+                }}
+              />
+            </div>
+          </div>
 
           {/* Username и подписчики - В ОДНУ СТРОКУ слева под лого инста */}
           <div style={{
@@ -713,39 +688,120 @@ export const LabaAnalysisScreen: React.FC = () => {
             }}
           />
 
-          {/* Blur placeholders during loading */}
+          {/* Under blur frame - 292:734 (под фон закрытый) - HIDE when analysis started */}
+          {/* Analyzing loader */}
           {analyzing && (
-            <div className="blur-wave" style={{
+            <div style={{
               position: 'absolute',
-              left: '53px',
-              top: '1207px',
-              width: '796px',
-              height: '282px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.5)',
-              border: '4px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '30px',
-              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              zIndex: 5,
-            }} />
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              zIndex: 100,
+            }}>
+              анализируем видео...<br/>
+              <span style={{ fontSize: '24px', opacity: 0.7 }}>
+                это может занять 30-60 секунд
+              </span>
+            </div>
           )}
           
+          {/* Generating scenario loader */}
           {generatingScenario && (
-            <div className="blur-wave" style={{
+            <div style={{
               position: 'absolute',
-              left: '53px',
-              top: '621px',
-              width: '796px',
-              height: '200px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.5)',
-              border: '4px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '30px',
-              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              zIndex: 5,
-            }} />
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontSize: '32px',
+              color: 'white',
+              textAlign: 'center',
+              zIndex: 100,
+            }}>
+              создаем сценарий...<br/>
+              <span style={{ fontSize: '24px', opacity: 0.7 }}>
+                это может занять 20-40 секунд
+              </span>
+            </div>
           )}
 
+          {!showAnalysisResults && !analyzing && (
+            <div style={{
+              position: 'absolute',
+              left: '84px',
+              top: '1267px',
+              width: '350px',
+              height: '161px',
+            }}>
+              {/* Instagram logo - 292:730 */}
+              <div style={{
+                position: 'absolute',
+                left: '3px',
+                top: '0px',
+                width: '64px',
+                height: '78px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  opacity: 0.6,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img
+                    src={instaLogoMCP}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      height: '339.84%',
+                      left: '-56.27%',
+                      maxWidth: 'none',
+                      top: '-118.33%',
+                      width: '620.89%',
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* @mishchenko.is - 292:731 */}
+              <div style={{
+                position: 'absolute',
+                left: '3px',
+                top: '78px',
+                width: '334px',
+                height: '42px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: '#d5fc44',
+                textAlign: 'center',
+                lineHeight: '42px',
+              }}>
+                @mishchenko.is
+              </div>
+
+              {/* 275,5к подписчиков - 292:732 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '135px',
+                width: '350px',
+                height: '26px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '32px',
+                color: '#d5fc44',
+                textAlign: 'center',
+                lineHeight: '26px',
+              }}>
+                275,5к подписчиков
+              </div>
+            </div>
+          )}
 
           {/* Blur frame overlay - 292:684 - HIDE when analysis started */}
           {!showAnalysisResults && !analyzing && (
@@ -802,167 +858,196 @@ export const LabaAnalysisScreen: React.FC = () => {
               left: '53px',
               top: '1250px',
               width: '796px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '20px',
             }}>
-              {/* виральность */}
+              {/* виральность - 292:893 */}
               <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '7px',
+                position: 'absolute',
+                left: '0px',
+                top: '0px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
               }}>
-                <div style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  color: 'white',
-                  lineHeight: '46px',
-                }}>
-                  виральность
-                </div>
-                <div style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  color: '#d5fc44',
-                  lineHeight: '46px',
-                }}>
-                  {analysis?.viralityScore || 0} баллов
-                </div>
-                <div style={{
-                  fontFamily: 'Gotham Pro, sans-serif',
-                  fontWeight: 300,
-                  fontSize: '35px',
-                  color: 'white',
-                  lineHeight: '42px',
-                }}>
-                  {analysis?.hookText || '...'}
-                </div>
+                виральность
               </div>
 
-              {/* хук */}
+              {/* Virality score */}
               <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '7px',
+                position: 'absolute',
+                left: '0px',
+                top: '53px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: '#d5fc44',
+                lineHeight: '46px',
               }}>
-                <div style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  color: 'white',
-                  lineHeight: '46px',
-                }}>
-                  хук
-                </div>
-                <div style={{
-                  fontFamily: 'Gotham Pro, sans-serif',
-                  fontWeight: 300,
-                  fontSize: '35px',
-                  color: 'white',
-                  lineHeight: '42px',
-                }}>
-                  {analysis?.hookText || '...'}
-                </div>
+                {analysis?.viralityScore || 0} баллов
               </div>
 
-              {/* транскрибация */}
+              {/* Hook text */}
               <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '7px',
+                position: 'absolute',
+                left: '0px',
+                top: '106px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
               }}>
-                <div style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  color: 'white',
-                  lineHeight: '46px',
-                }}>
-                  транскрибация
-                </div>
-                <div style={{
-                  fontFamily: 'Gotham Pro, sans-serif',
-                  fontWeight: 300,
-                  fontSize: '35px',
-                  color: 'white',
-                  lineHeight: '42px',
-                }}>
-                  {analysis?.transcription || '...'}
-                </div>
+                {analysis?.hookText || '...'}
               </div>
 
-              {/* суть видео */}
+              {/* хук - 292:896 */}
               <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '7px',
+                position: 'absolute',
+                left: '0px',
+                top: '195px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
               }}>
-                <div style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  color: 'white',
-                  lineHeight: '46px',
-                }}>
-                  суть видео
-                </div>
-                <div style={{
-                  fontFamily: 'Gotham Pro, sans-serif',
-                  fontWeight: 300,
-                  fontSize: '35px',
-                  color: 'white',
-                  lineHeight: '42px',
-                }}>
-                  {analysis?.videoSummary || '...'}
-                </div>
+                хук
+              </div>
+
+              {/* Hook text duplicate (в ТЗ здесь тоже хук) */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '248px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
+              }}>
+                {analysis?.hookText || '...'}
+              </div>
+
+              {/* транскрибация - 292:901 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '337px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
+              }}>
+                транскрибация
+              </div>
+
+              {/* Transcription */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '390px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
+                maxHeight: '200px',
+                overflow: 'auto',
+              }}>
+                {analysis?.transcription || '...'}
+              </div>
+
+              {/* суть видео - 292:904 */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '479px',
+                width: '373px',
+                height: '46px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '40px',
+                color: 'white',
+                lineHeight: '46px',
+              }}>
+                суть видео
+              </div>
+
+              {/* Video summary */}
+              <div style={{
+                position: 'absolute',
+                left: '0px',
+                top: '532px',
+                width: '797px',
+                fontFamily: 'Gotham Pro, sans-serif',
+                fontWeight: 300,
+                fontSize: '35px',
+                color: 'white',
+                lineHeight: '42px',
+              }}>
+                {analysis?.videoSummary || '...'}
               </div>
 
               {/* Кнопка "создать сценарий" PNG */}
               {!showScenario && (
+                <img
+                  src={createScenarioButtonPNG}
+                  alt="создать сценарий"
+                  onClick={handleGenerateScenario}
+                  className="button-inner-glow"
+                  style={{
+                    position: 'absolute',
+                    left: '131px',
+                    top: '621px',
+                    width: '530px',
+                    height: '139px',
+                    cursor: generatingScenario ? 'wait' : 'pointer',
+                    opacity: generatingScenario ? 0.6 : 1,
+                  }}
+                />
+              )}
+
+              {/* Text про баланс - 292:914 - HIDE when scenario created */}
+              {!showScenario && (
                 <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '20px',
-                  marginTop: '20px',
+                  position: 'absolute',
+                  left: '149px',
+                  top: '778px',
+                  width: '495px',
+                  fontFamily: 'Gotham Pro, sans-serif',
+                  fontWeight: 300,
+                  fontSize: '32px',
+                  color: 'white',
+                  textAlign: 'center',
+                  lineHeight: '32px',
                 }}>
-                  <img
-                    src={createScenarioButtonPNG}
-                    alt="создать сценарий"
-                    onClick={handleGenerateScenario}
-                    className="button-inner-glow"
-                    style={{
-                      width: '530px',
-                      height: '139px',
-                      cursor: generatingScenario ? 'wait' : 'pointer',
-                      opacity: generatingScenario ? 0.6 : 1,
-                    }}
-                  />
-                  <div style={{
-                    width: '495px',
-                    fontFamily: 'Gotham Pro, sans-serif',
-                    fontWeight: 300,
-                    fontSize: '32px',
-                    color: 'white',
-                    textAlign: 'center',
-                    lineHeight: '32px',
-                  }}>
-                    вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-                  </div>
+                  вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
                 </div>
               )}
 
               {/* Scenario results - SHOW when "создать сценарий" clicked */}
               {showScenario && (
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '7px',
-                  marginTop: '20px',
-                }}>
+                <>
+                  {/* новый сценарий - 292:916 */}
                   <div style={{
+                    position: 'absolute',
+                    left: '0px',
+                    top: '621px',
+                    width: '373px',
+                    height: '46px',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 700,
                     fontSize: '40px',
@@ -971,17 +1056,25 @@ export const LabaAnalysisScreen: React.FC = () => {
                   }}>
                     новый сценарий
                   </div>
+
+                  {/* Scenario text */}
                   <div style={{
+                    position: 'absolute',
+                    left: '0px',
+                    top: '674px',
+                    width: '797px',
                     fontFamily: 'Gotham Pro, sans-serif',
                     fontWeight: 300,
                     fontSize: '35px',
                     color: 'white',
                     lineHeight: '42px',
+                    maxHeight: '300px',
+                    overflow: 'auto',
                     whiteSpace: 'pre-wrap',
                   }}>
                     {scenario?.text || '...'}
                   </div>
-                </div>
+                </>
               )}
             </div>
           )}

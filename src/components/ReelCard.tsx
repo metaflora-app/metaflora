@@ -189,7 +189,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '2px',
+          gap: '0px',
         }}>
           <img src={viewsIcon} alt="" style={{ width: '46px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
           <div style={{
@@ -207,7 +207,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '2px',
+          gap: '0px',
         }}>
           <img src={likesIcon} alt="" style={{ width: '40px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
           <div style={{
@@ -225,7 +225,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '2px',
+          gap: '0px',
         }}>
           <img src={commentsIcon} alt="" style={{ width: '40px', height: '39px', objectFit: 'contain', flexShrink: 0 }} />
           <div style={{
@@ -261,8 +261,8 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         position: 'absolute',
         left: '9.02%',
         right: '9.51%',
-        top: '67.26%',
-        bottom: '24%',
+        top: '65%',
+        bottom: '26%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
