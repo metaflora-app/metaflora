@@ -65,16 +65,16 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   };
 
   const handleExpandVideo = () => {
-    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
-      const tg = (window as any).Telegram.WebApp;
-      
-      // Пробуем использовать requestFullscreen() если доступен (для разворачивания на весь экран мини-аппа)
-      if (tg.requestFullscreen && typeof tg.requestFullscreen === 'function') {
-        tg.requestFullscreen();
-      } 
-      // Fallback на expand() для разворачивания на максимальную высоту
-      else if (tg.expand && typeof tg.expand === 'function') {
-        tg.expand();
+    if (videoRef.current) {
+      // Пытаемся развернуть видео на весь экран
+      if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen().catch((err) => {
+          console.error('Ошибка fullscreen:', err);
+        });
+      } else if ((videoRef.current as any).webkitRequestFullscreen) {
+        (videoRef.current as any).webkitRequestFullscreen();
+      } else if ((videoRef.current as any).mozRequestFullScreen) {
+        (videoRef.current as any).mozRequestFullScreen();
       }
     }
   };
@@ -249,19 +249,40 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             Your browser does not support the video tag.
           </video>
 
-          {/* Blur overlay с кнопкой плей */}
+          {/* Blur overlay с прелоадом и кнопкой плей */}
           {showOverlay && (
             <>
+              {/* Прелоад - первый кадр видео */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                background: '#000',
+                borderRadius: '30px',
+                overflow: 'hidden',
+              }}>
+                <video
+                  src={video?.video_url || ''}
+                  preload="metadata"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+
+              {/* Блюр поверх прелоада */}
               <div className="blur-wave" style={{
                 position: 'absolute',
                 inset: 0,
                 backdropFilter: 'blur(50px)',
-                background: 'rgba(255, 255, 255, 0.1)',
+                background: 'rgba(0, 0, 0, 0.3)',
                 border: '4px solid rgba(255, 255, 255, 0.3)',
                 borderRadius: '30px',
                 overflow: 'clip',
               }} />
 
+              {/* Кнопка плей */}
               <img 
                 src={playIcon}
                 alt="плей"
@@ -293,44 +314,47 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                   height: '98px',
                   cursor: 'pointer',
                   objectFit: 'contain',
+                  zIndex: 20,
                 }}
               />
             </>
           )}
 
-          {/* Кнопка развернуть видео */}
-          <div style={{
-            position: 'absolute',
-            bottom: '40px',
-            right: '40px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '12px',
-            zIndex: 10,
-          }}>
-            <img 
-              src={expandVideoButton}
-              alt="развернуть видео"
-              onClick={handleExpandVideo}
-              style={{
-                width: '80px',
-                height: '80px',
-                cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-            />
+          {/* Кнопка развернуть видео - ТОЛЬКО когда видео играет */}
+          {!showOverlay && (
             <div style={{
-              fontFamily: 'Gotham Pro',
-              fontWeight: 400,
-              fontSize: '24px',
-              color: 'white',
-              textAlign: 'center',
-              whiteSpace: 'nowrap',
+              position: 'absolute',
+              bottom: '40px',
+              right: '40px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px',
+              zIndex: 10,
             }}>
-              развернуть на весь экран
+              <img 
+                src={expandVideoButton}
+                alt="развернуть видео"
+                onClick={handleExpandVideo}
+                style={{
+                  width: '70px',
+                  height: '70px',
+                  cursor: 'pointer',
+                  objectFit: 'contain',
+                }}
+              />
+              <div style={{
+                fontFamily: 'Gotham Pro',
+                fontWeight: 500,
+                fontSize: '22px',
+                color: 'white',
+                textAlign: 'center',
+                whiteSpace: 'nowrap',
+              }}>
+                развернуть на весь экран
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}
