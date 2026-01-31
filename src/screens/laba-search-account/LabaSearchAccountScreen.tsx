@@ -605,7 +605,6 @@ export const LabaSearchAccountScreen: React.FC = () => {
           }}>
             вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
           </div>
-        </div>
 
           {/* Background image PNG - REMOVED */}
         </div>
