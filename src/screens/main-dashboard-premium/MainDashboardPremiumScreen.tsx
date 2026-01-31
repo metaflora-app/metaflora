@@ -21,6 +21,7 @@ import goButton from '../../assets/main-dashboard/кнопка открыть.pn
 
 export const MainDashboardPremiumScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [metacoinsBalance, setMetacoinsBalance] = React.useState<number>(0);
   const [userName, setUserName] = React.useState<string>('');
   const [subscriptionEndDate, setSubscriptionEndDate] = React.useState<string>('');
@@ -32,27 +33,31 @@ export const MainDashboardPremiumScreen: React.FC = () => {
   // Load user data on mount and listen for updates
   React.useEffect(() => {
     const loadUserData = async () => {
-      const user = await getOrCreateUser();
-      if (user) {
-        console.log('💰 Balance loaded:', user.metacoins_balance);
-        setMetacoinsBalance(user.metacoins_balance);
-        
-        // Set username with @ prefix
-        if (user.username) {
-          setUserName(`@${user.username}`);
+      try {
+        const user = await getOrCreateUser();
+        if (user) {
+          console.log('💰 Balance loaded:', user.metacoins_balance);
+          setMetacoinsBalance(user.metacoins_balance);
+          
+          // Set username with @ prefix
+          if (user.username) {
+            setUserName(`@${user.username}`);
+          }
+          
+          // Set subscription end date in DD.MM format
+          if (user.subscription_end_date) {
+            const date = new Date(user.subscription_end_date);
+            const formatted = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+            setSubscriptionEndDate(formatted);
+          }
+          
+          // Set profile photo URL
+          if (user.profile_photo_url) {
+            setProfilePhotoUrl(user.profile_photo_url);
+          }
         }
-        
-        // Set subscription end date in DD.MM format
-        if (user.subscription_end_date) {
-          const date = new Date(user.subscription_end_date);
-          const formatted = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-          setSubscriptionEndDate(formatted);
-        }
-        
-        // Set profile photo URL
-        if (user.profile_photo_url) {
-          setProfilePhotoUrl(user.profile_photo_url);
-        }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -178,7 +183,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             lineHeight: 0,
             color: 'white',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>{userName || 'Загрузка...'}</p>
+            <p style={{ margin: 0, lineHeight: '1', opacity: loading ? 0 : 1 }}>{userName || ''}</p>
           </div>
         </div>
 
@@ -202,6 +207,8 @@ export const MainDashboardPremiumScreen: React.FC = () => {
               height: '159px',
               borderRadius: '79.5px',
               objectFit: 'cover',
+              opacity: loading ? 0 : 1,
+              transition: 'opacity 0.3s',
             }}
           />
 
@@ -282,7 +289,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             color: 'white',
             whiteSpace: 'nowrap',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>{metacoinsBalance} метакоинов</p>
+            <p style={{ margin: 0, lineHeight: '1', opacity: loading ? 0 : 1 }}>{loading ? '' : `${metacoinsBalance} метакоинов`}</p>
           </div>
 
           {/* Кнопка "пополнить" - PNG (356:707) */}

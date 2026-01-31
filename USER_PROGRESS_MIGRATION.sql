@@ -17,26 +17,30 @@ CREATE INDEX IF NOT EXISTS idx_user_progress_user_id ON user_progress(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_progress_lesson_id ON user_progress(lesson_id);
 CREATE INDEX IF NOT EXISTS idx_user_progress_completed ON user_progress(user_id, completed);
 
--- RLS политики
+-- RLS политики - ОТКЛЮЧАЕМ для anon доступа из мини-аппа
 ALTER TABLE user_progress ENABLE ROW LEVEL SECURITY;
 
--- Политика: пользователи могут читать только свой прогресс
-CREATE POLICY "Users can view own progress"
+-- Политика: anon может читать все (мини-апп работает без auth)
+CREATE POLICY "Allow anon to read all progress"
   ON user_progress
   FOR SELECT
+  TO anon
   USING (true);
 
--- Политика: пользователи могут вставлять свой прогресс
-CREATE POLICY "Users can insert own progress"
+-- Политика: anon может вставлять прогресс
+CREATE POLICY "Allow anon to insert progress"
   ON user_progress
   FOR INSERT
+  TO anon
   WITH CHECK (true);
 
--- Политика: пользователи могут обновлять свой прогресс
-CREATE POLICY "Users can update own progress"
+-- Политика: anon может обновлять прогресс
+CREATE POLICY "Allow anon to update progress"
   ON user_progress
   FOR UPDATE
-  USING (true);
+  TO anon
+  USING (true)
+  WITH CHECK (true);
 
 -- Комментарии
 COMMENT ON TABLE user_progress IS 'Прогресс пользователей по урокам академии';
