@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
 
@@ -7,15 +7,14 @@ import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
-import pauseIcon from '../../assets/tour-video/pause-icon.png';
-import playIcon from '../../assets/tour-video/play-icon.png';
-import expandIcon from '../../assets/tour-video/expand-icon.png';
+import playIcon from '../../assets/play-button.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
 
 export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [showOverlay, setShowOverlay] = useState(true);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   // Check if user is premium and redirect
   React.useEffect(() => {
@@ -136,148 +135,61 @@ export const TourVideoScreen: React.FC = () => {
           width: '891px',
           height: '1457px',
         }}>
-          {/* Фоновое изображение видео */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '40px',
-          }}>
-            <img 
-              src={videoThumbnail}
-              alt="Видео обзор"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '40px',
-                maxWidth: 'none',
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
-
-          {/* Blur слой на видео */}
-          <div 
-            className="blur-wave"
+          <video
+            ref={videoRef}
+            controls={!showOverlay}
+            playsInline
+            preload="auto"
             style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              backgroundColor: '#000',
               borderRadius: '30px',
-              overflow: 'clip',
-            }} />
+            }}
+          >
+            <source src="/test-video-ios.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
 
-          {/* Кнопка плей */}
-          <div 
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              top: '42.48%',
-              right: '44.33%',
-              bottom: '50.79%',
-              left: '44.67%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            {/* Иконка плей - 100% размера круга */}
-            <img 
-              src={playIcon}
-              alt="плей"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-
-          {/* Кнопка стоп (пауза) */}
-          <div 
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              top: '49.97%',
-              right: '44.22%',
-              bottom: '43.31%',
-              left: '44.78%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            {/* Иконка паузы - 100% размера круга */}
-            <img 
-              src={pauseIcon}
-              alt="стоп"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-
-          {/* Кнопка развернуть видео */}
-          <div 
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              top: '93.89%',
-              right: '1.57%',
-              bottom: '1.17%',
-              left: '90.35%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-            }}>
-            {/* Иконка развернуть */}
-            <div style={{
-              position: 'absolute',
-              left: '11px',
-              top: '11px',
-              width: '42px',
-              height: '42px',
-            }}>
-              <div style={{
+          {/* Blur overlay с прелоадом и кнопкой плей */}
+          {showOverlay && (
+            <>
+              {/* Блюр поверх видео */}
+              <div className="blur-wave" style={{
                 position: 'absolute',
                 inset: 0,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={expandIcon}
-                  alt="развернуть"
-                  style={{
-                    position: 'absolute',
-                    height: '288.46%',
-                    left: '-164.28%',
-                    top: '-99.18%',
-                    width: '431.44%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.3)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+              }} />
+
+              {/* Кнопка плей */}
+              <img 
+                src={playIcon}
+                alt="плей"
+                onClick={() => {
+                  setShowOverlay(false);
+                  if (videoRef.current) {
+                    videoRef.current.play().catch(() => {});
+                  }
+                }}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '98px',
+                  height: '98px',
+                  cursor: 'pointer',
+                  objectFit: 'contain',
+                  zIndex: 20,
+                }}
+              />
+            </>
+          )}
         </div>
 
         {/* Кнопка "попробовать бесплатно" (с градиентом) */}

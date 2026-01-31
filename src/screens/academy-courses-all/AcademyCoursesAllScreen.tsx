@@ -28,10 +28,28 @@ export const AcademyCoursesAllScreen: React.FC = () => {
     
     // Пересчитывать при возврате на экран
     const handleFocus = () => calculateProgress();
-    window.addEventListener('focus', handleFocus);
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        calculateProgress();
+      }
+    };
     
-    return () => window.removeEventListener('focus', handleFocus);
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
+  
+  // Пересчитывать при каждом рендере (когда возвращаемся на экран)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      calculateProgress();
+    }, 100);
+    return () => clearTimeout(timer);
+  });
 
   const calculateProgress = async () => {
     try {

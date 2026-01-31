@@ -215,7 +215,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               margin: 0,
               lineHeight: '1',
             }}>
-              {lesson?.video_title || lesson?.title || 'лучшие языковые модели. урок 1'}
+              {lesson?.video_title || lesson?.title || ''}
             </p>
           </div>
         </div>
