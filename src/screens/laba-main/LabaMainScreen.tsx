@@ -155,7 +155,7 @@ export const LabaMainScreen: React.FC = () => {
     // Показываем popup ПЕРЕД запуском поиска
     if ((window as any).Telegram?.WebApp?.showPopup) {
       (window as any).Telegram.WebApp.showPopup({
-        message: 'начинаем поиск reels...\n\nэто займет 10-30 секунд\nнажмите ок и дождитесь загрузки',
+        message: 'начинаем поиск reels...\n\nэто займет 30-40 секунд\nнажмите ок и дождитесь загрузки',
         buttons: [
           {
             id: 'start_search',

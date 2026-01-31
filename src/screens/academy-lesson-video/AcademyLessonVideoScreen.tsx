@@ -23,7 +23,14 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
-  const [showOverlay, setShowOverlay] = useState(true);
+  
+  // Проверяем был ли уже показан блюр для этого урока
+  const [showOverlay, setShowOverlay] = useState(() => {
+    if (!lessonId) return true;
+    const viewedKey = `video-viewed-${lessonId}`;
+    return !localStorage.getItem(viewedKey);
+  });
+  
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
 
@@ -232,9 +239,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               handleVideoProgress();
             }}
             onPause={() => {
-              if (videoRef.current && !videoRef.current.ended) {
-                setShowOverlay(true);
-              }
+              // НЕ показываем блюр при паузе - только один раз при первом заходе
             }}
             onError={(e) => {
               console.error('[VIDEO ERROR]', e);
@@ -278,6 +283,10 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 alt="плей"
                 onClick={() => {
                   setShowOverlay(false);
+                  // Сохраняем что видео было просмотрено
+                  if (lessonId) {
+                    localStorage.setItem(`video-viewed-${lessonId}`, 'true');
+                  }
                   if (videoRef.current) {
                     videoRef.current.play().catch(() => {});
                   }
@@ -297,38 +306,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             </>
           )}
 
-          {/* Кнопка развернуть видео - ПОВЕРХ БЛЮРА в правом нижнем углу */}
-          <div style={{
-            position: 'absolute',
-            bottom: '40px',
-            right: '40px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '12px',
-            zIndex: 30,
-          }}>
-            <div style={{
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '22px',
-              color: 'white',
-              whiteSpace: 'nowrap',
-            }}>
-              развернуть на весь экран
-            </div>
-            <img 
-              src={expandVideoButton}
-              alt="развернуть видео"
-              onClick={handleExpandVideo}
-              style={{
-                width: '70px',
-                height: '70px',
-                cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}
