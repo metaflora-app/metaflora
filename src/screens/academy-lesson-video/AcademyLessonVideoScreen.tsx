@@ -65,16 +65,24 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   };
 
   const handleExpandVideo = () => {
-    if (videoRef.current) {
-      // Пытаемся развернуть видео на весь экран
-      if (videoRef.current.requestFullscreen) {
-        videoRef.current.requestFullscreen().catch((err) => {
-          console.error('Ошибка fullscreen:', err);
-        });
-      } else if ((videoRef.current as any).webkitRequestFullscreen) {
-        (videoRef.current as any).webkitRequestFullscreen();
-      } else if ((videoRef.current as any).mozRequestFullScreen) {
-        (videoRef.current as any).mozRequestFullScreen();
+    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
+      const tg = (window as any).Telegram.WebApp;
+      
+      // Используем Telegram WebApp requestFullscreen (Bot API 8.0+)
+      if (tg.requestFullscreen && typeof tg.requestFullscreen === 'function') {
+        tg.requestFullscreen();
+      } 
+      // Fallback: разворачиваем мини-апп на максимальную высоту
+      else if (tg.expand && typeof tg.expand === 'function') {
+        tg.expand();
+      }
+      // Если Telegram API недоступен, пытаемся развернуть видео элемент
+      else if (videoRef.current) {
+        if (videoRef.current.requestFullscreen) {
+          videoRef.current.requestFullscreen().catch(() => {});
+        } else if ((videoRef.current as any).webkitRequestFullscreen) {
+          (videoRef.current as any).webkitRequestFullscreen();
+        }
       }
     }
   };
@@ -217,7 +225,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             ref={videoRef}
             controls={!showOverlay}
             playsInline
-            preload="metadata"
+            preload="auto"
+            poster={video?.video_url ? `${video.video_url}#t=0.1` : undefined}
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
@@ -252,26 +261,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           {/* Blur overlay с прелоадом и кнопкой плей */}
           {showOverlay && (
             <>
-              {/* Прелоад - первый кадр видео */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: '#000',
-                borderRadius: '30px',
-                overflow: 'hidden',
-              }}>
-                <video
-                  src={video?.video_url || ''}
-                  preload="metadata"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-
-              {/* Блюр поверх прелоада */}
+              {/* Блюр поверх видео */}
               <div className="blur-wave" style={{
                 position: 'absolute',
                 inset: 0,
@@ -289,20 +279,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 onClick={() => {
                   setShowOverlay(false);
                   if (videoRef.current) {
-                    const playPromise = videoRef.current.play();
-                    if (playPromise) {
-                      playPromise.then(() => {
-                        // Использовать Telegram API для fullscreen
-                        if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp?.isVersionAtLeast?.('8.0')) {
-                          ((window as any).Telegram.WebApp as any).requestFullscreen();
-                        } else {
-                          // Fallback для старых версий
-                          if (videoRef.current?.requestFullscreen) {
-                            videoRef.current.requestFullscreen().catch(() => {});
-                          }
-                        }
-                      }).catch(() => {});
-                    }
+                    videoRef.current.play().catch(() => {});
                   }
                 }}
                 style={{
@@ -320,41 +297,38 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             </>
           )}
 
-          {/* Кнопка развернуть видео - ТОЛЬКО когда видео играет */}
-          {!showOverlay && (
+          {/* Кнопка развернуть видео - ПОВЕРХ БЛЮРА в правом нижнем углу */}
+          <div style={{
+            position: 'absolute',
+            bottom: '40px',
+            right: '40px',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '12px',
+            zIndex: 30,
+          }}>
             <div style={{
-              position: 'absolute',
-              bottom: '40px',
-              right: '40px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '8px',
-              zIndex: 10,
+              fontFamily: 'Gotham Pro',
+              fontWeight: 500,
+              fontSize: '22px',
+              color: 'white',
+              whiteSpace: 'nowrap',
             }}>
-              <img 
-                src={expandVideoButton}
-                alt="развернуть видео"
-                onClick={handleExpandVideo}
-                style={{
-                  width: '70px',
-                  height: '70px',
-                  cursor: 'pointer',
-                  objectFit: 'contain',
-                }}
-              />
-              <div style={{
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '22px',
-                color: 'white',
-                textAlign: 'center',
-                whiteSpace: 'nowrap',
-              }}>
-                развернуть на весь экран
-              </div>
+              развернуть на весь экран
             </div>
-          )}
+            <img 
+              src={expandVideoButton}
+              alt="развернуть видео"
+              onClick={handleExpandVideo}
+              style={{
+                width: '70px',
+                height: '70px',
+                cursor: 'pointer',
+                objectFit: 'contain',
+              }}
+            />
+          </div>
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}
