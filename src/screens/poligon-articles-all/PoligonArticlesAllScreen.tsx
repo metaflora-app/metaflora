@@ -501,20 +501,6 @@ const PoligonArticlesAllScreen: React.FC = () => {
         />
 
         {/* Loading/Error/Empty states */}
-        {loading && (
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '700px',
-            transform: 'translateX(-50%)',
-            color: 'white',
-            fontSize: '24px',
-            fontFamily: 'Gotham Pro',
-            zIndex: 10,
-          }}>
-            Загрузка статей...
-          </div>
-        )}
 
         {error && !loading && (
           <div style={{

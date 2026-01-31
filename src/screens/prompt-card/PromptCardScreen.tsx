@@ -278,13 +278,22 @@ export const PromptCardScreen: React.FC = () => {
           background: 'black',
           border: '4px solid rgba(255, 255, 255, 0.3)',
           borderRadius: '30px',
-        }} />
-
-        {/* Обложка промпта */}
-        <div style={{
-          position: 'absolute',
-          left: '192px',
-          top: '505px',
+          overflow: 'hidden',
+        }}>
+          {/* Scrollable content with fade */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, black calc(100% - 80px), transparent 100%)',
+          }}>
+                {/* Обложка промпта */}
+            <div style={{
+              position: 'absolute',
+              left: '51px',
+              top: '53px',
           width: '796px',
           height: '748px',
           borderRadius: '30px',
@@ -304,11 +313,11 @@ export const PromptCardScreen: React.FC = () => {
           />
         </div>
 
-        {/* Заголовок промпта */}
-        <div style={{
-          position: 'absolute',
-          left: '383px',
-          top: '1285px',
+            {/* Заголовок промпта */}
+            <div style={{
+              position: 'absolute',
+              left: '242px',
+              top: '833px',
           width: '414px',
           minHeight: '107px',
           display: 'flex',
@@ -321,55 +330,48 @@ export const PromptCardScreen: React.FC = () => {
           color: 'white',
           textAlign: 'center',
         }}>
-          {loading ? (
-            <p style={{ margin: 0, lineHeight: 1.2, fontSize: '32px', color: 'rgba(255,255,255,0.5)' }}>Загрузка...</p>
-          ) : error ? (
-            <p style={{ margin: 0, lineHeight: 1.2, fontSize: '24px', color: '#ff4444' }}>Ошибка</p>
-          ) : (
-            <p style={{ margin: 0, lineHeight: 1.2 }}>{promptTitle}</p>
-          )}
+          <p style={{ margin: 0, lineHeight: 1.2 }}>{promptTitle || ''}</p>
         </div>
 
-        {/* Prompt badge - 368:1126 */}
-        <img 
-          src={promptBadge}
-          alt="промпт"
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '467px',
-            top: '1435px',
+            {/* Prompt badge - 368:1126 */}
+            <img 
+              src={promptBadge}
+              alt="промпт"
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '326px',
+                top: '983px',
             width: '246.93px',
             height: '79.25px',
             objectFit: 'contain',
           }}
         />
 
-        {/* Текст промпта с onClick для копирования и скроллом */}
-        <div 
-          onClick={handleCopy}
-          style={{
-            position: 'absolute',
-            left: '192px',
-            top: '1540px',
-            width: '796px',
-            height: '390px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '35px',
-            lineHeight: 1.2,
-            color: 'white',
-            textAlign: 'center',
-            cursor: 'pointer',
-            overflowY: 'auto',
-            overflowX: 'hidden',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-            padding: '30px 20px',
-          }}>
-          <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
-            {promptText}
-          </p>
+            {/* Текст промпта с onClick для копирования */}
+            <div 
+              onClick={handleCopy}
+              style={{
+                position: 'absolute',
+                left: '51px',
+                top: '1088px',
+                width: '796px',
+                minHeight: '390px',
+                fontFamily: 'Gotham Pro',
+                fontWeight: 300,
+                fontSize: '35px',
+                lineHeight: 1.2,
+                color: 'white',
+                textAlign: 'center',
+                cursor: 'pointer',
+                padding: '30px 20px',
+                paddingBottom: '100px',
+              }}>
+              <p style={{ margin: 0, lineHeight: 1.2, whiteSpace: 'pre-wrap' }}>
+                {promptText}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Footer */}

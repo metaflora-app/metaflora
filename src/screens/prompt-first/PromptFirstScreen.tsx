@@ -599,20 +599,6 @@ export const PromptFirstScreen: React.FC = () => {
           padding: '22px',
         }}>
           {/* Рендерим отфильтрованные карточки */}
-          {/* Loading state */}
-          {loading && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '400px',
-              transform: 'translateX(-50%)',
-              color: 'white',
-              fontSize: '24px',
-              fontFamily: 'Gotham Pro',
-            }}>
-              Загрузка промптов...
-            </div>
-          )}
 
           {/* Error state */}
           {error && !loading && (
