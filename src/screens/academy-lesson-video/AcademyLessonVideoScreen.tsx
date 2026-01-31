@@ -233,6 +233,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             preload="metadata"
             poster={video?.video_url ? `${video.video_url}#t=0.1` : undefined}
             crossOrigin="anonymous"
+            webkit-playsinline="true"
+            x5-playsinline="true"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
