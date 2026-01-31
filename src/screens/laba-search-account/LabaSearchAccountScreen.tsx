@@ -10,6 +10,9 @@ import {
 } from '../../utils/labaApi';
 import { InstagramAccount } from '../../types/laba';
 
+// Components
+import { BlurAccountCard } from '../../components/BlurAccountCard';
+
 // Reused assets
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
@@ -430,21 +433,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
             }}
           />
 
-          {/* Horizontal blur frame during search */}
-          {searching && (
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '49px',
-              top: '533px',
-              width: '800px',
-              height: '400px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.5)',
-              border: '4px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '30px',
-              animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            }} />
-          )}
+          {/* BlurAccountCard during search */}
+          {searching && <BlurAccountCard />}
 
           {/* "результат" - ВСЕГДА показываем */}
           <div style={{
