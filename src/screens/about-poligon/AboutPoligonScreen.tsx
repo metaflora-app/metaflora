@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Images
@@ -7,13 +7,12 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
-import playIcon from '../../assets/tour-video/play-icon.png';
-import pauseIcon from '../../assets/tour-video/pause-icon.png';
-import expandIcon from '../../assets/tour-video/expand-icon.png';
+import playIcon from '../../assets/play-button.png';
 import serviceButton from '../../assets/about-screens/кнопка перейти к сервису.png';
 
 export const AboutPoligonScreen: React.FC = () => {
+  const [showOverlay, setShowOverlay] = useState(true);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
   const navigate = useNavigate();
 
   // Calculate scale based on viewport width (design width: 1180px)
@@ -113,7 +112,7 @@ export const AboutPoligonScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Видео блок (переиспользуется из tour-video) (24:245) */}
+        {/* Видео блок */}
         <div style={{
           position: 'absolute',
           left: '142px',
@@ -121,131 +120,61 @@ export const AboutPoligonScreen: React.FC = () => {
           width: '891px',
           height: '1457px',
         }}>
-          {/* Фоновое изображение видео */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '40px',
-            overflow: 'hidden',
-          }}>
-            <img 
-              src={videoThumbnail}
-              alt=""
-              style={{
+          <video
+            ref={videoRef}
+            controls={!showOverlay}
+            playsInline
+            preload="auto"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              backgroundColor: '#000',
+              borderRadius: '30px',
+            }}
+          >
+            <source src="" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+          {/* Blur overlay с прелоадом и кнопкой плей */}
+          {showOverlay && (
+            <>
+              {/* Блюр поверх видео */}
+              <div className="blur-wave" style={{
                 position: 'absolute',
                 inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-            />
-          </div>
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.3)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '30px',
+                overflow: 'clip',
+              }} />
 
-          {/* Blur слой поверх видео */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }}>
-            {/* Кнопка Play */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 52px)',
-              top: '621px',
-              width: '100px',
-              height: '100px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}>
+              {/* Кнопка плей */}
               <img 
                 src={playIcon}
-                alt="play"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
+                alt="плей"
+                onClick={() => {
+                  setShowOverlay(false);
+                  if (videoRef.current) {
+                    videoRef.current.play().catch(() => {});
+                  }
                 }}
-              />
-            </div>
-
-            {/* Кнопка Pause */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 52px)',
-              top: '731px',
-              width: '100px',
-              height: '100px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}>
-              <img 
-                src={pauseIcon}
-                alt="pause"
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            {/* Кнопка Expand - правый нижний угол (7:142) */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: '93.89% 1.57% 1.17% 90.35%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-            }}>
-              {/* Иконка развернуть */}
-              <div style={{
-                position: 'absolute',
-                left: '11px',
-                top: '11px',
-                width: '42px',
-                height: '42px',
-              }}>
-                <div style={{
                   position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={expandIcon}
-                    alt="развернуть"
-                    style={{
-                      position: 'absolute',
-                      height: '288.46%',
-                      left: '-164.28%',
-                      top: '-99.18%',
-                      width: '431.44%',
-                      maxWidth: 'none',
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '98px',
+                  height: '98px',
+                  cursor: 'pointer',
+                  objectFit: 'contain',
+                  zIndex: 20,
+                }}
+              />
+            </>
+          )}
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
