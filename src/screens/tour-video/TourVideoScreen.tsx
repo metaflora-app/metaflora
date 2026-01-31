@@ -144,7 +144,11 @@ export const TourVideoScreen: React.FC = () => {
             ref={videoRef}
             controls={!showOverlay}
             playsInline
-            preload="auto"
+            preload="metadata"
+            poster="/test-video-ios.mp4#t=0.1"
+            crossOrigin="anonymous"
+            webkit-playsinline="true"
+            x5-playsinline="true"
             style={{
               width: '100%',
               height: '100%',
