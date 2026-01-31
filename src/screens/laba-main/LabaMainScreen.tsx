@@ -355,7 +355,7 @@ export const LabaMainScreen: React.FC = () => {
       }}>
         {/* Header - Logo - REUSED */}
         <div 
-          onClick={() => navigate('/main-dashboard-premium')}
+          onClick={() => !loading && !searchLoading && navigate('/main-dashboard-premium')}
           style={{
             position: 'absolute',
             height: '131px',
@@ -395,7 +395,8 @@ export const LabaMainScreen: React.FC = () => {
             top: '97px',
             width: '205px',
             height: '78px',
-            cursor: 'pointer',
+            cursor: loading || searchLoading ? 'not-allowed' : 'pointer',
+            opacity: loading || searchLoading ? 0.5 : 1,
           }}
         />
 
@@ -471,7 +472,7 @@ onBlur={() => {
           <img 
             src={badgeStartSearch}
             alt="начать поиск"
-            onClick={handleSearch}
+            onClick={() => !loading && !searchLoading && handleSearch()}
             className="button-inner-glow"
             style={{
               position: 'absolute',
@@ -480,7 +481,8 @@ onBlur={() => {
               transform: 'translateX(-50%)',
               width: '130px',
               height: '72px',
-              cursor: 'pointer',
+              cursor: loading || searchLoading ? 'not-allowed' : 'pointer',
+              opacity: loading || searchLoading ? 0.5 : 1,
             }}
           />
         </div>

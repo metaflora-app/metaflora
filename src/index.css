@@ -113,7 +113,7 @@ input::placeholder {
   opacity: 1;
 }
 
-/* Blur wave animation - heavily optimized for battery */
+/* Blur wave animation - ОТКЛЮЧЕНА для экономии батареи */
 @keyframes blurWave {
   0%, 100% {
     backdrop-filter: blur(47px);
@@ -124,29 +124,29 @@ input::placeholder {
 }
 
 .blur-wave {
-  animation: blurWave 8s ease-in-out infinite;
+  /* animation: blurWave 8s ease-in-out infinite; - ОТКЛЮЧЕНО */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
-  will-change: backdrop-filter;
+  /* will-change: backdrop-filter; - ОТКЛЮЧЕНО */
 }
 
-/* Button/badge glow animation - optimized brightness */
+/* Button/badge glow animation - ЗАМЕДЛЕНА для экономии батареи */
 @keyframes buttonInnerGlow {
   0%, 100% {
     filter: brightness(1) contrast(1);
   }
   50% {
-    filter: brightness(1.35) contrast(1.05);
+    filter: brightness(1.2) contrast(1.02);
   }
 }
 
 .button-inner-glow {
-  animation: buttonInnerGlow 5s ease-in-out infinite;
+  animation: buttonInnerGlow 12s ease-in-out infinite;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
-  will-change: filter;
+  /* will-change: filter; - ОТКЛЮЧЕНО */
 }
 
 /* Card pulse animation - scale based */
