@@ -523,20 +523,22 @@ export const LabaSearchAccountScreen: React.FC = () => {
 
               {/* Instagram logo PNG (109:666) - показываем только если не searching */}
               {!searching && foundAccount && (
-          <img 
-            src={instaLogo}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '255px',
-              top: '613px',
-              width: '64px',
-              height: '78px',
-              opacity: 0.6,
-            }}
-          />
+              <img 
+                src={instaLogo}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  left: '255px',
+                  top: '613px',
+                  width: '64px',
+                  height: '78px',
+                  opacity: 0.6,
+                }}
+              />
+              )}
 
               {/* Username - выровнен по лого */}
+              {!searching && foundAccount && (
               <div style={{
                 position: 'absolute',
                 left: '255px',
@@ -550,8 +552,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
               }}>
                 @{foundAccount.username}
               </div>
+              )}
 
               {/* Followers - выровнен по лого */}
+              {!searching && foundAccount && (
               <div style={{
                 position: 'absolute',
                 left: '255px',
@@ -565,7 +569,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               }}>
                 {foundAccount.followersCount.toLocaleString()} подписчиков
               </div>
-
+              )}
             </>
           )}
 
