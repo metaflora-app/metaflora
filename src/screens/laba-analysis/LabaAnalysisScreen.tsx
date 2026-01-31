@@ -24,7 +24,7 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 
 // Analysis-specific assets
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
-import followButtonPNG from '../../assets/laba-analysis/кнопка следить.png';
+import followButtonPNG from '../../assets/laba-analysis/кнопка следить активирована.png';
 import unfollowButtonPNG from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 import startAnalysisButtonPNG from '../../assets/laba-analysis/поменьше кнопка начать анализ.png';
 import createScenarioButtonPNG from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
@@ -820,23 +820,11 @@ export const LabaAnalysisScreen: React.FC = () => {
                   </div>
                 )}
 
-                {/* BlurAnalysisCard ТОЛЬКО для блока сценария */}
+                {/* BlurAnalysisCard ТОЛЬКО для блока сценария БЕЗ заголовка */}
                 {generatingScenario && (
                   <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
                     marginTop: '20px',
                   }}>
-                    <div style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontWeight: 700,
-                      fontSize: '40px',
-                      color: 'white',
-                      lineHeight: '46px',
-                    }}>
-                      новый сценарий
-                    </div>
                     <BlurAnalysisCard />
                   </div>
                 )}
@@ -869,30 +857,36 @@ export const LabaAnalysisScreen: React.FC = () => {
             )}
           </div>
 
-          {/* Button "следить" / "не следить" - 292:694 */}
-          <img
-            src={isFollowing ? unfollowButtonPNG : followButtonPNG}
-            alt={isFollowing ? 'не следить' : 'следить'}
-            onClick={() => {
-              setIsFollowing(!isFollowing);
-              const message = !isFollowing ? 'теперь вы отслеживаете данный профиль' : 'вы больше не отслеживаете данный профиль';
-              
-              if (window.Telegram?.WebApp?.showPopup) {
-                window.Telegram.WebApp.showPopup({
-                  message: `${message}\n\n(не закрывайте окно, иначе действие может прерваться)`
-                });
-              }
-            }}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '602px',
-              top: '854px',
-              width: '246.93px',
-              height: '79.25px',
-              cursor: 'pointer',
-            }}
-          />
+          {/* Button "следить" / "не следить" - 292:694 - С BLUR-WAVE */}
+          <div className="blur-wave" style={{
+            position: 'absolute',
+            left: '602px',
+            top: '854px',
+            width: '246.93px',
+            height: '79.25px',
+          }}>
+            <img
+              src={isFollowing ? unfollowButtonPNG : followButtonPNG}
+              alt={isFollowing ? 'не следить' : 'следить'}
+              onClick={() => {
+                setIsFollowing(!isFollowing);
+                const message = !isFollowing 
+                  ? 'аккаунт добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов' 
+                  : 'вы больше не отслеживаете данный профиль';
+                
+                if (window.Telegram?.WebApp?.showPopup) {
+                  window.Telegram.WebApp.showPopup({
+                    message: message
+                  });
+                }
+              }}
+              style={{
+                width: '100%',
+                height: '100%',
+                cursor: 'pointer',
+              }}
+            />
+          </div>
 
           {/* Button "открыть" - 292:742 */}
           <img

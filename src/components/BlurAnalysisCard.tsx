@@ -17,7 +17,7 @@ export const BlurAnalysisCard: React.FC = () => {
     }}>
       {/* Виральность - заголовок + текст */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div className="blur-wave" style={{
+        <div style={{
           width: '200px',
           height: '36px',
           backdropFilter: 'blur(30px)',
@@ -25,8 +25,9 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.15)',
           borderRadius: '10px',
           boxShadow: '0 4px 16px 0 rgba(255, 255, 255, 0.1)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
-        <div className="blur-wave" style={{
+        <div style={{
           width: '100%',
           height: '80px',
           backdropFilter: 'blur(30px)',
@@ -34,12 +35,13 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.12)',
           borderRadius: '12px',
           boxShadow: '0 4px 12px 0 rgba(255, 255, 255, 0.08)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
       </div>
 
       {/* Хук - заголовок + текст */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div className="blur-wave" style={{
+        <div style={{
           width: '120px',
           height: '36px',
           backdropFilter: 'blur(30px)',
@@ -47,8 +49,9 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.15)',
           borderRadius: '10px',
           boxShadow: '0 4px 16px 0 rgba(255, 255, 255, 0.1)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
-        <div className="blur-wave" style={{
+        <div style={{
           width: '100%',
           height: '80px',
           backdropFilter: 'blur(30px)',
@@ -56,12 +59,13 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.12)',
           borderRadius: '12px',
           boxShadow: '0 4px 12px 0 rgba(255, 255, 255, 0.08)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
       </div>
 
       {/* Транскрибация - заголовок + текст */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div className="blur-wave" style={{
+        <div style={{
           width: '240px',
           height: '36px',
           backdropFilter: 'blur(30px)',
@@ -69,8 +73,9 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.15)',
           borderRadius: '10px',
           boxShadow: '0 4px 16px 0 rgba(255, 255, 255, 0.1)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
-        <div className="blur-wave" style={{
+        <div style={{
           width: '100%',
           height: '120px',
           backdropFilter: 'blur(30px)',
@@ -78,12 +83,13 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.12)',
           borderRadius: '12px',
           boxShadow: '0 4px 12px 0 rgba(255, 255, 255, 0.08)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
       </div>
 
       {/* Суть видео - заголовок + текст */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div className="blur-wave" style={{
+        <div style={{
           width: '180px',
           height: '36px',
           backdropFilter: 'blur(30px)',
@@ -91,8 +97,9 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.15)',
           borderRadius: '10px',
           boxShadow: '0 4px 16px 0 rgba(255, 255, 255, 0.1)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
-        <div className="blur-wave" style={{
+        <div style={{
           width: '100%',
           height: '100px',
           backdropFilter: 'blur(30px)',
@@ -100,6 +107,7 @@ export const BlurAnalysisCard: React.FC = () => {
           border: '3px solid rgba(255, 255, 255, 0.12)',
           borderRadius: '12px',
           boxShadow: '0 4px 12px 0 rgba(255, 255, 255, 0.08)',
+          animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         }} />
       </div>
     </div>

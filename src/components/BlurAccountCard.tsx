@@ -14,8 +14,8 @@ export const BlurAccountCard: React.FC = () => {
       width: '800px',
       height: '190px',
     }}>
-      {/* Аватарка - круглый блюр с градиентом и анимацией */}
-      <div className="blur-wave" style={{
+      {/* Аватарка - круглый блюр с градиентом и pulse анимацией */}
+      <div style={{
         position: 'absolute',
         left: 0,
         top: 0,
@@ -26,10 +26,11 @@ export const BlurAccountCard: React.FC = () => {
         background: 'linear-gradient(135deg, rgba(120, 120, 120, 0.4) 0%, rgba(80, 80, 80, 0.3) 100%)',
         border: '4px solid rgba(255, 255, 255, 0.2)',
         boxShadow: '0 8px 32px 0 rgba(255, 255, 255, 0.15)',
+        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }} />
 
-      {/* Instagram logo - блюр с градиентом и анимацией */}
-      <div className="blur-wave" style={{
+      {/* Instagram logo - блюр с градиентом и pulse анимацией */}
+      <div style={{
         position: 'absolute',
         left: '255px',
         top: '7px',
@@ -40,10 +41,11 @@ export const BlurAccountCard: React.FC = () => {
         border: '3px solid rgba(255, 255, 255, 0.18)',
         borderRadius: '12px',
         boxShadow: '0 4px 16px 0 rgba(255, 255, 255, 0.12)',
+        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }} />
 
-      {/* Username - блюр линия с градиентом и анимацией (толще) */}
-      <div className="blur-wave" style={{
+      {/* Username - блюр линия с градиентом и pulse анимацией (толще) */}
+      <div style={{
         position: 'absolute',
         left: '255px',
         top: '95px',
@@ -54,10 +56,11 @@ export const BlurAccountCard: React.FC = () => {
         border: '3px solid rgba(255, 255, 255, 0.15)',
         borderRadius: '12px',
         boxShadow: '0 4px 16px 0 rgba(255, 255, 255, 0.1)',
+        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }} />
 
-      {/* Followers - блюр линия с градиентом и анимацией (толще) */}
-      <div className="blur-wave" style={{
+      {/* Followers - блюр линия с градиентом и pulse анимацией (толще) */}
+      <div style={{
         position: 'absolute',
         left: '255px',
         top: '152px',
@@ -68,6 +71,7 @@ export const BlurAccountCard: React.FC = () => {
         border: '3px solid rgba(255, 255, 255, 0.12)',
         borderRadius: '10px',
         boxShadow: '0 4px 12px 0 rgba(255, 255, 255, 0.08)',
+        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }} />
     </div>
   );

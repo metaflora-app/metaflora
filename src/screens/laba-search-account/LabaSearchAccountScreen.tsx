@@ -125,24 +125,40 @@ export const LabaSearchAccountScreen: React.FC = () => {
       return;
     }
     
-    try {
-      setTracking(true);
-      await trackAccount(foundAccount.username, userId);
-      
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: 'аккаунт добавлен в отслеживаемые'
-        });
-      }
-      
-      navigate('/laba-tracked');
-    } catch (error: any) {
-      console.error('Ошибка отслеживания:', error);
-      if ((window as any).Telegram?.WebApp?.showAlert) {
-        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
-      }
-    } finally {
-      setTracking(false);
+    // Показываем попап ПЕРЕД отслеживанием
+    if ((window as any).Telegram?.WebApp?.showPopup) {
+      (window as any).Telegram.WebApp.showPopup({
+        message: 'добавляем аккаунт в отслеживаемые...\n\nэто может занять 10-20 секунд\nнажмите ок и дождитесь загрузки',
+        buttons: [
+          {
+            id: 'start_tracking',
+            type: 'default',
+            text: 'ок'
+          }
+        ]
+      }, async (buttonId: string) => {
+        if (buttonId === 'start_tracking') {
+          try {
+            setTracking(true);
+            await trackAccount(foundAccount.username, userId);
+            
+            if (window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: 'аккаунт добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов'
+              });
+            }
+            
+            navigate('/laba-tracked');
+          } catch (error: any) {
+            console.error('Ошибка отслеживания:', error);
+            if ((window as any).Telegram?.WebApp?.showAlert) {
+              (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
+            }
+          } finally {
+            setTracking(false);
+          }
+        }
+      });
     }
   };
 
@@ -561,7 +577,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 {foundAccount.followersCount.toLocaleString()} подписчиков
               </div>
               )}
-              {/* Tracking button (109:677) */}
+              {/* Tracking button (109:677) - БЕЗ ИЗМЕНЕНИЯ ЦВЕТА */}
               <img 
                 src={trackingButton}
                 alt="начать отслеживание"
@@ -573,8 +589,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   top: '864px',
                   width: '530px',
                   height: '139px',
-                  cursor: tracking ? 'wait' : 'pointer',
-                  opacity: tracking ? 0.6 : 1,
+                  cursor: 'pointer',
                 }}
               />
 
