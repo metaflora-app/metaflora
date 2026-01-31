@@ -29,8 +29,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   
   const videoRef = React.useRef<HTMLVideoElement>(null);
   
-  // Проверяем был ли уже показан блюр для этого урока (из Supabase)
+  // Сбрасываем блюр при каждом монтировании компонента
   useEffect(() => {
+    setShowOverlay(true);
+    
+    // Проверяем был ли уже показан блюр для этого урока (из Supabase)
     const checkVideoViewed = async () => {
       const userId = getTelegramUserId();
       if (!userId || !lessonId) return;
@@ -227,25 +230,13 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             ref={videoRef}
             controls={!showOverlay}
             playsInline
-            preload="auto"
+            preload="metadata"
             poster={video?.video_url ? `${video.video_url}#t=0.1` : undefined}
+            crossOrigin="anonymous"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
             }}
-            onPause={() => {
-              // НЕ показываем блюр при паузе - только один раз при первом заходе
-            }}
-            onError={(e) => {
-              console.error('[VIDEO ERROR]', e);
-              console.error('[VIDEO URL]', video?.video_url);
-              console.error('[VIDEO READYSTATE]', videoRef.current?.readyState);
-              console.error('[VIDEO NETWORKERROR]', videoRef.current?.error);
-            }}
-            onLoadStart={() => console.log('[VIDEO] Load start:', video?.video_url)}
-            onLoadedMetadata={() => console.log('[VIDEO] Metadata loaded')}
-            onCanPlay={() => console.log('[VIDEO] Can play')}
-            onWaiting={() => console.log('[VIDEO] Waiting for data...')}
             style={{
               width: '100%',
               height: '100%',

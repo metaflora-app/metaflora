@@ -15,6 +15,11 @@ export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
   const [showOverlay, setShowOverlay] = useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  
+  // Сбрасываем блюр при каждом монтировании
+  React.useEffect(() => {
+    setShowOverlay(true);
+  }, []);
 
   // Check if user is premium and redirect
   React.useEffect(() => {

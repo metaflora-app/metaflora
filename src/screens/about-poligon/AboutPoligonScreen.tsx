@@ -11,9 +11,14 @@ import playIcon from '../../assets/play-button.png';
 import serviceButton from '../../assets/about-screens/кнопка перейти к сервису.png';
 
 export const AboutPoligonScreen: React.FC = () => {
+  const navigate = useNavigate();
   const [showOverlay, setShowOverlay] = useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const navigate = useNavigate();
+  
+  // Сбрасываем блюр при каждом монтировании
+  React.useEffect(() => {
+    setShowOverlay(true);
+  }, []);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
