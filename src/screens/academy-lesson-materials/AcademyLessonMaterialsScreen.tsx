@@ -292,6 +292,8 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               <img
                 src={block.content}
                 alt="Изображение"
+                crossOrigin="anonymous"
+                loading="lazy"
                 style={{
                   width: '100%',
                   height: 'auto',

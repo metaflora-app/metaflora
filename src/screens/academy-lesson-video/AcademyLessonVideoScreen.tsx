@@ -231,10 +231,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             controls={!showOverlay}
             playsInline
             preload="metadata"
-            poster={video?.video_url ? `${video.video_url}#t=0.1` : undefined}
+            poster={(video?.video_url || '/test-video-ios.mp4') + '#t=0.1'}
             crossOrigin="anonymous"
             webkit-playsinline="true"
             x5-playsinline="true"
+            x-webkit-airplay="allow"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
@@ -247,7 +248,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               borderRadius: '30px',
             }}
           >
-            <source src={video?.video_url || ''} type="video/mp4" />
+            <source src={video?.video_url || '/test-video-ios.mp4'} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
 

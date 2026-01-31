@@ -88,22 +88,15 @@ export const LabaMainScreen: React.FC = () => {
   const [searchValue, setSearchValue] = React.useState('');
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
 
-  // Load top reels on mount (только если кэш пустой)
+  // Load top reels on mount (ВСЕГДА загружаем свежие данные)
   React.useEffect(() => {
-    if (labaReelsCache.length > 0) {
-      // Восстанавливаем из кэша
-      setLoading(false);
-      setReels(labaReelsCache);
-      return;
-    }
-    
     const fetchTopReels = async () => {
       try {
         setLoading(true);
         const topReels = await getTopReels('нейросети');
-        // Показываем все топ reels
+        console.log(`📊 Загружено ${topReels.length} топ reels`);
         setReels(topReels);
-        setLabaReelsCache(topReels); // Сохраняем в кэш
+        setLabaReelsCache(topReels);
       } catch (error) {
         console.error('Ошибка загрузки топ reels:', error);
         showMessage('ошибка загрузки топ reels', 'alert');
@@ -113,7 +106,7 @@ export const LabaMainScreen: React.FC = () => {
     };
     
     fetchTopReels();
-  }, [labaReelsCache.length, setLabaReelsCache]);
+  }, [setLabaReelsCache]);
   
   // Сохраняем reels в кэш при изменении
   React.useEffect(() => {
