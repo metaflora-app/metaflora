@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
+import { getLessonProgress, updateLessonProgress, wasVideoViewed, markVideoViewed } from '../../utils/userProgress';
+import { getTelegramUserId } from '../../utils/labaApi';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 
 // Images
@@ -23,15 +25,22 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
-  
-  // Проверяем был ли уже показан блюр для этого урока
-  const [showOverlay, setShowOverlay] = useState(() => {
-    if (!lessonId) return true;
-    const viewedKey = `video-viewed-${lessonId}`;
-    return !localStorage.getItem(viewedKey);
-  });
+  const [showOverlay, setShowOverlay] = useState(true);
   
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  
+  // Проверяем был ли уже показан блюр для этого урока (из Supabase)
+  useEffect(() => {
+    const checkVideoViewed = async () => {
+      const userId = getTelegramUserId();
+      if (!userId || !lessonId) return;
+      
+      const viewed = await wasVideoViewed(userId, lessonId);
+      setShowOverlay(!viewed);
+    };
+    
+    checkVideoViewed();
+  }, [lessonId]);
 
 
   useEffect(() => {
@@ -42,31 +51,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     }
   }, [lessonId]);
 
-  const checkLessonCompletion = (id: string) => {
-    const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
-    const lessonProgress = progressData[id];
-    
-    if (lessonProgress?.videoWatched && lessonProgress?.materialsRead) {
-      const completed = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
-      if (!completed.includes(id)) {
-        completed.push(id);
-        localStorage.setItem('academy-lessons-completed', JSON.stringify(completed));
-      }
-    }
-  };
-
-  const handleVideoProgress = () => {
+  const handleVideoProgress = async () => {
     if (!videoRef.current || !lessonId || lessonType !== 'academy') return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) return;
     
     if (videoRef.current.duration) {
       const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
       
       if (progress >= 80) {
-        const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
-        if (!progressData[lessonId]) progressData[lessonId] = {};
-        progressData[lessonId].videoWatched = true;
-        localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
-        checkLessonCompletion(lessonId);
+        await updateLessonProgress(userId, lessonId, { videoWatched: true });
       }
     }
   };
@@ -281,11 +276,12 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               <img 
                 src={playIcon}
                 alt="плей"
-                onClick={() => {
+                onClick={async () => {
                   setShowOverlay(false);
-                  // Сохраняем что видео было просмотрено
-                  if (lessonId) {
-                    localStorage.setItem(`video-viewed-${lessonId}`, 'true');
+                  // Сохраняем что видео было просмотрено (в Supabase)
+                  const userId = getTelegramUserId();
+                  if (lessonId && userId) {
+                    await markVideoViewed(userId, lessonId);
                   }
                   if (videoRef.current) {
                     videoRef.current.play().catch(() => {});

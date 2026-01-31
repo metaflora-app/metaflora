@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
+import { getCompletedLessons } from '../../utils/userProgress';
+import { getTelegramUserId } from '../../utils/labaApi';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -53,8 +55,11 @@ export const AcademyCoursesAllScreen: React.FC = () => {
 
   const calculateProgress = async () => {
     try {
+      const userId = getTelegramUserId();
+      if (!userId) return;
+      
       const courseTypes = ['искусство', 'промптинг', 'система', 'автоматизация'];
-      const completedLessonIds = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
+      const completedLessonIds = await getCompletedLessons(userId);
       
       let total = 0;
       const statuses: {[key: string]: 'not_started' | 'in_progress' | 'completed'} = {};

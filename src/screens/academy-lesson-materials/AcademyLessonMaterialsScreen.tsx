@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getDemoLessonById } from '../../utils/contentApi';
+import { updateLessonProgress } from '../../utils/userProgress';
+import { getTelegramUserId } from '../../utils/labaApi';
 import type { AcademyLesson } from '../../types/content';
 
 // Images
@@ -26,21 +28,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
-  const checkLessonCompletion = (id: string) => {
-    const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
-    const lessonProgress = progressData[id];
-    
-    if (lessonProgress?.videoWatched && lessonProgress?.materialsRead) {
-      const completed = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
-      if (!completed.includes(id)) {
-        completed.push(id);
-        localStorage.setItem('academy-lessons-completed', JSON.stringify(completed));
-      }
-    }
-  };
-
-  const handleScroll = () => {
+  const handleScroll = async () => {
     if (!scrollRef.current || !lessonId || lessonType !== 'academy') return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) return;
     
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
     
@@ -49,11 +41,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
     const scrollPercent = ((scrollTop + clientHeight) / scrollHeight) * 100;
     
     if (!hasScroll || scrollPercent >= 95) {
-      const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
-      if (!progressData[lessonId]) progressData[lessonId] = {};
-      progressData[lessonId].materialsRead = true;
-      localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
-      checkLessonCompletion(lessonId);
+      await updateLessonProgress(userId, lessonId, { materialsRead: true });
     }
   };
 

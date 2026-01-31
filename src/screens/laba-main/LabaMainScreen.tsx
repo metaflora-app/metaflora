@@ -451,7 +451,7 @@ onBlur={() => {
                 handleSearch();
               }
             }}
-            placeholder={isSearchFocused ? '' : 'найти видео по ключевым словам'}
+            placeholder={isSearchFocused ? '' : 'найти видео по ключевому слову'}
             enterKeyHint="search"
             style={{
               position: 'absolute',
