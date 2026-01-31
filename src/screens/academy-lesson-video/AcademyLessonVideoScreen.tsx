@@ -11,6 +11,7 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
 import playIcon from '../../assets/play-button.png';
+import expandVideoButton from '../../assets/экран-с-экскурсией/кнопка развернуть видео.png';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -59,6 +60,21 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         progressData[lessonId].videoWatched = true;
         localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
         checkLessonCompletion(lessonId);
+      }
+    }
+  };
+
+  const handleExpandVideo = () => {
+    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
+      const tg = (window as any).Telegram.WebApp;
+      
+      // Пробуем использовать requestFullscreen() если доступен (для разворачивания на весь экран мини-аппа)
+      if (tg.requestFullscreen && typeof tg.requestFullscreen === 'function') {
+        tg.requestFullscreen();
+      } 
+      // Fallback на expand() для разворачивания на максимальную высоту
+      else if (tg.expand && typeof tg.expand === 'function') {
+        tg.expand();
       }
     }
   };
@@ -281,6 +297,40 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               />
             </>
           )}
+
+          {/* Кнопка развернуть видео */}
+          <div style={{
+            position: 'absolute',
+            bottom: '40px',
+            right: '40px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '12px',
+            zIndex: 10,
+          }}>
+            <img 
+              src={expandVideoButton}
+              alt="развернуть видео"
+              onClick={handleExpandVideo}
+              style={{
+                width: '80px',
+                height: '80px',
+                cursor: 'pointer',
+                objectFit: 'contain',
+              }}
+            />
+            <div style={{
+              fontFamily: 'Gotham Pro',
+              fontWeight: 400,
+              fontSize: '24px',
+              color: 'white',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+            }}>
+              развернуть на весь экран
+            </div>
+          </div>
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}

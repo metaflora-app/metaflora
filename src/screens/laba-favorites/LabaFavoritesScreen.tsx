@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // API and types
-import { getFavorites, toggleFavorite, getTelegramUserId } from '../../utils/labaApi';
+import { getFavorites, toggleFavorite, getTelegramUserId, convertInstagramImageUrl } from '../../utils/labaApi';
 import { Reel } from '../../types/laba';
 import { ReelCard } from '../../components/ReelCard';
 
@@ -105,6 +105,35 @@ export const LabaFavoritesScreen: React.FC = () => {
     
     fetchFavorites();
   }, []);
+
+  // Предзагрузка изображений (обложки и аватарок) через convertInstagramImageUrl
+  React.useEffect(() => {
+    if (reels.length === 0) return;
+
+    reels.forEach((reel) => {
+      // Предзагрузка обложки через прокси с crossOrigin="anonymous"
+      const coverUrl = convertInstagramImageUrl(reel.coverImageUrl);
+      if (coverUrl) {
+        const coverImg = new Image();
+        coverImg.crossOrigin = 'anonymous';
+        coverImg.src = coverUrl;
+        coverImg.onerror = () => {
+          console.error('[PRELOAD COVER] ❌ Ошибка предзагрузки обложки:', coverUrl);
+        };
+      }
+
+      // Предзагрузка аватарки профиля через прокси
+      const avatarUrl = convertInstagramImageUrl(reel.accountProfilePicUrl);
+      if (avatarUrl) {
+        const avatarImg = new Image();
+        avatarImg.crossOrigin = 'anonymous';
+        avatarImg.src = avatarUrl;
+        avatarImg.onerror = () => {
+          console.error('[PRELOAD AVATAR] ❌ Ошибка предзагрузки аватарки:', avatarUrl);
+        };
+      }
+    });
+  }, [reels]);
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {

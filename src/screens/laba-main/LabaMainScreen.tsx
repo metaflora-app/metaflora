@@ -13,6 +13,7 @@ import {
 } from '../../utils/labaApi';
 import { Reel } from '../../types/laba';
 import { ReelCard } from '../../components/ReelCard';
+import { BlurReelCard } from '../../components/BlurReelCard';
 import { useUIState } from '../../contexts/UIStateContext';
 
 // REUSED from prompt-first screen
@@ -74,6 +75,8 @@ export const LabaMainScreen: React.FC = () => {
   const [reels, setReels] = React.useState<Reel[]>(labaReelsCache);
   const [loading, setLoading] = React.useState(labaReelsCache.length === 0);
   const [searchLoading, setSearchLoading] = React.useState(false);
+  const [showBlurCards, setShowBlurCards] = React.useState(false);
+  const [loadedReelsCount, setLoadedReelsCount] = React.useState(0);
   
   // UI state
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
@@ -163,6 +166,11 @@ export const LabaMainScreen: React.FC = () => {
       }, async (buttonId: string) => {
         // Функция запускается ТОЛЬКО после нажатия ОК
         if (buttonId === 'start_search') {
+          // СРАЗУ показываем 40 блюр-карточек
+          setShowBlurCards(true);
+          setLoadedReelsCount(0);
+          setReels([]);
+          
           try {
             setSearchLoading(true);
             const foundReels = await searchReels(keyword, userId);
@@ -170,29 +178,49 @@ export const LabaMainScreen: React.FC = () => {
             // Показываем результат
             if ((window as any).Telegram?.WebApp?.showPopup) {
               if (foundReels.length === 0) {
+                setShowBlurCards(false);
                 (window as any).Telegram.WebApp.showPopup({
                   message: 'ничего не найдено\n\nпопробуйте другое ключевое слово'
                 }, () => {
-                  // ОЧИЩАЕМ ПОЛЕ ПОСЛЕ ЗАКРЫТИЯ POPUP
                   setSearchValue('');
                 });
               } else {
-                setReels(foundReels);
+                // Прогрессивная загрузка по 20% (8 reels за раз из 40)
+                const chunkSize = Math.ceil(foundReels.length * 0.2);
+                let currentIndex = 0;
+                
+                const loadNextChunk = () => {
+                  if (currentIndex < foundReels.length) {
+                    const nextChunk = foundReels.slice(currentIndex, currentIndex + chunkSize);
+                    setReels(prev => [...prev, ...nextChunk]);
+                    setLoadedReelsCount(prev => prev + nextChunk.length);
+                    currentIndex += chunkSize;
+                    
+                    // Загружаем следующий чунк через 300ms
+                    setTimeout(loadNextChunk, 300);
+                  } else {
+                    // Все загружено - убираем лишние блюр-карточки
+                    setShowBlurCards(false);
+                  }
+                };
+                
+                // Запускаем загрузку
+                loadNextChunk();
+                
                 (window as any).Telegram.WebApp.showPopup({
                   message: 'reels успешно найдены'
                 }, () => {
-                  // ОЧИЩАЕМ ПОЛЕ ПОСЛЕ ЗАКРЫТИЯ POPUP
                   setSearchValue('');
                 });
               }
             }
           } catch (error: any) {
             console.error('Ошибка поиска:', error);
+            setShowBlurCards(false);
             if ((window as any).Telegram?.WebApp?.showPopup) {
               (window as any).Telegram.WebApp.showPopup({
                 message: error.message || 'ошибка поиска\n\nпопробуйте позже'
               }, () => {
-                // ОЧИЩАЕМ ПОЛЕ ПОСЛЕ ЗАКРЫТИЯ POPUP
                 setSearchValue('');
               });
             }
@@ -324,7 +352,12 @@ export const LabaMainScreen: React.FC = () => {
       }}>
         {/* Header - Logo - REUSED */}
         <div 
-          onClick={() => navigate('/main-dashboard-premium')}
+          onClick={() => {
+            // Очищаем результаты поиска при выходе на главную
+            setReels([]);
+            setLabaReelsCache([]);
+            navigate('/main-dashboard-premium');
+          }}
           style={{
             position: 'absolute',
             height: '131px',
@@ -632,10 +665,17 @@ onBlur={() => {
           overflowX: 'hidden',
           overflowY: 'auto',
           zIndex: 10,
-          opacity: loading ? 0 : 1,
-          transition: 'opacity 0.3s ease-in-out',
         }}>
-          {/* Reels cards - Dynamic rendering */}
+          {/* Blur placeholder cards - показываем 40 штук пока идет загрузка */}
+          {showBlurCards && Array.from({ length: 40 }).map((_, index) => {
+            // Показываем блюр-карточку только если reel еще не загружен
+            if (index >= reels.length) {
+              return <BlurReelCard key={`blur-${index}`} index={index} />;
+            }
+            return null;
+          })}
+          
+          {/* Reels cards - Dynamic rendering с прогрессивной загрузкой */}
           {reels.map((reel, index) => (
             <ReelCard
               key={reel.id}

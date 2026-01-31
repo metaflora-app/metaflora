@@ -262,7 +262,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         left: '9.02%',
         right: '9.51%',
         top: '67.26%',
-        bottom: '27.37%',
+        bottom: '24%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
