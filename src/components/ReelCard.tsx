@@ -293,11 +293,10 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
 
       {/* Кнопка "следить" убрана - аккаунт уже отслеживается */}
 
-      {/* Analysis button */}
+      {/* Analysis button - ПОВЕРХ ВСЕХ СЛОЕВ */}
       <img
         src={analysisButtonPNG}
         alt="анализ"
-        className="button-inner-glow"
         onClick={(e) => {
           e.stopPropagation();
           navigate('/laba-analysis', { state: { reel } });
@@ -310,7 +309,8 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
           width: '248px',
           height: '79px',
           cursor: 'pointer',
-          zIndex: 99999,
+          zIndex: 999999,
+          pointerEvents: 'auto',
         }}
       />
 
