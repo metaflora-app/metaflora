@@ -280,14 +280,6 @@ export const ArticleScreen: React.FC = () => {
                 alt="Изображение"
                 loading="eager"
                 crossOrigin="anonymous"
-                onError={(e) => {
-                  console.error('[IMAGE ERROR]', e);
-                  console.error('[IMAGE URL]', block.content);
-                  const img = e.target as HTMLImageElement;
-                  img.style.border = '2px solid rgba(255, 0, 0, 0.3)';
-                  img.style.opacity = '0.5';
-                }}
-                onLoad={() => console.log('[IMAGE] Loaded:', block.content)}
                 style={{
                   width: '100%',
                   height: 'auto',
