@@ -95,8 +95,8 @@ export const LabaTrackedScreen: React.FC = () => {
       
       try {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
-        // Limit to 50 cards for GPU performance
-        setReels(accountReels.slice(0, 50));
+        // No limit - render all cards with optimized performance
+        setReels(accountReels);
       } catch (error) {
         console.error('Ошибка загрузки reels:', error);
       }
