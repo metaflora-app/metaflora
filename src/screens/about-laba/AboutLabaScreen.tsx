@@ -13,69 +13,21 @@ import pauseButton from '../../assets/tour-video/pause-icon.png';
 
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [showControls, setShowControls] = useState(true);
-  const playerRef = useRef<any>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const [showPlayButton, setShowPlayButton] = useState(true);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Инициализация Kinescope Player API
-  useEffect(() => {
-    // Загружаем Kinescope Player API
-    const script = document.createElement('script');
-    script.src = 'https://player.kinescope.io/latest/iframe.api.js';
-    script.async = true;
-    document.body.appendChild(script);
+  // Простое управление - клик на кнопку скрывает её и позволяет кликнуть на iframe
+  const handlePlayClick = () => {
+    setShowPlayButton(false);
+  };
 
-    script.onload = () => {
-      // Ждем пока iframe загрузится
-      setTimeout(() => {
-        if (iframeRef.current && (window as any).Kinescope) {
-          try {
-            playerRef.current = (window as any).Kinescope.IframePlayer(iframeRef.current);
-            
-            // Слушаем события плеера
-            playerRef.current.on('playing', () => {
-              setIsPlaying(true);
-              setShowControls(false);
-            });
-            
-            playerRef.current.on('pause', () => {
-              setIsPlaying(false);
-              setShowControls(true);
-            });
-            
-            playerRef.current.on('ended', () => {
-              setIsPlaying(false);
-              setShowControls(true);
-            });
-          } catch (error) {
-            console.error('Ошибка инициализации Kinescope Player:', error);
-          }
-        }
-      }, 1000);
-    };
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  // Управление видео через Kinescope Player API
-  const handlePlayPause = () => {
-    if (!playerRef.current) return;
-    
-    try {
-      if (isPlaying) {
-        playerRef.current.pause();
-      } else {
-        playerRef.current.play();
-        setShowControls(false);
-      }
-    } catch (error) {
-      console.error('Ошибка управления видео:', error);
+  // Показываем кнопку обратно если кликнули на контейнер когда видео на паузе
+  const handleContainerClick = () => {
+    if (!showPlayButton) {
+      setShowPlayButton(true);
     }
   };
 
@@ -174,16 +126,21 @@ export const AboutLabaScreen: React.FC = () => {
         </div>
 
         {/* Видео блок с Kinescope iframe - с правильным aspect ratio */}
-        <div style={{
-          position: 'absolute',
-          left: '142px',
-          top: '401px',
-          width: '891px',
-          height: '1457px',
-          borderRadius: '30px',
-          overflow: 'hidden',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-        }}>
+        <div 
+          ref={videoContainerRef}
+          onClick={handleContainerClick}
+          style={{
+            position: 'absolute',
+            left: '142px',
+            top: '401px',
+            width: '891px',
+            height: '1457px',
+            borderRadius: '30px',
+            overflow: 'hidden',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            cursor: showPlayButton ? 'default' : 'pointer',
+          }}
+        >
           {/* Kinescope wrapper с padding-top для растягивания видео */}
           <div style={{
             position: 'relative',
@@ -192,8 +149,7 @@ export const AboutLabaScreen: React.FC = () => {
             height: 0,
           }}>
             <iframe 
-              ref={iframeRef}
-              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?api=1&token=e7dc4869-562f-492a-811b-506296b20fb7" 
+              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?token=e7dc4869-562f-492a-811b-506296b20fb7" 
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
               frameBorder="0" 
               allowFullScreen
@@ -203,27 +159,27 @@ export const AboutLabaScreen: React.FC = () => {
                 height: '100%',
                 top: 0,
                 left: 0,
+                pointerEvents: showPlayButton ? 'none' : 'auto',
               }}
             />
           </div>
           
-          {/* Кастомная кнопка Play/Pause - показывается только когда showControls = true */}
-          {showControls && (
+          {/* Кастомная кнопка Play - скрывается после клика */}
+          {showPlayButton && (
             <img
-              src={isPlaying ? pauseButton : playButton}
-              alt={isPlaying ? 'пауза' : 'плей'}
-              onClick={handlePlayPause}
+              src={playButton}
+              alt="плей"
+              onClick={handlePlayClick}
               className="button-inner-glow"
               style={{
                 position: 'absolute',
                 left: '50%',
                 top: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '120px',
-                height: '120px',
+                width: '150px',
+                height: '150px',
                 cursor: 'pointer',
                 zIndex: 1000,
-                transition: 'opacity 0.3s ease, transform 0.3s ease',
               }}
             />
           )}
