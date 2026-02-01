@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Images
@@ -8,12 +8,34 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import serviceButton from '../../assets/about-screens/кнопка перейти к сервису.png';
+import playButton from '../../assets/tour-video/play-icon.png';
+import pauseButton from '../../assets/tour-video/pause-icon.png';
 
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  // Управление видео через Kinescope API
+  const handlePlayPause = () => {
+    if (!iframeRef.current) return;
+    
+    try {
+      // Отправляем команду в iframe через postMessage
+      const command = isPlaying ? 'pause' : 'play';
+      iframeRef.current.contentWindow?.postMessage({
+        method: command,
+        value: null
+      }, '*');
+      
+      setIsPlaying(!isPlaying);
+    } catch (error) {
+      console.error('Ошибка управления видео:', error);
+    }
+  };
 
   return (
     <div style={{
@@ -128,7 +150,8 @@ export const AboutLabaScreen: React.FC = () => {
             height: 0,
           }}>
             <iframe 
-              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE" 
+              ref={iframeRef}
+              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?api=1" 
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
               frameBorder="0" 
               allowFullScreen
@@ -141,6 +164,26 @@ export const AboutLabaScreen: React.FC = () => {
               }}
             />
           </div>
+          
+          {/* Кастомная кнопка Play/Pause */}
+          <img
+            src={isPlaying ? pauseButton : playButton}
+            alt={isPlaying ? 'пауза' : 'плей'}
+            onClick={handlePlayPause}
+            className="button-inner-glow"
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '120px',
+              height: '120px',
+              cursor: 'pointer',
+              zIndex: 1000,
+              opacity: isPlaying ? 0.7 : 1,
+              transition: 'opacity 0.3s ease',
+            }}
+          />
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
