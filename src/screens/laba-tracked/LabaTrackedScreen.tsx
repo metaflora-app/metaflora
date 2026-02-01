@@ -514,14 +514,14 @@ export const LabaTrackedScreen: React.FC = () => {
         </div>
         )}
 
-        {/* Plus button to add new account - Figma: left calc(50%-399.5px) top calc(50%-669.5px) size 79x79 */}
+        {/* Кнопка + (плюс) - крайняя слева */}
         <div 
           onClick={() => navigate('/laba-search-account')}
           className="blur-wave button-inner-glow"
           style={{
             position: 'absolute',
-            left: 'calc(50% - 399.5px)',
-            top: 'calc(50% - 669.5px)',
+            left: '85px',
+            top: '566px',
             width: '79px',
             height: '79px',
             backdropFilter: 'blur(50px)',
@@ -536,7 +536,7 @@ export const LabaTrackedScreen: React.FC = () => {
           <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
         </div>
 
-        {/* Кнопка вернуть - по скрину слева от центра */}
+        {/* Кнопка вернуть - после плюса */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
@@ -547,16 +547,16 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '159px',
+            left: '184px',
             top: '566px',
             width: '247px',
-            height: '80px',
+            height: '79px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
 
-        {/* Кнопка сортировка - по центру */}
+        {/* Кнопка сортировка - в центре */}
         <img
           src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
           alt="сортировка"
@@ -564,10 +564,10 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '248px',
+            left: '451px',
             top: '566px',
-            width: '338px',
-            height: '80px',
+            width: '280px',
+            height: '79px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
@@ -576,10 +576,10 @@ export const LabaTrackedScreen: React.FC = () => {
         {/* Кнопка выбрать - справа */}
         <div style={{
           position: 'absolute',
-          left: '775px',
+          left: '751px',
           top: '566px',
           width: '247px',
-          height: '80px',
+          height: '79px',
         }}>
           <img
             src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
