@@ -6,7 +6,6 @@ import { formatCount, formatTimeAgo, convertInstagramImageUrl } from '../utils/l
 // Assets
 import newBadgePNG from '../assets/laba-main/плашка новое.png';
 import analysisButtonPNG from '../assets/laba-main/кнопка анализ.png';
-import trackingActivatedPNG from '../assets/laba-analysis/кнопка следить активирована.png';
 import playIcon from '../assets/tour-video/play-icon.png';
 import viewsIcon from '../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../assets/laba-icons/иконка лайки.png';
@@ -334,21 +333,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         </p>
       </div>
 
-      {/* Tracking activated button (серая, неактивная) */}
-      <img
-        src={trackingActivatedPNG}
-        alt="следить"
-        style={{
-          position: 'absolute',
-          top: '450px',
-          right: '30px',
-          width: '200px',
-          height: '60px',
-          objectFit: 'contain',
-          opacity: 0.6,
-          pointerEvents: 'none',
-        }}
-      />
+      {/* Кнопка "следить" убрана - аккаунт уже отслеживается */}
 
       {/* Analysis button */}
       <img

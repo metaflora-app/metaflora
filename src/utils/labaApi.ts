@@ -185,6 +185,33 @@ export async function trackAccount(username: string, userId: number): Promise<{
 }
 
 /**
+ * Скрапинг reels для отслеживаемого аккаунта
+ */
+export async function scrapeAccountReels(accountId: string, userId: number): Promise<{
+  reelsAdded: number;
+  showPopup?: boolean;
+  popupMessage?: string;
+}> {
+  const response = await fetch(`${API_URL}/api/laba/scrape-account-reels`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ accountId, userId }),
+  });
+
+  const data = await response.json();
+
+  if (!data.success) {
+    throw new Error(data.error || 'ошибка скрапинга reels');
+  }
+
+  return {
+    reelsAdded: data.reelsAdded || 0,
+    showPopup: data.showPopup,
+    popupMessage: data.popupMessage,
+  };
+}
+
+/**
  * Получить список отслеживаемых аккаунтов
  */
 export async function getTrackedAccounts(userId: number): Promise<TrackedAccount[]> {

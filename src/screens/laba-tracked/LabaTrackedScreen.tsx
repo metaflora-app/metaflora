@@ -7,7 +7,8 @@ import {
   getTrackedReels, 
   untrackAccount,
   getTelegramUserId,
-  toggleFavorite 
+  toggleFavorite,
+  scrapeAccountReels 
 } from '../../utils/labaApi';
 import { TrackedAccount, Reel } from '../../types/laba';
 
@@ -115,8 +116,48 @@ export const LabaTrackedScreen: React.FC = () => {
       
       try {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
-        // No limit - render all cards with optimized performance
         setReels(accountReels);
+        
+        // Если reels нет - запускаем скрапинг
+        if (accountReels.length === 0) {
+          // Показываем попап ПЕРЕД скрапингом
+          if (window.Telegram?.WebApp?.showPopup) {
+            window.Telegram.WebApp.showPopup({
+              message: 'начинаем поиск reels...\n\nэто займет 10-20 секунд\nнажмите ок и дождитесь загрузки',
+              buttons: [
+                {
+                  id: 'start_scraping',
+                  type: 'default',
+                  text: 'ок'
+                }
+              ]
+            }, async (buttonId: string) => {
+              if (buttonId === 'start_scraping') {
+                try {
+                  const result = await scrapeAccountReels(selectedAccountId, userId);
+                  
+                  // Показываем результат
+                  if (result.showPopup && window.Telegram?.WebApp?.showPopup) {
+                    window.Telegram.WebApp.showPopup({
+                      message: result.popupMessage || `найдено ${result.reelsAdded} reels`
+                    });
+                  }
+                  
+                  // Перезагружаем reels
+                  const updatedReels = await getTrackedReels(selectedAccountId, userId);
+                  setReels(updatedReels);
+                } catch (error: any) {
+                  console.error('Ошибка скрапинга:', error);
+                  if (window.Telegram?.WebApp?.showPopup) {
+                    window.Telegram.WebApp.showPopup({
+                      message: error.message || 'ошибка загрузки reels'
+                    });
+                  }
+                }
+              }
+            });
+          }
+        }
       } catch (error) {
         console.error('Ошибка загрузки reels:', error);
       }
