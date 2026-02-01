@@ -224,34 +224,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         </div>
       </div>
 
-      {/* Account avatar - левый верхний угол (ТАМ ГДЕ PLACEHOLDER) */}
-      <div style={{
-        position: 'absolute',
-        left: '30px',
-        top: '30px',
-        width: '64px',
-        height: '64px',
-        borderRadius: '50%',
-        overflow: 'hidden',
-        background: 'rgba(255, 255, 255, 0.1)',
-        zIndex: 10,
-      }}>
-        <img 
-          src={avatarUrl || ''}
-          alt=""
-          crossOrigin="anonymous"
-          onError={(e) => {
-            console.error('[REEL AVATAR] Ошибка загрузки:', avatarUrl);
-            // Показываем placeholder если ошибка
-            (e.target as HTMLImageElement).style.opacity = '0.3';
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-        />
-      </div>
+      {/* Аватарка убрана - она должна быть на карточке АККАУНТА, не reel */}
 
       {/* Instagram logo - ПО FIGMA: left 7.32%, right 77.07%, top 448px, aspect 42/51 */}
       <img 
