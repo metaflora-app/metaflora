@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
+import { KinescopePlayer } from '../../components/KinescopePlayer';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 
 // Images
@@ -10,7 +11,6 @@ import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
-import playIcon from '../../assets/play-button.png';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -22,8 +22,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [lesson, setLesson] = useState<AcademyLesson | null>(null);
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
-  const [showOverlay, setShowOverlay] = useState(true);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
 
 
   useEffect(() => {
@@ -47,21 +45,21 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     }
   };
 
-  const handleVideoProgress = () => {
-    if (!videoRef.current || !lessonId || lessonType !== 'academy') return;
-    
-    if (videoRef.current.duration) {
-      const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-      
-      if (progress >= 80) {
+  // Отмечаем видео как просмотренное при загрузке Kinescope
+  useEffect(() => {
+    if (video?.video_id && lessonId && lessonType === 'academy') {
+      // Даем время на просмотр (5 секунд), потом отмечаем
+      const timer = setTimeout(() => {
         const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
         if (!progressData[lessonId]) progressData[lessonId] = {};
         progressData[lessonId].videoWatched = true;
         localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
         checkLessonCompletion(lessonId);
-      }
+      }, 5000);
+      
+      return () => clearTimeout(timer);
     }
-  };
+  }, [video, lessonId, lessonType]);
 
 
   const loadLesson = async (id: string) => {
@@ -190,86 +188,33 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* ВИДЕО БЛОК */}
+        {/* ВИДЕО БЛОК - Kinescope Player */}
         <div style={{
           position: 'absolute',
           left: '142px',
           top: '401px',
           width: '891px',
           height: '1457px',
+          borderRadius: '30px',
+          overflow: 'hidden',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
         }}>
-          <video
-            ref={videoRef}
-            controls={!showOverlay}
-            playsInline
-            preload="metadata"
-            onTimeUpdate={handleVideoProgress}
-            onEnded={() => {
-              handleVideoProgress();
-            }}
-            onPause={() => {
-              if (videoRef.current && !videoRef.current.ended) {
-                setShowOverlay(true);
-              }
-            }}
-            style={{
+          {video?.video_id ? (
+            <KinescopePlayer videoId={video.video_id} />
+          ) : (
+            <div style={{
               width: '100%',
               height: '100%',
-              objectFit: 'contain',
-              backgroundColor: '#000',
-              borderRadius: '30px',
-            }}
-          >
-            <source src={video?.video_url || ''} type="video/mp4" />
-          </video>
-
-          {/* Blur overlay с кнопкой плей */}
-          {showOverlay && (
-            <>
-              <div className="blur-wave" style={{
-                position: 'absolute',
-                inset: 0,
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                overflow: 'clip',
-              }} />
-
-              <img 
-                src={playIcon}
-                alt="плей"
-                onClick={() => {
-                  setShowOverlay(false);
-                  if (videoRef.current) {
-                    const playPromise = videoRef.current.play();
-                    if (playPromise) {
-                      playPromise.then(() => {
-                        // Использовать Telegram API для fullscreen
-                        if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp?.isVersionAtLeast?.('8.0')) {
-                          ((window as any).Telegram.WebApp as any).requestFullscreen();
-                        } else {
-                          // Fallback для старых версий
-                          if (videoRef.current?.requestFullscreen) {
-                            videoRef.current.requestFullscreen().catch(() => {});
-                          }
-                        }
-                      }).catch(() => {});
-                    }
-                  }
-                }}
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '98px',
-                  height: '98px',
-                  cursor: 'pointer',
-                  objectFit: 'contain',
-                }}
-              />
-            </>
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#000',
+              color: 'white',
+              fontSize: '32px',
+              fontFamily: 'Gotham Pro',
+            }}>
+              Видео не найдено
+            </div>
           )}
         </div>
 
