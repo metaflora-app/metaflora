@@ -6,6 +6,7 @@ import { formatCount, formatTimeAgo, convertInstagramImageUrl } from '../utils/l
 // Assets
 import newBadgePNG from '../assets/laba-main/плашка новое.png';
 import analysisButtonPNG from '../assets/laba-main/кнопка анализ.png';
+import trackingActivatedPNG from '../assets/laba-analysis/кнопка следить активирована.png';
 import playIcon from '../assets/tour-video/play-icon.png';
 import viewsIcon from '../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../assets/laba-icons/иконка лайки.png';
@@ -239,6 +240,35 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         </div>
       </div>
 
+      {/* Account avatar - левый верхний угол */}
+      {avatarUrl && (
+        <div style={{
+          position: 'absolute',
+          left: '30px',
+          top: '448px',
+          width: '64px',
+          height: '64px',
+          borderRadius: '50%',
+          overflow: 'hidden',
+          background: 'rgba(255, 255, 255, 0.1)',
+        }}>
+          <img 
+            src={avatarUrl}
+            alt=""
+            crossOrigin="anonymous"
+            onError={(e) => {
+              console.error('[REEL AVATAR] Ошибка загрузки:', avatarUrl);
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+      )}
+
       {/* Instagram logo - ПО FIGMA: left 7.32%, right 77.07%, top 448px, aspect 42/51 */}
       <img 
         src={instaLogo}
@@ -303,6 +333,22 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
           {formatCount(reel.accountFollowers)} подписчиков
         </p>
       </div>
+
+      {/* Tracking activated button (серая, неактивная) */}
+      <img
+        src={trackingActivatedPNG}
+        alt="следить"
+        style={{
+          position: 'absolute',
+          top: '450px',
+          right: '30px',
+          width: '200px',
+          height: '60px',
+          objectFit: 'contain',
+          opacity: 0.6,
+          pointerEvents: 'none',
+        }}
+      />
 
       {/* Analysis button */}
       <img

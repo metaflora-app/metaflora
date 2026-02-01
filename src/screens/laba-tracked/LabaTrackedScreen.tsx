@@ -66,7 +66,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
 
-  // Load tracked accounts
+  // Load tracked accounts - перезагружаем при каждом возврате на экран
   React.useEffect(() => {
     const fetchAccounts = async () => {
       const userId = getTelegramUserId();
@@ -77,8 +77,13 @@ export const LabaTrackedScreen: React.FC = () => {
         const trackedAccounts = await getTrackedAccounts(userId);
         setAccounts(trackedAccounts);
         
+        // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
         if (trackedAccounts.length > 0) {
-          setSelectedAccountId(trackedAccounts[0].id);
+          if (!selectedAccountId || !trackedAccounts.find(a => a.id === selectedAccountId)) {
+            setSelectedAccountId(trackedAccounts[0].id);
+          }
+        } else {
+          setSelectedAccountId(null);
         }
       } catch (error) {
         console.error('Ошибка загрузки аккаунтов:', error);
@@ -88,6 +93,16 @@ export const LabaTrackedScreen: React.FC = () => {
     };
     
     fetchAccounts();
+    
+    // Перезагружаем при возврате на экран
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        fetchAccounts();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
   // Load reels for selected account
@@ -312,7 +327,8 @@ export const LabaTrackedScreen: React.FC = () => {
           </>
         )}
 
-        {/* Horizontal scroll with tracked accounts */}
+        {/* Horizontal scroll with tracked accounts - показываем только если есть аккаунты */}
+        {accounts.length > 0 && (
         <div style={{
           position: 'absolute',
           left: '151px',
@@ -466,104 +482,104 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             ))}
             
-            {/* Plus button to add new account */}
-            <div 
-              onClick={() => navigate('/laba-search-account')}
-              className="blur-wave"
-              style={{
-                flexShrink: 0,
-                width: '98px',
-                height: '98px',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '98px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                alignSelf: 'center',
-              }}>
-              <img src={plusIcon} alt="+" style={{ width: '60%', height: '60%', objectFit: 'contain' }} />
-            </div>
           </div>
         </div>
-
-        {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
-        {!accountRemoved && (
-          <img
-            src={returnButtonPNG}
-            alt="вернуть"
-            onClick={() => {
-              setSelectedSort(null);
-              setLikedCards(new Set());
-            }}
-            style={{
-              position: 'absolute',
-              left: '788px',
-              top: '406px',
-              width: '246.93px',
-              height: '79.25px',
-              objectFit: 'contain',
-              cursor: 'pointer',
-            }}
-          />
         )}
 
-        {/* Filter buttons - сортировка - 174:780 PNG: 247x80 */}
-        {!accountRemoved && (
-          <img
-            src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
-            alt="сортировка"
-            onClick={handleSortClick}
-            style={{
-              position: 'absolute',
-              left: '788px',
-              top: '485px',
-              width: '246.93px',
-              height: '79.25px',
-              objectFit: 'contain',
-              cursor: 'pointer',
-            }}
-          />
-        )}
-
-        {/* Badge likes - 174:768 PNG with dynamic text */}
-        {!accountRemoved && (
-          <div style={{
+        {/* Plus button to add new account - Figma: left calc(50%-399.5px) top calc(50%-669.5px) size 79x79 */}
+        <div 
+          onClick={() => navigate('/laba-search-account')}
+          className="blur-wave button-inner-glow"
+          style={{
             position: 'absolute',
-            left: '788px',
-            top: '564px',
-            width: '186px',
+            left: 'calc(50% - 399.5px)',
+            top: 'calc(50% - 669.5px)',
+            width: '79px',
             height: '79px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '79px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
           }}>
-            <img
-              src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
-              alt="badge"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
-            />
-            <div style={{
+          <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
+        </div>
+
+        {/* Filter buttons - вернуть - Figma: inset 22.2% 48.73% 74.7% 30.34% */}
+        <img
+          src={returnButtonPNG}
+          alt="вернуть"
+          onClick={() => {
+            setSelectedSort(null);
+            setLikedCards(new Set());
+          }}
+          className="button-inner-glow"
+          style={{
+            position: 'absolute',
+            left: '358px',
+            top: '566px',
+            width: '247px',
+            height: '80px',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Filter buttons - сортировка - Figma: inset 22.2% 28.06% 74.7% 51.02% */}
+        <img
+          src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
+          alt="сортировка"
+          onClick={handleSortClick}
+          className="button-inner-glow"
+          style={{
+            position: 'absolute',
+            left: '602px',
+            top: '566px',
+            width: '247px',
+            height: '80px',
+            objectFit: 'contain',
+            cursor: 'pointer',
+          }}
+        />
+
+        {/* Badge likes - Figma: left calc(50%+352px) top 566px */}
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% + 352px)',
+          top: '566px',
+          width: '186px',
+          height: '79px',
+        }}>
+          <img
+            src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
+            alt="badge"
+            className="button-inner-glow"
+            style={{
               position: 'absolute',
               inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 500,
-              fontSize: '27px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.label || 'выбрать' : 'выбрать'}
-            </div>
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Gotham Pro, sans-serif',
+            fontWeight: 500,
+            fontSize: '27px',
+            color: 'white',
+            textAlign: 'center',
+          }}>
+            {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.label || 'выбрать' : 'выбрать'}
           </div>
-        )}
+        </div>
 
         {/* People image behind frame - hide when account removed */}
         {!accountRemoved && (
