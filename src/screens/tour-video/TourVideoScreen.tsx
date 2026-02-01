@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
+import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import playIcon from '../../assets/play-button.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
 
 export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [showOverlay, setShowOverlay] = useState(true);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  
-  // Сбрасываем блюр при каждом монтировании
-  React.useEffect(() => {
-    setShowOverlay(true);
-  }, []);
 
   // Check if user is premium and redirect
   React.useEffect(() => {
@@ -132,74 +125,8 @@ export const TourVideoScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* ВИДЕО БЛОК */}
-        <div style={{
-          position: 'absolute',
-          left: '142px',
-          top: '401px',
-          width: '891px',
-          height: '1457px',
-        }}>
-          <video
-            ref={videoRef}
-            controls={!showOverlay}
-            playsInline
-            preload="metadata"
-            poster="/test-video-ios.mp4#t=0.1"
-            crossOrigin="anonymous"
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              backgroundColor: '#000',
-              borderRadius: '30px',
-            }}
-          >
-            <source src="/test-video-ios.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-
-          {/* Blur overlay с прелоадом и кнопкой плей */}
-          {showOverlay && (
-            <>
-              {/* Блюр поверх видео */}
-              <div className="blur-wave" style={{
-                position: 'absolute',
-                inset: 0,
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.3)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                overflow: 'clip',
-              }} />
-
-              {/* Кнопка плей */}
-              <img 
-                src={playIcon}
-                alt="плей"
-                onClick={() => {
-                  setShowOverlay(false);
-                  if (videoRef.current) {
-                    videoRef.current.play().catch(() => {});
-                  }
-                }}
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '98px',
-                  height: '98px',
-                  cursor: 'pointer',
-                  objectFit: 'contain',
-                  zIndex: 20,
-                }}
-              />
-            </>
-          )}
-        </div>
+        {/* ВИДЕО БЛОК - Kinescope Player */}
+        <AboutVideoPlayer />
 
         {/* Кнопка "попробовать бесплатно" (с градиентом) */}
         <button

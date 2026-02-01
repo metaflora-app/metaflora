@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
-import { KinescopePlayer } from '../../components/KinescopePlayer';
+import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 
 // Images
@@ -195,34 +195,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         </div>
 
         {/* ВИДЕО БЛОК - Kinescope Player */}
-        <div style={{
-          position: 'absolute',
-          left: '142px',
-          top: '401px',
-          width: '891px',
-          height: '1457px',
-          borderRadius: '30px',
-          overflow: 'hidden',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-        }}>
-          {video?.video_id ? (
-            <KinescopePlayer videoId={video.video_id} />
-          ) : (
-            <div style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#000',
-              color: 'white',
-              fontSize: '32px',
-              fontFamily: 'Gotham Pro',
-            }}>
-              Видео не найдено
-            </div>
-          )}
-        </div>
+        {video?.video_id ? (
+          <AboutVideoPlayer videoId={video.video_id} />
+        ) : (
+          <AboutVideoPlayer />
+        )}
 
         {/* Кнопка "получить материалы" - PNG */}
         <button
