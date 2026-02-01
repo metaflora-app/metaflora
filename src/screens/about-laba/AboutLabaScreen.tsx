@@ -13,22 +13,14 @@ import pauseButton from '../../assets/tour-video/pause-icon.png';
 
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
-  const videoContainerRef = useRef<HTMLDivElement>(null);
-  const [showPlayButton, setShowPlayButton] = useState(true);
+  const [videoStarted, setVideoStarted] = useState(false);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Простое управление - клик на кнопку скрывает её и позволяет кликнуть на iframe
+  // Запуск видео - скрываем кнопку и показываем iframe с autoplay
   const handlePlayClick = () => {
-    setShowPlayButton(false);
-  };
-
-  // Показываем кнопку обратно если кликнули на контейнер когда видео на паузе
-  const handleContainerClick = () => {
-    if (!showPlayButton) {
-      setShowPlayButton(true);
-    }
+    setVideoStarted(true);
   };
 
   return (
@@ -127,8 +119,6 @@ export const AboutLabaScreen: React.FC = () => {
 
         {/* Видео блок с Kinescope iframe - с правильным aspect ratio */}
         <div 
-          ref={videoContainerRef}
-          onClick={handleContainerClick}
           style={{
             position: 'absolute',
             left: '142px',
@@ -138,7 +128,6 @@ export const AboutLabaScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'hidden',
             border: '4px solid rgba(255, 255, 255, 0.3)',
-            cursor: showPlayButton ? 'default' : 'pointer',
           }}
         >
           {/* Kinescope wrapper с padding-top для растягивания видео */}
@@ -148,24 +137,25 @@ export const AboutLabaScreen: React.FC = () => {
             width: '100%',
             height: 0,
           }}>
-            <iframe 
-              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?token=e7dc4869-562f-492a-811b-506296b20fb7" 
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
-              frameBorder="0" 
-              allowFullScreen
-              style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                top: 0,
-                left: 0,
-                pointerEvents: showPlayButton ? 'none' : 'auto',
-              }}
-            />
+            {videoStarted && (
+              <iframe 
+                src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?autoplay=1&token=e7dc4869-562f-492a-811b-506296b20fb7" 
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
+                frameBorder="0" 
+                allowFullScreen
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: 0,
+                  left: 0,
+                }}
+              />
+            )}
           </div>
           
-          {/* Кастомная кнопка Play - скрывается после клика */}
-          {showPlayButton && (
+          {/* Кастомная кнопка Play - скрывается после клика, АВТОЗАПУСК видео */}
+          {!videoStarted && (
             <img
               src={playButton}
               alt="плей"
@@ -176,8 +166,8 @@ export const AboutLabaScreen: React.FC = () => {
                 left: '50%',
                 top: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '150px',
-                height: '150px',
+                width: '180px',
+                height: '180px',
                 cursor: 'pointer',
                 zIndex: 1000,
               }}
