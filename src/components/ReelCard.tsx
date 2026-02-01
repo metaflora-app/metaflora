@@ -99,7 +99,6 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         <img
           src={newBadgePNG}
           alt="новое"
-          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '269px',
