@@ -81,7 +81,6 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         <img
           src={newBadgePNG}
           alt="новое"
-          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '269px',
@@ -331,7 +330,6 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         src={analysisButtonPNG}
         alt="анализ"
         onClick={() => navigate('/laba-analysis', { state: { reel } })}
-        className="button-inner-glow"
         style={{
           position: 'absolute',
           bottom: '63px',
@@ -344,7 +342,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
       />
 
       {/* Time ago badge */}
-      <div className="blur-wave button-inner-glow" style={{
+      <div className="blur-wave" style={{
         position: 'absolute',
         left: 'calc(50% + 1px)',
         top: '417px',
