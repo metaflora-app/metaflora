@@ -77,6 +77,10 @@ export const LabaTrackedScreen: React.FC = () => {
       try {
         setLoading(true);
         const trackedAccounts = await getTrackedAccounts(userId);
+        console.log('[TRACKED] Загружены аккаунты:', trackedAccounts);
+        trackedAccounts.forEach(acc => {
+          console.log(`[TRACKED] ${acc.username}: profilePhotoUrl=${acc.profilePhotoUrl}, followers=${acc.followersCount}`);
+        });
         setAccounts(trackedAccounts);
         
         // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
@@ -514,13 +518,13 @@ export const LabaTrackedScreen: React.FC = () => {
         </div>
         )}
 
-        {/* Кнопка + (плюс) - крайняя слева */}
+        {/* Кнопка + (плюс) - строго слева */}
         <div 
           onClick={() => navigate('/laba-search-account')}
           className="blur-wave button-inner-glow"
           style={{
             position: 'absolute',
-            left: '85px',
+            left: '53px',
             top: '654px',
             width: '79px',
             height: '79px',
@@ -536,7 +540,7 @@ export const LabaTrackedScreen: React.FC = () => {
           <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
         </div>
 
-        {/* Кнопка вернуть - после плюса */}
+        {/* Кнопка вернуть */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
@@ -547,16 +551,16 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '184px',
+            left: '162px',
             top: '654px',
-            width: '247px',
+            width: '270px',
             height: '79px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
 
-        {/* Кнопка сортировка - в центре */}
+        {/* Кнопка сортировка */}
         <img
           src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
           alt="сортировка"
@@ -564,21 +568,21 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '451px',
+            left: '462px',
             top: '654px',
-            width: '280px',
+            width: '310px',
             height: '79px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
 
-        {/* Кнопка выбрать - справа */}
+        {/* Кнопка выбрать */}
         <div style={{
           position: 'absolute',
-          left: '751px',
+          left: '802px',
           top: '654px',
-          width: '247px',
+          width: '270px',
           height: '79px',
         }}>
           <img
