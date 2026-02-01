@@ -310,7 +310,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
           width: '248px',
           height: '79px',
           cursor: 'pointer',
-          zIndex: 9999,
+          zIndex: 99999,
         }}
       />
 

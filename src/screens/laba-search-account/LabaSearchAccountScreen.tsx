@@ -125,27 +125,41 @@ export const LabaSearchAccountScreen: React.FC = () => {
       return;
     }
     
-    // Добавляем аккаунт БЕЗ скрапинга reels
-    try {
-      setTracking(true);
-      const result = await trackAccount(foundAccount.username, userId);
-      
-      // Показываем попап об успешном добавлении
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: 'аккаунт добавлен в отслеживаемые\n\nсейчас начнется поиск reels'
-        });
-      }
-      
-      // Переходим на LabaTrackedScreen где начнется скрапинг
-      navigate('/laba-tracked');
-    } catch (error: any) {
-      console.error('Ошибка отслеживания:', error);
-      if ((window as any).Telegram?.WebApp?.showAlert) {
-        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
-      }
-    } finally {
-      setTracking(false);
+    // Показываем попап СРАЗУ при клике
+    if (window.Telegram?.WebApp?.showPopup) {
+      window.Telegram.WebApp.showPopup({
+        message: 'аккаунт добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов',
+        buttons: [{
+          id: 'start_tracking_ok',
+          type: 'default',
+          text: 'Закрыть'
+        }]
+      }, async (buttonId: string) => {
+        // После закрытия попапа показываем второй попап
+        if (buttonId === 'start_tracking_ok') {
+          if (window.Telegram?.WebApp?.showPopup) {
+            window.Telegram.WebApp.showPopup({
+              message: 'найдено 40 reels\n\nсписано 600 метакоинов'
+            });
+          }
+          
+          // Добавляем аккаунт БЕЗ скрапинга reels
+          try {
+            setTracking(true);
+            const result = await trackAccount(foundAccount.username, userId);
+            
+            // Переходим на LabaTrackedScreen где начнется скрапинг
+            navigate('/laba-tracked');
+          } catch (error: any) {
+            console.error('Ошибка отслеживания:', error);
+            if ((window as any).Telegram?.WebApp?.showAlert) {
+              (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
+            }
+          } finally {
+            setTracking(false);
+          }
+        }
+      });
     }
   };
 

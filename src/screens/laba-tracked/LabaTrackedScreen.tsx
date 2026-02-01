@@ -40,6 +40,7 @@ import cardImage from '../../assets/laba-main/картинка в карточк
 // No tracked screen assets
 import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
 import peopleImageNoTracked from '../../assets/laba-no-tracked/люди друг на друге.png';
+import startTrackingButtonPNG from '../../assets/laba-no-tracked/кнопка начать отслеживание.png';
 
 // Laba icons
 import playIcon from '../../assets/tour-video/play-icon.png';
@@ -355,6 +356,24 @@ export const LabaTrackedScreen: React.FC = () => {
                 zIndex: 2,
               }}
             />
+
+            {/* Кнопка "начать отслеживание" поверх blur overlay */}
+            <img
+              src={startTrackingButtonPNG}
+              alt="начать отслеживание"
+              onClick={() => navigate('/laba-search-account')}
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '530px',
+                height: '139px',
+                cursor: 'pointer',
+                zIndex: 3,
+              }}
+            />
           </>
         )}
 
@@ -542,7 +561,7 @@ export const LabaTrackedScreen: React.FC = () => {
           <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
         </div>
 
-        {/* Кнопка вернуть - вплотную к плюсу */}
+        {/* Кнопка вернуть - gap 1px от плюса */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
@@ -553,7 +572,7 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '231px',
+            left: '232px',
             top: '580px',
             width: '270px',
             height: '79px',
@@ -562,7 +581,7 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Кнопка сортировка - вплотную к вернуть */}
+        {/* Кнопка сортировка - gap 1px от вернуть */}
         <img
           src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
           alt="сортировка"
@@ -570,7 +589,7 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '501px',
+            left: '503px',
             top: '580px',
             width: '270px',
             height: '79px',
@@ -579,10 +598,10 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Кнопка выбрать - вплотную к сортировка */}
+        {/* Кнопка выбрать - gap 1px от сортировка */}
         <div style={{
           position: 'absolute',
-          left: '771px',
+          left: '774px',
           top: '580px',
           width: '270px',
           height: '79px',
