@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getDemoLessonById } from '../../utils/contentApi';
+import { convertPngToJpeg } from '../../utils/imageConverter';
 import type { AcademyLesson } from '../../types/content';
 
 // Images
@@ -280,6 +281,9 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         );
 
       case 'image':
+        // Конвертируем PNG → JPEG для оптимизации
+        const imageUrl = convertPngToJpeg(block.content);
+        
         return (
           <div
             key={block.id}
@@ -291,7 +295,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             }}
           >
             <div 
-              onClick={() => setExpandedImage(block.content)}
+              onClick={() => setExpandedImage(imageUrl)}
               style={{
                 width: '100%',
                 border: '2px solid rgba(0, 0, 0, 0.3)',
@@ -302,10 +306,17 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               }}
             >
               <img
-                src={block.content}
+                src={imageUrl}
                 alt="Изображение"
                 loading="eager"
                 crossOrigin="anonymous"
+                onError={(e) => {
+                  // Fallback на PNG если JPEG не найден
+                  const target = e.target as HTMLImageElement;
+                  if (target.src !== block.content) {
+                    target.src = block.content;
+                  }
+                }}
                 style={{
                   width: '100%',
                   height: 'auto',
@@ -319,7 +330,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               alt="развернуть"
               onClick={(e) => {
                 e.stopPropagation();
-                setExpandedImage(block.content);
+                setExpandedImage(imageUrl);
               }}
               className="button-inner-glow"
               style={{
