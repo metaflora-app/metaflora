@@ -55,7 +55,7 @@ export const LabaTrackedScreen: React.FC = () => {
 
   // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
-  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
+  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
   
   // Tracked accounts data
@@ -358,7 +358,7 @@ export const LabaTrackedScreen: React.FC = () => {
                   overflow: 'hidden',
                 }}>
                   <img
-                    src={account.profile_pic_url || profilePhoto}
+                    src={account.profilePhotoUrl || profilePhoto}
                     alt=""
                     crossOrigin="anonymous"
                     style={{
@@ -428,7 +428,7 @@ export const LabaTrackedScreen: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                 }}>
-                  {(account.followers_count / 1000).toFixed(1)}к подписчиков
+                  {(account.followersCount / 1000).toFixed(1)}к подписчиков
                 </div>
 
                 {/* Button "удалить" */}
@@ -659,7 +659,10 @@ export const LabaTrackedScreen: React.FC = () => {
                   newLiked.add(reelId);
                 }
                 setLikedCards(newLiked);
-                toggleFavorite(reelId, getTelegramUserId() || '');
+                const userId = getTelegramUserId();
+                if (userId) {
+                  toggleFavorite(reelId, userId);
+                }
               }}
             />
           ))}
