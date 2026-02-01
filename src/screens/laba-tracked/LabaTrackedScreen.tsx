@@ -67,7 +67,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
   const [reels, setReels] = React.useState<Reel[]>([]);
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false); // false изначально - данные сохраняются
   const [scraping, setScraping] = React.useState(false);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
@@ -686,15 +686,10 @@ export const LabaTrackedScreen: React.FC = () => {
           ))}
           
           {/* Reels cards - Dynamic rendering */}
-          {/* Показываем блюр карточки пока скрапинг идет */}
-          {scraping && (
-            <>
-              <BlurReelCard index={0} />
-              <BlurReelCard index={1} />
-              <BlurReelCard index={2} />
-              <BlurReelCard index={3} />
-            </>
-          )}
+          {/* Показываем 40 блюр карточек пока скрапинг идет */}
+          {scraping && Array.from({ length: 40 }).map((_, index) => (
+            <BlurReelCard key={`scraping-${index}`} index={index} />
+          ))}
           
           {/* Показываем реальные карточки когда загрузились */}
           {!loading && !scraping && reels.map((reel, index) => (
