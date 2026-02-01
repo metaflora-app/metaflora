@@ -7,7 +7,8 @@ import {
   getTrackedReels, 
   untrackAccount,
   getTelegramUserId,
-  toggleFavorite 
+  toggleFavorite,
+  scrapeAccountReels 
 } from '../../utils/labaApi';
 import { TrackedAccount, Reel } from '../../types/laba';
 
