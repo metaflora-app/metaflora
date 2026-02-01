@@ -494,41 +494,6 @@ export const LabaTrackedScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* OLD CODE - удалить после проверки */}
-        {false && (
-          <div 
-            onClick={() => navigate('/laba-search-account')}
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              left: '175px',
-              top: '429px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '98px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}>
-            <div style={{
-              position: 'absolute',
-              left: '19px',
-              top: '19px',
-              width: '59px',
-              height: '59px',
-            }}>
-              <div style={{ position: 'absolute', inset: '3.13%' }}>
-                <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
         {!accountRemoved && (
           <img
@@ -667,11 +632,11 @@ export const LabaTrackedScreen: React.FC = () => {
             />
           ))}
           
-          {/* СТАРЫЕ ХАРДКОД КАРТОЧКИ - УДАЛИТЬ */}
-          {false && (
-          <div>
-          {/* Карточка 1 - Верхняя левая */}
-          <div style={{
+        </div>
+        )}
+
+        {/* Footer */}
+        <div style={{
             position: 'absolute',
             left: '22px',
             top: '23px',
