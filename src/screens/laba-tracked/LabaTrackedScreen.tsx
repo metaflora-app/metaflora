@@ -78,8 +78,12 @@ export const LabaTrackedScreen: React.FC = () => {
       if (!userId) return;
       
       try {
-        setLoading(true);
+        // Показываем loading только если данных еще нет
+        if (accounts.length === 0) {
+          setLoading(true);
+        }
         setIsRefreshing(true);
+        
         const trackedAccounts = await getTrackedAccounts(userId);
         console.log('[TRACKED] Загружены аккаунты:', trackedAccounts);
         trackedAccounts.forEach(acc => {
@@ -115,12 +119,9 @@ export const LabaTrackedScreen: React.FC = () => {
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      // Очищаем state при unmount
-      setAccounts([]);
-      setReels([]);
-      setSelectedAccountId(null);
+      // НЕ очищаем state при unmount - сохраняем данные
     };
-  }, []);
+  }, [accounts.length, selectedAccountId]);
 
   // Load reels for selected account
   React.useEffect(() => {
@@ -141,9 +142,9 @@ export const LabaTrackedScreen: React.FC = () => {
             const result = await scrapeAccountReels(selectedAccountId, userId);
             
             // Показываем результат
-            if (result.showPopup && window.Telegram?.WebApp?.showPopup) {
+            if (window.Telegram?.WebApp?.showPopup) {
               window.Telegram.WebApp.showPopup({
-                message: result.popupMessage || `найдено ${result.reelsAdded} reels`
+                message: 'reels успешно найдены'
               });
             }
             
@@ -573,7 +574,7 @@ export const LabaTrackedScreen: React.FC = () => {
           <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
         </div>
 
-        {/* Кнопка вернуть - gap 1px от плюса */}
+        {/* Кнопка вернуть - вплотную к плюсу */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
@@ -584,7 +585,7 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '232px',
+            left: '231px',
             top: '580px',
             width: '270px',
             height: '79px',
@@ -593,7 +594,7 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Кнопка сортировка - gap 1px от вернуть */}
+        {/* Кнопка сортировка - вплотную к вернуть */}
         <img
           src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
           alt="сортировка"
@@ -601,7 +602,7 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '503px',
+            left: '501px',
             top: '580px',
             width: '270px',
             height: '79px',
@@ -610,10 +611,10 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Кнопка выбрать - gap 1px от сортировка */}
+        {/* Кнопка выбрать - вплотную к сортировка */}
         <div style={{
           position: 'absolute',
-          left: '774px',
+          left: '771px',
           top: '580px',
           width: '270px',
           height: '79px',

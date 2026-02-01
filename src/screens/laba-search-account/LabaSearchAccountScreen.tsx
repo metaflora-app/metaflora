@@ -132,19 +132,13 @@ export const LabaSearchAccountScreen: React.FC = () => {
           message: 'аккаунт добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов'
         },
         async () => {
-          // После закрытия первого попапа - добавляем аккаунт и переходим
+          // После закрытия попапа - добавляем аккаунт и переходим
           try {
             setTracking(true);
             const result = await trackAccount(foundAccount.username, userId);
             
-            // Показываем второй попап
-            if ((window as any).Telegram?.WebApp?.showPopup) {
-              (window as any).Telegram.WebApp.showPopup({
-                message: 'найдено 40 reels\n\nсписано 100 метакоинов'
-              });
-            }
-            
             // Переходим на LabaTrackedScreen где начнется скрапинг
+            // Второй попап покажется ПОСЛЕ скрапинга
             navigate('/laba-tracked');
           } catch (error: any) {
             console.error('Ошибка отслеживания:', error);
