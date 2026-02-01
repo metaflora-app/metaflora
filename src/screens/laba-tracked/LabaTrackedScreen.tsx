@@ -360,14 +360,14 @@ export const LabaTrackedScreen: React.FC = () => {
           left: '151px',
           top: '405px',
           width: '878px',
-          height: '150px',
+          height: '162px',
           overflow: 'hidden',
           maskImage: 'linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%)',
         }}>
           <div style={{
             display: 'flex',
-            gap: '2px',
+            gap: '1px',
             overflowX: 'auto',
             overflowY: 'hidden',
             height: '100%',
@@ -380,8 +380,8 @@ export const LabaTrackedScreen: React.FC = () => {
                 className="blur-wave" 
                 style={{
                   flexShrink: 0,
-                  width: '440px',
-                  height: '150px',
+                  width: '522px',
+                  height: '162px',
                   backdropFilter: 'blur(50px)',
                   background: selectedAccountId === account.id 
                     ? 'rgba(255, 255, 255, 0.2)' 
@@ -461,7 +461,7 @@ export const LabaTrackedScreen: React.FC = () => {
                 <div style={{
                   position: 'absolute',
                   left: '129px',
-                  top: '109px',
+                  top: '95px',
                   fontFamily: 'Gotham Pro, sans-serif',
                   fontWeight: 300,
                   fontSize: '24px',
@@ -521,7 +521,7 @@ export const LabaTrackedScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: '85px',
-            top: '566px',
+            top: '654px',
             width: '79px',
             height: '79px',
             backdropFilter: 'blur(50px)',
@@ -548,7 +548,7 @@ export const LabaTrackedScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: '184px',
-            top: '566px',
+            top: '654px',
             width: '247px',
             height: '79px',
             objectFit: 'contain',
@@ -565,7 +565,7 @@ export const LabaTrackedScreen: React.FC = () => {
           style={{
             position: 'absolute',
             left: '451px',
-            top: '566px',
+            top: '654px',
             width: '280px',
             height: '79px',
             objectFit: 'contain',
@@ -577,7 +577,7 @@ export const LabaTrackedScreen: React.FC = () => {
         <div style={{
           position: 'absolute',
           left: '751px',
-          top: '566px',
+          top: '654px',
           width: '247px',
           height: '79px',
         }}>
