@@ -7,8 +7,7 @@ import {
   getTrackedReels, 
   untrackAccount,
   getTelegramUserId,
-  toggleFavorite,
-  scrapeAccountReels 
+  toggleFavorite 
 } from '../../utils/labaApi';
 import { TrackedAccount, Reel } from '../../types/laba';
 
@@ -118,47 +117,28 @@ export const LabaTrackedScreen: React.FC = () => {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
         setReels(accountReels);
         
-        // Если reels нет - запускаем скрапинг
+        // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
         if (accountReels.length === 0) {
-          // Показываем попап ПЕРЕД скрапингом
-          if (window.Telegram?.WebApp?.showPopup) {
-              // @ts-ignore - Telegram WebApp types mismatch
-            window.Telegram.WebApp.showPopup({
-              message: 'начинаем поиск reels...\n\nэто займет 10-20 секунд\nнажмите ок и дождитесь загрузки',
-              buttons: [
-                {
-                  id: 'start_scraping',
-                  type: 'default',
-                  text: 'ок'
-                }
-              ]
-            }, async (buttonId?: string, _params?: any) => {
-              if (buttonId === 'start_scraping') {
-                try {
-                  const result = await scrapeAccountReels(selectedAccountId, userId);
-                  
-                  // Показываем результат
-                  if (result.showPopup && window.Telegram?.WebApp?.showPopup) {
-              // @ts-ignore - Telegram WebApp types mismatch
-                    window.Telegram.WebApp.showPopup({
-                      message: result.popupMessage || `найдено ${result.reelsAdded} reels`
-                    });
-                  }
-                  
-                  // Перезагружаем reels
-                  const updatedReels = await getTrackedReels(selectedAccountId, userId);
-                  setReels(updatedReels);
-                } catch (error: any) {
-                  console.error('Ошибка скрапинга:', error);
-                  if (window.Telegram?.WebApp?.showPopup) {
-              // @ts-ignore - Telegram WebApp types mismatch
-                    window.Telegram.WebApp.showPopup({
-                      message: error.message || 'ошибка загрузки reels'
-                    });
-                  }
-                }
-              }
-            });
+          try {
+            const result = await scrapeAccountReels(selectedAccountId, userId);
+            
+            // Показываем результат
+            if (result.showPopup && window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: result.popupMessage || `найдено ${result.reelsAdded} reels`
+              });
+            }
+            
+            // Перезагружаем reels
+            const updatedReels = await getTrackedReels(selectedAccountId, userId);
+            setReels(updatedReels);
+          } catch (error: any) {
+            console.error('Ошибка скрапинга:', error);
+            if (window.Telegram?.WebApp?.showPopup) {
+              window.Telegram.WebApp.showPopup({
+                message: error.message || 'ошибка загрузки reels'
+              });
+            }
           }
         }
       } catch (error) {
@@ -180,7 +160,6 @@ export const LabaTrackedScreen: React.FC = () => {
       await untrackAccount(selectedAccountId, userId);
       
       if (window.Telegram?.WebApp?.showPopup) {
-              // @ts-ignore - Telegram WebApp types mismatch
         window.Telegram.WebApp.showPopup({
           message: 'аккаунт удален из отслеживаемых'
         });
@@ -209,7 +188,6 @@ export const LabaTrackedScreen: React.FC = () => {
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
-              // @ts-ignore - Telegram WebApp types mismatch
       window.Telegram.WebApp.showPopup({
         message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
       });
@@ -507,7 +485,6 @@ export const LabaTrackedScreen: React.FC = () => {
                       }
                       
                       if (window.Telegram?.WebApp?.showPopup) {
-              // @ts-ignore - Telegram WebApp types mismatch
                         window.Telegram.WebApp.showPopup({
                           message: 'аккаунт удален из отслеживаемых'
                         });
