@@ -64,7 +64,7 @@ export const ArticleScreen: React.FC = () => {
     }
   };
 
-  const articleTitle = article?.title || 'морфинг через общие элементы';
+  const articleTitle = article?.title || '';
   
   // Обратная совместимость: если нет content_blocks, создаем из старых полей
   const getContentBlocks = () => {
@@ -265,7 +265,12 @@ export const ArticleScreen: React.FC = () => {
             }}
           >
             <div 
-              onClick={() => setExpandedImage(block.content)}
+              onClick={() => {
+                const imageUrl = block.content?.endsWith('.png') 
+                  ? block.content.replace('.png', '.jpg')
+                  : block.content;
+                setExpandedImage(imageUrl);
+              }}
               style={{
                 width: '100%',
                 border: '2px solid rgba(0, 0, 0, 0.3)',
@@ -276,15 +281,20 @@ export const ArticleScreen: React.FC = () => {
               }}
             >
               <img
-                src={block.content}
+                src={block.content?.endsWith('.png') ? block.content.replace('.png', '.jpg') : block.content}
                 alt="Изображение"
                 loading="eager"
                 onError={(e) => {
                   console.error('[IMAGE ERROR]', e);
                   console.error('[IMAGE URL]', block.content);
                   const img = e.target as HTMLImageElement;
-                  img.style.border = '2px solid rgba(255, 0, 0, 0.3)';
-                  img.style.opacity = '0.5';
+                  // Fallback to original PNG if JPEG conversion fails
+                  if (img.src !== block.content) {
+                    img.src = block.content;
+                  } else {
+                    img.style.border = '2px solid rgba(255, 0, 0, 0.3)';
+                    img.style.opacity = '0.5';
+                  }
                 }}
                 onLoad={() => console.log('[IMAGE] Loaded:', block.content)}
                 style={{
@@ -300,7 +310,10 @@ export const ArticleScreen: React.FC = () => {
               alt="развернуть"
               onClick={(e) => {
                 e.stopPropagation();
-                setExpandedImage(block.content);
+                const imageUrl = block.content?.endsWith('.png') 
+                  ? block.content.replace('.png', '.jpg')
+                  : block.content;
+                setExpandedImage(imageUrl);
               }}
               className="button-inner-glow"
               style={{

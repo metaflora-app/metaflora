@@ -268,6 +268,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         );
 
       case 'image':
+        // Convert PNG to JPEG URL if needed
+        const imageUrl = block.content?.endsWith('.png') 
+          ? block.content.replace('.png', '.jpg')
+          : block.content;
+        
         return (
           <div
             key={block.id}
@@ -279,7 +284,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             }}
           >
             <div 
-              onClick={() => setExpandedImage(block.content)}
+              onClick={() => setExpandedImage(imageUrl)}
               style={{
                 width: '100%',
                 border: '2px solid rgba(0, 0, 0, 0.3)',
@@ -290,7 +295,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               }}
             >
               <img
-                src={block.content}
+                src={imageUrl}
                 alt="Изображение"
                 crossOrigin="anonymous"
                 loading="lazy"
@@ -299,6 +304,13 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                   height: 'auto',
                   objectFit: 'cover',
                   display: 'block',
+                }}
+                onError={(e) => {
+                  // Fallback to original PNG if JPEG conversion fails
+                  const target = e.target as HTMLImageElement;
+                  if (target.src !== block.content) {
+                    target.src = block.content;
+                  }
                 }}
               />
             </div>

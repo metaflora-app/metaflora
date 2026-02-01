@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Images
@@ -7,21 +7,42 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import playIcon from '../../assets/play-button.png';
+import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
+import playIcon from '../../assets/tour-video/play-icon.png';
+import pauseIcon from '../../assets/tour-video/pause-icon.png';
+import expandIcon from '../../assets/tour-video/expand-icon.png';
 import serviceButton from '../../assets/about-screens/кнопка перейти к сервису.png';
 
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [showOverlay, setShowOverlay] = useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  
-  // Сбрасываем блюр при каждом монтировании
-  React.useEffect(() => {
-    setShowOverlay(true);
-  }, []);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [showControls, setShowControls] = React.useState(true);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  const handlePlayPause = () => {
+    if (!videoRef.current) return;
+    
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const handleExpand = () => {
+    if (!videoRef.current) return;
+    
+    if (videoRef.current.requestFullscreen) {
+      videoRef.current.requestFullscreen();
+    } else if ((videoRef.current as any).webkitRequestFullscreen) {
+      (videoRef.current as any).webkitRequestFullscreen();
+    }
+  };
 
   return (
     <div style={{
@@ -117,7 +138,7 @@ export const AboutLabaScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Видео блок */}
+        {/* Видео блок (переиспользуется из tour-video) (24:245) */}
         <div style={{
           position: 'absolute',
           left: '142px',
@@ -125,65 +146,110 @@ export const AboutLabaScreen: React.FC = () => {
           width: '891px',
           height: '1457px',
         }}>
+          {/* Видео элемент с кастомным плеером */}
           <video
             ref={videoRef}
-            controls={!showOverlay}
             playsInline
-            preload="metadata"
-            poster="/test-video-ios.mp4#t=0.1"
-            crossOrigin="anonymous"
-            webkit-playsinline="true"
-            x5-playsinline="true"
+            onClick={handlePlayPause}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
             style={{
+              position: 'absolute',
+              inset: 0,
               width: '100%',
               height: '100%',
-              objectFit: 'contain',
-              backgroundColor: '#000',
+              objectFit: 'cover',
               borderRadius: '30px',
+              background: '#000',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
             }}
           >
-            <source src="/test-video-ios.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
+            <source src="https://lwjsbflvsmscfrdkejia.supabase.co/storage/v1/object/public/academy-videos/laba-intro.mp4" type="video/mp4" />
           </video>
 
-          {/* Blur overlay с прелоадом и кнопкой плей */}
-          {showOverlay && (
-            <>
-              {/* Блюр поверх видео */}
-              <div className="blur-wave" style={{
-                position: 'absolute',
-                inset: 0,
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.3)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                overflow: 'clip',
-              }} />
-
-              {/* Кнопка плей */}
-              <img 
-                src={playIcon}
-                alt="плей"
-                onClick={() => {
-                  setShowOverlay(false);
-                  if (videoRef.current) {
-                    videoRef.current.play().catch(() => {});
-                  }
-                }}
+          {/* Кастомные контролы поверх видео */}
+          {showControls && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+            }}>
+              {/* Кнопка Play/Pause */}
+              <div 
+                onClick={handlePlayPause}
                 style={{
                   position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '98px',
-                  height: '98px',
+                  left: 'calc(50% - 52px)',
+                  top: '621px',
+                  width: '100px',
+                  height: '100px',
+                  backdropFilter: 'blur(50px)',
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  border: '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '62px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   cursor: 'pointer',
-                  objectFit: 'contain',
-                  zIndex: 20,
+                  pointerEvents: 'auto',
                 }}
-              />
-            </>
-          )}
+              >
+                <img 
+                  src={isPlaying ? pauseIcon : playIcon}
+                  alt={isPlaying ? 'pause' : 'play'}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+
+            {/* Кнопка Expand - правый нижний угол */}
+            <div 
+              onClick={handleExpand}
+              className="blur-wave" 
+              style={{
+                position: 'absolute',
+                inset: '93.89% 1.57% 1.17% 90.35%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '62px',
+                overflow: 'clip',
+                cursor: 'pointer',
+              }}
+            >
+              {/* Иконка развернуть */}
+              <div style={{
+                position: 'absolute',
+                left: '11px',
+                top: '11px',
+                width: '42px',
+                height: '42px',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  overflow: 'hidden',
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={expandIcon}
+                    alt="развернуть"
+                    style={{
+                      position: 'absolute',
+                      height: '288.46%',
+                      left: '-164.28%',
+                      top: '-99.18%',
+                      width: '431.44%',
+                      maxWidth: 'none',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}

@@ -558,40 +558,7 @@ onBlur={() => {
           zIndex: 10,
         }}>
           {/* Reels cards - Dynamic rendering */}
-          {loading && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              загружаем топ reels...
-            </div>
-          )}
-          
-          {searchLoading && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              ищем reels...<br/>
-              <span style={{ fontSize: '24px', opacity: 0.7 }}>
-                это может занять 10-20 секунд
-              </span>
-            </div>
-          )}
-          
-          {!loading && !searchLoading && reels.map((reel, index) => (
+          {reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
               reel={reel}
@@ -600,21 +567,6 @@ onBlur={() => {
               onToggleFavorite={handleToggleFavorite}
             />
           ))}
-          
-          {!loading && !searchLoading && reels.length === 0 && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              нет reels для отображения
-            </div>
-          )}
         </div>
 
         {/* Footer */}
