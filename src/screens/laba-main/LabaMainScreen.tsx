@@ -89,7 +89,8 @@ export const LabaMainScreen: React.FC = () => {
       try {
         setLoading(true);
         const topReels = await getTopReels('нейросети');
-        setReels(topReels.slice(0, 4));
+        // Limit to 50 cards for GPU performance
+        setReels(topReels.slice(0, 50));
       } catch (error) {
         console.error('Ошибка загрузки топ reels:', error);
         showMessage('ошибка загрузки топ reels', 'alert');
@@ -121,9 +122,11 @@ export const LabaMainScreen: React.FC = () => {
       if (foundReels.length === 0) {
         showMessage('ничего не найдено. попробуйте другое ключевое слово', 'popup');
       } else {
-        setReels(foundReels);
+        // Limit to 50 cards for GPU performance
+        setReels(foundReels.slice(0, 50));
         setSearchValue('');
-        showMessage(`найдено ${foundReels.length} reels`, 'popup');
+        const displayCount = Math.min(foundReels.length, 50);
+        showMessage(`найдено ${displayCount} reels${foundReels.length > 50 ? ' (показаны первые 50)' : ''}`, 'popup');
       }
     } catch (error: any) {
       console.error('Ошибка поиска:', error);

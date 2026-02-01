@@ -10,8 +10,8 @@ import supportButton from '../../assets/tour-video/support-button.png';
 
 // Metacoins specific assets
 import titleImage from '../../assets/metacoins/выберите количество.png';
-import card5000 from '../../assets/metacoins/карточка 5000 метакоинов.png';
-import card25000 from '../../assets/metacoins/карточка 25 000 метакоинов.png';
+import card30000 from '../../assets/metacoins/карточка 30000 метакоинов.png';
+import card150000 from '../../assets/metacoins/карточка 150 000 метакоинов.png';
 import buyButton from '../../assets/metacoins/купить метакоины.png';
 
 export const MetacoinsScreen: React.FC = () => {
@@ -33,7 +33,7 @@ export const MetacoinsScreen: React.FC = () => {
       return;
     }
 
-    const amount = selectedCard === '5000' ? 5000 : 25000;
+    const amount = selectedCard === '30000' ? 30000 : 150000;
 
     // Track purchase in Supabase
     const success = await trackMetacoinsPurchase(amount);
@@ -145,9 +145,9 @@ export const MetacoinsScreen: React.FC = () => {
           }}
         />
 
-        {/* Card 1 - 5000 метакоинов PNG */}
+        {/* Card 1 - 30000 метакоинов PNG */}
         <div
-          onClick={() => setSelectedCard('5000')}
+          onClick={() => setSelectedCard('30000')}
           style={{
             position: 'absolute',
             left: '143px',
@@ -157,9 +157,9 @@ export const MetacoinsScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           <img 
-            src={card5000}
-            alt="карточка 5000 метакоинов"
-            className={`${selectedCard === '5000' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-1' : ''}`}
+            src={card30000}
+            alt="карточка 30000 метакоинов"
+            className={`${selectedCard === '30000' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-1' : ''}`}
             style={{
               position: 'absolute',
               inset: 0,
@@ -171,9 +171,9 @@ export const MetacoinsScreen: React.FC = () => {
           />
         </div>
 
-        {/* Card 2 - 25 000 метакоинов PNG */}
+        {/* Card 2 - 150000 метакоинов PNG */}
         <div
-          onClick={() => setSelectedCard('25000')}
+          onClick={() => setSelectedCard('150000')}
           style={{
             position: 'absolute',
             left: '143px',
@@ -183,9 +183,9 @@ export const MetacoinsScreen: React.FC = () => {
             cursor: 'pointer',
           }}>
           <img 
-            src={card25000}
-            alt="карточка 25 000 метакоинов"
-            className={`${selectedCard === '25000' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-2' : ''}`}
+            src={card150000}
+            alt="карточка 150 000 метакоинов"
+            className={`${selectedCard === '150000' ? 'card-selected' : ''} ${!selectedCard ? 'card-pulse-2' : ''}`}
             style={{
               position: 'absolute',
               inset: 0,
