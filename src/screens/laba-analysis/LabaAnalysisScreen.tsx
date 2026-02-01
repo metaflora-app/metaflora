@@ -861,6 +861,26 @@ export const LabaAnalysisScreen: React.FC = () => {
             )}
           </div>
 
+          {/* Button "следить" / "не следить" - 292:694 */}
+          <div style={{
+            position: 'absolute',
+            left: '602px',
+            top: '854px',
+            width: '246.93px',
+            height: '79.25px',
+          }}>
+            <img
+              src={isFollowing ? followButtonPNG : unfollowButtonPNG}
+              alt={isFollowing ? "следить активирована" : "следить неактивирована"}
+              onClick={() => setIsFollowing(!isFollowing)}
+              style={{
+                width: '100%',
+                height: '100%',
+                cursor: 'pointer',
+              }}
+            />
+          </div>
+
           {/* Button "открыть" - 292:742 */}
           <img
             src={openButtonPNG}

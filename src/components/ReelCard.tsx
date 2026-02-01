@@ -297,7 +297,6 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
       <img
         src={analysisButtonPNG}
         alt="анализ"
-        className="button-inner-glow"
         onClick={(e) => {
           e.stopPropagation();
           navigate('/laba-analysis', { state: { reel } });
