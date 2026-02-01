@@ -528,7 +528,6 @@ export const LabaTrackedScreen: React.FC = () => {
             </div>
           </div>
         )}
-        )}
 
         {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
         {!accountRemoved && (
