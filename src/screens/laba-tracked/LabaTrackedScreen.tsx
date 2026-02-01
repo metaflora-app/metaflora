@@ -66,6 +66,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [reels, setReels] = React.useState<Reel[]>([]);
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
+  const [scraping, setScraping] = React.useState(false);
 
   // Load tracked accounts - перезагружаем при каждом возврате на экран
   React.useEffect(() => {
@@ -533,7 +534,7 @@ export const LabaTrackedScreen: React.FC = () => {
           <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
         </div>
 
-        {/* Filter buttons - вернуть - Figma: inset 22.2% 48.73% 74.7% 30.34% */}
+        {/* Кнопка вернуть - по скрину слева от центра */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
@@ -544,7 +545,7 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '358px',
+            left: '159px',
             top: '566px',
             width: '247px',
             height: '80px',
@@ -553,7 +554,7 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Filter buttons - сортировка - Figma: inset 22.2% 28.06% 74.7% 51.02% */}
+        {/* Кнопка сортировка - по центру */}
         <img
           src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
           alt="сортировка"
@@ -561,22 +562,22 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '602px',
+            left: '248px',
             top: '566px',
-            width: '247px',
+            width: '338px',
             height: '80px',
             objectFit: 'contain',
             cursor: 'pointer',
           }}
         />
 
-        {/* Badge likes - Figma: left calc(50%+352px) top 566px */}
+        {/* Кнопка выбрать - справа */}
         <div style={{
           position: 'absolute',
-          left: 'calc(50% + 352px)',
+          left: '775px',
           top: '566px',
-          width: '186px',
-          height: '79px',
+          width: '247px',
+          height: '80px',
         }}>
           <img
             src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
@@ -646,7 +647,18 @@ export const LabaTrackedScreen: React.FC = () => {
           ))}
           
           {/* Reels cards - Dynamic rendering */}
-          {!loading && reels.map((reel, index) => (
+          {/* Показываем блюр карточки пока скрапинг идет */}
+          {scraping && (
+            <>
+              <BlurReelCard index={0} />
+              <BlurReelCard index={1} />
+              <BlurReelCard index={2} />
+              <BlurReelCard index={3} />
+            </>
+          )}
+          
+          {/* Показываем реальные карточки когда загрузились */}
+          {!loading && !scraping && reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
               reel={reel}

@@ -4,7 +4,6 @@ import { Reel } from '../types/laba';
 import { formatCount, formatTimeAgo, convertInstagramImageUrl } from '../utils/labaApi';
 
 // Assets
-import newBadgePNG from '../assets/laba-main/плашка новое.png';
 import analysisButtonPNG from '../assets/laba-main/кнопка анализ.png';
 import playIcon from '../assets/tour-video/play-icon.png';
 import viewsIcon from '../assets/laba-icons/иконка просмотры.png';
@@ -94,21 +93,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         />
       </div>
 
-      {/* Badge "новое" */}
-      {reel.isNew && (
-        <img
-          src={newBadgePNG}
-          alt="новое"
-          style={{
-            position: 'absolute',
-            left: '269px',
-            top: '44px',
-            width: '101px',
-            height: '36px',
-            objectFit: 'contain',
-          }}
-        />
-      )}
+      {/* Badge "новое" убрана */}
 
       {/* Like icon - с ярким свечением */}
       <div 
@@ -333,7 +318,21 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         </p>
       </div>
 
-      {/* Кнопка "следить" убрана - аккаунт уже отслеживается */}
+      {/* Tracking activated button (серая, неактивная) */}
+      <img
+        src={trackingActivatedPNG}
+        alt="следить"
+        style={{
+          position: 'absolute',
+          top: '450px',
+          right: '30px',
+          width: '200px',
+          height: '60px',
+          objectFit: 'contain',
+          opacity: 0.6,
+          pointerEvents: 'none',
+        }}
+      />
 
       {/* Analysis button */}
       <img
