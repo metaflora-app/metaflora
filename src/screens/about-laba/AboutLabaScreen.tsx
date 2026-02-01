@@ -18,6 +18,26 @@ export const AboutLabaScreen: React.FC = () => {
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Слушаем события от Kinescope для возврата кнопки
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== 'https://kinescope.io') return;
+      
+      try {
+        const data = event.data;
+        // Когда видео закончилось - показываем кнопку обратно
+        if (data.event === 'ended') {
+          setVideoStarted(false);
+        }
+      } catch (error) {
+        console.error('Ошибка обработки события:', error);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   // Запуск видео - скрываем кнопку и показываем iframe с autoplay
   const handlePlayClick = () => {
     setVideoStarted(true);
@@ -128,6 +148,7 @@ export const AboutLabaScreen: React.FC = () => {
             borderRadius: '30px',
             overflow: 'hidden',
             border: '4px solid rgba(255, 255, 255, 0.3)',
+            background: '#000',
           }}
         >
           {/* Kinescope wrapper с padding-top для растягивания видео */}
@@ -137,6 +158,23 @@ export const AboutLabaScreen: React.FC = () => {
             width: '100%',
             height: 0,
           }}>
+            {/* Постер - показывается когда видео не запущено */}
+            {!videoStarted && (
+              <img
+                src="https://kinescope.io/pD2N536keyLq269TK32qnE/poster.jpg"
+                alt="Постер видео"
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: 0,
+                  left: 0,
+                  objectFit: 'cover',
+                }}
+              />
+            )}
+            
+            {/* Iframe с autoplay - показывается после клика на Play */}
             {videoStarted && (
               <iframe 
                 src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?autoplay=1&token=e7dc4869-562f-492a-811b-506296b20fb7" 
@@ -154,7 +192,7 @@ export const AboutLabaScreen: React.FC = () => {
             )}
           </div>
           
-          {/* Кастомная кнопка Play - скрывается после клика, АВТОЗАПУСК видео */}
+          {/* Кастомная кнопка Play - скрывается после клика, возвращается когда ended */}
           {!videoStarted && (
             <img
               src={playButton}
