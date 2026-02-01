@@ -134,7 +134,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
           type: 'default',
           text: 'Закрыть'
         }]
-      }, async (buttonId: string) => {
+      }, (buttonId?: string) => {
         // 2. После закрытия первого попапа показываем второй (текст с 3-го скрина)
         if (buttonId === 'first_popup_ok') {
           if (window.Telegram?.WebApp?.showPopup) {
@@ -145,7 +145,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 type: 'default',
                 text: 'Закрыть'
               }]
-            }, async (secondButtonId: string) => {
+            }, async (secondButtonId?: string) => {
               // 3. ТОЛЬКО ПОСЛЕ закрытия второго попапа начинаем trackAccount
               if (secondButtonId === 'second_popup_ok') {
                 try {
