@@ -69,6 +69,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [scraping, setScraping] = React.useState(false);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   // Load tracked accounts - перезагружаем при каждом возврате на экран
   React.useEffect(() => {
@@ -78,6 +79,7 @@ export const LabaTrackedScreen: React.FC = () => {
       
       try {
         setLoading(true);
+        setIsRefreshing(true);
         const trackedAccounts = await getTrackedAccounts(userId);
         console.log('[TRACKED] Загружены аккаунты:', trackedAccounts);
         trackedAccounts.forEach(acc => {
@@ -97,6 +99,7 @@ export const LabaTrackedScreen: React.FC = () => {
         console.error('Ошибка загрузки аккаунтов:', error);
       } finally {
         setLoading(false);
+        setIsRefreshing(false);
       }
     };
     
@@ -110,7 +113,13 @@ export const LabaTrackedScreen: React.FC = () => {
     };
     
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      // Очищаем state при unmount
+      setAccounts([]);
+      setReels([]);
+      setSelectedAccountId(null);
+    };
   }, []);
 
   // Load reels for selected account
@@ -128,6 +137,7 @@ export const LabaTrackedScreen: React.FC = () => {
         // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
         if (accountReels.length === 0) {
           try {
+            setScraping(true);
             const result = await scrapeAccountReels(selectedAccountId, userId);
             
             // Показываем результат
@@ -147,6 +157,8 @@ export const LabaTrackedScreen: React.FC = () => {
                 message: error.message || 'ошибка загрузки reels'
               });
             }
+          } finally {
+            setScraping(false);
           }
         }
       } catch (error) {
