@@ -5,6 +5,7 @@ import { formatCount, formatTimeAgo, convertInstagramImageUrl } from '../utils/l
 
 // Assets
 import analysisButtonPNG from '../assets/laba-main/кнопка анализ.png';
+import newBadgePNG from '../assets/laba-main/плашка новое.png';
 import playIcon from '../assets/tour-video/play-icon.png';
 import viewsIcon from '../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../assets/laba-icons/иконка лайки.png';
@@ -93,7 +94,23 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         />
       </div>
 
-      {/* Badge "новое" убрана */}
+      {/* Badge "новое" - показывается если reel.isNew */}
+      {reel.isNew && (
+        <img
+          src={newBadgePNG}
+          alt="новое"
+          style={{
+            position: 'absolute',
+            left: '322px',
+            top: '44px',
+            width: '58px',
+            height: '26px',
+            objectFit: 'contain',
+            zIndex: 20,
+            pointerEvents: 'none',
+          }}
+        />
+      )}
 
       {/* Like icon - с ярким свечением */}
       <div 
