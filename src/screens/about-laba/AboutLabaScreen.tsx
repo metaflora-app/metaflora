@@ -15,9 +15,34 @@ import serviceButton from '../../assets/about-screens/кнопка перейт�
 
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [showControls, setShowControls] = React.useState(true);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+
+  const handlePlayPause = () => {
+    if (!videoRef.current) return;
+    
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const handleExpand = () => {
+    if (!videoRef.current) return;
+    
+    if (videoRef.current.requestFullscreen) {
+      videoRef.current.requestFullscreen();
+    } else if ((videoRef.current as any).webkitRequestFullscreen) {
+      (videoRef.current as any).webkitRequestFullscreen();
+    }
+  };
 
   return (
     <div style={{
@@ -121,101 +146,80 @@ export const AboutLabaScreen: React.FC = () => {
           width: '891px',
           height: '1457px',
         }}>
-          {/* Фоновое изображение видео */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '40px',
-            overflow: 'hidden',
-          }}>
-            <img 
-              src={videoThumbnail}
-              alt=""
+          {/* Видео элемент с кастомным плеером */}
+          <video
+            ref={videoRef}
+            playsInline
+            onClick={handlePlayPause}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '30px',
+              background: '#000',
+              border: '4px solid rgba(255, 255, 255, 0.3)',
+            }}
+          >
+            <source src="https://lwjsbflvsmscfrdkejia.supabase.co/storage/v1/object/public/academy-videos/laba-intro.mp4" type="video/mp4" />
+          </video>
+
+          {/* Кастомные контролы поверх видео */}
+          {showControls && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+            }}>
+              {/* Кнопка Play/Pause */}
+              <div 
+                onClick={handlePlayPause}
+                style={{
+                  position: 'absolute',
+                  left: 'calc(50% - 52px)',
+                  top: '621px',
+                  width: '100px',
+                  height: '100px',
+                  backdropFilter: 'blur(50px)',
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  border: '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '62px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  pointerEvents: 'auto',
+                }}
+              >
+                <img 
+                  src={isPlaying ? pauseIcon : playIcon}
+                  alt={isPlaying ? 'pause' : 'play'}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+
+            {/* Кнопка Expand - правый нижний угол */}
+            <div 
+              onClick={handleExpand}
+              className="blur-wave" 
               style={{
                 position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
+                inset: '93.89% 1.57% 1.17% 90.35%',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.1)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '62px',
+                overflow: 'clip',
+                cursor: 'pointer',
               }}
-            />
-          </div>
-
-          {/* Blur слой поверх видео */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }}>
-            {/* Кнопка Play */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 52px)',
-              top: '621px',
-              width: '100px',
-              height: '100px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}>
-              <img 
-                src={playIcon}
-                alt="play"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            {/* Кнопка Pause */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 52px)',
-              top: '731px',
-              width: '100px',
-              height: '100px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}>
-              <img 
-                src={pauseIcon}
-                alt="pause"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            {/* Кнопка Expand - правый нижний угол (7:142) */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: '93.89% 1.57% 1.17% 90.35%',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              overflow: 'clip',
-              cursor: 'pointer',
-            }}>
+            >
               {/* Иконка развернуть */}
               <div style={{
                 position: 'absolute',

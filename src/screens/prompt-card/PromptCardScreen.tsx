@@ -82,10 +82,10 @@ export const PromptCardScreen: React.FC = () => {
     }
   };
 
-  // Используем данные из Supabase или статичные
-  const promptText = prompt?.prompt_text || 'идея в том, чтобы в конце одного кадра был объект, похожий по форме или цвету на объект в начале следующего. Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом клипе огонь должен постепенно заполнить весь кадр: Допустим, вы хотите перейти от сцены с костром к восходу солнца. Тогда в первом';
-  const promptTitle = prompt?.title || 'ИИ-копирайтер для блога';
-  const promptCoverUrl = prompt?.cover_image_url || houseImage;
+  // Используем только динамические данные из Supabase
+  const promptText = prompt?.prompt_text || '';
+  const promptTitle = prompt?.title || '';
+  const promptCoverUrl = prompt?.cover_image_url || '';
 
   const handleCopy = async () => {
     try {
