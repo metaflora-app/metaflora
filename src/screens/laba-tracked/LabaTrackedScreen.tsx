@@ -8,7 +8,8 @@ import {
   untrackAccount,
   getTelegramUserId,
   toggleFavorite,
-  scrapeAccountReels 
+  scrapeAccountReels,
+  convertInstagramImageUrl 
 } from '../../utils/labaApi';
 import { TrackedAccount, Reel } from '../../types/laba';
 
@@ -409,11 +410,12 @@ export const LabaTrackedScreen: React.FC = () => {
                   background: 'rgba(255, 255, 255, 0.1)',
                 }}>
                   <img
-                    src={account.profilePhotoUrl || profilePhoto}
+                    src={convertInstagramImageUrl(account.profilePhotoUrl) || profilePhoto}
                     alt=""
                     crossOrigin="anonymous"
                     onError={(e) => {
                       console.error('[AVATAR] Ошибка загрузки аватарки:', account.profilePhotoUrl);
+                      console.error('[AVATAR] Прокси URL:', convertInstagramImageUrl(account.profilePhotoUrl));
                       (e.target as HTMLImageElement).src = profilePhoto;
                     }}
                     style={{
@@ -524,8 +526,8 @@ export const LabaTrackedScreen: React.FC = () => {
           className="blur-wave button-inner-glow"
           style={{
             position: 'absolute',
-            left: '53px',
-            top: '654px',
+            left: '85px',
+            top: '586px',
             width: '79px',
             height: '79px',
             backdropFilter: 'blur(50px)',
@@ -551,8 +553,8 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '162px',
-            top: '654px',
+            left: '184px',
+            top: '586px',
             width: '270px',
             height: '79px',
             objectFit: 'contain',
@@ -568,8 +570,8 @@ export const LabaTrackedScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '462px',
-            top: '654px',
+            left: '474px',
+            top: '586px',
             width: '310px',
             height: '79px',
             objectFit: 'contain',
@@ -580,8 +582,8 @@ export const LabaTrackedScreen: React.FC = () => {
         {/* Кнопка выбрать */}
         <div style={{
           position: 'absolute',
-          left: '802px',
-          top: '654px',
+          left: '804px',
+          top: '586px',
           width: '270px',
           height: '79px',
         }}>
