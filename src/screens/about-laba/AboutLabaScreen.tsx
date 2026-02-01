@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import KinescopePlayer from '@kinescope/react-kinescope-player';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -110,7 +109,7 @@ export const AboutLabaScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Видео блок с Kinescope плеером */}
+        {/* Видео блок с Kinescope iframe */}
         <div style={{
           position: 'absolute',
           left: '142px',
@@ -121,20 +120,18 @@ export const AboutLabaScreen: React.FC = () => {
           overflow: 'hidden',
           border: '4px solid rgba(255, 255, 255, 0.3)',
         }}>
-          <KinescopePlayer
-            videoId="lTQxeP6BmHKZ4FgYv8D4Kv"
+          <iframe 
+            src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE" 
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
+            frameBorder="0" 
+            allowFullScreen
             style={{
               position: 'absolute',
-              inset: 0,
               width: '100%',
               height: '100%',
+              top: 0,
+              left: 0,
             }}
-            playsInline={true}
-            controls={true}
-            autoPlay={false}
-            loop={false}
-            muted={false}
-            language="ru"
           />
         </div>
 
