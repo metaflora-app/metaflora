@@ -122,6 +122,7 @@ export const LabaTrackedScreen: React.FC = () => {
         if (accountReels.length === 0) {
           // Показываем попап ПЕРЕД скрапингом
           if (window.Telegram?.WebApp?.showPopup) {
+              // @ts-ignore - Telegram WebApp types mismatch
             window.Telegram.WebApp.showPopup({
               message: 'начинаем поиск reels...\n\nэто займет 10-20 секунд\nнажмите ок и дождитесь загрузки',
               buttons: [
@@ -138,6 +139,7 @@ export const LabaTrackedScreen: React.FC = () => {
                   
                   // Показываем результат
                   if (result.showPopup && window.Telegram?.WebApp?.showPopup) {
+              // @ts-ignore - Telegram WebApp types mismatch
                     window.Telegram.WebApp.showPopup({
                       message: result.popupMessage || `найдено ${result.reelsAdded} reels`
                     });
@@ -149,6 +151,7 @@ export const LabaTrackedScreen: React.FC = () => {
                 } catch (error: any) {
                   console.error('Ошибка скрапинга:', error);
                   if (window.Telegram?.WebApp?.showPopup) {
+              // @ts-ignore - Telegram WebApp types mismatch
                     window.Telegram.WebApp.showPopup({
                       message: error.message || 'ошибка загрузки reels'
                     });
@@ -177,6 +180,7 @@ export const LabaTrackedScreen: React.FC = () => {
       await untrackAccount(selectedAccountId, userId);
       
       if (window.Telegram?.WebApp?.showPopup) {
+              // @ts-ignore - Telegram WebApp types mismatch
         window.Telegram.WebApp.showPopup({
           message: 'аккаунт удален из отслеживаемых'
         });
@@ -205,6 +209,7 @@ export const LabaTrackedScreen: React.FC = () => {
 
   const handleSortClick = () => {
     if (window.Telegram?.WebApp?.showPopup) {
+              // @ts-ignore - Telegram WebApp types mismatch
       window.Telegram.WebApp.showPopup({
         message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
       });
@@ -502,6 +507,7 @@ export const LabaTrackedScreen: React.FC = () => {
                       }
                       
                       if (window.Telegram?.WebApp?.showPopup) {
+              // @ts-ignore - Telegram WebApp types mismatch
                         window.Telegram.WebApp.showPopup({
                           message: 'аккаунт удален из отслеживаемых'
                         });
