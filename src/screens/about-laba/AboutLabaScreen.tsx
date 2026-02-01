@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import KinescopePlayer from '@kinescope/react-kinescope-player';
 
 // Images
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -7,43 +8,13 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
-import videoThumbnail from '../../assets/tour-video/video-thumbnail.png';
-import playIcon from '../../assets/tour-video/play-icon.png';
-import pauseIcon from '../../assets/tour-video/pause-icon.png';
-import expandIcon from '../../assets/tour-video/expand-icon.png';
 import serviceButton from '../../assets/about-screens/кнопка перейти к сервису.png';
 
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = React.useState(false);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-
-  const handlePlayPause = () => {
-    if (!videoRef.current) return;
-    
-    if (isPlaying) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
-  const handleExpand = () => {
-    if (!videoRef.current) return;
-    
-    if (videoRef.current.requestFullscreen) {
-      videoRef.current.requestFullscreen();
-    } else if ((videoRef.current as any).webkitRequestFullscreen) {
-      (videoRef.current as any).webkitRequestFullscreen();
-    } else if ((videoRef.current as any).webkitEnterFullscreen) {
-      (videoRef.current as any).webkitEnterFullscreen();
-    }
-  };
 
   return (
     <div style={{
@@ -139,120 +110,32 @@ export const AboutLabaScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Видео блок (переиспользуется из tour-video) (24:245) */}
+        {/* Видео блок с Kinescope плеером */}
         <div style={{
           position: 'absolute',
           left: '142px',
           top: '401px',
           width: '891px',
           height: '1457px',
+          borderRadius: '30px',
+          overflow: 'hidden',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
         }}>
-          {/* Видео элемент с кастомным плеером */}
-          <video
-            ref={videoRef}
-            playsInline
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-            onEnded={() => setIsPlaying(false)}
+          <KinescopePlayer
+            videoId="lTQxeP6BmHKZ4FgYv8D4Kv"
             style={{
               position: 'absolute',
               inset: 0,
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              borderRadius: '30px',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
             }}
-          >
-            <source src="https://lwjsbflvsmscfrdkejia.supabase.co/storage/v1/object/public/academy-videos/laba-intro.mp4" type="video/mp4" />
-          </video>
-
-          {/* Кастомные контролы поверх видео */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-          }}>
-            {/* Кнопка Play/Pause */}
-            <div 
-              onClick={handlePlayPause}
-              style={{
-                position: 'absolute',
-                left: 'calc(50% - 52px)',
-                top: '621px',
-                width: '100px',
-                height: '100px',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.3)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                pointerEvents: 'auto',
-              }}
-            >
-              <img 
-                src={isPlaying ? pauseIcon : playIcon}
-                alt={isPlaying ? 'pause' : 'play'}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            {/* Кнопка Expand - правый нижний угол */}
-            <div 
-              onClick={handleExpand}
-              className="blur-wave" 
-              style={{
-                position: 'absolute',
-                inset: '93.89% 1.57% 1.17% 90.35%',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.1)',
-                border: '4px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '62px',
-                overflow: 'clip',
-                cursor: 'pointer',
-                pointerEvents: 'auto',
-              }}
-            >
-              {/* Иконка развернуть */}
-              <div style={{
-                position: 'absolute',
-                left: '11px',
-                top: '11px',
-                width: '42px',
-                height: '42px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={expandIcon}
-                    alt="развернуть"
-                    style={{
-                      position: 'absolute',
-                      height: '288.46%',
-                      left: '-164.28%',
-                      top: '-99.18%',
-                      width: '431.44%',
-                      maxWidth: 'none',
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+            playsInline={true}
+            controls={true}
+            autoPlay={false}
+            loop={false}
+            muted={false}
+            language="ru"
+          />
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}

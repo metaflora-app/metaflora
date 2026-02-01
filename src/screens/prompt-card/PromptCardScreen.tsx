@@ -82,30 +82,7 @@ export const PromptCardScreen: React.FC = () => {
     }
   };
 
-  // Не показываем контент пока идет загрузка
-  if (loading) {
-    return (
-      <div style={{
-        position: 'relative',
-        width: '100vw',
-        height: '100vh',
-        background: '#020101',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <div style={{
-          fontFamily: 'Gotham Pro',
-          fontSize: '32px',
-          color: 'white',
-        }}>
-          {/* Пустой экран при загрузке */}
-        </div>
-      </div>
-    );
-  }
-
-  // Используем только динамические данные из Supabase
+  // Используем только динамические данные из Supabase (без fallback и без loading экрана)
   const promptText = prompt?.prompt_text || '';
   const promptTitle = prompt?.title || '';
   const promptCoverUrl = prompt?.cover_image_url || '';
