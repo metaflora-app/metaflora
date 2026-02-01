@@ -870,24 +870,13 @@ export const LabaAnalysisScreen: React.FC = () => {
             height: '79.25px',
           }}>
             <img
-              src={isFollowing ? unfollowButtonPNG : followButtonPNG}
-              alt={isFollowing ? 'не следить' : 'следить'}
-              onClick={() => {
-                setIsFollowing(!isFollowing);
-                const message = !isFollowing 
-                  ? 'аккаунт добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов' 
-                  : 'вы больше не отслеживаете данный профиль';
-                
-                if (window.Telegram?.WebApp?.showPopup) {
-                  window.Telegram.WebApp.showPopup({
-                    message: message
-                  });
-                }
-              }}
+              src={unfollowButtonPNG}
+              alt="следить неактивирована"
               style={{
                 width: '100%',
                 height: '100%',
-                cursor: 'pointer',
+                opacity: 0.6,
+                pointerEvents: 'none',
               }}
             />
           </div>

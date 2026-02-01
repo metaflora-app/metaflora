@@ -360,16 +360,18 @@ export const LabaTrackedScreen: React.FC = () => {
           left: '151px',
           top: '405px',
           width: '878px',
-          height: '162px',
+          height: '140px',
           overflow: 'hidden',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
         }}>
           <div style={{
             display: 'flex',
-            gap: '20px',
+            gap: '0px',
             overflowX: 'auto',
             overflowY: 'hidden',
             height: '100%',
-            paddingRight: '20px',
+            paddingRight: '0px',
           }}>
             {/* Tracked accounts */}
             {accounts.map((account) => (
@@ -378,8 +380,8 @@ export const LabaTrackedScreen: React.FC = () => {
                 className="blur-wave" 
                 style={{
                   flexShrink: 0,
-                  width: '522px',
-                  height: '162px',
+                  width: '360px',
+                  height: '140px',
                   backdropFilter: 'blur(50px)',
                   background: selectedAccountId === account.id 
                     ? 'rgba(255, 255, 255, 0.2)' 
