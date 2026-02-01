@@ -125,48 +125,37 @@ export const LabaSearchAccountScreen: React.FC = () => {
       return;
     }
     
-    // 1. Показываем первый попап СРАЗУ при клике (текст со 2-го скрина)
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'аккаунт добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов',
-        buttons: [{
-          id: 'first_popup_ok',
-          type: 'default',
-          text: 'Закрыть'
-        }]
-      }, (buttonId?: string) => {
-        // 2. После закрытия первого попапа показываем второй (текст с 3-го скрина)
-        if (buttonId === 'first_popup_ok') {
-          if (window.Telegram?.WebApp?.showPopup) {
-            window.Telegram.WebApp.showPopup({
-              message: 'найдено 40 reels\n\nсписано 100 метакоинов',
-              buttons: [{
-                id: 'second_popup_ok',
-                type: 'default',
-                text: 'Закрыть'
-              }]
-            }, async (secondButtonId?: string) => {
-              // 3. ТОЛЬКО ПОСЛЕ закрытия второго попапа начинаем trackAccount
-              if (secondButtonId === 'second_popup_ok') {
-                try {
-                  setTracking(true);
-                  const result = await trackAccount(foundAccount.username, userId);
-                  
-                  // Переходим на LabaTrackedScreen где начнется скрапинг
-                  navigate('/laba-tracked');
-                } catch (error: any) {
-                  console.error('Ошибка отслеживания:', error);
-                  if ((window as any).Telegram?.WebApp?.showAlert) {
-                    (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
-                  }
-                } finally {
-                  setTracking(false);
-                }
-              }
-            });
-          }
-        }
+    // Показываем первый попап СРАЗУ при клике
+    if ((window as any).Telegram?.WebApp?.showPopup) {
+      (window as any).Telegram.WebApp.showPopup({
+        message: 'аккаунт добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов'
       });
+    }
+    
+    // Небольшая задержка для показа попапа
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Показываем второй попап
+    if ((window as any).Telegram?.WebApp?.showPopup) {
+      (window as any).Telegram.WebApp.showPopup({
+        message: 'найдено 40 reels\n\nсписано 100 метакоинов'
+      });
+    }
+    
+    // Добавляем аккаунт
+    try {
+      setTracking(true);
+      const result = await trackAccount(foundAccount.username, userId);
+      
+      // Переходим на LabaTrackedScreen где начнется скрапинг
+      navigate('/laba-tracked');
+    } catch (error: any) {
+      console.error('Ошибка отслеживания:', error);
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
+      }
+    } finally {
+      setTracking(false);
     }
   };
 
