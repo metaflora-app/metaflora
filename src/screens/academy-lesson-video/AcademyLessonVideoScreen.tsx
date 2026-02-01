@@ -198,7 +198,29 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         {video?.video_id ? (
           <AboutVideoPlayer videoId={video.video_id} />
         ) : (
-          <AboutVideoPlayer />
+          <div style={{
+            position: 'absolute',
+            left: '142px',
+            top: '401px',
+            width: '891px',
+            height: '1457px',
+            borderRadius: '30px',
+            overflow: 'hidden',
+            border: '4px solid rgba(255, 255, 255, 0.3)',
+            background: '#000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              color: 'white',
+              fontSize: '32px',
+              fontFamily: 'Gotham Pro',
+              textAlign: 'center',
+            }}>
+              Видео не найдено
+            </div>
+          </div>
         )}
 
         {/* Кнопка "получить материалы" - PNG */}
