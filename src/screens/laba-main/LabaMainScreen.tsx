@@ -13,6 +13,8 @@ import {
 } from '../../utils/labaApi';
 import { Reel } from '../../types/laba';
 import { ReelCard } from '../../components/ReelCard';
+import { BlurReelCard } from '../../components/BlurReelCard';
+import { useUIState } from '../../contexts/UIStateContext';
 
 // REUSED from prompt-first screen
 import smallLogo from '../../assets/figma-welcome/logo-small.png';
@@ -67,11 +69,14 @@ import instaLogo from '../../assets/laba-icons/лого инста.png';
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const { labaReelsCache, setLabaReelsCache } = useUIState();
   
-  // Reels data
-  const [reels, setReels] = React.useState<Reel[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  // Reels data - восстанавливаем из кэша при возврате
+  const [reels, setReels] = React.useState<Reel[]>(labaReelsCache);
+  const [loading, setLoading] = React.useState(labaReelsCache.length === 0);
   const [searchLoading, setSearchLoading] = React.useState(false);
+  const [showBlurCards, setShowBlurCards] = React.useState(false);
+  const [loadedReelsCount, setLoadedReelsCount] = React.useState(0);
   
   // UI state
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
@@ -83,76 +88,175 @@ export const LabaMainScreen: React.FC = () => {
   const [searchValue, setSearchValue] = React.useState('');
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
 
-  // Load top reels on mount
+  // Load top reels on mount (ВСЕГДА загружаем свежие данные)
   React.useEffect(() => {
     const fetchTopReels = async () => {
       try {
         setLoading(true);
         const topReels = await getTopReels('нейросети');
-        setReels(topReels.slice(0, 40));
+        console.log(`📊 Загружено ${topReels.length} топ reels`);
+        setReels(topReels);
+        setLabaReelsCache(topReels);
       } catch (error) {
         console.error('Ошибка загрузки топ reels:', error);
+        showMessage('ошибка загрузки топ reels', 'alert');
       } finally {
         setLoading(false);
       }
     };
     
     fetchTopReels();
-  }, []);
+  }, [setLabaReelsCache]);
+  
+  // Сохраняем reels в кэш при изменении
+  React.useEffect(() => {
+    if (reels.length > 0) {
+      setLabaReelsCache(reels);
+    }
+  }, [reels, setLabaReelsCache]);
 
-  // Handle search
+  // Handle search - с popup перед запуском
   const handleSearch = async () => {
     if (!searchValue.trim()) {
-      showMessage('введите ключевое слово для поиска', 'popup');
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: 'введите ключевое слово для поиска'
+        });
+      }
       return;
     }
     
     const userId = getTelegramUserId();
     if (!userId) {
-      showMessage('ошибка получения telegram user id', 'alert');
+      if ((window as any).Telegram?.WebApp?.showPopup) {
+        (window as any).Telegram.WebApp.showPopup({
+          message: 'ошибка получения telegram user id'
+        });
+      }
       return;
     }
     
-    try {
-      setSearchLoading(true);
-      const foundReels = await searchReels(searchValue, userId);
-      
-      if (foundReels.length === 0) {
-        showMessage('ничего не найдено. попробуйте другое ключевое слово', 'popup');
-      } else {
-        // Limit to 40 cards
-        setReels(foundReels.slice(0, 40));
-        setSearchValue('');
-        const displayCount = Math.min(foundReels.length, 40);
-        showMessage(`найдено ${displayCount} reels${foundReels.length > 40 ? ' (показаны первые 40)' : ''}`, 'popup');
-      }
-    } catch (error: any) {
-      console.error('Ошибка поиска:', error);
-      showMessage(error.message || 'ошибка поиска. попробуйте позже', 'popup');
-    } finally {
-      setSearchLoading(false);
+    // Сохраняем значение (НЕ очищаем поле!)
+    const keyword = searchValue.trim();
+    
+    // УБИРАЕМ КЛАВИАТУРУ
+    const inputElement = document.querySelector('input[type="text"]') as HTMLInputElement;
+    if (inputElement) {
+      inputElement.blur();
+    }
+    
+    // Показываем popup ПЕРЕД запуском поиска
+    if ((window as any).Telegram?.WebApp?.showPopup) {
+      (window as any).Telegram.WebApp.showPopup({
+        message: 'начинаем поиск reels...\n\nэто займет 30-40 секунд\nнажмите ок и дождитесь загрузки',
+        buttons: [
+          {
+            id: 'start_search',
+            type: 'default',
+            text: 'ок'
+          }
+        ]
+      }, async (buttonId: string) => {
+        // Функция запускается ТОЛЬКО после нажатия ОК
+        if (buttonId === 'start_search') {
+          // СРАЗУ показываем 40 блюр-карточек
+          setShowBlurCards(true);
+          setLoadedReelsCount(0);
+          setReels([]);
+          
+          try {
+            setSearchLoading(true);
+            const foundReels = await searchReels(keyword, userId);
+            
+            // Показываем результат
+            if ((window as any).Telegram?.WebApp?.showPopup) {
+              if (foundReels.length === 0) {
+                setShowBlurCards(false);
+                (window as any).Telegram.WebApp.showPopup({
+                  message: 'ничего не найдено\n\nпопробуйте другое ключевое слово'
+                }, () => {
+                  setSearchValue('');
+                });
+              } else {
+                // Прогрессивная загрузка по 20% (8 reels за раз из 40)
+                const chunkSize = Math.ceil(foundReels.length * 0.2);
+                let currentIndex = 0;
+                
+                const loadNextChunk = () => {
+                  if (currentIndex < foundReels.length) {
+                    const nextChunk = foundReels.slice(currentIndex, currentIndex + chunkSize);
+                    setReels(prev => [...prev, ...nextChunk]);
+                    setLoadedReelsCount(prev => prev + nextChunk.length);
+                    currentIndex += chunkSize;
+                    
+                    // Загружаем следующий чунк через 300ms
+                    setTimeout(loadNextChunk, 300);
+                  } else {
+                    // Все загружено - убираем лишние блюр-карточки
+                    setShowBlurCards(false);
+                  }
+                };
+                
+                // Запускаем загрузку
+                loadNextChunk();
+                
+                (window as any).Telegram.WebApp.showPopup({
+                  message: 'reels успешно найдены'
+                }, () => {
+                  setSearchValue('');
+                });
+              }
+            }
+          } catch (error: any) {
+            console.error('Ошибка поиска:', error);
+            setShowBlurCards(false);
+            if ((window as any).Telegram?.WebApp?.showPopup) {
+              (window as any).Telegram.WebApp.showPopup({
+                message: error.message || 'ошибка поиска\n\nпопробуйте позже'
+              }, () => {
+                setSearchValue('');
+              });
+            }
+          } finally {
+            setSearchLoading(false);
+          }
+        }
+      });
     }
   };
 
-  // Handle favorite toggle
+  // Handle favorite toggle - ОПТИМИСТИЧНОЕ ОБНОВЛЕНИЕ (UI меняется сразу)
   const handleToggleFavorite = async (reelId: string) => {
     const userId = getTelegramUserId();
     if (!userId) return;
     
+    // СРАЗУ меняем UI (оптимистичное обновление)
+    const wasLiked = likedCards.has(reelId);
+    setLikedCards(prev => {
+      const newSet = new Set(prev);
+      if (wasLiked) {
+        newSet.delete(reelId);
+      } else {
+        newSet.add(reelId);
+      }
+      return newSet;
+    });
+    
+    // Затем отправляем запрос на сервер
     try {
-      const isFavorite = await toggleFavorite(reelId, userId);
-      
+      await toggleFavorite(reelId, userId);
+    } catch (error) {
+      console.error('Ошибка избранного:', error);
+      // Откатываем изменения при ошибке
       setLikedCards(prev => {
         const newSet = new Set(prev);
-        if (isFavorite) {
+        if (wasLiked) {
           newSet.add(reelId);
         } else {
           newSet.delete(reelId);
         }
         return newSet;
       });
-    } catch (error) {
-      console.error('Ошибка избранного:', error);
     }
   };
 
@@ -192,21 +296,13 @@ export const LabaMainScreen: React.FC = () => {
     }
   };
 
-  const handleReturnClick = async () => {
+  const handleReturnClick = () => {
     setSelectedSort(null);
     setSelectedDate(null);
     setSelectedLanguage(null);
     setSelectedVirality(null);
     setSelectedAccount(null);
     setLikedCards(new Set());
-    
-    // Перезагружаем топ-рилс
-    try {
-      const topReels = await getTopReels('нейросети');
-      setReels(topReels.slice(0, 40));
-    } catch (error) {
-      console.error('Ошибка загрузки топ reels:', error);
-    }
   };
 
   return (
@@ -249,7 +345,12 @@ export const LabaMainScreen: React.FC = () => {
       }}>
         {/* Header - Logo - REUSED */}
         <div 
-          onClick={() => navigate('/main-dashboard-premium')}
+          onClick={() => {
+            // Очищаем результаты поиска при выходе на главную
+            setReels([]);
+            setLabaReelsCache([]);
+            navigate('/main-dashboard-premium');
+          }}
           style={{
             position: 'absolute',
             height: '131px',
@@ -343,7 +444,7 @@ onBlur={() => {
                 handleSearch();
               }
             }}
-            placeholder={isSearchFocused ? '' : 'найти видео по ключевым словам'}
+            placeholder={isSearchFocused ? '' : 'найти видео по ключевому слову'}
             enterKeyHint="search"
             style={{
               position: 'absolute',
@@ -542,7 +643,7 @@ onBlur={() => {
           }}
         />
 
-        {/* Main content window - с СКРОЛЛОМ и FADE */}
+        {/* Main content window - с СКРОЛЛОМ БЕЗ ФЕЙДА - ТОЛЬКО ВЕРТИКАЛЬНЫЙ */}
         <div className="blur-wave" style={{
           position: 'absolute',
           backdropFilter: 'blur(50px)',
@@ -554,16 +655,20 @@ onBlur={() => {
           top: '673px',
           width: '884px',
           transform: 'translateX(-50%)',
-          overflow: 'auto',
-          WebkitMaskImage: !loading && !searchLoading && reels.length > 2
-            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
-            : 'none',
-          maskImage: !loading && !searchLoading && reels.length > 2
-            ? 'linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 30px), transparent 100%)'
-            : 'none',
+          overflowX: 'hidden',
+          overflowY: 'auto',
           zIndex: 10,
         }}>
-          {/* Reels cards - Dynamic rendering */}
+          {/* Blur placeholder cards - показываем 40 штук пока идет загрузка */}
+          {showBlurCards && Array.from({ length: 40 }).map((_, index) => {
+            // Показываем блюр-карточку только если reel еще не загружен
+            if (index >= reels.length) {
+              return <BlurReelCard key={`blur-${index}`} index={index} />;
+            }
+            return null;
+          })}
+          
+          {/* Reels cards - Dynamic rendering с прогрессивной загрузкой */}
           {reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
