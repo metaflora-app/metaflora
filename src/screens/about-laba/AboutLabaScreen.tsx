@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Images
@@ -15,23 +15,56 @@ export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showControls, setShowControls] = useState(true);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
+  // Слушаем события от Kinescope
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Проверяем что сообщение от Kinescope
+      if (event.origin !== 'https://kinescope.io') return;
+      
+      try {
+        const data = event.data;
+        
+        // Kinescope отправляет события в формате { event: 'eventName', ... }
+        if (data.event === 'playing') {
+          setIsPlaying(true);
+          setShowControls(false); // Скрываем кнопки когда видео играет
+        } else if (data.event === 'pause' || data.event === 'paused') {
+          setIsPlaying(false);
+          setShowControls(true); // Показываем кнопки когда пауза
+        } else if (data.event === 'ended') {
+          setIsPlaying(false);
+          setShowControls(true); // Показываем кнопки когда видео закончилось
+        }
+      } catch (error) {
+        console.error('Ошибка обработки события Kinescope:', error);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   // Управление видео через Kinescope API
   const handlePlayPause = () => {
-    if (!iframeRef.current) return;
+    if (!iframeRef.current?.contentWindow) return;
     
     try {
-      // Отправляем команду в iframe через postMessage
       const command = isPlaying ? 'pause' : 'play';
-      iframeRef.current.contentWindow?.postMessage({
-        method: command,
-        value: null
-      }, '*');
       
-      setIsPlaying(!isPlaying);
+      // Kinescope API использует формат: { method: 'command' }
+      iframeRef.current.contentWindow.postMessage({
+        method: command
+      }, 'https://kinescope.io');
+      
+      // Сразу скрываем кнопки при нажатии Play
+      if (!isPlaying) {
+        setShowControls(false);
+      }
     } catch (error) {
       console.error('Ошибка управления видео:', error);
     }
@@ -151,7 +184,7 @@ export const AboutLabaScreen: React.FC = () => {
           }}>
             <iframe 
               ref={iframeRef}
-              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?api=1" 
+              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE?api=1&token=e7dc4869-562f-492a-811b-506296b20fb7" 
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
               frameBorder="0" 
               allowFullScreen
@@ -165,25 +198,26 @@ export const AboutLabaScreen: React.FC = () => {
             />
           </div>
           
-          {/* Кастомная кнопка Play/Pause */}
-          <img
-            src={isPlaying ? pauseButton : playButton}
-            alt={isPlaying ? 'пауза' : 'плей'}
-            onClick={handlePlayPause}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '120px',
-              height: '120px',
-              cursor: 'pointer',
-              zIndex: 1000,
-              opacity: isPlaying ? 0.7 : 1,
-              transition: 'opacity 0.3s ease',
-            }}
-          />
+          {/* Кастомная кнопка Play/Pause - показывается только когда showControls = true */}
+          {showControls && (
+            <img
+              src={isPlaying ? pauseButton : playButton}
+              alt={isPlaying ? 'пауза' : 'плей'}
+              onClick={handlePlayPause}
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '120px',
+                height: '120px',
+                cursor: 'pointer',
+                zIndex: 1000,
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+              }}
+            />
+          )}
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
