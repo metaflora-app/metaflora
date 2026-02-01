@@ -265,12 +265,7 @@ export const ArticleScreen: React.FC = () => {
             }}
           >
             <div 
-              onClick={() => {
-                const imageUrl = block.content?.endsWith('.png') 
-                  ? block.content.replace('.png', '.jpg')
-                  : block.content;
-                setExpandedImage(imageUrl);
-              }}
+              onClick={() => setExpandedImage(block.content)}
               style={{
                 width: '100%',
                 border: '2px solid rgba(0, 0, 0, 0.3)',
@@ -281,20 +276,16 @@ export const ArticleScreen: React.FC = () => {
               }}
             >
               <img
-                src={block.content?.endsWith('.png') ? block.content.replace('.png', '.jpg') : block.content}
+                src={block.content}
                 alt="Изображение"
                 loading="eager"
+                crossOrigin="anonymous"
                 onError={(e) => {
                   console.error('[IMAGE ERROR]', e);
                   console.error('[IMAGE URL]', block.content);
                   const img = e.target as HTMLImageElement;
-                  // Fallback to original PNG if JPEG conversion fails
-                  if (img.src !== block.content) {
-                    img.src = block.content;
-                  } else {
-                    img.style.border = '2px solid rgba(255, 0, 0, 0.3)';
-                    img.style.opacity = '0.5';
-                  }
+                  img.style.border = '2px solid rgba(255, 0, 0, 0.3)';
+                  img.style.opacity = '0.5';
                 }}
                 onLoad={() => console.log('[IMAGE] Loaded:', block.content)}
                 style={{
@@ -310,10 +301,7 @@ export const ArticleScreen: React.FC = () => {
               alt="развернуть"
               onClick={(e) => {
                 e.stopPropagation();
-                const imageUrl = block.content?.endsWith('.png') 
-                  ? block.content.replace('.png', '.jpg')
-                  : block.content;
-                setExpandedImage(imageUrl);
+                setExpandedImage(block.content);
               }}
               className="button-inner-glow"
               style={{

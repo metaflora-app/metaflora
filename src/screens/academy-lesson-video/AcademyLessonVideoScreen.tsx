@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
-import { getLessonProgress, updateLessonProgress, wasVideoViewed, markVideoViewed } from '../../utils/userProgress';
-import { getTelegramUserId } from '../../utils/labaApi';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 
 // Images
@@ -13,7 +11,6 @@ import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
 import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
 import playIcon from '../../assets/play-button.png';
-import expandVideoButton from '../../assets/экран-с-экскурсией/кнопка развернуть видео.png';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +23,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [video, setVideo] = useState<AcademyVideo | null>(null);
   const [, setLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(true);
-  
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
 
@@ -38,40 +34,31 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     }
   }, [lessonId]);
 
-  const handleVideoProgress = async () => {
-    if (!videoRef.current || !lessonId || lessonType !== 'academy') return;
+  const checkLessonCompletion = (id: string) => {
+    const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+    const lessonProgress = progressData[id];
     
-    const userId = getTelegramUserId();
-    if (!userId) return;
+    if (lessonProgress?.videoWatched && lessonProgress?.materialsRead) {
+      const completed = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
+      if (!completed.includes(id)) {
+        completed.push(id);
+        localStorage.setItem('academy-lessons-completed', JSON.stringify(completed));
+      }
+    }
+  };
+
+  const handleVideoProgress = () => {
+    if (!videoRef.current || !lessonId || lessonType !== 'academy') return;
     
     if (videoRef.current.duration) {
       const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
       
       if (progress >= 80) {
-        await updateLessonProgress(userId, lessonId, { videoWatched: true });
-      }
-    }
-  };
-
-  const handleExpandVideo = () => {
-    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
-      const tg = (window as any).Telegram.WebApp;
-      
-      // Используем Telegram WebApp requestFullscreen (Bot API 8.0+)
-      if (tg.requestFullscreen && typeof tg.requestFullscreen === 'function') {
-        tg.requestFullscreen();
-      } 
-      // Fallback: разворачиваем мини-апп на максимальную высоту
-      else if (tg.expand && typeof tg.expand === 'function') {
-        tg.expand();
-      }
-      // Если Telegram API недоступен, пытаемся развернуть видео элемент
-      else if (videoRef.current) {
-        if (videoRef.current.requestFullscreen) {
-          videoRef.current.requestFullscreen().catch(() => {});
-        } else if ((videoRef.current as any).webkitRequestFullscreen) {
-          (videoRef.current as any).webkitRequestFullscreen();
-        }
+        const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+        if (!progressData[lessonId]) progressData[lessonId] = {};
+        progressData[lessonId].videoWatched = true;
+        localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
+        checkLessonCompletion(lessonId);
       }
     }
   };
@@ -91,8 +78,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
       const videoResult = lessonType === 'demo'
         ? await getDemoVideos(id)
         : await getAcademyVideos(id);
+      
+      console.log('[VIDEO LOAD] Result:', videoResult);
+      console.log('[VIDEO LOAD] Data:', videoResult.data);
+      console.log('[VIDEO LOAD] Count:', videoResult.data?.length);
+      
       if (!videoResult.error && videoResult.data && videoResult.data.length > 0) {
+        console.log('[VIDEO LOAD] Setting video:', videoResult.data[0]);
+        console.log('[VIDEO LOAD] Video URL:', videoResult.data[0].video_url);
         setVideo(videoResult.data[0]);
+      } else {
+        console.error('[VIDEO LOAD] No video found or error:', videoResult.error);
       }
     } catch (error) {
       console.error('Error loading lesson:', error);
@@ -197,7 +193,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               margin: 0,
               lineHeight: '1',
             }}>
-              {lesson?.video_title || lesson?.title || ''}
+              {lesson?.video_title || lesson?.title || 'лучшие языковые модели. урок 1'}
             </p>
           </div>
         </div>
@@ -215,15 +211,25 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             controls={!showOverlay}
             playsInline
             preload="metadata"
-            poster={(video?.video_url || '/test-video-ios.mp4') + '#t=0.1'}
-            crossOrigin="anonymous"
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            x-webkit-airplay="allow"
             onTimeUpdate={handleVideoProgress}
             onEnded={() => {
               handleVideoProgress();
             }}
+            onPause={() => {
+              if (videoRef.current && !videoRef.current.ended) {
+                setShowOverlay(true);
+              }
+            }}
+            onError={(e) => {
+              console.error('[VIDEO ERROR]', e);
+              console.error('[VIDEO URL]', video?.video_url);
+              console.error('[VIDEO READYSTATE]', videoRef.current?.readyState);
+              console.error('[VIDEO NETWORKERROR]', videoRef.current?.error);
+            }}
+            onLoadStart={() => console.log('[VIDEO] Load start:', video?.video_url)}
+            onLoadedMetadata={() => console.log('[VIDEO] Metadata loaded')}
+            onCanPlay={() => console.log('[VIDEO] Can play')}
+            onWaiting={() => console.log('[VIDEO] Waiting for data...')}
             style={{
               width: '100%',
               height: '100%',
@@ -232,34 +238,62 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               borderRadius: '30px',
             }}
           >
-            <source src={video?.video_url || '/test-video-ios.mp4'} type="video/mp4" />
-            Your browser does not support the video tag.
+            {video?.video_url && <source src={video.video_url} type="video/mp4" />}
+            {!video?.video_url && <div style={{ color: 'white', padding: '20px' }}>Видео не загружено</div>}
           </video>
 
-          {/* Blur overlay с прелоадом и кнопкой плей */}
+          {/* DEBUG: Показать URL видео */}
+          {video?.video_url && (
+            <div style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              background: 'rgba(0,0,0,0.8)',
+              color: 'white',
+              padding: '10px',
+              fontSize: '12px',
+              borderRadius: '5px',
+              maxWidth: '400px',
+              wordBreak: 'break-all',
+              zIndex: 1000,
+            }}>
+              VIDEO URL: {video.video_url}
+            </div>
+          )}
+
+          {/* Blur overlay с кнопкой плей */}
           {showOverlay && (
             <>
-              {/* Блюр поверх видео */}
               <div className="blur-wave" style={{
                 position: 'absolute',
                 inset: 0,
                 backdropFilter: 'blur(50px)',
-                background: 'rgba(0, 0, 0, 0.3)',
+                background: 'rgba(255, 255, 255, 0.1)',
                 border: '4px solid rgba(255, 255, 255, 0.3)',
                 borderRadius: '30px',
                 overflow: 'clip',
               }} />
 
-              {/* Кнопка плей */}
               <img 
                 src={playIcon}
                 alt="плей"
                 onClick={() => {
                   setShowOverlay(false);
                   if (videoRef.current) {
-                    videoRef.current.play().catch((err) => {
-                      console.error('Play error:', err);
-                    });
+                    const playPromise = videoRef.current.play();
+                    if (playPromise) {
+                      playPromise.then(() => {
+                        // Использовать Telegram API для fullscreen
+                        if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp?.isVersionAtLeast?.('8.0')) {
+                          ((window as any).Telegram.WebApp as any).requestFullscreen();
+                        } else {
+                          // Fallback для старых версий
+                          if (videoRef.current?.requestFullscreen) {
+                            videoRef.current.requestFullscreen().catch(() => {});
+                          }
+                        }
+                      }).catch(() => {});
+                    }
                   }
                 }}
                 style={{
@@ -271,12 +305,10 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                   height: '98px',
                   cursor: 'pointer',
                   objectFit: 'contain',
-                  zIndex: 20,
                 }}
               />
             </>
           )}
-
         </div>
 
         {/* Кнопка "получить материалы" - PNG */}

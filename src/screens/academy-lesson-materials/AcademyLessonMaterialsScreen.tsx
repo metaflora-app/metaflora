@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getDemoLessonById } from '../../utils/contentApi';
-import { updateLessonProgress } from '../../utils/userProgress';
-import { getTelegramUserId } from '../../utils/labaApi';
 import type { AcademyLesson } from '../../types/content';
 
 // Images
@@ -28,11 +26,21 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
-  const handleScroll = async () => {
-    if (!scrollRef.current || !lessonId || lessonType !== 'academy') return;
+  const checkLessonCompletion = (id: string) => {
+    const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+    const lessonProgress = progressData[id];
     
-    const userId = getTelegramUserId();
-    if (!userId) return;
+    if (lessonProgress?.videoWatched && lessonProgress?.materialsRead) {
+      const completed = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
+      if (!completed.includes(id)) {
+        completed.push(id);
+        localStorage.setItem('academy-lessons-completed', JSON.stringify(completed));
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    if (!scrollRef.current || !lessonId || lessonType !== 'academy') return;
     
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
     
@@ -41,7 +49,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
     const scrollPercent = ((scrollTop + clientHeight) / scrollHeight) * 100;
     
     if (!hasScroll || scrollPercent >= 95) {
-      await updateLessonProgress(userId, lessonId, { materialsRead: true });
+      const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
+      if (!progressData[lessonId]) progressData[lessonId] = {};
+      progressData[lessonId].materialsRead = true;
+      localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
+      checkLessonCompletion(lessonId);
     }
   };
 
@@ -268,11 +280,6 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         );
 
       case 'image':
-        // Convert PNG to JPEG URL if needed
-        const imageUrl = block.content?.endsWith('.png') 
-          ? block.content.replace('.png', '.jpg')
-          : block.content;
-        
         return (
           <div
             key={block.id}
@@ -284,7 +291,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
             }}
           >
             <div 
-              onClick={() => setExpandedImage(imageUrl)}
+              onClick={() => setExpandedImage(block.content)}
               style={{
                 width: '100%',
                 border: '2px solid rgba(0, 0, 0, 0.3)',
@@ -295,10 +302,10 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               }}
             >
               <img
-                src={imageUrl}
+                src={block.content}
                 alt="Изображение"
+                loading="eager"
                 crossOrigin="anonymous"
-                loading="lazy"
                 style={{
                   width: '100%',
                   height: 'auto',
@@ -306,12 +313,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                   display: 'block',
                 }}
                 onError={(e) => {
-                  // Fallback to original PNG if JPEG conversion fails
+                  console.error('[IMAGE ERROR]', block.content);
                   const target = e.target as HTMLImageElement;
-                  if (target.src !== block.content) {
-                    target.src = block.content;
-                  }
+                  target.style.opacity = '0.3';
                 }}
+                onLoad={() => console.log('[IMAGE LOADED]', block.content)}
               />
             </div>
             <img

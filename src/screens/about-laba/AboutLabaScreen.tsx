@@ -17,7 +17,6 @@ export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const [showControls, setShowControls] = React.useState(true);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -41,6 +40,8 @@ export const AboutLabaScreen: React.FC = () => {
       videoRef.current.requestFullscreen();
     } else if ((videoRef.current as any).webkitRequestFullscreen) {
       (videoRef.current as any).webkitRequestFullscreen();
+    } else if ((videoRef.current as any).webkitEnterFullscreen) {
+      (videoRef.current as any).webkitEnterFullscreen();
     }
   };
 
@@ -150,9 +151,11 @@ export const AboutLabaScreen: React.FC = () => {
           <video
             ref={videoRef}
             playsInline
-            onClick={handlePlayPause}
+            webkit-playsinline="true"
+            x5-playsinline="true"
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
+            onEnded={() => setIsPlaying(false)}
             style={{
               position: 'absolute',
               inset: 0,
@@ -168,42 +171,41 @@ export const AboutLabaScreen: React.FC = () => {
           </video>
 
           {/* Кастомные контролы поверх видео */}
-          {showControls && (
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              pointerEvents: 'none',
-            }}>
-              {/* Кнопка Play/Pause */}
-              <div 
-                onClick={handlePlayPause}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+          }}>
+            {/* Кнопка Play/Pause */}
+            <div 
+              onClick={handlePlayPause}
+              style={{
+                position: 'absolute',
+                left: 'calc(50% - 52px)',
+                top: '621px',
+                width: '100px',
+                height: '100px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(0, 0, 0, 0.3)',
+                border: '4px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '62px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                pointerEvents: 'auto',
+              }}
+            >
+              <img 
+                src={isPlaying ? pauseIcon : playIcon}
+                alt={isPlaying ? 'pause' : 'play'}
                 style={{
-                  position: 'absolute',
-                  left: 'calc(50% - 52px)',
-                  top: '621px',
-                  width: '100px',
-                  height: '100px',
-                  backdropFilter: 'blur(50px)',
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  border: '4px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '62px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  pointerEvents: 'auto',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
                 }}
-              >
-                <img 
-                  src={isPlaying ? pauseIcon : playIcon}
-                  alt={isPlaying ? 'pause' : 'play'}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
+              />
+            </div>
 
             {/* Кнопка Expand - правый нижний угол */}
             <div 
@@ -250,8 +252,7 @@ export const AboutLabaScreen: React.FC = () => {
                 </div>
               </div>
             </div>
-            </div>
-          )}
+          </div>
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
