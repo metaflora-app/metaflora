@@ -156,9 +156,14 @@ export async function searchAccount(query: string): Promise<InstagramAccount> {
 
 /**
  * Начать отслеживание Instagram аккаунта
- * Стоимость: 150 метакоинов
+ * Стоимость: 150 метакоинов + 15 метакоинов за каждое видео
  */
-export async function trackAccount(username: string, userId: number): Promise<string> {
+export async function trackAccount(username: string, userId: number): Promise<{
+  accountId: string;
+  reelsAdded: number;
+  showPopup?: boolean;
+  popupMessage?: string;
+}> {
   const response = await fetch(`${API_URL}/api/laba/track-account`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -171,7 +176,12 @@ export async function trackAccount(username: string, userId: number): Promise<st
     throw new Error(data.error || 'ошибка отслеживания');
   }
 
-  return data.accountId;
+  return {
+    accountId: data.accountId,
+    reelsAdded: data.reelsAdded || 0,
+    showPopup: data.showPopup,
+    popupMessage: data.popupMessage,
+  };
 }
 
 /**

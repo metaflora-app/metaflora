@@ -155,6 +155,8 @@ export interface TrackAccountResponse {
   success: boolean;
   accountId: string;
   reelsAdded: number;
+  showPopup?: boolean;
+  popupMessage?: string;
   error?: string;
 }
 
