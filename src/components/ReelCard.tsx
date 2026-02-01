@@ -312,7 +312,6 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
           e.stopPropagation();
           navigate('/laba-analysis', { state: { reel } });
         }}
-        className="button-inner-glow"
         style={{
           position: 'absolute',
           bottom: '63px',
@@ -325,7 +324,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
       />
 
       {/* Time ago badge */}
-      <div className="blur-wave button-inner-glow" style={{
+      <div className="blur-wave" style={{
         position: 'absolute',
         left: 'calc(50% + 1px)',
         top: '417px',
