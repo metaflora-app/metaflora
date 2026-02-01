@@ -16,53 +16,62 @@ export const AboutLabaScreen: React.FC = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const playerRef = useRef<any>(null);
 
   // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Слушаем события от Kinescope
+  // Инициализация Kinescope Player API
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      // Проверяем что сообщение от Kinescope
-      if (event.origin !== 'https://kinescope.io') return;
-      
-      try {
-        const data = event.data;
-        
-        // Kinescope отправляет события в формате { event: 'eventName', ... }
-        if (data.event === 'playing') {
-          setIsPlaying(true);
-          setShowControls(false); // Скрываем кнопки когда видео играет
-        } else if (data.event === 'pause' || data.event === 'paused') {
-          setIsPlaying(false);
-          setShowControls(true); // Показываем кнопки когда пауза
-        } else if (data.event === 'ended') {
-          setIsPlaying(false);
-          setShowControls(true); // Показываем кнопки когда видео закончилось
+    // Загружаем Kinescope Player API
+    const script = document.createElement('script');
+    script.src = 'https://player.kinescope.io/latest/iframe.api.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      // Ждем пока iframe загрузится
+      setTimeout(() => {
+        if (iframeRef.current && (window as any).Kinescope) {
+          try {
+            playerRef.current = (window as any).Kinescope.IframePlayer(iframeRef.current);
+            
+            // Слушаем события плеера
+            playerRef.current.on('playing', () => {
+              setIsPlaying(true);
+              setShowControls(false);
+            });
+            
+            playerRef.current.on('pause', () => {
+              setIsPlaying(false);
+              setShowControls(true);
+            });
+            
+            playerRef.current.on('ended', () => {
+              setIsPlaying(false);
+              setShowControls(true);
+            });
+          } catch (error) {
+            console.error('Ошибка инициализации Kinescope Player:', error);
+          }
         }
-      } catch (error) {
-        console.error('Ошибка обработки события Kinescope:', error);
-      }
+      }, 1000);
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
-  // Управление видео через Kinescope API
+  // Управление видео через Kinescope Player API
   const handlePlayPause = () => {
-    if (!iframeRef.current?.contentWindow) return;
+    if (!playerRef.current) return;
     
     try {
-      const command = isPlaying ? 'pause' : 'play';
-      
-      // Kinescope API использует формат: { method: 'command' }
-      iframeRef.current.contentWindow.postMessage({
-        method: command
-      }, 'https://kinescope.io');
-      
-      // Сразу скрываем кнопки при нажатии Play
-      if (!isPlaying) {
+      if (isPlaying) {
+        playerRef.current.pause();
+      } else {
+        playerRef.current.play();
         setShowControls(false);
       }
     } catch (error) {
