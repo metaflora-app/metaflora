@@ -88,16 +88,10 @@ export const LabaMainScreen: React.FC = () => {
     const fetchTopReels = async () => {
       try {
         setLoading(true);
-        console.log('[TOP-REELS] Начинаем загрузку...');
         const topReels = await getTopReels('нейросети');
-        console.log('[TOP-REELS] Получено:', topReels.length, 'reels');
-        console.log('[TOP-REELS] Первый reel:', topReels[0]);
-        // Limit to 40 cards
         setReels(topReels.slice(0, 40));
-        console.log('[TOP-REELS] Установлено в state:', topReels.slice(0, 40).length, 'reels');
       } catch (error) {
-        console.error('[TOP-REELS] ❌ Ошибка загрузки:', error);
-        showMessage('ошибка загрузки топ reels', 'alert');
+        console.error('Ошибка загрузки топ reels:', error);
       } finally {
         setLoading(false);
       }

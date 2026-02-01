@@ -312,12 +312,6 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
                   objectFit: 'cover',
                   display: 'block',
                 }}
-                onError={(e) => {
-                  console.error('[IMAGE ERROR]', block.content);
-                  const target = e.target as HTMLImageElement;
-                  target.style.opacity = '0.3';
-                }}
-                onLoad={() => console.log('[IMAGE LOADED]', block.content)}
               />
             </div>
             <img
