@@ -275,7 +275,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             />
           </div>
 
-          {/* Текст "X метакоинов" - Gotham Pro Bold */}
+          {/* Текст "X метакоинов" - Gotham Pro Light */}
           <div style={{
             position: 'absolute',
             left: '640px',
@@ -283,7 +283,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
             width: '400px',
             height: '45px',
             fontFamily: 'Gotham Pro',
-            fontWeight: 700,
+            fontWeight: 300,
             fontSize: '45px',
             lineHeight: 0,
             color: 'white',

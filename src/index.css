@@ -113,22 +113,22 @@ input::placeholder {
   opacity: 1;
 }
 
-/* Blur wave animation - ОТКЛЮЧЕНА для экономии батареи */
-@keyframes blurWave {
+/* Blur wave animation - DISABLED for GPU performance */
+/* @keyframes blurWave {
   0%, 100% {
     backdrop-filter: blur(47px);
   }
   50% {
     backdrop-filter: blur(47px);
   }
-}
+} */
 
 .blur-wave {
-  /* animation: blurWave 8s ease-in-out infinite; - ОТКЛЮЧЕНО */
+  /* animation: blurWave 8s ease-in-out infinite; */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
-  /* will-change: backdrop-filter; - ОТКЛЮЧЕНО */
+  /* will-change: backdrop-filter; */
 }
 
 /* Button/badge glow animation - optimized brightness */
@@ -206,15 +206,5 @@ input::placeholder {
   }
   100% {
     opacity: 1;
-  }
-}
-
-/* Pulse animation for blur placeholder cards */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.8;
   }
 }

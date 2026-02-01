@@ -95,6 +95,7 @@ export const LabaTrackedScreen: React.FC = () => {
       
       try {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
+        // No limit - render all cards with optimized performance
         setReels(accountReels);
       } catch (error) {
         console.error('Ошибка загрузки reels:', error);

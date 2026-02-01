@@ -119,7 +119,7 @@ export async function getOrCreateUser(forceRefresh = false) {
         first_name: telegramUser?.first_name || null,
         last_name: telegramUser?.last_name || null,
         subscription_type: 'free',
-        metacoins_balance: 0,
+        metacoins_balance: 3000,
         profile_photo_url: profilePhotoUrl,
       })
       .select()
@@ -329,8 +329,8 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
 
   console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
-  // Calculate bonus metacoins based on subscription duration
-  const bonusMetacoins = months === 1 ? 150 : 500; // 1 месяц = 150, 3 месяца = 500
+  // Subscription bonus is always 3000 metacoins (regardless of duration)
+  const bonusMetacoins = 3000;
   const newBalance = user.metacoins_balance + bonusMetacoins;
 
   // Calculate subscription end date
