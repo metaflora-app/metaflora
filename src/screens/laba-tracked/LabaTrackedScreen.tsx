@@ -6,12 +6,9 @@ import {
   getTrackedAccounts, 
   getTrackedReels, 
   untrackAccount,
-  getTelegramUserId,
-  toggleFavorite 
+  getTelegramUserId 
 } from '../../utils/labaApi';
 import { TrackedAccount, Reel } from '../../types/laba';
-import { ReelCard } from '../../components/ReelCard';
-import { BlurReelCard } from '../../components/BlurReelCard';
 
 // Background & header from laba-main
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -55,7 +52,7 @@ export const LabaTrackedScreen: React.FC = () => {
 
   // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
-  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
+  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
   
   // Tracked accounts data
@@ -310,189 +307,207 @@ export const LabaTrackedScreen: React.FC = () => {
           </>
         )}
 
-        {/* Horizontal scroll with tracked accounts */}
-        <div style={{
+        {/* Account card with @mishchenko.is - 7:1181 */}
+        <div className="blur-wave" style={{
           position: 'absolute',
           left: '151px',
           top: '405px',
-          width: '878px',
+          width: '522px',
           height: '162px',
-          overflow: 'hidden',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '4px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '30px',
         }}>
-          <div style={{
-            display: 'flex',
-            gap: '20px',
-            overflowX: 'auto',
-            overflowY: 'hidden',
-            height: '100%',
-            paddingRight: '20px',
-          }}>
-            {/* Tracked accounts */}
-            {accounts.map((account, idx) => (
-              <div 
-                key={account.id}
-                className="blur-wave" 
+            {/* Profile photo - 7:1184 x=175, y=429 */}
+            <div style={{
+              position: 'absolute',
+              left: '24px',
+              top: '24px',
+              width: '98px',
+              height: '98px',
+              borderRadius: '640px',
+              overflow: 'hidden',
+            }}>
+              <img
+                src={profilePhoto}
+                alt=""
                 style={{
-                  flexShrink: 0,
-                  width: '522px',
-                  height: '162px',
-                  backdropFilter: 'blur(50px)',
-                  background: selectedAccountId === account.id 
-                    ? 'rgba(255, 255, 255, 0.2)' 
-                    : 'rgba(255, 255, 255, 0.1)',
-                  border: '4px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '30px',
-                  position: 'relative',
-                  cursor: 'pointer',
-                }}
-                onClick={() => setSelectedAccountId(account.id)}
-              >
-                {/* Profile photo */}
-                <div style={{
                   position: 'absolute',
-                  left: '24px',
-                  top: '24px',
-                  width: '98px',
-                  height: '98px',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
                   borderRadius: '640px',
-                  overflow: 'hidden',
-                }}>
-                  <img
-                    src={account.profilePhotoUrl || profilePhoto}
-                    alt=""
-                    crossOrigin="anonymous"
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '640px',
-                    }}
-                  />
-                </div>
+                }}
+              />
+            </div>
 
-                {/* Instagram icon */}
-                <div style={{
-                  position: 'absolute',
-                  left: '129px',
-                  top: '21px',
-                  width: '49px',
-                  height: '59px',
-                  opacity: 0.6,
-                }}>
-                  <img
-                    src={instagramIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-
-                {/* Username */}
-                <div style={{
-                  position: 'absolute',
-                  left: '129px',
-                  top: '72px',
-                  width: '235px',
-                  height: '42px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '27px',
-                  color: 'white',
-                  textAlign: 'left',
-                  display: 'flex',
-                  alignItems: 'center',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}>
-                  @{account.username}
-                </div>
-
-                {/* Followers */}
-                <div style={{
-                  position: 'absolute',
-                  left: '129px',
-                  top: '117px',
-                  width: '262px',
-                  height: '26px',
-                  fontFamily: 'Gotham Pro, sans-serif',
-                  fontWeight: 300,
-                  fontSize: '24px',
-                  color: 'white',
-                  textAlign: 'left',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}>
-                  {(account.followersCount / 1000).toFixed(1)}к подписчиков
-                </div>
-
-                {/* Button "удалить" */}
+            {/* Instagram icon - 174:787 x=280, y=426 */}
+            <div style={{
+              position: 'absolute',
+              left: '129px',
+              top: '21px',
+              width: '49px',
+              height: '59px',
+            }}>
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.6,
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}>
                 <img
-                  src={removeAccountButtonPNG}
-                  alt="удалить"
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    const userId = getTelegramUserId();
-                    if (!userId) return;
-                    
-                    await untrackAccount(account.id, userId);
-                    setAccounts(accounts.filter(a => a.id !== account.id));
-                    
-                    if (window.Telegram?.WebApp?.showPopup) {
-                      window.Telegram.WebApp.showPopup({
-                        message: 'аккаунт удален из отслеживаемых'
-                      });
-                    }
-                  }}
+                  src={instagramIcon}
+                  alt=""
                   style={{
                     position: 'absolute',
-                    left: '184px',
-                    top: '18px',
-                    width: '126px',
-                    height: '54px',
-                    cursor: 'pointer',
-                    objectFit: 'contain',
-                    zIndex: 100,
+                    height: '339.84%',
+                    left: '-56.27%',
+                    maxWidth: 'none',
+                    top: '-118.33%',
+                    width: '620.89%',
                   }}
                 />
               </div>
-            ))}
-            
-            {/* Plus button - всегда справа от последнего аккаунта */}
-            <div 
-              onClick={() => navigate('/laba-search-account')}
-              className="blur-wave"
+            </div>
+
+            {/* Username - 174:788 x=280, y=477, w=235, h=42 */}
+            <div style={{
+              position: 'absolute',
+              left: '129px',
+              top: '72px',
+              width: '235px',
+              height: '42px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 700,
+              fontSize: '27px',
+              color: 'white',
+              textAlign: 'left',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              lineHeight: 0,
+            }}>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>@mishchenko.is</p>
+            </div>
+
+            {/* Followers - 174:805 x=280, y=522, w=262, h=26 */}
+            <div style={{
+              position: 'absolute',
+              left: '129px',
+              top: '117px',
+              width: '262px',
+              height: '26px',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 300,
+              fontSize: '24px',
+              color: 'white',
+              textAlign: 'left',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              lineHeight: 0,
+            }}>
+              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
+            </div>
+
+            {/* Button "убрать аккаунт" - 432:939 - x=184, y=18 relative to account card */}
+            {!accountRemoved && (
+              <img
+              src={removeAccountButtonPNG}
+              alt="убрать"
+              onClick={() => {
+                setAccountRemoved(true);
+                if (window.Telegram?.WebApp?.showPopup) {
+                  window.Telegram.WebApp.showPopup({
+                    message: 'аккаунт удален из отслеживаемых'
+                  });
+                }
+              }}
               style={{
-                flexShrink: 0,
-                width: '162px',
-                height: '162px',
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '30px',
-                overflow: 'clip',
+                position: 'absolute',
+                left: '184px',
+                top: '18px',
+                width: '126px',
+                height: '54px',
+                cursor: 'pointer',
+                objectFit: 'contain',
+              }}
+            />
+            )}
+
+            {/* Plus button - 7:1188 x=550, y=431 */}
+            {!accountRemoved && (
+          <div 
+            onClick={() => navigate('/laba-search-account')}
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              left: '399px',
+              top: '26px',
+              width: '98px',
+              height: '98px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '98px',
+              overflow: 'clip',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
             }}>
-              <img 
-                src={plusIcon} 
-                alt="добавить" 
-                style={{ 
-                  width: '60px', 
-                  height: '60px',
-                  objectFit: 'contain',
-                }} 
-              />
+              <div style={{
+                position: 'absolute',
+                left: '19px',
+                top: '19px',
+                width: '59px',
+                height: '59px',
+              }}>
+                <div style={{ position: 'absolute', inset: '3.13%' }}>
+                  <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
+                </div>
+              </div>
+            </div>
+            )}
+          </div>
+
+        {/* Plus button when account removed - move to avatar position (7:1184 coords) */}
+        {accountRemoved && (
+          <div 
+            onClick={() => navigate('/laba-search-account')}
+            className="blur-wave"
+            style={{
+              position: 'absolute',
+              left: '175px',
+              top: '429px',
+              width: '98px',
+              height: '98px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '98px',
+              overflow: 'clip',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}>
+            <div style={{
+              position: 'absolute',
+              left: '19px',
+              top: '19px',
+              width: '59px',
+              height: '59px',
+            }}>
+              <div style={{ position: 'absolute', inset: '3.13%' }}>
+                <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
         {!accountRemoved && (
@@ -604,39 +619,8 @@ export const LabaTrackedScreen: React.FC = () => {
             overflow: 'auto',
             zIndex: 10,
           }}>
-          {/* Blur placeholder cards - показываем пока идет загрузка */}
-          {loading && Array.from({ length: 40 }).map((_, index) => (
-            <BlurReelCard key={`blur-${index}`} index={index} />
-          ))}
-          
-          {/* Reels cards - Dynamic rendering */}
-          {!loading && reels.map((reel, index) => (
-            <ReelCard
-              key={reel.id}
-              reel={reel}
-              index={index}
-              isFavorite={likedCards.has(reel.id)}
-              onToggleFavorite={(reelId) => {
-                const newLiked = new Set(likedCards);
-                if (newLiked.has(reelId)) {
-                  newLiked.delete(reelId);
-                } else {
-                  newLiked.add(reelId);
-                }
-                setLikedCards(newLiked);
-                const userId = getTelegramUserId();
-                if (userId) {
-                  toggleFavorite(reelId, userId);
-                }
-              }}
-            />
-          ))}
-          
-        </div>
-        )}
-
-        {/* Footer */}
-        <div style={{
+          {/* Карточка 1 - Верхняя левая */}
+          <div style={{
             position: 'absolute',
             left: '22px',
             top: '23px',
@@ -2005,8 +1989,6 @@ export const LabaTrackedScreen: React.FC = () => {
               </div>
             </div>
           </div>
-          </div>
-          )}
         </div>
         )}
 
