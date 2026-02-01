@@ -218,6 +218,7 @@ export const AboutLabaScreen: React.FC = () => {
                 borderRadius: '62px',
                 overflow: 'clip',
                 cursor: 'pointer',
+                pointerEvents: 'auto',
               }}
             >
               {/* Иконка развернуть */}
@@ -249,7 +250,8 @@ export const AboutLabaScreen: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
