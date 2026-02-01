@@ -137,16 +137,15 @@ input::placeholder {
     filter: brightness(1) contrast(1);
   }
   50% {
-    filter: brightness(1.35) contrast(1.05);
+    filter: brightness(1) contrast(1);
   }
 }
 
 .button-inner-glow {
-  animation: buttonInnerGlow 5s ease-in-out infinite;
+  /* Свечение убрано - анимация отключена */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
-  will-change: filter;
 }
 
 /* Card pulse animation - scale based */

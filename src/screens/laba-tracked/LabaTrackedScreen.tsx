@@ -367,8 +367,8 @@ export const LabaTrackedScreen: React.FC = () => {
           width: '878px',
           height: '162px',
           overflow: 'hidden',
-          maskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
+          maskImage: 'linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%)',
         }}>
           <div style={{
             display: 'flex',
@@ -542,7 +542,7 @@ export const LabaTrackedScreen: React.FC = () => {
           <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
         </div>
 
-        {/* Кнопка вернуть - gap 1px от выбрать */}
+        {/* Кнопка вернуть - вплотную к плюсу */}
         <img
           src={returnButtonPNG}
           alt="вернуть"
@@ -550,9 +550,10 @@ export const LabaTrackedScreen: React.FC = () => {
             setSelectedSort(null);
             setLikedCards(new Set());
           }}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '481px',
+            left: '231px',
             top: '580px',
             width: '270px',
             height: '79px',
@@ -561,14 +562,15 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Кнопка сортировка - gap 1px от вернуть */}
+        {/* Кнопка сортировка - вплотную к вернуть */}
         <img
           src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
           alt="сортировка"
           onClick={handleSortClick}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '752px',
+            left: '501px',
             top: '580px',
             width: '270px',
             height: '79px',
@@ -577,12 +579,12 @@ export const LabaTrackedScreen: React.FC = () => {
           }}
         />
 
-        {/* Кнопка выбрать - прибита к правой границе блюр-фрейма (1032px - 4px border - 79px width = 949px) */}
+        {/* Кнопка выбрать - вплотную к сортировка */}
         <div style={{
           position: 'absolute',
-          left: '949px',
+          left: '771px',
           top: '580px',
-          width: '79px',
+          width: '270px',
           height: '79px',
         }}>
           <img
