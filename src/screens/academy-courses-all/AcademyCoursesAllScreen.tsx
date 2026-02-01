@@ -26,6 +26,20 @@ export const AcademyCoursesAllScreen: React.FC = () => {
   const [courseStatuses, setCourseStatuses] = useState<{[key: string]: 'not_started' | 'in_progress' | 'completed'}>({});
 
   useEffect(() => {
+    // МГНОВЕННАЯ загрузка из кэша
+    const cached = localStorage.getItem('academy-progress-cache');
+    if (cached) {
+      try {
+        const data = JSON.parse(cached);
+        setTotalLessons(data.total || 0);
+        setCompletedLessons(data.completed || 0);
+        setCourseStatuses(data.statuses || {});
+      } catch (e) {
+        console.error('Error loading cache:', e);
+      }
+    }
+    
+    // Потом обновляем в фоне
     calculateProgress();
     
     // Пересчитывать при возврате на экран
@@ -44,14 +58,6 @@ export const AcademyCoursesAllScreen: React.FC = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
-  
-  // Пересчитывать при каждом рендере (когда возвращаемся на экран)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      calculateProgress();
-    }, 100);
-    return () => clearTimeout(timer);
-  });
 
   const calculateProgress = async () => {
     try {
@@ -64,30 +70,49 @@ export const AcademyCoursesAllScreen: React.FC = () => {
       let total = 0;
       const statuses: {[key: string]: 'not_started' | 'in_progress' | 'completed'} = {};
       
-      for (const courseType of courseTypes) {
+      // ПАРАЛЛЕЛЬНЫЕ запросы вместо последовательных
+      const coursePromises = courseTypes.map(async (courseType) => {
         const courseResult = await getAcademyCourses({ courseType, isActive: true });
-        if (!courseResult.data || courseResult.data.length === 0) continue;
+        if (!courseResult.data || courseResult.data.length === 0) return null;
         
         const courseId = courseResult.data[0].id;
         const lessonsResult = await getAcademyLessons(courseId, { isActive: true });
         const lessons = lessonsResult.data || [];
         
-        total += lessons.length;
-        
         const completedInCourse = lessons.filter(l => completedLessonIds.includes(l.id)).length;
         
+        let status: 'not_started' | 'in_progress' | 'completed';
         if (completedInCourse === 0) {
-          statuses[courseType] = 'not_started';
+          status = 'not_started';
         } else if (completedInCourse === lessons.length && lessons.length > 0) {
-          statuses[courseType] = 'completed';
+          status = 'completed';
         } else {
-          statuses[courseType] = 'in_progress';
+          status = 'in_progress';
         }
-      }
+        
+        return { courseType, lessons: lessons.length, status };
+      });
+      
+      const results = await Promise.all(coursePromises);
+      
+      results.forEach(result => {
+        if (result) {
+          total += result.lessons;
+          statuses[result.courseType] = result.status;
+        }
+      });
       
       setTotalLessons(total);
       setCompletedLessons(completedLessonIds.length);
       setCourseStatuses(statuses);
+      
+      // Кэшируем результат
+      localStorage.setItem('academy-progress-cache', JSON.stringify({
+        total,
+        completed: completedLessonIds.length,
+        statuses,
+        timestamp: Date.now(),
+      }));
     } catch (error) {
       console.error('Error calculating progress:', error);
     }
