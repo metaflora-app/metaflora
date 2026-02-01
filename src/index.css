@@ -208,3 +208,25 @@ input::placeholder {
     opacity: 1;
   }
 }
+
+/* Kinescope player - увеличенные кнопки */
+iframe[src*="kinescope.io"] {
+  /* Увеличиваем все кнопки плеера через CSS variables */
+  --player-button-size: 80px !important;
+  --player-control-height: 100px !important;
+}
+
+/* Kinescope controls - принудительное увеличение */
+:global(.kinescope-player) button,
+:global(.kinescope-player) [role="button"] {
+  transform: scale(2) !important;
+  transform-origin: center !important;
+}
+
+/* Kinescope play button - огромная кнопка по центру */
+:global(.kinescope-player) [class*="play"],
+:global(.kinescope-player) [class*="Play"] {
+  width: 120px !important;
+  height: 120px !important;
+  transform: scale(2.5) !important;
+}

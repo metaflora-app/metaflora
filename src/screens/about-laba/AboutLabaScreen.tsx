@@ -109,7 +109,7 @@ export const AboutLabaScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Видео блок с Kinescope iframe */}
+        {/* Видео блок с Kinescope iframe - с правильным aspect ratio */}
         <div style={{
           position: 'absolute',
           left: '142px',
@@ -120,19 +120,27 @@ export const AboutLabaScreen: React.FC = () => {
           overflow: 'hidden',
           border: '4px solid rgba(255, 255, 255, 0.3)',
         }}>
-          <iframe 
-            src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE" 
-            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
-            frameBorder="0" 
-            allowFullScreen
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              top: 0,
-              left: 0,
-            }}
-          />
+          {/* Kinescope wrapper с padding-top для растягивания видео */}
+          <div style={{
+            position: 'relative',
+            paddingTop: '179.33%',
+            width: '100%',
+            height: 0,
+          }}>
+            <iframe 
+              src="https://kinescope.io/embed/pD2N536keyLq269TK32qnE" 
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
+              frameBorder="0" 
+              allowFullScreen
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                top: 0,
+                left: 0,
+              }}
+            />
+          </div>
         </div>
 
         {/* Кнопка "перейти к сервису" - PNG (27:325) */}
