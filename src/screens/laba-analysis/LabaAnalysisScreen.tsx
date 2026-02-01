@@ -875,7 +875,6 @@ export const LabaAnalysisScreen: React.FC = () => {
               style={{
                 width: '100%',
                 height: '100%',
-                opacity: 0.6,
                 pointerEvents: 'none',
               }}
             />
