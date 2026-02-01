@@ -353,15 +353,21 @@ export const LabaTrackedScreen: React.FC = () => {
                 <div style={{
                   position: 'absolute',
                   left: '24px',
-                  top: '24px',
+                  top: '16px',
                   width: '98px',
                   height: '98px',
                   borderRadius: '640px',
                   overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.1)',
                 }}>
                   <img
                     src={account.profilePhotoUrl || profilePhoto}
                     alt=""
+                    crossOrigin="anonymous"
+                    onError={(e) => {
+                      console.error('[AVATAR] Ошибка загрузки аватарки:', account.profilePhotoUrl);
+                      (e.target as HTMLImageElement).src = profilePhoto;
+                    }}
                     style={{
                       position: 'absolute',
                       inset: 0,
@@ -377,7 +383,7 @@ export const LabaTrackedScreen: React.FC = () => {
                 <div style={{
                   position: 'absolute',
                   left: '129px',
-                  top: '21px',
+                  top: '13px',
                   width: '49px',
                   height: '59px',
                   opacity: 0.6,
@@ -397,7 +403,7 @@ export const LabaTrackedScreen: React.FC = () => {
                 <div style={{
                   position: 'absolute',
                   left: '129px',
-                  top: '72px',
+                  top: '64px',
                   width: '235px',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 700,
@@ -411,7 +417,7 @@ export const LabaTrackedScreen: React.FC = () => {
                 <div style={{
                   position: 'absolute',
                   left: '129px',
-                  top: '117px',
+                  top: '109px',
                   fontFamily: 'Gotham Pro, sans-serif',
                   fontWeight: 300,
                   fontSize: '24px',
@@ -450,7 +456,7 @@ export const LabaTrackedScreen: React.FC = () => {
                   style={{
                     position: 'absolute',
                     left: '184px',
-                    top: '18px',
+                    top: '10px',
                     width: '126px',
                     height: '54px',
                     cursor: 'pointer',
