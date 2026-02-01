@@ -681,7 +681,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
               textAlign: 'center',
               margin: '0 0 50px 0',
             }}>
-              {lesson?.title || 'морфинг через общие элементы'}
+              {lesson?.title || ''}
             </h2>
 
             {/* Динамический рендер content_blocks */}
