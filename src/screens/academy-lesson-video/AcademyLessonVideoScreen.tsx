@@ -78,8 +78,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
       const videoResult = lessonType === 'demo'
         ? await getDemoVideos(id)
         : await getAcademyVideos(id);
+      
+      console.log('[VIDEO LOAD] Result:', videoResult);
+      console.log('[VIDEO LOAD] Data:', videoResult.data);
+      console.log('[VIDEO LOAD] Count:', videoResult.data?.length);
+      
       if (!videoResult.error && videoResult.data && videoResult.data.length > 0) {
+        console.log('[VIDEO LOAD] Setting video:', videoResult.data[0]);
+        console.log('[VIDEO LOAD] Video URL:', videoResult.data[0].video_url);
         setVideo(videoResult.data[0]);
+      } else {
+        console.error('[VIDEO LOAD] No video found or error:', videoResult.error);
       }
     } catch (error) {
       console.error('Error loading lesson:', error);
@@ -229,9 +238,28 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               borderRadius: '30px',
             }}
           >
-            <source src={video?.video_url || ''} type="video/mp4" />
-            Your browser does not support the video tag.
+            {video?.video_url && <source src={video.video_url} type="video/mp4" />}
+            {!video?.video_url && <div style={{ color: 'white', padding: '20px' }}>Видео не загружено</div>}
           </video>
+
+          {/* DEBUG: Показать URL видео */}
+          {video?.video_url && (
+            <div style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              background: 'rgba(0,0,0,0.8)',
+              color: 'white',
+              padding: '10px',
+              fontSize: '12px',
+              borderRadius: '5px',
+              maxWidth: '400px',
+              wordBreak: 'break-all',
+              zIndex: 1000,
+            }}>
+              VIDEO URL: {video.video_url}
+            </div>
+          )}
 
           {/* Blur overlay с кнопкой плей */}
           {showOverlay && (

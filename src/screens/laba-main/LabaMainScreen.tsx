@@ -194,13 +194,21 @@ export const LabaMainScreen: React.FC = () => {
     }
   };
 
-  const handleReturnClick = () => {
+  const handleReturnClick = async () => {
     setSelectedSort(null);
     setSelectedDate(null);
     setSelectedLanguage(null);
     setSelectedVirality(null);
     setSelectedAccount(null);
     setLikedCards(new Set());
+    
+    // Перезагружаем топ-рилс
+    try {
+      const topReels = await getTopReels('нейросети');
+      setReels(topReels.slice(0, 40));
+    } catch (error) {
+      console.error('Ошибка загрузки топ reels:', error);
+    }
   };
 
   return (
