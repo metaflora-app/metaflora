@@ -131,7 +131,7 @@ export const LabaTrackedScreen: React.FC = () => {
                   text: 'ок'
                 }
               ]
-            }, async (buttonId: string) => {
+            }, async (buttonId?: string) => {
               if (buttonId === 'start_scraping') {
                 try {
                   const result = await scrapeAccountReels(selectedAccountId, userId);
