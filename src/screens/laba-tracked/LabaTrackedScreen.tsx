@@ -6,9 +6,14 @@ import {
   getTrackedAccounts, 
   getTrackedReels, 
   untrackAccount,
-  getTelegramUserId 
+  getTelegramUserId,
+  toggleFavorite 
 } from '../../utils/labaApi';
 import { TrackedAccount, Reel } from '../../types/laba';
+
+// Components
+import { ReelCard } from '../../components/ReelCard';
+import { BlurReelCard } from '../../components/BlurReelCard';
 
 // Background & header from laba-main
 import bgPattern from '../../assets/figma-welcome/pattern.png';
@@ -52,7 +57,7 @@ export const LabaTrackedScreen: React.FC = () => {
 
   // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
-  const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
+  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [accountRemoved, setAccountRemoved] = React.useState(false);
   
   // Tracked accounts data
@@ -307,207 +312,176 @@ export const LabaTrackedScreen: React.FC = () => {
           </>
         )}
 
-        {/* Account card with @mishchenko.is - 7:1181 */}
-        <div className="blur-wave" style={{
+        {/* Horizontal scroll with tracked accounts */}
+        <div style={{
           position: 'absolute',
           left: '151px',
           top: '405px',
-          width: '522px',
+          width: '878px',
           height: '162px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
+          overflow: 'hidden',
         }}>
-            {/* Profile photo - 7:1184 x=175, y=429 */}
-            <div style={{
-              position: 'absolute',
-              left: '24px',
-              top: '24px',
-              width: '98px',
-              height: '98px',
-              borderRadius: '640px',
-              overflow: 'hidden',
-            }}>
-              <img
-                src={profilePhoto}
-                alt=""
+          <div style={{
+            display: 'flex',
+            gap: '20px',
+            overflowX: 'auto',
+            overflowY: 'hidden',
+            height: '100%',
+            paddingRight: '20px',
+          }}>
+            {/* Tracked accounts */}
+            {accounts.map((account) => (
+              <div 
+                key={account.id}
+                className="blur-wave" 
                 style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '640px',
+                  flexShrink: 0,
+                  width: '522px',
+                  height: '162px',
+                  backdropFilter: 'blur(50px)',
+                  background: selectedAccountId === account.id 
+                    ? 'rgba(255, 255, 255, 0.2)' 
+                    : 'rgba(255, 255, 255, 0.1)',
+                  border: '4px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '30px',
+                  position: 'relative',
+                  cursor: 'pointer',
                 }}
-              />
-            </div>
+                onClick={() => setSelectedAccountId(account.id)}
+              >
+                {/* Profile photo */}
+                <div style={{
+                  position: 'absolute',
+                  left: '24px',
+                  top: '24px',
+                  width: '98px',
+                  height: '98px',
+                  borderRadius: '640px',
+                  overflow: 'hidden',
+                }}>
+                  <img
+                    src={account.profilePhotoUrl || profilePhoto}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '640px',
+                    }}
+                  />
+                </div>
 
-            {/* Instagram icon - 174:787 x=280, y=426 */}
-            <div style={{
-              position: 'absolute',
-              left: '129px',
-              top: '21px',
-              width: '49px',
-              height: '59px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
+                {/* Instagram icon */}
+                <div style={{
+                  position: 'absolute',
+                  left: '129px',
+                  top: '21px',
+                  width: '49px',
+                  height: '59px',
+                  opacity: 0.6,
+                }}>
+                  <img
+                    src={instagramIcon}
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </div>
+
+                {/* Username */}
+                <div style={{
+                  position: 'absolute',
+                  left: '129px',
+                  top: '72px',
+                  width: '235px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '27px',
+                  color: 'white',
+                }}>
+                  @{account.username}
+                </div>
+
+                {/* Followers */}
+                <div style={{
+                  position: 'absolute',
+                  left: '129px',
+                  top: '117px',
+                  fontFamily: 'Gotham Pro, sans-serif',
+                  fontWeight: 300,
+                  fontSize: '24px',
+                  color: 'white',
+                }}>
+                  {account.followersCount?.toLocaleString('ru-RU')} подписчиков
+                </div>
+
+                {/* Button "убрать аккаунт" */}
                 <img
-                  src={instagramIcon}
-                  alt=""
+                  src={removeAccountButtonPNG}
+                  alt="убрать"
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    const userId = getTelegramUserId();
+                    if (!userId) return;
+                    
+                    try {
+                      await untrackAccount(account.id, userId);
+                      setAccounts(accounts.filter(a => a.id !== account.id));
+                      
+                      if (selectedAccountId === account.id) {
+                        const remaining = accounts.filter(a => a.id !== account.id);
+                        setSelectedAccountId(remaining.length > 0 ? remaining[0].id : null);
+                      }
+                      
+                      if (window.Telegram?.WebApp?.showPopup) {
+                        window.Telegram.WebApp.showPopup({
+                          message: 'аккаунт удален из отслеживаемых'
+                        });
+                      }
+                    } catch (error) {
+                      console.error('Ошибка удаления аккаунта:', error);
+                    }
+                  }}
                   style={{
                     position: 'absolute',
-                    height: '339.84%',
-                    left: '-56.27%',
-                    maxWidth: 'none',
-                    top: '-118.33%',
-                    width: '620.89%',
+                    left: '184px',
+                    top: '18px',
+                    width: '126px',
+                    height: '54px',
+                    cursor: 'pointer',
+                    objectFit: 'contain',
                   }}
                 />
               </div>
-            </div>
-
-            {/* Username - 174:788 x=280, y=477, w=235, h=42 */}
-            <div style={{
-              position: 'absolute',
-              left: '129px',
-              top: '72px',
-              width: '235px',
-              height: '42px',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '27px',
-              color: 'white',
-              textAlign: 'left',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>@mishchenko.is</p>
-            </div>
-
-            {/* Followers - 174:805 x=280, y=522, w=262, h=26 */}
-            <div style={{
-              position: 'absolute',
-              left: '129px',
-              top: '117px',
-              width: '262px',
-              height: '26px',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '24px',
-              color: 'white',
-              textAlign: 'left',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              lineHeight: 0,
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>275,5к подписчиков</p>
-            </div>
-
-            {/* Button "убрать аккаунт" - 432:939 - x=184, y=18 relative to account card */}
-            {!accountRemoved && (
-              <img
-              src={removeAccountButtonPNG}
-              alt="убрать"
-              onClick={() => {
-                setAccountRemoved(true);
-                if (window.Telegram?.WebApp?.showPopup) {
-                  window.Telegram.WebApp.showPopup({
-                    message: 'аккаунт удален из отслеживаемых'
-                  });
-                }
-              }}
+            ))}
+            
+            {/* Plus button to add new account */}
+            <div 
+              onClick={() => navigate('/laba-search-account')}
+              className="blur-wave"
               style={{
-                position: 'absolute',
-                left: '184px',
-                top: '18px',
-                width: '126px',
-                height: '54px',
+                flexShrink: 0,
+                width: '98px',
+                height: '98px',
+                backdropFilter: 'blur(50px)',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '98px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 cursor: 'pointer',
-                objectFit: 'contain',
-              }}
-            />
-            )}
-
-            {/* Plus button - 7:1188 x=550, y=431 */}
-            {!accountRemoved && (
-          <div 
-            onClick={() => navigate('/laba-search-account')}
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              left: '399px',
-              top: '26px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '98px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}>
-              <div style={{
-                position: 'absolute',
-                left: '19px',
-                top: '19px',
-                width: '59px',
-                height: '59px',
+                alignSelf: 'center',
               }}>
-                <div style={{ position: 'absolute', inset: '3.13%' }}>
-                  <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
-                </div>
-              </div>
-            </div>
-            )}
-          </div>
-
-        {/* Plus button when account removed - move to avatar position (7:1184 coords) */}
-        {accountRemoved && (
-          <div 
-            onClick={() => navigate('/laba-search-account')}
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              left: '175px',
-              top: '429px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '98px',
-              overflow: 'clip',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}>
-            <div style={{
-              position: 'absolute',
-              left: '19px',
-              top: '19px',
-              width: '59px',
-              height: '59px',
-            }}>
-              <div style={{ position: 'absolute', inset: '3.13%' }}>
-                <img src={plusIcon} alt="" style={{ width: '100%', height: '100%' }} />
-              </div>
+              <img src={plusIcon} alt="+" style={{ width: '60%', height: '60%', objectFit: 'contain' }} />
             </div>
           </div>
-        )}
+        </div>
 
         {/* Filter buttons - вернуть - 174:774 PNG: 247x80 */}
         {!accountRemoved && (
@@ -619,1376 +593,40 @@ export const LabaTrackedScreen: React.FC = () => {
             overflow: 'auto',
             zIndex: 10,
           }}>
-          {/* Карточка 1 - Верхняя левая */}
-          <div style={{
-            position: 'absolute',
-            left: '22px',
-            top: '23px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Badge "новое" - 432:929 - x=269, y=44 relative to card */}
-            <img
-              src={newBadgePNG}
-              alt="новое"
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '269px',
-                top: '44px',
-                width: '101px',
-                height: '36px',
-                objectFit: 'contain',
+          {/* Blur placeholder cards - показываем пока идет загрузка */}
+          {loading && Array.from({ length: 40 }).map((_, index) => (
+            <BlurReelCard key={`blur-${index}`} index={index} />
+          ))}
+          
+          {/* Reels cards - Dynamic rendering */}
+          {!loading && reels.map((reel, index) => (
+            <ReelCard
+              key={reel.id}
+              reel={reel}
+              index={index}
+              isFavorite={likedCards.has(reel.id)}
+              onToggleFavorite={async (reelId) => {
+                const userId = getTelegramUserId();
+                if (!userId) return;
+                
+                try {
+                  const newFavoriteStatus = await toggleFavorite(reelId, userId);
+                  
+                  setLikedCards(prev => {
+                    const newSet = new Set(prev);
+                    if (newFavoriteStatus) {
+                      newSet.add(reelId);
+                    } else {
+                      newSet.delete(reelId);
+                    }
+                    return newSet;
+                  });
+                } catch (error) {
+                  console.error('Ошибка переключения избранного:', error);
+                }
               }}
             />
-
-            {/* Like icon - 173:652 - x=42, y=44 relative to card */}
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(1)) {
-                    newSet.delete(1);
-                  } else {
-                    newSet.add(1);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(1) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(1) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            {/* Play кнопка */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 49px)',
-              top: '178px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <img 
-                src={playIcon}
-                alt="play"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            {/* Instagram лого PNG */}
-            <img 
-              src={instaLogoIcon}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '30px',
-                top: '448px',
-                width: '64px',
-                height: '78px',
-                opacity: 0.6,
-                objectFit: 'contain',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              275,5к подписчиков
-            </div>
-
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
-            />
-
-            <div className="blur-wave button-inner-glow" style={{
-              position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
-
-          {/* Карточка 2 - Верхняя правая */}
-          <div style={{
-            position: 'absolute',
-            left: '444px',
-            top: '23px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Like icon - 173:680 - x=42, y=44 relative to card */}
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(2)) {
-                    newSet.delete(2);
-                  } else {
-                    newSet.add(2);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(2) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(2) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            {/* Play кнопка */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 49px)',
-              top: '178px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <img 
-                src={playIcon}
-                alt="play"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            {/* Instagram лого PNG */}
-            <img 
-              src={instaLogoIcon}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '30px',
-                top: '448px',
-                width: '64px',
-                height: '78px',
-                opacity: 0.6,
-                objectFit: 'contain',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              275,5к подписчиков
-            </div>
-
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
-            />
-
-            <div className="blur-wave button-inner-glow" style={{
-              position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
-
-          {/* Карточка 3 - Нижняя левая */}
-          <div style={{
-            position: 'absolute',
-            left: '22px',
-            top: '828px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Like icon - 173:708 - x=42, y=44 relative to card */}
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(3)) {
-                    newSet.delete(3);
-                  } else {
-                    newSet.add(3);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(3) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(3) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            {/* Play кнопка */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 49px)',
-              top: '178px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <img 
-                src={playIcon}
-                alt="play"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            {/* Instagram лого PNG */}
-            <img 
-              src={instaLogoIcon}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '30px',
-                top: '448px',
-                width: '64px',
-                height: '78px',
-                opacity: 0.6,
-                objectFit: 'contain',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              275,5к подписчиков
-            </div>
-
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
-            />
-
-            <div className="blur-wave button-inner-glow" style={{
-              position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
-
-          {/* Карточка 4 - Нижняя правая */}
-          <div style={{
-            position: 'absolute',
-            left: '444px',
-            top: '828px',
-            width: '410px',
-            height: '782px',
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              top: '3.45%',
-              right: '6.59%',
-              bottom: '45.4%',
-              left: '6.59%',
-              border: '2px solid rgba(0, 0, 0, 0.3)',
-              borderRadius: '25px',
-            }}>
-              <img 
-                src={cardImage}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '25px',
-                }}
-              />
-            </div>
-
-            {/* Like icon - 173:736 - x=42, y=44 relative to card */}
-            <div 
-              onClick={() => {
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newSet.has(4)) {
-                    newSet.delete(4);
-                  } else {
-                    newSet.add(4);
-                  }
-                  return newSet;
-                });
-              }}
-              style={{
-                position: 'absolute',
-                left: '42px',
-                top: '44px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z" 
-                  stroke={likedCards.has(4) ? '#FF0000' : 'white'} 
-                  strokeWidth="2" 
-                  fill={likedCards.has(4) ? '#FF0000' : 'none'} />
-              </svg>
-            </div>
-
-            {/* Play кнопка */}
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: 'calc(50% - 49px)',
-              top: '178px',
-              width: '98px',
-              height: '98px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(0, 0, 0, 0.1)',
-              border: '4px solid rgba(255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <img 
-                src={playIcon}
-                alt="play"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              backdropFilter: 'blur(50px)',
-              background: '#000',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              height: '52px',
-              left: 'calc(50% + 0.5px)',
-              borderRadius: '30px',
-              top: '365px',
-              transform: 'translateX(-50%)',
-              width: '333px',
-              overflow: 'clip',
-            }}>
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '21px',
-                top: '5px',
-                width: '46px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={viewsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '132px',
-                top: '4px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={likesIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                height: '39px',
-                left: '228px',
-                top: '5px',
-                width: '40px',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                }}>
-                  <img 
-                    src={commentsIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(30.77% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% - 68px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '73px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>227к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 33px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '55px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>40к</p>
-              </div>
-
-              <div style={{
-                position: 'absolute',
-                bottom: 'calc(31.39% - 2px)',
-                display: 'flex',
-                flexDirection: 'column',
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                justifyContent: 'center',
-                left: 'calc(50% + 120px)',
-                lineHeight: 0,
-                fontSize: '27px',
-                textAlign: 'center',
-                color: 'white',
-                top: 'calc(30.77% - 2px)',
-                transform: 'translateX(-50%)',
-                width: '35px',
-              }}>
-                <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>2к</p>
-              </div>
-            </div>
-
-            {/* Instagram лого PNG */}
-            <img 
-              src={instaLogoIcon}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '30px',
-                top: '448px',
-                width: '64px',
-                height: '78px',
-                opacity: 0.6,
-                objectFit: 'contain',
-              }}
-            />
-
-            <div style={{
-              position: 'absolute',
-              top: '67.26%',
-              right: '11.22%',
-              bottom: '27.37%',
-              left: '7.32%',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '40px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              @mishchenko.is
-            </div>
-
-            <div style={{
-              position: 'absolute',
-              top: '74.55%',
-              right: '8.05%',
-              bottom: '22.12%',
-              left: '6.59%',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              fontSize: '32px',
-              color: 'white',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
-              275,5к подписчиков
-            </div>
-
-            <img
-              src={analysisButtonPNG}
-              alt="анализ" 
-              onClick={() => navigate('/laba-analysis')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                bottom: '63px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '248px',
-                height: '79px',
-                cursor: 'pointer',
-              }}
-            />
-
-            <div className="blur-wave button-inner-glow" style={{
-              position: 'absolute',
-              left: 'calc(50% + 1px)',
-              top: '417px',
-              transform: 'translateX(-50%)',
-              width: '220px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                fontFamily: 'Gotham Pro, sans-serif',
-                fontWeight: 500,
-                fontSize: '23px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                2 месяца назад
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
         )}
 
