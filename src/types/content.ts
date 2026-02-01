@@ -146,6 +146,7 @@ export interface AcademyVideo {
   lesson_id: string;
   title: string;
   video_url: string | null;
+  video_id: string | null; // Kinescope video ID
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -155,6 +156,7 @@ export interface AcademyVideoInput {
   lesson_id: string;
   title: string;
   video_url?: string;
+  video_id?: string; // Kinescope video ID
   is_active?: boolean;
 }
 
