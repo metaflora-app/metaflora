@@ -62,6 +62,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         background: '#000',
         border: '4px solid rgba(255, 255, 255, 0.3)',
         borderRadius: '30px',
+        pointerEvents: 'none',
       }} />
       
       {/* Cover image - через прокси */}

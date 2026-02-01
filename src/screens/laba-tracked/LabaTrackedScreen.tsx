@@ -61,7 +61,6 @@ export const LabaTrackedScreen: React.FC = () => {
   // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
-  const [accountRemoved, setAccountRemoved] = React.useState(false);
   
   // Tracked accounts data
   const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
@@ -189,7 +188,6 @@ export const LabaTrackedScreen: React.FC = () => {
       const updatedAccounts = accounts.filter(a => a.id !== selectedAccountId);
       setAccounts(updatedAccounts);
       setSelectedAccountId(updatedAccounts[0]?.id || null);
-      setAccountRemoved(true);
     } catch (error) {
       console.error('Ошибка удаления:', error);
     }
@@ -333,8 +331,8 @@ export const LabaTrackedScreen: React.FC = () => {
           добавьте аккаунт для отслеживания
         </div>
 
-        {/* Show no-tracked elements when account removed */}
-        {accountRemoved && (
+        {/* Show no-tracked elements when no accounts */}
+        {accounts.length === 0 && !loading && (
           <>
             {/* People image PNG (7:1357) - x=143, y=916, 892x1050 */}
             <img 
@@ -646,8 +644,8 @@ export const LabaTrackedScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* People image behind frame - hide when account removed */}
-        {!accountRemoved && (
+        {/* People image behind frame - hide when no accounts */}
+        {accounts.length > 0 && (
           <img
             src={peopleImage}
             alt=""
@@ -664,8 +662,8 @@ export const LabaTrackedScreen: React.FC = () => {
           />
         )}
 
-        {/* Main content window - hide when account removed */}
-        {!accountRemoved && (
+        {/* Main content window - hide when no accounts */}
+        {accounts.length > 0 && (
           <div className="blur-wave" style={{
             position: 'absolute',
             backdropFilter: 'blur(50px)',
