@@ -77,8 +77,14 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         ? await getDemoVideos(id)
         : await getAcademyVideos(id);
       
+      console.log('📹 Video API response:', videoResult);
+      
       if (!videoResult.error && videoResult.data && videoResult.data.length > 0) {
+        console.log('📹 First video:', videoResult.data[0]);
+        console.log('📹 video_id:', videoResult.data[0].video_id);
         setVideo(videoResult.data[0]);
+      } else {
+        console.log('❌ No video found for lesson:', id);
       }
     } catch (error) {
       console.error('Error loading lesson:', error);
