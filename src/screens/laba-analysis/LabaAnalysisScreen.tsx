@@ -8,7 +8,8 @@ import {
   getTelegramUserId,
   formatCount,
   formatTimeAgo,
-  convertInstagramImageUrl 
+  convertInstagramImageUrl,
+  trackAccount 
 } from '../../utils/labaApi';
 import { Reel, Analysis, Scenario } from '../../types/laba';
 
@@ -64,6 +65,7 @@ export const LabaAnalysisScreen: React.FC = () => {
   const [showAnalysisResults, setShowAnalysisResults] = React.useState(false);
   const [showScenario, setShowScenario] = React.useState(false);
   const [isFollowing, setIsFollowing] = React.useState(false);
+  const [trackingAccount, setTrackingAccount] = React.useState(false);
   
   // Конвертируем Instagram URL в прокси URL
   const avatarUrl = React.useMemo(() => {
@@ -115,6 +117,45 @@ export const LabaAnalysisScreen: React.FC = () => {
       }
     } finally {
       setAnalyzing(false);
+    }
+  };
+
+  // Handle track account (как handleStartTracking в LabaSearchAccountScreen)
+  const handleTrackAccount = async () => {
+    if (!reel) return;
+    
+    const userId = getTelegramUserId();
+    if (!userId) {
+      if ((window as any).Telegram?.WebApp?.showAlert) {
+        (window as any).Telegram.WebApp.showAlert('ошибка получения telegram user id');
+      }
+      return;
+    }
+    
+    // Показываем попап СРАЗУ при клике
+    if ((window as any).Telegram?.WebApp?.showPopup) {
+      (window as any).Telegram.WebApp.showPopup(
+        {
+          message: 'аккаунт будет добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов'
+        },
+        async () => {
+          // После закрытия попапа - добавляем аккаунт и переходим
+          try {
+            setTrackingAccount(true);
+            const result = await trackAccount(reel.accountUsername, userId);
+            
+            // Переходим на LabaTrackedScreen где начнется скрапинг
+            navigate('/laba-tracked');
+          } catch (error: any) {
+            console.error('Ошибка отслеживания:', error);
+            if ((window as any).Telegram?.WebApp?.showAlert) {
+              (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
+            }
+          } finally {
+            setTrackingAccount(false);
+          }
+        }
+      );
     }
   };
 
@@ -861,11 +902,12 @@ export const LabaAnalysisScreen: React.FC = () => {
             )}
           </div>
 
-          {/* Button "следить" / "не следить" - 292:694 - ПОВЕРХ ВСЕХ СЛОЕВ */}
+          {/* Button "следить" - АКТИВНАЯ ВЕРСИЯ - ПОВЕРХ ВСЕХ СЛОЕВ */}
           <img
-            src={isFollowing ? followButtonPNG : unfollowButtonPNG}
-            alt={isFollowing ? "следить активирована" : "следить"}
-            onClick={() => setIsFollowing(!isFollowing)}
+            src={followButtonPNG}
+            alt="следить"
+            onClick={handleTrackAccount}
+            className="button-inner-glow"
             style={{
               position: 'absolute',
               left: '602px',

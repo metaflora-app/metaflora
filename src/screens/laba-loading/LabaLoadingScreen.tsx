@@ -241,16 +241,6 @@ export const LabaLoadingScreen = () => {
             backgroundPosition: 'center',
             opacity: 0.8,
           }} />
-          {/* Белая точка (356:806) */}
-          <div style={{
-            position: 'absolute',
-            top: '62px',
-            right: '42px',
-            width: '7px',
-            height: '7px',
-            borderRadius: '50%',
-            backgroundColor: 'white',
-          }} />
         </div>
       </div>
 
