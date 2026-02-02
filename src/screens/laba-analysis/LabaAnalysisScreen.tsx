@@ -753,6 +753,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     fontSize: '35px',
                     color: 'white',
                     lineHeight: '42px',
+                    whiteSpace: 'pre-wrap', // Сохраняем переносы строк
                   }}>
                     {analysis?.viralityExplanation || '...'}
                   </div>
