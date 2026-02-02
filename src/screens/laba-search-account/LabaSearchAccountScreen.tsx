@@ -137,9 +137,9 @@ export const LabaSearchAccountScreen: React.FC = () => {
             setTracking(true);
             const result = await trackAccount(foundAccount.username, userId);
             
-            // Переходим на LabaTrackedScreen где начнется скрапинг
-            // Второй попап покажется ПОСЛЕ скрапинга
-            navigate('/laba-tracked');
+            // Переходим на LabaTrackedScreen с флагом нового аккаунта
+            // Скрапинг начнется автоматически
+            navigate('/laba-tracked', { state: { newAccountAdded: true } });
           } catch (error: any) {
             console.error('Ошибка отслеживания:', error);
             if ((window as any).Telegram?.WebApp?.showAlert) {
