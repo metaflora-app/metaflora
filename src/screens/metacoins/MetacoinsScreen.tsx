@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { trackMetacoinsPurchase } from '../../utils/supabase';
 
 // Reused components assets (from laba-search)
@@ -15,6 +16,7 @@ import card150000 from '../../assets/metacoins/карточка 150 000 мета
 import buyButton from '../../assets/metacoins/купить метакоины.png';
 
 export const MetacoinsScreen: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
 
   // Calculate scale based on viewport width (DESKTOP design width: 1180px)
@@ -41,7 +43,8 @@ export const MetacoinsScreen: React.FC = () => {
     if (success) {
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: `успешно куплено ${amount} метакоинов`
+          message: `успешно куплено ${amount} метакоинов`,
+          buttons: [{ type: 'ok' }]
         }, () => {
           // После закрытия попапа переходим на главный экран с подпиской
           navigate('/main-dashboard-premium');
