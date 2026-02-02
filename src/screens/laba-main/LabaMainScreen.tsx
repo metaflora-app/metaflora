@@ -95,7 +95,6 @@ export const LabaMainScreen: React.FC = () => {
         setLoading(true);
         
         // КРИТИЧНО: Загружаем ВСЕ 4 категории и объединяем
-        console.log('📊 Загружаем топ-рилс из ВСЕХ категорий...');
         const [neuro, marketing, content, promotion] = await Promise.all([
           getTopReels('нейросети'),
           getTopReels('маркетинг'),
@@ -103,16 +102,8 @@ export const LabaMainScreen: React.FC = () => {
           getTopReels('продвижение'),
         ]);
         
-        // Объединяем и берем топ-40 (по 10 из каждой категории)
-        const allReels = [
-          ...neuro.slice(0, 10),
-          ...marketing.slice(0, 10),
-          ...content.slice(0, 10),
-          ...promotion.slice(0, 10),
-        ];
-        
-        console.log(`📊 Загружено ${allReels.length} топ reels из всех категорий`);
-        console.log(`📊 По категориям: нейросети=${neuro.length}, маркетинг=${marketing.length}, контент=${content.length}, продвижение=${promotion.length}`);
+        // Объединяем ВСЕ reels из всех категорий (не ограничиваем)
+        const allReels = [...neuro, ...marketing, ...content, ...promotion];
         
         setReels(allReels);
         setLabaReelsCache(allReels);

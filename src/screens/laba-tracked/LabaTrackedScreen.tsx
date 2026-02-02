@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // API and types
 import { 
@@ -56,34 +56,19 @@ const peopleImage = peopleImageNoTracked;
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const newAccountAdded = (location.state as any)?.newAccountAdded || false;
 
   // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   
-  // Tracked accounts data - с кэшированием
-  const [accounts, setAccounts] = React.useState<TrackedAccount[]>(() => {
-    // Восстанавливаем из sessionStorage при возврате
-    const cached = sessionStorage.getItem('labaTrackedAccounts');
-    return cached ? JSON.parse(cached) : [];
-  });
-  const [reels, setReels] = React.useState<Reel[]>(() => {
-    // Восстанавливаем из sessionStorage при возврате
-    const cached = sessionStorage.getItem('labaTrackedReels');
-    return cached ? JSON.parse(cached) : [];
-  });
-  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(() => {
-    // Восстанавливаем выбранный аккаунт
-    return sessionStorage.getItem('labaSelectedAccountId');
-  });
+  // Tracked accounts data
+  const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
+  const [reels, setReels] = React.useState<Reel[]>([]);
+  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false); // false изначально - данные сохраняются
   const [scraping, setScraping] = React.useState(false);
-  const [scrapingAccountId, setScrapingAccountId] = React.useState<string | null>(null); // ID аккаунта который сейчас скрапится
   const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const scrapingRef = React.useRef(false); // Защита от повторных вызовов
 
   // Load tracked accounts - перезагружаем при каждом возврате на экран
   React.useEffect(() => {
@@ -104,20 +89,11 @@ export const LabaTrackedScreen: React.FC = () => {
           console.log(`[TRACKED] ${acc.username}: profilePhotoUrl=${acc.profilePhotoUrl}, followers=${acc.followersCount}`);
         });
         setAccounts(trackedAccounts);
-        // Сохраняем в sessionStorage
-        sessionStorage.setItem('labaTrackedAccounts', JSON.stringify(trackedAccounts));
         
         // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
         if (trackedAccounts.length > 0) {
           if (!selectedAccountId || !trackedAccounts.find(a => a.id === selectedAccountId)) {
-            const firstAccountId = trackedAccounts[0].id;
-            setSelectedAccountId(firstAccountId);
-            
-            // Если это новый аккаунт - сразу запускаем скрапинг
-            if (newAccountAdded) {
-              console.log('[TRACKED] Новый аккаунт добавлен, запускаем скрапинг...');
-              // Скрапинг запустится в useEffect для selectedAccountId
-            }
+            setSelectedAccountId(trackedAccounts[0].id);
           }
         } else {
           setSelectedAccountId(null);
@@ -157,19 +133,11 @@ export const LabaTrackedScreen: React.FC = () => {
       try {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
         setReels(accountReels);
-        // Сохраняем в sessionStorage
-        sessionStorage.setItem('labaTrackedReels', JSON.stringify(accountReels));
-        sessionStorage.setItem('labaSelectedAccountId', selectedAccountId);
         
-        // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ (только один раз!)
-        if (accountReels.length === 0 && !scrapingRef.current) {
-          scrapingRef.current = true; // Блокируем повторные вызовы
-          
+        // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
+        if (accountReels.length === 0) {
           try {
             setScraping(true);
-            setScrapingAccountId(selectedAccountId); // Запоминаем какой аккаунт скрапим
-            console.log(`[SCRAPING] Запускаем скрапинг для аккаунта ${selectedAccountId}`);
-            
             const result = await scrapeAccountReels(selectedAccountId, userId);
             
             // Показываем результат
@@ -182,8 +150,6 @@ export const LabaTrackedScreen: React.FC = () => {
             // Перезагружаем reels
             const updatedReels = await getTrackedReels(selectedAccountId, userId);
             setReels(updatedReels);
-            sessionStorage.setItem('labaTrackedReels', JSON.stringify(updatedReels));
-            console.log(`[SCRAPING] Завершено. Загружено ${updatedReels.length} reels`);
           } catch (error: any) {
             console.error('Ошибка скрапинга:', error);
             if (window.Telegram?.WebApp?.showPopup) {
@@ -193,11 +159,6 @@ export const LabaTrackedScreen: React.FC = () => {
             }
           } finally {
             setScraping(false);
-            setScrapingAccountId(null);
-            // Сбрасываем флаг через 5 секунд на случай повторного выбора этого же аккаунта
-            setTimeout(() => {
-              scrapingRef.current = false;
-            }, 5000);
           }
         }
       } catch (error) {
@@ -723,13 +684,13 @@ export const LabaTrackedScreen: React.FC = () => {
           ))}
           
           {/* Reels cards - Dynamic rendering */}
-          {/* Показываем 40 блюр карточек ТОЛЬКО если скрапится ТЕКУЩИЙ выбранный аккаунт */}
-          {scraping && scrapingAccountId === selectedAccountId && Array.from({ length: 40 }).map((_, index) => (
+          {/* Показываем 40 блюр карточек пока скрапинг идет */}
+          {scraping && Array.from({ length: 40 }).map((_, index) => (
             <BlurReelCard key={`scraping-${index}`} index={index} />
           ))}
           
           {/* Показываем реальные карточки когда загрузились */}
-          {!loading && !(scraping && scrapingAccountId === selectedAccountId) && reels.map((reel, index) => (
+          {!loading && !scraping && reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
               reel={reel}
@@ -739,20 +700,35 @@ export const LabaTrackedScreen: React.FC = () => {
                 const userId = getTelegramUserId();
                 if (!userId) return;
                 
+                // КРИТИЧНО: Сначала обновляем UI мгновенно (оптимистичное обновление)
+                const isCurrentlyLiked = likedCards.has(reelId);
+                const newFavoriteStatus = !isCurrentlyLiked;
+                
+                setLikedCards(prev => {
+                  const newSet = new Set(prev);
+                  if (newFavoriteStatus) {
+                    newSet.add(reelId);
+                  } else {
+                    newSet.delete(reelId);
+                  }
+                  return newSet;
+                });
+                
+                // Потом вызываем API в фоне
                 try {
-                  const newFavoriteStatus = await toggleFavorite(reelId, userId);
-                  
+                  await toggleFavorite(reelId, userId);
+                } catch (error) {
+                  console.error('Ошибка переключения избранного:', error);
+                  // Откатываем UI если API упал
                   setLikedCards(prev => {
                     const newSet = new Set(prev);
-                    if (newFavoriteStatus) {
+                    if (isCurrentlyLiked) {
                       newSet.add(reelId);
                     } else {
                       newSet.delete(reelId);
                     }
                     return newSet;
                   });
-                } catch (error) {
-                  console.error('Ошибка переключения избранного:', error);
                 }
               }}
             />
