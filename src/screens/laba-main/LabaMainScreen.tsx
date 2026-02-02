@@ -544,13 +544,14 @@ onBlur={() => {
         <img 
           src={buttonFormat}
           alt="формат"
-          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '711px',
             top: '485px',
             width: '247px',
             height: '79px',
+            opacity: 0.5,
+            cursor: 'not-allowed',
           }}
         />
 
