@@ -466,12 +466,35 @@ export const LabaMainScreen: React.FC = () => {
     setSelectedAccount(accountOptions[nextIndex]);
   };
 
-  const handleReturnClick = () => {
+  const handleReturnClick = async () => {
+    // Сбрасываем все фильтры
     setSelectedSort(null);
     setSelectedDate(null);
     setSelectedLanguage(null);
     setSelectedAccount(null);
     setLikedCards(new Set());
+    
+    // Перезагружаем исходные reels
+    try {
+      setLoading(true);
+      
+      const [neuro, marketing, content, promotion] = await Promise.all([
+        getTopReels('нейросети'),
+        getTopReels('маркетинг'),
+        getTopReels('контент'),
+        getTopReels('продвижение'),
+      ]);
+      
+      const allReels = [...neuro, ...marketing, ...content, ...promotion];
+      
+      setReels(allReels);
+      setLabaReelsCache(allReels);
+    } catch (error) {
+      console.error('Ошибка загрузки топ reels:', error);
+      showMessage('ошибка загрузки топ reels', 'alert');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
