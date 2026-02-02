@@ -93,22 +93,37 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         />
       </div>
 
-      {/* Badge "новое" - показывается если reel.isNew */}
+      {/* Badge "новое" - прозрачная плашка со свечением (как на карточке промпта) */}
       {reel.isNew && (
-        <img
-          src={newBadgePNG}
-          alt="новое"
+        <div
+          className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '322px',
-            top: '44px',
-            width: '58px',
-            height: '26px',
-            objectFit: 'contain',
+            left: '113px', // Пропорционально: 326 * (410/1180) ≈ 113px
+            top: '680px',  // Внизу карточки: 782 - 102 = 680px
+            width: '86px', // Пропорционально: 246.93 * (410/1180) ≈ 86px
+            height: '28px', // Пропорционально: 79.25 * (410/1180) ≈ 28px
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '14px',
             zIndex: 20,
             pointerEvents: 'none',
           }}
-        />
+        >
+          <span style={{
+            fontFamily: 'Onest',
+            fontSize: '12px',
+            fontWeight: 500,
+            color: '#fff',
+            textTransform: 'lowercase',
+          }}>
+            новое
+          </span>
+        </div>
       )}
 
       {/* Like icon - с ярким свечением */}
