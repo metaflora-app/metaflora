@@ -29,7 +29,7 @@ import returnButtonPNG from '../../assets/laba-tracked/кнопка вернут
 import sortButtonInactivePNG from '../../assets/laba-main/кнопка сортировка неактив.png';
 import sortButtonActivePNG from '../../assets/laba-main/кнопка сортировка актив.png';
 import likesBadgeInactivePNG from '../../assets/laba-main/плашка лайки неактив.png';
-import likesBadgeActivePNG from '../../assets/laba-main/плашка лайки актив.png';
+import badgeEmptyActive from '../../assets/laba-main-buttons/плашка пустая активная.png';
 import newBadgePNG from '../../assets/laba-main/плашка новое.png';
 import removeAccountButtonPNG from '../../assets/laba-main/кнопка убрать аккаунт.png';
 
@@ -62,30 +62,10 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   
-  // Tracked accounts data - с кэшированием
-  const [accounts, setAccounts] = React.useState<TrackedAccount[]>(() => {
-    try {
-      const cached = sessionStorage.getItem('laba_tracked_accounts');
-      return cached ? JSON.parse(cached) : [];
-    } catch {
-      return [];
-    }
-  });
-  const [reels, setReels] = React.useState<Reel[]>(() => {
-    try {
-      const cached = sessionStorage.getItem('laba_tracked_reels');
-      return cached ? JSON.parse(cached) : [];
-    } catch {
-      return [];
-    }
-  });
-  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(() => {
-    try {
-      return sessionStorage.getItem('laba_tracked_selected_account_id');
-    } catch {
-      return null;
-    }
-  });
+  // Tracked accounts data
+  const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
+  const [reels, setReels] = React.useState<Reel[]>([]);
+  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false); // false изначально - данные сохраняются
   const [scraping, setScraping] = React.useState(false);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -110,31 +90,13 @@ export const LabaTrackedScreen: React.FC = () => {
         });
         setAccounts(trackedAccounts);
         
-        // Кэшируем в sessionStorage
-        try {
-          sessionStorage.setItem('laba_tracked_accounts', JSON.stringify(trackedAccounts));
-        } catch (e) {
-          console.warn('[CACHE] Не удалось сохранить аккаунты в кэш:', e);
-        }
-        
         // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
         if (trackedAccounts.length > 0) {
           if (!selectedAccountId || !trackedAccounts.find(a => a.id === selectedAccountId)) {
-            const newSelectedId = trackedAccounts[0].id;
-            setSelectedAccountId(newSelectedId);
-            try {
-              sessionStorage.setItem('laba_tracked_selected_account_id', newSelectedId);
-            } catch (e) {
-              console.warn('[CACHE] Не удалось сохранить выбранный аккаунт:', e);
-            }
+            setSelectedAccountId(trackedAccounts[0].id);
           }
         } else {
           setSelectedAccountId(null);
-          try {
-            sessionStorage.removeItem('laba_tracked_selected_account_id');
-          } catch (e) {
-            console.warn('[CACHE] Не удалось удалить выбранный аккаунт:', e);
-          }
         }
       } catch (error) {
         console.error('Ошибка загрузки аккаунтов:', error);
@@ -172,13 +134,6 @@ export const LabaTrackedScreen: React.FC = () => {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
         setReels(accountReels);
         
-        // Кэшируем reels
-        try {
-          sessionStorage.setItem('laba_tracked_reels', JSON.stringify(accountReels));
-        } catch (e) {
-          console.warn('[CACHE] Не удалось сохранить reels в кэш:', e);
-        }
-        
         // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
         if (accountReels.length === 0) {
           try {
@@ -195,13 +150,6 @@ export const LabaTrackedScreen: React.FC = () => {
             // Перезагружаем reels
             const updatedReels = await getTrackedReels(selectedAccountId, userId);
             setReels(updatedReels);
-            
-            // Обновляем кэш
-            try {
-              sessionStorage.setItem('laba_tracked_reels', JSON.stringify(updatedReels));
-            } catch (e) {
-              console.warn('[CACHE] Не удалось обновить reels в кэше:', e);
-            }
           } catch (error: any) {
             console.error('Ошибка скрапинга:', error);
             if (window.Telegram?.WebApp?.showPopup) {
@@ -220,6 +168,25 @@ export const LabaTrackedScreen: React.FC = () => {
     
     fetchReels();
   }, [selectedAccountId]);
+
+  // Сортировка reels при изменении selectedSort
+  React.useEffect(() => {
+    if (!selectedSort) return;
+    
+    setReels(prev => {
+      const sorted = [...prev];
+      sorted.sort((a, b) => {
+        if (selectedSort === '>просмотров') return b.viewsCount - a.viewsCount;
+        if (selectedSort === '<просмотров') return a.viewsCount - b.viewsCount;
+        if (selectedSort === '>лайков') return b.likesCount - a.likesCount;
+        if (selectedSort === '<лайков') return a.likesCount - b.likesCount;
+        if (selectedSort === '>комментов') return b.commentsCount - a.commentsCount;
+        if (selectedSort === '<комментов') return a.commentsCount - b.commentsCount;
+        return 0;
+      });
+      return sorted;
+    });
+  }, [selectedSort]);
 
   // Handle remove account
   const handleRemoveAccount = async () => {
@@ -245,24 +212,27 @@ export const LabaTrackedScreen: React.FC = () => {
     }
   };
 
-  const sortOptions = [
-    { id: 'views_desc', label: '>просмотров' },
-    { id: 'views_asc', label: '<просмотров' },
-    { id: 'likes_desc', label: '>лайков' },
-    { id: 'likes_asc', label: '<лайков' },
-    { id: 'comments_desc', label: '>комментариев' },
-    { id: 'comments_asc', label: '<комментариев' },
-    { id: 'old', label: 'старые' },
-    { id: 'new', label: 'новые' },
-    { id: 'viral', label: 'виральные' },
-  ];
+  const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
 
   const handleSortClick = () => {
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев\nстарые\nновые\nвиральные'
-      });
+    if (selectedSort) {
+      setSelectedSort(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментов\n<комментов'
+        });
+      }
+      setSelectedSort(sortOptions[0]);
     }
+  };
+
+  const handleSortBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!selectedSort) return;
+    const currentIndex = sortOptions.indexOf(selectedSort);
+    const nextIndex = (currentIndex + 1) % sortOptions.length;
+    setSelectedSort(sortOptions[nextIndex]);
   };
 
   return (
@@ -662,15 +632,19 @@ export const LabaTrackedScreen: React.FC = () => {
         />
 
         {/* Кнопка выбрать - вплотную к сортировка */}
-        <div style={{
-          position: 'absolute',
-          left: '771px',
-          top: '580px',
-          width: '270px',
-          height: '79px',
-        }}>
+        <div 
+          onClick={handleSortBadgeClick}
+          style={{
+            position: 'absolute',
+            left: '771px',
+            top: '580px',
+            width: '270px',
+            height: '79px',
+            cursor: selectedSort ? 'pointer' : 'default',
+          }}
+        >
           <img
-            src={selectedSort ? likesBadgeActivePNG : likesBadgeInactivePNG}
+            src={selectedSort ? badgeEmptyActive : likesBadgeInactivePNG}
             alt="badge"
             style={{
               position: 'absolute',
@@ -680,20 +654,25 @@ export const LabaTrackedScreen: React.FC = () => {
               objectFit: 'contain',
             }}
           />
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro, sans-serif',
-            fontWeight: 500,
-            fontSize: '27px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.label || 'выбрать' : 'выбрать'}
-          </div>
+          {selectedSort && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '25px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedSort}
+            </div>
+          )}
         </div>
 
         {/* People image behind frame - hide when no accounts */}

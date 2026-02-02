@@ -32,15 +32,11 @@ import buttonAccount from '../../assets/laba-main-buttons/кнопка акка�
 import buttonAccountActive from '../../assets/laba-main-buttons/кнопка аккаунт.png';
 import buttonFormat from '../../assets/laba-main-buttons/кнопка формат.png';
 import badgeLikes from '../../assets/laba-main-buttons/плашка лайки неактив.png';
-import badgeLikesActive from '../../assets/laba-main-buttons/плашка лайки.png';
 import badgeTimeslot from '../../assets/laba-main-buttons/плашка таймслот неактив.png';
-import badgeTimeslotActive from '../../assets/laba-main-buttons/плашка таймслот.png';
 import badgeRussian from '../../assets/laba-main-buttons/плашка русский неактив.png';
-import badgeRussianActive from '../../assets/laba-main-buttons/плашка русский.png';
 import badgeScores from '../../assets/laba-main-buttons/плашка баллы неактив.png';
-import badgeScoresActive from '../../assets/laba-main-buttons/плашка баллы.png';
 import badgeAccount from '../../assets/laba-main-buttons/плашка аккаунт неактив.png';
-import badgeAccountActive from '../../assets/laba-main-buttons/плашка аккаунт.png';
+import badgeEmptyActive from '../../assets/laba-main-buttons/плашка пустая активная.png';
 import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
 import badgeStartSearch from '../../assets/laba-main-buttons/плашка начать поиск.png';
 import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
@@ -68,7 +64,6 @@ export const LabaFavoritesScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
-  const [selectedVirality, setSelectedVirality] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<number>>(new Set());
   const [searchValue, setSearchValue] = React.useState('');
@@ -135,49 +130,214 @@ export const LabaFavoritesScreen: React.FC = () => {
     });
   }, [reels]);
 
-  const handleSortClick = () => {
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев'
-      });
-      setSelectedSort('selected');
-    }
-  };
-
-  const handleFilterClick = (filterType: string) => {
-    if (window.Telegram?.WebApp?.showPopup) {
-      let message = '';
-      
-      switch(filterType) {
-        case 'date':
-          message = 'дата публикации\n\nпоследние 7 дней\nпоследние 14 дней\nпоследние 30 дней\nпоследние 6 месяцев\nпоследний год';
-          setSelectedDate('selected');
-          break;
-        case 'language':
-          message = 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий\nфранцузский';
-          setSelectedLanguage('selected');
-          break;
-        case 'virality':
-          message = 'виральность\n\n0-2 балла\n3-5 баллов\n6-8 баллов\n9-10 баллов';
-          setSelectedVirality('selected');
-          break;
-        case 'account':
-          message = 'размер аккаунта\n\n0-10к\n10к-100к\n100к-300к\n300к-1млн\nбольше 1млн';
-          setSelectedAccount('selected');
-          break;
+  // Фильтрация и сортировка reels при изменении фильтров
+  React.useEffect(() => {
+    const applyFilters = async () => {
+      if (!selectedSort && !selectedDate && !selectedLanguage && !selectedAccount) {
+        return;
       }
       
-      window.Telegram.WebApp.showPopup({ message });
+      const userId = getTelegramUserId();
+      if (!userId) return;
+      
+      try {
+        setLoading(true);
+        let filteredReels = await getFavorites(userId);
+        
+        // Фильтр по дате
+        if (selectedDate) {
+          const now = new Date();
+          let daysAgo = 7;
+          if (selectedDate === '14 дней') daysAgo = 14;
+          else if (selectedDate === '30 дней') daysAgo = 30;
+          else if (selectedDate === '6 месяцев') daysAgo = 180;
+          else if (selectedDate === '1 год') daysAgo = 365;
+          
+          const cutoffDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+          filteredReels = filteredReels.filter(reel => new Date(reel.publishedAt) >= cutoffDate);
+        }
+        
+        // Фильтр по размеру аккаунта
+        if (selectedAccount) {
+          filteredReels = filteredReels.filter(reel => {
+            const followers = reel.accountFollowers;
+            if (selectedAccount === '0-10к') return followers < 10000;
+            if (selectedAccount === '10к-100к') return followers >= 10000 && followers < 100000;
+            if (selectedAccount === '100к-300к') return followers >= 100000 && followers < 300000;
+            if (selectedAccount === '300к-1млн') return followers >= 300000 && followers < 1000000;
+            if (selectedAccount === '>1млн') return followers >= 1000000;
+            return true;
+          });
+        }
+        
+        // Фильтр по языку
+        if (selectedLanguage) {
+          filteredReels = filteredReels.filter(reel => {
+            const detectedLang = detectLanguage(reel.caption);
+            return detectedLang === selectedLanguage;
+          });
+        }
+        
+        // Сортировка
+        if (selectedSort) {
+          filteredReels.sort((a, b) => {
+            if (selectedSort === '>просмотров') return b.viewsCount - a.viewsCount;
+            if (selectedSort === '<просмотров') return a.viewsCount - b.viewsCount;
+            if (selectedSort === '>лайков') return b.likesCount - a.likesCount;
+            if (selectedSort === '<лайков') return a.likesCount - b.likesCount;
+            if (selectedSort === '>комментов') return b.commentsCount - a.commentsCount;
+            if (selectedSort === '<комментов') return a.commentsCount - b.commentsCount;
+            return 0;
+          });
+        }
+        
+        setReels(filteredReels);
+      } catch (error) {
+        console.error('Ошибка фильтрации:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    applyFilters();
+  }, [selectedSort, selectedDate, selectedLanguage, selectedAccount]);
+
+  // Массивы значений для каждого фильтра
+  const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
+  const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
+  const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
+  const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
+
+  // Функция определения языка по тексту описания
+  const detectLanguage = (text: string | null): string => {
+    if (!text) return 'unknown';
+    
+    const lowerText = text.toLowerCase();
+    
+    // Русский: кириллица
+    const cyrillicPattern = /[а-яё]/i;
+    if (cyrillicPattern.test(text)) return 'русский';
+    
+    // Турецкий: специфичные буквы (ğ, ı, ş, ç, ö, ü)
+    const turkishPattern = /[ğışçöü]/i;
+    if (turkishPattern.test(text)) return 'турецкий';
+    
+    // Испанский: специфичные слова и буквы (ñ, á, é, í, ó, ú, ü, ¿, ¡)
+    const spanishPattern = /[ñáéíóúü¿¡]|(\b(el|la|los|las|un|una|de|del|que|es|en|por|para|con|como)\b)/i;
+    if (spanishPattern.test(lowerText)) return 'испанский';
+    
+    // Английский: латиница без специфичных букв других языков
+    const latinPattern = /[a-z]/i;
+    if (latinPattern.test(text)) return 'английский';
+    
+    return 'unknown';
+  };
+
+  // Обработчик кнопки сортировка
+  const handleSortClick = () => {
+    if (selectedSort) {
+      setSelectedSort(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментов\n<комментов'
+        });
+      }
+      setSelectedSort(sortOptions[0]);
     }
   };
 
-  const handleReturnClick = () => {
+  const handleSortBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!selectedSort) return;
+    const currentIndex = sortOptions.indexOf(selectedSort);
+    const nextIndex = (currentIndex + 1) % sortOptions.length;
+    setSelectedSort(sortOptions[nextIndex]);
+  };
+
+  const handleDateClick = () => {
+    if (selectedDate) {
+      setSelectedDate(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'дата публикации\n\nпоследние 7 дней\nпоследние 14 дней\nпоследние 30 дней\nпоследние 6 месяцев\nпоследний год'
+        });
+      }
+      setSelectedDate(dateOptions[0]);
+    }
+  };
+
+  const handleDateBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!selectedDate) return;
+    const currentIndex = dateOptions.indexOf(selectedDate);
+    const nextIndex = (currentIndex + 1) % dateOptions.length;
+    setSelectedDate(dateOptions[nextIndex]);
+  };
+
+  const handleLanguageClick = () => {
+    if (selectedLanguage) {
+      setSelectedLanguage(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий'
+        });
+      }
+      setSelectedLanguage(languageOptions[0]);
+    }
+  };
+
+  const handleLanguageBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!selectedLanguage) return;
+    const currentIndex = languageOptions.indexOf(selectedLanguage);
+    const nextIndex = (currentIndex + 1) % languageOptions.length;
+    setSelectedLanguage(languageOptions[nextIndex]);
+  };
+
+  const handleAccountClick = () => {
+    if (selectedAccount) {
+      setSelectedAccount(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'размер аккаунта\n\n0-10к\n10к-100к\n100к-300к\n300к-1млн\nбольше 1млн'
+        });
+      }
+      setSelectedAccount(accountOptions[0]);
+    }
+  };
+
+  const handleAccountBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!selectedAccount) return;
+    const currentIndex = accountOptions.indexOf(selectedAccount);
+    const nextIndex = (currentIndex + 1) % accountOptions.length;
+    setSelectedAccount(accountOptions[nextIndex]);
+  };
+
+  const handleReturnClick = async () => {
     setSelectedSort(null);
     setSelectedDate(null);
     setSelectedLanguage(null);
-    setSelectedVirality(null);
     setSelectedAccount(null);
     setLikedCards(new Set());
+    
+    // Перезагружаем избранные reels
+    const userId = getTelegramUserId();
+    if (!userId) return;
+    
+    try {
+      setLoading(true);
+      const favoriteReels = await getFavorites(userId);
+      setReels(favoriteReels);
+    } catch (error) {
+      console.error('Ошибка загрузки избранного:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Handle favorite toggle - УДАЛЕНИЕ ИЗ ИЗБРАННОГО (оптимистичное обновление)
@@ -302,23 +462,23 @@ export const LabaFavoritesScreen: React.FC = () => {
         <img 
           src={selectedDate ? buttonDateActive : buttonDate} 
           alt="дата" 
-          onClick={() => handleFilterClick('date')}
+          onClick={handleDateClick}
           className="button-inner-glow"
           style={{ position: 'absolute', left: '593px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
         <img 
           src={selectedLanguage ? buttonLanguageActive : buttonLanguage} 
           alt="язык" 
-          onClick={() => handleFilterClick('language')}
+          onClick={handleLanguageClick}
           className="button-inner-glow"
           style={{ position: 'absolute', left: '840px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
 
         {/* Filter buttons - Row 2 - EXACT Figma coordinates */}
         <img 
-          src={selectedVirality ? buttonViralityActive : buttonVirality}
-          alt="виральность"
-          onClick={() => handleFilterClick('virality')}
+          src={selectedAccount ? buttonAccountActive : buttonAccount}
+          alt="аккаунт"
+          onClick={handleAccountClick}
           className="button-inner-glow"
           style={{
             position: 'absolute',
@@ -331,92 +491,217 @@ export const LabaFavoritesScreen: React.FC = () => {
         />
 
         <img 
-          src={selectedAccount ? buttonAccountActive : buttonAccount}
-          alt="аккаунт"
-          onClick={() => handleFilterClick('account')}
-          className="button-inner-glow"
+          src={buttonVirality}
+          alt="виральность"
           style={{
             position: 'absolute',
             left: '464px',
             top: '485px',
             width: '247px',
             height: '79px',
-            cursor: 'pointer',
+            opacity: 0.5,
+            cursor: 'not-allowed',
           }}
         />
 
         <img 
           src={buttonFormat}
           alt="формат"
-          className="button-inner-glow"
           style={{
             position: 'absolute',
             left: '711px',
             top: '485px',
             width: '247px',
             height: '79px',
+            opacity: 0.5,
+            cursor: 'not-allowed',
           }}
         />
 
         {/* Filter badges - Row 2 - EXACT Figma coordinates */}
-        <img 
-          src={selectedSort ? badgeLikesActive : badgeLikes}
-          alt=">лайков"
+        <div
+          onClick={handleSortBadgeClick}
           style={{
             position: 'absolute',
             left: '407px',
             top: '406px',
             width: '186px',
             height: '79px',
+            cursor: selectedSort ? 'pointer' : 'default',
           }}
-        />
+        >
+          <img 
+            src={selectedSort ? badgeEmptyActive : badgeLikes}
+            alt="сортировка"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedSort && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '25px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedSort}
+            </div>
+          )}
+        </div>
 
-        <img 
-          src={selectedDate ? badgeTimeslotActive : badgeTimeslot}
-          alt="14 дней"
+        <div
+          onClick={handleDateBadgeClick}
           style={{
             position: 'absolute',
             left: '654px',
             top: '406px',
             width: '186px',
             height: '79px',
+            cursor: selectedDate ? 'pointer' : 'default',
           }}
-        />
+        >
+          <img 
+            src={selectedDate ? badgeEmptyActive : badgeTimeslot}
+            alt="дата"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedDate && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '25px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedDate}
+            </div>
+          )}
+        </div>
 
-        <img 
-          src={selectedLanguage ? badgeRussianActive : badgeRussian}
-          alt="русский"
+        <div
+          onClick={handleLanguageBadgeClick}
           style={{
             position: 'absolute',
             left: '901px',
             top: '406px',
             width: '186px',
             height: '79px',
+            cursor: selectedLanguage ? 'pointer' : 'default',
           }}
-        />
+        >
+          <img 
+            src={selectedLanguage ? badgeEmptyActive : badgeRussian}
+            alt="язык"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedLanguage && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '25px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedLanguage}
+            </div>
+          )}
+        </div>
 
         {/* Filter badges - Row 3 - активные плашки с Desktop */}
+        <div
+          onClick={handleAccountBadgeClick}
+          style={{
+            position: 'absolute',
+            left: '281px',
+            top: '564px',
+            width: '186px',
+            height: '79px',
+            cursor: selectedAccount ? 'pointer' : 'default',
+          }}
+        >
+          <img 
+            src={selectedAccount ? badgeEmptyActive : badgeAccount}
+            alt="аккаунт"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedAccount && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '25px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedAccount}
+            </div>
+          )}
+        </div>
+
         <img 
-          src={selectedVirality ? badgeScoresActive : badgeScores}
+          src={badgeScores}
           alt="9-10 баллов"
           style={{
             position: 'absolute',
-            left: '278px',
+            left: '525px',
             top: '564px',
             width: '186px',
             height: '79px',
-          }}
-        />
-
-        <img 
-          src={selectedAccount ? badgeAccountActive : badgeAccount}
-          alt="0-10к"
-          style={{
-            position: 'absolute',
-            left: '516px',
-            top: '564px',
-            width: '186px',
-            height: '79px',
+            opacity: 0.5,
           }}
         />
 
@@ -425,10 +710,11 @@ export const LabaFavoritesScreen: React.FC = () => {
           alt="IG reels"
           style={{
             position: 'absolute',
-            left: '754px',
+            left: '772px',
             top: '564px',
             width: '186px',
             height: '79px',
+            opacity: 0.5,
           }}
         />
 
