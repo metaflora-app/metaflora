@@ -62,10 +62,30 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   
-  // Tracked accounts data
-  const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
-  const [reels, setReels] = React.useState<Reel[]>([]);
-  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
+  // Tracked accounts data - с кэшированием
+  const [accounts, setAccounts] = React.useState<TrackedAccount[]>(() => {
+    try {
+      const cached = sessionStorage.getItem('laba_tracked_accounts');
+      return cached ? JSON.parse(cached) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [reels, setReels] = React.useState<Reel[]>(() => {
+    try {
+      const cached = sessionStorage.getItem('laba_tracked_reels');
+      return cached ? JSON.parse(cached) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(() => {
+    try {
+      return sessionStorage.getItem('laba_tracked_selected_account_id');
+    } catch {
+      return null;
+    }
+  });
   const [loading, setLoading] = React.useState(false); // false изначально - данные сохраняются
   const [scraping, setScraping] = React.useState(false);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -90,13 +110,31 @@ export const LabaTrackedScreen: React.FC = () => {
         });
         setAccounts(trackedAccounts);
         
+        // Кэшируем в sessionStorage
+        try {
+          sessionStorage.setItem('laba_tracked_accounts', JSON.stringify(trackedAccounts));
+        } catch (e) {
+          console.warn('[CACHE] Не удалось сохранить аккаунты в кэш:', e);
+        }
+        
         // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
         if (trackedAccounts.length > 0) {
           if (!selectedAccountId || !trackedAccounts.find(a => a.id === selectedAccountId)) {
-            setSelectedAccountId(trackedAccounts[0].id);
+            const newSelectedId = trackedAccounts[0].id;
+            setSelectedAccountId(newSelectedId);
+            try {
+              sessionStorage.setItem('laba_tracked_selected_account_id', newSelectedId);
+            } catch (e) {
+              console.warn('[CACHE] Не удалось сохранить выбранный аккаунт:', e);
+            }
           }
         } else {
           setSelectedAccountId(null);
+          try {
+            sessionStorage.removeItem('laba_tracked_selected_account_id');
+          } catch (e) {
+            console.warn('[CACHE] Не удалось удалить выбранный аккаунт:', e);
+          }
         }
       } catch (error) {
         console.error('Ошибка загрузки аккаунтов:', error);
@@ -134,6 +172,13 @@ export const LabaTrackedScreen: React.FC = () => {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
         setReels(accountReels);
         
+        // Кэшируем reels
+        try {
+          sessionStorage.setItem('laba_tracked_reels', JSON.stringify(accountReels));
+        } catch (e) {
+          console.warn('[CACHE] Не удалось сохранить reels в кэш:', e);
+        }
+        
         // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
         if (accountReels.length === 0) {
           try {
@@ -150,6 +195,13 @@ export const LabaTrackedScreen: React.FC = () => {
             // Перезагружаем reels
             const updatedReels = await getTrackedReels(selectedAccountId, userId);
             setReels(updatedReels);
+            
+            // Обновляем кэш
+            try {
+              sessionStorage.setItem('laba_tracked_reels', JSON.stringify(updatedReels));
+            } catch (e) {
+              console.warn('[CACHE] Не удалось обновить reels в кэше:', e);
+            }
           } catch (error: any) {
             console.error('Ошибка скрапинга:', error);
             if (window.Telegram?.WebApp?.showPopup) {
