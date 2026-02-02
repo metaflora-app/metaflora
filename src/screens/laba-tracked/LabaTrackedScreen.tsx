@@ -83,6 +83,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [scraping, setScraping] = React.useState(false);
   const [scrapingAccountId, setScrapingAccountId] = React.useState<string | null>(null); // ID аккаунта который сейчас скрапится
   const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const scrapingRef = React.useRef(false); // Защита от повторных вызовов
 
   // Load tracked accounts - перезагружаем при каждом возврате на экран
   React.useEffect(() => {
@@ -160,11 +161,15 @@ export const LabaTrackedScreen: React.FC = () => {
         sessionStorage.setItem('labaTrackedReels', JSON.stringify(accountReels));
         sessionStorage.setItem('labaSelectedAccountId', selectedAccountId);
         
-        // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
-        if (accountReels.length === 0) {
+        // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ (только один раз!)
+        if (accountReels.length === 0 && !scrapingRef.current) {
+          scrapingRef.current = true; // Блокируем повторные вызовы
+          
           try {
             setScraping(true);
             setScrapingAccountId(selectedAccountId); // Запоминаем какой аккаунт скрапим
+            console.log(`[SCRAPING] Запускаем скрапинг для аккаунта ${selectedAccountId}`);
+            
             const result = await scrapeAccountReels(selectedAccountId, userId);
             
             // Показываем результат
@@ -178,6 +183,7 @@ export const LabaTrackedScreen: React.FC = () => {
             const updatedReels = await getTrackedReels(selectedAccountId, userId);
             setReels(updatedReels);
             sessionStorage.setItem('labaTrackedReels', JSON.stringify(updatedReels));
+            console.log(`[SCRAPING] Завершено. Загружено ${updatedReels.length} reels`);
           } catch (error: any) {
             console.error('Ошибка скрапинга:', error);
             if (window.Telegram?.WebApp?.showPopup) {
@@ -188,6 +194,10 @@ export const LabaTrackedScreen: React.FC = () => {
           } finally {
             setScraping(false);
             setScrapingAccountId(null);
+            // Сбрасываем флаг через 5 секунд на случай повторного выбора этого же аккаунта
+            setTimeout(() => {
+              scrapingRef.current = false;
+            }, 5000);
           }
         }
       } catch (error) {
