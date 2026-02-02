@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // API and types
 import { 
@@ -56,7 +56,9 @@ const peopleImage = peopleImageNoTracked;
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const newAccountAdded = (location.state as any)?.newAccountAdded || false;
 
   // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
@@ -79,6 +81,7 @@ export const LabaTrackedScreen: React.FC = () => {
   });
   const [loading, setLoading] = React.useState(false); // false изначально - данные сохраняются
   const [scraping, setScraping] = React.useState(false);
+  const [scrapingAccountId, setScrapingAccountId] = React.useState<string | null>(null); // ID аккаунта который сейчас скрапится
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   // Load tracked accounts - перезагружаем при каждом возврате на экран
@@ -106,7 +109,14 @@ export const LabaTrackedScreen: React.FC = () => {
         // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
         if (trackedAccounts.length > 0) {
           if (!selectedAccountId || !trackedAccounts.find(a => a.id === selectedAccountId)) {
-            setSelectedAccountId(trackedAccounts[0].id);
+            const firstAccountId = trackedAccounts[0].id;
+            setSelectedAccountId(firstAccountId);
+            
+            // Если это новый аккаунт - сразу запускаем скрапинг
+            if (newAccountAdded) {
+              console.log('[TRACKED] Новый аккаунт добавлен, запускаем скрапинг...');
+              // Скрапинг запустится в useEffect для selectedAccountId
+            }
           }
         } else {
           setSelectedAccountId(null);
@@ -154,6 +164,7 @@ export const LabaTrackedScreen: React.FC = () => {
         if (accountReels.length === 0) {
           try {
             setScraping(true);
+            setScrapingAccountId(selectedAccountId); // Запоминаем какой аккаунт скрапим
             const result = await scrapeAccountReels(selectedAccountId, userId);
             
             // Показываем результат
@@ -166,6 +177,7 @@ export const LabaTrackedScreen: React.FC = () => {
             // Перезагружаем reels
             const updatedReels = await getTrackedReels(selectedAccountId, userId);
             setReels(updatedReels);
+            sessionStorage.setItem('labaTrackedReels', JSON.stringify(updatedReels));
           } catch (error: any) {
             console.error('Ошибка скрапинга:', error);
             if (window.Telegram?.WebApp?.showPopup) {
@@ -175,6 +187,7 @@ export const LabaTrackedScreen: React.FC = () => {
             }
           } finally {
             setScraping(false);
+            setScrapingAccountId(null);
           }
         }
       } catch (error) {
@@ -700,13 +713,13 @@ export const LabaTrackedScreen: React.FC = () => {
           ))}
           
           {/* Reels cards - Dynamic rendering */}
-          {/* Показываем 40 блюр карточек пока скрапинг идет */}
-          {scraping && Array.from({ length: 40 }).map((_, index) => (
+          {/* Показываем 40 блюр карточек ТОЛЬКО если скрапится ТЕКУЩИЙ выбранный аккаунт */}
+          {scraping && scrapingAccountId === selectedAccountId && Array.from({ length: 40 }).map((_, index) => (
             <BlurReelCard key={`scraping-${index}`} index={index} />
           ))}
           
           {/* Показываем реальные карточки когда загрузились */}
-          {!loading && !scraping && reels.map((reel, index) => (
+          {!loading && !(scraping && scrapingAccountId === selectedAccountId) && reels.map((reel, index) => (
             <ReelCard
               key={reel.id}
               reel={reel}
