@@ -167,6 +167,14 @@ export const LabaMainScreen: React.FC = () => {
           });
         }
         
+        // Фильтр по языку (определяем по описанию)
+        if (selectedLanguage) {
+          filteredReels = filteredReels.filter(reel => {
+            const detectedLang = detectLanguage(reel.caption);
+            return detectedLang === selectedLanguage;
+          });
+        }
+        
         // Сортировка
         if (selectedSort) {
           filteredReels.sort((a, b) => {
@@ -341,6 +349,31 @@ export const LabaMainScreen: React.FC = () => {
   const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
   const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
   const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
+
+  // Функция определения языка по тексту описания
+  const detectLanguage = (text: string | null): string => {
+    if (!text) return 'unknown';
+    
+    const lowerText = text.toLowerCase();
+    
+    // Русский: кириллица
+    const cyrillicPattern = /[а-яё]/i;
+    if (cyrillicPattern.test(text)) return 'русский';
+    
+    // Турецкий: специфичные буквы (ğ, ı, ş, ç, ö, ü)
+    const turkishPattern = /[ğışçöü]/i;
+    if (turkishPattern.test(text)) return 'турецкий';
+    
+    // Испанский: специфичные слова и буквы (ñ, á, é, í, ó, ú, ü, ¿, ¡)
+    const spanishPattern = /[ñáéíóúü¿¡]|(\b(el|la|los|las|un|una|de|del|que|es|en|por|para|con|como)\b)/i;
+    if (spanishPattern.test(lowerText)) return 'испанский';
+    
+    // Английский: латиница без специфичных букв других языков
+    const latinPattern = /[a-z]/i;
+    if (latinPattern.test(text)) return 'английский';
+    
+    return 'unknown';
+  };
 
   // Обработчик кнопки сортировка - показывает popup и устанавливает первое значение
   const handleSortClick = () => {
