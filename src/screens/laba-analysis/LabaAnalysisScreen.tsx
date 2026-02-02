@@ -86,7 +86,7 @@ export const LabaAnalysisScreen: React.FC = () => {
 
   // Handle start analysis
   const handleStartAnalysis = async () => {
-    if (!reel) return;
+    if (!reel || analyzing) return; // Защита от двойного вызова
     
     const userId = getTelegramUserId();
     if (!userId) {
