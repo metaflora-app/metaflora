@@ -43,12 +43,12 @@ export const MetacoinsScreen: React.FC = () => {
     if (success) {
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: `успешно куплено ${amount} метакоинов`,
-          buttons: [{ type: 'ok' }]
-        }, () => {
-          // После закрытия попапа переходим на главный экран с подпиской
-          navigate('/main-dashboard-premium');
+          message: `успешно куплено ${amount} метакоинов`
         });
+        // Переходим сразу после показа попапа
+        setTimeout(() => {
+          navigate('/main-dashboard-premium');
+        }, 1000);
       } else {
         alert(`успешно куплено ${amount} метакоинов`);
         navigate('/main-dashboard-premium');
