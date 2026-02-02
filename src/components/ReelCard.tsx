@@ -52,8 +52,6 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
       top,
       width: '410px',
       height: '782px',
-      contentVisibility: 'auto',
-      containIntrinsicSize: '410px 782px',
     }}>
       <div className="blur-wave" style={{
         position: 'absolute',

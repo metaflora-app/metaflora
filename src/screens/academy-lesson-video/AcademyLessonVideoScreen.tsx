@@ -19,8 +19,15 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const lessonType = searchParams.get('type') || 'academy';
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  const [lesson, setLesson] = useState<AcademyLesson | null>(null);
-  const [video, setVideo] = useState<AcademyVideo | null>(null);
+  // Кэшируем данные урока и видео (отдельно для academy и demo)
+  const [lesson, setLesson] = useState<AcademyLesson | null>(() => {
+    const cached = sessionStorage.getItem(`${lessonType}_lesson_${lessonId}`);
+    return cached ? JSON.parse(cached) : null;
+  });
+  const [video, setVideo] = useState<AcademyVideo | null>(() => {
+    const cached = sessionStorage.getItem(`${lessonType}_video_${lessonId}`);
+    return cached ? JSON.parse(cached) : null;
+  });
   const [, setLoading] = useState(true);
 
 
@@ -70,6 +77,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         : await getAcademyLessonById(id);
       if (!result.error && result.data) {
         setLesson(result.data);
+        // Сохраняем в кэш (отдельно для academy и demo)
+        sessionStorage.setItem(`${lessonType}_lesson_${id}`, JSON.stringify(result.data));
       }
       
       // Загрузить видео
@@ -83,6 +92,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         console.log('📹 First video:', videoResult.data[0]);
         console.log('📹 video_id:', videoResult.data[0].video_id);
         setVideo(videoResult.data[0]);
+        // Сохраняем в кэш (отдельно для academy и demo)
+        sessionStorage.setItem(`${lessonType}_video_${id}`, JSON.stringify(videoResult.data[0]));
       } else {
         console.log('❌ No video found for lesson:', id);
       }
