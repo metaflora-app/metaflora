@@ -57,6 +57,7 @@ export interface Analysis {
   reelId: string;
   userId: number;
   viralityScore: number;
+  viralityExplanation: string; // Объяснение оценки виральности
   hookText: string;
   transcription: string;
   videoSummary: string;

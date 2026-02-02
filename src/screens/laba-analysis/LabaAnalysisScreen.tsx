@@ -754,7 +754,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     color: 'white',
                     lineHeight: '42px',
                   }}>
-                    {analysis?.hookText || '...'}
+                    {analysis?.viralityExplanation || '...'}
                   </div>
                 </div>
 
