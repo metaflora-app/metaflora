@@ -119,6 +119,78 @@ export const LabaMainScreen: React.FC = () => {
     }
   }, [reels, setLabaReelsCache]);
 
+  // Фильтрация и сортировка reels при изменении фильтров
+  React.useEffect(() => {
+    const applyFilters = async () => {
+      // Если нет активных фильтров - показываем все reels из кэша
+      if (!selectedSort && !selectedDate && !selectedLanguage && !selectedAccount) {
+        return;
+      }
+
+      try {
+        setLoading(true);
+        
+        // Загружаем ВСЕ reels
+        const [neuro, marketing, content, promotion] = await Promise.all([
+          getTopReels('нейросети'),
+          getTopReels('маркетинг'),
+          getTopReels('контент'),
+          getTopReels('продвижение'),
+        ]);
+        
+        let filteredReels = [...neuro, ...marketing, ...content, ...promotion];
+        
+        // Фильтр по дате
+        if (selectedDate) {
+          const now = new Date();
+          let daysAgo = 7;
+          
+          if (selectedDate === '14 дней') daysAgo = 14;
+          else if (selectedDate === '30 дней') daysAgo = 30;
+          else if (selectedDate === '6 месяцев') daysAgo = 180;
+          else if (selectedDate === '1 год') daysAgo = 365;
+          
+          const cutoffDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+          filteredReels = filteredReels.filter(reel => new Date(reel.publishedAt) >= cutoffDate);
+        }
+        
+        // Фильтр по размеру аккаунта
+        if (selectedAccount) {
+          filteredReels = filteredReels.filter(reel => {
+            const followers = reel.accountFollowers;
+            if (selectedAccount === '0-10к') return followers < 10000;
+            if (selectedAccount === '10к-100к') return followers >= 10000 && followers < 100000;
+            if (selectedAccount === '100к-300к') return followers >= 100000 && followers < 300000;
+            if (selectedAccount === '300к-1млн') return followers >= 300000 && followers < 1000000;
+            if (selectedAccount === '>1млн') return followers >= 1000000;
+            return true;
+          });
+        }
+        
+        // Сортировка
+        if (selectedSort) {
+          filteredReels.sort((a, b) => {
+            if (selectedSort === '>просмотров') return b.viewsCount - a.viewsCount;
+            if (selectedSort === '<просмотров') return a.viewsCount - b.viewsCount;
+            if (selectedSort === '>лайков') return b.likesCount - a.likesCount;
+            if (selectedSort === '<лайков') return a.likesCount - b.likesCount;
+            if (selectedSort === '>комментов') return b.commentsCount - a.commentsCount;
+            if (selectedSort === '<комментов') return a.commentsCount - b.commentsCount;
+            return 0;
+          });
+        }
+        
+        setReels(filteredReels);
+      } catch (error) {
+        console.error('Ошибка фильтрации:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    applyFilters();
+  }, [selectedSort, selectedDate, selectedLanguage, selectedAccount]);
+
   // Handle search - с popup перед запуском
   const handleSearch = async () => {
     if (!searchValue.trim()) {
@@ -265,9 +337,9 @@ export const LabaMainScreen: React.FC = () => {
   };
 
   // Массивы значений для каждого фильтра
-  const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментариев', '<комментариев'];
+  const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
   const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
-  const languageOptions = ['русский', 'английский', 'испанский', 'турецкий', 'французский'];
+  const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
   const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
 
   // Обработчик кнопки сортировка - показывает popup и устанавливает первое значение
@@ -279,7 +351,7 @@ export const LabaMainScreen: React.FC = () => {
       // Активируем с первым значением
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев'
+          message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментов\n<комментов'
         });
       }
       setSelectedSort(sortOptions[0]);
@@ -287,7 +359,8 @@ export const LabaMainScreen: React.FC = () => {
   };
 
   // Обработчик клика по плашке сортировки - циклическое переключение
-  const handleSortBadgeClick = () => {
+  const handleSortBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!selectedSort) return;
     const currentIndex = sortOptions.indexOf(selectedSort);
     const nextIndex = (currentIndex + 1) % sortOptions.length;
@@ -308,7 +381,8 @@ export const LabaMainScreen: React.FC = () => {
     }
   };
 
-  const handleDateBadgeClick = () => {
+  const handleDateBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!selectedDate) return;
     const currentIndex = dateOptions.indexOf(selectedDate);
     const nextIndex = (currentIndex + 1) % dateOptions.length;
@@ -322,14 +396,15 @@ export const LabaMainScreen: React.FC = () => {
     } else {
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий\nфранцузский'
+          message: 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий'
         });
       }
       setSelectedLanguage(languageOptions[0]);
     }
   };
 
-  const handleLanguageBadgeClick = () => {
+  const handleLanguageBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!selectedLanguage) return;
     const currentIndex = languageOptions.indexOf(selectedLanguage);
     const nextIndex = (currentIndex + 1) % languageOptions.length;
@@ -350,7 +425,8 @@ export const LabaMainScreen: React.FC = () => {
     }
   };
 
-  const handleAccountBadgeClick = () => {
+  const handleAccountBadgeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!selectedAccount) return;
     const currentIndex = accountOptions.indexOf(selectedAccount);
     const nextIndex = (currentIndex + 1) % accountOptions.length;
@@ -645,7 +721,7 @@ onBlur={() => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '23px',
+              fontSize: '25px',
               color: 'white',
               textAlign: 'center',
               pointerEvents: 'none',
@@ -688,7 +764,7 @@ onBlur={() => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '23px',
+              fontSize: '25px',
               color: 'white',
               textAlign: 'center',
               pointerEvents: 'none',
@@ -731,7 +807,7 @@ onBlur={() => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '23px',
+              fontSize: '25px',
               color: 'white',
               textAlign: 'center',
               pointerEvents: 'none',
@@ -775,7 +851,7 @@ onBlur={() => {
               justifyContent: 'center',
               fontFamily: 'Gotham Pro, sans-serif',
               fontWeight: 500,
-              fontSize: '23px',
+              fontSize: '25px',
               color: 'white',
               textAlign: 'center',
               pointerEvents: 'none',
