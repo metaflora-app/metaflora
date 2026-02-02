@@ -93,22 +93,42 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         />
       </div>
 
-      {/* Badge "новое" - показывается если reel.isNew */}
+      {/* Badge "новое" - ТОЧНАЯ КОПИЯ из PromptFirstScreen */}
       {reel.isNew && (
-        <img
-          src={newBadgePNG}
-          alt="новое"
-          style={{
+        <div className="blur-wave button-inner-glow" style={{
+          position: 'absolute',
+          right: '41px',
+          top: '44px',
+          minWidth: '101px',
+          height: '36px',
+          paddingLeft: '15px',
+          paddingRight: '15px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(255, 255, 255, 0.1)',
+          border: '2px solid rgba(255, 255, 255, 0.3)',
+          borderRadius: '62px',
+          overflow: 'clip',
+        }}>
+          <div style={{
             position: 'absolute',
-            left: '322px',
-            top: '44px',
-            width: '58px',
-            height: '26px',
-            objectFit: 'contain',
-            zIndex: 20,
-            pointerEvents: 'none',
-          }}
-        />
+            left: '50%',
+            top: 'calc(50% - 0.5px)',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            height: '19px',
+            fontFamily: 'Gotham Pro',
+            fontWeight: 500,
+            fontSize: '20px',
+            color: 'white',
+            textAlign: 'center',
+            lineHeight: 0,
+            whiteSpace: 'nowrap',
+          }}>
+            <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>новое</p>
+          </div>
+        </div>
       )}
 
       {/* Like icon - с ярким свечением */}
