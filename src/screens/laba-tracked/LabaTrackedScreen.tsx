@@ -62,10 +62,21 @@ export const LabaTrackedScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   
-  // Tracked accounts data
-  const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
-  const [reels, setReels] = React.useState<Reel[]>([]);
-  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
+  // Tracked accounts data - с кэшированием
+  const [accounts, setAccounts] = React.useState<TrackedAccount[]>(() => {
+    // Восстанавливаем из sessionStorage при возврате
+    const cached = sessionStorage.getItem('labaTrackedAccounts');
+    return cached ? JSON.parse(cached) : [];
+  });
+  const [reels, setReels] = React.useState<Reel[]>(() => {
+    // Восстанавливаем из sessionStorage при возврате
+    const cached = sessionStorage.getItem('labaTrackedReels');
+    return cached ? JSON.parse(cached) : [];
+  });
+  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(() => {
+    // Восстанавливаем выбранный аккаунт
+    return sessionStorage.getItem('labaSelectedAccountId');
+  });
   const [loading, setLoading] = React.useState(false); // false изначально - данные сохраняются
   const [scraping, setScraping] = React.useState(false);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -89,6 +100,8 @@ export const LabaTrackedScreen: React.FC = () => {
           console.log(`[TRACKED] ${acc.username}: profilePhotoUrl=${acc.profilePhotoUrl}, followers=${acc.followersCount}`);
         });
         setAccounts(trackedAccounts);
+        // Сохраняем в sessionStorage
+        sessionStorage.setItem('labaTrackedAccounts', JSON.stringify(trackedAccounts));
         
         // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
         if (trackedAccounts.length > 0) {
@@ -133,6 +146,9 @@ export const LabaTrackedScreen: React.FC = () => {
       try {
         const accountReels = await getTrackedReels(selectedAccountId, userId);
         setReels(accountReels);
+        // Сохраняем в sessionStorage
+        sessionStorage.setItem('labaTrackedReels', JSON.stringify(accountReels));
+        sessionStorage.setItem('labaSelectedAccountId', selectedAccountId);
         
         // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
         if (accountReels.length === 0) {
