@@ -37,7 +37,6 @@ import buttonDateActive from '../../assets/laba-main-buttons/кнопка дат
 import buttonLanguage from '../../assets/laba-main-buttons/кнопка язык неактив.png';
 import buttonLanguageActive from '../../assets/laba-main-buttons/кнопка язык.png';
 import buttonVirality from '../../assets/laba-main-buttons/кнопка виральность неактив.png';
-import buttonViralityActive from '../../assets/laba-main-buttons/кнопка виральность.png';
 import buttonAccount from '../../assets/laba-main-buttons/кнопка аккаунт неактив.png';
 import buttonAccountActive from '../../assets/laba-main-buttons/кнопка аккаунт.png';
 import buttonFormat from '../../assets/laba-main-buttons/кнопка формат.png';
@@ -48,7 +47,6 @@ import badgeTimeslotActive from '../../assets/laba-main-buttons/плашка т�
 import badgeRussian from '../../assets/laba-main-buttons/плашка русский неактив.png';
 import badgeRussianActive from '../../assets/laba-main-buttons/плашка русский.png';
 import badgeScores from '../../assets/laba-main-buttons/плашка баллы неактив.png';
-import badgeScoresActive from '../../assets/laba-main-buttons/плашка баллы.png';
 import badgeAccount from '../../assets/laba-main-buttons/плашка аккаунт неактив.png';
 import badgeAccountActive from '../../assets/laba-main-buttons/плашка аккаунт.png';
 import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
@@ -82,7 +80,6 @@ export const LabaMainScreen: React.FC = () => {
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
-  const [selectedVirality, setSelectedVirality] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [searchValue, setSearchValue] = React.useState('');
@@ -292,10 +289,6 @@ export const LabaMainScreen: React.FC = () => {
           message = 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий\nфранцузский';
           setSelectedLanguage('selected');
           break;
-        case 'virality':
-          message = 'виральность\n\n0-2 балла\n3-5 баллов\n6-8 баллов\n9-10 баллов';
-          setSelectedVirality('selected');
-          break;
         case 'account':
           message = 'размер аккаунта\n\n0-10к\n10к-100к\n100к-300к\n300к-1млн\nбольше 1млн';
           setSelectedAccount('selected');
@@ -310,7 +303,6 @@ export const LabaMainScreen: React.FC = () => {
     setSelectedSort(null);
     setSelectedDate(null);
     setSelectedLanguage(null);
-    setSelectedVirality(null);
     setSelectedAccount(null);
     setLikedCards(new Set());
   };
@@ -521,9 +513,9 @@ onBlur={() => {
 
         {/* Filter buttons - Row 2 - EXACT Figma coordinates */}
         <img 
-          src={selectedVirality ? buttonViralityActive : buttonVirality}
-          alt="виральность"
-          onClick={() => handleFilterClick('virality')}
+          src={selectedAccount ? buttonAccountActive : buttonAccount}
+          alt="аккаунт"
+          onClick={() => handleFilterClick('account')}
           className="button-inner-glow"
           style={{
             position: 'absolute',
@@ -536,17 +528,16 @@ onBlur={() => {
         />
 
         <img 
-          src={selectedAccount ? buttonAccountActive : buttonAccount}
-          alt="аккаунт"
-          onClick={() => handleFilterClick('account')}
-          className="button-inner-glow"
+          src={buttonVirality}
+          alt="виральность"
           style={{
             position: 'absolute',
             left: '464px',
             top: '485px',
             width: '247px',
             height: '79px',
-            cursor: 'pointer',
+            opacity: 0.5,
+            cursor: 'not-allowed',
           }}
         />
 
@@ -602,11 +593,11 @@ onBlur={() => {
 
         {/* Filter badges - Row 3 - активные плашки с Desktop */}
         <img 
-          src={selectedVirality ? badgeScoresActive : badgeScores}
-          alt="9-10 баллов"
+          src={selectedAccount ? badgeAccountActive : badgeAccount}
+          alt="0-10к"
           style={{
             position: 'absolute',
-            left: '278px',
+            left: '281px',
             top: '564px',
             width: '186px',
             height: '79px',
@@ -614,14 +605,15 @@ onBlur={() => {
         />
 
         <img 
-          src={selectedAccount ? badgeAccountActive : badgeAccount}
-          alt="0-10к"
+          src={badgeScores}
+          alt="9-10 баллов"
           style={{
             position: 'absolute',
-            left: '516px',
+            left: '525px',
             top: '564px',
             width: '186px',
             height: '79px',
+            opacity: 0.5,
           }}
         />
 
@@ -630,10 +622,11 @@ onBlur={() => {
           alt="IG reels"
           style={{
             position: 'absolute',
-            left: '754px',
+            left: '772px',
             top: '564px',
             width: '186px',
             height: '79px',
+            opacity: 0.5,
           }}
         />
 
