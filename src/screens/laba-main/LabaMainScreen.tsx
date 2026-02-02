@@ -94,18 +94,28 @@ export const LabaMainScreen: React.FC = () => {
       try {
         setLoading(true);
         
-        // КРИТИЧНО: Очищаем кэш ПЕРЕД загрузкой новых данных
-        setLabaReelsCache([]);
-        console.log('🗑️ Очистили кэш перед загрузкой топ-рилс');
+        // КРИТИЧНО: Загружаем ВСЕ 4 категории и объединяем
+        console.log('📊 Загружаем топ-рилс из ВСЕХ категорий...');
+        const [neuro, marketing, content, promotion] = await Promise.all([
+          getTopReels('нейросети'),
+          getTopReels('маркетинг'),
+          getTopReels('контент'),
+          getTopReels('продвижение'),
+        ]);
         
-        // Добавляем timestamp чтобы избежать кэширования браузера
-        const timestamp = Date.now();
-        const topReels = await getTopReels('нейросети');
-        console.log(`📊 Загружено ${topReels.length} топ reels (timestamp: ${timestamp})`);
+        // Объединяем и берем топ-40 (по 10 из каждой категории)
+        const allReels = [
+          ...neuro.slice(0, 10),
+          ...marketing.slice(0, 10),
+          ...content.slice(0, 10),
+          ...promotion.slice(0, 10),
+        ];
         
-        setReels(topReels);
-        setLabaReelsCache(topReels);
-        console.log(`✅ Топ-рилс загружены и закэшированы: ${topReels.length} штук`);
+        console.log(`📊 Загружено ${allReels.length} топ reels из всех категорий`);
+        console.log(`📊 По категориям: нейросети=${neuro.length}, маркетинг=${marketing.length}, контент=${content.length}, продвижение=${promotion.length}`);
+        
+        setReels(allReels);
+        setLabaReelsCache(allReels);
       } catch (error) {
         console.error('Ошибка загрузки топ reels:', error);
         showMessage('ошибка загрузки топ reels', 'alert');
