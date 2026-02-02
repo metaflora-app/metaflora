@@ -41,14 +41,11 @@ import buttonAccount from '../../assets/laba-main-buttons/кнопка акка�
 import buttonAccountActive from '../../assets/laba-main-buttons/кнопка аккаунт.png';
 import buttonFormat from '../../assets/laba-main-buttons/кнопка формат.png';
 import badgeLikes from '../../assets/laba-main-buttons/плашка лайки неактив.png';
-import badgeLikesActive from '../../assets/laba-main-buttons/плашка лайки.png';
 import badgeTimeslot from '../../assets/laba-main-buttons/плашка таймслот неактив.png';
-import badgeTimeslotActive from '../../assets/laba-main-buttons/плашка таймслот.png';
 import badgeRussian from '../../assets/laba-main-buttons/плашка русский неактив.png';
-import badgeRussianActive from '../../assets/laba-main-buttons/плашка русский.png';
 import badgeScores from '../../assets/laba-main-buttons/плашка баллы неактив.png';
 import badgeAccount from '../../assets/laba-main-buttons/плашка аккаунт неактив.png';
-import badgeAccountActive from '../../assets/laba-main-buttons/плашка аккаунт.png';
+import badgeEmptyActive from '../../assets/laba-main-buttons/плашка пустая активная.png';
 import badgeReels from '../../assets/laba-main-buttons/плашка рилс.png';
 import badgeStartSearch from '../../assets/laba-main-buttons/плашка начать поиск.png';
 import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
@@ -267,36 +264,97 @@ export const LabaMainScreen: React.FC = () => {
     }
   };
 
+  // Массивы значений для каждого фильтра
+  const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментариев', '<комментариев'];
+  const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
+  const languageOptions = ['русский', 'английский', 'испанский', 'турецкий', 'французский'];
+  const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
+
+  // Обработчик кнопки сортировка - показывает popup и устанавливает первое значение
   const handleSortClick = () => {
-    if (window.Telegram?.WebApp?.showPopup) {
-      window.Telegram.WebApp.showPopup({
-        message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев'
-      });
-      setSelectedSort('selected');
+    if (selectedSort) {
+      // Если уже активна - сбрасываем
+      setSelectedSort(null);
+    } else {
+      // Активируем с первым значением
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментариев\n<комментариев'
+        });
+      }
+      setSelectedSort(sortOptions[0]);
     }
   };
 
-  const handleFilterClick = (filterType: string) => {
-    if (window.Telegram?.WebApp?.showPopup) {
-      let message = '';
-      
-      switch(filterType) {
-        case 'date':
-          message = 'дата публикации\n\nпоследние 7 дней\nпоследние 14 дней\nпоследние 30 дней\nпоследние 6 месяцев\nпоследний год';
-          setSelectedDate('selected');
-          break;
-        case 'language':
-          message = 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий\nфранцузский';
-          setSelectedLanguage('selected');
-          break;
-        case 'account':
-          message = 'размер аккаунта\n\n0-10к\n10к-100к\n100к-300к\n300к-1млн\nбольше 1млн';
-          setSelectedAccount('selected');
-          break;
+  // Обработчик клика по плашке сортировки - циклическое переключение
+  const handleSortBadgeClick = () => {
+    if (!selectedSort) return;
+    const currentIndex = sortOptions.indexOf(selectedSort);
+    const nextIndex = (currentIndex + 1) % sortOptions.length;
+    setSelectedSort(sortOptions[nextIndex]);
+  };
+
+  // Обработчик кнопки дата
+  const handleDateClick = () => {
+    if (selectedDate) {
+      setSelectedDate(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'дата публикации\n\nпоследние 7 дней\nпоследние 14 дней\nпоследние 30 дней\nпоследние 6 месяцев\nпоследний год'
+        });
       }
-      
-      window.Telegram.WebApp.showPopup({ message });
+      setSelectedDate(dateOptions[0]);
     }
+  };
+
+  const handleDateBadgeClick = () => {
+    if (!selectedDate) return;
+    const currentIndex = dateOptions.indexOf(selectedDate);
+    const nextIndex = (currentIndex + 1) % dateOptions.length;
+    setSelectedDate(dateOptions[nextIndex]);
+  };
+
+  // Обработчик кнопки язык
+  const handleLanguageClick = () => {
+    if (selectedLanguage) {
+      setSelectedLanguage(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'язык\n\nрусский\nанглийский\nиспанский\nтурецкий\nфранцузский'
+        });
+      }
+      setSelectedLanguage(languageOptions[0]);
+    }
+  };
+
+  const handleLanguageBadgeClick = () => {
+    if (!selectedLanguage) return;
+    const currentIndex = languageOptions.indexOf(selectedLanguage);
+    const nextIndex = (currentIndex + 1) % languageOptions.length;
+    setSelectedLanguage(languageOptions[nextIndex]);
+  };
+
+  // Обработчик кнопки аккаунт
+  const handleAccountClick = () => {
+    if (selectedAccount) {
+      setSelectedAccount(null);
+    } else {
+      if (window.Telegram?.WebApp?.showPopup) {
+        window.Telegram.WebApp.showPopup({
+          message: 'размер аккаунта\n\n0-10к\n10к-100к\n100к-300к\n300к-1млн\nбольше 1млн'
+        });
+      }
+      setSelectedAccount(accountOptions[0]);
+    }
+  };
+
+  const handleAccountBadgeClick = () => {
+    if (!selectedAccount) return;
+    const currentIndex = accountOptions.indexOf(selectedAccount);
+    const nextIndex = (currentIndex + 1) % accountOptions.length;
+    setSelectedAccount(accountOptions[nextIndex]);
   };
 
   const handleReturnClick = () => {
@@ -499,14 +557,14 @@ onBlur={() => {
         <img 
           src={selectedDate ? buttonDateActive : buttonDate} 
           alt="дата" 
-          onClick={() => handleFilterClick('date')}
+          onClick={handleDateClick}
           className="button-inner-glow"
           style={{ position: 'absolute', left: '593px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
         <img 
           src={selectedLanguage ? buttonLanguageActive : buttonLanguage} 
           alt="язык" 
-          onClick={() => handleFilterClick('language')}
+          onClick={handleLanguageClick}
           className="button-inner-glow"
           style={{ position: 'absolute', left: '840px', top: '327px', width: '247px', height: '79px', cursor: 'pointer' }} 
         />
@@ -515,7 +573,7 @@ onBlur={() => {
         <img 
           src={selectedAccount ? buttonAccountActive : buttonAccount}
           alt="аккаунт"
-          onClick={() => handleFilterClick('account')}
+          onClick={handleAccountClick}
           className="button-inner-glow"
           style={{
             position: 'absolute',
@@ -556,54 +614,178 @@ onBlur={() => {
         />
 
         {/* Filter badges - Row 2 - EXACT Figma coordinates */}
-        <img 
-          src={selectedSort ? badgeLikesActive : badgeLikes}
-          alt=">лайков"
+        <div
+          onClick={handleSortBadgeClick}
           style={{
             position: 'absolute',
             left: '407px',
             top: '406px',
             width: '186px',
             height: '79px',
+            cursor: selectedSort ? 'pointer' : 'default',
           }}
-        />
+        >
+          <img 
+            src={selectedSort ? badgeEmptyActive : badgeLikes}
+            alt="сортировка"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedSort && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '23px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedSort}
+            </div>
+          )}
+        </div>
 
-        <img 
-          src={selectedDate ? badgeTimeslotActive : badgeTimeslot}
-          alt="14 дней"
+        <div
+          onClick={handleDateBadgeClick}
           style={{
             position: 'absolute',
             left: '654px',
             top: '406px',
             width: '186px',
             height: '79px',
+            cursor: selectedDate ? 'pointer' : 'default',
           }}
-        />
+        >
+          <img 
+            src={selectedDate ? badgeEmptyActive : badgeTimeslot}
+            alt="дата"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedDate && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '23px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedDate}
+            </div>
+          )}
+        </div>
 
-        <img 
-          src={selectedLanguage ? badgeRussianActive : badgeRussian}
-          alt="русский"
+        <div
+          onClick={handleLanguageBadgeClick}
           style={{
             position: 'absolute',
             left: '901px',
             top: '406px',
             width: '186px',
             height: '79px',
+            cursor: selectedLanguage ? 'pointer' : 'default',
           }}
-        />
+        >
+          <img 
+            src={selectedLanguage ? badgeEmptyActive : badgeRussian}
+            alt="язык"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedLanguage && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '23px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedLanguage}
+            </div>
+          )}
+        </div>
 
         {/* Filter badges - Row 3 - активные плашки с Desktop */}
-        <img 
-          src={selectedAccount ? badgeAccountActive : badgeAccount}
-          alt="0-10к"
+        <div
+          onClick={handleAccountBadgeClick}
           style={{
             position: 'absolute',
             left: '281px',
             top: '564px',
             width: '186px',
             height: '79px',
+            cursor: selectedAccount ? 'pointer' : 'default',
           }}
-        />
+        >
+          <img 
+            src={selectedAccount ? badgeEmptyActive : badgeAccount}
+            alt="аккаунт"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+          {selectedAccount && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Gotham Pro, sans-serif',
+              fontWeight: 500,
+              fontSize: '23px',
+              color: 'white',
+              textAlign: 'center',
+              pointerEvents: 'none',
+              padding: '0 10px',
+              lineHeight: '1.2',
+            }}>
+              {selectedAccount}
+            </div>
+          )}
+        </div>
 
         <img 
           src={badgeScores}
