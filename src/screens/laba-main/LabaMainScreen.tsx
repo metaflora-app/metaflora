@@ -93,10 +93,19 @@ export const LabaMainScreen: React.FC = () => {
     const fetchTopReels = async () => {
       try {
         setLoading(true);
+        
+        // КРИТИЧНО: Очищаем кэш ПЕРЕД загрузкой новых данных
+        setLabaReelsCache([]);
+        console.log('🗑️ Очистили кэш перед загрузкой топ-рилс');
+        
+        // Добавляем timestamp чтобы избежать кэширования браузера
+        const timestamp = Date.now();
         const topReels = await getTopReels('нейросети');
-        console.log(`📊 Загружено ${topReels.length} топ reels`);
+        console.log(`📊 Загружено ${topReels.length} топ reels (timestamp: ${timestamp})`);
+        
         setReels(topReels);
         setLabaReelsCache(topReels);
+        console.log(`✅ Топ-рилс загружены и закэшированы: ${topReels.length} штук`);
       } catch (error) {
         console.error('Ошибка загрузки топ reels:', error);
         showMessage('ошибка загрузки топ reels', 'alert');
