@@ -41,18 +41,22 @@ export const MetacoinsScreen: React.FC = () => {
     if (success) {
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: `Успешно куплено ${amount} метакоинов!`
+          message: `успешно куплено ${amount} метакоинов`
+        }, () => {
+          // После закрытия попапа переходим на главный экран с подпиской
+          navigate('/main-dashboard-premium');
         });
       } else {
-        alert(`Успешно куплено ${amount} метакоинов!`);
+        alert(`успешно куплено ${amount} метакоинов`);
+        navigate('/main-dashboard-premium');
       }
     } else {
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: 'Ошибка при покупке метакоинов'
+          message: 'ошибка при покупке метакоинов'
         });
       } else {
-        alert('Ошибка при покупке метакоинов');
+        alert('ошибка при покупке метакоинов');
       }
     }
   };
