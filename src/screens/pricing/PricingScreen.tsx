@@ -1,722 +1,106 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trackSubscriptionPurchase } from '../../utils/supabase';
+import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 
-// Images
-import bgPattern from '../../assets/figma-welcome/pattern.png';
-import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import pricingBackground from '../../assets/pricing/background.png';
-import pricingBackground2 from '../../assets/pricing/background2.png';
-import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
-import priceButtonGreen from '../../assets/pricing/кнопка цена зеленая.png';
-import priceButtonGray from '../../assets/pricing/кнопка цена серая.png';
-import strikethroughLine from '../../assets/pricing/зачеркнута цена.png';
-import descriptionText from '../../assets/pricing/description-text.png';
+import tooltipImage from '../../assets/pricing/всплывашка про списание.png';
+import pricingCardMonth from '../../assets/pricing-redesign/карточка подписки 1 месяц.png';
+import pricingCardQuarter from '../../assets/pricing-redesign/карточка подписки 3 месяца.png';
+import activeMonthButton from '../../assets/pricing-redesign/кнопка активный месяц.png';
+import activeQuarterButton from '../../assets/pricing-redesign/кнопка активные 3 месяца.png';
+import choiceWindow from '../../assets/pricing-redesign/окошко выбор месяца.png';
+import payButton from '../../assets/pricing-redesign/кнопка оплатить доступ.png';
 
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = React.useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = React.useState<'1month' | '3months'>('1month');
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   const handlePayment = async () => {
-    console.log('handlePayment called, selectedPlan:', selectedPlan);
-    
-    if (!selectedPlan) {
-      // Telegram WebApp popup
+    const months = selectedPlan === '1month' ? 1 : 3;
+    const success = await trackSubscriptionPurchase('premium', months);
+
+    if (!success) {
       if (window.Telegram?.WebApp?.showPopup) {
         window.Telegram.WebApp.showPopup({
-          message: 'выберите вариант подписки и нажмите кнопку «оплатить полный доступ»'
+          message: 'Подписка оформлена, но возникла ошибка синхронизации. Обратитесь в поддержку.',
         });
       } else {
-        alert('выберите вариант подписки и нажмите кнопку «оплатить полный доступ»');
+        alert('Подписка оформлена, но возникла ошибка синхронизации. Обратитесь в поддержку.');
       }
       return;
     }
-    
-    // Track subscription purchase in Supabase
-    const months = selectedPlan === '1month' ? 1 : 3;
-    const success = await trackSubscriptionPurchase('premium', months);
-    
-    if (!success) {
-      console.error('Failed to track subscription purchase');
-      // Show error but still navigate (user already paid)
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: 'Подписка оформлена, но возникла ошибка синхронизации. Обратитесь в поддержку.'
-        });
-      }
-    }
-    
+
     navigate('/main-dashboard-premium');
   };
 
-  // Calculate scale based on viewport width (design width: 1180px)
-  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-
   return (
-    <div style={{
-      position: 'relative',
-      width: '100vw',
-      minHeight: '100vh',
-      background: '#020101',
-      overflow: 'hidden',
-    }}>
-      {/* Scaled container */}
-      <div style={{
-        position: 'relative',
-        width: '1180px',
-        minHeight: '2550px',
-        transform: `scale(${scale})`,
-        transformOrigin: 'top left',
-      }}>
-        {/* Background pattern - full screen */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${bgPattern})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'repeat',
-          }}
+    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <ThreeBg />
+        <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
+
+        <div style={{ position: 'absolute', left: '94px', top: '207px', width: '1020px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
+            выберите вариант подписки
+          </p>
+        </div>
+
+        <img
+          src={tooltipImage}
+          alt="условия списания"
+          style={{ position: 'absolute', left: '581px', top: '278px', width: '287px', height: '174px', objectFit: 'contain' }}
         />
 
-        {/* Логотип маленький */}
-        <div 
-          onClick={() => navigate('/main-dashboard-premium')}
-          style={{
-            position: 'absolute',
-            left: '500px',
-            top: '61px',
-            width: '186px',
-            height: '131px',
-            cursor: 'pointer',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={logoSmall}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                top: '-16.38%',
-                width: '143.34%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
+        <div style={{ position: 'absolute', left: '143px', top: '399px', width: '894px', height: '79px' }}>
+          <img
+            src={choiceWindow}
+            alt="выбор периода подписки"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+          />
+
+          <button
+            onClick={() => setSelectedPlan('1month')}
+            style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
+          >
+            {selectedPlan === '1month' ? (
+              <img src={activeMonthButton} alt="1 месяц" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white' }}>
+                1 месяц (-10%)
+              </div>
+            )}
+          </button>
+
+          <button
+            onClick={() => setSelectedPlan('3months')}
+            style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
+          >
+            {selectedPlan === '3months' ? (
+              <img src={activeQuarterButton} alt="3 месяца" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white' }}>
+                3 месяца (-20%)
+              </div>
+            )}
+          </button>
         </div>
 
-        {/* Кнопка "написать в поддержку" */}
-        <img 
-          src={supportButton}
-          alt="написать в поддержку"
-          style={{
-            position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
+        <img
+          src={selectedPlan === '1month' ? pricingCardMonth : pricingCardQuarter}
+          alt={selectedPlan === '1month' ? 'подписка на 1 месяц' : 'подписка на 3 месяца'}
+          style={{ position: 'absolute', left: '143px', top: '523px', width: '894px', height: '1178px', objectFit: 'fill' }}
         />
 
-        {/* Заголовок "выберите вариант подписки" */}
-        <div style={{
-          position: 'absolute',
-          left: '94px',
-          top: '198px',
-          width: '1020px',
-          height: '160px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Inter',
-            fontWeight: 800,
-            fontSize: '80px',
-            lineHeight: 0,
-            color: 'white',
-            whiteSpace: 'pre-wrap',
-          }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>выберите вариант подписки</p>
-          </div>
-        </div>
-
-        {/* Фоновое изображение ПОД карточкой 1 месяц */}
-        <div style={{
-          position: 'absolute',
-          left: '148px',
-          top: '418px',
-          width: '884px',
-          height: '348px',
-          borderRadius: '24px',
-        }}>
-          <img 
-            src={pricingBackground}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '24px',
-              maxWidth: 'none',
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
-
-        {/* КАРТОЧКА ТАРИФ "1 МЕСЯЦ" */}
-        <div 
-          onClick={() => setSelectedPlan('1month')}
-          style={{
-            position: 'absolute',
-            left: '144px',
-            top: '418px',
-            width: '892px',
-            height: '603px',
-            cursor: 'pointer',
-          }}>
-          {/* Внутренний контейнер карточки */}
-          <div 
-            className={`${selectedPlan === '1month' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-1' : ''}`}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              overflow: 'clip',
-              pointerEvents: 'none',
-            }}>
-            {/* Заголовок "1 месяц" */}
-            <div style={{
-              position: 'absolute',
-              inset: 'calc(6.97% - 4px) calc(43.23% - 4px) calc(79.77% - 4px) calc(6.77% - 4px)',
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Inter',
-                fontWeight: 800,
-                fontSize: '80px',
-                lineHeight: 0,
-                color: 'white',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>1 месяц</p>
-              </div>
-            </div>
-
-            {/* Текст описания тарифа - PNG */}
-            <img 
-              src={descriptionText}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '52px',
-                top: '148px',
-                width: '802px',
-                height: '400px',
-              }}
-            />
-
-            {            /* Плашка цены 2690 (серая, зачёркнутая) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 172px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={priceButtonGray}
-                alt=""
-                className="button-inner-glow"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-              {/* Текст цены */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-              }}>
-                2690 руб.
-              </div>
-              {/* Зачеркивание */}
-              <img 
-                src={strikethroughLine}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '110px',
-                }}
-              />
-            </div>
-
-            {/* Плашка цены 1990 (зелёная) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 348px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={priceButtonGreen}
-                alt=""
-                className="button-inner-glow"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-              {/* Текст цены */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-              }}>
-                1990 руб.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Фоновое изображение ПОД карточкой 3 месяца */}
-        <div style={{
-          position: 'absolute',
-          left: '147px',
-          top: '1082px',
-          width: '884px',
-          height: '348px',
-          borderRadius: '24px',
-        }}>
-          <img 
-            src={pricingBackground2}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '24px',
-              maxWidth: 'none',
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
-
-        {/* КАРТОЧКА ТАРИФ "3 МЕСЯЦА" */}
-        <div 
-          onClick={() => setSelectedPlan('3months')}
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '1082px',
-            width: '892px',
-            height: '603px',
-            cursor: 'pointer',
-          }}>
-          {/* Внутренний контейнер карточки */}
-          <div 
-            className={`${selectedPlan === '3months' ? 'card-selected' : ''} ${!selectedPlan ? 'card-pulse-2' : ''}`}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              overflow: 'clip',
-              pointerEvents: 'none',
-            }}>
-
-            {/* Заголовок "3 месяца" */}
-            <div style={{
-              position: 'absolute',
-              inset: 'calc(6.97% - 4px) calc(43.23% - 4px) calc(79.77% - 4px) calc(6.77% - 4px)',
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontFamily: 'Inter',
-                fontWeight: 800,
-                fontSize: '80px',
-                lineHeight: 0,
-                color: 'white',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>3 месяца</p>
-              </div>
-            </div>
-
-            {/* Текст описания тарифа (8 строк) */}
-            <div style={{
-              position: 'absolute',
-              inset: 'calc(24.88% - 4px) calc(5.04% - 4px) calc(8.79% - 4px) calc(6.73% - 4px)',
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                fontSize: '40px',
-                lineHeight: '1',
-                color: 'white',
-                whiteSpace: 'pre-wrap',
-              }}>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* академия: </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>большой цикл курсов по ИИ</span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* лаба: </span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 300 }}>контент-среда и личный креатор 24/7</p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* цех: </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>промты для любой задачи</span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1' }}>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>доступ к </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>МЕТАФЛОРА* полигон: </span>
-                  <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>статьи с разборами ИИ-новинок</span>
-                </p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>а также: чат, канал и другие бонусы</p>
-                <p style={{ margin: 0, lineHeight: '1', fontFamily: 'Gotham Pro', fontWeight: 700 }}>каждый месяц</p>
-              </div>
-            </div>
-
-            {/* Плашка цены 8070 (серая, зачёркнутая) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 172px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={priceButtonGray}
-                alt=""
-                className="button-inner-glow"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-              {/* Текст цены */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-              }}>
-                8070 руб.
-              </div>
-              {/* Зачеркивание */}
-              <img 
-                src={strikethroughLine}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '110px',
-                }}
-              />
-            </div>
-
-            {/* Плашка цены 5490 (зелёная) */}
-            <div style={{
-              position: 'absolute',
-              left: 'calc(50% + 348px)',
-              top: '53px',
-              transform: 'translateX(-50%)',
-              width: '176px',
-              height: '57px',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={priceButtonGreen}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-              {/* Текст цены */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 500,
-                fontSize: '27px',
-                color: 'white',
-              }}>
-                5490 руб.
-              </div>
-            </div>
-
-            {/* Плашка "ВЫГОДНО" - УДАЛЕНА */}
-          </div>
-        </div>
-
-        {/* Кнопка "оплатить полный доступ" с красным градиентом */}
-        <button
+        <img
+          src={payButton}
+          alt="оплатить доступ"
           onClick={handlePayment}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 1px)',
-            zIndex: 101,
-            top: '1744px',
-            transform: 'translateX(-50%)',
-            width: '892px',
-            height: '140px',
-            border: 'none',
-            background: 'transparent',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 0,
-          }}
-        >
-          {/* PNG кнопка с красным градиентом под текстом */}
-          <img 
-            src={payButtonBg}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'fill',
-              pointerEvents: 'none',
-            }}
-          />
+          className="button-inner-glow"
+          style={{ position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', cursor: 'pointer' }}
+        />
 
-          {/* Текст кнопки - поверх градиента */}
-          <div style={{
-            position: 'relative',
-            zIndex: 1,
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            оплатить полный доступ
-          </div>
-        </button>
-
-        {/* Футер */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 5px)',
-          top: '2071px',
-          transform: 'translateX(-50%)',
-          width: '888px',
-          height: '124px',
-        }}>
-          {/* Логотип в подвале */}
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </div>
-          
-          {/* Copyright текст */}
-          <div style={{
-            position: 'absolute',
-            left: '2px',
-            top: '56px',
-            width: '433px',
-            height: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '20px',
-            lineHeight: '0',
-            color: 'white',
-          }}>
-            <p style={{ 
-              margin: 0,
-              lineHeight: 'normal',
-              whiteSpace: 'pre-wrap',
-            }}>
-              Copyright © Все права защищены.
-            </p>
-          </div>
-          
-          {/* Подложка под соцсети */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
-          
-          {/* Иконки соцсетей */}
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            {/* Первая иконка */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            {/* Группа иконок */}
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Footer />
       </div>
     </div>
   );
