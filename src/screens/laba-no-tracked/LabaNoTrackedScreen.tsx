@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import trackingGif from '../../assets/laba-redesign/видео с отслеживанием экран.gif';
-import startTrackingButton from '../../assets/laba-redesign/кнопка начать отслеживание.png';
+import trackingGif from '../../assets/laba-redesign/tracked-screen.gif';
+import startTrackingButton from '../../assets/laba-redesign/start-tracking-button.png';
 
 export const LabaNoTrackedScreen: React.FC = () => {
   const navigate = useNavigate();

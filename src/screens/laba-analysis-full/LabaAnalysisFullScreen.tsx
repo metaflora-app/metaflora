@@ -4,7 +4,7 @@ import { generateScenario, getTelegramUserId } from '../../utils/labaApi';
 import type { Analysis, Reel, Scenario } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
-import disabledFrame from '../../assets/laba-redesign/блюр фрейм недоступен анализ.png';
+import disabledFrame from '../../assets/laba-redesign/analysis-disabled-frame.png';
 import createScenarioButton from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 

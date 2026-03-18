@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import leftGif from '../../assets/laba-redesign/слева.gif';
-import sidebarBg from '../../assets/laba-redesign/сайдбар подложка.png';
-import sidebarIcons from '../../assets/laba-redesign/сайдбар иконки новые.png';
+import leftGif from '../../assets/laba-redesign/left-panel.gif';
+import sidebarBg from '../../assets/laba-redesign/sidebar-bg.png';
+import sidebarIcons from '../../assets/laba-redesign/sidebar-icons-new.png';
 
 const SIDEBAR_HOTSPOTS = [
   { left: 348, width: 82, route: '/laba-main' },

@@ -4,8 +4,8 @@ import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUr
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
-import searchBorder from '../../assets/laba-redesign/обводка поиск короткий.png';
-import searchIcon from '../../assets/laba-redesign/поиск.png';
+import searchBorder from '../../assets/laba-redesign/search-border-short.png';
+import searchIcon from '../../assets/laba-redesign/search-icon.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 export const LabaSearchAccountScreen: React.FC = () => {
