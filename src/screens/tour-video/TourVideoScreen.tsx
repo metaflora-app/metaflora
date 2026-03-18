@@ -2,10 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
+import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 
 import btnFree from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
-import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
-import tourVideo from '../../assets/tour-video/мастерская в окошке флоры.mp4';
+import figmaShadow from '../../assets/tour-video/figma-shadow.png';
 
 export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -33,22 +33,60 @@ export const TourVideoScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Видео 894×1457px */}
-        <div style={{
-          position: 'absolute', left: '143px', top: '410px',
-          width: '894px', height: '1457px', borderRadius: '40px', overflow: 'hidden',
-        }}>
-          <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
-            <source src={tourVideo} type="video/mp4" />
-          </video>
+        <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
+          <AboutVideoPlayer style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }} />
+
           <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, height: '220px',
-            background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)',
+            position: 'absolute',
+            inset: 0,
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255,255,255,0.1)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            pointerEvents: 'none',
           }} />
-          <img src={expandPlashka} alt="развернуть видео" style={{
-            position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)',
-            width: '500px', height: 'auto', cursor: 'pointer',
-          }} />
+
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            bottom: '710.92px',
+            transform: 'translateX(-50%)',
+            width: '104.375px',
+            height: '104.375px',
+            mixBlendMode: 'overlay',
+            pointerEvents: 'none',
+          }}>
+            <img src={figmaShadow} alt="" style={{ position: 'absolute', inset: '-104.3%', width: '308.6%', height: '308.6%', maxWidth: 'none' }} />
+          </div>
+
+          <div style={{
+            position: 'absolute',
+            left: '31.43%',
+            right: '31.43%',
+            top: '91.15%',
+            bottom: '3.43%',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(0,0,0,0.1)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '62px',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '245px',
+              textAlign: 'center',
+              fontFamily: 'Cygre',
+              fontWeight: 400,
+              fontSize: '27px',
+              lineHeight: '1',
+              color: 'white',
+            }}>
+              развернуть видео на полный экран
+            </div>
+          </div>
         </div>
 
         <img src={btnFree} alt="попробовать бесплатно" onClick={() => navigate('/demo-access')} className="button-inner-glow" style={{

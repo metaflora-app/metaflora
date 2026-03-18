@@ -7,6 +7,7 @@ import logo from '../../assets/figma-welcome/splash-logo.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   useEffect(() => {
     const init = async () => {
@@ -15,20 +16,33 @@ export const SplashScreen: React.FC = () => {
         preloadAllImages(),
         new Promise(resolve => setTimeout(resolve, 3000)),
       ]);
+
       if (user && user.subscription_type === 'premium') {
         navigate('/main-dashboard-premium');
       } else {
         navigate('/welcome');
       }
     };
+
     init();
   }, [navigate]);
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative', background: '#020101', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <ThreeBg />
-      <div style={{ position: 'relative', zIndex: 10 }}>
-        <img src={logo} alt="МЕТАФЛОРА*" style={{ width: 'min(80vw, 438px)', height: 'auto', objectFit: 'contain' }} />
+    <div style={{ width: '100vw', height: '100vh', position: 'relative', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', height: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <ThreeBg />
+        <img
+          src={logo}
+          alt="МЕТАФЛОРА*"
+          style={{
+            position: 'absolute',
+            left: '371px',
+            top: '772px',
+            width: '438px',
+            height: '309px',
+            objectFit: 'contain',
+          }}
+        />
       </div>
     </div>
   );
