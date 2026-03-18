@@ -5,61 +5,88 @@ import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 
 import userPhoto from '../../assets/main-dashboard/фото из тг.png';
 import metacoinCircle from '../../assets/main-dashboard/кружок метакоины на подписочке.png';
+
+// Фоны сервисов — из ассетов после редизайна
 import academyBg from '../../assets/main-dashboard/фон академия.png';
 import labaBg from '../../assets/main-dashboard/фон лаба.png';
 import tsekhBg from '../../assets/main-dashboard/фон цех.png';
 import poligonBg from '../../assets/main-dashboard/фон полигон.png';
 import chatBg from '../../assets/main-dashboard/фон чат.png';
-import openBtn from '../../assets/main-dashboard/кнопка открыть на подписочке.png';
 
-// Данные карточек сервисов из Figma
-const SERVICES = [
-  {
-    bg: academyBg,
-    route: '/about-academy',
-    top: 538,
-    text: 'система, промптинг, искусство, автоматизация — 4 больших курса и более 40 готовых уроков с гайдами, шаблонами и чек-листами. минимум воды и розовых очков, максимум практики и личного опыта',
-  },
-  {
-    bg: labaBg,
-    route: '/about-laba',
-    top: 851,
-    text: 'в лабе ИИ выполняет всю черновую работу за пару минут: поиск аккаунтов, анализ видео и написание сценария. функции сервиса доступны за внутреннюю валюту — метакоины',
-  },
-  {
-    bg: tsekhBg,
-    route: '/about-prompt',
-    top: 1166,
-    text: 'десятки готовых промптов, позволяющих задать точную роль LLM или воспроизвести генерацию изображения или видео буквально в один клик',
-  },
-  {
-    bg: poligonBg,
-    route: '/about-poligon',
-    top: 1480,
-    text: 'нужен разбор ИИ-новинки или подробный кейс с комментариями — всё это уже есть в МЕТАФЛОРА* полигон. новые статьи публикуются регулярно',
-  },
-  {
-    bg: chatBg,
-    route: '',
-    top: 1794,
-    text: 'комьюнити специалистов, кто только начинает или уже давно работает с ИИ. здесь найдется ответ на любой вопрос (даже на самый глупый)',
-  },
-];
+// ─── Карточка сервиса точно по Figma ─────────────────────────────────────
+// Структура: фото-левая (inset 0/49.78%/0/0), текст-правая (inset 0/0/0/50.22%),
+//            кнопка "открыть" (inset 34.14%/61.08%/34.04%/11.3%)
+interface CardProps {
+  bgSrc: string;
+  text: string;
+  top: number;
+  height?: number;
+  onOpen?: () => void;
+  photoInset?: string;
+  textInset?: string;
+}
 
-// Маленькая CSS-кнопка (чёрная, blur, rounded)
-const SmallBtn: React.FC<{ label: string; onClick?: () => void }> = ({ label, onClick }) => (
-  <div
-    onClick={onClick}
-    style={{
-      width: '160px', height: '52px',
-      backdropFilter: 'blur(50px)',
-      background: 'rgba(0,0,0,0.9)',
-      border: '4px solid rgba(255,255,255,0.3)',
-      borderRadius: '62px',
+const ServiceCard: React.FC<CardProps> = ({
+  bgSrc, text, top, height = 249, onOpen,
+  photoInset = '0 49.78% 0 0',
+  textInset = '0 0 0 50.22%',
+}) => (
+  <div style={{
+    position: 'absolute',
+    left: '141px', top: `${top}px`,
+    width: '894px', height: `${height}px`,
+  }}>
+    {/* Фото слева */}
+    <div style={{ position: 'absolute', inset: photoInset, borderRadius: '26px', overflow: 'hidden' }}>
+      <img src={bgSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '26px' }} />
+    </div>
+
+    {/* Текст справа */}
+    <div style={{
+      position: 'absolute', inset: textInset,
+      backdropFilter: 'blur(50px)', background: 'black',
+      border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      cursor: 'pointer',
-    }}
-  >
+    }}>
+      <p style={{
+        margin: 0, padding: '0 20px',
+        fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px',
+        lineHeight: '1.3', color: 'white', textAlign: 'center',
+      }}>
+        {text}
+      </p>
+    </div>
+
+    {/* Кнопка "открыть" inset: 34.14%/61.08%/34.04%/11.3% */}
+    <div
+      onClick={onOpen}
+      style={{
+        position: 'absolute',
+        top: '34.14%', right: '61.08%', bottom: '34.04%', left: '11.3%',
+        backdropFilter: 'blur(50px)', background: 'rgba(0,0,0,0.9)',
+        border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px',
+        overflow: 'hidden', cursor: onOpen ? 'pointer' : 'default',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}
+    >
+      <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '27px', color: 'white' }}>
+        открыть
+      </span>
+    </div>
+  </div>
+);
+
+// ─── Кнопка "продлить"/"купить" (w=168, h=54, точно по Figma) ─────────────
+interface SmBtnProps { label: string; x: number; y: number; onClick?: () => void; }
+const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
+  <div onClick={onClick} style={{
+    position: 'absolute', left: `${x}px`, top: `${y}px`,
+    width: '168px', height: '54px',
+    backdropFilter: 'blur(50px)', background: 'rgba(0,0,0,0.9)',
+    border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px',
+    overflow: 'hidden', cursor: 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+  }}>
     <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '27px', color: 'white' }}>
       {label}
     </span>
@@ -71,7 +98,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
   const [loading, setLoading] = React.useState(true);
   const [metacoinsBalance, setMetacoinsBalance] = React.useState(0);
   const [userName, setUserName] = React.useState('');
-  const [subscriptionEndDate, setSubscriptionEndDate] = React.useState('');
+  const [subscriptionEndDate, setSubscriptionEndDate] = React.useState('31.12');
   const [profilePhotoUrl, setProfilePhotoUrl] = React.useState(userPhoto);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -96,7 +123,6 @@ export const MainDashboardPremiumScreen: React.FC = () => {
       }
     };
     load();
-
     const onBalance = (e: any) => setMetacoinsBalance(e.detail.newBalance);
     window.addEventListener('balanceUpdated', onBalance);
     return () => window.removeEventListener('balanceUpdated', onBalance);
@@ -109,114 +135,119 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         transform: `scale(${scale})`, transformOrigin: 'top left',
       }}>
         <ThreeBg />
+
+        {/* Лого: x=500, y=61, w=186, h=131 */}
         <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
-        {/* Username */}
-        <div style={{ position: 'absolute', left: '85px', top: '199px', width: '1020px' }}>
+        {/* Username: x=85, y=207, w=1020, h=80 — Cygre Bold 80px */}
+        <div style={{
+          position: 'absolute', left: '85px', top: '207px', width: '1020px', height: '80px',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        }}>
           <p style={{
-            margin: 0, fontFamily: 'Cygre', fontWeight: 700,
-            fontSize: '80px', lineHeight: '1', color: 'white',
+            margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px',
+            lineHeight: '1', color: 'white',
             opacity: loading ? 0 : 1, transition: 'opacity 0.3s',
           }}>
             {userName}
           </p>
         </div>
 
-        {/* Блок пользователя */}
-        <div style={{ position: 'absolute', left: '79px', top: '327px', width: '1020px', height: '200px' }}>
-          {/* Аватар */}
-          <img src={profilePhotoUrl} alt="фото" style={{
-            position: 'absolute', left: 0, top: 0,
-            width: '159px', height: '159px', borderRadius: '79.5px', objectFit: 'cover',
-            opacity: loading ? 0 : 1, transition: 'opacity 0.3s',
-          }} />
+        {/* Аватар: x=79, y=325, w=159, h=159 */}
+        <img src={profilePhotoUrl} alt="фото" style={{
+          position: 'absolute', left: '79px', top: '325px',
+          width: '159px', height: '159px',
+          borderRadius: '79.5px', objectFit: 'cover',
+          opacity: loading ? 0 : 1, transition: 'opacity 0.3s',
+        }} />
 
-          {/* Левая колонка: подписка */}
-          <div style={{ position: 'absolute', left: '193px', top: '20px' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', color: 'rgba(255,255,255,0.6)', lineHeight: '1' }}>
-              комьюнити
-            </p>
-            <p style={{ margin: '8px 0 0', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white', lineHeight: '1' }}>
-              доступ до {subscriptionEndDate || '...'}
-            </p>
-          </div>
-          <div style={{ position: 'absolute', left: '193px', top: '118px' }}>
-            <SmallBtn label="продлить" onClick={() => navigate('/pricing')} />
-          </div>
-
-          {/* Кружок метакоинов (из Figma) */}
-          <div style={{
-            position: 'absolute', left: '460px', top: '0px',
-            width: '159px', height: '159px',
-            borderRadius: '79.5px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            overflow: 'hidden',
-          }}>
-            <img src={metacoinCircle} alt="метакоины" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-
-          {/* Правая колонка: метакоины */}
-          <div style={{ position: 'absolute', left: '640px', top: '20px' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white', lineHeight: '1', opacity: loading ? 0 : 1 }}>
-              {metacoinsBalance}
-            </p>
-            <p style={{ margin: '8px 0 0', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white', lineHeight: '1' }}>
-              метакоинов
-            </p>
-          </div>
-          <div style={{ position: 'absolute', left: '640px', top: '118px' }}>
-            <SmallBtn label="купить" onClick={() => navigate('/metacoins')} />
-          </div>
+        {/* Комьюнити: x=258, y=338, w=357, h=40 — Cygre Regular 40px opacity 0.6 */}
+        <div style={{
+          position: 'absolute', left: '258px', top: '338px', width: '357px', height: '40px',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+            комьюнити
+          </p>
         </div>
 
-        {/* 5 карточек сервисов */}
-        {SERVICES.map((svc, i) => (
-          <div key={i} style={{
-            position: 'absolute', left: '141px', top: `${svc.top}px`,
-            width: '894px', height: '249px',
-          }}>
-            {/* Фото слева */}
-            <img src={svc.bg} alt="" style={{
-              position: 'absolute',
-              left: 0, top: '5px',
-              width: '447px', height: '240px',
-              objectFit: 'cover', borderRadius: '26px',
-            }} />
-            {/* Текст справа */}
-            <div style={{
-              position: 'absolute',
-              left: '447px', top: '5px',
-              width: '447px', height: '240px',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255,255,255,0.3)',
-              borderRadius: '30px',
-              overflow: 'hidden',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <p style={{
-                margin: 0,
-                fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px',
-                lineHeight: '1.25', color: 'white', textAlign: 'center',
-                padding: '0 16px',
-              }}>
-                {svc.text}
-              </p>
-            </div>
-            {/* Кнопка "открыть" */}
-            <img src={openBtn} alt="открыть"
-              onClick={() => svc.route && navigate(svc.route)}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '101px', top: '85px',
-                width: '247px', height: '79px',
-                cursor: svc.route ? 'pointer' : 'default',
-              }}
-            />
-          </div>
-        ))}
+        {/* Доступ до: x=258, y=377, w=303, h=40 — Cygre Bold 40px */}
+        <div style={{
+          position: 'absolute', left: '258px', top: '377px', width: '303px', height: '40px',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            доступ до {subscriptionEndDate}
+          </p>
+        </div>
 
+        {/* Кнопка продлить: x=259, y=430, w=168, h=54 */}
+        <SmBtn label="продлить" x={259} y={430} onClick={() => navigate('/pricing')} />
+
+        {/* Кружок метакоинов: x=610, y=327, w=159, h=159 */}
+        <div style={{
+          position: 'absolute', left: '610px', top: '327px', width: '159px', height: '159px',
+          borderRadius: '79.5px', border: '4px solid rgba(255,255,255,0.3)', overflow: 'hidden',
+        }}>
+          <img src={metacoinCircle} alt="метакоины" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+
+        {/* Баланс (число): x=790, y=339, w=145, h=40 — Cygre Bold 40px */}
+        <div style={{
+          position: 'absolute', left: '790px', top: '339px', width: '145px', height: '40px',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+          opacity: loading ? 0 : 1,
+        }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'nowrap' }}>
+            {metacoinsBalance}
+          </p>
+        </div>
+
+        {/* "метакоинов": x=790, y=377, w=256, h=40 — Cygre Bold 40px */}
+        <div style={{
+          position: 'absolute', left: '790px', top: '377px', width: '256px', height: '40px',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            метакоинов
+          </p>
+        </div>
+
+        {/* Кнопка купить: x=789, y=430, w=168, h=54 */}
+        <SmBtn label="купить" x={789} y={430} onClick={() => navigate('/metacoins')} />
+
+        {/* ── 5 карточек сервисов (Y-позиции точно по Figma) ── */}
+        <ServiceCard
+          bgSrc={academyBg} top={538} height={249}
+          photoInset="0 49.78% 0 0" textInset="0 0 0 50.22%"
+          text="система, промптинг, искусство, автоматизация — 4 больших курса и более 40 готовых уроков с гайдами, шаблонами и чек-листами. минимум воды и розовых очков, максимум практики и личного опыта"
+          onOpen={() => navigate('/about-academy')}
+        />
+        <ServiceCard
+          bgSrc={labaBg} top={816} height={250}
+          photoInset="0.4% 49.78% 0 0" textInset="0.4% 0 0 50.22%"
+          text="в лабе ИИ выполняет всю черновую работу за пару минут: поиск аккаунтов, анализ видео и написание сценария. функции сервиса доступны за внутреннюю валюту — метакоины"
+          onOpen={() => navigate('/about-laba')}
+        />
+        <ServiceCard
+          bgSrc={tsekhBg} top={1097} height={249}
+          photoInset="0 49.66% 0 0.11%" textInset="0 0 0 50.32%"
+          text="десятки готовых промптов, позволяющих задать точную роль LLM или воспроизвести генерацию изображения или видео буквально в один клик"
+          onOpen={() => navigate('/about-prompt')}
+        />
+        <ServiceCard
+          bgSrc={poligonBg} top={1378} height={249}
+          photoInset="0 50% 0 0" textInset="0 0 0 49.97%"
+          text="нужен разбор ИИ-новинки или подробный кейс с комментариями — всё это уже есть в МЕТАФЛОРА* полигон. новые статьи публикуются регулярно"
+          onOpen={() => navigate('/about-poligon')}
+        />
+        <ServiceCard
+          bgSrc={chatBg} top={1659} height={249}
+          photoInset="0 50.45% 0 0" textInset="0 0 0 49.56%"
+          text="комьюнити специалистов, кто только начинает или уже давно работает с ИИ. здесь найдется ответ на любой вопрос (даже на самый глупый)"
+        />
+
+        {/* Футер: x=141, y=2071, w=888, h=124 */}
         <Footer />
       </div>
     </div>
