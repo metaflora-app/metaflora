@@ -1,0 +1,1 @@
+export { LabaAnalysisFullScreen } from './LabaAnalysisFullScreen';

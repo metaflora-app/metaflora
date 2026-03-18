@@ -32,6 +32,7 @@ import { LabaSearchAccountScreen } from './screens/laba-search-account';
 import { LabaMainScreen } from './screens/laba-main';
 import { LabaTrackedScreen } from './screens/laba-tracked';
 import { LabaAnalysisScreen } from './screens/laba-analysis';
+import { LabaAnalysisFullScreen } from './screens/laba-analysis-full';
 import { MetacoinsScreen } from './screens/metacoins';
 import { LabaFavoritesScreen } from './screens/laba-favorites';
 
@@ -271,12 +272,8 @@ export const router = createBrowserRouter([
     element: <LabaSearchAccountScreen />,
   },
   {
-    path: '/laba-analysis',
-    element: <PlaceholderScreen name="Laba Analysis" />,
-  },
-  {
     path: '/laba-analysis-full',
-    element: <PlaceholderScreen name="Laba Analysis Full" />,
+    element: <LabaAnalysisFullScreen />,
   },
 
   // Legal

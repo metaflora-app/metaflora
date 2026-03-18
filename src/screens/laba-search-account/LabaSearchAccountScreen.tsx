@@ -1,742 +1,131 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// API and types
-import { 
-  searchAccount, 
-  trackAccount, 
-  getTelegramUserId,
-  convertInstagramImageUrl 
-} from '../../utils/labaApi';
-import { InstagramAccount } from '../../types/laba';
-
-// Components
-import { BlurAccountCard } from '../../components/BlurAccountCard';
-
-// Reused assets
-import bgPattern from '../../assets/figma-welcome/pattern.png';
-import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import supportButton from '../../assets/tour-video/support-button.png';
+import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUrl } from '../../utils/labaApi';
+import type { InstagramAccount } from '../../types/laba';
+import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
-
-// Search account specific assets
-import promptPlate from '../../assets/laba-search-account/промпт плашка.png';
-import instaLogo from '../../assets/laba-search-account/лого инста.png';
-import profilePhoto from '../../assets/laba-search-account/фото профиля.png';
-import trackingButton from '../../assets/laba-search-account/укороченная кнопка начать отслеживание.png';
-import peopleBackground from '../../assets/laba-search-account/люди друг на друге.png';
-import searchIcon from '../../assets/laba-search-account/иконка поиск.png';
+import searchBorder from '../../assets/laba-redesign/обводка поиск короткий.png';
+import searchIcon from '../../assets/laba-redesign/поиск.png';
+import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  
   const [linkInput, setLinkInput] = React.useState('');
   const [nicknameInput, setNicknameInput] = React.useState('');
-  const [isLinkFocused, setIsLinkFocused] = React.useState(false);
-  const [isNicknameFocused, setIsNicknameFocused] = React.useState(false);
-  
-  // Account data
   const [foundAccount, setFoundAccount] = React.useState<InstagramAccount | null>(null);
   const [searching, setSearching] = React.useState(false);
   const [tracking, setTracking] = React.useState(false);
 
-  // Конвертируем Instagram URL в прокси URL
   const avatarUrl = React.useMemo(() => {
     if (!foundAccount?.profilePhotoUrl) return null;
-    const converted = convertInstagramImageUrl(foundAccount.profilePhotoUrl);
-    console.log('[AVATAR] Оригинальный URL:', foundAccount.profilePhotoUrl);
-    console.log('[AVATAR] Конвертированный URL:', converted);
-    return converted;
+    return convertInstagramImageUrl(foundAccount.profilePhotoUrl);
   }, [foundAccount?.profilePhotoUrl]);
-
-  // Отладка: логируем когда foundAccount меняется
-  React.useEffect(() => {
-    if (foundAccount) {
-      console.log('[DEBUG] foundAccount изменился:', foundAccount);
-      console.log('[DEBUG] profilePhotoUrl:', foundAccount.profilePhotoUrl);
-      console.log('[DEBUG] Тип profilePhotoUrl:', typeof foundAccount.profilePhotoUrl);
-      console.log('[DEBUG] Пустой?:', !foundAccount.profilePhotoUrl || foundAccount.profilePhotoUrl === '');
-    }
-  }, [foundAccount]);
 
   const handleSearch = async () => {
     const query = linkInput || nicknameInput;
     if (!query.trim()) {
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: 'введите ссылку или ник аккаунта'
-        });
-      }
+      window.Telegram?.WebApp?.showPopup?.({ message: 'введите ссылку или ник аккаунта' });
       return;
     }
-    
-    // Показываем popup ПЕРЕД запуском поиска
-    if ((window as any).Telegram?.WebApp?.showPopup) {
-      (window as any).Telegram.WebApp.showPopup({
-        message: 'начинаем поиск аккаунта...\n\nэто займет 5-10 секунд\nнажмите ок и дождитесь загрузки',
-        buttons: [
-          {
-            id: 'start_account_search',
-            type: 'default',
-            text: 'ок'
-          }
-        ]
-      }, async (buttonId: string) => {
-        // Функция запускается ТОЛЬКО после нажатия ОК
-        if (buttonId === 'start_account_search') {
-          try {
-            setSearching(true);
-            const account = await searchAccount(query);
-            console.log('[SEARCH] Найден аккаунт:', account);
-            console.log('[SEARCH] profilePhotoUrl:', account.profilePhotoUrl);
-            setFoundAccount(account);
-            
-            // Показываем результат
-            if ((window as any).Telegram?.WebApp?.showPopup) {
-              (window as any).Telegram.WebApp.showPopup({
-                message: 'аккаунт успешно найден'
-              });
-            }
-          } catch (error: any) {
-            console.error('Ошибка поиска аккаунта:', error);
-            if ((window as any).Telegram?.WebApp?.showPopup) {
-              (window as any).Telegram.WebApp.showPopup({
-                message: error.message || 'ничего не найдено\n\nпроверьте корректность ссылки или ника'
-              });
-            }
-          } finally {
-            setSearching(false);
-          }
-        }
-      });
+
+    try {
+      setSearching(true);
+      const account = await searchAccount(query.trim());
+      setFoundAccount(account);
+      window.Telegram?.WebApp?.showPopup?.({ message: 'аккаунт успешно найден' });
+    } catch (error: any) {
+      console.error('Search account error:', error);
+      window.Telegram?.WebApp?.showPopup?.({ message: error.message || 'ничего не найдено' });
+    } finally {
+      setSearching(false);
     }
   };
 
   const handleStartTracking = async () => {
     if (!foundAccount) return;
-    
     const userId = getTelegramUserId();
-    if (!userId) {
-      if ((window as any).Telegram?.WebApp?.showAlert) {
-        (window as any).Telegram.WebApp.showAlert('ошибка получения telegram user id');
-      }
-      return;
-    }
-    
-    // Показываем первый попап СРАЗУ при клике
-    if ((window as any).Telegram?.WebApp?.showPopup) {
-      (window as any).Telegram.WebApp.showPopup(
-        {
-          message: 'аккаунт будет добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов'
-        },
-        async () => {
-          // После закрытия попапа - добавляем аккаунт и переходим
-          try {
-            setTracking(true);
-            const result = await trackAccount(foundAccount.username, userId);
-            
-            // Переходим на LabaTrackedScreen с флагом нового аккаунта
-            // Скрапинг начнется автоматически
-            navigate('/laba-tracked', { state: { newAccountAdded: true } });
-          } catch (error: any) {
-            console.error('Ошибка отслеживания:', error);
-            if ((window as any).Telegram?.WebApp?.showAlert) {
-              (window as any).Telegram.WebApp.showAlert(error.message || 'ошибка отслеживания');
-            }
-          } finally {
-            setTracking(false);
-          }
-        }
-      );
+    if (!userId) return;
+
+    try {
+      setTracking(true);
+      await trackAccount(foundAccount.username, userId);
+      navigate('/laba-tracked', { state: { newAccountAdded: true } });
+    } catch (error: any) {
+      console.error('Track account error:', error);
+      window.Telegram?.WebApp?.showPopup?.({ message: error.message || 'ошибка отслеживания' });
+    } finally {
+      setTracking(false);
     }
   };
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '100vw',
-      minHeight: '100vh',
-      background: '#020101',
-      overflow: 'hidden',
-    }}>
-      <div style={{
-        position: 'relative',
-        width: '1180px',
-        minHeight: '2550px',
-        transform: `scale(${scale})`,
-        transformOrigin: 'top left',
-      }}>
-        {/* Background pattern */}
-        {/* Background pattern - full screen */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${bgPattern})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'repeat',
-          }}
-        />
+    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <ThreeBg />
+        <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
-        {/* Header */}
-        
-        <div 
-          onClick={() => navigate('/main-dashboard-premium')}
-          style={{
-            position: 'absolute',
-            left: '500px',
-            top: '61px',
-            width: '186px',
-            height: '131px',
-            cursor: 'pointer',
-          }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={logoSmall}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                top: '-16.38%',
-                width: '143.34%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
+        <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>поиск аккаунта</p>
         </div>
 
-        {/* Support button PNG (109:609) */}
-        <img 
-          src={supportButton}
-          alt="написать в поддержку"
-          style={{
-            position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Title - CSS (7:1425) */}
-        <div style={{
-          position: 'absolute',
-          left: '85px',
-          top: '193px',
-          fontFamily: 'Inter',
-          fontWeight: 800,
-          fontSize: '80px',
-          lineHeight: 1,
-          color: 'white',
-        }}>
-          поиск аккаунта
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '820px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>найдите аккаунт для отслеживания: вставьте ссылку или введите юзернейм</p>
         </div>
 
-        {/* Subtitle - CSS (7:1426) */}
-        <div style={{
-          position: 'absolute',
-          left: '85px',
-          top: '298px',
-          fontFamily: 'Gotham Pro',
-          fontWeight: 300,
-          fontSize: '40px',
-          lineHeight: 1,
-          color: 'white',
-        }}>
-          добавьте аккаунт для отслеживания
-        </div>
+        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
 
-        {/* Background people image (109:596) - BEHIND cards */}
-        <div style={{
-          position: 'absolute',
-          left: '143px',
-          top: '898px',
-          width: '892px',
-          height: '1050px',
-          overflow: 'hidden',
-          pointerEvents: 'none',
-        }}>
-          <img 
-            src={peopleBackground}
-            alt=""
-            style={{
-              position: 'absolute',
-              height: '162.05%',
-              left: '-92.74%',
-              top: '-20.87%',
-              width: '286.41%',
-              maxWidth: 'none',
-            }}
-          />
-        </div>
-
-        {/* Main card (109:626) - главная подложка */}
-        <img
-          src={mainBackdrop}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '88px',
-            top: '397px',
-            width: '1004px',
-            height: '1643px',
-            objectFit: 'fill',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Black card (109:631) - подложка вторая черная */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          left: '141px',
-          top: '453px',
-          width: '898px',
-          height: '1536px',
-          backdropFilter: 'blur(50px)',
-          background: 'black',
-          border: '4px solid rgba(255,255,255,0.3)',
-          borderRadius: '30px',
-          overflow: 'hidden',
-        }}>
-          {/* "добавить ссылку" - CSS (109:640) - x=190, y=502 relative to frame, so 190-141=49, 502-453=49 */}
-          <div style={{
-            position: 'absolute',
-            left: '49px',
-            top: '49px',
-            fontFamily: 'Inter',
-            fontWeight: 700,
-            fontSize: '40px',
-            lineHeight: 1,
-            color: 'white',
-          }}>
-            добавить ссылку
+        <div style={{ position: 'absolute', left: '141px', top: '455px', width: '898px', height: '1536px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', padding: '46px 49px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>добавить ссылку</p>
+          <div style={{ position: 'relative', width: '800px', height: '79px', marginTop: '28px' }}>
+            <img src={searchBorder} alt="обводка поиск" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+            <img src={searchIcon} alt="поиск" style={{ position: 'absolute', left: '18px', top: '20px', width: '38px', height: '38px', objectFit: 'contain' }} />
+            <input value={linkInput} onChange={(e) => setLinkInput(e.target.value)} placeholder="вставьте ссылку напрямую" style={{ position: 'absolute', left: '72px', top: '22px', width: '700px', background: 'transparent', border: 'none', outline: 'none', fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', color: 'rgba(255,255,255,0.8)' }} />
           </div>
 
-          {/* Search input 1 (109:633) - x=190, y=575 relative to frame, so 190-141=49, 575-453=122 */}
-          <div style={{
-            position: 'absolute',
-            left: '49px',
-            top: '122px',
-            width: '800px',
-            height: '72px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '62px',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            paddingLeft: '18px',
-          }}>
-            <img 
-              src={searchIcon}
-              alt=""
-              style={{
-                width: '38px',
-                height: '38px',
-                marginRight: '15px',
-              }}
-            />
-            <input
-              type="text"
-              value={linkInput}
-              onChange={(e) => setLinkInput(e.target.value)}
-              onFocus={() => setIsLinkFocused(true)}
-              onBlur={() => setIsLinkFocused(false)}
-              placeholder={isLinkFocused ? '' : 'вставьте ссылку напрямую'}
-              enterKeyHint="search"
-              style={{
-                flex: 1,
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '32px',
-                color: 'white',
-                paddingRight: '20px',
-              }}
-            />
+          <p style={{ margin: '46px 0 0', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>найти по нику</p>
+          <div style={{ position: 'relative', width: '800px', height: '79px', marginTop: '28px' }}>
+            <img src={searchBorder} alt="обводка поиск" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+            <img src={searchIcon} alt="поиск" style={{ position: 'absolute', left: '18px', top: '20px', width: '38px', height: '38px', objectFit: 'contain' }} />
+            <input value={nicknameInput} onChange={(e) => setNicknameInput(e.target.value)} placeholder="напишите юзернейм аккаунта через @" style={{ position: 'absolute', left: '72px', top: '22px', width: '700px', background: 'transparent', border: 'none', outline: 'none', fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', color: 'rgba(255,255,255,0.8)' }} />
           </div>
 
-          {/* "найти по нику" - CSS (109:636) - x=190, y=674 relative to frame, so 190-141=49, 674-453=221 */}
-          <div style={{
-            position: 'absolute',
-            left: '49px',
-            top: '221px',
-            fontFamily: 'Inter',
-            fontWeight: 700,
-            fontSize: '40px',
-            lineHeight: 1,
-            color: 'white',
-          }}>
-            найти по нику
-          </div>
+          <button type="button" onClick={handleSearch} className="button-inner-glow" style={{ marginTop: '52px', marginLeft: '277px', width: '247px', height: '80px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px', background: 'rgba(0,0,0,0.9)', color: 'white', fontFamily: 'Cygre', fontWeight: 700, fontSize: '27px', cursor: 'pointer' }}>
+            найти
+          </button>
 
-          {/* Search input 2 (109:637) - x=190, y=747 relative to frame, so 190-141=49, 747-453=294 */}
-          <div style={{
-            position: 'absolute',
-            left: '49px',
-            top: '294px',
-            width: '800px',
-            height: '72px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '62px',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            paddingLeft: '18px',
-          }}>
-            <img 
-              src={searchIcon}
-              alt=""
-              style={{
-                width: '38px',
-                height: '38px',
-                marginRight: '15px',
-              }}
-            />
-            <input
-              type="text"
-              value={nicknameInput}
-              onChange={(e) => setNicknameInput(e.target.value)}
-              onFocus={() => setIsNicknameFocused(true)}
-              onBlur={() => setIsNicknameFocused(false)}
-              placeholder={isNicknameFocused ? '' : 'напишите юзернейм аккаунта через @'}
-              enterKeyHint="search"
-              style={{
-                flex: 1,
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '32px',
-                color: 'white',
-                paddingRight: '20px',
-              }}
-            />
-          </div>
+          <p style={{ margin: '58px 0 0', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>результат</p>
 
-          {/* Find button PNG (109:645) - x=467, y=870 relative to frame, so 467-141=326, 870-453=417 */}
-          <img 
-            src={promptPlate}
-            alt="найти"
-            onClick={handleSearch}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '326px',
-              top: '417px',
-              width: '246.93px',
-              height: '79.25px',
-              cursor: 'pointer',
-            }}
-          />
-
-          {/* BlurAccountCard during search */}
-          {searching && <BlurAccountCard />}
-
-          {/* "результат" - ВСЕГДА показываем */}
-          <div style={{
-            position: 'absolute',
-            left: '49px',
-            top: '533px',
-            fontFamily: 'Inter',
-            fontWeight: 700,
-            fontSize: '40px',
-            lineHeight: 1,
-            color: 'white',
-          }}>
-            результат
-          </div>
-
-          {/* Result section - показываем после поиска */}
-          {foundAccount && !searching && (
+          {searching ? (
+            <div style={{ marginTop: '40px', fontFamily: 'Cygre', fontSize: '32px', color: 'rgba(255,255,255,0.7)' }}>ищем аккаунт...</div>
+          ) : foundAccount ? (
             <>
-
-              {/* Profile photo PNG (109:665) - РЕАЛЬНАЯ АВАТАРКА через прокси - показываем только если не searching */}
-              {!searching && foundAccount && (
-              <div style={{
-                position: 'absolute',
-                left: '49px',
-                top: '606px',
-                width: '190px',
-                height: '190px',
-                borderRadius: '50%',
-                overflow: 'hidden',
-                background: 'rgba(255, 255, 255, 0.1)',
-              }}>
-                {avatarUrl ? (
-                  <img 
-                    src={avatarUrl}
-                    alt={foundAccount.username}
-                    crossOrigin="anonymous"
-                    onError={(e) => {
-                      console.error('[AVATAR] ❌ Ошибка загрузки через прокси:', avatarUrl);
-                      console.error('[AVATAR] Оригинальный URL:', foundAccount.profilePhotoUrl);
-                      e.currentTarget.style.display = 'none';
-                      const fallback = e.currentTarget.parentElement?.querySelector('.fallback-avatar') as HTMLElement;
-                      if (fallback) {
-                        fallback.style.display = 'flex';
-                        console.log('[AVATAR] Показан fallback');
-                      }
-                    }}
-                    onLoad={() => {
-                      console.log('[AVATAR] ✅ Успешно загружена через прокси');
-                    }}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                ) : (
-                  <>
-                    {console.log('[AVATAR] ⚠️ avatarUrl пустой, показываем fallback')}
-                  </>
-                )}
-                <div 
-                  className="fallback-avatar"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    display: avatarUrl ? 'none' : 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '80px',
-                    color: 'white',
-                    fontWeight: 700,
-                  }}>
-                  {foundAccount.username.charAt(0).toUpperCase()}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '28px', marginTop: '44px' }}>
+                <div style={{ width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
+                  {avatarUrl ? <img src={avatarUrl} alt={foundAccount.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
+                </div>
+                <div>
+                  <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>@{foundAccount.username}</p>
+                  <p style={{ margin: '14px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'white' }}>{foundAccount.followersCount.toLocaleString('ru-RU')} подписчиков</p>
                 </div>
               </div>
-              )}
 
-              {/* Instagram logo PNG (109:666) - показываем только если не searching */}
-              {!searching && foundAccount && (
-              <img 
-                src={instaLogo}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  left: '255px',
-                  top: '613px',
-                  width: '64px',
-                  height: '78px',
-                  opacity: 0.6,
-                }}
-              />
-              )}
+              <button type="button" onClick={handleStartTracking} className="button-inner-glow" style={{ marginTop: '68px', marginLeft: '134px', width: '530px', height: '139px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px', background: 'rgba(0,0,0,0.9)', color: 'white', fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', cursor: tracking ? 'default' : 'pointer' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  начать отслеживание
+                  <img src={metacoinSmall} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain' }} />
+                  100
+                </span>
+              </button>
 
-              {/* Username - выровнен по лого */}
-              {!searching && foundAccount && (
-              <div style={{
-                position: 'absolute',
-                left: '255px',
-                top: '691px',
-                fontFamily: 'Inter',
-                fontWeight: 700,
-                fontSize: '40px',
-                lineHeight: '42px',
-                color: 'white',
-                whiteSpace: 'nowrap',
-              }}>
-                @{foundAccount.username}
-              </div>
-              )}
-
-              {/* Followers - выровнен по лого */}
-              {!searching && foundAccount && (
-              <div style={{
-                position: 'absolute',
-                left: '255px',
-                top: '748px',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '32px',
-                lineHeight: '26px',
-                color: 'white',
-                whiteSpace: 'nowrap',
-              }}>
-                {foundAccount.followersCount.toLocaleString()} подписчиков
-              </div>
-              )}
-              {/* Tracking button (109:677) - БЕЗ ИЗМЕНЕНИЯ ЦВЕТА */}
-              <img 
-                src={trackingButton}
-                alt="начать отслеживание"
-                onClick={handleStartTracking}
-                className="button-inner-glow"
-                style={{
-                  position: 'absolute',
-                  left: '184px',
-                  top: '864px',
-                  width: '530px',
-                  height: '139px',
-                  cursor: 'pointer',
-                }}
-              />
-
-              {/* Balance text (109:690) */}
-              <div style={{
-                position: 'absolute',
-                left: '202px',
-                top: '1021px',
-                fontFamily: 'Gotham Pro',
-                fontWeight: 300,
-                fontSize: '32px',
-                lineHeight: 1,
-                color: 'white',
-                textAlign: 'center',
-                width: '495px',
-              }}>
-                вы можете пополнить баланс <span style={{ fontWeight: 500 }}>в личном кабинете</span>
-              </div>
+              <p style={{ margin: '26px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', textAlign: 'center' }}>
+                вы можете пополнить баланс в личном кабинете
+              </p>
             </>
-          )}
-
-          {/* Background image PNG - REMOVED */}
+          ) : null}
         </div>
 
-        {/* Footer - REUSED */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '2071px',
-          width: '888px',
-          height: '124px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </div>
-          
-          <div style={{
-            position: 'absolute',
-            left: 'calc(50% - 442px)',
-            top: '56px',
-            width: '433px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '20px',
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, lineHeight: 'normal' }}>
-              Copyright © Все права защищены.
-            </p>
-          </div>
-          
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
-          
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Footer />
       </div>
     </div>
   );

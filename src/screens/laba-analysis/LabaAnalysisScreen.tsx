@@ -102,13 +102,12 @@ export const LabaAnalysisScreen: React.FC = () => {
       const analysisResult = await analyzeReel(reel.id, userId);
       setAnalysis(analysisResult);
       setShowAnalysisResults(true);
-      
-      // Попап успешного завершения
+
       if ((window as any).Telegram?.WebApp?.showPopup) {
-        (window as any).Telegram.WebApp.showPopup({
-          message: 'анализ успешно завершен'
-        });
+        (window as any).Telegram.WebApp.showPopup({ message: 'анализ успешно завершен' });
       }
+
+      navigate('/laba-analysis-full', { state: { reel, analysis: analysisResult } });
     } catch (error: any) {
       console.error('Ошибка анализа:', error);
       if ((window as any).Telegram?.WebApp?.showPopup) {

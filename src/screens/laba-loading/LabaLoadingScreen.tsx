@@ -1,298 +1,92 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import favoritesIcon from '../../assets/laba-main-buttons/на избранное.png';
-import bgPattern from '../../assets/figma-welcome/pattern.png';
+import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import leftGif from '../../assets/laba-redesign/слева.gif';
+import sidebarBg from '../../assets/laba-redesign/сайдбар подложка.png';
+import sidebarIcons from '../../assets/laba-redesign/сайдбар иконки новые.png';
 
-export const LabaLoadingScreen = () => {
+const SIDEBAR_HOTSPOTS = [
+  { left: 348, width: 82, route: '/laba-main' },
+  { left: 443, width: 82, route: '/laba-no-tracked' },
+  { left: 538, width: 82, route: '/laba-favorites' },
+  { left: 633, width: 82, route: '/metacoins' },
+];
+
+export const LabaLoadingScreen: React.FC = () => {
   const navigate = useNavigate();
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   return (
-    <div style={{ 
-      backgroundColor: '#020101',
-      minHeight: '100vh',
-      color: 'white',
-      position: 'relative',
-      padding: '0 24px'
-    }}>
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
-      
-      {/* Header */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '75px 0 60px',
-        gap: '20px'
-      }}>
-        {/* Back button */}
-        <div className="blur-wave" style={{
-          width: '100px',
-          height: '100px',
-          borderRadius: '62px',
-          backgroundColor: 'rgba(255,255,255,0.1)',
-          border: '4px solid rgba(255,255,255,0.3)',
-          backdropFilter: 'blur(50px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer'
-        }}
-        onClick={() => navigate(-1)}
-        >
-          <div style={{ transform: 'rotate(270deg)', fontSize: '24px' }}>←</div>
+    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <ThreeBg />
+        <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
+
+        <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
+            МЕТАФЛОРА* лаба
+          </p>
         </div>
 
-        {/* Home button */}
-        <div className="blur-wave" style={{
-          width: '100px',
-          height: '100px',
-          borderRadius: '62px',
-          backgroundColor: 'rgba(255,255,255,0.1)',
-          border: '4px solid rgba(255,255,255,0.3)',
-          backdropFilter: 'blur(50px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer'
-        }}
-        onClick={() => navigate('/main-dashboard-premium')}
-        >
-          <div style={{ fontSize: '32px' }}>🎴</div>
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '760px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            забудьте о часах поиска и анализа видео - доверьте это ИИ
+          </p>
         </div>
 
-        {/* Logo */}
-        <div style={{
-          height: '131px',
-          width: '186px',
-          backgroundImage: 'url(/src/assets/figma-welcome/splash-logo.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center'
-        }} />
-
-        {/* Support button */}
-        <div className="blur-wave" style={{
-          width: '205px',
-          height: '78px',
-          borderRadius: '62px',
-          backgroundColor: 'rgba(255,255,255,0.1)',
-          border: '4px solid rgba(255,255,255,0.3)',
-          backdropFilter: 'blur(50px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          fontSize: '20px',
-          textAlign: 'center',
-          lineHeight: '1.2',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 300
-        }}>
-          написать<br/>
-          <strong style={{ fontWeight: 'bold' }}>в поддержку</strong>
+        <div style={{ position: 'absolute', left: '141px', top: '400px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+          <img src={leftGif} alt="слева" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '32px',
-        marginTop: '100px',
-        position: 'relative'
-      }}>
-        {/* Left Panel */}
-        <div style={{
-          width: '428px',
-          height: '1820px',
-          borderRadius: '30px',
-          border: '4px solid rgba(255,255,255,0.3)',
-          overflow: 'hidden',
-          backgroundImage: 'url(/src/assets/слева.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }} />
+        <div style={{ position: 'absolute', left: '601px', top: '404px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+          <img src={leftGif} alt="справа" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
 
-        {/* Right Panel */}
-        <div style={{
-          width: '428px',
-          height: '1820px',
-          borderRadius: '30px',
-          border: '4px solid rgba(255,255,255,0.3)',
-          overflow: 'hidden',
-          backgroundImage: 'url(/src/assets/справа.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }} />
-
-        {/* Open Button */}
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          padding: '16px 32px',
-          backgroundColor: 'rgba(255,255,255,0.9)',
-          borderRadius: '30px',
-          fontSize: '19px',
-          fontWeight: 'bold',
-          color: 'black',
-          cursor: 'pointer',
-          fontFamily: 'Inter, sans-serif',
-          border: '2px solid rgba(255,255,255,0.5)',
-          backdropFilter: 'blur(10px)'
-        }}
-        onClick={() => navigate('/laba-main')}
+        <button
+          type="button"
+          onClick={() => navigate('/laba-main')}
+          style={{
+            position: 'absolute',
+            left: '503px',
+            top: '760px',
+            width: '174px',
+            height: '72px',
+            border: 'none',
+            background: 'rgba(255,255,255,0.88)',
+            borderRadius: '30px',
+            color: '#000',
+            fontFamily: 'Inter',
+            fontWeight: 700,
+            fontSize: '19px',
+            cursor: 'pointer',
+          }}
         >
           открыть
-        </div>
-      </div>
+        </button>
 
-      {/* Bottom Sidebar */}
-      <div className="blur-wave" style={{
-        position: 'fixed',
-        bottom: '180px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '688px',
-        height: '139px',
-        borderRadius: '62px',
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        border: '4px solid rgba(255,255,255,0.3)',
-        backdropFilter: 'blur(50px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 60px'
-      }}>
-        {/* Navigation Icons - равномерно распределены */}
-        <div style={{
-          width: '129px',
-          height: '127px',
-          cursor: 'pointer',
-          backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          opacity: 0.8
-        }}
-        onClick={() => navigate('/laba-main')}
-        />
-        
-        <div 
-          onClick={() => {
-            navigate('/laba-no-tracked');
-          }}
-          style={{
-            width: '129px',
-            height: '126px',
-            cursor: 'pointer',
-            position: 'relative',
-          }}
-        >
-          <div style={{
-            width: '100%',
-            height: '100%',
-            backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            opacity: 0.8,
-          }} />
-        </div>
-        
-        <img 
-          src={favoritesIcon}
-          alt="на избранное"
-          style={{
-            width: '129px',
-            height: '124px',
-            cursor: 'pointer',
-            objectFit: 'contain',
-            opacity: 0.8
-          }}
-          onClick={() => navigate('/laba-favorites')}
-        />
-        
-        <div 
-          onClick={() => navigate('/metacoins')}
-          style={{
-            width: '129px',
-            height: '132px',
-            cursor: 'pointer',
-            position: 'relative',
-          }}
-        >
-          <div style={{
-            width: '100%',
-            height: '100%',
-            backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            opacity: 0.8,
-          }} />
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '124px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 50px',
-        backgroundColor: 'rgba(2,1,1,0.8)',
-        backdropFilter: 'blur(20px)'
-      }}>
-        <div style={{
-          width: '380px',
-          height: '83px',
-          backgroundImage: 'url(/src/assets/figma-welcome/footer-logo.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat'
-        }} />
-        
-        <div style={{
-          fontSize: '20px',
-          color: 'white',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 300
-        }}>
-          Copyright © Все права защищены.
+        <div style={{ position: 'absolute', left: '320px', top: '1863px', width: '530px', height: '139px' }}>
+          <img src={sidebarBg} alt="сайдбар подложка" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+          <img src={sidebarIcons} alt="сайдбар иконки новые" style={{ position: 'absolute', left: '-2px', top: '21px', width: '534px', height: '98px', objectFit: 'contain', pointerEvents: 'none' }} />
+          {SIDEBAR_HOTSPOTS.map((item) => (
+            <button
+              key={item.route}
+              type="button"
+              onClick={() => navigate(item.route)}
+              style={{
+                position: 'absolute',
+                left: `${item.left - 320}px`,
+                top: '20px',
+                width: `${item.width}px`,
+                height: '100px',
+                border: 'none',
+                background: 'transparent',
+                cursor: 'pointer',
+              }}
+            />
+          ))}
         </div>
 
-        <div className="blur-wave" style={{
-          display: 'flex',
-          gap: '8px',
-          padding: '8px 16px',
-          borderRadius: '62px',
-          backgroundColor: 'rgba(255,255,255,0.1)',
-          border: '4px solid rgba(255,255,255,0.3)',
-          backdropFilter: 'blur(50px)'
-        }}>
-          <div style={{ 
-            width: '50px', 
-            height: '51px', 
-            opacity: 0.6,
-            backgroundImage: 'url(/src/assets/figma-welcome/socials.png)',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat'
-          }} />
-        </div>
+        <Footer />
       </div>
     </div>
   );
