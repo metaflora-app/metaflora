@@ -13,7 +13,7 @@ import chatBg from '../../assets/main-dashboard/фон чат.png';
 
 interface CardProps {
   bgSrc: string;
-  text: string;
+  content: React.ReactNode;
   top: number;
   height?: number;
   onOpen?: () => void;
@@ -22,7 +22,7 @@ interface CardProps {
 }
 
 const ServiceCard: React.FC<CardProps> = ({
-  bgSrc, text, top, height = 249, onOpen,
+  bgSrc, content, top, height = 249, onOpen,
   photoInset = '0 49.78% 0 0',
   textInset = '0 0 0 50.22%',
 }) => (
@@ -45,20 +45,16 @@ const ServiceCard: React.FC<CardProps> = ({
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '418px',
+        width: '390px',
         maxWidth: 'calc(100% - 18px)',
+        textAlign: 'center',
+        fontFamily: 'Cygre',
+        fontWeight: 400,
+        fontSize: '27px',
+        lineHeight: '1.12',
+        color: 'white',
       }}>
-        <p style={{
-          margin: 0,
-          fontFamily: 'Cygre',
-          fontWeight: 400,
-          fontSize: '27px',
-          lineHeight: '1.18',
-          color: 'white',
-          textAlign: 'center',
-        }}>
-          {text}
-        </p>
+        {content}
       </div>
     </div>
 
@@ -80,10 +76,14 @@ const ServiceCard: React.FC<CardProps> = ({
     >
       <div style={{
         position: 'absolute',
-        left: '50%',
-        top: '50%',
+        left: 'calc(50% - 1.47px)',
+        top: 'calc(50% - 5.97px)',
         transform: 'translate(-50%, -50%)',
         width: '150px',
+        height: '29.312px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         textAlign: 'center',
         fontFamily: 'Cygre',
         fontWeight: 700,
@@ -114,10 +114,14 @@ const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
   }}>
     <div style={{
       position: 'absolute',
-      left: '50%',
-      top: '50%',
+      left: 'calc(50% - 1px)',
+      top: 'calc(50% - 6.34px)',
       transform: 'translate(-50%, -50%)',
       width: '150px',
+      height: '29.312px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       textAlign: 'center',
       fontFamily: 'Cygre',
       fontWeight: 700,
@@ -170,39 +174,18 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
         <div style={{ position: 'absolute', left: '85px', top: '207px', width: '1020px', height: '80px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <p style={{
-            margin: 0,
-            fontFamily: 'Cygre',
-            fontWeight: 700,
-            fontSize: '80px',
-            lineHeight: '1',
-            color: 'white',
-            opacity: loading ? 0 : 1,
-            transition: 'opacity 0.3s',
-          }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white', opacity: loading ? 0 : 1, transition: 'opacity 0.3s' }}>
             {userName}
           </p>
         </div>
 
-        <img src={profilePhotoUrl} alt="фото" style={{
-          position: 'absolute',
-          left: '79px',
-          top: '325px',
-          width: '159px',
-          height: '159px',
-          borderRadius: '79.5px',
-          objectFit: 'cover',
-          opacity: loading ? 0 : 1,
-          transition: 'opacity 0.3s',
-        }} />
+        <img src={profilePhotoUrl} alt="фото" style={{ position: 'absolute', left: '79px', top: '325px', width: '159px', height: '159px', borderRadius: '79.5px', objectFit: 'cover', opacity: loading ? 0 : 1, transition: 'opacity 0.3s' }} />
 
         <div style={{ position: 'absolute', left: '258px', top: '338px', width: '357px', height: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
-            комьюнити
-          </p>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>комьюнити</p>
         </div>
 
-        <div style={{ position: 'absolute', left: '258px', top: '377px', width: '360px', height: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ position: 'absolute', left: '258px', top: '377px', width: '420px', height: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'nowrap' }}>
             доступ до {subscriptionEndDate}
           </p>
@@ -215,15 +198,11 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '790px', top: '339px', width: '145px', height: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center', opacity: loading ? 0 : 1 }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'nowrap' }}>
-            {metacoinsBalance}
-          </p>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'nowrap' }}>{metacoinsBalance}</p>
         </div>
 
         <div style={{ position: 'absolute', left: '790px', top: '377px', width: '256px', height: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'nowrap' }}>
-            метакоинов
-          </p>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'nowrap' }}>метакоинов</p>
         </div>
 
         <SmBtn label="купить" x={789} y={430} onClick={() => navigate('/metacoins')} />
@@ -231,7 +210,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ServiceCard
           bgSrc={academyBg}
           top={538}
-          text="система, промптинг, искусство, автоматизация — 4 больших курса и более 40 готовых уроков с гайдами, шаблонами и чек-листами. минимум воды и розовых очков, максимум практики и личного опыта"
+          content={<><p style={{ margin: 0 }}>система, промптинг,</p><p style={{ margin: 0 }}>искусство, автоматизация —</p><p style={{ margin: 0 }}>4 больших курса и более 40</p><p style={{ margin: 0 }}>готовых уроков с гайдами,</p><p style={{ margin: 0 }}>шаблонами и чек-листами.</p><p style={{ margin: 0 }}>минимум воды и розовых</p><p style={{ margin: 0 }}>очков, максимум практики</p><p style={{ margin: 0 }}>и личного опыта</p></>}
           onOpen={() => navigate('/about-academy')}
         />
         <ServiceCard
@@ -240,7 +219,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           height={250}
           photoInset="0.4% 49.78% 0 0"
           textInset="0.4% 0 0 50.22%"
-          text="в лабе ИИ выполняет всю черновую работу за пару минут: поиск аккаунтов, анализ видео и написание сценария. функции сервиса доступны за внутреннюю валюту — метакоины"
+          content={<><p style={{ margin: 0 }}>в лабе ИИ выполняет всю</p><p style={{ margin: 0 }}>черновую работу за пару</p><p style={{ margin: 0 }}>минут: поиск аккаунтов,</p><p style={{ margin: 0 }}>анализ видео и написание</p><p style={{ margin: 0 }}>сценария. функции сервиса</p><p style={{ margin: 0 }}>доступны за внутреннюю</p><p style={{ margin: 0 }}>валюту — метакоины</p></>}
           onOpen={() => navigate('/about-laba')}
         />
         <ServiceCard
@@ -248,7 +227,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           top={1097}
           photoInset="0 49.66% 0 0.11%"
           textInset="0 0 0 50.32%"
-          text="десятки готовых промптов, позволяющих задать точную роль LLM или воспроизвести генерацию изображения или видео буквально в один клик"
+          content={<><p style={{ margin: 0 }}>десятки готовых промптов,</p><p style={{ margin: 0 }}>позволяющих задать точную</p><p style={{ margin: 0 }}>роль LLM или воспроизвести</p><p style={{ margin: 0 }}>генерацию изображения или</p><p style={{ margin: 0 }}>видео буквально в один клик</p></>}
           onOpen={() => navigate('/about-prompt')}
         />
         <ServiceCard
@@ -256,7 +235,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           top={1378}
           photoInset="0 50% 0 0"
           textInset="0 0 0 49.97%"
-          text="нужен разбор ИИ-новинки или подробный кейс с комментариями — всё это уже есть в МЕТАФЛОРА* полигон. новые статьи публикуются регулярно"
+          content={<><p style={{ margin: 0 }}>нужен разбор ИИ-новинки</p><p style={{ margin: 0 }}>или подробный кейс с</p><p style={{ margin: 0 }}>комментариями — всё это</p><p style={{ margin: 0 }}>уже есть в МЕТАФЛОРА*</p><p style={{ margin: 0 }}>полигон. новые статьи</p><p style={{ margin: 0 }}>публикуются регулярно</p></>}
           onOpen={() => navigate('/about-poligon')}
         />
         <ServiceCard
@@ -264,7 +243,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           top={1659}
           photoInset="0 50.45% 0 0"
           textInset="0 0 0 49.56%"
-          text="комьюнити специалистов, кто только начинает или уже давно работает с ИИ. здесь найдется ответ на любой вопрос (даже на самый глупый)"
+          content={<><p style={{ margin: 0 }}>комьюнити специалистов,</p><p style={{ margin: 0 }}>кто только начинает или уже</p><p style={{ margin: 0 }}>давно работает с ИИ. здесь</p><p style={{ margin: 0 }}>найдется ответ на любой</p><p style={{ margin: 0 }}>вопрос (даже на самый</p><p style={{ margin: 0 }}>глупый)</p></>}
         />
 
         <Footer />

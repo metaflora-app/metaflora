@@ -21,6 +21,7 @@ import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials
 import { ArticleScreen } from './screens/article';
 import { PrivacyPolicyScreen } from './screens/privacy-policy';
 import { MarketingConsentScreen } from './screens/marketing-consent';
+import { PublicOfferScreen } from './screens/public-offer';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PromptFirstScreen } from './screens/prompt-first';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
@@ -286,5 +287,9 @@ export const router = createBrowserRouter([
   {
     path: '/marketing-consent',
     element: <MarketingConsentScreen />,
+  },
+  {
+    path: '/public-offer',
+    element: <PublicOfferScreen />,
   },
 ]);

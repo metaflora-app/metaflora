@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
+import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
 import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
-import aboutVideo from '../../assets/tour-video/мастерская в окошке флоры.mp4';
 
 export const AboutAcademyScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -22,22 +22,34 @@ export const AboutAcademyScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Видео 894×1457px */}
-        <div style={{
-          position: 'absolute', left: '143px', top: '410px',
-          width: '894px', height: '1457px', borderRadius: '40px', overflow: 'hidden',
-        }}>
-          <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
-            <source src={aboutVideo} type="video/mp4" />
-          </video>
+        <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
+          <AboutVideoPlayer style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }} />
+
           <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, height: '220px',
-            background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)',
+            position: 'absolute',
+            inset: 0,
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255,255,255,0.1)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            pointerEvents: 'none',
           }} />
-          <img src={expandPlashka} alt="развернуть видео" style={{
-            position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)',
-            width: '500px', height: 'auto', cursor: 'pointer',
-          }} />
+
+          <img
+            src={expandPlashka}
+            alt="развернуть видео"
+            style={{
+              position: 'absolute',
+              left: '31.43%',
+              right: '31.43%',
+              top: '91.15%',
+              bottom: '3.43%',
+              width: '37.14%',
+              height: '5.42%',
+              objectFit: 'contain',
+              pointerEvents: 'none',
+            }}
+          />
         </div>
 
         <img src={serviceBtn} alt="перейти к сервису" onClick={() => navigate('/academy-courses-all')} className="button-inner-glow" style={{
