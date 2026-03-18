@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from './ScreenLayout';
 import { convertPngToJpeg } from '../utils/imageConverter';
 
-import promptBadge from '../assets/shared-redesign/плашка промпт.png';
-import downloadButton from '../assets/materials-redesign/кнопка скачать материалы.png';
-
 type BadgeTheme = 'academy' | 'article';
 
 interface ContentBlockLike {
@@ -39,6 +36,61 @@ const materialsBadgeConfig: Record<BadgeTheme, { fontFamily: string; fontWeight:
   },
 };
 
+interface PillProps {
+  width: string;
+  height: string;
+  fontFamily: string;
+  fontWeight: number;
+  textWidth: string;
+  label: string;
+  marginBottom: string;
+}
+
+const PillLabel: React.FC<PillProps> = ({
+  width,
+  height,
+  fontFamily,
+  fontWeight,
+  textWidth,
+  label,
+  marginBottom,
+}) => (
+  <div
+    className="button-inner-glow"
+    style={{
+      width,
+      height,
+      margin: `0 auto ${marginBottom}`,
+      border: '4px solid rgba(255,255,255,0.3)',
+      borderRadius: '62px',
+      backdropFilter: 'blur(50px)',
+      background: 'rgba(0,0,0,0.9)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxSizing: 'border-box',
+    }}
+  >
+    <div
+      style={{
+        width: textWidth,
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily,
+        fontWeight,
+        fontSize: '27px',
+        lineHeight: '1',
+        color: 'white',
+        textAlign: 'center',
+      }}
+    >
+      {label}
+    </div>
+  </div>
+);
+
 export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   homeRoute,
   heading,
@@ -57,35 +109,15 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   const renderMaterialsBadge = () => {
     const config = materialsBadgeConfig[badgeTheme];
     return (
-      <div
-        style={{
-          width: '245.74px',
-          height: '79.35px',
-          margin: '0 auto 24px',
-          border: '4px solid rgba(255,255,255,0.3)',
-          borderRadius: '62px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(0,0,0,0.9)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxSizing: 'border-box',
-        }}
-      >
-        <div
-          style={{
-            width: config.textWidth,
-            fontFamily: config.fontFamily,
-            fontWeight: config.fontWeight,
-            fontSize: '27px',
-            lineHeight: '1',
-            color: 'white',
-            textAlign: 'center',
-          }}
-        >
-          материалы
-        </div>
-      </div>
+      <PillLabel
+        width="245.74px"
+        height="79.35px"
+        marginBottom="24px"
+        fontFamily={config.fontFamily}
+        fontWeight={config.fontWeight}
+        textWidth={config.textWidth}
+        label="материалы"
+      />
     );
   };
 
@@ -123,7 +155,15 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     if (block.type === 'prompt') {
       return (
         <div key={block.id} style={{ margin: '28px 0 30px' }}>
-          <img src={promptBadge} alt="промпт" className="button-inner-glow" style={{ width: '249.65px', height: '80.95px', objectFit: 'contain', display: 'block', margin: '0 auto 24px' }} />
+          <PillLabel
+            width="249.65px"
+            height="80.95px"
+            marginBottom="24px"
+            fontFamily="Cygre"
+            fontWeight={700}
+            textWidth="150px"
+            label="промпт"
+          />
           <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
             {block.content}
           </div>
@@ -153,7 +193,26 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', lineHeight: '1', color: 'white' }}>
               скачать файлы ({downloadCount})
             </span>
-            <img src={downloadButton} alt="скачать материалы" className="button-inner-glow" style={{ width: '31px', height: '31px', objectFit: 'contain' }} />
+            <div
+              className="button-inner-glow"
+              style={{
+                width: '32px',
+                height: '32px',
+                border: '4px solid rgba(255,255,255,0.3)',
+                borderRadius: '32px',
+                background: 'black',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxSizing: 'border-box',
+                color: 'white',
+                fontSize: '22px',
+                lineHeight: '1',
+                fontWeight: 400,
+              }}
+            >
+              +
+            </div>
           </button>
         </div>
       );

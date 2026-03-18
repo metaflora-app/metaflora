@@ -5,11 +5,14 @@ import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { getCompletedLessons } from '../../utils/userProgress';
 
-import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
 import systemBg from '../../assets/academy-redesign/фон система.png';
 import promptingBg from '../../assets/academy-redesign/фон промптинг.png';
 import artBg from '../../assets/academy-redesign/фон искусство.png';
 import automationBg from '../../assets/academy-redesign/фон автоматизация.png';
+import progressRed from '../../assets/academy-progress-redesign/progress-red.png';
+import progressYellow from '../../assets/academy-progress-redesign/progress-yellow.png';
+import progressGreenPassive from '../../assets/academy-progress-redesign/progress-green-passive.png';
+import progressGreenFull from '../../assets/academy-progress-redesign/progress-green-full.png';
 
 interface CourseCardConfig {
   key: string;
@@ -85,16 +88,61 @@ const courseCards: CourseCardConfig[] = [
   },
 ];
 
-const getCourseProgressColor = (value: number): string => {
+const getProgressAsset = (value: number): string => {
+  if (value >= 100) {
+    return progressGreenFull;
+  }
+
   if (value > 80) {
-    return '#47D16C';
+    return progressGreenPassive;
   }
 
   if (value >= 40) {
-    return '#F3D04F';
+    return progressYellow;
   }
 
-  return '#FF5B5B';
+  return progressRed;
+};
+
+const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ value, left, top }) => {
+  const normalized = Math.max(0, Math.min(100, value));
+  const asset = getProgressAsset(normalized);
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${left}px`,
+        top: `${top}px`,
+        width: '57px',
+        height: '20px',
+        background: '#111723',
+        borderRadius: '999px',
+        overflow: 'hidden',
+      }}
+    >
+      {normalized > 0 && (
+        <div
+          style={{
+            width: `${normalized}%`,
+            height: '100%',
+            overflow: 'hidden',
+          }}
+        >
+          <img
+            src={asset}
+            alt="прогресс"
+            style={{
+              width: '57px',
+              height: '20px',
+              objectFit: 'fill',
+              display: 'block',
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export const AcademyCoursesAllScreen: React.FC = () => {
@@ -168,11 +216,8 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           </p>
         </div>
 
-        <img src={peopleLogo} alt="" style={{ position: 'absolute', left: '141px', top: '741px', width: '895px', height: '967px', objectFit: 'contain', pointerEvents: 'none' }} />
-
         {courseCards.map((card) => {
           const progressValue = courseProgress[card.key] ?? 0;
-          const progressColor = getCourseProgressColor(progressValue);
           return (
             <div key={card.key} style={{ position: 'absolute', left: '141px', top: `${card.top}px`, width: '894px', height: `${card.height}px` }}>
               <div style={{ position: 'absolute', inset: card.bgInset, borderRadius: '26px', overflow: 'hidden' }}>
@@ -185,9 +230,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ position: 'absolute', left: `${card.progressLeft}px`, top: `${card.progressTop}px`, width: '38px', height: '20px', padding: '2px', background: '#111723', borderRadius: '999px', boxSizing: 'border-box' }}>
-                <div style={{ width: '100%', height: '100%', borderRadius: '999px', background: progressColor }} />
-              </div>
+              <ProgressBar value={progressValue} left={card.progressLeft} top={card.progressTop} />
 
               <button
                 type="button"
@@ -197,25 +240,37 @@ export const AcademyCoursesAllScreen: React.FC = () => {
                   position: 'absolute',
                   left: `${card.buttonLeft}px`,
                   top: `${card.buttonTop}px`,
-                  width: '247px',
-                  height: '79px',
+                  width: '246.93px',
+                  height: '79.25px',
                   border: '4px solid rgba(255,255,255,0.3)',
                   borderRadius: '62px',
                   background: 'rgba(0,0,0,0.9)',
                   backdropFilter: 'blur(50px)',
-                  color: 'white',
-                  fontFamily: 'Cygre',
-                  fontWeight: 700,
-                  fontSize: '27px',
-                  lineHeight: '1',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   padding: 0,
+                  boxSizing: 'border-box',
                 }}
               >
-                изучить
+                <span
+                  style={{
+                    width: '150px',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: 'Cygre',
+                    fontWeight: 700,
+                    fontSize: '27px',
+                    lineHeight: '1',
+                    color: 'white',
+                    textAlign: 'center',
+                  }}
+                >
+                  изучить
+                </span>
               </button>
             </div>
           );

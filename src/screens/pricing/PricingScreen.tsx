@@ -66,15 +66,14 @@ export const PricingScreen: React.FC = () => {
                   height: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  paddingLeft: '40px',
+                  justifyContent: 'center',
                   boxSizing: 'border-box',
                   fontFamily: 'Cygre',
                   fontWeight: 700,
                   fontSize: '40px',
                   lineHeight: '1',
                   color: 'white',
-                  textAlign: 'left',
+                  textAlign: 'center',
                 }}
               >
                 1 месяц (-10%)
