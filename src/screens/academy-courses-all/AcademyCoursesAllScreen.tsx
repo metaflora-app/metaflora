@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { FigmaStudyButton } from '../../components/FigmaPills';
 import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { getCompletedLessons } from '../../utils/userProgress';
@@ -232,46 +233,15 @@ export const AcademyCoursesAllScreen: React.FC = () => {
 
               <ProgressBar value={progressValue} left={card.progressLeft} top={card.progressTop} />
 
-              <button
-                type="button"
+              <FigmaStudyButton
                 onClick={() => navigate(card.route)}
                 className="button-inner-glow"
                 style={{
                   position: 'absolute',
                   left: `${card.buttonLeft}px`,
                   top: `${card.buttonTop}px`,
-                  width: '246.93px',
-                  height: '79.25px',
-                  border: '4px solid rgba(255,255,255,0.3)',
-                  borderRadius: '62px',
-                  background: 'rgba(0,0,0,0.9)',
-                  backdropFilter: 'blur(50px)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: 0,
-                  boxSizing: 'border-box',
                 }}
-              >
-                <span
-                  style={{
-                    width: '150px',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'Cygre',
-                    fontWeight: 700,
-                    fontSize: '27px',
-                    lineHeight: '1',
-                    color: 'white',
-                    textAlign: 'center',
-                  }}
-                >
-                  изучить
-                </span>
-              </button>
+              />
             </div>
           );
         })}

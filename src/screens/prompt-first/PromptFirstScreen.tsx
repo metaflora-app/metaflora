@@ -10,7 +10,7 @@ import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
-import openButton from '../../assets/кнопка перейти.png';
+import { FigmaReadButton } from '../../components/FigmaPills';
 import likeIcon from '../../assets/лайк.png';
 import likeEmptyIcon from '../../assets/лайк не поставлен.png';
 import returnButton from '../../assets/кнопка вернуть не активная.png';
@@ -322,9 +322,8 @@ export const PromptFirstScreen: React.FC = () => {
         </div>
 
         {/* Кнопка "перейти" */}
-        <img 
-          src={openButton}
-          alt="перейти"
+        <FigmaReadButton
+          label="перейти"
           onClick={() => navigate(`/prompt-card/${prompt.id}`)}
           className="button-inner-glow"
           style={{
@@ -332,10 +331,6 @@ export const PromptFirstScreen: React.FC = () => {
             left: '50%',
             transform: 'translateX(-50%)',
             bottom: '63px',
-            width: '247px',
-            height: '80px',
-            cursor: 'pointer',
-            objectFit: 'contain',
           }}
         />
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from './ScreenLayout';
+import { FigmaReadButton } from './FigmaPills';
 import {
   getAcademyCourses,
   getAcademyLessons,
@@ -198,30 +199,18 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
                   {description}
                 </div>
 
-                <button
+                <FigmaReadButton
+                  label="перейти"
                   onClick={() => lesson.id.startsWith('placeholder-') ? undefined : openLesson(lesson.id)}
+                  disabled={lesson.id.startsWith('placeholder-')}
                   className={lesson.id.startsWith('placeholder-') ? undefined : 'button-inner-glow'}
                   style={{
                     position: 'absolute',
                     left: '50%',
-                    bottom: '26px',
+                    bottom: '19px',
                     transform: 'translateX(-50%)',
-                    width: '247px',
-                    height: '73px',
-                    border: '4px solid rgba(255,255,255,0.3)',
-                    borderRadius: '62px',
-                    backdropFilter: 'blur(50px)',
-                    background: 'rgba(0,0,0,0.9)',
-                    color: 'white',
-                    fontFamily: 'Cygre',
-                    fontWeight: 700,
-                    fontSize: '27px',
-                    lineHeight: '1',
-                    cursor: lesson.id.startsWith('placeholder-') ? 'default' : 'pointer',
                   }}
-                >
-                  перейти
-                </button>
+                />
               </div>
 
               <div

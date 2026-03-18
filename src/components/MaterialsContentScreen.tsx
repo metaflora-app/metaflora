@@ -2,8 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from './ScreenLayout';
 import { convertPngToJpeg } from '../utils/imageConverter';
-
-type BadgeTheme = 'academy' | 'article';
+import { FigmaDownloadIconButton, FigmaMaterialsBadge, FigmaPromptBadge } from './FigmaPills';
 
 interface ContentBlockLike {
   id: string;
@@ -20,76 +19,8 @@ interface MaterialsContentScreenProps {
   downloadCount: number;
   onSendMaterials: () => void;
   onContentScroll?: React.UIEventHandler<HTMLDivElement>;
-  badgeTheme?: BadgeTheme;
+  badgeTheme?: 'academy' | 'article';
 }
-
-const materialsBadgeConfig: Record<BadgeTheme, { fontFamily: string; fontWeight: number; textWidth: string }> = {
-  academy: {
-    fontFamily: 'Gotham Pro',
-    fontWeight: 500,
-    textWidth: '167px',
-  },
-  article: {
-    fontFamily: 'Cygre',
-    fontWeight: 700,
-    textWidth: '150px',
-  },
-};
-
-interface PillProps {
-  width: string;
-  height: string;
-  fontFamily: string;
-  fontWeight: number;
-  textWidth: string;
-  label: string;
-  marginBottom: string;
-}
-
-const PillLabel: React.FC<PillProps> = ({
-  width,
-  height,
-  fontFamily,
-  fontWeight,
-  textWidth,
-  label,
-  marginBottom,
-}) => (
-  <div
-    className="button-inner-glow"
-    style={{
-      width,
-      height,
-      margin: `0 auto ${marginBottom}`,
-      border: '4px solid rgba(255,255,255,0.3)',
-      borderRadius: '62px',
-      backdropFilter: 'blur(50px)',
-      background: 'rgba(0,0,0,0.9)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      boxSizing: 'border-box',
-    }}
-  >
-    <div
-      style={{
-        width: textWidth,
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily,
-        fontWeight,
-        fontSize: '27px',
-        lineHeight: '1',
-        color: 'white',
-        textAlign: 'center',
-      }}
-    >
-      {label}
-    </div>
-  </div>
-);
 
 export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   homeRoute,
@@ -105,21 +36,6 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [expandedImage, setExpandedImage] = React.useState<string | null>(null);
-
-  const renderMaterialsBadge = () => {
-    const config = materialsBadgeConfig[badgeTheme];
-    return (
-      <PillLabel
-        width="245.74px"
-        height="79.35px"
-        marginBottom="24px"
-        fontFamily={config.fontFamily}
-        fontWeight={config.fontWeight}
-        textWidth={config.textWidth}
-        label="материалы"
-      />
-    );
-  };
 
   const renderBlock = (block: ContentBlockLike) => {
     if (block.type === 'text') {
@@ -155,15 +71,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     if (block.type === 'prompt') {
       return (
         <div key={block.id} style={{ margin: '28px 0 30px' }}>
-          <PillLabel
-            width="249.65px"
-            height="80.95px"
-            marginBottom="24px"
-            fontFamily="Cygre"
-            fontWeight={700}
-            textWidth="150px"
-            label="промпт"
-          />
+          <FigmaPromptBadge className="button-inner-glow" style={{ display: 'block', margin: '0 auto 24px' }} />
           <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
             {block.content}
           </div>
@@ -174,7 +82,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     if (block.type === 'materials') {
       return (
         <div key={block.id} style={{ margin: '34px 0 10px' }}>
-          {renderMaterialsBadge()}
+          <FigmaMaterialsBadge className="button-inner-glow" style={{ display: 'block', margin: '0 auto 24px' }} />
           <button
             type="button"
             onClick={onSendMaterials}
@@ -193,26 +101,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', lineHeight: '1', color: 'white' }}>
               скачать файлы ({downloadCount})
             </span>
-            <div
-              className="button-inner-glow"
-              style={{
-                width: '32px',
-                height: '32px',
-                border: '4px solid rgba(255,255,255,0.3)',
-                borderRadius: '32px',
-                background: 'black',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxSizing: 'border-box',
-                color: 'white',
-                fontSize: '22px',
-                lineHeight: '1',
-                fontWeight: 400,
-              }}
-            >
-              +
-            </div>
+            <FigmaDownloadIconButton className="button-inner-glow" />
           </button>
         </div>
       );

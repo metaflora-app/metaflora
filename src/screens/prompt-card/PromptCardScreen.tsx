@@ -19,7 +19,7 @@ declare global {
 }
 
 // Local PNG assets from repo
-import promptBadge from '../../assets/prompt-card/промпт плашка.png';
+import { FigmaPromptBadge } from '../../components/FigmaPills';
 import supportButton from '../../assets/tour-video/support-button.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
@@ -334,19 +334,14 @@ export const PromptCardScreen: React.FC = () => {
         </div>
 
             {/* Prompt badge - 368:1126 */}
-            <img 
-              src={promptBadge}
-              alt="промпт"
+            <FigmaPromptBadge
               className="button-inner-glow"
               style={{
                 position: 'absolute',
                 left: '326px',
                 top: '983px',
-            width: '246.93px',
-            height: '79.25px',
-            objectFit: 'contain',
-          }}
-        />
+              }}
+            />
 
             {/* Текст промпта с onClick для копирования */}
             <div 
