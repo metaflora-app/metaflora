@@ -210,7 +210,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ServiceCard
           bgSrc={academyBg}
           top={538}
-          content={<><p style={{ margin: 0 }}>система, промптинг,</p><p style={{ margin: 0 }}>искусство, автоматизация —</p><p style={{ margin: 0 }}>4 больших курса и более 40</p><p style={{ margin: 0 }}>готовых уроков с гайдами,</p><p style={{ margin: 0 }}>шаблонами и чек-листами.</p><p style={{ margin: 0 }}>минимум воды и розовых</p><p style={{ margin: 0 }}>очков, максимум практики</p><p style={{ margin: 0 }}>и личного опыта</p></>}
+          content={<><p style={{ margin: 0 }}>система, промптинг,</p><p style={{ margin: 0 }}>искусство, автоматизация —</p><p style={{ margin: 0 }}>4 больших курса и более 40</p><p style={{ margin: 0 }}>готовых уроков с гайдами,</p><p style={{ margin: 0 }}>шаблонами и чек-листами.</p><p style={{ margin: 0 }}>минимум воды и максимум</p><p style={{ margin: 0 }}>практики</p></>}
           onOpen={() => navigate('/about-academy')}
         />
         <ServiceCard

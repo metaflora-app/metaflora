@@ -112,12 +112,11 @@ export const Footer: React.FC<FooterProps> = ({ top = 2071 }) => (
       border: '4px solid rgba(255,255,255,0.3)',
       borderRadius: '62px',
       cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     }}>
       <div style={{
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
         width: '148px',
         textAlign: 'center',
         fontFamily: 'Cygre',
@@ -125,6 +124,9 @@ export const Footer: React.FC<FooterProps> = ({ top = 2071 }) => (
         fontSize: '27px',
         lineHeight: '1',
         color: 'white',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
         поддержка
       </div>
