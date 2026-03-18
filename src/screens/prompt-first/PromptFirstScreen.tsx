@@ -1,40 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getWorkshopPromptsWithCache } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
-
-// Local PNG assets
-import smallLogo from '../../assets/figma-welcome/logo-small.png';
-import searchIconPNG from '../../assets/иконка поиск.png';
-import supportButtonPNG from '../../assets/tour-video/support-button.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
-import bgPattern from '../../assets/figma-welcome/pattern.png';
-import { FigmaReadButton } from '../../components/FigmaPills';
+import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import likeIcon from '../../assets/лайк.png';
 import likeEmptyIcon from '../../assets/лайк не поставлен.png';
-import returnButton from '../../assets/кнопка вернуть не активная.png';
-import favoriteButtonInactive from '../../assets/кнопка избранное.png';
-import favoriteButtonActive from '../../assets/кнопка избранное активная.png';
-import recentButtonInactive from '../../assets/кнопка недавние.png';
-import recentButtonActive from '../../assets/кнопка недавние активная.png';
-import topPickButtonInactive from '../../assets/кнопка топ-выбор.png';
-import topPickButtonActive from '../../assets/кнопка топ-выбор активная.png';
-import newButtonInactive from '../../assets/кнопка новое неактивная.png';
-import newButtonActive from '../../assets/кнопка новое активная.png';
+import fallbackCover from '../../assets/prompt-card/фото для карточки промпта.png';
+import scrollFrame from '../../assets/prompt-redesign/окошко скролла промптов.png';
+import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
+import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
+import sortButtonActive from '../../assets/prompt-redesign/кнопка сортировка промпта актив.png';
+import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
+import newButtonActive from '../../assets/prompt-redesign/кнопка новое актив.png';
+import recentButtonInactive from '../../assets/prompt-redesign/кнопка недавние неактив.png';
+import recentButtonActive from '../../assets/prompt-redesign/кнопка недавние актив.png';
+import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
+import favoriteButtonActive from '../../assets/prompt-redesign/кнопка избранное актив.png';
+import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
+import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
+import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 
-// New assets
-import threePeopleBg from '../../assets/laba-icons/три человека на фон.png';
-import houseImage from '../../assets/laba-icons/картинка в карточке промпта.png';
+type PromptFilter = 'sort' | 'new' | 'recent' | 'favorites';
 
+const FILTER_BUTTONS: Array<{
+  key: PromptFilter | 'return';
+  left: number;
+  top: number;
+  activeSrc?: string;
+  inactiveSrc: string;
+}> = [
+  { key: 'return', left: 220, top: 732, inactiveSrc: returnButton },
+  { key: 'sort', left: 467, top: 732, activeSrc: sortButtonActive, inactiveSrc: sortButtonInactive },
+  { key: 'new', left: 714, top: 732, activeSrc: newButtonActive, inactiveSrc: newButtonInactive },
+  { key: 'recent', left: 343, top: 811, activeSrc: recentButtonActive, inactiveSrc: recentButtonInactive },
+  { key: 'favorites', left: 590, top: 811, activeSrc: favoriteButtonActive, inactiveSrc: favoriteButtonInactive },
+];
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
-  const searchInputRef = React.useRef<HTMLInputElement>(null);
-  const [searchValue, setSearchValue] = useState('');
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [activeFilter, setActiveFilter] = useState<PromptFilter | null>(null);
   const [likedCards, setLikedCards] = useState<string[]>(() => {
-    // Загружаем лайки из localStorage
     try {
       const saved = localStorage.getItem('metaflora_liked_prompts');
       return saved ? JSON.parse(saved) : [];
@@ -42,771 +47,231 @@ export const PromptFirstScreen: React.FC = () => {
       return [];
     }
   });
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  
-  // Новые состояния для загрузки из Supabase
   const [prompts, setPrompts] = useState<WorkshopPrompt[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Сохраняем лайки в localStorage при изменении
   useEffect(() => {
     localStorage.setItem('metaflora_liked_prompts', JSON.stringify(likedCards));
   }, [likedCards]);
 
-  // Загрузка промптов из Supabase
   useEffect(() => {
-    loadPrompts();
-  }, [selectedFilters]);
+    const loadPrompts = async () => {
+      setLoading(true);
+      setError(null);
 
-  // ПРИНУДИТЕЛЬНАЯ ОЧИСТКА ВСЕГО КЕША ПРОМПТОВ ПРИ ЗАГРУЗКЕ
-  useEffect(() => {
-    const keys = Object.keys(localStorage);
-    keys.forEach(key => {
-      if (key.includes('workshop_prompts') || key.includes('metaflora_content')) {
-        localStorage.removeItem(key);
-        console.log('Удален кеш:', key);
+      try {
+        const result = await getWorkshopPromptsWithCache({
+          isActive: true,
+          limit: 100,
+          offset: 0,
+        });
+
+        if (result.error) {
+          throw new Error(result.error);
+        }
+
+        setPrompts(result.data);
+      } catch (err) {
+        console.error('Error loading prompts:', err);
+        setError(String(err));
+      } finally {
+        setLoading(false);
       }
-    });
+    };
+
+    loadPrompts();
   }, []);
 
-  const loadPrompts = async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      // Загружаем ВСЕ активные промпты (фильтрация на фронте)
-      const result = await getWorkshopPromptsWithCache({
-        isActive: true,
-        limit: 100,
-        offset: 0,
-      });
+  const filteredPrompts = useMemo(() => {
+    let next = [...prompts];
 
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      // Фильтруем на фронте
-      let filtered = result.data;
-
-      // Фильтр "недавние"
-      if (selectedFilters.includes('недавние')) {
-        const recentIds = JSON.parse(localStorage.getItem('metaflora_recent_prompts') || '[]');
-        filtered = filtered.filter(p => recentIds.includes(p.id));
-      }
-      // Остальные фильтры (новое, топ-выбор)
-      else {
-        const activeTagFilters = selectedFilters.filter(f => 
-          !['избранное', 'вернуть', 'недавние'].includes(f)
-        );
-        
-        if (activeTagFilters.length > 0) {
-          filtered = filtered.filter(p => 
-            p.filter_tags?.some(tag => activeTagFilters.includes(tag))
-          );
-        }
-      }
-
-      setPrompts(filtered);
-    } catch (err) {
-      console.error('Error loading prompts:', err);
-      setError(String(err));
-    } finally {
-      setLoading(false);
+    if (activeFilter === 'favorites') {
+      next = next.filter((prompt) => likedCards.includes(prompt.id));
     }
-  };
 
-  const toggleFilter = (filter: string) => {
-    if (filter === 'вернуть') {
-      setSelectedFilters([]);
-    } else if (filter === 'избранное') {
-      // Избранное - тоггл
-      setSelectedFilters(prev => 
-        prev.includes(filter) ? [] : [filter]
-      );
-    } else {
-      // Остальные фильтры - только один активный
-      setSelectedFilters(prev => 
-        prev.includes(filter) ? [] : [filter]
-      );
+    if (activeFilter === 'recent') {
+      try {
+        const recentIds: string[] = JSON.parse(localStorage.getItem('metaflora_recent_prompts') || '[]');
+        next = recentIds
+          .map((id) => next.find((prompt) => prompt.id === id))
+          .filter(Boolean) as WorkshopPrompt[];
+      } catch {
+        next = [];
+      }
     }
-  };
 
-  const toggleLike = (cardId: string) => {
-    setLikedCards(prev =>
-      prev.includes(cardId)
-        ? prev.filter(id => id !== cardId)
-        : [...prev, cardId]
-    );
-  };
+    if (activeFilter === 'new') {
+      next = next.filter((prompt) => prompt.filter_tags?.some((tag) => tag == 'новое' || tag == 'новые'));
+    }
 
-  const isFilterActive = (filter: string) => {
-    return selectedFilters.includes(filter);
-  };
+    if (activeFilter === 'sort') {
+      next.sort((a, b) => a.title.localeCompare(b.title, 'ru'));
+    }
 
-  const showOnlyFavorites = selectedFilters.includes('избранное');
+    return next;
+  }, [activeFilter, likedCards, prompts]);
 
-  // Фильтруем промпты по избранному и поиску
-  let visiblePrompts = showOnlyFavorites 
-    ? prompts.filter(prompt => likedCards.includes(prompt.id))
-    : prompts;
-
-  // Фильтрация по поисковой строке (без алерта)
-  if (searchValue.trim()) {
-    const searchWords = searchValue.toLowerCase().trim().split(/\s+/);
-    visiblePrompts = visiblePrompts.filter(prompt => {
-      const searchableText = [
-        prompt.title,
-        prompt.description || '',
-        prompt.prompt_text || '',
-        ...(prompt.search_keywords || [])
-      ].join(' ').toLowerCase();
-
-      return searchWords.every(word => searchableText.includes(word));
-    });
-  }
-
-  // Позиции карточек в сетке (2x2)
-  const getCardPosition = (index: number) => {
-    const row = Math.floor(index / 2);
-    const col = index % 2;
-    return {
-      left: col === 0 ? '26px' : '448px',
-      top: `${27 + row * 812}px`,
-    };
-  };
-
-  // Рендер одной карточки с данными из Supabase
-  const renderCard = (prompt: WorkshopPrompt, index: number) => {
-    const position = getCardPosition(index);
-    const filterTag = prompt.filter_tags?.[0];
-
-    return (
-      <div key={prompt.id} style={{
-        position: 'absolute',
-        ...position,
-        width: '410px',
-        height: '782px',
-      }}>
-        {/* Черный фон */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          inset: 0,
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-        }} />
-
-        {/* Обложка промпта */}
-        <div style={{
-          position: 'absolute',
-          top: '3.45%',
-          right: '6.59%',
-          bottom: '50.64%',
-          left: '6.59%',
-          border: '2px solid rgba(0, 0, 0, 0.3)',
-          borderRadius: '25px',
-        }}>
-          <img 
-            src={prompt.cover_image_url || houseImage}
-            alt={prompt.title}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              if (target.src !== houseImage) {
-                target.src = houseImage;
-              }
-            }}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '25px',
-            }}
-          />
-        </div>
-
-        {/* Сердечко (лайк) */}
-        <img 
-          src={likedCards.includes(prompt.id) ? likeIcon : likeEmptyIcon}
-          alt="лайк"
-          onClick={() => toggleLike(prompt.id)}
-          style={{
-            position: 'absolute',
-            left: '42px',
-            top: '44px',
-            width: '36px',
-            height: '36px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Плашка с фильтром - только для "новое" (проверяем и "новые" для обратной совместимости) */}
-        {(filterTag === 'новое' || filterTag === 'новые') && (
-          <div className="blur-wave button-inner-glow" style={{
-            position: 'absolute',
-            right: '41px',
-            top: '44px',
-            minWidth: '101px',
-            height: '36px',
-            paddingLeft: '15px',
-            paddingRight: '15px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: 'calc(50% - 0.5px)',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              height: '19px',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '20px',
-              color: 'white',
-              textAlign: 'center',
-              lineHeight: 0,
-              whiteSpace: 'nowrap',
-            }}>
-              <p style={{ lineHeight: 'normal', whiteSpace: 'nowrap', margin: 0 }}>новое</p>
-            </div>
-          </div>
-        )}
-
-        {/* Заголовок */}
-        <div style={{
-          position: 'absolute',
-          top: '54.48%',
-          right: '10%',
-          bottom: '38.11%',
-          left: '9.76%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 700,
-          fontSize: '40px',
-          color: 'white',
-          lineHeight: 0,
-        }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{prompt.title}</p>
-        </div>
-
-        {/* Описание */}
-        <div style={{
-          position: 'absolute',
-          top: '64.58%',
-          right: '10%',
-          bottom: '23.27%',
-          left: '9.76%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 300,
-          fontSize: '32px',
-          color: 'white',
-          lineHeight: 0,
-        }}>
-          <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>{prompt.description || ''}</p>
-        </div>
-
-        {/* Кнопка "перейти" */}
-        <FigmaReadButton
-          label="перейти"
-          onClick={() => navigate(`/prompt-card/${prompt.id}`)}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            bottom: '63px',
-          }}
-        />
-      </div>
-    );
+  const toggleLike = (event: React.MouseEvent<HTMLImageElement>, cardId: string) => {
+    event.stopPropagation();
+    setLikedCards((prev) => (prev.includes(cardId) ? prev.filter((id) => id !== cardId) : [...prev, cardId]));
   };
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '100vw',
-      minHeight: '100vh',
-      background: '#020101',
-      overflow: 'hidden',
-    }}>
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
+    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <ThreeBg />
+        <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
-      <div style={{
-        position: 'relative',
-        width: '1180px',
-        minHeight: '2550px',
-        transform: `scale(${scale})`,
-        transformOrigin: 'top left',
-      }}>        {/* Header - Logo */}
-        <div 
-          onClick={() => navigate('/main-dashboard-premium')}
-          style={{
-            position: 'absolute',
-            height: '131px',
-            left: '500px',
-            top: '61px',
-            width: '186px',
-            cursor: 'pointer',
-          }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={smallLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                maxWidth: 'none',
-                top: '-16.38%',
-                width: '143.34%',
-              }}
-            />
-          </div>
+        <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
+            МЕТАФЛОРА* цех
+          </p>
         </div>
 
-        {/* Кнопка "написать в поддержку" */}
-        <img 
-          src={supportButtonPNG}
-          alt="написать в поддержку"
-          style={{
-            position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Hero Image */}
-        <div style={{
-          position: 'absolute',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '377px',
-          left: '155px',
-          borderRadius: '30px',
-          top: '224px',
-          width: '880px',
-        }}>
-          <img 
-            src={houseImage}
-            alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '30px',
-            }}
-          />
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '840px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            создавайте ИИ-ассистентов или повторяйте горячие тренды - промпты на любой вкус
+          </p>
         </div>
 
-        {/* Search bar */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          border: '2px solid rgba(255, 255, 255, 0.3)',
-          height: '72px',
-          left: 'calc(50% + 3px)',
-          borderRadius: '62px',
-          top: '631px',
-          transform: 'translateX(-50%)',
-          width: '876px',
-          display: 'flex',
-          alignItems: 'center',
-          paddingLeft: '30px',
-        }}>
-          <img 
-            src={searchIconPNG}
-            alt=""
-            style={{
-              width: '24px',
-              height: '24px',
-              marginRight: '15px',
-            }}
-          />
-          <input
-            ref={searchInputRef}
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            onFocus={() => setIsSearchFocused(true)}
-            onBlur={() => setIsSearchFocused(false)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                searchInputRef.current?.blur();
-                // Показываем алерт если ничего не найдено
-                if (visiblePrompts.length === 0 && prompts.length > 0) {
-                  const telegram = (window as any).Telegram;
-                  if (telegram?.WebApp?.showPopup) {
-                    telegram.WebApp.showPopup({
-                      message: 'промпт не найден. проверьте корректность написания'
-                    });
-                  }
-                  // Очищаем поисковую строку
-                  setSearchValue('');
+        <div style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '302px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+          <img src={workshopGif} alt="мастерская в окошке флоры" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+
+        {FILTER_BUTTONS.map((button) => {
+          const isActive = button.key !== 'return' && activeFilter === button.key
+          const src = isActive ? (button.activeSrc || button.inactiveSrc) : button.inactiveSrc
+
+          return (
+            <img
+              key={button.key}
+              src={src}
+              alt={button.key}
+              className={button.key === 'return' ? undefined : 'button-inner-glow'}
+              onClick={() => {
+                if (button.key === 'return') {
+                  setActiveFilter(null);
+                  return;
                 }
-              }
-            }}
-            placeholder={isSearchFocused ? '' : 'промпт для ИИ-копирайтера любых текстов'}
-            enterKeyHint="search"
-            style={{
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 300,
-              color: '#848484',
-              fontSize: '32px',
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              width: '100%',
-            }}
-          />
-        </div>
 
-        {/* Filter: вернуть */}
-        <img
-          src={returnButton}
-          alt="вернуть"
-          onClick={() => toggleFilter('вернуть')}
-          style={{
-            position: 'absolute',
-            left: '220px',
-            top: '733px',
-            width: '247px',
-            height: '80px',
-            cursor: 'pointer',
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Filter: избранное */}
-        <img
-          src={isFilterActive('избранное') ? favoriteButtonActive : favoriteButtonInactive}
-          alt="избранное"
-          onClick={() => toggleFilter('избранное')}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '467px',
-            top: '733px',
-            width: '247px',
-            height: '80px',
-            cursor: 'pointer',
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Filter: недавние */}
-        <img
-          src={isFilterActive('недавние') ? recentButtonActive : recentButtonInactive}
-          alt="недавние"
-          onClick={() => toggleFilter('недавние')}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '714px',
-            top: '733px',
-            width: '247px',
-            height: '80px',
-            cursor: 'pointer',
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Filter: топ-выбор */}
-        <img
-          src={isFilterActive('топ-выбор') ? topPickButtonActive : topPickButtonInactive}
-          alt="топ-выбор"
-          onClick={() => toggleFilter('топ-выбор')}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '343px',
-            top: '812px',
-            width: '247px',
-            height: '80px',
-            cursor: 'pointer',
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Filter: новое */}
-        <img
-          src={isFilterActive('новое') ? newButtonActive : newButtonInactive}
-          alt="новое"
-          onClick={() => toggleFilter('новое')}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '590px',
-            top: '812px',
-            width: '247px',
-            height: '80px',
-            cursor: 'pointer',
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Empty Cards window - exact Figma coordinates */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          height: '1121px',
-          left: 'calc(50% + 3px)',
-          borderRadius: '30px',
-          top: '921px',
-          transform: 'translateX(-50%)',
-          width: '884px',
-          overflow: 'auto',
-          zIndex: 10,
-          padding: '22px',
-        }}>
-          {/* Рендерим отфильтрованные карточки */}
-
-          {/* Error state */}
-          {error && !loading && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '400px',
-              transform: 'translateX(-50%)',
-              color: '#ff4444',
-              fontSize: '20px',
-              fontFamily: 'Gotham Pro',
-              textAlign: 'center',
-              maxWidth: '600px',
-            }}>
-              Ошибка загрузки: {error}
-            </div>
-          )}
-
-          {/* Empty state - только для избранного */}
-          {!loading && !error && visiblePrompts.length === 0 && showOnlyFavorites && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '400px',
-              transform: 'translateX(-50%)',
-              color: 'rgba(255, 255, 255, 0.6)',
-              fontSize: '20px',
-              fontFamily: 'Gotham Pro',
-              textAlign: 'center',
-            }}>
-              Нет избранных промптов
-            </div>
-          )}
-
-          {/* Render prompts */}
-          {!loading && !error && visiblePrompts.map((prompt, index) => renderCard(prompt, index))}
-        </div>
-
-        {/* Три человека на фоне ПОД блюр-фреймом */}
-        <div style={{
-          position: 'absolute',
-          height: '474px',
-          left: '147px',
-          top: '1450px',
-          width: '886px',
-          zIndex: 0,
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={threePeopleBg}
-              alt=""
+                const nextFilter = button.key;
+                setActiveFilter((prev) => (prev === nextFilter ? null : nextFilter));
+              }}
               style={{
                 position: 'absolute',
-                height: '222.88%',
-                left: '-39.72%',
-                maxWidth: 'none',
-                top: '-55.58%',
-                width: '179.18%',
+                left: `${button.left}px`,
+                top: `${button.top}px`,
+                width: '247px',
+                height: '80px',
+                objectFit: 'contain',
+                cursor: 'pointer',
               }}
             />
+          );
+        })}
+
+        <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
+          <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+
+          <div
+            style={{
+              position: 'absolute',
+              left: '22px',
+              top: '24px',
+              width: '840px',
+              height: '1068px',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              paddingRight: '10px',
+            }}
+          >
+            {error ? (
+              <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontSize: '28px', color: '#ff7b7b', textAlign: 'center' }}>
+                ошибка загрузки: {error}
+              </div>
+            ) : loading ? (
+              <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontSize: '28px', color: 'rgba(255,255,255,0.7)' }}>
+                загружаем промпты
+              </div>
+            ) : filteredPrompts.length === 0 ? (
+              <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontSize: '28px', color: 'rgba(255,255,255,0.7)' }}>
+                промпты не найдены
+              </div>
+            ) : (
+              filteredPrompts.map((prompt, index) => {
+                const isNew = prompt.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые');
+
+                return (
+                  <div
+                    key={prompt.id}
+                    onClick={() => navigate(`/prompt-card/${prompt.id}`)}
+                    style={{
+                      position: 'relative',
+                      width: '831px',
+                      height: '1064px',
+                      marginBottom: index === filteredPrompts.length - 1 ? 0 : '47px',
+                      borderRadius: '30px',
+                      background: '#000',
+                      border: '4px solid rgba(255,255,255,0.3)',
+                      boxSizing: 'border-box',
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
+                      <img
+                        src={prompt.cover_image_url || fallbackCover}
+                        alt={prompt.title}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          if (target.src !== fallbackCover) {
+                            target.src = fallbackCover;
+                          }
+                        }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
+
+                    <img
+                      src={likedCards.includes(prompt.id) ? likeIcon : likeEmptyIcon}
+                      alt="лайк"
+                      onClick={(event) => toggleLike(event, prompt.id)}
+                      style={{ position: 'absolute', left: '45px', top: '39px', width: '32px', height: '32px', cursor: 'pointer' }}
+                    />
+
+                    {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', right: '41px', top: '43px', width: '102px', height: '36px', objectFit: 'contain' }} /> : null}
+
+                    <div style={{ position: 'absolute', left: '83px', top: '786px', width: '665px' }}>
+                      <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
+                        {prompt.title}
+                      </p>
+                    </div>
+
+                    <div style={{ position: 'absolute', left: '47px', top: '865px', width: '737px' }}>
+                      <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
+                        {prompt.description || ''}
+                      </p>
+                    </div>
+
+                    <div style={{ position: 'absolute', left: '294px', top: '962px', width: '61px', height: '43px' }}>
+                      <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    </div>
+
+                    <div style={{ position: 'absolute', left: '367px', top: '971px' }}>
+                      <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+                        Редакция
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
 
-        {/* Футер - ТОЧНАЯ КОПИЯ из about-prompt */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 5px)',
-          top: '2071px',
-          transform: 'translateX(-50%)',
-          width: '888px',
-          height: '124px',
-        }}>
-          {/* Логотип в подвале */}
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </div>
-          
-          {/* Copyright текст */}
-          <div style={{
-            position: 'absolute',
-            left: '2px',
-            top: '56px',
-            width: '433px',
-            height: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '20px',
-            lineHeight: '0',
-            color: 'white',
-          }}>
-            <p style={{ 
-              margin: 0,
-              lineHeight: 'normal',
-              whiteSpace: 'pre-wrap',
-            }}>
-              Copyright © Все права защищены.
-            </p>
-          </div>
-          
-          {/* Подложка под соцсети */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
-          
-          {/* Иконки соцсетей */}
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            {/* Первая иконка */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIconsFooter}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            {/* Группа иконок */}
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIconsFooter}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Footer />
       </div>
     </div>
   );

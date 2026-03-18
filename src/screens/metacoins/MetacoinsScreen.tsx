@@ -7,6 +7,7 @@ import card30000 from '../../assets/metacoins-redesign/карточка поку
 import card150000 from '../../assets/metacoins-redesign/карточка покупки 150к метакоинов.png';
 import activePack30000 from '../../assets/metacoins-redesign/кнопка активный пак метакоинов на 30к.png';
 import activePack150000 from '../../assets/metacoins-redesign/кнопка активный пак метакоинов на 150к.png';
+import choiceWindow from '../../assets/metacoins-redesign/окошко выбор пака метакоинов.png';
 import buyButton from '../../assets/metacoins-redesign/кнопка большая купить метакоины.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
@@ -56,7 +57,13 @@ export const MetacoinsScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '143px', top: '399px', width: '894px', height: '79.25px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', background: 'rgba(0,0,0,0.95)', overflow: 'hidden', boxSizing: 'border-box' }}>
+        <div style={{ position: 'absolute', left: '143px', top: '399px', width: '894px', height: '79px' }}>
+          <img
+            src={choiceWindow}
+            alt="выбор пака метакоинов"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+          />
+
           <button
             type="button"
             onClick={() => setSelectedPack('30000')}
@@ -64,7 +71,33 @@ export const MetacoinsScreen: React.FC = () => {
           >
             {selectedPack === '30000' ? (
               <img src={activePack30000} alt="30 000 (-10%)" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
-            ) : null}
+            ) : (
+              <>
+                <img
+                  src={metacoinSmall}
+                  alt=""
+                  style={{ position: 'absolute', left: '56px', top: '21px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '220.5px',
+                    top: '29px',
+                    transform: 'translate(-50%, -50%)',
+                    fontFamily: 'Cygre',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    lineHeight: '1',
+                    color: 'white',
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  30 000 (-10%)
+                </div>
+              </>
+            )}
           </button>
 
           <button
@@ -74,24 +107,34 @@ export const MetacoinsScreen: React.FC = () => {
           >
             {selectedPack === '150000' ? (
               <img src={activePack150000} alt="150 000 (-20%)" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
-            ) : null}
+            ) : (
+              <>
+                <img
+                  src={metacoinSmall}
+                  alt=""
+                  style={{ position: 'absolute', left: '56px', top: '21px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '220.5px',
+                    top: '29px',
+                    transform: 'translate(-50%, -50%)',
+                    fontFamily: 'Cygre',
+                    fontWeight: 700,
+                    fontSize: '40px',
+                    lineHeight: '1',
+                    color: 'white',
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  150 000 (-20%)
+                </div>
+              </>
+            )}
           </button>
-
-          {selectedPack === '30000' ? (
-            <>
-              <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '478px', top: '21px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', left: '529px', top: '18px', width: '296px', display: 'flex', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-                150 000 (-20%)
-              </div>
-            </>
-          ) : (
-            <>
-              <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '56px', top: '21px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', left: '100px', top: '18px', width: '296px', display: 'flex', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white', pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-                30 000 (-10%)
-              </div>
-            </>
-          )}
         </div>
 
         <img
