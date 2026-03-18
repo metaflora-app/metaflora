@@ -1,843 +1,193 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
 import { getCompletedLessons } from '../../utils/userProgress';
 import { getTelegramUserId } from '../../utils/labaApi';
 
-// Images
-import bgPattern from '../../assets/figma-welcome/pattern.png';
-import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import academyBg from '../../assets/main-dashboard/фон академия.png';
-import labaBg from '../../assets/main-dashboard/фон лаба.png';
-import tsekhBg from '../../assets/main-dashboard/фон цех.png';
-import poligonBg from '../../assets/main-dashboard/фон полигон.png';
-import studyButton from '../../assets/about-screens/кнопка изучить.png';
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
+import studyButton from '../../assets/about-screens/кнопка изучить.png';
+import systemBg from '../../assets/academy-redesign/фон система.png';
+import promptingBg from '../../assets/academy-redesign/фон промптинг.png';
+import artBg from '../../assets/academy-redesign/фон искусство.png';
+import automationBg from '../../assets/academy-redesign/фон автоматизация.png';
+import progressActive from '../../assets/academy-redesign/прогресс-бар.png';
+import progressPassive from '../../assets/academy-redesign/прогресс-бар пассив.png';
+
+interface CourseCardConfig {
+  key: string;
+  route: string;
+  bg: string;
+  top: number;
+  height: number;
+  bgInset: string;
+  textInset: string;
+  buttonTop: number;
+  buttonLeft: number;
+  progressTop: number;
+  progressLeft: number;
+  description: string;
+}
+
+const courseCards: CourseCardConfig[] = [
+  {
+    key: 'система',
+    route: '/academy-course-system',
+    bg: systemBg,
+    top: 426,
+    height: 249,
+    bgInset: '0 49.78% 0 0',
+    textInset: '0 0 0 50.22%',
+    buttonTop: 91,
+    buttonLeft: 96,
+    progressTop: 20,
+    progressLeft: 25,
+    description: 'введение в простейшую автоматизацию, создание LLM-агента с нуля и тонкая настройка реалистичного ИИ-аватара в HeyGen',
+  },
+  {
+    key: 'промптинг',
+    route: '/academy-course-prompting',
+    bg: promptingBg,
+    top: 704,
+    height: 250,
+    bgInset: '0.4% 49.78% 0 0',
+    textInset: '0.4% 0 0 50.22%',
+    buttonTop: 86,
+    buttonLeft: 96,
+    progressTop: 21,
+    progressLeft: 25,
+    description: 'самый подробный курс по промпт-инжинирингу: zero-shot, one-shot и few-shot техники, работа с markdown и JSON-форматами, структурирование ответов моделей',
+  },
+  {
+    key: 'искусство',
+    route: '/academy-course-art',
+    bg: artBg,
+    top: 984,
+    height: 249,
+    bgInset: '0 49.66% 0 0.11%',
+    textInset: '0 0 0 50.32%',
+    buttonTop: 85,
+    buttonLeft: 96,
+    progressTop: 20,
+    progressLeft: 25,
+    description: 'разбор лучших ИИ-моделей для генерации изображений и видео, создание 360 character sheet step-by-step и приёмы создания cinematic / продуктовых шотов',
+  },
+  {
+    key: 'автоматизация',
+    route: '/academy-course-automation',
+    bg: automationBg,
+    top: 1264,
+    height: 249,
+    bgInset: '0 49.89% 0 -0.11%',
+    textInset: '0 0 0 49.97%',
+    buttonTop: 85,
+    buttonLeft: 98,
+    progressTop: 20,
+    progressLeft: 25,
+    description: 'все возможности ИИ-автоматизации на текущий момент: работа с n8n, воркфлоу под бизнес-задачи и вайбкодинг от идеи до готового MVP',
+  },
+];
 
 export const AcademyCoursesAllScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  
-  const [totalLessons, setTotalLessons] = useState(0);
-  const [completedLessons, setCompletedLessons] = useState(0);
-  const [courseStatuses, setCourseStatuses] = useState<{[key: string]: 'not_started' | 'in_progress' | 'completed'}>({});
+  const [totalLessons, setTotalLessons] = React.useState(0);
+  const [completedLessons, setCompletedLessons] = React.useState(0);
+  const [courseStatuses, setCourseStatuses] = React.useState<Record<string, 'not_started' | 'in_progress' | 'completed'>>({});
 
-  useEffect(() => {
-    // МГНОВЕННАЯ загрузка из кэша
-    const cached = localStorage.getItem('academy-progress-cache');
-    if (cached) {
+  React.useEffect(() => {
+    const calculateProgress = async () => {
       try {
-        const data = JSON.parse(cached);
-        setTotalLessons(data.total || 0);
-        setCompletedLessons(data.completed || 0);
-        setCourseStatuses(data.statuses || {});
-      } catch (e) {
-        console.error('Error loading cache:', e);
-      }
-    }
-    
-    // Потом обновляем в фоне
-    calculateProgress();
-    
-    // Пересчитывать при возврате на экран
-    const handleFocus = () => calculateProgress();
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        calculateProgress();
-      }
-    };
-    
-    window.addEventListener('focus', handleFocus);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    return () => {
-      window.removeEventListener('focus', handleFocus);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, []);
+        const userId = getTelegramUserId();
+        if (!userId) return;
 
-  const calculateProgress = async () => {
-    try {
-      const userId = getTelegramUserId();
-      if (!userId) return;
-      
-      const courseTypes = ['искусство', 'промптинг', 'система', 'автоматизация'];
-      const completedLessonIds = await getCompletedLessons(userId);
-      
-      let total = 0;
-      const statuses: {[key: string]: 'not_started' | 'in_progress' | 'completed'} = {};
-      
-      // ПАРАЛЛЕЛЬНЫЕ запросы вместо последовательных
-      const coursePromises = courseTypes.map(async (courseType) => {
-        const courseResult = await getAcademyCourses({ courseType, isActive: true });
-        if (!courseResult.data || courseResult.data.length === 0) return null;
-        
-        const courseId = courseResult.data[0].id;
-        const lessonsResult = await getAcademyLessons(courseId, { isActive: true });
-        const lessons = lessonsResult.data || [];
-        
-        const completedInCourse = lessons.filter(l => completedLessonIds.includes(l.id)).length;
-        
-        let status: 'not_started' | 'in_progress' | 'completed';
-        if (completedInCourse === 0) {
-          status = 'not_started';
-        } else if (completedInCourse === lessons.length && lessons.length > 0) {
-          status = 'completed';
-        } else {
-          status = 'in_progress';
+        const completedIds = await getCompletedLessons(userId);
+        const results = await Promise.all(
+          ['искусство', 'промптинг', 'система', 'автоматизация'].map(async (courseType) => {
+            const courseResult = await getAcademyCourses({ courseType, isActive: true });
+            const courseId = courseResult.data?.[0]?.id;
+            if (!courseId) return null;
+            const lessonsResult = await getAcademyLessons(courseId, { isActive: true });
+            const lessons = lessonsResult.data || [];
+            const completedInCourse = lessons.filter((lesson) => completedIds.includes(lesson.id)).length;
+            const status: 'not_started' | 'in_progress' | 'completed' = completedInCourse === 0
+              ? 'not_started'
+              : completedInCourse === lessons.length
+                ? 'completed'
+                : 'in_progress';
+            return { courseType, lessonsCount: lessons.length, status };
+          })
+        );
+
+        const nextStatuses: Record<string, 'not_started' | 'in_progress' | 'completed'> = {};
+        let nextTotal = 0;
+        for (const result of results) {
+          if (!result) continue;
+          nextStatuses[result.courseType] = result.status;
+          nextTotal += result.lessonsCount;
         }
-        
-        return { courseType, lessons: lessons.length, status };
-      });
-      
-      const results = await Promise.all(coursePromises);
-      
-      results.forEach(result => {
-        if (result) {
-          total += result.lessons;
-          statuses[result.courseType] = result.status;
-        }
-      });
-      
-      setTotalLessons(total);
-      setCompletedLessons(completedLessonIds.length);
-      setCourseStatuses(statuses);
-      
-      // Кэшируем результат
-      localStorage.setItem('academy-progress-cache', JSON.stringify({
-        total,
-        completed: completedLessonIds.length,
-        statuses,
-        timestamp: Date.now(),
-      }));
-    } catch (error) {
-      console.error('Error calculating progress:', error);
-    }
-  };
+
+        setCourseStatuses(nextStatuses);
+        setTotalLessons(nextTotal);
+        setCompletedLessons(completedIds.length);
+      } catch (error) {
+        console.error('Error calculating academy progress:', error);
+      }
+    };
+
+    calculateProgress();
+  }, []);
 
   const percentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
-  const getCourseColor = (courseType: string) => {
-    const status = courseStatuses[courseType];
-    if (status === 'completed') return '#d5fc44';
-    if (status === 'in_progress') return '#f8d050';
-    return '#dc2626';
-  };
-
   return (
-    <div style={{
-      position: 'relative',
-      width: '100vw',
-      minHeight: '100vh',
-      background: '#020101',
-      overflow: 'hidden',
-    }}>
-      {/* Scaled container */}
-      <div style={{
-        position: 'relative',
-        width: '1180px',
-        minHeight: '2550px',
-        transform: `scale(${scale})`,
-        transformOrigin: 'top left',
-      }}>
-        {/* Background pattern - full screen */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${bgPattern})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'repeat',
-          }}
-        />        {/* Логотип маленький */}
-        <div 
-          onClick={() => navigate('/main-dashboard-premium')}
-          style={{
-            position: 'absolute',
-            left: '500px',
-            top: '61px',
-            width: '186px',
-            height: '131px',
-            cursor: 'pointer',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={logoSmall}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                top: '-16.38%',
-                width: '143.34%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
+    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <ThreeBg />
+        <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
+
+        <div style={{ position: 'absolute', left: '85px', top: '207px', width: '1020px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
+            библиотека курсов
+          </p>
         </div>
 
-        {/* Кнопка "написать в поддержку" */}
-        <img 
-          src={supportButton}
-          alt="написать в поддержку"
-          style={{
-            position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Заголовок "библиотека курсов" (7:2242) */}
-        <div style={{
-          position: 'absolute',
-          left: '85px',
-          top: '193px',
-          width: '1020px',
-          height: '80px',
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Inter',
-            fontWeight: 800,
-            fontSize: '80px',
-            lineHeight: 0,
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>библиотека курсов</p>
-          </div>
+        <div style={{ position: 'absolute', left: '94px', top: '291px', width: '792px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            пройдено {percentage}% курсов академии. Сongratulations!
+          </p>
         </div>
 
-        {/* Подзаголовок (7:2243) */}
-        <div style={{
-          position: 'absolute',
-          left: '94px',
-          top: '293px',
-          width: '792px',
-          height: '80px',
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontSize: '40px',
-            lineHeight: 0,
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>пройдено </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 700 }}>{percentage}% уроков академии. </span>
-              <span style={{ fontFamily: 'Gotham Pro', fontWeight: 300 }}>Сongratulations!</span>
-            </p>
-          </div>
-        </div>
+        <img src={peopleLogo} alt="" style={{ position: 'absolute', left: '141px', top: '741px', width: '895px', height: '967px', objectFit: 'contain', pointerEvents: 'none' }} />
 
-        {/* Большое лого "люди на фоне" (29:548) - ПОД карточками, узкое */}
-        <img 
-          src={peopleLogo}
-          alt="МЕТАФЛОРА*"
-          style={{
-            position: 'absolute',
-            left: '145px',
-            top: '741px',
-            width: '890px',
-            height: '1166px',
-            objectFit: 'contain',
-          }}
-        />
+        {courseCards.map((card) => {
+          const progressSrc = courseStatuses[card.key] === 'not_started' ? progressPassive : progressActive;
+          return (
+            <div key={card.key} style={{ position: 'absolute', left: '141px', top: `${card.top}px`, width: '894px', height: `${card.height}px` }}>
+              <div style={{ position: 'absolute', inset: card.bgInset, borderRadius: '26px', overflow: 'hidden' }}>
+                <img src={card.bg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '26px' }} />
+              </div>
 
-        {/* Карточка 1 - Академия / Система (29:431) */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '413px',
-          width: '894px',
-          height: '249px',
-        }}>
-          {/* Фон академия - левая половина */}
-          <div style={{
-            position: 'absolute',
-            inset: '2.01% 49.78% 1.2% 0',
-          }}>
-            <img 
-              src={academyBg}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '26px',
-              }}
-            />
-          </div>
+              <div style={{ position: 'absolute', inset: card.textInset, backdropFilter: 'blur(50px)', background: 'black', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', left: '28px', right: '28px', top: '32px', bottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
+                  {card.description}
+                </div>
+              </div>
 
-          {/* Текст справа - черная карточка */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0 0 0 50.22%',
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: '8.43% 4% 8.43% 4%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '27px',
-              lineHeight: '1.1',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              <p style={{ margin: 0 }}>
-                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
-              </p>
-            </div>
-          </div>
+              <img src={progressSrc} alt="прогресс" style={{ position: 'absolute', left: `${card.progressLeft}px`, top: `${card.progressTop}px`, width: '38px', height: '20px', objectFit: 'contain' }} />
 
-          {/* Кнопка "изучить" */}
-          <img 
-            src={studyButton}
-            alt="изучить"
-            onClick={() => navigate('/academy-course-system')}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '96px',
-              top: '91px',
-              width: '247px',
-              height: '79px',
-              cursor: 'pointer',
-              zIndex: 10,
-            }}
-          />
-
-          {/* Индикатор прогресса (29:521) - ПОВЕРХ */}
-          <div style={{
-            position: 'absolute',
-            left: '27px',
-            top: '32px',
-            width: '36px',
-            height: '36px',
-            zIndex: 20,
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: '38px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: '11px',
-              transform: 'translateX(-50%)',
-              width: '16px',
-              height: '16px',
-              backdropFilter: 'blur(50px)',
-              background: getCourseColor('система'),
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-          </div>
-        </div>
-
-        {/* Карточка 2 - Лаба / Искусство (29:434) */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '726px',
-          width: '894px',
-          height: '250px',
-        }}>
-          {/* Фон лаба - левая половина */}
-          <div style={{
-            position: 'absolute',
-            inset: '0 49.78% 0.4% 0',
-          }}>
-            <img 
-              src={labaBg}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '30px',
-              }}
-            />
-          </div>
-
-          {/* Текст справа - черная карточка */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0.4% 0 0 50.22%',
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: '8.43% 4% 8.43% 4%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '27px',
-              lineHeight: '1.1',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              <p style={{ margin: 0 }}>
-                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
-              </p>
-            </div>
-          </div>
-
-          {/* Кнопка "изучить" */}
-          <img 
-            src={studyButton}
-            alt="изучить"
-            onClick={() => navigate('/academy-course-art')}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '96px',
-              top: '86px',
-              width: '247px',
-              height: '79px',
-              cursor: 'pointer',
-              zIndex: 10,
-            }}
-          />
-
-          {/* Индикатор прогресса (29:506) - ПОВЕРХ */}
-          <div style={{
-            position: 'absolute',
-            left: '26px',
-            top: '27px',
-            width: '38px',
-            height: '38px',
-            zIndex: 20,
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: '38px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: '11px',
-              transform: 'translateX(-50%)',
-              width: '16px',
-              height: '16px',
-              backdropFilter: 'blur(50px)',
-              background: getCourseColor('искусство'),
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-          </div>
-        </div>
-
-        {/* Карточка 3 - Цех / Промптинг (29:433) */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '1041px',
-          width: '894px',
-          height: '249px',
-        }}>
-          {/* Фон цех - левая половина */}
-          <div style={{
-            position: 'absolute',
-            inset: '0 49.68% 0 0',
-          }}>
-            <img 
-              src={tsekhBg}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '30px',
-              }}
-            />
-          </div>
-
-          {/* Текст справа - черная карточка */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0 0 0 50.32%',
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: '8.43% 4% 8.43% 4%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '27px',
-              lineHeight: '1.1',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              <p style={{ margin: 0 }}>
-                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
-              </p>
-            </div>
-          </div>
-
-          {/* Кнопка "изучить" */}
-          <img 
-            src={studyButton}
-            alt="изучить"
-            onClick={() => navigate('/academy-course-prompting')}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '96px',
-              top: '85px',
-              width: '247px',
-              height: '79px',
-              cursor: 'pointer',
-              zIndex: 10,
-            }}
-          />
-
-          {/* Индикатор прогресса (29:552) - ПОВЕРХ */}
-          <div style={{
-            position: 'absolute',
-            left: '28px',
-            top: '27px',
-            width: '36px',
-            height: '36px',
-            zIndex: 20,
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: '38px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: '11px',
-              transform: 'translateX(-50%)',
-              width: '16px',
-              height: '16px',
-              backdropFilter: 'blur(50px)',
-              background: getCourseColor('промптинг'),
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-          </div>
-        </div>
-
-        {/* Карточка 4 - Полигон / Автоматизация (29:432) */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '1355px',
-          width: '894px',
-          height: '249px',
-        }}>
-          {/* Фон полигон - левая половина */}
-          <div style={{
-            position: 'absolute',
-            inset: '0 50.05% 0 0',
-          }}>
-            <img 
-              src={poligonBg}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '30px',
-              }}
-            />
-          </div>
-
-          {/* Текст справа - черная карточка */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            inset: '0 0 0 49.97%',
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
-            overflow: 'clip',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: '8.43% 4% 8.43% 4%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '27px',
-              lineHeight: '1.1',
-              color: 'white',
-              textAlign: 'center',
-            }}>
-              <p style={{ margin: 0 }}>
-                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
-              </p>
-            </div>
-          </div>
-
-          {/* Кнопка "изучить" */}
-          <img 
-            src={studyButton}
-            alt="изучить"
-            onClick={() => navigate('/academy-course-automation')}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '98px',
-              top: '85px',
-              width: '247px',
-              height: '79px',
-              cursor: 'pointer',
-              zIndex: 10,
-            }}
-          />
-
-          {/* Индикатор прогресса (29:551) - ПОВЕРХ */}
-          <div style={{
-            position: 'absolute',
-            left: '26px',
-            top: '27px',
-            width: '36px',
-            height: '36px',
-            zIndex: 20,
-          }}>
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              transform: 'translateX(-50%)',
-              width: '38px',
-              height: '38px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-            <div className="blur-wave" style={{
-              position: 'absolute',
-              left: '50%',
-              top: '11px',
-              transform: 'translateX(-50%)',
-              width: '16px',
-              height: '16px',
-              backdropFilter: 'blur(50px)',
-              background: getCourseColor('автоматизация'),
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-            }} />
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 5px)',
-          top: '2071px',
-          transform: 'translateX(-50%)',
-          width: '888px',
-          height: '124px',
-        }}>
-          {/* Логотип в подвале */}
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
+              <img
+                src={studyButton}
+                alt="изучить"
+                onClick={() => navigate(card.route)}
+                className="button-inner-glow"
+                style={{ position: 'absolute', left: `${card.buttonLeft}px`, top: `${card.buttonTop}px`, width: '247px', height: '79px', cursor: 'pointer' }}
               />
             </div>
-          </div>
-          
-          {/* Copyright текст */}
-          <div style={{
-            position: 'absolute',
-            left: '2px',
-            top: '56px',
-            width: '433px',
-            height: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '20px',
-            lineHeight: '0',
-            color: 'white',
-          }}>
-            <p style={{ 
-              margin: 0,
-              lineHeight: 'normal',
-              whiteSpace: 'pre-wrap',
-            }}>
-              Copyright © Все права защищены.
-            </p>
-          </div>
-          
-          {/* Подложка под соцсети */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
-          
-          {/* Иконки соцсетей */}
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })}
+
+        <Footer />
       </div>
     </div>
   );
