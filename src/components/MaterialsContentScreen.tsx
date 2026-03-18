@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from './ScreenLayout';
 import { convertPngToJpeg } from '../utils/imageConverter';
 
-import promptBadge from '../assets/about-screens/промпт плашка.png';
-import materialsBadge from '../assets/about-screens/кнопка материалы.png';
+import promptBadge from '../assets/shared-redesign/плашка промпт.png';
 import downloadButton from '../assets/materials-redesign/кнопка скачать материалы.png';
+
+type BadgeTheme = 'academy' | 'article';
 
 interface ContentBlockLike {
   id: string;
@@ -22,7 +23,21 @@ interface MaterialsContentScreenProps {
   downloadCount: number;
   onSendMaterials: () => void;
   onContentScroll?: React.UIEventHandler<HTMLDivElement>;
+  badgeTheme?: BadgeTheme;
 }
+
+const materialsBadgeConfig: Record<BadgeTheme, { fontFamily: string; fontWeight: number; textWidth: string }> = {
+  academy: {
+    fontFamily: 'Gotham Pro',
+    fontWeight: 500,
+    textWidth: '167px',
+  },
+  article: {
+    fontFamily: 'Cygre',
+    fontWeight: 700,
+    textWidth: '150px',
+  },
+};
 
 export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   homeRoute,
@@ -33,10 +48,46 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   downloadCount,
   onSendMaterials,
   onContentScroll,
+  badgeTheme = 'academy',
 }) => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [expandedImage, setExpandedImage] = React.useState<string | null>(null);
+
+  const renderMaterialsBadge = () => {
+    const config = materialsBadgeConfig[badgeTheme];
+    return (
+      <div
+        style={{
+          width: '245.74px',
+          height: '79.35px',
+          margin: '0 auto 24px',
+          border: '4px solid rgba(255,255,255,0.3)',
+          borderRadius: '62px',
+          backdropFilter: 'blur(50px)',
+          background: 'rgba(0,0,0,0.9)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxSizing: 'border-box',
+        }}
+      >
+        <div
+          style={{
+            width: config.textWidth,
+            fontFamily: config.fontFamily,
+            fontWeight: config.fontWeight,
+            fontSize: '27px',
+            lineHeight: '1',
+            color: 'white',
+            textAlign: 'center',
+          }}
+        >
+          материалы
+        </div>
+      </div>
+    );
+  };
 
   const renderBlock = (block: ContentBlockLike) => {
     if (block.type === 'text') {
@@ -72,7 +123,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     if (block.type === 'prompt') {
       return (
         <div key={block.id} style={{ margin: '28px 0 30px' }}>
-          <img src={promptBadge} alt="промпт" className="button-inner-glow" style={{ width: '247px', height: '79px', objectFit: 'contain', display: 'block', margin: '0 auto 24px' }} />
+          <img src={promptBadge} alt="промпт" className="button-inner-glow" style={{ width: '249.65px', height: '80.95px', objectFit: 'contain', display: 'block', margin: '0 auto 24px' }} />
           <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
             {block.content}
           </div>
@@ -82,9 +133,10 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
 
     if (block.type === 'materials') {
       return (
-        <div key={block.id} style={{ margin: '28px 0 10px' }}>
-          <img src={materialsBadge} alt="материалы" className="button-inner-glow" style={{ width: '247px', height: '79px', objectFit: 'contain', display: 'block', margin: '0 auto 18px' }} />
+        <div key={block.id} style={{ margin: '34px 0 10px' }}>
+          {renderMaterialsBadge()}
           <button
+            type="button"
             onClick={onSendMaterials}
             style={{
               border: 'none',
@@ -94,7 +146,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              margin: '0 auto',
+              margin: '14px auto 0',
               cursor: 'pointer',
             }}
           >

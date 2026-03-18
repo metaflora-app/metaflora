@@ -129,6 +129,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       contentBlocks={contentBlocks}
       downloadCount={materials.length}
       onSendMaterials={handleSendMaterials}
+      badgeTheme="academy"
       onContentScroll={handleContentScroll}
     />
   );

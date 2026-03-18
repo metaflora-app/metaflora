@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { trackSubscriptionPurchase } from '../../utils/supabase';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 
-import tooltipImage from '../../assets/pricing/всплывашка про списание.png';
 import pricingCardMonth from '../../assets/pricing-redesign/карточка подписки 1 месяц.png';
 import pricingCardQuarter from '../../assets/pricing-redesign/карточка подписки 3 месяца.png';
 import activeMonthButton from '../../assets/pricing-redesign/кнопка активный месяц.png';
@@ -46,12 +45,6 @@ export const PricingScreen: React.FC = () => {
           </p>
         </div>
 
-        <img
-          src={tooltipImage}
-          alt="условия списания"
-          style={{ position: 'absolute', left: '581px', top: '278px', width: '287px', height: '174px', objectFit: 'contain' }}
-        />
-
         <div style={{ position: 'absolute', left: '143px', top: '399px', width: '894px', height: '79px' }}>
           <img
             src={choiceWindow}
@@ -60,29 +53,43 @@ export const PricingScreen: React.FC = () => {
           />
 
           <button
+            type="button"
             onClick={() => setSelectedPlan('1month')}
             style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
           >
             {selectedPlan === '1month' ? (
               <img src={activeMonthButton} alt="1 месяц" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
             ) : (
-              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white' }}>
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  paddingLeft: '40px',
+                  boxSizing: 'border-box',
+                  fontFamily: 'Cygre',
+                  fontWeight: 700,
+                  fontSize: '40px',
+                  lineHeight: '1',
+                  color: 'white',
+                  textAlign: 'left',
+                }}
+              >
                 1 месяц (-10%)
               </div>
             )}
           </button>
 
           <button
+            type="button"
             onClick={() => setSelectedPlan('3months')}
             style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
           >
             {selectedPlan === '3months' ? (
               <img src={activeQuarterButton} alt="3 месяца" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
-            ) : (
-              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white' }}>
-                3 месяца (-20%)
-              </div>
-            )}
+            ) : null}
           </button>
         </div>
 

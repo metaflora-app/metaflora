@@ -2,17 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
-import { getCompletedLessons } from '../../utils/userProgress';
 import { getTelegramUserId } from '../../utils/labaApi';
+import { getCompletedLessons } from '../../utils/userProgress';
 
 import peopleLogo from '../../assets/about-screens/лого люди на фон.png';
-import studyButton from '../../assets/about-screens/кнопка изучить.png';
 import systemBg from '../../assets/academy-redesign/фон система.png';
 import promptingBg from '../../assets/academy-redesign/фон промптинг.png';
 import artBg from '../../assets/academy-redesign/фон искусство.png';
 import automationBg from '../../assets/academy-redesign/фон автоматизация.png';
-import progressActive from '../../assets/academy-redesign/прогресс-бар.png';
-import progressPassive from '../../assets/academy-redesign/прогресс-бар пассив.png';
 
 interface CourseCardConfig {
   key: string;
@@ -88,12 +85,24 @@ const courseCards: CourseCardConfig[] = [
   },
 ];
 
+const getCourseProgressColor = (value: number): string => {
+  if (value > 80) {
+    return '#47D16C';
+  }
+
+  if (value >= 40) {
+    return '#F3D04F';
+  }
+
+  return '#FF5B5B';
+};
+
 export const AcademyCoursesAllScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [totalLessons, setTotalLessons] = React.useState(0);
   const [completedLessons, setCompletedLessons] = React.useState(0);
-  const [courseStatuses, setCourseStatuses] = React.useState<Record<string, 'not_started' | 'in_progress' | 'completed'>>({});
+  const [courseProgress, setCourseProgress] = React.useState<Record<string, number>>({});
 
   React.useEffect(() => {
     const calculateProgress = async () => {
@@ -106,30 +115,31 @@ export const AcademyCoursesAllScreen: React.FC = () => {
           ['искусство', 'промптинг', 'система', 'автоматизация'].map(async (courseType) => {
             const courseResult = await getAcademyCourses({ courseType, isActive: true });
             const courseId = courseResult.data?.[0]?.id;
-            if (!courseId) return null;
+            if (!courseId) {
+              return { courseType, lessonsCount: 0, completedInCourse: 0, percentage: 0 };
+            }
+
             const lessonsResult = await getAcademyLessons(courseId, { isActive: true });
             const lessons = lessonsResult.data || [];
             const completedInCourse = lessons.filter((lesson) => completedIds.includes(lesson.id)).length;
-            const status: 'not_started' | 'in_progress' | 'completed' = completedInCourse === 0
-              ? 'not_started'
-              : completedInCourse === lessons.length
-                ? 'completed'
-                : 'in_progress';
-            return { courseType, lessonsCount: lessons.length, status };
+            const percentage = lessons.length > 0 ? Math.round((completedInCourse / lessons.length) * 100) : 0;
+
+            return { courseType, lessonsCount: lessons.length, completedInCourse, percentage };
           })
         );
 
-        const nextStatuses: Record<string, 'not_started' | 'in_progress' | 'completed'> = {};
+        const nextProgress: Record<string, number> = {};
         let nextTotal = 0;
+        let nextCompleted = 0;
         for (const result of results) {
-          if (!result) continue;
-          nextStatuses[result.courseType] = result.status;
+          nextProgress[result.courseType] = result.percentage;
           nextTotal += result.lessonsCount;
+          nextCompleted += result.completedInCourse;
         }
 
-        setCourseStatuses(nextStatuses);
+        setCourseProgress(nextProgress);
         setTotalLessons(nextTotal);
-        setCompletedLessons(completedIds.length);
+        setCompletedLessons(nextCompleted);
       } catch (error) {
         console.error('Error calculating academy progress:', error);
       }
@@ -161,7 +171,8 @@ export const AcademyCoursesAllScreen: React.FC = () => {
         <img src={peopleLogo} alt="" style={{ position: 'absolute', left: '141px', top: '741px', width: '895px', height: '967px', objectFit: 'contain', pointerEvents: 'none' }} />
 
         {courseCards.map((card) => {
-          const progressSrc = courseStatuses[card.key] === 'not_started' ? progressPassive : progressActive;
+          const progressValue = courseProgress[card.key] ?? 0;
+          const progressColor = getCourseProgressColor(progressValue);
           return (
             <div key={card.key} style={{ position: 'absolute', left: '141px', top: `${card.top}px`, width: '894px', height: `${card.height}px` }}>
               <div style={{ position: 'absolute', inset: card.bgInset, borderRadius: '26px', overflow: 'hidden' }}>
@@ -174,15 +185,38 @@ export const AcademyCoursesAllScreen: React.FC = () => {
                 </div>
               </div>
 
-              <img src={progressSrc} alt="прогресс" style={{ position: 'absolute', left: `${card.progressLeft}px`, top: `${card.progressTop}px`, width: '38px', height: '20px', objectFit: 'contain' }} />
+              <div style={{ position: 'absolute', left: `${card.progressLeft}px`, top: `${card.progressTop}px`, width: '38px', height: '20px', padding: '2px', background: '#111723', borderRadius: '999px', boxSizing: 'border-box' }}>
+                <div style={{ width: '100%', height: '100%', borderRadius: '999px', background: progressColor }} />
+              </div>
 
-              <img
-                src={studyButton}
-                alt="изучить"
+              <button
+                type="button"
                 onClick={() => navigate(card.route)}
                 className="button-inner-glow"
-                style={{ position: 'absolute', left: `${card.buttonLeft}px`, top: `${card.buttonTop}px`, width: '247px', height: '79px', cursor: 'pointer' }}
-              />
+                style={{
+                  position: 'absolute',
+                  left: `${card.buttonLeft}px`,
+                  top: `${card.buttonTop}px`,
+                  width: '247px',
+                  height: '79px',
+                  border: '4px solid rgba(255,255,255,0.3)',
+                  borderRadius: '62px',
+                  background: 'rgba(0,0,0,0.9)',
+                  backdropFilter: 'blur(50px)',
+                  color: 'white',
+                  fontFamily: 'Cygre',
+                  fontWeight: 700,
+                  fontSize: '27px',
+                  lineHeight: '1',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0,
+                }}
+              >
+                изучить
+              </button>
             </div>
           );
         })}

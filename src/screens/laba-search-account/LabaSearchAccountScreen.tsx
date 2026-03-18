@@ -19,6 +19,7 @@ import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
 import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
 import supportButton from '../../assets/tour-video/support-button.png';
+import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 
 // Search account specific assets
 import promptPlate from '../../assets/laba-search-account/промпт плашка.png';
@@ -281,17 +282,19 @@ export const LabaSearchAccountScreen: React.FC = () => {
         </div>
 
         {/* Main card (109:626) - главная подложка */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          left: '88px',
-          top: '397px',
-          width: '1004px',
-          height: '1643px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255,255,255,0.1)',
-          border: '4px solid rgba(255,255,255,0.3)',
-          borderRadius: '30px',
-        }} />
+        <img
+          src={mainBackdrop}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '88px',
+            top: '397px',
+            width: '1004px',
+            height: '1643px',
+            objectFit: 'fill',
+            pointerEvents: 'none',
+          }}
+        />
 
         {/* Black card (109:631) - подложка вторая черная */}
         <div className="blur-wave" style={{

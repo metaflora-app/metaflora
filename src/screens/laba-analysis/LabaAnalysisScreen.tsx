@@ -22,6 +22,7 @@ import smallLogo from '../../assets/figma-welcome/logo-small.png';
 import supportButtonPNG from '../../assets/tour-video/support-button.png';
 import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
+import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 
 // Analysis-specific assets
 import openButtonPNG from '../../assets/laba-analysis/кнопка открыть рилс.png';
@@ -313,17 +314,19 @@ export const LabaAnalysisScreen: React.FC = () => {
         </div>
 
         {/* Outer background layer - 292:630 (главная подложка) */}
-        <div className="blur-wave" style={{
-          position: 'absolute',
-          left: '88px',
-          top: '399px',
-          width: '1004px',
-          height: '1643px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
-        }} />
+        <img
+          src={mainBackdrop}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '88px',
+            top: '399px',
+            width: '1004px',
+            height: '1643px',
+            objectFit: 'fill',
+            pointerEvents: 'none',
+          }}
+        />
 
         {/* Main card container - 292:631 (подложка вторая черная) - СКРОЛЛ СРАЗУ НА ТЕМНОЙ ОБЛАСТИ */}
         <div className="blur-wave" style={{

@@ -97,6 +97,7 @@ export const ArticleScreen: React.FC = () => {
       contentBlocks={contentBlocks}
       downloadCount={materials.length}
       onSendMaterials={handleSendMaterials}
+      badgeTheme="article"
     />
   );
 };
