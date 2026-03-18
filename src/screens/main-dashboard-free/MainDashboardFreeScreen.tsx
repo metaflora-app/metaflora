@@ -1,34 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Images
+import bgBase from '../../assets/figma-welcome/фон для эксперимента.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import bigLogo from '../../assets/demo-access-elements/лого большое в экране демо.png';
-import beaverAvatar from '../../assets/main-dashboard/бобер.png';
-import lamaAvatar from '../../assets/main-dashboard/лама.png';
-import cardBackground from '../../assets/main-dashboard/фон под карточку.png';
-import buttonBackground from '../../assets/main-dashboard/фон под кнопкой перейти.png';
-import payButton from '../../assets/main-dashboard/оплатить полный доступ поменьше.png';
-import goButton from '../../assets/main-dashboard/кнопка открыть.png';
+import supportPlashka from '../../assets/figma-welcome/плашка поддержка.png';
+import nnAvatar from '../../assets/main-dashboard/нн аватарка.png';
+import demoBg from '../../assets/main-dashboard/фон демо.png';
+import hiddenCard from '../../assets/main-dashboard/карточка что скрывается в полном.png';
+import openBtn from '../../assets/main-dashboard/кнопка открыть на подписочке.png';
+import payBtn from '../../assets/main-dashboard/кнопка оплатить доступ укороченная.png';
 
 export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
-
-  // Чередование бобер/лама при каждом заходе
-  const [isLama] = React.useState(() => {
-    const visits = parseInt(localStorage.getItem('avatar-visits') || '0');
-    localStorage.setItem('avatar-visits', String(visits + 1));
-    return visits % 2 === 1;
-  });
-
-  const avatar = isLama ? lamaAvatar : beaverAvatar;
-  const avatarText = isLama ? 'неопознанная лама' : 'неопознанный бобёр';
-
-  // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   return (
@@ -39,7 +24,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Scaled container */}
       <div style={{
         position: 'relative',
         width: '1180px',
@@ -47,478 +31,139 @@ export const MainDashboardFreeScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Background pattern (фон точки) */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
+        {/* Фон трёхслойный */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${bgBase})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${bgPattern})`, backgroundSize: 'cover', backgroundRepeat: 'repeat' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(2,1,1,0) 0%, rgba(2,1,1,0.6) 100%)' }} />
+
+        {/* Лого */}
+        <div style={{ position: 'absolute', left: '500px', top: '61px', width: '186px', height: '131px' }}>
+          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+            <img src={logoSmall} alt="МЕТАФЛОРА*" style={{
+              position: 'absolute', height: '131.84%', left: '-21.84%', top: '-16.38%', width: '143.34%', maxWidth: 'none',
+            }} />
+          </div>
+        </div>
+
+        {/* Поддержка */}
+        <img src={supportPlashka} alt="написать в поддержку" style={{
+          position: 'absolute', left: '829px', top: '97px', width: '247px', height: '78px', cursor: 'pointer',
         }} />
 
-        {/* Header - Маленькое лого */}
-        <div style={{
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={logoSmall}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                top: '-16.38%',
-                width: '143.34%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Header - Кнопка написать в поддержку */}
-        <img 
-          src={supportButton}
-          alt="написать в поддержку"
-          style={{
-            position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Приветствие "неопознанный бобёр" / "неопознанную ламу" */}
-        <div style={{
-          position: 'absolute',
-          left: '85px',
-          top: '199px',
-          width: '1020px',
-          height: '80px',
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Inter',
-            fontWeight: 800,
-            fontSize: '80px',
-            lineHeight: 0,
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>{avatarText}</p>
-          </div>
-        </div>
-
-        {/* Блок баланса и метакоины */}
-        <div style={{
-          position: 'absolute',
-          left: '79px',
-          top: '327px',
-          width: '1020px',
-          height: '200px',
-        }}>
-          {/* Аватар бобёр/лама */}
-          <img 
-            src={avatar}
-            alt={isLama ? 'лама' : 'бобёр'}
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '159px',
-              height: '159px',
-            }}
-          />
-
-          {/* Текст "гость" */}
-          <div style={{
-            position: 'absolute',
-            left: '193px',
-            top: '37px',
-            width: '135px',
-            height: '40px',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 400,
-            fontSize: '40px',
-            lineHeight: 0,
-            color: 'white',
-          }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>гость</p>
-          </div>
-
-          {/* Текст "демо-курс" */}
-          <div style={{
-            position: 'absolute',
-            left: '193px',
-            top: '76px',
-            width: '455px',
-            height: '40px',
-            fontFamily: 'Gotham Pro',
+        {/* Имя */}
+        <div style={{ position: 'absolute', left: '85px', top: '199px', width: '1020px' }}>
+          <p style={{
+            margin: 0,
+            fontFamily: 'Cygre',
             fontWeight: 700,
-            fontSize: '40px',
-            lineHeight: 0,
+            fontSize: '80px',
+            lineHeight: '1',
             color: 'white',
           }}>
-            <p style={{ margin: 0, lineHeight: '1' }}>демо-курс</p>
-          </div>
-
+            неопознанный бобёр
+          </p>
         </div>
 
-        {/* Карточка сервиса (составная) - 894×249px */}
-        <div style={{
-          position: 'absolute',
-          left: '141px',
-          top: '536px',
-          width: '894px',
-          height: '249px',
-        }}>
-          {/* 1. ЛЕВАЯ половина - фон под кнопкой (26:417) */}
+        {/* Аватар + статусы */}
+        <div style={{ position: 'absolute', left: '79px', top: '327px', width: '1020px', height: '200px' }}>
+          <img src={nnAvatar} alt="аватар" style={{
+            position: 'absolute', left: 0, top: 0, width: '159px', height: '159px', borderRadius: '79.5px', objectFit: 'cover',
+          }} />
           <div style={{
-            position: 'absolute',
-            inset: '2.01% 49.78% 1.2% 0',
+            position: 'absolute', left: '193px', top: '37px',
+            fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', color: 'rgba(255,255,255,0.6)',
           }}>
-            <img 
-              src={buttonBackground}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '26px',
-              }}
-            />
+            гость
           </div>
+          <div style={{
+            position: 'absolute', left: '193px', top: '80px',
+            fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', color: 'white',
+          }}>
+            свободный доступ
+          </div>
+        </div>
 
-          {/* 2. ПРАВАЯ половина - черная карточка с текстом (26:416) */}
-          <div 
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              inset: '2.01% 0 0 50.22%',
-              backdropFilter: 'blur(50px)',
-              background: 'black',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              overflow: 'clip',
-            }}>
+        {/* Карточка демо-курса */}
+        <div style={{ position: 'absolute', left: '141px', top: '536px', width: '894px', height: '249px' }}>
+          {/* Левая половина — фото */}
+          <div style={{ position: 'absolute', inset: '2% 50% 1% 0' }}>
+            <img src={demoBg} alt="" style={{
+              position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '26px',
+            }} />
+          </div>
+          {/* Правая половина — текст */}
+          <div className="blur-wave" style={{
+            position: 'absolute', inset: '2% 0 0 50%',
+            backdropFilter: 'blur(50px)', background: 'black',
+            border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'clip',
+          }}>
             <div style={{
-              position: 'absolute',
-              inset: '8.43% 4% 8.43% 4%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro',
-              fontWeight: 300,
-              fontSize: '27px',
-              lineHeight: '1.1',
-              color: 'white',
-              textAlign: 'center',
+              position: 'absolute', inset: '8% 4%',
+              fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1.2',
+              color: 'white', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <p style={{ margin: 0 }}>
-                Курс «Система» — про то, как выстраивать процессы, а не тушить пожары. Ты собираешь понятную логику: цель → действия → результат, без хаоса и лишних шагов. На выходе
+                демо-курс «OpenClaw» — 4 урока для старта: система, промптинг, искусство и автоматизация
               </p>
             </div>
           </div>
-
-          {/* 3. Кнопка открыть (354:654) - PNG */}
-          <img 
-            src={goButton}
-            alt="открыть"
-            onClick={() => navigate('/academy-course-demo')}
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              left: '101px',
-              top: '85px',
-              width: '247px',
-              height: '79px',
-              cursor: 'pointer',
-            }}
-          />
-          
-
-          {/* 5. Плашка "демо" (26:419) - поверх всего */}
+          {/* Кнопка открыть */}
+          <img src={openBtn} alt="открыть" onClick={() => navigate('/academy-course-demo')}
+            className="button-inner-glow" style={{
+              position: 'absolute', left: '101px', top: '85px', width: '247px', height: '79px', cursor: 'pointer',
+            }} />
+          {/* Плашка "демо" */}
           <div className="button-inner-glow" style={{
-            position: 'absolute',
-            left: '336px',
-            top: '19px',
-            width: '101px',
-            height: '36px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            overflow: 'clip',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            position: 'absolute', left: '336px', top: '19px', width: '101px', height: '36px',
+            backdropFilter: 'blur(50px)', background: 'rgba(255,255,255,0.1)',
+            border: '2px solid rgba(255,255,255,0.3)', borderRadius: '62px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <div style={{
-              fontFamily: 'Gotham Pro',
-              fontWeight: 500,
-              fontSize: '20px',
-              color: 'white',
-            }}>
-              демо
-            </div>
+            <span style={{ fontFamily: 'Cygre', fontWeight: 500, fontSize: '20px', color: 'white' }}>демо</span>
           </div>
         </div>
 
-        {/* Фон под карточку подписки (26:411) */}
-        <img 
-          src={cardBackground}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '141px',
-            top: '853px',
-            width: '894px',
-            height: '275px',
-            objectFit: 'cover',
-            borderRadius: '30px',
-          }}
-        />
-
-        {/* Белая подложка подписки (26:410) */}
-        <div style={{
-          position: 'absolute',
-          left: '144px',
-          top: '847px',
-          width: '893px',
-          height: '1196px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '30px',
+        {/* Карточка "что скрывается в полном" */}
+        <img src={hiddenCard} alt="" style={{
+          position: 'absolute', left: '143px', top: '847px', width: '894px', height: '1196px',
+          objectFit: 'cover', borderRadius: '30px',
         }} />
 
-        {/* Большое лого (25:383) - ПОД белой подложкой, узкое */}
-        <img 
-          src={bigLogo}
-          alt="МЕТАФЛОРА*"
-          style={{
-            position: 'absolute',
-            left: '145px',
-            top: '1209px',
-            width: '890px',
-            height: '814px',
-            objectFit: 'contain',
-          }}
-        />
-
-        {/* Белая подложка подписки (26:410) - ПОВЕРХ лого */}
-        <div 
-          className="blur-wave"
-          style={{
-            position: 'absolute',
-            left: '144px',
-            top: '847px',
-            width: '893px',
-            height: '1196px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '30px',
+        {/* Кнопка "оплатить полный доступ" — укороченная */}
+        <img src={payBtn} alt="оплатить полный доступ" onClick={() => navigate('/pricing')}
+          className="button-inner-glow" style={{
+            position: 'absolute', left: '322px', top: '1375px', width: '530px', height: '139px', cursor: 'pointer',
           }} />
 
-        {/* Кнопка "оплатить полный доступ" - PNG (7:237) */}
-        <img 
-          src={payButton}
-          alt="оплатить полный доступ"
-          onClick={() => navigate('/pricing')}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '144px',
-            top: '1375px',
-            width: '887px',
-            height: '140px',
-            objectFit: 'fill',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Текст под кнопкой "вы будете перенаправлены" (7:220) */}
+        {/* Текст под кнопкой */}
         <div style={{
-          position: 'absolute',
-          left: '297px',
-          top: '1533px',
-          width: '586px',
-          height: '64px',
+          position: 'absolute', left: '143px', top: '1533px', width: '894px', textAlign: 'center',
+          fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', color: 'rgba(255,255,255,0.6)', lineHeight: '1.3',
         }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontSize: '32px',
-            lineHeight: '1.1',
-            color: 'white',
-            textAlign: 'center',
-          }}>
-            <p style={{ margin: 0, fontWeight: 300 }}>вы будете перенаправлены </p>
-            <p style={{ margin: 0 }}>
-              <span style={{ fontWeight: 300 }}>на страницу </span>
-              <span style={{ fontWeight: 700 }}>с выбором подписки</span>
-            </p>
-          </div>
+          вы будете перенаправлены на страницу с выбором подписки
         </div>
 
-
-        {/* Footer */}
+        {/* Футер */}
         <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 5px)',
-          top: '2071px',
-          transform: 'translateX(-50%)',
-          width: '888px',
-          height: '124px',
+          position: 'absolute', left: 'calc(50% - 5px)', top: '2071px',
+          transform: 'translateX(-50%)', width: '888px', height: '124px',
         }}>
-          {/* Logo Footer */}
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
-              />
+          <div style={{ position: 'absolute', width: '380px', height: '83px', left: '2px', top: '-16px' }}>
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+              <img src={logoFooter} alt="МЕТАФЛОРА*" style={{
+                position: 'absolute', height: '526.54%', left: '-37.89%', top: '-202.47%', width: '170.37%', maxWidth: 'none',
+              }} />
             </div>
           </div>
-          
-          {/* Copyright */}
           <div style={{
-            position: 'absolute',
-            left: '2px',
-            top: '56px',
-            width: '433px',
-            height: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '20px',
-            color: 'white',
+            position: 'absolute', left: '2px', top: '56px',
+            fontFamily: 'Cygre', fontWeight: 400, fontSize: '20px', color: 'rgba(255,255,255,0.6)',
           }}>
-            <p style={{ margin: 0, lineHeight: 'normal', whiteSpace: 'pre-wrap' }}>
-              Copyright © Все права защищены.
-            </p>
+            Copyright © Все права защищены.
           </div>
-          
-          {/* Socials Container */}
-          <div 
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              left: '664px',
-              top: '-2px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              height: '78px',
-              width: '230px',
-            }} />
-          
-          {/* Socials Icons */}
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+          <img src={supportPlashka} alt="поддержка" style={{
+            position: 'absolute', left: '641px', top: '-2px', width: '247px', height: '78px',
+          }} />
         </div>
       </div>
     </div>

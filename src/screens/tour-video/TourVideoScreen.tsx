@@ -1,20 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
-import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 
-// Images
+import bgBase from '../../assets/figma-welcome/фон для эксперимента.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
 import logoSmall from '../../assets/figma-welcome/logo-small.png';
 import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import socialsIcons from '../../assets/welcome-elements/socials-icons.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import tryButtonBg from '../../assets/tour-video/try-button-bg.png';
+import supportPlashka from '../../assets/figma-welcome/плашка поддержка.png';
+import btnFree from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
+import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
+import tourVideo from '../../assets/tour-video/мастерская в окошке флоры.mp4';
 
 export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  // Check if user is premium and redirect
   React.useEffect(() => {
     getOrCreateUser().then(user => {
       if (user?.subscription_type === 'premium') {
@@ -23,7 +22,6 @@ export const TourVideoScreen: React.FC = () => {
     });
   }, [navigate]);
 
-  // Calculate scale based on viewport width (design width: 1180px)
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   return (
@@ -34,7 +32,6 @@ export const TourVideoScreen: React.FC = () => {
       background: '#020101',
       overflow: 'hidden',
     }}>
-      {/* Scaled container */}
       <div style={{
         position: 'relative',
         width: '1180px',
@@ -42,7 +39,15 @@ export const TourVideoScreen: React.FC = () => {
         transform: `scale(${scale})`,
         transformOrigin: 'top left',
       }}>
-        {/* Background pattern (фон точки) */}
+        {/* Слой 1: базовый фон */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${bgBase})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }} />
+        {/* Слой 2: паттерн точек */}
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -51,135 +56,118 @@ export const TourVideoScreen: React.FC = () => {
           backgroundPosition: 'center',
           backgroundRepeat: 'repeat',
         }} />
-
-        {/* Логотип маленький (верхний) */}
+        {/* Слой 3: градиент */}
         <div style={{
           position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={logoSmall}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                top: '-16.38%',
-                width: '143.34%',
-                maxWidth: 'none',
-              }}
-            />
+          inset: 0,
+          background: 'linear-gradient(180deg, rgba(2,1,1,0) 0%, rgba(2,1,1,0.6) 100%)',
+        }} />
+
+        {/* Лого маленькое */}
+        <div style={{ position: 'absolute', left: '500px', top: '61px', width: '186px', height: '131px' }}>
+          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+            <img src={logoSmall} alt="МЕТАФЛОРА*" style={{
+              position: 'absolute',
+              height: '131.84%',
+              left: '-21.84%',
+              top: '-16.38%',
+              width: '143.34%',
+              maxWidth: 'none',
+            }} />
           </div>
         </div>
 
-        {/* Кнопка "написать в поддержку" */}
-        <img 
-          src={supportButton}
-          alt="написать в поддержку"
+        {/* Поддержка */}
+        <img src={supportPlashka} alt="написать в поддержку" style={{
+          position: 'absolute',
+          left: '829px',
+          top: '97px',
+          width: '247px',
+          height: '78px',
+          cursor: 'pointer',
+        }} />
+
+        {/* Заголовок */}
+        <div style={{ position: 'absolute', left: '92px', top: '197px', width: '1000px' }}>
+          <p style={{
+            margin: 0,
+            fontFamily: 'Cygre',
+            fontWeight: 700,
+            fontSize: '80px',
+            lineHeight: '1',
+            color: 'white',
+          }}>
+            экскурсия по платформе{'\n'}за 2 минуты
+          </p>
+        </div>
+
+        {/* Видео фрейм */}
+        <div style={{
+          position: 'absolute',
+          left: '143px',
+          top: '410px',
+          width: '894px',
+          height: '1457px',
+          borderRadius: '40px',
+          overflow: 'hidden',
+        }}>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          >
+            <source src={tourVideo} type="video/mp4" />
+          </video>
+
+          {/* Стеклянный blur-оверлей снизу */}
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '200px',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)',
+          }} />
+
+          {/* Плашка "развернуть видео" */}
+          <img
+            src={expandPlashka}
+            alt="развернуть видео на полный экран"
+            style={{
+              position: 'absolute',
+              bottom: '30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '500px',
+              height: 'auto',
+              cursor: 'pointer',
+            }}
+          />
+        </div>
+
+        {/* Кнопка "попробовать бесплатно" */}
+        <img
+          src={btnFree}
+          alt="попробовать бесплатно"
+          onClick={() => navigate('/demo-access')}
+          className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
+            left: '143px',
+            top: '1902px',
+            width: '894px',
+            height: '139px',
             cursor: 'pointer',
           }}
         />
 
-        {/* Заголовок "экскурсия по платформе за 2 минуты" */}
-        <div style={{
-          position: 'absolute',
-          left: '92px',
-          top: '197px',
-          width: '1027px',
-          height: '160px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Inter',
-            fontWeight: 800,
-            fontSize: '80px',
-            lineHeight: 0,
-            color: 'white',
-          }}>
-            <p style={{ 
-              margin: 0,
-              lineHeight: '80px',
-              whiteSpace: 'pre-wrap',
-            }}>
-              экскурсия по платформе{'\n'}за 2 минуты
-            </p>
-          </div>
-        </div>
-
-        {/* ВИДЕО БЛОК - Kinescope Player */}
-        <AboutVideoPlayer />
-
-        {/* Кнопка "попробовать бесплатно" (с градиентом) */}
-        <button
-          onClick={() => navigate('/demo-access')}
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 1px)',
-            top: '1902px',
-            transform: 'translateX(-50%)',
-            width: '892px',
-            height: '140px',
-            border: 'none',
-            background: 'transparent',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 0,
-            isolation: 'isolate',
-          }}
-        >
-          {/* PNG кнопка с градиентом под текстом */}
-          <img 
-            src={tryButtonBg}
-            alt=""
-            className="button-inner-glow"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'fill',
-              pointerEvents: 'none',
-              zIndex: 0,
-            }}
-          />
-
-          {/* Текст кнопки - поверх градиента */}
-          <div style={{
-            position: 'relative',
-            zIndex: 2,
-            fontFamily: 'Gotham Pro',
-            fontWeight: 500,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-            mixBlendMode: 'normal',
-          }}>
-            попробовать бесплатно
-          </div>
-        </button>
-
-        {/* Футер (лого + copyright + соцсети) */}
+        {/* Футер */}
         <div style={{
           position: 'absolute',
           left: 'calc(50% - 5px)',
@@ -188,143 +176,36 @@ export const TourVideoScreen: React.FC = () => {
           width: '888px',
           height: '124px',
         }}>
-          {/* Логотип в подвале */}
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
-              />
+          <div style={{ position: 'absolute', width: '380px', height: '83px', left: '2px', top: '-16px' }}>
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+              <img src={logoFooter} alt="МЕТАФЛОРА*" style={{
+                position: 'absolute',
+                height: '526.54%',
+                left: '-37.89%',
+                top: '-202.47%',
+                width: '170.37%',
+                maxWidth: 'none',
+              }} />
             </div>
           </div>
-          
-          {/* Copyright текст */}
           <div style={{
             position: 'absolute',
             left: '2px',
             top: '56px',
-            width: '433px',
-            height: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
+            fontFamily: 'Cygre',
+            fontWeight: 400,
             fontSize: '20px',
-            lineHeight: '0',
-            color: 'white',
+            color: 'rgba(255,255,255,0.6)',
           }}>
-            <p style={{ 
-              margin: 0,
-              lineHeight: 'normal',
-              whiteSpace: 'pre-wrap',
-            }}>
-              Copyright © Все права защищены.
-            </p>
+            Copyright © Все права защищены.
           </div>
-          
-          {/* Подложка под соцсети */}
-          <div 
-            className="blur-wave"
-            style={{
-              position: 'absolute',
-              left: '664px',
-              top: '-2px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '62px',
-              height: '78px',
-              width: '230px',
-            }} />
-          
-          {/* Иконки соцсетей */}
-          <div style={{
+          <img src={supportPlashka} alt="поддержка" style={{
             position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            {/* Первая иконка */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            {/* Группа иконок */}
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIcons}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+            left: '641px',
+            top: '-2px',
+            width: '247px',
+            height: '78px',
+          }} />
         </div>
       </div>
     </div>

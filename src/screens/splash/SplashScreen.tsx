@@ -3,28 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { preloadAllImages } from '../../utils/assetPreloader';
 import { getOrCreateUser } from '../../utils/supabase';
 
-// Background pattern image (dots)
+import bgBase from '../../assets/figma-welcome/фон для эксперимента.png';
 import bgPattern from '../../assets/figma-welcome/pattern.png';
-// Logo image
 import logo from '../../assets/figma-welcome/splash-logo.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Start preloading and user initialization
     const init = async () => {
-      // Start both operations in parallel
       const [user] = await Promise.all([
-        getOrCreateUser(), // This will cache the user data
+        getOrCreateUser(),
         preloadAllImages(),
-        new Promise(resolve => setTimeout(resolve, 3000)), // Minimum 3 seconds
+        new Promise(resolve => setTimeout(resolve, 3000)),
       ]);
-      
-      // Navigate based on subscription
+
       console.log('🔍 SplashScreen: User data:', JSON.stringify(user));
       console.log('🔍 SplashScreen: subscription_type =', user?.subscription_type);
-      
+
       if (user && user.subscription_type === 'premium') {
         console.log('✅ Premium user - going to dashboard');
         navigate('/main-dashboard-premium');
@@ -38,42 +34,49 @@ export const SplashScreen: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-        position: 'relative',
-        background: '#020101',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
+    <div style={{
+      width: '100vw',
+      height: '100vh',
+      position: 'relative',
+      background: '#020101',
+      overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      {/* Слой 1: базовый фон */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url(${bgBase})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }} />
 
-      {/* Logo - centered */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 10,
-        }}
-      >
+      {/* Слой 2: паттерн точек */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url(${bgPattern})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'repeat',
+      }} />
+
+      {/* Слой 3: градиент */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(180deg, rgba(2,1,1,0) 0%, rgba(2,1,1,0.6) 100%)',
+      }} />
+
+      {/* Лого по центру */}
+      <div style={{ position: 'relative', zIndex: 10 }}>
         <img
           src={logo}
           alt="МЕТАФЛОРА*"
           style={{
-            width: 'min(80vw, 592px)',
+            width: 'min(80vw, 438px)',
             height: 'auto',
             objectFit: 'contain',
           }}
