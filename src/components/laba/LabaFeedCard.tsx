@@ -22,12 +22,12 @@ const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
 const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/200ff601-2b41-4029-92e4-df8b7f6e9be8';
 const figmaProfilePhoto = 'https://www.figma.com/api/mcp/asset/7c7e9ccf-5f4d-4211-9ee3-97edfc45576f';
-const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/4947d001-7a53-4588-af2d-42e9b92dd440';
-const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/08883100-5630-4a61-82bd-4a060c7bc5b4';
-const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/2e62f73a-55ce-456d-a440-a33e92b1dd45';
+const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
+const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
+const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
 const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c914514e-0b54-4b1b-8ce2-5473d0d1671f';
 const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/9706fd0a-d277-4e19-abed-e80b0990d5eb';
-const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/7747cf48-090d-4035-a50c-66e4ef7d40c7';
+const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/e6b64005-5519-4c93-8ecd-51c66606778e';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
@@ -146,7 +146,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             event.stopPropagation();
             onOpenAnalysis();
           }}
-          className="button-inner-glow"
+          className="button-inner-glow blur-wave"
           style={{
             position: 'absolute',
             left: '50%',
@@ -181,6 +181,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           borderRadius: '62px',
           border: '4px solid rgba(255,255,255,0.3)',
           background: '#000',
+          backdropFilter: 'blur(50px)',
         }}
       >
         <div
@@ -189,14 +190,15 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             height: '100%',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             gap: '8px',
-            transform: 'translateX(12px)',
+            paddingLeft: '18px',
+            transform: 'translateY(-1px)',
           }}
         >
-          <MetricItem icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} width={126} />
-          <MetricItem icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} width={113} />
-          <MetricItem icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} width={118} />
+          <MetricItem icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} width={120} />
+          <MetricItem icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} width={112} />
+          <MetricItem icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} width={114} />
         </div>
       </div>
 
@@ -280,7 +282,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '281px',
-          top: '936px',
+          top: '930px',
           width: '350px',
           fontFamily: textFont,
           fontWeight: 400,
@@ -467,7 +469,7 @@ const ActionButton: React.FC<{
     style={{
       position: 'absolute',
       left: '356px',
-      top: '834px',
+      top: '800px',
       width: '247px',
       height: '79px',
       padding: 0,
@@ -480,25 +482,34 @@ const ActionButton: React.FC<{
       fontSize: '27px',
       cursor: 'pointer',
       boxShadow: variant === 'light' ? 'inset 0 0 40px rgba(255,255,255,0.16)' : 'none',
+      backdropFilter: 'blur(50px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
     }}
   >
     {typeof cost === 'number' ? (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          transform: 'translateY(-2px)',
-        }}
-      >
-        <span>{label}</span>
-        <div style={{ position: 'relative', width: '19px', height: '19px', overflow: 'hidden', flex: '0 0 auto' }}>
+      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <div
+          style={{
+            position: 'absolute',
+            left: '24px',
+            top: '21px',
+            width: '199px',
+            height: '29px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: textFont,
+            fontWeight: 700,
+            fontSize: '27px',
+            lineHeight: '1',
+            whiteSpace: 'pre',
+          }}
+        >
+          {`${label}    ${cost}`}
+        </div>
+        <div style={{ position: 'absolute', left: '150px', top: '30px', width: '19px', height: '19px', overflow: 'hidden' }}>
           <img
             src={figmaMetacoin}
             alt=""
@@ -512,7 +523,6 @@ const ActionButton: React.FC<{
             }}
           />
         </div>
-        <span>{cost}</span>
       </div>
     ) : (
       <span>{label}</span>

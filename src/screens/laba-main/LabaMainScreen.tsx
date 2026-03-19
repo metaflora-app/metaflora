@@ -5,13 +5,12 @@ import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/Lab
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
-import searchIcon from '../../assets/laba-icons/иконка поиска.png';
-import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 const textFont = 'Cygre, sans-serif';
-const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/70600abd-efb9-4e13-8419-fcd8c241b6d7';
-const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/ae8d1963-710b-464a-a75a-cc7aac07d21d';
-const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/599c0367-cbdd-45f8-b56f-00e99b9c2383';
+const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/fa7babfd-6563-43e5-998e-2ed7d342fcf0';
+const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/505d1781-04c7-4ba7-b84e-4979213a612c';
+const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/3ed3e24e-7b3b-4e04-9934-abebf59d14dd';
+const figmaSearchCoin = 'https://www.figma.com/api/mcp/asset/e10ec07c-b658-4fd1-865f-71ba8fd86b2c';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
@@ -260,7 +259,9 @@ export const LabaMainScreen: React.FC = () => {
             background: '#000',
           }}
         >
-          <img src={figmaSearchIcon} alt="" style={{ position: 'absolute', left: '19px', top: '21px', width: '38px', height: '38px' }} />
+          <div style={{ position: 'absolute', left: '23px', top: '50%', width: '38px', height: '38px', transform: 'translateY(-50%)' }}>
+            <img src={figmaSearchIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </div>
           <div
             style={{
               position: 'absolute',
@@ -281,6 +282,8 @@ export const LabaMainScreen: React.FC = () => {
               placeholder="найти видео по ключевому слову"
               style={{
                 width: '100%',
+                height: '32px',
+                padding: 0,
                 border: 'none',
                 outline: 'none',
                 background: 'transparent',
@@ -297,7 +300,7 @@ export const LabaMainScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => void handleSearch()}
-          className="button-inner-glow"
+          className="button-inner-glow blur-wave"
           style={{
             position: 'absolute',
             left: '900px',
@@ -310,24 +313,20 @@ export const LabaMainScreen: React.FC = () => {
             color: '#fff',
             cursor: 'pointer',
             padding: 0,
+            backdropFilter: 'blur(50px)',
           }}
         >
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <span
+          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div
               style={{
                 position: 'absolute',
-                right: '28px',
-                top: '50%',
-                transform: 'translateY(-50%)',
+                left: '55px',
+                top: '20px',
+                width: '42px',
+                height: '26px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 fontFamily: textFont,
                 fontWeight: 700,
                 fontSize: '27px',
@@ -335,19 +334,21 @@ export const LabaMainScreen: React.FC = () => {
               }}
             >
               {LABA_COSTS.SEARCH_REELS}
-            </span>
-            <img
-              src={metacoinSmall}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '33px',
-                top: '22px',
-                width: '19px',
-                height: '19px',
-                objectFit: 'contain',
-              }}
-            />
+            </div>
+            <div style={{ position: 'absolute', left: '37px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+              <img
+                src={figmaSearchCoin}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '130.34%',
+                  left: '-20%',
+                  top: '-14.48%',
+                  width: '140%',
+                  maxWidth: 'none',
+                }}
+              />
+            </div>
           </div>
         </button>
 
@@ -469,7 +470,7 @@ const FilterButton: React.FC<{
   <button
     type="button"
     onClick={onClick}
-    className="button-inner-glow"
+    className="button-inner-glow blur-wave"
     style={{
       position: 'absolute',
       left: `${left}px`,
@@ -479,6 +480,7 @@ const FilterButton: React.FC<{
       borderRadius: '62px',
       border: '4px solid rgba(255,255,255,0.3)',
       background: active ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.9)',
+      backdropFilter: 'blur(50px)',
       color: '#fff',
       fontFamily: textFont,
       fontWeight: 700,
@@ -486,8 +488,12 @@ const FilterButton: React.FC<{
       lineHeight: '1',
       cursor: 'pointer',
       boxShadow: active ? 'inset 0 0 30px rgba(255,255,255,0.14)' : 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
     }}
   >
-    {label}
+    <span style={{ display: 'block', transform: 'translateY(-1px)' }}>{label}</span>
   </button>
 );
