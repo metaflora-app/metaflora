@@ -42,28 +42,6 @@ export const LabaLoadingScreen: React.FC = () => {
           <img src={leftGif} alt="справа" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
-        <button
-          type="button"
-          onClick={() => navigate('/laba-main')}
-          style={{
-            position: 'absolute',
-            left: '503px',
-            top: '760px',
-            width: '174px',
-            height: '72px',
-            border: 'none',
-            background: 'rgba(255,255,255,0.88)',
-            borderRadius: '30px',
-            color: '#000',
-            fontFamily: 'Inter',
-            fontWeight: 700,
-            fontSize: '19px',
-            cursor: 'pointer',
-          }}
-        >
-          открыть
-        </button>
-
         <div style={{ position: 'absolute', left: '320px', top: '1863px', width: '530px', height: '139px' }}>
           <img src={sidebarBg} alt="сайдбар подложка" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
           <img src={sidebarIcons} alt="сайдбар иконки новые" style={{ position: 'absolute', left: '-2px', top: '21px', width: '534px', height: '98px', objectFit: 'contain', pointerEvents: 'none' }} />

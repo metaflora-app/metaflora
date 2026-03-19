@@ -1,916 +1,283 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// API and types
-import { 
-  getTrackedAccounts, 
-  getTrackedReels, 
-  untrackAccount,
+import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
+import { Reel, TrackedAccount } from '../../types/laba';
+import {
+  convertInstagramImageUrl,
   getTelegramUserId,
-  toggleFavorite,
+  getTrackedAccounts,
+  getTrackedReels,
   scrapeAccountReels,
-  convertInstagramImageUrl 
+  showMessage,
+  toggleFavorite,
+  untrackAccount,
 } from '../../utils/labaApi';
-import { TrackedAccount, Reel } from '../../types/laba';
-
-// Components
-import { ReelCard } from '../../components/ReelCard';
-import { BlurReelCard } from '../../components/BlurReelCard';
-
-// Background & header from laba-main
-import bgPattern from '../../assets/figma-welcome/pattern.png';
-import smallLogo from '../../assets/figma-welcome/logo-small.png';
-import supportButtonPNG from '../../assets/tour-video/support-button.png';
-import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-
-// Filter buttons from laba-main
-import returnButtonPNG from '../../assets/laba-tracked/кнопка вернуть.png';
-import sortButtonInactivePNG from '../../assets/laba-main/кнопка сортировка неактив.png';
-import sortButtonActivePNG from '../../assets/laba-main/кнопка сортировка актив.png';
-import likesBadgeInactivePNG from '../../assets/laba-main/плашка лайки неактив.png';
-import badgeEmptyActive from '../../assets/laba-main-buttons/плашка пустая активная.png';
-import newBadgePNG from '../../assets/laba-main/плашка новое.png';
-import removeAccountButtonPNG from '../../assets/laba-main/кнопка убрать аккаунт.png';
-
-// Card assets from laba-main
-import analysisButtonPNG from '../../assets/laba-main/кнопка анализ.png';
-import cardImage from '../../assets/laba-main/картинка в карточке промпта.png';
-
-// No tracked screen assets
-import blurOverlay from '../../assets/laba-no-tracked/блюр на отслеживание.png';
-import peopleImageNoTracked from '../../assets/laba-no-tracked/люди друг на друге.png';
-import startTrackingButtonPNG from '../../assets/laba-no-tracked/кнопка начать отслеживание.png';
-
-// Laba icons
-import playIcon from '../../assets/tour-video/play-icon.png';
-import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
-import likesIcon from '../../assets/laba-icons/иконка лайки.png';
-import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import instaLogoIcon from '../../assets/laba-icons/лого инста.png';
-import plusIcon from '../../assets/laba-icons/emojione-monotone_heavy-plus-sign.png';
-import profilePhoto from '../../assets/laba-icons/фото профиля поменьше.png';
 
-const instagramIcon = instaLogoIcon;
-const peopleImage = peopleImageNoTracked;
+const textFont = 'Cygre, sans-serif';
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
-  // Tracking cost is charged when user adds account (in LabaSearchAccountScreen)
-  const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
-  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
-  
-  // Tracked accounts data
   const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
-  const [reels, setReels] = React.useState<Reel[]>([]);
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(false); // false изначально - данные сохраняются
-  const [scraping, setScraping] = React.useState(false);
-  const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const [reels, setReels] = React.useState<Reel[]>([]);
+  const [loadingAccounts, setLoadingAccounts] = React.useState(true);
+  const [loadingReels, setLoadingReels] = React.useState(false);
+  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
 
-  // Load tracked accounts - перезагружаем при каждом возврате на экран
   React.useEffect(() => {
     const fetchAccounts = async () => {
       const userId = getTelegramUserId();
       if (!userId) return;
-      
+
+      setLoadingAccounts(true);
       try {
-        // Показываем loading только если данных еще нет
-        if (accounts.length === 0) {
-          setLoading(true);
-        }
-        setIsRefreshing(true);
-        
         const trackedAccounts = await getTrackedAccounts(userId);
-        console.log('[TRACKED] Загружены аккаунты:', trackedAccounts);
-        trackedAccounts.forEach(acc => {
-          console.log(`[TRACKED] ${acc.username}: profilePhotoUrl=${acc.profilePhotoUrl}, followers=${acc.followersCount}`);
-        });
         setAccounts(trackedAccounts);
-        
-        // Если есть аккаунты, выбираем первый или сохраняем текущий выбор
-        if (trackedAccounts.length > 0) {
-          if (!selectedAccountId || !trackedAccounts.find(a => a.id === selectedAccountId)) {
-            setSelectedAccountId(trackedAccounts[0].id);
-          }
-        } else {
-          setSelectedAccountId(null);
-        }
+        setSelectedAccountId((current) => current && trackedAccounts.some((item) => item.id === current) ? current : trackedAccounts[0]?.id || null);
       } catch (error) {
         console.error('Ошибка загрузки аккаунтов:', error);
       } finally {
-        setLoading(false);
-        setIsRefreshing(false);
+        setLoadingAccounts(false);
       }
     };
-    
-    fetchAccounts();
-    
-    // Перезагружаем при возврате на экран
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        fetchAccounts();
-      }
-    };
-    
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      // НЕ очищаем state при unmount - сохраняем данные
-    };
-  }, [accounts.length, selectedAccountId]);
 
-  // Load reels for selected account
+    void fetchAccounts();
+  }, []);
+
   React.useEffect(() => {
-    if (!selectedAccountId) return;
-    
     const fetchReels = async () => {
+      if (!selectedAccountId) return;
       const userId = getTelegramUserId();
       if (!userId) return;
-      
+
+      setLoadingReels(true);
       try {
-        const accountReels = await getTrackedReels(selectedAccountId, userId);
-        setReels(accountReels);
-        
-        // Если reels нет - запускаем скрапинг АВТОМАТИЧЕСКИ
-        if (accountReels.length === 0) {
-          try {
-            setScraping(true);
-            const result = await scrapeAccountReels(selectedAccountId, userId);
-            
-            // Показываем результат
-            if (window.Telegram?.WebApp?.showPopup) {
-              window.Telegram.WebApp.showPopup({
-                message: 'reels успешно найдены'
-              });
-            }
-            
-            // Перезагружаем reels
-            const updatedReels = await getTrackedReels(selectedAccountId, userId);
-            setReels(updatedReels);
-          } catch (error: any) {
-            console.error('Ошибка скрапинга:', error);
-            if (window.Telegram?.WebApp?.showPopup) {
-              window.Telegram.WebApp.showPopup({
-                message: error.message || 'ошибка загрузки reels'
-              });
-            }
-          } finally {
-            setScraping(false);
-          }
+        let trackedReels = await getTrackedReels(selectedAccountId, userId);
+        if (trackedReels.length === 0) {
+          await scrapeAccountReels(selectedAccountId, userId);
+          trackedReels = await getTrackedReels(selectedAccountId, userId);
         }
-      } catch (error) {
+        setReels(trackedReels);
+      } catch (error: any) {
         console.error('Ошибка загрузки reels:', error);
+        showMessage(error.message || 'ошибка загрузки reels', 'popup');
+      } finally {
+        setLoadingReels(false);
       }
     };
-    
-    fetchReels();
+
+    void fetchReels();
   }, [selectedAccountId]);
 
-  // Сортировка reels при изменении selectedSort
   React.useEffect(() => {
-    if (!selectedSort) return;
-    
-    setReels(prev => {
-      const sorted = [...prev];
-      sorted.sort((a, b) => {
-        if (selectedSort === '>просмотров') return b.viewsCount - a.viewsCount;
-        if (selectedSort === '<просмотров') return a.viewsCount - b.viewsCount;
-        if (selectedSort === '>лайков') return b.likesCount - a.likesCount;
-        if (selectedSort === '<лайков') return a.likesCount - b.likesCount;
-        if (selectedSort === '>комментов') return b.commentsCount - a.commentsCount;
-        if (selectedSort === '<комментов') return a.commentsCount - b.commentsCount;
-        return 0;
-      });
-      return sorted;
-    });
-  }, [selectedSort]);
+    if (!loadingAccounts && accounts.length === 0) {
+      navigate('/laba-no-tracked');
+    }
+  }, [accounts.length, loadingAccounts, navigate]);
 
-  // Handle remove account
-  const handleRemoveAccount = async () => {
-    if (!selectedAccountId) return;
-    
+  const handleToggleFavorite = async (reelId: string) => {
     const userId = getTelegramUserId();
     if (!userId) return;
-    
+
+    const wasLiked = likedCards.has(reelId);
+    setLikedCards((prev) => {
+      const next = new Set(prev);
+      if (wasLiked) next.delete(reelId);
+      else next.add(reelId);
+      return next;
+    });
+
     try {
-      await untrackAccount(selectedAccountId, userId);
-      
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: 'аккаунт удален из отслеживаемых'
-        });
-      }
-      
-      const updatedAccounts = accounts.filter(a => a.id !== selectedAccountId);
-      setAccounts(updatedAccounts);
-      setSelectedAccountId(updatedAccounts[0]?.id || null);
+      await toggleFavorite(reelId, userId);
     } catch (error) {
-      console.error('Ошибка удаления:', error);
+      console.error('Ошибка избранного:', error);
+      setLikedCards((prev) => {
+        const next = new Set(prev);
+        if (wasLiked) next.add(reelId);
+        else next.delete(reelId);
+        return next;
+      });
     }
   };
 
-  const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
+  const removeAccount = async (accountId: string) => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
 
-  const handleSortClick = () => {
-    if (selectedSort) {
-      setSelectedSort(null);
-    } else {
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: 'сортировка\n\n>просмотров\n<просмотров\n>лайков\n<лайков\n>комментов\n<комментов'
-        });
-      }
-      setSelectedSort(sortOptions[0]);
+    try {
+      await untrackAccount(accountId, userId);
+      const nextAccounts = accounts.filter((account) => account.id !== accountId);
+      setAccounts(nextAccounts);
+      setSelectedAccountId(nextAccounts[0]?.id || null);
+      showMessage('аккаунт удален из отслеживаемых', 'popup');
+    } catch (error) {
+      console.error('Ошибка удаления аккаунта:', error);
     }
-  };
-
-  const handleSortBadgeClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!selectedSort) return;
-    const currentIndex = sortOptions.indexOf(selectedSort);
-    const nextIndex = (currentIndex + 1) % sortOptions.length;
-    setSelectedSort(sortOptions[nextIndex]);
   };
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '100vw',
-      minHeight: '100vh',
-      background: '#020101',
-      overflow: 'hidden',
-    }}>
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
+    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <ThreeBg />
+        <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
-      <div style={{
-        position: 'relative',
-        width: '1180px',
-        minHeight: '2550px',
-        transform: `scale(${scale})`,
-        transformOrigin: 'top left',
-      }}>
-        {/* Header - Logo */}
-        <div 
-          onClick={() => navigate('/main-dashboard-premium')}
+        <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
+          <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '80px', lineHeight: '1', color: '#fff' }}>
+            отслеживание контента
+          </p>
+        </div>
+
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '820px' }}>
+          <p style={{ margin: 0, fontFamily: textFont, fontWeight: 400, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+            следите за добавленными аккаунтами
+          </p>
+        </div>
+
+        <div
           style={{
             position: 'absolute',
-            height: '131px',
-            left: '500px',
-            top: '61px',
-            width: '186px',
-            cursor: 'pointer',
-          }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img
-              src={smallLogo}
-              alt="МЕТАФЛОРА*"
-              style={{
-                position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                maxWidth: 'none',
-                top: '-16.38%',
-                width: '143.34%',
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Header - Support button */}
-        <img
-          src={supportButtonPNG}
-          alt="написать в поддержку"
-          style={{
-            position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Title "отслеживание контента" - 174:801 x=85, y=193, w=1020, h=80 */}
-        <div style={{
-          position: 'absolute',
-          left: '85px',
-          top: '193px',
-          width: '1020px',
-          height: '80px',
-          fontFamily: 'Inter, sans-serif',
-          fontWeight: 800,
-          fontSize: '80px',
-          color: 'white',
-          textAlign: 'left',
-          lineHeight: '80px',
-        }}>
-          отслеживание контента
-        </div>
-
-        {/* Subtitle "добавьте аккаунт для отслеживания" - 174:803 x=85, y=295, w=882, h=40 */}
-        <div style={{
-          position: 'absolute',
-          left: '85px',
-          top: '295px',
-          width: '882px',
-          height: '40px',
-          fontFamily: 'Gotham Pro, sans-serif',
-          fontWeight: 300,
-          fontSize: '40px',
-          color: 'white',
-          textAlign: 'left',
-          lineHeight: '40px',
-        }}>
-          добавьте аккаунт для отслеживания
-        </div>
-
-        {/* Show no-tracked elements when no accounts */}
-        {accounts.length === 0 && !loading && (
-          <>
-            {/* People image PNG (7:1357) - x=143, y=916, 892x1050 */}
-            <img 
-              src={peopleImageNoTracked}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '143px',
-                top: '916px',
-                width: '892px',
-                height: '1050px',
-                objectFit: 'contain',
-                pointerEvents: 'none',
-                zIndex: 1,
-              }}
-            />
-
-            {/* Blur overlay PNG (7:1360) - x=143, y=402, 892x1643 */}
-            <img 
-              src={blurOverlay}
-              alt=""
-              onClick={() => navigate('/laba-search-account')}
-              style={{
-                position: 'absolute',
-                left: '143px',
-                top: '402px',
-                width: '892px',
-                height: '1643px',
-                objectFit: 'fill',
-                borderRadius: '30px',
-                cursor: 'pointer',
-                zIndex: 2,
-              }}
-            />
-
-            {/* Кнопка "начать отслеживание" поверх blur overlay */}
-            <img
-              src={startTrackingButtonPNG}
-              alt="начать отслеживание"
-              onClick={() => navigate('/laba-search-account')}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '530px',
-                height: '139px',
-                cursor: 'pointer',
-                zIndex: 3,
-              }}
-            />
-          </>
-        )}
-
-        {/* Horizontal scroll with tracked accounts - показываем только если есть аккаунты */}
-        {accounts.length > 0 && (
-        <div style={{
-          position: 'absolute',
-          left: '151px',
-          top: '405px',
-          width: '878px',
-          height: '162px',
-          overflow: 'hidden',
-          maskImage: 'linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%)',
-        }}>
-          <div style={{
-            display: 'flex',
-            gap: '1px',
+            left: '143px',
+            top: '366px',
+            width: '894px',
+            height: '268px',
             overflowX: 'auto',
             overflowY: 'hidden',
-            height: '100%',
-            paddingRight: '40px',
-          }}>
-            {/* Tracked accounts */}
-            {accounts.map((account) => (
-              <div 
-                key={account.id}
-                className="blur-wave" 
-                style={{
-                  flexShrink: 0,
-                  width: '522px',
-                  height: '162px',
-                  backdropFilter: 'blur(50px)',
-                  background: selectedAccountId === account.id 
-                    ? 'rgba(255, 255, 255, 0.2)' 
-                    : 'rgba(255, 255, 255, 0.1)',
-                  border: '4px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '30px',
-                  position: 'relative',
-                  cursor: 'pointer',
-                }}
-                onClick={() => setSelectedAccountId(account.id)}
-              >
-                {/* Profile photo */}
-                <div style={{
-                  position: 'absolute',
-                  left: '24px',
-                  top: '16px',
-                  width: '98px',
-                  height: '98px',
-                  borderRadius: '640px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                }}>
-                  <img
-                    src={convertInstagramImageUrl(account.profilePhotoUrl) || profilePhoto}
-                    alt=""
-                    crossOrigin="anonymous"
-                    onError={(e) => {
-                      console.error('[AVATAR] Ошибка загрузки аватарки:', account.profilePhotoUrl);
-                      console.error('[AVATAR] Прокси URL:', convertInstagramImageUrl(account.profilePhotoUrl));
-                      (e.target as HTMLImageElement).src = profilePhoto;
-                    }}
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '640px',
-                    }}
+          }}
+        >
+          <div style={{ display: 'flex', gap: '22px', minWidth: 'max-content', paddingRight: '180px' }}>
+            {loadingAccounts
+              ? Array.from({ length: 2 }).map((_, index) => <TrackedAccountCardSkeleton key={index} />)
+              : accounts.map((account) => (
+                  <TrackedAccountCard
+                    key={account.id}
+                    account={account}
+                    selected={selectedAccountId === account.id}
+                    onSelect={() => setSelectedAccountId(account.id)}
+                    onRemove={() => void removeAccount(account.id)}
                   />
-                </div>
-
-                {/* Instagram icon */}
-                <div style={{
-                  position: 'absolute',
-                  left: '129px',
-                  top: '13px',
-                  width: '49px',
-                  height: '59px',
-                  opacity: 0.6,
-                }}>
-                  <img
-                    src={instagramIcon}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </div>
-
-                {/* Username */}
-                <div style={{
-                  position: 'absolute',
-                  left: '129px',
-                  top: '64px',
-                  width: '235px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '27px',
-                  color: 'white',
-                }}>
-                  @{account.username}
-                </div>
-
-                {/* Followers */}
-                <div style={{
-                  position: 'absolute',
-                  left: '129px',
-                  top: '95px',
-                  fontFamily: 'Gotham Pro, sans-serif',
-                  fontWeight: 300,
-                  fontSize: '24px',
-                  color: 'white',
-                }}>
-                  {account.followersCount?.toLocaleString('ru-RU')} подписчиков
-                </div>
-
-                {/* Button "убрать аккаунт" */}
-                <img
-                  src={removeAccountButtonPNG}
-                  alt="убрать"
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    const userId = getTelegramUserId();
-                    if (!userId) return;
-                    
-                    try {
-                      await untrackAccount(account.id, userId);
-                      setAccounts(accounts.filter(a => a.id !== account.id));
-                      
-                      if (selectedAccountId === account.id) {
-                        const remaining = accounts.filter(a => a.id !== account.id);
-                        setSelectedAccountId(remaining.length > 0 ? remaining[0].id : null);
-                      }
-                      
-                      if (window.Telegram?.WebApp?.showPopup) {
-                        window.Telegram.WebApp.showPopup({
-                          message: 'аккаунт удален из отслеживаемых'
-                        });
-                      }
-                    } catch (error) {
-                      console.error('Ошибка удаления аккаунта:', error);
-                    }
-                  }}
-                  style={{
-                    position: 'absolute',
-                    left: '184px',
-                    top: '10px',
-                    width: '126px',
-                    height: '54px',
-                    cursor: 'pointer',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-            ))}
-            
+                ))}
           </div>
         </div>
-        )}
 
-        {/* Кнопка + (плюс) - внутри блюр-фрейма слева */}
-        <div 
-          onClick={() => navigate('/laba-search-account')}
+        <div
           className="blur-wave"
           style={{
             position: 'absolute',
-            left: '152px',
-            top: '580px',
-            width: '79px',
-            height: '79px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '79px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}>
-          <img src={plusIcon} alt="+" style={{ width: '57%', height: '57%', objectFit: 'contain' }} />
-        </div>
-
-        {/* Кнопка вернуть - вплотную к плюсу */}
-        <img
-          src={returnButtonPNG}
-          alt="вернуть"
-          onClick={() => {
-            setSelectedSort(null);
-            setLikedCards(new Set());
-          }}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '231px',
-            top: '580px',
-            width: '270px',
-            height: '79px',
-            objectFit: 'contain',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Кнопка сортировка - вплотную к вернуть */}
-        <img
-          src={selectedSort ? sortButtonActivePNG : sortButtonInactivePNG}
-          alt="сортировка"
-          onClick={handleSortClick}
-          className="button-inner-glow"
-          style={{
-            position: 'absolute',
-            left: '501px',
-            top: '580px',
-            width: '270px',
-            height: '79px',
-            objectFit: 'contain',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Кнопка выбрать - вплотную к сортировка */}
-        <div 
-          onClick={handleSortBadgeClick}
-          style={{
-            position: 'absolute',
-            left: '771px',
-            top: '580px',
-            width: '270px',
-            height: '79px',
-            cursor: selectedSort ? 'pointer' : 'default',
+            left: '143px',
+            top: '672px',
+            width: '894px',
+            height: '1369px',
+            borderRadius: '30px',
+            border: '4px solid rgba(255,255,255,0.3)',
+            background: 'rgba(255,255,255,0.1)',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            paddingTop: '34px',
+            paddingBottom: '44px',
           }}
         >
-          <img
-            src={selectedSort ? badgeEmptyActive : likesBadgeInactivePNG}
-            alt="badge"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
-          />
-          {selectedSort && (
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Gotham Pro, sans-serif',
-              fontWeight: 500,
-              fontSize: '25px',
-              color: 'white',
-              textAlign: 'center',
-              pointerEvents: 'none',
-              padding: '0 10px',
-              lineHeight: '1.2',
-            }}>
-              {selectedSort}
-            </div>
-          )}
-        </div>
-
-        {/* People image behind frame - hide when no accounts */}
-        {accounts.length > 0 && (
-          <img
-            src={peopleImage}
-            alt=""
-            style={{
-              position: 'absolute',
-              left: '143px',
-              top: '898px',
-              width: '892px',
-              height: '1050px',
-              objectFit: 'contain',
-              zIndex: 0,
-              pointerEvents: 'none',
-            }}
-          />
-        )}
-
-        {/* Main content window - hide when no accounts */}
-        {accounts.length > 0 && (
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            height: '1369px',
-            left: 'calc(50% + 3px)',
-            borderRadius: '30px',
-            top: '673px',
-            width: '884px',
-            transform: 'translateX(-50%)',
-            overflow: 'auto',
-            zIndex: 10,
-          }}>
-          {/* Blur placeholder cards - показываем пока идет загрузка */}
-          {loading && Array.from({ length: 40 }).map((_, index) => (
-            <BlurReelCard key={`blur-${index}`} index={index} />
-          ))}
-          
-          {/* Reels cards - Dynamic rendering */}
-          {/* Показываем 40 блюр карточек пока скрапинг идет */}
-          {scraping && Array.from({ length: 40 }).map((_, index) => (
-            <BlurReelCard key={`scraping-${index}`} index={index} />
-          ))}
-          
-          {/* Показываем реальные карточки когда загрузились */}
-          {!loading && !scraping && reels.map((reel, index) => (
-            <ReelCard
-              key={reel.id}
-              reel={reel}
-              index={index}
-              isFavorite={likedCards.has(reel.id)}
-              onToggleFavorite={async (reelId) => {
-                const userId = getTelegramUserId();
-                if (!userId) return;
-                
-                // КРИТИЧНО: Сначала обновляем UI мгновенно (оптимистичное обновление)
-                const isCurrentlyLiked = likedCards.has(reelId);
-                const newFavoriteStatus = !isCurrentlyLiked;
-                
-                setLikedCards(prev => {
-                  const newSet = new Set(prev);
-                  if (newFavoriteStatus) {
-                    newSet.add(reelId);
-                  } else {
-                    newSet.delete(reelId);
-                  }
-                  return newSet;
-                });
-                
-                // Потом вызываем API в фоне
-                try {
-                  await toggleFavorite(reelId, userId);
-                } catch (error) {
-                  console.error('Ошибка переключения избранного:', error);
-                  // Откатываем UI если API упал
-                  setLikedCards(prev => {
-                    const newSet = new Set(prev);
-                    if (isCurrentlyLiked) {
-                      newSet.add(reelId);
-                    } else {
-                      newSet.delete(reelId);
-                    }
-                    return newSet;
-                  });
-                }
-              }}
-            />
-          ))}
-        </div>
-        )}
-
-        {/* Footer */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 5px)',
-          top: '2071px',
-          transform: 'translateX(-50%)',
-          width: '888px',
-          height: '124px',
-        }}>
-          {/* Логотип в подвале */}
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </div>
-          
-          {/* Copyright текст */}
-          <div style={{
-            position: 'absolute',
-            left: '2px',
-            top: '56px',
-            width: '433px',
-            height: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '20px',
-            lineHeight: '0',
-            color: 'white',
-          }}>
-            <p style={{ 
-              margin: 0,
-              lineHeight: 'normal',
-              whiteSpace: 'pre-wrap',
-            }}>
-              Copyright © Все права защищены.
-            </p>
-          </div>
-          
-          {/* Подложка под соцсети */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
-          
-          {/* Иконки соцсетей */}
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIconsFooter}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            <div style={{
-              position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIconsFooter}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
+            {loadingReels
+              ? Array.from({ length: 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
+              : reels.map((reel) => (
+                  <LabaFeedCard
+                    key={reel.id}
+                    reel={reel}
+                    isFavorite={likedCards.has(reel.id)}
+                    onToggleFavorite={handleToggleFavorite}
+                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
+                    onAction={() => {
+                      if (selectedAccountId) void removeAccount(selectedAccountId);
+                    }}
+                    actionLabel="не следить"
+                    actionVariant="light"
+                  />
+                ))}
           </div>
         </div>
+
+        <Footer />
       </div>
     </div>
   );
 };
+
+const TrackedAccountCard: React.FC<{
+  account: TrackedAccount;
+  selected: boolean;
+  onSelect: () => void;
+  onRemove: () => void;
+}> = ({ account, selected, onSelect, onRemove }) => {
+  const avatarUrl = convertInstagramImageUrl(account.profilePhotoUrl) || account.profilePhotoUrl;
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className="blur-wave"
+      style={{
+        position: 'relative',
+        width: '522px',
+        height: '162px',
+        borderRadius: '30px',
+        border: '4px solid rgba(255,255,255,0.3)',
+        background: selected ? 'rgba(255,255,255,0.16)' : '#000',
+        cursor: 'pointer',
+      }}
+    >
+      <div style={{ position: 'absolute', left: '20px', top: '15px', width: '98px', height: '98px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
+        {avatarUrl ? <img src={avatarUrl} alt={account.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
+      </div>
+      <img src={instaLogoIcon} alt="" style={{ position: 'absolute', left: '132px', top: '13px', width: '42px', height: '51px', opacity: 0.6 }} />
+      <div style={{ position: 'absolute', left: '131px', top: '60px', width: '240px', fontFamily: textFont, fontWeight: 700, fontSize: '27px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        @{account.username}
+      </div>
+      <div style={{ position: 'absolute', left: '131px', top: '95px', width: '250px', fontFamily: textFont, fontWeight: 400, fontSize: '24px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {account.followersCount.toLocaleString('ru-RU')} подписчиков
+      </div>
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          onRemove();
+        }}
+        className="button-inner-glow"
+        style={{
+          position: 'absolute',
+          right: '18px',
+          top: '12px',
+          width: '126px',
+          height: '54px',
+          borderRadius: '62px',
+          border: '4px solid rgba(255,255,255,0.3)',
+          background: 'rgba(0,0,0,0.9)',
+          color: '#fff',
+          fontFamily: textFont,
+          fontWeight: 700,
+          fontSize: '20px',
+          cursor: 'pointer',
+        }}
+      >
+        убрать
+      </button>
+    </button>
+  );
+};
+
+const TrackedAccountCardSkeleton: React.FC = () => (
+  <div
+    className="blur-wave"
+    style={{
+      width: '522px',
+      height: '162px',
+      borderRadius: '30px',
+      border: '4px solid rgba(255,255,255,0.2)',
+      background: 'rgba(255,255,255,0.08)',
+      animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+    }}
+  />
+);
