@@ -35,8 +35,27 @@ export const LabaNoTrackedScreen: React.FC = () => {
           alt="начать отслеживание"
           className="button-inner-glow"
           onClick={() => navigate('/laba-search-account')}
-          style={{ position: 'absolute', left: '325px', top: '1169px', width: '530px', height: '139px', objectFit: 'contain', cursor: 'pointer' }}
+          style={{ position: 'absolute', left: '325px', top: '1169px', width: '530px', height: '139px', objectFit: 'contain', cursor: 'pointer', zIndex: 2 }}
         />
+
+        <div
+          style={{
+            position: 'absolute',
+            left: '353px',
+            top: '1254px',
+            width: '473px',
+            fontFamily: 'Cygre',
+            fontWeight: 400,
+            fontSize: '32px',
+            lineHeight: '1',
+            color: 'rgba(255,255,255,0.6)',
+            textAlign: 'center',
+            zIndex: 2,
+            pointerEvents: 'none',
+          }}
+        >
+          вы можете пополнить баланс в личном кабинете
+        </div>
 
         <Footer />
       </div>

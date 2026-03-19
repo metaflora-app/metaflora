@@ -1,446 +1,195 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import bgPattern from '../../assets/figma-welcome/pattern.png';
-import logoSmall from '../../assets/figma-welcome/logo-small.png';
-import supportButton from '../../assets/tour-video/support-button.png';
-import leftCard from '../../assets/laba-screens/слева.png';
-import rightCard from '../../assets/laba-screens/справа.png';
-import sidebar from '../../assets/laba-screens/сайдбар.png';
-import scrollIndicator from '../../assets/laba-main-buttons/скролл перемещения.png';
-import socialsIconsFooter from '../../assets/welcome-elements/socials-icons.png';
-import logoFooter from '../../assets/figma-welcome/logo-footer.png';
-import peopleBackground from '../../assets/laba-no-tracked/люди друг на друге.png';
+const SIDEBAR_HOTSPOTS = [
+  { left: 348, width: 82, route: '/laba-main' },
+  { left: 443, width: 82, route: '/laba-no-tracked' },
+  { left: 538, width: 82, route: '/laba-favorites' },
+  { left: 633, width: 82, route: '/metacoins' },
+];
+
+const logoSmall = 'https://www.figma.com/api/mcp/asset/6cc89443-e3dd-4f50-8766-f7549c24f1c1';
+const logoFooter = 'https://www.figma.com/api/mcp/asset/8cbffe4a-e50d-4dbf-9309-c70270c1a013';
+const socialsSprite = 'https://www.figma.com/api/mcp/asset/47e834b0-2ec2-47a5-86c2-d642f138fe3b';
+const backgroundBase = 'https://www.figma.com/api/mcp/asset/ae38eb1c-b28c-46b9-a9c2-040a5cec66df';
+const backgroundOverlayOne = 'https://www.figma.com/api/mcp/asset/edb83794-7120-4b6d-bdf8-b2fe59317848';
+const backgroundOverlayTwo = 'https://www.figma.com/api/mcp/asset/b07f8e3a-732f-48a5-b5e5-a44c34d31812';
+const panelImage = 'https://www.figma.com/api/mcp/asset/075957e6-8862-4e8d-abf3-e1ebb4a13871';
+const sidebarIcons = 'https://www.figma.com/api/mcp/asset/6a36e4ed-0497-4bf3-9548-3a7e9d07d6db';
 
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  
-  const [scrollPosition, setScrollPosition] = React.useState({ x: 301, y: 1879 });
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [activeButton, setActiveButton] = React.useState<string | null>(null);
-  
-  const buttonPositions = [
-    { id: 'main', x: 241, y: 1882, route: '/laba-main' },
-    { id: 'tracked', x: 393, y: 1882, route: '/laba-no-tracked' },
-    { id: 'favorites', x: 598, y: 1882, route: '/laba-favorites' },
-    { id: 'balance', x: 741, y: 1880, route: '/metacoins' },
-  ];
-  
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    setIsDragging(true);
-    e.preventDefault();
-  };
-  
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDragging) return;
-    
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const containerX = (clientX / scale) - 65; // Center of 131px element
-    
-    setScrollPosition(prev => ({ ...prev, x: containerX }));
-    
-    // Check magnetic snap to buttons
-    const snapThreshold = 50;
-    for (const btn of buttonPositions) {
-      if (Math.abs(containerX - btn.x) < snapThreshold) {
-        setActiveButton(btn.id);
-        setScrollPosition({ x: btn.x, y: 1879 });
-        return;
-      }
-    }
-    setActiveButton(null);
-  };
-  
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    if (activeButton) {
-      const button = buttonPositions.find(b => b.id === activeButton);
-      if (button) {
-        setTimeout(() => navigate(button.route), 200);
-      }
-    }
-  };
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '100vw',
-      minHeight: '100vh',
-      background: '#020101',
-      overflow: 'hidden',
-    }}>
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
-      {/* Background pattern - full screen */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${bgPattern})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'repeat',
-        }}
-      />
+    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+        <div style={{ position: 'absolute', left: '-153px', top: '-71px', width: '1485px', height: '2660px', pointerEvents: 'none' }}>
+          <img src={backgroundBase} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={backgroundOverlayOne} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
+          <img src={backgroundOverlayTwo} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
 
-      <div style={{
-        position: 'relative',
-        width: '1180px',
-        minHeight: '2550px',
-        transform: `scale(${scale})`,
-        transformOrigin: 'top left',
-      }}>
-        {/* Background pattern - full screen */}
+        <button
+          type="button"
+          onClick={() => navigate('/main-dashboard-premium')}
+          style={{ position: 'absolute', left: '500px', top: '61px', width: '186px', height: '131px', border: 'none', background: 'transparent', cursor: 'pointer', padding: 0 }}
+        >
+          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+            <img
+              src={logoSmall}
+              alt="МЕТАФЛОРА*"
+              style={{ position: 'absolute', height: '131.84%', left: '-21.84%', top: '-16.38%', width: '143.34%', maxWidth: 'none' }}
+            />
+          </div>
+        </button>
+
+        <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
+            МЕТАФЛОРА* лаба
+          </p>
+        </div>
+
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '882px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            забудьте о часах поиска и анализа видео - доверьте это ИИ
+          </p>
+        </div>
+
+        <div style={{ position: 'absolute', left: '141px', top: '400px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+          <img src={panelImage} alt="слева" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+
+        <div style={{ position: 'absolute', left: '601px', top: '404px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+          <img src={panelImage} alt="справа" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+
         <div
           style={{
             position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${bgPattern})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'repeat',
+            left: '320px',
+            top: '1863px',
+            width: '530px',
+            height: '139px',
+            borderRadius: '62px',
+            border: '4px solid rgba(255,255,255,0.3)',
+            background: 'rgba(0,0,0,0.1)',
+            backdropFilter: 'blur(50px)',
           }}
-        />
-
-        <div 
-          onClick={() => navigate('/main-dashboard-premium')}
-          style={{
-            cursor: 'pointer',
-          position: 'absolute',
-          left: '500px',
-          top: '61px',
-          width: '186px',
-          height: '131px',
-        }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}>
-            <img 
-              src={logoSmall}
-              alt="МЕТАФЛОРА*"
+        >
+          <img
+            src={sidebarIcons}
+            alt="сайдбар иконки новые"
+            style={{ position: 'absolute', left: 0, top: '21px', width: '534px', height: '98px', objectFit: 'contain', pointerEvents: 'none' }}
+          />
+          {SIDEBAR_HOTSPOTS.map((item) => (
+            <button
+              key={item.route}
+              type="button"
+              onClick={() => navigate(item.route)}
               style={{
                 position: 'absolute',
-                height: '131.84%',
-                left: '-21.84%',
-                top: '-16.38%',
-                width: '143.34%',
-                maxWidth: 'none',
+                left: `${item.left - 320}px`,
+                top: '20px',
+                width: `${item.width}px`,
+                height: '100px',
+                border: 'none',
+                background: 'transparent',
+                cursor: 'pointer',
               }}
             />
-          </div>
+          ))}
         </div>
 
-        <img 
-          src={supportButton}
-          alt="написать в поддержку"
-          style={{
-            position: 'absolute',
-            left: '829px',
-            top: '97px',
-            width: '205px',
-            height: '78px',
-            cursor: 'pointer',
-          }}
-        />
-
-        {/* Люди друг на друге - ПОД фреймом */}
-        <img 
-          src={peopleBackground}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '898px',
-            width: '892px',
-            height: '1050px',
-            objectFit: 'contain',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
-
-        <img 
-          src={leftCard}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '141px',
-            top: '223px',
-            width: '428px',
-            height: '1820px',
-            objectFit: 'cover',
-            borderRadius: '30px',
-          }}
-        />
-
-        <img 
-          src={rightCard}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '601px',
-            top: '223px',
-            width: '428px',
-            height: '1820px',
-            objectFit: 'cover',
-            borderRadius: '30px',
-          }}
-        />
-
-        {/* Draggable scroll indicator - ПЕРЕД сайдбаром чтобы быть ПОД иконками */}
-        <img
-          src={scrollIndicator}
-          alt="скролл перемещения"
-          onMouseDown={handleDragStart}
-          onMouseMove={handleDragMove}
-          onMouseUp={handleDragEnd}
-          onMouseLeave={handleDragEnd}
-          onTouchStart={handleDragStart}
-          onTouchMove={handleDragMove}
-          onTouchEnd={handleDragEnd}
-          style={{
-            position: 'absolute',
-            left: `${scrollPosition.x}px`,
-            top: `${scrollPosition.y}px`,
-            width: '131px',
-            height: '131px',
-            cursor: isDragging ? 'grabbing' : 'grab',
-            transition: isDragging ? 'none' : 'all 0.3s ease-out',
-            pointerEvents: 'auto',
-          }}
-        />
-
-        <img 
-          src={sidebar}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '241px',
-            top: '1875px',
-            width: '688px',
-            height: '139px',
-            objectFit: 'contain',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Невидимая кнопка на первой иконке (домик) → laba-main */}
-        <div 
-          onClick={() => navigate('/laba-main')}
-          style={{
-            position: 'absolute',
-            left: '241px',
-            top: '1882px',
-            width: '129px',
-            height: '126px',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            zIndex: 99999
-          }}
-        />
-
-        {/* Невидимая кнопка на второй иконке (люди) → laba-no-tracked */}
-        <div 
-          onClick={() => navigate('/laba-no-tracked')}
-          style={{
-            position: 'absolute',
-            left: '393px',
-            top: '1882px',
-            width: '129px',
-            height: '126px',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            zIndex: 99999
-          }}
-        />
-
-        {/* Невидимая кнопка на третьей иконке (звезда) → laba-favorites */}
-        <div 
-          onClick={() => navigate('/laba-favorites')}
-          style={{
-            position: 'absolute',
-            left: '598px',
-            top: '1882px',
-            width: '129px',
-            height: '124px',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            zIndex: 99999
-          }}
-        />
-
-        {/* Невидимая кнопка на четвертой иконке (баланс) → metacoins */}
-        <div 
-          onClick={() => navigate('/metacoins')}
-          style={{
-            position: 'absolute',
-            left: '741px',
-            top: '1880px',
-            width: '129px',
-            height: '132px',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            zIndex: 99999
-          }}
-        />
-
-        {/* Footer */}
-        <div style={{
-          position: 'absolute',
-          left: 'calc(50% - 5px)',
-          top: '2071px',
-          transform: 'translateX(-50%)',
-          width: '888px',
-          height: '124px',
-        }}>
-          {/* Логотип в подвале */}
-          <div style={{
-            position: 'absolute',
-            width: '380px',
-            height: '83px',
-            left: '2px',
-            top: '-16px',
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              overflow: 'hidden',
-              pointerEvents: 'none',
-            }}>
-              <img 
+        <div style={{ position: 'absolute', left: '141px', top: '2071px', width: '888px', height: '124px' }}>
+          <div style={{ position: 'absolute', left: '2px', top: '-16px', width: '380px', height: '83px' }}>
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+              <img
                 src={logoFooter}
                 alt="МЕТАФЛОРА*"
-                style={{
-                  position: 'absolute',
-                  height: '526.54%',
-                  left: '-37.89%',
-                  top: '-202.47%',
-                  width: '170.37%',
-                  maxWidth: 'none',
-                }}
+                style={{ position: 'absolute', height: '526.54%', left: '-37.89%', top: '-202.47%', width: '170.37%', maxWidth: 'none' }}
               />
             </div>
           </div>
-          
-          {/* Copyright текст */}
-          <div style={{
-            position: 'absolute',
-            left: '2px',
-            top: '56px',
-            width: '433px',
-            height: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontFamily: 'Gotham Pro',
-            fontWeight: 300,
-            fontSize: '20px',
-            lineHeight: '0',
-            color: 'white',
-          }}>
-            <p style={{ 
-              margin: 0,
-              lineHeight: 'normal',
-              whiteSpace: 'pre-wrap',
-            }}>
-              Copyright © Все права защищены.
-            </p>
+
+          <div
+            style={{
+              position: 'absolute',
+              left: '2px',
+              top: '56px',
+              width: '433px',
+              fontFamily: 'Cygre',
+              fontWeight: 400,
+              fontSize: '20px',
+              lineHeight: '1',
+              color: 'rgba(255,255,255,0.6)',
+            }}
+          >
+            Copyright © Все права защищены
           </div>
-          
-          {/* Подложка под соцсети */}
-          <div className="blur-wave" style={{
-            position: 'absolute',
-            left: '664px',
-            top: '-2px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '4px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '62px',
-            height: '78px',
-            width: '230px',
-          }} />
-          
-          {/* Иконки соцсетей */}
-          <div style={{
-            position: 'absolute',
-            left: '681px',
-            top: '13px',
-            width: '196px',
-            height: '51px',
-          }}>
-            <div style={{
+
+          <div
+            style={{
               position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '50px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIconsFooter}
-                  alt="Telegram"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-377.92%',
-                    top: '-118.33%',
-                    width: '517.92%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-            
-            <div style={{
+              left: '417px',
+              top: '-3px',
+              width: '247px',
+              height: '79px',
+              borderRadius: '62px',
+              border: '4px solid rgba(255,255,255,0.3)',
+              background: '#000',
+              backdropFilter: 'blur(50px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Cygre',
+              fontWeight: 400,
+              fontSize: '27px',
+              color: '#fff',
+            }}
+          >
+            поддержка
+          </div>
+
+          <div
+            style={{
               position: 'absolute',
-              left: '54px',
-              top: 0,
-              width: '142px',
-              height: '51px',
-            }}>
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0.6,
-                overflow: 'hidden',
-                pointerEvents: 'none',
-              }}>
-                <img 
-                  src={socialsIconsFooter}
-                  alt="Соцсети"
-                  style={{
-                    position: 'absolute',
-                    height: '339.84%',
-                    left: '-16.64%',
-                    top: '-118.33%',
-                    width: '183.64%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
+              left: '664px',
+              top: '-2px',
+              width: '230px',
+              height: '78px',
+              borderRadius: '62px',
+              border: '4px solid rgba(255,255,255,0.3)',
+              background: '#000',
+              backdropFilter: 'blur(50px)',
+              overflow: 'hidden',
+            }}
+          >
+            <div style={{ position: 'absolute', left: '111px', top: '11px', width: '94px', height: '51px', opacity: 0.3, overflow: 'hidden' }}>
+              <img
+                src={socialsSprite}
+                alt=""
+                style={{ position: 'absolute', height: '339.84%', left: '-76.21%', top: '-118.33%', width: '277.42%', maxWidth: 'none' }}
+              />
             </div>
+          </div>
+
+          <div style={{ position: 'absolute', left: '681px', top: '13px', width: '50px', height: '51px', overflow: 'hidden' }}>
+            <img
+              src={socialsSprite}
+              alt=""
+              style={{ position: 'absolute', height: '339.84%', left: '-377.92%', top: '-118.33%', width: '517.92%', maxWidth: 'none' }}
+            />
+          </div>
+
+          <div style={{ position: 'absolute', left: '735px', top: '13px', width: '40px', height: '51px', overflow: 'hidden' }}>
+            <img
+              src={socialsSprite}
+              alt=""
+              style={{ position: 'absolute', height: '339.84%', left: '-59.08%', top: '-118.33%', width: '651.94%', maxWidth: 'none' }}
+            />
           </div>
         </div>
-
       </div>
     </div>
   );
