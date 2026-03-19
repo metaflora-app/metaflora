@@ -11,6 +11,7 @@ import metacoinSmall from '../../assets/metacoins-redesign/новый метак
 const textFont = 'Cygre, sans-serif';
 const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/f9989588-a77c-44c3-ab0b-7ce3d1fe6bf0';
 const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/ff0be015-a095-4083-a61e-82db2af9695b';
+const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/599c0367-cbdd-45f8-b56f-00e99b9c2383';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
@@ -259,13 +260,13 @@ export const LabaMainScreen: React.FC = () => {
             background: '#000',
           }}
         >
-          <img src={searchIcon} alt="" style={{ position: 'absolute', left: '19px', top: '21px', width: '38px', height: '38px' }} />
+          <img src={figmaSearchIcon} alt="" style={{ position: 'absolute', left: '19px', top: '21px', width: '38px', height: '38px' }} />
           <div
             style={{
               position: 'absolute',
               left: '74px',
               top: 0,
-              width: '520px',
+              width: '612px',
               height: '79px',
               display: 'flex',
               alignItems: 'center',
@@ -299,7 +300,7 @@ export const LabaMainScreen: React.FC = () => {
           className="button-inner-glow"
           style={{
             position: 'absolute',
-            left: '964.5px',
+            left: '900px',
             top: '380px',
             width: '129px',
             height: '73px',
