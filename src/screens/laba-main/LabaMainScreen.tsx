@@ -5,10 +5,9 @@ import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/Lab
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 
 const textFont = 'Cygre, sans-serif';
-const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/fa7babfd-6563-43e5-998e-2ed7d342fcf0';
-const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/505d1781-04c7-4ba7-b84e-4979213a612c';
 const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/3ed3e24e-7b3b-4e04-9934-abebf59d14dd';
 const figmaSearchCoin = 'https://www.figma.com/api/mcp/asset/e10ec07c-b658-4fd1-865f-71ba8fd86b2c';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
@@ -266,11 +265,12 @@ export const LabaMainScreen: React.FC = () => {
             style={{
               position: 'absolute',
               left: '74px',
-              top: 0,
               width: '612px',
-              height: '79px',
+              height: '32px',
               display: 'flex',
               alignItems: 'center',
+              top: '50%',
+              transform: 'translateY(-58%)',
             }}
           >
             <input
@@ -352,71 +352,51 @@ export const LabaMainScreen: React.FC = () => {
           </div>
         </button>
 
-        <FilterButton label="вернуть" left={221} top={497} width={247} active onClick={() => void resetFilters()} />
+        <FilterButton label="вернуть" left={220} top={482} width={247} onClick={() => void resetFilters()} />
         <FilterButton
           label={selectedSort || 'сортировка'}
-          left={468}
-          top={497}
+          left={467}
+          top={482}
           width={247}
           active={Boolean(selectedSort)}
           onClick={() => cycleFilter(selectedSort, setSelectedSort, sortOptions, 'сортировка')}
         />
         <FilterButton
           label={selectedDate || 'дата'}
-          left={715}
-          top={497}
+          left={714}
+          top={482}
           width={247}
           active={Boolean(selectedDate)}
           onClick={() => cycleFilter(selectedDate, setSelectedDate, dateOptions, 'дата публикации')}
         />
         <FilterButton
           label={selectedAccount || 'аккаунт'}
-          left={282}
-          top={576}
+          left={343}
+          top={561}
           width={247}
           active={Boolean(selectedAccount)}
           onClick={() => cycleFilter(selectedAccount, setSelectedAccount, accountOptions, 'размер аккаунта')}
         />
         <FilterButton
           label={selectedLanguage || 'язык'}
-          left={529}
-          top={576}
+          left={590}
+          top={561}
           width={247}
           active={Boolean(selectedLanguage)}
           onClick={() => cycleFilter(selectedLanguage, setSelectedLanguage, languageOptions, 'язык')}
         />
 
-        <div style={{ position: 'absolute', left: '141px', top: '661px', width: '894px', height: '1382px', pointerEvents: 'none' }}>
-          <img
-            src={figmaPeopleLogo}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
-
-        <div style={{ position: 'absolute', left: '54px', top: '593px', width: '1119px', height: '1499px', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
-          <div style={{ width: '1499px', height: '1119px', transform: 'rotate(-90deg)', position: 'relative' }}>
-            <div style={{ position: 'absolute', left: '12.32%', right: '10.09%', top: '11.46%', bottom: '14.26%' }}>
-              <img
-                src={figmaBigDemoLogo}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '252.58%',
-                  left: '-46.02%',
-                  top: '-71.61%',
-                  width: '188.85%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '54px',
+            top: '593px',
+            width: '1119px',
+            height: '1499px',
+            pointerEvents: 'none',
+          }}
+        >
+          <img src={reelsScrollWindowNew} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
         <div
           className="blur-wave"

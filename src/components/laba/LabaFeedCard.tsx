@@ -190,15 +190,14 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             height: '100%',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'flex-start',
-            gap: '8px',
-            paddingLeft: '18px',
-            transform: 'translateY(-1px)',
+            justifyContent: 'center',
+            gap: '14px',
+            transform: 'translate(10px, -1px)',
           }}
         >
-          <MetricItem icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} width={120} />
-          <MetricItem icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} width={112} />
-          <MetricItem icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} width={114} />
+          <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
+          <MetricStat icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} cropLeft="-193.75%" cropTop="-115.69%" cropWidth="487.69%" width={96} />
+          <MetricStat icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} cropLeft="-304.47%" cropTop="-115.69%" cropWidth="487.69%" width={101} />
         </div>
       </div>
 
@@ -282,7 +281,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '281px',
-          top: '930px',
+          top: '926px',
           width: '350px',
           fontFamily: textFont,
           fontWeight: 400,
@@ -408,13 +407,16 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
   </div>
 );
 
-const MetricItem: React.FC<{
+const MetricStat: React.FC<{
   icon: string;
   value: string;
   iconWidth: number;
   iconHeight: number;
+  cropLeft: string;
+  cropTop: string;
+  cropWidth: string;
   width: number;
-}> = ({ icon, value, iconWidth, iconHeight, width }) => (
+}> = ({ icon, value, iconWidth, iconHeight, cropLeft, cropTop, cropWidth, width }) => (
   <div
     style={{
       width: `${width}px`,
@@ -424,19 +426,30 @@ const MetricItem: React.FC<{
       justifyContent: 'center',
       gap: '6px',
       transform: 'translateY(-2px)',
+      flex: '0 0 auto',
     }}
   >
     <div
       style={{
+        position: 'relative',
         width: `${iconWidth}px`,
         height: `${iconHeight}px`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        overflow: 'hidden',
         flex: '0 0 auto',
       }}
     >
-      <img src={icon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      <img
+        src={icon}
+        alt=""
+        style={{
+          position: 'absolute',
+          height: '339.22%',
+          left: cropLeft,
+          top: cropTop,
+          width: cropWidth,
+          maxWidth: 'none',
+        }}
+      />
     </div>
     <div
       style={{
@@ -469,7 +482,7 @@ const ActionButton: React.FC<{
     style={{
       position: 'absolute',
       left: '356px',
-      top: '800px',
+      top: '786px',
       width: '247px',
       height: '79px',
       padding: 0,
