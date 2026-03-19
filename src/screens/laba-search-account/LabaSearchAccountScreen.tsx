@@ -5,6 +5,7 @@ import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
+import blackSearchUnderlay from '../../assets/laba-search-account/черная подложка под добавление аккаунта.png';
 
 const textFont = 'Cygre, sans-serif';
 const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
@@ -111,11 +112,21 @@ export const LabaSearchAccountScreen: React.FC = () => {
             width: '898px',
             height: '1536px',
             borderRadius: '30px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: 'rgba(0,0,0,0.92)',
-            backdropFilter: 'blur(50px)',
+            overflow: 'hidden',
           }}
         >
+          <img
+            src={blackSearchUnderlay}
+            alt=""
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'fill',
+              pointerEvents: 'none',
+            }}
+          />
           <p style={{ position: 'absolute', left: '41px', top: '63px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
             добавить ссылку
           </p>
@@ -210,6 +221,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 height: '29px',
                 lineHeight: '1',
                 textAlign: 'center',
+                position: 'relative',
+                top: '-3px',
               }}
             >
               {searching ? 'ищем...' : 'найти'}
@@ -301,7 +314,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   left: '202px',
                   top: '1021px',
                   margin: 0,
-                  width: '495px',
+                  width: '430px',
                   fontFamily: textFont,
                   fontWeight: 400,
                   fontSize: '32px',
@@ -310,7 +323,9 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   textAlign: 'center',
                 }}
               >
-                вы можете пополнить баланс в личном кабинете
+                вы можете пополнить баланс
+                <br />
+                в личном кабинете
               </p>
             </>
           ) : null}

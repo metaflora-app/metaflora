@@ -175,8 +175,8 @@ export const FigmaDownloadIconButton: React.FC<BasePillProps> = ({ className, st
     src={downloadPlusIcon}
     alt=""
     style={{
-      width: '56px',
-      height: '56px',
+      width: '36px',
+      height: '36px',
       objectFit: 'contain',
       display: 'block',
       flexShrink: 0,
