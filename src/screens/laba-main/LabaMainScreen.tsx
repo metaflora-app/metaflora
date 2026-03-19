@@ -5,6 +5,7 @@ import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/Lab
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import mainCardUnderlay from '../../assets/prompt-redesign/большая главная подложка.png';
 import searchIcon from '../../assets/laba-icons/иконка поиска.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
@@ -416,6 +417,19 @@ export const LabaMainScreen: React.FC = () => {
               />
             </div>
           </div>
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '672px',
+            width: '894px',
+            height: '1369px',
+            pointerEvents: 'none',
+          }}
+        >
+          <img src={mainCardUnderlay} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
         </div>
 
         <div

@@ -181,16 +181,16 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           background: '#000',
         }}
       >
-        <Metric sprite={figmaStatsSprite} value={formatCount(reel.viewsCount)} iconLeft={197} iconTop={673} iconWidth={66} iconHeight={56} spriteLeft="-69.53%" spriteTop="-115.69%" spriteWidth="426.73%" valueLeft={308} valueTop={687} />
-        <Metric sprite={figmaStatsSprite} value={formatCount(reel.likesCount)} iconLeft={347} iconTop={665} iconWidth={66} iconHeight={64} spriteLeft="-193.75%" spriteTop="-115.69%" spriteWidth="487.69%" valueLeft={448} valueTop={687} />
-        <Metric sprite={figmaStatsSprite} value={formatCount(reel.commentsCount)} iconLeft={481} iconTop={665} iconWidth={68} iconHeight={66} spriteLeft="-304.47%" spriteTop="-115.69%" spriteWidth="487.69%" valueLeft={577} valueTop={687} />
+        <Metric sprite={figmaStatsSprite} value={formatCount(reel.viewsCount)} iconLeft={28} iconTop={11} iconWidth={66} iconHeight={56} spriteLeft="-69.53%" spriteTop="-115.69%" spriteWidth="426.73%" valueLeft={92} valueTop={22} />
+        <Metric sprite={figmaStatsSprite} value={formatCount(reel.likesCount)} iconLeft={161} iconTop={7} iconWidth={66} iconHeight={64} spriteLeft="-193.75%" spriteTop="-115.69%" spriteWidth="487.69%" valueLeft={226} valueTop={22} />
+        <Metric sprite={figmaStatsSprite} value={formatCount(reel.commentsCount)} iconLeft={286} iconTop={7} iconWidth={68} iconHeight={66} spriteLeft="-304.47%" spriteTop="-115.69%" spriteWidth="487.69%" valueLeft={352} valueTop={22} />
       </div>
 
       <div
         style={{
           position: 'absolute',
           left: '50%',
-          top: '54px',
+          top: '62px',
           transform: 'translateX(-50%)',
           fontFamily: textFont,
           fontWeight: 400,
@@ -221,8 +221,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '267px',
-          top: '811px',
+          left: '264px',
+          top: '813px',
           width: '64px',
           height: '78px',
           overflow: 'hidden',
@@ -451,6 +451,7 @@ const Metric: React.FC<{
         fontSize: '35px',
         lineHeight: '1',
         color: '#fff',
+        whiteSpace: 'nowrap',
       }}
     >
       {value}
@@ -471,7 +472,7 @@ const ActionButton: React.FC<{
     style={{
       position: 'absolute',
       left: '356px',
-      top: '850px',
+      top: '848px',
       width: '247px',
       height: '79px',
       padding: 0,
@@ -500,7 +501,7 @@ const ActionButton: React.FC<{
             fontWeight: 700,
             fontSize: '27px',
             lineHeight: '1',
-            whiteSpace: 'pre-wrap',
+            whiteSpace: 'pre',
           }}
         >
           {`${label}    ${cost}`}
