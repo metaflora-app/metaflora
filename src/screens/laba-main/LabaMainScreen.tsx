@@ -9,8 +9,8 @@ import searchIcon from '../../assets/laba-icons/иконка поиска.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 const textFont = 'Cygre, sans-serif';
-const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/f9989588-a77c-44c3-ab0b-7ce3d1fe6bf0';
-const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/ff0be015-a095-4083-a61e-82db2af9695b';
+const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/496343ee-d0c8-4383-a890-34a992648fc5';
+const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/8baf81c7-a9e0-482e-83f1-384532cb13f6';
 const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/599c0367-cbdd-45f8-b56f-00e99b9c2383';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
@@ -385,46 +385,36 @@ export const LabaMainScreen: React.FC = () => {
           onClick={() => cycleFilter(selectedLanguage, setSelectedLanguage, languageOptions, 'язык')}
         />
 
-        <div
-          style={{
-            position: 'absolute',
-            left: '141px',
-            top: '661px',
-            width: '894px',
-            height: '1382px',
-            pointerEvents: 'none',
-            overflow: 'hidden',
-          }}
-        >
-          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-            <img
-              src={figmaPeopleLogo}
-              alt=""
-              style={{
-                position: 'absolute',
-                left: '-96px',
-                top: '-14px',
-                width: '1086px',
-                height: '1110px',
-                objectFit: 'contain',
-                opacity: 1,
-              }}
-            />
-          </div>
-          <div
+        <div style={{ position: 'absolute', left: '141px', top: '661px', width: '894px', height: '1382px', pointerEvents: 'none' }}>
+          <img
+            src={figmaPeopleLogo}
+            alt=""
             style={{
               position: 'absolute',
-              left: '-87px',
-              top: '-86px',
-              width: '1119px',
-              height: '1499px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transform: 'rotate(-90deg)',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
             }}
-          >
-            <img src={figmaBigDemoLogo} alt="" style={{ width: '1499px', height: '1119px', objectFit: 'contain' }} />
+          />
+        </div>
+
+        <div style={{ position: 'absolute', left: '54px', top: '593px', width: '1119px', height: '1499px', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+          <div style={{ width: '1499px', height: '1119px', transform: 'rotate(-90deg)', position: 'relative' }}>
+            <div style={{ position: 'absolute', left: '12.32%', right: '10.09%', top: '11.46%', bottom: '14.26%' }}>
+              <img
+                src={figmaBigDemoLogo}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '252.58%',
+                  left: '-46.02%',
+                  top: '-71.61%',
+                  width: '188.85%',
+                  maxWidth: 'none',
+                }}
+              />
+            </div>
           </div>
         </div>
 
