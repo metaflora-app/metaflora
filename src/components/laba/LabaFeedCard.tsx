@@ -20,12 +20,14 @@ const COVER_SIZE = 744;
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
-const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/6807ecfb-95f6-4a90-91fb-04c34c2204da';
+const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/200ff601-2b41-4029-92e4-df8b7f6e9be8';
 const figmaProfilePhoto = 'https://www.figma.com/api/mcp/asset/7c7e9ccf-5f4d-4211-9ee3-97edfc45576f';
-const figmaStatsSprite = 'https://www.figma.com/api/mcp/asset/e775c80c-8bf9-42fe-abd7-d5fcf42418b6';
+const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/4947d001-7a53-4588-af2d-42e9b92dd440';
+const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/08883100-5630-4a61-82bd-4a060c7bc5b4';
+const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/2e62f73a-55ce-456d-a440-a33e92b1dd45';
 const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c914514e-0b54-4b1b-8ce2-5473d0d1671f';
 const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/9706fd0a-d277-4e19-abed-e80b0990d5eb';
-const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/11c731d9-08ad-4dab-aa88-2e2f793f2687';
+const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/7747cf48-090d-4035-a50c-66e4ef7d40c7';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
@@ -181,16 +183,28 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           background: '#000',
         }}
       >
-        <Metric sprite={figmaStatsSprite} value={formatCount(reel.viewsCount)} iconLeft={28} iconTop={11} iconWidth={66} iconHeight={56} spriteLeft="-69.53%" spriteTop="-115.69%" spriteWidth="426.73%" valueLeft={92} valueTop={22} />
-        <Metric sprite={figmaStatsSprite} value={formatCount(reel.likesCount)} iconLeft={161} iconTop={7} iconWidth={66} iconHeight={64} spriteLeft="-193.75%" spriteTop="-115.69%" spriteWidth="487.69%" valueLeft={226} valueTop={22} />
-        <Metric sprite={figmaStatsSprite} value={formatCount(reel.commentsCount)} iconLeft={286} iconTop={7} iconWidth={68} iconHeight={66} spriteLeft="-304.47%" spriteTop="-115.69%" spriteWidth="487.69%" valueLeft={352} valueTop={22} />
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            transform: 'translateX(12px)',
+          }}
+        >
+          <MetricItem icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} width={126} />
+          <MetricItem icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} width={113} />
+          <MetricItem icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} width={118} />
+        </div>
       </div>
 
       <div
         style={{
           position: 'absolute',
           left: '50%',
-          top: '62px',
+          top: '72px',
           transform: 'translateX(-50%)',
           fontFamily: textFont,
           fontWeight: 400,
@@ -221,7 +235,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '264px',
+          left: '268px',
           top: '813px',
           width: '64px',
           height: '78px',
@@ -392,71 +406,52 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
   </div>
 );
 
-const Metric: React.FC<{
-  sprite: string;
+const MetricItem: React.FC<{
+  icon: string;
   value: string;
-  iconLeft: number;
-  iconTop: number;
   iconWidth: number;
   iconHeight: number;
-  spriteLeft: string;
-  spriteTop: string;
-  spriteWidth: string;
-  valueLeft: number;
-  valueTop: number;
-}> = ({
-  sprite,
-  value,
-  iconLeft,
-  iconTop,
-  iconWidth,
-  iconHeight,
-  spriteLeft,
-  spriteTop,
-  spriteWidth,
-  valueLeft,
-  valueTop,
-}) => (
-  <>
+  width: number;
+}> = ({ icon, value, iconWidth, iconHeight, width }) => (
+  <div
+    style={{
+      width: `${width}px`,
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '6px',
+      transform: 'translateY(-2px)',
+    }}
+  >
     <div
       style={{
-        position: 'absolute',
-        left: `${iconLeft}px`,
-        top: `${iconTop}px`,
         width: `${iconWidth}px`,
         height: `${iconHeight}px`,
-        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: '0 0 auto',
       }}
     >
-      <img
-        src={sprite}
-        alt=""
-        style={{
-          position: 'absolute',
-          height: '339.22%',
-          left: spriteLeft,
-          top: spriteTop,
-          width: spriteWidth,
-          maxWidth: 'none',
-        }}
-      />
+      <img src={icon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
     </div>
     <div
       style={{
-        position: 'absolute',
-        left: `${valueLeft}px`,
-        top: `${valueTop}px`,
         fontFamily: textFont,
         fontWeight: 700,
         fontSize: '35px',
         lineHeight: '1',
         color: '#fff',
         whiteSpace: 'nowrap',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       {value}
     </div>
-  </>
+  </div>
 );
 
 const ActionButton: React.FC<{
@@ -472,7 +467,7 @@ const ActionButton: React.FC<{
     style={{
       position: 'absolute',
       left: '356px',
-      top: '848px',
+      top: '834px',
       width: '247px',
       height: '79px',
       padding: 0,
@@ -485,28 +480,25 @@ const ActionButton: React.FC<{
       fontSize: '27px',
       cursor: 'pointer',
       boxShadow: variant === 'light' ? 'inset 0 0 40px rgba(255,255,255,0.16)' : 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     }}
   >
     {typeof cost === 'number' ? (
-      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '199px',
-            textAlign: 'center',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '27px',
-            lineHeight: '1',
-            whiteSpace: 'pre',
-          }}
-        >
-          {`${label}    ${cost}`}
-        </div>
-        <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          transform: 'translateY(-2px)',
+        }}
+      >
+        <span>{label}</span>
+        <div style={{ position: 'relative', width: '19px', height: '19px', overflow: 'hidden', flex: '0 0 auto' }}>
           <img
             src={figmaMetacoin}
             alt=""
@@ -520,6 +512,7 @@ const ActionButton: React.FC<{
             }}
           />
         </div>
+        <span>{cost}</span>
       </div>
     ) : (
       <span>{label}</span>

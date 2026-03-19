@@ -5,13 +5,12 @@ import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/Lab
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
-import mainCardUnderlay from '../../assets/prompt-redesign/большая главная подложка.png';
 import searchIcon from '../../assets/laba-icons/иконка поиска.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 const textFont = 'Cygre, sans-serif';
-const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/496343ee-d0c8-4383-a890-34a992648fc5';
-const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/8baf81c7-a9e0-482e-83f1-384532cb13f6';
+const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/70600abd-efb9-4e13-8419-fcd8c241b6d7';
+const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/ae8d1963-710b-464a-a75a-cc7aac07d21d';
 const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/599c0367-cbdd-45f8-b56f-00e99b9c2383';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
@@ -418,20 +417,6 @@ export const LabaMainScreen: React.FC = () => {
             </div>
           </div>
         </div>
-
-        <div
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '672px',
-            width: '894px',
-            height: '1369px',
-            pointerEvents: 'none',
-          }}
-        >
-          <img src={mainCardUnderlay} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
-        </div>
-
         <div
           className="blur-wave"
           style={{
