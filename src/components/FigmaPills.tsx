@@ -1,5 +1,5 @@
 import React from 'react';
-import downloadPlusIcon from '../assets/figma-elements/download-plus-icon.png';
+import downloadPlusIcon from '../assets/materials-redesign/кнопка скачать материалы.png';
 
 interface BasePillProps {
   className?: string;
@@ -170,23 +170,16 @@ export const FigmaReadButton: React.FC<PillButtonProps> = ({ className, style, o
 );
 
 export const FigmaDownloadIconButton: React.FC<BasePillProps> = ({ className, style }) => (
-  <div
+  <img
     className={className}
+    src={downloadPlusIcon}
+    alt=""
     style={{
-      border: '4px solid rgba(255,255,255,0.3)',
-      borderRadius: '32px',
-      background: 'black',
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '32px',
-      height: '32px',
+      width: '48px',
+      height: '48px',
+      objectFit: 'contain',
+      display: 'block',
       ...style,
     }}
-  >
-    <div style={{ position: 'relative', width: '16px', height: '16px' }}>
-      <img src={downloadPlusIcon} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
-    </div>
-  </div>
+  />
 );
