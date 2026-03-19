@@ -163,9 +163,12 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             fontSize: '27px',
             lineHeight: '1',
             cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          ИИ-анализ
+          <span style={{ transform: 'translateY(-4px)' }}>ИИ-анализ</span>
         </button>
       ) : null}
 
@@ -462,7 +465,7 @@ const MetricStat: React.FC<{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        transform: 'translateY(-7px)',
+        transform: 'translateY(-10px)',
       }}
     >
       {value}
@@ -508,7 +511,7 @@ const ActionButton: React.FC<{
           style={{
             position: 'absolute',
             left: '24px',
-            top: '21px',
+            top: '17px',
             width: '199px',
             height: '29px',
             display: 'flex',
@@ -539,7 +542,7 @@ const ActionButton: React.FC<{
         </div>
       </div>
     ) : (
-      <span>{label}</span>
+      <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
     )}
   </button>
 );

@@ -6,6 +6,7 @@ import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
+import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
 
 const textFont = 'Cygre, sans-serif';
 const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/3ed3e24e-7b3b-4e04-9934-abebf59d14dd';
@@ -246,8 +247,7 @@ export const LabaMainScreen: React.FC = () => {
         </div>
 
         <div
-          className="blur-wave"
-          style={{
+                style={{
             position: 'absolute',
             left: '152px',
             top: '376px',
@@ -321,7 +321,7 @@ export const LabaMainScreen: React.FC = () => {
               style={{
                 position: 'absolute',
                 left: '55px',
-                top: '20px',
+                top: '17px',
                 width: '42px',
                 height: '26px',
                 display: 'flex',
@@ -446,7 +446,7 @@ const FilterButton: React.FC<{
   <button
     type="button"
     onClick={onClick}
-    className="blur-wave"
+    className={active ? undefined : 'blur-wave'}
     style={{
       position: 'absolute',
       left: `${left}px`,
@@ -454,9 +454,9 @@ const FilterButton: React.FC<{
       width: `${width}px`,
       height: '79px',
       borderRadius: '62px',
-      border: '4px solid rgba(255,255,255,0.3)',
-      background: active ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.9)',
-      backdropFilter: 'blur(50px)',
+      border: active ? 'none' : '4px solid rgba(255,255,255,0.3)',
+      background: active ? 'transparent' : 'rgba(0,0,0,0.9)',
+      backdropFilter: active ? undefined : 'blur(50px)',
       color: '#fff',
       fontFamily: textFont,
       fontWeight: 700,
@@ -467,8 +467,17 @@ const FilterButton: React.FC<{
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
+      padding: 0,
+      overflow: 'hidden',
     }}
   >
-    <span style={{ display: 'block', transform: 'translateY(-1px)' }}>{label}</span>
+    {active ? (
+      <img
+        src={activeFilterShell}
+        alt=""
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }}
+      />
+    ) : null}
+    <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', transform: 'translateY(-5px)' }}>{label}</span>
   </button>
 );
