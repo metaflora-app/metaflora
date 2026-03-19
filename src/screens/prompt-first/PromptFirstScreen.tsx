@@ -16,6 +16,17 @@ import tinyLogo from '../../assets/prompt-redesign/лого очень мале�
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const previewPromptText = 'настройте ИИ-копирайтера за один промпт, настройте ИИ-копирайтера';
+
+  const handleCopyPrompt = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(previewPromptText);
+      window.Telegram?.WebApp?.showPopup?.({ message: 'Скопировано в буфер обмена' });
+    } catch (error) {
+      console.error('Copy prompt failed:', error);
+    }
+  };
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -29,7 +40,7 @@ export const PromptFirstScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '840px' }}>
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '980px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
             создавайте ИИ-ассистентов или повторяйте горячие тренды - промпты на любой вкус
           </p>
@@ -57,10 +68,50 @@ export const PromptFirstScreen: React.FC = () => {
               <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
-            <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '42px', top: '34px', width: '72px', height: '72px', objectFit: 'contain' }} />
-            <img src={articleBadge} alt="новое" style={{ position: 'absolute', right: '41px', top: '43px', width: '101px', height: '36px', objectFit: 'contain' }} />
+            <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '42px', top: '48px', width: '72px', height: '72px', objectFit: 'contain' }} />
+            <img src={articleBadge} alt="новое" style={{ position: 'absolute', right: '35px', top: '54px', width: '116px', height: '42px', objectFit: 'fill' }} />
 
-            <div style={{ position: 'absolute', left: '83px', top: '786px', width: '665px' }}>
+            <button
+              type="button"
+              onClick={handleCopyPrompt}
+              className="button-inner-glow"
+              style={{
+                position: 'absolute',
+                left: '293px',
+                top: '366px',
+                width: '247px',
+                height: '79px',
+                borderRadius: '62px',
+                border: '4px solid rgba(255,255,255,0.3)',
+                background: 'rgba(0,0,0,0.9)',
+                padding: 0,
+                cursor: 'pointer',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  transform: 'translate(calc(-50% + 1px), calc(-50% - 1px))',
+                  width: '223px',
+                  height: '29px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: 'Cygre',
+                  fontWeight: 700,
+                  fontSize: '27px',
+                  lineHeight: '1',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                скопировать
+              </div>
+            </button>
+
+            <div style={{ position: 'absolute', left: '69px', top: '804px', width: '694px' }}>
               <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                 ИИ-копирайтер для блога
               </p>
