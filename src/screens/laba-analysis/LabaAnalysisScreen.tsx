@@ -4,8 +4,11 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard } from '../../components/laba/LabaFeedCard';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
+import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 
 const textFont = 'Cygre, sans-serif';
+const figmaPeopleBackdrop = 'https://www.figma.com/api/mcp/asset/36cb544f-3aec-4c88-a466-642384e86fa2';
+const figmaLargeLogoBackdrop = 'https://www.figma.com/api/mcp/asset/cc134e7c-9ac6-40af-a577-fca3aa01782c';
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -114,140 +117,150 @@ export const LabaAnalysisScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '85px', top: '274px', width: '930px' }}>
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '882px' }}>
           <p style={{ margin: 0, fontFamily: textFont, fontWeight: 400, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
             ИИ-агент проанализирует ролик и создаст новый сценарий на его основе
           </p>
         </div>
 
-        <div
-          className="blur-wave"
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '399px',
-            width: '894px',
-            minHeight: '1644px',
-            borderRadius: '30px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.1)',
-            padding: '34px 0 44px',
-          }}
-        >
-          <div
-            className="blur-wave"
-            style={{
-              width: '812px',
-              minHeight: '1520px',
-              margin: '0 auto',
-              borderRadius: '30px',
-              border: '4px solid rgba(255,255,255,0.3)',
-              background: '#000',
-              padding: '30px 0 42px',
-            }}
-          >
-            <LabaFeedCard
-              reel={reel}
-              isFavorite={likedCards.has(reel.id)}
-              onToggleFavorite={toggleLocalFavorite}
-              onAction={() => void handleTrack()}
-              actionLabel="следить"
-              actionCost={100}
-            />
+        <div style={{ position: 'absolute', left: '141px', top: '449px', width: '896px', height: '1584px', pointerEvents: 'none' }}>
+          <img src={figmaPeopleBackdrop} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
 
-            <div style={{ width: '744px', margin: '28px auto 0' }}>
-              <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
-                описание
-              </p>
+        <div style={{ position: 'absolute', left: '-29px', top: '372px', width: '1285px', height: '1720px', pointerEvents: 'none' }}>
+          <img src={figmaLargeLogoBackdrop} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
+
+        <img
+          src={mainBackdrop}
+          alt="главная подложка"
+          style={{ position: 'absolute', left: '88px', top: '395px', width: '1004px', height: '1646px', objectFit: 'fill', pointerEvents: 'none' }}
+        />
+
+        <div style={{ position: 'absolute', left: '143px', top: '430px', width: '894px', minHeight: '1569px' }}>
+          <LabaFeedCard
+            reel={reel}
+            isFavorite={likedCards.has(reel.id)}
+            onToggleFavorite={toggleLocalFavorite}
+            onAction={() => void handleTrack()}
+            actionLabel="следить"
+            actionCost={100}
+          />
+
+          <div style={{ width: '744px', margin: '28px auto 0' }}>
+            <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+              описание
+            </p>
+            <p
+              style={{
+                margin: '14px 0 0',
+                fontFamily: textFont,
+                fontWeight: 400,
+                fontSize: '32px',
+                lineHeight: '1.05',
+                color: '#fff',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              {reel.caption || 'без описания'}
+            </p>
+          </div>
+
+          {!analysis ? (
+            <div
+              className="blur-wave"
+              style={{
+                position: 'relative',
+                width: '744px',
+                height: '328px',
+                margin: '95px auto 0',
+                borderRadius: '30px',
+                border: '4px solid rgba(255,255,255,0.3)',
+                background: 'rgba(255,255,255,0.1)',
+                overflow: 'hidden',
+              }}
+            >
+              <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.55 }}>
+                <img src={figmaLargeLogoBackdrop} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <button
+                type="button"
+                onClick={() => void handleStartAnalysis()}
+                className="button-inner-glow"
+                style={{
+                  position: 'absolute',
+                  left: '107px',
+                  top: '59px',
+                  width: '530px',
+                  height: '139px',
+                  borderRadius: '62px',
+                  border: '4px solid rgba(255,255,255,0.3)',
+                  background: 'rgba(0,0,0,0.9)',
+                  color: '#fff',
+                  fontFamily: textFont,
+                  fontWeight: 700,
+                  fontSize: '32px',
+                  cursor: analyzing ? 'default' : 'pointer',
+                  padding: 0,
+                }}
+              >
+                <span style={{ transform: 'translateY(-2px)' }}>{analyzing ? 'анализируем...' : `начать анализ ${LABA_COSTS.ANALYZE_REEL}`}</span>
+              </button>
               <p
                 style={{
-                  margin: '14px 0 0',
+                  position: 'absolute',
+                  left: '135px',
+                  top: '205px',
+                  width: '473px',
+                  margin: 0,
                   fontFamily: textFont,
                   fontWeight: 400,
                   fontSize: '32px',
-                  lineHeight: '1.05',
-                  color: '#fff',
-                  whiteSpace: 'pre-wrap',
-                }}
-              >
-                {reel.caption || 'без описания'}
-              </p>
-            </div>
-
-            {!analysis ? (
-              <div
-                className="blur-wave"
-                style={{
-                  width: '744px',
-                  margin: '28px auto 0',
-                  borderRadius: '30px',
-                  border: '4px solid rgba(255,255,255,0.3)',
-                  background: 'rgba(255,255,255,0.08)',
-                  padding: '28px 24px 30px',
+                  lineHeight: '1',
+                  color: 'rgba(255,255,255,0.6)',
                   textAlign: 'center',
                 }}
               >
-                <button
-                  type="button"
-                  onClick={() => void handleStartAnalysis()}
-                  className="button-inner-glow"
-                  style={{
-                    width: '530px',
-                    height: '139px',
-                    borderRadius: '62px',
-                    border: '4px solid rgba(255,255,255,0.3)',
-                    background: 'rgba(0,0,0,0.9)',
-                    color: '#fff',
-                    fontFamily: textFont,
-                    fontWeight: 700,
-                    fontSize: '32px',
-                    cursor: analyzing ? 'default' : 'pointer',
-                  }}
-                >
-                  {analyzing ? 'анализируем...' : `начать анализ ${LABA_COSTS.ANALYZE_REEL}`}
-                </button>
-                <p style={{ margin: '20px 0 0', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
-                  вы можете пополнить баланс в личном кабинете
-                </p>
-              </div>
-            ) : (
-              <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px' }}>
-                <AnalysisBlock title="виральность" body={analysis.viralityExplanation} accent={`${analysis.viralityScore} баллов`} />
-                <AnalysisBlock title="хук" body={analysis.hookText} />
-                <AnalysisBlock title="транскрибация" body={analysis.transcription} />
-                <AnalysisBlock title="суть видео" body={analysis.videoSummary} />
+                вы можете пополнить баланс в личном кабинете
+              </p>
+            </div>
+          ) : (
+            <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px' }}>
+              <AnalysisBlock title="виральность" body={analysis.viralityExplanation} accent={`${analysis.viralityScore} баллов`} />
+              <AnalysisBlock title="хук" body={analysis.hookText} />
+              <AnalysisBlock title="транскрибация" body={analysis.transcription} />
+              <AnalysisBlock title="суть видео" body={analysis.videoSummary} />
 
-                {!scenario ? (
-                  <div style={{ textAlign: 'center', paddingTop: '4px' }}>
-                    <button
-                      type="button"
-                      onClick={() => void handleGenerateScenario()}
-                      className="button-inner-glow"
-                      style={{
-                        width: '530px',
-                        height: '139px',
-                        borderRadius: '62px',
-                        border: '4px solid rgba(255,255,255,0.3)',
-                        background: 'rgba(0,0,0,0.9)',
-                        color: '#fff',
-                        fontFamily: textFont,
-                        fontWeight: 700,
-                        fontSize: '32px',
-                        cursor: generatingScenario ? 'default' : 'pointer',
-                      }}
-                    >
-                      {generatingScenario ? 'создаем сценарий...' : `создать сценарий ${LABA_COSTS.GENERATE_SCENARIO}`}
-                    </button>
-                    <p style={{ margin: '20px 0 0', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
-                      вы можете пополнить баланс в личном кабинете
-                    </p>
-                  </div>
-                ) : (
-                  <AnalysisBlock title="новый сценарий" body={scenario.text} />
-                )}
-              </div>
-            )}
-          </div>
+              {!scenario ? (
+                <div style={{ textAlign: 'center', paddingTop: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => void handleGenerateScenario()}
+                    className="button-inner-glow"
+                    style={{
+                      width: '530px',
+                      height: '139px',
+                      borderRadius: '62px',
+                      border: '4px solid rgba(255,255,255,0.3)',
+                      background: 'rgba(0,0,0,0.9)',
+                      color: '#fff',
+                      fontFamily: textFont,
+                      fontWeight: 700,
+                      fontSize: '32px',
+                      cursor: generatingScenario ? 'default' : 'pointer',
+                    }}
+                  >
+                    {generatingScenario ? 'создаем сценарий...' : `создать сценарий ${LABA_COSTS.GENERATE_SCENARIO}`}
+                  </button>
+                  <p style={{ margin: '20px 0 0', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+                    вы можете пополнить баланс в личном кабинете
+                  </p>
+                </div>
+              ) : (
+                <AnalysisBlock title="новый сценарий" body={scenario.text} />
+              )}
+            </div>
+          )}
         </div>
 
         <Footer />
