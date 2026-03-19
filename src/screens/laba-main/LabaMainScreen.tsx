@@ -270,7 +270,7 @@ export const LabaMainScreen: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               top: '50%',
-              transform: 'translateY(-58%)',
+              transform: 'translateY(-66%)',
             }}
           >
             <input
@@ -399,16 +399,12 @@ export const LabaMainScreen: React.FC = () => {
           <img src={reelsScrollWindowNew} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
         <div
-          className="blur-wave"
           style={{
             position: 'absolute',
             left: '143px',
             top: '672px',
             width: '894px',
             height: '1369px',
-            borderRadius: '30px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.1)',
             overflowY: 'auto',
             overflowX: 'hidden',
             paddingTop: '34px',

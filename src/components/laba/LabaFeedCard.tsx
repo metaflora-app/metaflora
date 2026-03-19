@@ -192,7 +192,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             gap: '14px',
-            transform: 'translate(10px, -1px)',
+            transform: 'translate(6px, 2px)',
           }}
         >
           <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
@@ -425,7 +425,7 @@ const MetricStat: React.FC<{
       alignItems: 'center',
       justifyContent: 'center',
       gap: '6px',
-      transform: 'translateY(-2px)',
+      transform: 'translateY(1px)',
       flex: '0 0 auto',
     }}
   >
@@ -482,7 +482,7 @@ const ActionButton: React.FC<{
     style={{
       position: 'absolute',
       left: '356px',
-      top: '786px',
+      top: '800px',
       width: '247px',
       height: '79px',
       padding: 0,
