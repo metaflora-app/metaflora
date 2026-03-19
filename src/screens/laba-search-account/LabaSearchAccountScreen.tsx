@@ -4,6 +4,7 @@ import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUr
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
 
 const textFont = 'Cygre, sans-serif';
 const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
@@ -88,17 +89,16 @@ export const LabaSearchAccountScreen: React.FC = () => {
           </p>
         </div>
 
-        <div
+        <img
+          src={searchUnderlay}
+          alt=""
           style={{
             position: 'absolute',
-            left: '141px',
-            top: '399px',
-            width: '894px',
-            height: '1643px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
+            left: '9px',
+            top: '397px',
+            width: '1162px',
+            height: '1646px',
+            objectFit: 'fill',
             pointerEvents: 'none',
           }}
         />
@@ -106,10 +106,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
         <div
           style={{
             position: 'absolute',
-            left: '175px',
-            top: '437px',
-            width: '826px',
-            height: '1569px',
+            left: '141px',
+            top: '453px',
+            width: '898px',
+            height: '1536px',
             borderRadius: '30px',
             border: '4px solid rgba(255,255,255,0.3)',
             background: 'rgba(0,0,0,0.92)',
@@ -182,10 +182,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
             className="button-inner-glow"
             style={{
               position: 'absolute',
-              left: '290px',
-              top: '429px',
+              left: '326px',
+              top: '417px',
               width: '247px',
-              height: '79px',
+              height: '80px',
               borderRadius: '62px',
               border: '4px solid rgba(255,255,255,0.3)',
               background: 'rgba(0,0,0,0.9)',
@@ -196,9 +196,12 @@ export const LabaSearchAccountScreen: React.FC = () => {
               lineHeight: '1',
               cursor: searching ? 'default' : 'pointer',
               padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <span style={{ transform: 'translateY(-2px)' }}>{searching ? 'ищем...' : 'найти'}</span>
+            <span style={{ position: 'relative', top: '-2px' }}>{searching ? 'ищем...' : 'найти'}</span>
           </button>
 
           <p style={{ position: 'absolute', left: '41px', top: '547px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
@@ -283,10 +286,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
               <p
                 style={{
                   position: 'absolute',
-                  left: '180px',
-                  top: '1028px',
+                  left: '202px',
+                  top: '1021px',
                   margin: 0,
-                  width: '477px',
+                  width: '495px',
                   fontFamily: textFont,
                   fontWeight: 400,
                   fontSize: '32px',
