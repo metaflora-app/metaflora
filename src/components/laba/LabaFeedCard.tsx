@@ -39,6 +39,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   actionCost,
   actionVariant = 'dark',
 }) => {
+  const displayUsername = reel.accountUsername.length > 15
+    ? `${reel.accountUsername.slice(0, 15)}..`
+    : reel.accountUsername;
+
   return (
     <div
       onClick={onOpenAnalysis}
@@ -195,7 +199,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             gap: '12px',
-            transform: 'translateY(-10px)',
+            transform: 'translateY(0px)',
           }}
         >
           <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
@@ -275,7 +279,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           whiteSpace: 'nowrap',
         }}
       >
-        @{reel.accountUsername}
+        @{displayUsername}
       </div>
 
       <div
@@ -424,7 +428,7 @@ const MetricStat: React.FC<{
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: '8px',
+      gap: '5px',
       flex: '0 1 auto',
     }}
   >
