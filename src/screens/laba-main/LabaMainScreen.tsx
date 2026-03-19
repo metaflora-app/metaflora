@@ -335,7 +335,7 @@ export const LabaMainScreen: React.FC = () => {
             >
               {LABA_COSTS.SEARCH_REELS}
             </div>
-            <div style={{ position: 'absolute', left: '37px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', left: '37px', top: '22px', width: '19px', height: '19px', overflow: 'hidden' }}>
               <img
                 src={figmaSearchCoin}
                 alt=""

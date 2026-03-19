@@ -156,7 +156,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             height: '79px',
             borderRadius: '62px',
             border: '4px solid rgba(255,255,255,0.3)',
-            background: 'rgba(0,0,0,0.9)',
+            background: '#000',
             color: '#fff',
             fontFamily: textFont,
             fontWeight: 700,
@@ -177,10 +177,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '50%',
-          top: '676px',
+          top: '650px',
           transform: 'translateX(-50%)',
           width: '468px',
-          height: '79px',
+          height: '102px',
           borderRadius: '62px',
           border: '4px solid rgba(255,255,255,0.3)',
           background: '#000',
@@ -195,7 +195,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             gap: '14px',
-            transform: 'translate(6px, 2px)',
+            transform: 'translate(0px, 6px)',
           }}
         >
           <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
@@ -401,7 +401,7 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
           right: '40px',
           top: '911px',
           width: '246px',
-          height: '79px',
+          height: '102px',
           borderRadius: '62px',
           background: 'rgba(255,255,255,0.08)',
         }}
@@ -428,7 +428,7 @@ const MetricStat: React.FC<{
       alignItems: 'center',
       justifyContent: 'center',
       gap: '6px',
-      transform: 'translateY(1px)',
+      transform: 'translateY(4px)',
       flex: '0 0 auto',
     }}
   >
@@ -465,7 +465,7 @@ const MetricStat: React.FC<{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        transform: 'translateY(-10px)',
+        transform: 'translateY(-6px)',
       }}
     >
       {value}
@@ -526,7 +526,7 @@ const ActionButton: React.FC<{
         >
           {`${label}    ${cost}`}
         </div>
-        <div style={{ position: 'absolute', left: '150px', top: '30px', width: '19px', height: '19px', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', left: '150px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
           <img
             src={figmaMetacoin}
             alt=""
