@@ -266,11 +266,11 @@ export const LabaMainScreen: React.FC = () => {
               position: 'absolute',
               left: '74px',
               width: '612px',
-              height: '32px',
+              height: '40px',
               display: 'flex',
               alignItems: 'center',
               top: '50%',
-              transform: 'translateY(-66%)',
+              transform: 'translateY(-63%)',
             }}
           >
             <input
@@ -282,15 +282,15 @@ export const LabaMainScreen: React.FC = () => {
               placeholder="найти видео по ключевому слову"
               style={{
                 width: '100%',
-                height: '32px',
-                padding: 0,
+                height: '40px',
+                padding: '0 0 2px',
                 border: 'none',
                 outline: 'none',
                 background: 'transparent',
                 fontFamily: textFont,
                 fontWeight: 400,
                 fontSize: '32px',
-                lineHeight: '1',
+                lineHeight: '40px',
                 color: 'rgba(255,255,255,0.3)',
               }}
             />
@@ -300,11 +300,11 @@ export const LabaMainScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => void handleSearch()}
-          className="button-inner-glow blur-wave"
+          className="blur-wave"
           style={{
             position: 'absolute',
             left: '900px',
-            top: '380px',
+            top: '378px',
             width: '129px',
             height: '73px',
             borderRadius: '62px',
@@ -446,7 +446,7 @@ const FilterButton: React.FC<{
   <button
     type="button"
     onClick={onClick}
-    className="button-inner-glow blur-wave"
+    className="blur-wave"
     style={{
       position: 'absolute',
       left: `${left}px`,
@@ -463,7 +463,6 @@ const FilterButton: React.FC<{
       fontSize: '27px',
       lineHeight: '1',
       cursor: 'pointer',
-      boxShadow: 'none',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

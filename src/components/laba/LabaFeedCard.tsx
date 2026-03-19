@@ -262,7 +262,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '284px',
-          top: '872px',
+          top: '885px',
           width: '398px',
           fontFamily: textFont,
           fontWeight: 700,
@@ -281,7 +281,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '281px',
-          top: '926px',
+          top: '933px',
           width: '350px',
           fontFamily: textFont,
           fontWeight: 400,
@@ -462,7 +462,7 @@ const MetricStat: React.FC<{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        transform: 'translateY(-3px)',
+        transform: 'translateY(-7px)',
       }}
     >
       {value}
