@@ -9,6 +9,8 @@ import searchIcon from '../../assets/laba-icons/иконка поиска.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 const textFont = 'Cygre, sans-serif';
+const figmaPeopleLogo = 'https://www.figma.com/api/mcp/asset/f9989588-a77c-44c3-ab0b-7ce3d1fe6bf0';
+const figmaBigDemoLogo = 'https://www.figma.com/api/mcp/asset/ff0be015-a095-4083-a61e-82db2af9695b';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
@@ -258,56 +260,95 @@ export const LabaMainScreen: React.FC = () => {
           }}
         >
           <img src={searchIcon} alt="" style={{ position: 'absolute', left: '19px', top: '21px', width: '38px', height: '38px' }} />
-          <input
-            value={searchValue}
-            onChange={(event) => setSearchValue(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') void handleSearch();
-            }}
-            placeholder="найти видео по ключевому слову"
+          <div
             style={{
               position: 'absolute',
               left: '74px',
-              top: '21px',
+              top: 0,
               width: '520px',
-              border: 'none',
-              outline: 'none',
-              background: 'transparent',
-              fontFamily: textFont,
-              fontWeight: 400,
-              fontSize: '32px',
-              lineHeight: '1',
-              color: 'rgba(255,255,255,0.6)',
+              height: '79px',
+              display: 'flex',
+              alignItems: 'center',
             }}
-          />
-          <button
-            type="button"
-            onClick={() => void handleSearch()}
-            className="button-inner-glow"
+          >
+            <input
+              value={searchValue}
+              onChange={(event) => setSearchValue(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') void handleSearch();
+              }}
+              placeholder="найти видео по ключевому слову"
+              style={{
+                width: '100%',
+                border: 'none',
+                outline: 'none',
+                background: 'transparent',
+                fontFamily: textFont,
+                fontWeight: 400,
+                fontSize: '32px',
+                lineHeight: '1',
+                color: 'rgba(255,255,255,0.3)',
+              }}
+            />
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => void handleSearch()}
+          className="button-inner-glow"
+          style={{
+            position: 'absolute',
+            left: '964.5px',
+            top: '380px',
+            width: '129px',
+            height: '73px',
+            borderRadius: '62px',
+            border: '4px solid rgba(255,255,255,0.3)',
+            background: '#000',
+            color: '#fff',
+            cursor: 'pointer',
+            padding: 0,
+          }}
+        >
+          <div
             style={{
-              position: 'absolute',
-              right: '14px',
-              top: '4px',
-              width: '129px',
-              height: '73px',
-              borderRadius: '62px',
-              border: '4px solid rgba(255,255,255,0.3)',
-              background: '#000',
+              position: 'relative',
+              width: '100%',
+              height: '100%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '6px',
-              color: '#fff',
-              fontFamily: textFont,
-              fontWeight: 700,
-              fontSize: '27px',
-              cursor: 'pointer',
             }}
           >
-            <img src={metacoinSmall} alt="" style={{ width: '19px', height: '19px' }} />
-            {LABA_COSTS.SEARCH_REELS}
-          </button>
-        </div>
+            <span
+              style={{
+                position: 'absolute',
+                right: '28px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                fontFamily: textFont,
+                fontWeight: 700,
+                fontSize: '27px',
+                lineHeight: '1',
+              }}
+            >
+              {LABA_COSTS.SEARCH_REELS}
+            </span>
+            <img
+              src={metacoinSmall}
+              alt=""
+              style={{
+                position: 'absolute',
+                left: '33px',
+                top: '22px',
+                width: '19px',
+                height: '19px',
+                objectFit: 'contain',
+              }}
+            />
+          </div>
+        </button>
 
         <FilterButton label="вернуть" left={221} top={497} width={247} active onClick={() => void resetFilters()} />
         <FilterButton
@@ -342,6 +383,49 @@ export const LabaMainScreen: React.FC = () => {
           active={Boolean(selectedLanguage)}
           onClick={() => cycleFilter(selectedLanguage, setSelectedLanguage, languageOptions, 'язык')}
         />
+
+        <div
+          style={{
+            position: 'absolute',
+            left: '141px',
+            top: '661px',
+            width: '894px',
+            height: '1382px',
+            pointerEvents: 'none',
+            overflow: 'hidden',
+          }}
+        >
+          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+            <img
+              src={figmaPeopleLogo}
+              alt=""
+              style={{
+                position: 'absolute',
+                left: '-96px',
+                top: '-14px',
+                width: '1086px',
+                height: '1110px',
+                objectFit: 'contain',
+                opacity: 1,
+              }}
+            />
+          </div>
+          <div
+            style={{
+              position: 'absolute',
+              left: '-87px',
+              top: '-86px',
+              width: '1119px',
+              height: '1499px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transform: 'rotate(-90deg)',
+            }}
+          >
+            <img src={figmaBigDemoLogo} alt="" style={{ width: '1499px', height: '1119px', objectFit: 'contain' }} />
+          </div>
+        </div>
 
         <div
           className="blur-wave"
