@@ -4,9 +4,22 @@ import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUr
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
-import searchBorder from '../../assets/laba-redesign/search-border-short.png';
-import searchIcon from '../../assets/laba-redesign/search-icon.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+
+const textFont = 'Cygre, sans-serif';
+const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
+const instagramLogo = 'https://www.figma.com/api/mcp/asset/01c1f7bc-b497-447d-926a-d8ba816a7ad2';
+
+const searchFieldStyle: React.CSSProperties = {
+  position: 'absolute',
+  left: '37px',
+  width: '755px',
+  height: '79px',
+  borderRadius: '62px',
+  border: '4px solid rgba(255,255,255,0.3)',
+  background: '#000',
+  backdropFilter: 'blur(50px)',
+};
 
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -23,19 +36,20 @@ export const LabaSearchAccountScreen: React.FC = () => {
   }, [foundAccount?.profilePhotoUrl]);
 
   const handleSearch = async () => {
-    const query = linkInput || nicknameInput;
-    if (!query.trim()) {
+    const query = linkInput.trim() || nicknameInput.trim();
+    if (!query) {
       window.Telegram?.WebApp?.showPopup?.({ message: 'введите ссылку или ник аккаунта' });
       return;
     }
 
     try {
       setSearching(true);
-      const account = await searchAccount(query.trim());
+      const account = await searchAccount(query);
       setFoundAccount(account);
       window.Telegram?.WebApp?.showPopup?.({ message: 'аккаунт успешно найден' });
     } catch (error: any) {
       console.error('Search account error:', error);
+      setFoundAccount(null);
       window.Telegram?.WebApp?.showPopup?.({ message: error.message || 'ничего не найдено' });
     } finally {
       setSearching(false);
@@ -66,59 +80,213 @@ export const LabaSearchAccountScreen: React.FC = () => {
         <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
         <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>поиск аккаунта</p>
+          <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '80px', lineHeight: '1', color: '#fff' }}>поиск аккаунта</p>
         </div>
 
-        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '820px' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>найдите аккаунт для отслеживания: вставьте ссылку или введите юзернейм</p>
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '882px' }}>
+          <p style={{ margin: 0, fontFamily: textFont, fontWeight: 400, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+            найдите аккаунт для отслеживания: вставьте ссылку или введите юзернейм
+          </p>
         </div>
 
-        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
+        <img
+          src={mainBackdrop}
+          alt="главная подложка"
+          style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }}
+        />
 
-        <div style={{ position: 'absolute', left: '141px', top: '455px', width: '898px', height: '1536px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', padding: '46px 49px' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>добавить ссылку</p>
-          <div style={{ position: 'relative', width: '800px', height: '79px', marginTop: '28px' }}>
-            <img src={searchBorder} alt="обводка поиск" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
-            <img src={searchIcon} alt="поиск" style={{ position: 'absolute', left: '18px', top: '20px', width: '38px', height: '38px', objectFit: 'contain' }} />
-            <input value={linkInput} onChange={(e) => setLinkInput(e.target.value)} placeholder="вставьте ссылку напрямую" style={{ position: 'absolute', left: '72px', top: '22px', width: '700px', background: 'transparent', border: 'none', outline: 'none', fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', color: 'rgba(255,255,255,0.8)' }} />
+        <div
+          style={{
+            position: 'absolute',
+            left: '175px',
+            top: '439px',
+            width: '826px',
+            height: '1569px',
+            borderRadius: '30px',
+            border: '4px solid rgba(255,255,255,0.3)',
+            background: 'rgba(0,0,0,0.92)',
+            backdropFilter: 'blur(50px)',
+          }}
+        >
+          <p style={{ position: 'absolute', left: '41px', top: '63px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+            добавить ссылку
+          </p>
+
+          <div style={{ ...searchFieldStyle, top: '136px' }}>
+            <div style={{ position: 'absolute', left: '24px', top: '50%', width: '38px', height: '38px', transform: 'translateY(-50%)' }}>
+              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
+            <input
+              value={linkInput}
+              onChange={(e) => setLinkInput(e.target.value)}
+              placeholder="вставьте ссылку напрямую"
+              style={{
+                position: 'absolute',
+                left: '72px',
+                top: '50%',
+                transform: 'translateY(-56%)',
+                width: '635px',
+                border: 'none',
+                outline: 'none',
+                background: 'transparent',
+                fontFamily: textFont,
+                fontWeight: 400,
+                fontSize: '27px',
+                lineHeight: '1',
+                color: '#fff',
+              }}
+            />
           </div>
 
-          <p style={{ margin: '46px 0 0', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>найти по нику</p>
-          <div style={{ position: 'relative', width: '800px', height: '79px', marginTop: '28px' }}>
-            <img src={searchBorder} alt="обводка поиск" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
-            <img src={searchIcon} alt="поиск" style={{ position: 'absolute', left: '18px', top: '20px', width: '38px', height: '38px', objectFit: 'contain' }} />
-            <input value={nicknameInput} onChange={(e) => setNicknameInput(e.target.value)} placeholder="напишите юзернейм аккаунта через @" style={{ position: 'absolute', left: '72px', top: '22px', width: '700px', background: 'transparent', border: 'none', outline: 'none', fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', color: 'rgba(255,255,255,0.8)' }} />
+          <p style={{ position: 'absolute', left: '41px', top: '241px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+            найти по нику
+          </p>
+
+          <div style={{ ...searchFieldStyle, top: '308px' }}>
+            <div style={{ position: 'absolute', left: '24px', top: '50%', width: '38px', height: '38px', transform: 'translateY(-50%)' }}>
+              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
+            <input
+              value={nicknameInput}
+              onChange={(e) => setNicknameInput(e.target.value)}
+              placeholder="напишите юзернейм аккаунта через @"
+              style={{
+                position: 'absolute',
+                left: '72px',
+                top: '50%',
+                transform: 'translateY(-56%)',
+                width: '635px',
+                border: 'none',
+                outline: 'none',
+                background: 'transparent',
+                fontFamily: textFont,
+                fontWeight: 400,
+                fontSize: '27px',
+                lineHeight: '1',
+                color: '#fff',
+              }}
+            />
           </div>
 
-          <button type="button" onClick={handleSearch} className="button-inner-glow" style={{ marginTop: '52px', marginLeft: '277px', width: '247px', height: '80px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px', background: 'rgba(0,0,0,0.9)', color: 'white', fontFamily: 'Cygre', fontWeight: 700, fontSize: '27px', cursor: 'pointer' }}>
-            найти
+          <button
+            type="button"
+            onClick={() => void handleSearch()}
+            className="button-inner-glow"
+            style={{
+              position: 'absolute',
+              left: '290px',
+              top: '429px',
+              width: '247px',
+              height: '79px',
+              borderRadius: '62px',
+              border: '4px solid rgba(255,255,255,0.3)',
+              background: 'rgba(0,0,0,0.9)',
+              color: '#fff',
+              fontFamily: textFont,
+              fontWeight: 700,
+              fontSize: '27px',
+              lineHeight: '1',
+              cursor: searching ? 'default' : 'pointer',
+              padding: 0,
+            }}
+          >
+            <span style={{ transform: 'translateY(-2px)' }}>{searching ? 'ищем...' : 'найти'}</span>
           </button>
 
-          <p style={{ margin: '58px 0 0', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>результат</p>
+          <p style={{ position: 'absolute', left: '41px', top: '547px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+            результат
+          </p>
 
           {searching ? (
-            <div style={{ marginTop: '40px', fontFamily: 'Cygre', fontSize: '32px', color: 'rgba(255,255,255,0.7)' }}>ищем аккаунт...</div>
+            <div style={{ position: 'absolute', left: '41px', top: '620px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.7)' }}>
+              ищем аккаунт...
+            </div>
           ) : foundAccount ? (
             <>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '28px', marginTop: '44px' }}>
-                <div style={{ width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
-                  {avatarUrl ? <img src={avatarUrl} alt={foundAccount.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
-                </div>
-                <div>
-                  <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>@{foundAccount.username}</p>
-                  <p style={{ margin: '14px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'white' }}>{foundAccount.followersCount.toLocaleString('ru-RU')} подписчиков</p>
-                </div>
+              <div style={{ position: 'absolute', left: '41px', top: '620px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
+                {avatarUrl ? <img src={avatarUrl} alt={foundAccount.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
               </div>
 
-              <button type="button" onClick={handleStartTracking} className="button-inner-glow" style={{ marginTop: '68px', marginLeft: '134px', width: '530px', height: '139px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px', background: 'rgba(0,0,0,0.9)', color: 'white', fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', cursor: tracking ? 'default' : 'pointer' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                  начать отслеживание
-                  <img src={metacoinSmall} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain' }} />
-                  100
-                </span>
+              <div style={{ position: 'absolute', left: '247px', top: '627px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+                <img
+                  src={instagramLogo}
+                  alt=""
+                  style={{ position: 'absolute', height: '339.84%', left: '-56.27%', top: '-118.33%', width: '620.89%', maxWidth: 'none' }}
+                />
+              </div>
+
+              <p style={{ position: 'absolute', left: '257px', top: '700px', margin: 0, width: '334px', fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
+                @{foundAccount.username}
+              </p>
+
+              <p style={{ position: 'absolute', left: '254px', top: '746px', margin: 0, width: '350px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', whiteSpace: 'nowrap' }}>
+                {foundAccount.followersCount.toLocaleString('ru-RU')} подписчиков
+              </p>
+
+              <button
+                type="button"
+                onClick={() => void handleStartTracking()}
+                className="button-inner-glow"
+                style={{
+                  position: 'absolute',
+                  left: '150px',
+                  top: '878px',
+                  width: '530px',
+                  height: '139px',
+                  borderRadius: '62px',
+                  border: '4px solid rgba(255,255,255,0.3)',
+                  background: 'rgba(0,0,0,0.9)',
+                  color: '#fff',
+                  cursor: tracking ? 'default' : 'pointer',
+                  padding: 0,
+                }}
+              >
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '29px',
+                      top: '49px',
+                      width: '473px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: textFont,
+                      fontWeight: 700,
+                      fontSize: '32px',
+                      lineHeight: '1',
+                      whiteSpace: 'pre',
+                    }}
+                  >
+                    {tracking ? 'отслеживаем...' : 'начать отслеживание    100'}
+                  </div>
+                  {!tracking ? (
+                    <div style={{ position: 'absolute', left: '398px', top: '53px', width: '25px', height: '25px', overflow: 'hidden' }}>
+                      <img
+                        src={metacoinSmall}
+                        alt=""
+                        style={{ position: 'absolute', height: '130.34%', left: '-20%', top: '-14.48%', width: '140%', maxWidth: 'none' }}
+                      />
+                    </div>
+                  ) : null}
+                </div>
               </button>
 
-              <p style={{ margin: '26px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', textAlign: 'center' }}>
+              <p
+                style={{
+                  position: 'absolute',
+                  left: '180px',
+                  top: '1028px',
+                  margin: 0,
+                  width: '477px',
+                  fontFamily: textFont,
+                  fontWeight: 400,
+                  fontSize: '32px',
+                  lineHeight: '1',
+                  color: 'rgba(255,255,255,0.6)',
+                  textAlign: 'center',
+                }}
+              >
                 вы можете пополнить баланс в личном кабинете
               </p>
             </>
