@@ -41,9 +41,9 @@ export const LabaNoTrackedScreen: React.FC = () => {
         <div
           style={{
             position: 'absolute',
-            left: '353px',
-            top: '1254px',
-            width: '473px',
+            left: '343px',
+            top: '1318px',
+            width: '495px',
             height: '64px',
             display: 'flex',
             alignItems: 'center',

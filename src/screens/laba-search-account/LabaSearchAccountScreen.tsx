@@ -94,11 +94,11 @@ export const LabaSearchAccountScreen: React.FC = () => {
           alt=""
           style={{
             position: 'absolute',
-            left: '9px',
+            left: '31px',
             top: '397px',
             width: '1162px',
             height: '1646px',
-            objectFit: 'fill',
+            objectFit: 'contain',
             pointerEvents: 'none',
           }}
         />
@@ -201,7 +201,19 @@ export const LabaSearchAccountScreen: React.FC = () => {
               justifyContent: 'center',
             }}
           >
-            <span style={{ position: 'relative', top: '-2px' }}>{searching ? 'ищем...' : 'найти'}</span>
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '150px',
+                height: '29px',
+                lineHeight: '1',
+                textAlign: 'center',
+              }}
+            >
+              {searching ? 'ищем...' : 'найти'}
+            </span>
           </button>
 
           <p style={{ position: 'absolute', left: '41px', top: '547px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>

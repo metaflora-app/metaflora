@@ -170,31 +170,17 @@ export const FigmaReadButton: React.FC<PillButtonProps> = ({ className, style, o
 );
 
 export const FigmaDownloadIconButton: React.FC<BasePillProps> = ({ className, style }) => (
-  <div
+  <img
     className={className}
+    src={downloadPlusIcon}
+    alt=""
     style={{
-      ...basePillStyle,
-      position: 'relative',
       width: '56px',
-      height: '44px',
-      borderRadius: '32px',
+      height: '56px',
+      objectFit: 'contain',
+      display: 'block',
       flexShrink: 0,
       ...style,
     }}
-  >
-    <img
-      src={downloadPlusIcon}
-      alt=""
-      style={{
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        width: '16px',
-        height: '16px',
-        objectFit: 'contain',
-        transform: 'translate(-50%, -50%)',
-        display: 'block',
-      }}
-    />
-  </div>
+  />
 );
