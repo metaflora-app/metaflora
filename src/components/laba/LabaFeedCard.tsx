@@ -194,8 +194,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '14px',
-            transform: 'translate(0px, 6px)',
+            gap: '12px',
+            transform: 'translateY(-10px)',
           }}
         >
           <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
@@ -270,11 +270,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           fontFamily: textFont,
           fontWeight: 700,
           fontSize: '52px',
-          lineHeight: '0.96',
+          lineHeight: '42px',
           color: '#fff',
           whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
         }}
       >
         @{reel.accountUsername}
@@ -284,16 +282,15 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '281px',
-          top: '933px',
+          top: '936px',
           width: '350px',
+          height: '32px',
           fontFamily: textFont,
           fontWeight: 400,
           fontSize: '32px',
-          lineHeight: '1',
+          lineHeight: '32px',
           color: '#fff',
           whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
         }}
       >
         {formatCount(reel.accountFollowers)} подписчиков
@@ -422,14 +419,13 @@ const MetricStat: React.FC<{
 }> = ({ icon, value, iconWidth, iconHeight, cropLeft, cropTop, cropWidth, width }) => (
   <div
     style={{
-      width: `${width}px`,
+      minWidth: `${width}px`,
       height: '100%',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: '6px',
-      transform: 'translateY(4px)',
-      flex: '0 0 auto',
+      gap: '8px',
+      flex: '0 1 auto',
     }}
   >
     <div
@@ -465,7 +461,7 @@ const MetricStat: React.FC<{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        transform: 'translateY(-6px)',
+
       }}
     >
       {value}
