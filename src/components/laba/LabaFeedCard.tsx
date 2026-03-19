@@ -462,6 +462,7 @@ const MetricStat: React.FC<{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        transform: 'translateY(-3px)',
       }}
     >
       {value}
