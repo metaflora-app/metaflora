@@ -101,7 +101,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', lineHeight: '1', color: 'white', transform: 'translateY(1px)' }}>
               скачать файлы ({downloadCount})
             </span>
-            <FigmaDownloadIconButton className="button-inner-glow" />
+            <FigmaDownloadIconButton className="button-inner-glow" style={{ marginTop: '2px' }} />
           </button>
         </div>
       );

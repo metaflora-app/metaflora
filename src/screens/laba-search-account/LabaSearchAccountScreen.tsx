@@ -104,6 +104,20 @@ export const LabaSearchAccountScreen: React.FC = () => {
           }}
         />
 
+        <img
+          src={blackSearchUnderlay}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '141px',
+            top: '453px',
+            width: '898px',
+            height: '1536px',
+            objectFit: 'fill',
+            pointerEvents: 'none',
+          }}
+        />
+
         <div
           style={{
             position: 'absolute',
@@ -111,22 +125,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
             top: '453px',
             width: '898px',
             height: '1536px',
-            borderRadius: '30px',
-            overflow: 'hidden',
           }}
         >
-          <img
-            src={blackSearchUnderlay}
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'fill',
-              pointerEvents: 'none',
-            }}
-          />
           <p style={{ position: 'absolute', left: '41px', top: '63px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
             добавить ссылку
           </p>
@@ -222,7 +222,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 lineHeight: '1',
                 textAlign: 'center',
                 position: 'relative',
-                top: '-3px',
+                top: '-5px',
               }}
             >
               {searching ? 'ищем...' : 'найти'}
