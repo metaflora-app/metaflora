@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUrl } from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 const textFont = 'Cygre, sans-serif';
@@ -89,17 +88,26 @@ export const LabaSearchAccountScreen: React.FC = () => {
           </p>
         </div>
 
-        <img
-          src={mainBackdrop}
-          alt="главная подложка"
-          style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }}
+        <div
+          style={{
+            position: 'absolute',
+            left: '141px',
+            top: '399px',
+            width: '894px',
+            height: '1643px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255,255,255,0.1)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            pointerEvents: 'none',
+          }}
         />
 
         <div
           style={{
             position: 'absolute',
             left: '175px',
-            top: '439px',
+            top: '437px',
             width: '826px',
             height: '1569px',
             borderRadius: '30px',
@@ -124,7 +132,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 position: 'absolute',
                 left: '72px',
                 top: '50%',
-                transform: 'translateY(-56%)',
+                transform: 'translateY(-61%)',
                 width: '635px',
                 border: 'none',
                 outline: 'none',
@@ -154,7 +162,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 position: 'absolute',
                 left: '72px',
                 top: '50%',
-                transform: 'translateY(-56%)',
+                transform: 'translateY(-61%)',
                 width: '635px',
                 border: 'none',
                 outline: 'none',
