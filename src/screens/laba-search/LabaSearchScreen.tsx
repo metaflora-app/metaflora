@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import leftPanelGif from '../../assets/laba-search/left-panel.gif';
 
 const SIDEBAR_HOTSPOTS = [
-  { left: 348, width: 82, route: '/laba-main' },
-  { left: 443, width: 82, route: '/laba-no-tracked' },
-  { left: 538, width: 82, route: '/laba-favorites' },
-  { left: 633, width: 82, route: '/metacoins' },
+  { left: 241, top: 1882, width: 129, height: 126, route: '/laba-main' },
+  { left: 393, top: 1882, width: 129, height: 126, route: '/laba-no-tracked' },
+  { left: 598, top: 1882, width: 129, height: 124, route: '/laba-favorites' },
+  { left: 741, top: 1880, width: 129, height: 132, route: '/metacoins' },
 ];
 
 const logoSmall = 'https://www.figma.com/api/mcp/asset/6cc89443-e3dd-4f50-8766-f7549c24f1c1';
@@ -14,8 +15,7 @@ const socialsSprite = 'https://www.figma.com/api/mcp/asset/47e834b0-2ec2-47a5-86
 const backgroundBase = 'https://www.figma.com/api/mcp/asset/ae38eb1c-b28c-46b9-a9c2-040a5cec66df';
 const backgroundOverlayOne = 'https://www.figma.com/api/mcp/asset/edb83794-7120-4b6d-bdf8-b2fe59317848';
 const backgroundOverlayTwo = 'https://www.figma.com/api/mcp/asset/b07f8e3a-732f-48a5-b5e5-a44c34d31812';
-const panelImage = 'https://www.figma.com/api/mcp/asset/075957e6-8862-4e8d-abf3-e1ebb4a13871';
-const sidebarIcons = 'https://www.figma.com/api/mcp/asset/6a36e4ed-0497-4bf3-9548-3a7e9d07d6db';
+const sidebarIcons = 'https://www.figma.com/api/mcp/asset/962a497e-6ecb-4126-9133-052b82178b43';
 
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -57,11 +57,11 @@ export const LabaSearchScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '141px', top: '400px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
-          <img src={panelImage} alt="слева" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={leftPanelGif} alt="слева" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
         <div style={{ position: 'absolute', left: '601px', top: '404px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
-          <img src={panelImage} alt="справа" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={leftPanelGif} alt="справа" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
         <div
@@ -76,30 +76,34 @@ export const LabaSearchScreen: React.FC = () => {
             background: 'rgba(0,0,0,0.1)',
             backdropFilter: 'blur(50px)',
           }}
-        >
+        />
+
+        <div style={{ position: 'absolute', left: '320px', top: '1884px', width: '534px', height: '98px', overflow: 'hidden', pointerEvents: 'none' }}>
           <img
             src={sidebarIcons}
             alt="сайдбар иконки новые"
-            style={{ position: 'absolute', left: 0, top: '21px', width: '534px', height: '98px', objectFit: 'contain', pointerEvents: 'none' }}
+            style={{ position: 'absolute', height: '544.9%', left: 0, top: '-222.45%', width: '100%', maxWidth: 'none' }}
           />
-          {SIDEBAR_HOTSPOTS.map((item) => (
-            <button
-              key={item.route}
-              type="button"
-              onClick={() => navigate(item.route)}
-              style={{
-                position: 'absolute',
-                left: `${item.left - 320}px`,
-                top: '20px',
-                width: `${item.width}px`,
-                height: '100px',
-                border: 'none',
-                background: 'transparent',
-                cursor: 'pointer',
-              }}
-            />
-          ))}
         </div>
+
+        {SIDEBAR_HOTSPOTS.map((item) => (
+          <button
+            key={item.route}
+            type="button"
+            onClick={() => navigate(item.route)}
+            style={{
+              position: 'absolute',
+              left: `${item.left}px`,
+              top: `${item.top}px`,
+              width: `${item.width}px`,
+              height: `${item.height}px`,
+              border: 'none',
+              background: 'transparent',
+              cursor: 'pointer',
+              zIndex: 2,
+            }}
+          />
+        ))}
 
         <div style={{ position: 'absolute', left: '141px', top: '2071px', width: '888px', height: '124px' }}>
           <div style={{ position: 'absolute', left: '2px', top: '-16px', width: '380px', height: '83px' }}>
