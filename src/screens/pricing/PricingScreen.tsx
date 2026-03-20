@@ -52,44 +52,21 @@ export const PricingScreen: React.FC = () => {
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
           />
 
-          <button
-            type="button"
+          <PlanToggleButton
+            label="1 месяц (-10%)"
+            active={selectedPlan === '1month'}
+            activeSrc={activeMonthButton}
+            left={0}
             onClick={() => setSelectedPlan('1month')}
-            style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
-          >
-            {selectedPlan === '1month' ? (
-              <img src={activeMonthButton} alt="1 месяц" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
-            ) : (
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxSizing: 'border-box',
-                  fontFamily: 'Cygre',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  lineHeight: '1',
-                  color: 'white',
-                  textAlign: 'center',
-                }}
-              >
-                1 месяц (-10%)
-              </div>
-            )}
-          </button>
+          />
 
-          <button
-            type="button"
+          <PlanToggleButton
+            label="3 месяца (-20%)"
+            active={selectedPlan === '3months'}
+            activeSrc={activeQuarterButton}
+            left={447}
             onClick={() => setSelectedPlan('3months')}
-            style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
-          >
-            {selectedPlan === '3months' ? (
-              <img src={activeQuarterButton} alt="3 месяца" style={{ width: '447px', height: '79px', objectFit: 'fill' }} />
-            ) : null}
-          </button>
+          />
         </div>
 
         <img
@@ -111,3 +88,57 @@ export const PricingScreen: React.FC = () => {
     </div>
   );
 };
+
+const PlanToggleButton: React.FC<{
+  label: string;
+  active: boolean;
+  activeSrc: string;
+  left: number;
+  onClick: () => void;
+}> = ({ label, active, activeSrc, left, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    style={{
+      position: 'absolute',
+      left: `${left}px`,
+      top: 0,
+      width: '447px',
+      height: '79px',
+      border: 'none',
+      background: 'transparent',
+      padding: 0,
+      cursor: 'pointer',
+      overflow: 'hidden',
+    }}
+  >
+    {active ? (
+      <img
+        src={activeSrc}
+        alt=""
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+      />
+    ) : null}
+    <span
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '100%',
+        padding: '0 24px',
+        boxSizing: 'border-box',
+        fontFamily: 'Cygre',
+        fontWeight: 700,
+        fontSize: '40px',
+        lineHeight: '1',
+        color: '#fff',
+        textAlign: 'center',
+        whiteSpace: 'nowrap',
+        zIndex: 1,
+      }}
+    >
+      {label}
+    </span>
+  </button>
+);
