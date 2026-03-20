@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
 
 const textFont = 'Cygre, sans-serif';
@@ -386,34 +386,48 @@ export const LabaMainScreen: React.FC = () => {
           onClick={() => cycleFilter(selectedLanguage, setSelectedLanguage, languageOptions, 'язык')}
         />
 
-        <MainBackdropNew style={{ top: '593px' }} />
-        <SecondaryBlackBackdrop style={{ top: '628px' }}>
-          <div
-            style={{
-              position: 'absolute',
-              inset: '34px 0 44px',
-              overflowY: 'auto',
-              overflowX: 'hidden',
-            }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '34px', alignItems: 'center' }}>
-              {loading || searching
-                ? Array.from({ length: 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
-                : visibleReels.map((reel) => (
-                    <LabaFeedCard
-                      key={reel.id}
-                      reel={reel}
-                      isFavorite={likedCards.has(reel.id)}
-                      onToggleFavorite={handleToggleFavorite}
-                      onAction={() => void handleTrackFromCard(reel)}
-                      onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
-                      actionLabel="следить"
-                      actionCost={100}
-                    />
-                  ))}
-            </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '54px',
+            top: '593px',
+            width: '1119px',
+            height: '1499px',
+            pointerEvents: 'none',
+          }}
+        >
+          <img src={reelsScrollWindowNew} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '672px',
+            width: '894px',
+            height: '1369px',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            paddingTop: '34px',
+            paddingBottom: '44px',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
+            {loading || searching
+              ? Array.from({ length: 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
+              : visibleReels.map((reel) => (
+                  <LabaFeedCard
+                    key={reel.id}
+                    reel={reel}
+                    isFavorite={likedCards.has(reel.id)}
+                    onToggleFavorite={handleToggleFavorite}
+                    onAction={() => void handleTrackFromCard(reel)}
+                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
+                    actionLabel="следить"
+                    actionCost={100}
+                  />
+                ))}
           </div>
-        </SecondaryBlackBackdrop>
+        </div>
 
         <Footer />
       </div>
