@@ -14,7 +14,11 @@ import {
   untrackAccount,
 } from '../../utils/labaApi';
 import instaLogoIcon from '../../assets/laba-icons/лого инста.png';
-import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
+import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
+import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
+import trackedAddBlackBg from '../../assets/laba-tracked/tracked-add-black-bg.png';
+import avatarUnfollowButton from '../../assets/laba-tracked/avatar-unfollow-button.png';
+import noAvatar from '../../assets/laba-tracked/no-avatar.png';
 
 const textFont = 'Cygre, sans-serif';
 
@@ -28,6 +32,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [loadingAccounts, setLoadingAccounts] = React.useState(true);
   const [loadingReels, setLoadingReels] = React.useState(false);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
+  const [showAvatarRemoveForId, setShowAvatarRemoveForId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -114,6 +119,7 @@ export const LabaTrackedScreen: React.FC = () => {
       const nextAccounts = accounts.filter((account) => account.id !== accountId);
       setAccounts(nextAccounts);
       setSelectedAccountId(nextAccounts[0]?.id || null);
+      setShowAvatarRemoveForId((current) => (current === accountId ? null : current));
       showMessage('аккаунт удален из отслеживаемых', 'popup');
     } catch (error) {
       console.error('Ошибка удаления аккаунта:', error);
@@ -138,17 +144,7 @@ export const LabaTrackedScreen: React.FC = () => {
           </p>
         </div>
 
-        <div
-          style={{
-            position: 'absolute',
-            left: '143px',
-            top: '366px',
-            width: '894px',
-            height: '268px',
-            overflowX: 'auto',
-            overflowY: 'hidden',
-          }}
-        >
+        <div style={{ position: 'absolute', left: '143px', top: '366px', width: '894px', height: '268px', overflowX: 'auto', overflowY: 'hidden' }}>
           <div style={{ display: 'flex', gap: '22px', minWidth: 'max-content', paddingRight: '180px' }}>
             {loadingAccounts
               ? Array.from({ length: 2 }).map((_, index) => <TrackedAccountCardSkeleton key={index} />)
@@ -159,27 +155,20 @@ export const LabaTrackedScreen: React.FC = () => {
                     selected={selectedAccountId === account.id}
                     onSelect={() => setSelectedAccountId(account.id)}
                     onRemove={() => void removeAccount(account.id)}
+                    showRemoveOverlay={showAvatarRemoveForId === account.id}
+                    onAvatarClick={() => setShowAvatarRemoveForId((current) => (current === account.id ? null : account.id))}
                   />
                 ))}
           </div>
         </div>
 
-        <div
-          style={{
-            position: 'absolute',
-            left: '54px',
-            top: '593px',
-            width: '1119px',
-            height: '1499px',
-            pointerEvents: 'none',
-          }}
-        >
-          <img src={reelsScrollWindowNew} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <div style={{ position: 'absolute', left: '141px', top: '672px', width: '894px', height: '1369px', pointerEvents: 'none' }}>
+          <img src={reelsScrollWindow} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
         </div>
         <div
           style={{
             position: 'absolute',
-            left: '143px',
+            left: '141px',
             top: '672px',
             width: '894px',
             height: '1369px',
@@ -220,60 +209,62 @@ const TrackedAccountCard: React.FC<{
   selected: boolean;
   onSelect: () => void;
   onRemove: () => void;
-}> = ({ account, selected, onSelect, onRemove }) => {
+  showRemoveOverlay: boolean;
+  onAvatarClick: () => void;
+}> = ({ account, selected, onSelect, onRemove, showRemoveOverlay, onAvatarClick }) => {
   const avatarUrl = convertInstagramImageUrl(account.profilePhotoUrl) || account.profilePhotoUrl;
 
   return (
-    <button
-      type="button"
+    <div
       onClick={onSelect}
       className="blur-wave"
       style={{
         position: 'relative',
-        width: '522px',
-        height: '162px',
-        borderRadius: '30px',
-        border: '4px solid rgba(255,255,255,0.3)',
-        background: selected ? 'rgba(255,255,255,0.16)' : '#000',
+        width: '894px',
+        height: '268px',
+        background: 'transparent',
         cursor: 'pointer',
+        overflow: 'hidden',
+        opacity: selected ? 1 : 0.92,
       }}
     >
-      <div style={{ position: 'absolute', left: '20px', top: '15px', width: '98px', height: '98px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
-        {avatarUrl ? <img src={avatarUrl} alt={account.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
-      </div>
-      <img src={instaLogoIcon} alt="" style={{ position: 'absolute', left: '132px', top: '13px', width: '42px', height: '51px', opacity: 0.6 }} />
-      <div style={{ position: 'absolute', left: '131px', top: '60px', width: '240px', fontFamily: textFont, fontWeight: 700, fontSize: '27px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        @{account.username}
-      </div>
-      <div style={{ position: 'absolute', left: '131px', top: '95px', width: '250px', fontFamily: textFont, fontWeight: 400, fontSize: '24px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        {account.followersCount.toLocaleString('ru-RU')} подписчиков
-      </div>
+      <img src={trackedAddUnderlay} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+      <img src={trackedAddBlackBg} alt="" style={{ position: 'absolute', left: '31px', top: '31px', width: '832px', height: '206px', objectFit: 'fill', pointerEvents: 'none' }} />
+
       <button
         type="button"
         onClick={(event) => {
           event.stopPropagation();
-          onRemove();
+          onAvatarClick();
         }}
-        className="button-inner-glow"
-        style={{
-          position: 'absolute',
-          right: '18px',
-          top: '12px',
-          width: '126px',
-          height: '54px',
-          borderRadius: '62px',
-          border: '4px solid rgba(255,255,255,0.3)',
-          background: 'rgba(0,0,0,0.9)',
-          color: '#fff',
-          fontFamily: textFont,
-          fontWeight: 700,
-          fontSize: '20px',
-          cursor: 'pointer',
-        }}
+        style={{ position: 'absolute', left: '21px', top: '8px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
       >
-        убрать
+        <img src={avatarUrl || noAvatar} alt={account.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        {showRemoveOverlay ? (
+          <img
+            src={avatarUnfollowButton}
+            alt="не следить"
+            onClick={(event) => {
+              event.stopPropagation();
+              onRemove();
+            }}
+            style={{ position: 'absolute', left: '39px', top: '39px', width: '112px', height: '112px', objectFit: 'contain', cursor: 'pointer' }}
+          />
+        ) : null}
       </button>
-    </button>
+
+      <div style={{ position: 'absolute', left: '226px', top: '16px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+        <img src={instaLogoIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      </div>
+
+      <div style={{ position: 'absolute', left: '245px', top: '90px', width: '500px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        @{account.username}
+      </div>
+
+      <div style={{ position: 'absolute', left: '242px', top: '141px', width: '420px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {account.followersCount.toLocaleString('ru-RU')} подписчиков
+      </div>
+    </div>
   );
 };
 
@@ -281,8 +272,8 @@ const TrackedAccountCardSkeleton: React.FC = () => (
   <div
     className="blur-wave"
     style={{
-      width: '522px',
-      height: '162px',
+      width: '894px',
+      height: '268px',
       borderRadius: '30px',
       border: '4px solid rgba(255,255,255,0.2)',
       background: 'rgba(255,255,255,0.08)',

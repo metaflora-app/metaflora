@@ -4,7 +4,7 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getFavorites, getTelegramUserId, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
-import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
+import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
 
 const textFont = 'Cygre, sans-serif';
@@ -237,22 +237,13 @@ export const LabaFavoritesScreen: React.FC = () => {
           onClick={() => cycleFilter(selectedLanguage, setSelectedLanguage, languageOptions, 'язык')}
         />
 
-        <div
-          style={{
-            position: 'absolute',
-            left: '54px',
-            top: '487px',
-            width: '1119px',
-            height: '1499px',
-            pointerEvents: 'none',
-          }}
-        >
-          <img src={reelsScrollWindowNew} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <div style={{ position: 'absolute', left: '141px', top: '566px', width: '894px', height: '1369px', pointerEvents: 'none' }}>
+          <img src={reelsScrollWindow} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
         </div>
         <div
           style={{
             position: 'absolute',
-            left: '143px',
+            left: '141px',
             top: '566px',
             width: '894px',
             height: '1369px',
