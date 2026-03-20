@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PromptScrollWindowBackdrop } from '../../components/PromptScrollWindowBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
 import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
@@ -11,8 +12,6 @@ import skeletonPrompt from '../../assets/prompt-redesign/скелет промп
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
-import promptScrollWindowPeopleBackdrop from '../../assets/prompt-redesign/окошко скролла промпта люди.png';
-import promptScrollWindowLogoBackdrop from '../../assets/prompt-redesign/окошко скролла промпта лого.png';
 
 const PROMPT_CARD_GAP = 31;
 const PROMPT_CARD_CANVAS_WIDTH = 831;
@@ -72,56 +71,7 @@ export const PromptFirstScreen: React.FC = () => {
           <img key={index} src={src as string} alt="" style={{ position: 'absolute', left: `${left}px`, top: `${top}px`, width: '247px', height: '80px', objectFit: 'contain' }} />
         ))}
 
-        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none' }}>
-          <div style={{ position: 'absolute', left: '69px', top: '91px', width: '832px', height: '1116px', overflow: 'hidden' }}>
-            <img
-              src={promptScrollWindowPeopleBackdrop}
-              alt=""
-              style={{
-                position: 'absolute',
-                height: '105.83%',
-                left: '-10.74%',
-                top: '-0.86%',
-                width: '113.22%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-
-          <div style={{ position: 'absolute', left: 0, top: 0, width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
-              <div style={{ position: 'absolute', left: '-120px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
-                <img
-                  src={promptScrollWindowLogoBackdrop}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '252.58%',
-                    left: '-46.02%',
-                    top: '-71.61%',
-                    width: '188.85%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              left: '38px',
-              top: '84px',
-              width: '884px',
-              height: '1121px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255,255,255,0.1)',
-              border: '4px solid rgba(255,255,255,0.3)',
-              borderRadius: '30px',
-              boxSizing: 'border-box',
-            }}
-          />
-        </div>
+        <PromptScrollWindowBackdrop />
 
         <div style={{ position: 'absolute', left: '182px', top: '951px', width: '822px', height: '1059px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '822px', height: '2149px' }}>

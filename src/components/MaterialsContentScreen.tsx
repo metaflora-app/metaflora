@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MainBackdropNew, SecondaryBlackBackdrop } from './MainBackdropNew';
 import { Footer, Header, ThreeBg } from './ScreenLayout';
 import { convertPngToJpeg } from '../utils/imageConverter';
 import { FigmaDownloadIconButton, FigmaMaterialsBadge, FigmaPromptBadge } from './FigmaPills';
@@ -138,9 +139,9 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             ))}
           </div>
 
-          <div style={{ position: 'absolute', left: '141px', top: '399px', width: '894px', height: '1643px', backdropFilter: 'blur(50px)', background: 'rgba(255,255,255,0.1)', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px' }} />
+          <MainBackdropNew />
 
-          <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', backdropFilter: 'blur(50px)', background: 'black', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+          <SecondaryBlackBackdrop>
             <div
               onScroll={onContentScroll}
               style={{ position: 'absolute', inset: 0, overflowY: 'auto', padding: '40px 25px 110px', WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)', maskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)' }}
@@ -150,7 +151,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
               </h2>
               {contentBlocks.map(renderBlock)}
             </div>
-          </div>
+          </SecondaryBlackBackdrop>
 
           <Footer />
         </div>

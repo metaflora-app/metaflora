@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { generateScenario, getTelegramUserId } from '../../utils/labaApi';
 import type { Analysis, Reel, Scenario } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 import disabledFrame from '../../assets/laba-redesign/analysis-disabled-frame.png';
 import createScenarioButton from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
@@ -66,9 +66,9 @@ export const LabaAnalysisFullScreen: React.FC = () => {
           </p>
         </div>
 
-        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
+        <MainBackdropNew />
 
-        <div style={{ position: 'absolute', left: '141px', top: '455px', width: '898px', minHeight: '1536px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', padding: '42px 53px 80px', overflow: 'hidden' }}>
+        <SecondaryBlackBackdrop style={{ minHeight: '1573px', height: 'auto', padding: '42px 53px 80px' }}>
           {[
             ['виральность', analysis.viralityExplanation || `${analysis.viralityScore || 0} баллов`],
             ['хук', analysis.hookText || '...'],
@@ -99,7 +99,7 @@ export const LabaAnalysisFullScreen: React.FC = () => {
               {generatingScenario ? 'создаем сценарий...' : scenario?.text || 'сценарий появится после генерации'}
             </p>
           </div>
-        </div>
+        </SecondaryBlackBackdrop>
 
         <Footer />
       </div>

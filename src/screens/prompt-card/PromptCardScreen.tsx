@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { getWorkshopPromptById } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
@@ -76,24 +77,9 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        <div
-          style={{
-            position: 'absolute',
-            left: '141px',
-            top: '401px',
-            width: '894px',
-            height: '1643px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            boxSizing: 'border-box',
-            overflow: 'hidden',
-            pointerEvents: 'none',
-          }}
-        />
+        <MainBackdropNew />
 
-        <div style={{ position: 'absolute', left: '176px', top: '436px', width: '824px', height: '1573px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
+        <SecondaryBlackBackdrop>
           <div style={{ position: 'absolute', left: '41px', top: '41px', width: '742px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
             <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
@@ -125,7 +111,7 @@ export const PromptCardScreen: React.FC = () => {
           <div style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
           </div>
-        </div>
+        </SecondaryBlackBackdrop>
 
         <Footer />
       </div>

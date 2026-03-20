@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
-import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 const textFont = 'Cygre, sans-serif';
@@ -129,13 +129,9 @@ export const LabaAnalysisScreen: React.FC = () => {
           </p>
         </div>
 
-        <img
-          src={searchUnderlay}
-          alt="главная подложка"
-          style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }}
-        />
+        <MainBackdropNew />
 
-        <div style={{ position: 'absolute', left: '141px', top: '455px', width: '898px', height: '1536px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
+        <SecondaryBlackBackdrop>
           <div style={{ position: 'absolute', inset: '34px 49px 40px', overflowY: 'auto', overflowX: 'hidden', paddingRight: '8px' }}>
             <AnalysisPreviewCard
               reel={reel}
@@ -264,7 +260,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
+        </SecondaryBlackBackdrop>
 
         <Footer />
       </div>

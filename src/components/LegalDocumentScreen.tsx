@@ -1,5 +1,5 @@
 import React from 'react';
-import { FigmaMainBackdrop } from './FigmaMainBackdrop';
+import { MainBackdropNew, SecondaryBlackBackdrop } from './MainBackdropNew';
 import { Header, Footer, ThreeBg } from './ScreenLayout';
 
 interface LegalDocumentScreenProps {
@@ -30,21 +30,12 @@ export const LegalDocumentScreen: React.FC<LegalDocumentScreenProps> = ({ title,
           </p>
         </div>
 
-        <FigmaMainBackdrop style={{ left: '31px', top: '399px' }} />
+        <MainBackdropNew />
 
-        <div style={{ position: 'absolute', left: '141px', top: '616px', width: '898px', height: '1373px' }}>
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            overflow: 'hidden',
-          }}>
+        <SecondaryBlackBackdrop>
             <div style={{
               position: 'absolute',
-              inset: '2.15% 4.3% 10.75% 4.3%',
+              inset: '40px 35px 60px',
               overflowY: 'auto',
               overflowX: 'hidden',
             }}>
@@ -60,8 +51,7 @@ export const LegalDocumentScreen: React.FC<LegalDocumentScreenProps> = ({ title,
                 {content}
               </div>
             </div>
-          </div>
-        </div>
+        </SecondaryBlackBackdrop>
 
         <Footer />
       </div>

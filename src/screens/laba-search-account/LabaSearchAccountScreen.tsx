@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUrl } from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
-import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
 
 const textFont = 'Cygre, sans-serif';
 const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
@@ -89,34 +89,9 @@ export const LabaSearchAccountScreen: React.FC = () => {
           </p>
         </div>
 
-        <img
-          src={searchUnderlay}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '31px',
-            top: '397px',
-            width: '1162px',
-            height: '1646px',
-            objectFit: 'contain',
-            pointerEvents: 'none',
-          }}
-        />
+        <MainBackdropNew />
 
-        <div
-          style={{
-            position: 'absolute',
-            left: '175px',
-            top: '437px',
-            width: '826px',
-            height: '1569px',
-            backdropFilter: 'blur(50px)',
-            background: 'black',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            overflow: 'hidden',
-          }}
-        >
+        <SecondaryBlackBackdrop>
           <p style={{ position: 'absolute', left: '41px', top: '63px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
             добавить ссылку
           </p>
@@ -319,7 +294,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               </p>
             </>
           ) : null}
-        </div>
+        </SecondaryBlackBackdrop>
 
         <Footer />
       </div>
