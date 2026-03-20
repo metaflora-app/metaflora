@@ -1,5 +1,5 @@
 import React from 'react';
-import mainBackdrop from '../assets/shared-redesign/главная подложка новая.png';
+import { FigmaMainBackdrop } from './FigmaMainBackdrop';
 import { Header, Footer, ThreeBg } from './ScreenLayout';
 
 interface LegalDocumentScreenProps {
@@ -30,19 +30,7 @@ export const LegalDocumentScreen: React.FC<LegalDocumentScreenProps> = ({ title,
           </p>
         </div>
 
-        <img
-          src={mainBackdrop}
-          alt="главная подложка"
-          style={{
-            position: 'absolute',
-            left: '88px',
-            top: '399px',
-            width: '1004px',
-            height: '1643px',
-            objectFit: 'fill',
-            pointerEvents: 'none',
-          }}
-        />
+        <FigmaMainBackdrop style={{ left: '31px', top: '399px' }} />
 
         <div style={{ position: 'absolute', left: '141px', top: '616px', width: '898px', height: '1373px' }}>
           <div style={{

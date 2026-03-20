@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getWorkshopPromptById } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
+import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import { FigmaPromptBadge } from '../../components/FigmaPills';
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
+import promptBadge from '../../assets/shared-redesign/плашка промпт.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
-import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 
 declare global {
   interface Window {
@@ -77,37 +77,77 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
+        <FigmaMainBackdrop style={{ left: '31px', top: '399px' }} />
 
         <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
             <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-
-          <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain' }} />
-          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} /> : null}
-
-          <div style={{ position: 'absolute', left: '66px', top: '844px', width: '694px' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
-          </div>
-
-          <div style={{ position: 'absolute', left: '306px', top: '884px', width: '61px', height: '43px' }}>
-            <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-          </div>
-
-          <div style={{ position: 'absolute', left: '380px', top: '892px', width: '140px' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
           </div>
 
           <button
             type="button"
             onClick={handleCopy}
-            style={{ position: 'absolute', left: '289px', top: '958px', padding: 0, border: 'none', background: 'transparent', cursor: 'pointer' }}
+            className="button-inner-glow"
+            style={{
+              position: 'absolute',
+              left: '293px',
+              top: '366px',
+              width: '246.9305px',
+              height: '79.25px',
+              borderRadius: '62px',
+              border: '4px solid rgba(255,255,255,0.3)',
+              background: 'rgba(0,0,0,0.9)',
+              padding: 0,
+              cursor: 'pointer',
+              zIndex: 5,
+            }}
           >
-            <FigmaPromptBadge className="button-inner-glow" textOffsetY={7} style={{ width: '249px', height: '81px', display: 'block' }} />
+            <div
+              style={{
+                position: 'absolute',
+                left: '13px',
+                top: '21px',
+                width: '223px',
+                height: '29.3116px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'Cygre',
+                fontWeight: 700,
+                fontSize: '27px',
+                lineHeight: '1',
+                color: 'white',
+                textAlign: 'center',
+              }}
+            >
+              скопировать
+            </div>
           </button>
 
-          <div style={{ position: 'absolute', left: '66px', top: '1075px', width: '694px' }}>
+          <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain', zIndex: 2 }} />
+          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
+
+          <div style={{ position: 'absolute', left: '114px', top: '784px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
+          </div>
+
+          <div style={{ position: 'absolute', left: '294px', top: '962px', width: '61px', height: '43px' }}>
+            <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </div>
+
+          <div style={{ position: 'absolute', left: '351px', top: '966px', width: '140px', height: '29px', display: 'flex', alignItems: 'center' }}>
+            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
+          </div>
+
+          <img
+            src={promptBadge}
+            alt="плашка промпт"
+            className="button-inner-glow"
+            onClick={handleCopy}
+            style={{ position: 'absolute', left: '289px', top: '1104px', width: '249px', height: '81px', objectFit: 'contain', cursor: 'pointer' }}
+          />
+
+          <div style={{ position: 'absolute', left: '66px', top: '1220px', width: '712px', height: '229px', overflowY: 'auto', overflowX: 'hidden', paddingRight: '18px' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>{promptText}</p>
           </div>
         </div>
