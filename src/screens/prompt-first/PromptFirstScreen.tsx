@@ -65,60 +65,61 @@ export const PromptFirstScreen: React.FC = () => {
           <img key={index} src={src as string} alt="" style={{ position: 'absolute', left: `${left}px`, top: `${top}px`, width: '247px', height: '80px', objectFit: 'contain' }} />
         ))}
 
-        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', left: '69px', top: '91px', width: '832px', height: '1116px', overflow: 'hidden' }}>
-            <img
-              src={figmaPromptPeopleBackdrop}
-              alt=""
-              style={{
-                position: 'absolute',
-                height: '105.83%',
-                left: '-10.74%',
-                top: '-0.86%',
-                width: '113.22%',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-          <div style={{ position: 'absolute', left: 0, top: 0, width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
-              <div style={{ position: 'absolute', left: '164.44px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
-                <img
-                  src={figmaPromptLogoBackdrop}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    height: '252.58%',
-                    left: '-46.02%',
-                    top: '-71.61%',
-                    width: '188.85%',
-                    maxWidth: 'none',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div
+        <div style={{ position: 'absolute', left: '182px', top: '927px', width: '832px', height: '1116px', overflow: 'hidden', pointerEvents: 'none' }}>
+          <img
+            src={figmaPromptPeopleBackdrop}
+            alt=""
             style={{
               position: 'absolute',
-              left: '38px',
-              top: '84px',
-              width: '884px',
-              height: '1121px',
-              backdropFilter: 'blur(50px)',
-              background: 'rgba(255,255,255,0.1)',
-              border: '4px solid rgba(255,255,255,0.3)',
-              borderRadius: '30px',
-              boxSizing: 'border-box',
-              pointerEvents: 'none',
-              zIndex: 1,
+              height: '105.83%',
+              left: '-10.74%',
+              top: '-0.86%',
+              width: '113.22%',
+              maxWidth: 'none',
             }}
           />
+        </div>
 
-          <div style={{ position: 'absolute', left: '69px', top: '113px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '23px', paddingBottom: '24px' }}>
-              {PROMPT_CARD_OFFSETS.map((top, index) => (
-                <div key={`${top}-${index}`} style={{ position: 'relative', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
+        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', pointerEvents: 'none' }}>
+          <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
+            <div style={{ position: 'absolute', left: '164.44px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
+              <img
+                src={figmaPromptLogoBackdrop}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  height: '252.58%',
+                  left: '-46.02%',
+                  top: '-71.61%',
+                  width: '188.85%',
+                  maxWidth: 'none',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            left: '151px',
+            top: '920px',
+            width: '884px',
+            height: '1121px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255,255,255,0.1)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            boxSizing: 'border-box',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
+
+        <div style={{ position: 'absolute', left: '182px', top: '949px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
+          <div style={{ position: 'relative', width: '831px', height: '2151px' }}>
+            {PROMPT_CARD_OFFSETS.map((top, index) => (
+              <div key={`${top}-${index}`} style={{ position: 'absolute', left: 0, top: `${index === 0 ? 0 : 1087}px`, width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
                   <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
                     <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
@@ -187,9 +188,8 @@ export const PromptFirstScreen: React.FC = () => {
                       Редакция
                     </p>
                   </div>
-                </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 
