@@ -70,7 +70,7 @@ export const PromptFirstScreen: React.FC = () => {
               <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
-            <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '78px', top: '64px', width: '62px', height: '62px', objectFit: 'contain' }} />
+            <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain' }} />
             <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} />
 
             <button
