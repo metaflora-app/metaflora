@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Reel } from '../../types/laba';
 import { formatCount, formatTimeAgo } from '../../utils/labaApi';
+import blackReelBackground from '../../assets/laba-main/черный фон рилса.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -56,16 +57,15 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       }}
     >
       <div
-        className="blur-wave"
         style={{
           position: 'absolute',
           inset: 0,
-          backdropFilter: 'blur(50px)',
-          background: '#000',
-          border: '4px solid rgba(255,255,255,0.3)',
           borderRadius: '30px',
+          overflow: 'hidden',
         }}
-      />
+      >
+        <img src={blackReelBackground} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill', display: 'block' }} />
+      </div>
 
       <div
         style={{

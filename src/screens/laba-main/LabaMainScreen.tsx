@@ -6,6 +6,7 @@ import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
 import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
+import reelsScrollWindow from '../../assets/laba-main/окошко скролла рилс.png';
 
 const textFont = 'Cygre, sans-serif';
 const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/3ed3e24e-7b3b-4e04-9934-abebf59d14dd';
@@ -385,6 +386,9 @@ export const LabaMainScreen: React.FC = () => {
           onClick={() => cycleFilter(selectedLanguage, setSelectedLanguage, languageOptions, 'язык')}
         />
 
+        <div style={{ position: 'absolute', left: '141px', top: '672px', width: '894px', height: '1369px', pointerEvents: 'none' }}>
+          <img src={reelsScrollWindow} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
+        </div>
         <div
           style={{
             position: 'absolute',
@@ -392,11 +396,6 @@ export const LabaMainScreen: React.FC = () => {
             top: '672px',
             width: '894px',
             height: '1369px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            boxSizing: 'border-box',
             overflowY: 'auto',
             overflowX: 'hidden',
             paddingTop: '34px',
