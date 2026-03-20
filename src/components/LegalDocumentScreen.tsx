@@ -1,6 +1,6 @@
 import React from 'react';
-import { Header, Footer, ThreeBg } from './ScreenLayout';
 import mainBackdrop from '../assets/shared-redesign/главная подложка новая.png';
+import { Header, Footer, ThreeBg } from './ScreenLayout';
 
 interface LegalDocumentScreenProps {
   title: string;
@@ -36,9 +36,9 @@ export const LegalDocumentScreen: React.FC<LegalDocumentScreenProps> = ({ title,
           style={{
             position: 'absolute',
             left: '88px',
-            top: '560px',
+            top: '399px',
             width: '1004px',
-            height: '1482px',
+            height: '1643px',
             objectFit: 'fill',
             pointerEvents: 'none',
           }}

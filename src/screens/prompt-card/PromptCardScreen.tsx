@@ -77,7 +77,7 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '141px', top: '399px', width: '894px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
+        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '88px', top: '399px', width: '1004px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
 
         <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
@@ -87,7 +87,7 @@ export const PromptCardScreen: React.FC = () => {
           <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain' }} />
           {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} /> : null}
 
-          <div style={{ position: 'absolute', left: '66px', top: '828px', width: '694px' }}>
+          <div style={{ position: 'absolute', left: '66px', top: '844px', width: '694px' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
           </div>
 

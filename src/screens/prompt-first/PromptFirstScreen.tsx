@@ -13,6 +13,8 @@ import likeButton from '../../assets/prompt-redesign/кнопка лайк ак�
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 
+const PROMPT_CARD_POSITIONS = [24, 1111];
+
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -63,78 +65,78 @@ export const PromptFirstScreen: React.FC = () => {
         ))}
 
         <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
-          <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden' }}>
+            <div style={{ position: 'relative', width: '884px', height: '2175px' }}>
+              {PROMPT_CARD_POSITIONS.map((top) => (
+                <div key={top} style={{ position: 'absolute', left: '22px', top: `${top}px`, width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
+                    <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
 
-          <div style={{ position: 'absolute', left: '22px', top: '24px', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
-              <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
+                  <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain' }} />
+                  <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} />
 
-            <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain' }} />
-            <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} />
+                  <button
+                    type="button"
+                    onClick={handleOpenPromptCard}
+                    className="button-inner-glow"
+                    style={{
+                      position: 'absolute',
+                      left: '293px',
+                      top: '366px',
+                      width: '247px',
+                      height: '79px',
+                      borderRadius: '62px',
+                      border: '4px solid rgba(255,255,255,0.3)',
+                      background: 'rgba(0,0,0,0.9)',
+                      padding: 0,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(calc(-50% + 1px), calc(-50% - 4px))',
+                        width: '223px',
+                        height: '29px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontFamily: 'Cygre',
+                        fontWeight: 700,
+                        fontSize: '27px',
+                        lineHeight: '1',
+                        color: 'white',
+                        textAlign: 'center',
+                      }}
+                    >
+                      скопировать
+                    </div>
+                  </button>
 
-            <button
-              type="button"
-              onClick={handleOpenPromptCard}
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                left: '293px',
-                top: '366px',
-                width: '247px',
-                height: '79px',
-                borderRadius: '62px',
-                border: '4px solid rgba(255,255,255,0.3)',
-                background: 'rgba(0,0,0,0.9)',
-                padding: 0,
-                cursor: 'pointer',
-              }}
-            >
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(calc(-50% + 1px), calc(-50% - 4px))',
-                  width: '223px',
-                  height: '29px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: 'Cygre',
-                  fontWeight: 700,
-                  fontSize: '27px',
-                  lineHeight: '1',
-                  color: 'white',
-                  textAlign: 'center',
-                }}
-              >
-                скопировать
-              </div>
-            </button>
+                  <div style={{ position: 'absolute', left: '69px', top: '804px', width: '694px' }}>
+                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
+                      ИИ-копирайтер для блога
+                    </p>
+                  </div>
 
-            <div style={{ position: 'absolute', left: '69px', top: '804px', width: '694px' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
-                ИИ-копирайтер для блога
-              </p>
-            </div>
+                  <div style={{ position: 'absolute', left: '294px', top: '962px', width: '61px', height: '43px' }}>
+                    <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  </div>
 
-            <div style={{ position: 'absolute', left: '47px', top: '865px', width: '737px' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
-                настройте ИИ-копирайтера за один промпт, настройте ИИ-копирайтера
-              </p>
-            </div>
-
-            <div style={{ position: 'absolute', left: '294px', top: '962px', width: '61px', height: '43px' }}>
-              <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
-
-            <div style={{ position: 'absolute', left: '367px', top: '971px' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
-                Редакция
-              </p>
+                  <div style={{ position: 'absolute', left: '367px', top: '971px' }}>
+                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+                      Редакция
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
+
+          <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
         </div>
 
         <Footer />
