@@ -67,8 +67,8 @@ export const PromptFirstScreen: React.FC = () => {
         <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
           <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none', zIndex: 1 }} />
 
-          <div style={{ position: 'absolute', left: '22px', top: '24px', width: '840px', height: '1068px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '23px', paddingBottom: '24px' }}>
+          <div style={{ position: 'absolute', left: '22px', top: '24px', width: '840px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '23px', paddingBottom: '0' }}>
               {PROMPT_CARD_POSITIONS.map((top, index) => (
                 <div key={`${top}-${index}`} style={{ position: 'relative', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
                   <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
@@ -100,7 +100,7 @@ export const PromptFirstScreen: React.FC = () => {
                       style={{
                         position: 'absolute',
                         left: '13px',
-                        top: '21px',
+                        top: '19px',
                         width: '223px',
                         height: '29.3116px',
                         display: 'flex',
@@ -121,6 +121,12 @@ export const PromptFirstScreen: React.FC = () => {
                   <div style={{ position: 'absolute', left: '69px', top: '804px', width: '694px' }}>
                     <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                       ИИ-копирайтер для блога
+                    </p>
+                  </div>
+
+                  <div style={{ position: 'absolute', left: '47px', top: '865px', width: '738px', height: '69px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
+                      настройте ИИ-копирайтера за один промпт, настройте ИИ-копирайтера
                     </p>
                   </div>
 
