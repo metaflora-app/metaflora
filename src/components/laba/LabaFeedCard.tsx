@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Reel } from '../../types/laba';
 import { formatCount, formatTimeAgo } from '../../utils/labaApi';
-import blackReelBackground from '../../assets/laba-main/черный фон рилса.png';
+import blackReelBackground from '../../assets/laba-main/reel-card-black-bg.png';
 
 type ActionVariant = 'dark' | 'light';
 

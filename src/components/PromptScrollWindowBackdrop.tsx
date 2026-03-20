@@ -1,5 +1,5 @@
 import React from 'react';
-import promptScrollWindow from '../assets/prompt-redesign/окошко скролла промпта.png';
+import promptScrollWindow from '../assets/prompt-redesign/prompt-scroll-window.png';
 
 interface PromptScrollWindowBackdropProps {
   style?: React.CSSProperties;

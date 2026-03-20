@@ -6,7 +6,7 @@ import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
 import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
-import reelsScrollWindow from '../../assets/laba-main/окошко скролла рилс.png';
+import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 
 const textFont = 'Cygre, sans-serif';
 const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/3ed3e24e-7b3b-4e04-9934-abebf59d14dd';
