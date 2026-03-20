@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
 import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
 import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
@@ -66,7 +65,7 @@ export const PromptFirstScreen: React.FC = () => {
           <img key={index} src={src as string} alt="" style={{ position: 'absolute', left: `${left}px`, top: `${top}px`, width: '247px', height: '80px', objectFit: 'contain' }} />
         ))}
 
-        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', left: '69px', top: '91px', width: '832px', height: '1116px', overflow: 'hidden' }}>
             <img
               src={figmaPromptPeopleBackdrop}
@@ -99,13 +98,13 @@ export const PromptFirstScreen: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        <div style={{ position: 'absolute', left: '151px', top: '920px', width: '884px', height: '1121px' }}>
           <div
             style={{
               position: 'absolute',
-              inset: 0,
+              left: '38px',
+              top: '84px',
+              width: '884px',
+              height: '1121px',
               backdropFilter: 'blur(50px)',
               background: 'rgba(255,255,255,0.1)',
               border: '4px solid rgba(255,255,255,0.3)',
@@ -116,7 +115,7 @@ export const PromptFirstScreen: React.FC = () => {
             }}
           />
 
-          <div style={{ position: 'absolute', left: '22px', top: '24px', width: '840px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
+          <div style={{ position: 'absolute', left: '69px', top: '113px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '23px', paddingBottom: '24px' }}>
               {PROMPT_CARD_OFFSETS.map((top, index) => (
                 <div key={`${top}-${index}`} style={{ position: 'relative', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
