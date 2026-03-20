@@ -87,16 +87,17 @@ export const PromptCardScreen: React.FC = () => {
           <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain', zIndex: 2 }} />
           {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
 
-          <div style={{ position: 'absolute', left: '114px', top: '784px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', left: '50%', top: '784px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
           </div>
 
-          <div style={{ position: 'absolute', left: '462px', top: '1340px', width: '61px', height: '43px' }}>
-            <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-          </div>
-
-          <div style={{ position: 'absolute', left: '377px', top: '886px', width: '140px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
+          <div style={{ position: 'absolute', left: '50%', top: '885px', width: '225px', height: '43px', transform: 'translateX(-50%)' }}>
+            <div style={{ position: 'absolute', left: 0, top: 0, width: '61px', height: '43px' }}>
+              <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
+            <div style={{ position: 'absolute', left: '85px', top: '7px', width: '140px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
+            </div>
           </div>
 
           <img
@@ -104,11 +105,11 @@ export const PromptCardScreen: React.FC = () => {
             alt="плашка промпт"
             className="button-inner-glow"
             onClick={handleCopy}
-            style={{ position: 'absolute', left: '324px', top: '953px', width: '246.9305px', height: '80.9526px', objectFit: 'contain', cursor: 'pointer' }}
+            style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', objectFit: 'contain', cursor: 'pointer', transform: 'translateX(-50%)' }}
           />
 
-          <div style={{ position: 'absolute', left: '82px', top: '1057px', width: '729px' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>{promptText}</p>
+          <div style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)' }}>
+            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
           </div>
         </div>
 

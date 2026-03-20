@@ -65,7 +65,7 @@ export const PromptFirstScreen: React.FC = () => {
         ))}
 
         <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden' }}>
+          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', pointerEvents: 'auto' }}>
             <div style={{ position: 'relative', width: '884px', height: '2175px' }}>
               {PROMPT_CARD_POSITIONS.map((top) => (
                 <div key={top} style={{ position: 'absolute', left: '22px', top: `${top}px`, width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
@@ -84,23 +84,23 @@ export const PromptFirstScreen: React.FC = () => {
                       position: 'absolute',
                       left: '293px',
                       top: '366px',
-                      width: '247px',
-                      height: '79px',
+                      width: '246.9305px',
+                      height: '79.25px',
                       borderRadius: '62px',
                       border: '4px solid rgba(255,255,255,0.3)',
                       background: 'rgba(0,0,0,0.9)',
                       padding: 0,
                       cursor: 'pointer',
+                      zIndex: 20,
                     }}
                   >
                     <div
                       style={{
                         position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(calc(-50% + 1px), calc(-50% - 4px))',
+                        left: '13px',
+                        top: '21px',
                         width: '223px',
-                        height: '29px',
+                        height: '29.3116px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
