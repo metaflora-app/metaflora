@@ -52,20 +52,76 @@ export const PricingScreen: React.FC = () => {
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
           />
 
-          <PlanToggleButton
-            label="1 месяц (-10%)"
-            active={selectedPlan === '1month'}
-            activeSrc={activeMonthButton}
-            left={0}
+          {selectedPlan === '1month' ? (
+            <>
+              <img
+                src={activeMonthButton}
+                alt="1 месяц"
+                style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', objectFit: 'fill', pointerEvents: 'none' }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '653.5px',
+                  top: '28px',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  fontFamily: 'Cygre',
+                  fontWeight: 700,
+                  fontSize: '40px',
+                  lineHeight: '1',
+                  color: '#fff',
+                  textAlign: 'center',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                3 месяца (-20%)
+              </div>
+            </>
+          ) : (
+            <>
+              <img
+                src={activeQuarterButton}
+                alt="3 месяца"
+                style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', objectFit: 'fill', pointerEvents: 'none' }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '220.5px',
+                  top: '29px',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  fontFamily: 'Cygre',
+                  fontWeight: 700,
+                  fontSize: '40px',
+                  lineHeight: '1',
+                  color: '#fff',
+                  textAlign: 'center',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                1 месяц (-10%)
+              </div>
+            </>
+          )}
+
+          <button
+            type="button"
             onClick={() => setSelectedPlan('1month')}
+            style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
+            aria-label="1 месяц (-10%)"
           />
 
-          <PlanToggleButton
-            label="3 месяца (-20%)"
-            active={selectedPlan === '3months'}
-            activeSrc={activeQuarterButton}
-            left={447}
+          <button
+            type="button"
             onClick={() => setSelectedPlan('3months')}
+            style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
+            aria-label="3 месяца (-20%)"
           />
         </div>
 
@@ -88,57 +144,3 @@ export const PricingScreen: React.FC = () => {
     </div>
   );
 };
-
-const PlanToggleButton: React.FC<{
-  label: string;
-  active: boolean;
-  activeSrc: string;
-  left: number;
-  onClick: () => void;
-}> = ({ label, active, activeSrc, left, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={{
-      position: 'absolute',
-      left: `${left}px`,
-      top: 0,
-      width: '447px',
-      height: '79px',
-      border: 'none',
-      background: 'transparent',
-      padding: 0,
-      cursor: 'pointer',
-      overflow: 'hidden',
-    }}
-  >
-    {active ? (
-      <img
-        src={activeSrc}
-        alt=""
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
-      />
-    ) : null}
-    <span
-      style={{
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '100%',
-        padding: '0 24px',
-        boxSizing: 'border-box',
-        fontFamily: 'Cygre',
-        fontWeight: 700,
-        fontSize: '40px',
-        lineHeight: '1',
-        color: '#fff',
-        textAlign: 'center',
-        whiteSpace: 'nowrap',
-        zIndex: 1,
-      }}
-    >
-      {label}
-    </span>
-  </button>
-);
