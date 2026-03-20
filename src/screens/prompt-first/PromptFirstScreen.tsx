@@ -16,17 +16,7 @@ import tinyLogo from '../../assets/prompt-redesign/лого очень мале�
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const previewPromptText = 'настройте ИИ-копирайтера за один промпт, настройте ИИ-копирайтера';
-
-  const handleCopyPrompt = async (event: React.MouseEvent) => {
-    event.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(previewPromptText);
-      window.Telegram?.WebApp?.showPopup?.({ message: 'Скопировано в буфер обмена' });
-    } catch (error) {
-      console.error('Copy prompt failed:', error);
-    }
-  };
+  const handleOpenPromptCard = () => navigate('/prompt-card');
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -75,7 +65,7 @@ export const PromptFirstScreen: React.FC = () => {
         <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
           <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
 
-          <div onClick={() => navigate('/prompt-card')} style={{ position: 'absolute', left: '22px', top: '24px', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', cursor: 'pointer' }}>
+          <div style={{ position: 'absolute', left: '22px', top: '24px', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
               <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
@@ -85,7 +75,7 @@ export const PromptFirstScreen: React.FC = () => {
 
             <button
               type="button"
-              onClick={handleCopyPrompt}
+              onClick={handleOpenPromptCard}
               className="button-inner-glow"
               style={{
                 position: 'absolute',
