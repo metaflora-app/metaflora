@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 
-import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить полный доступ.png';
+import payButtonBg from '../../assets/demo-access-elements/кнопка оплатить доступ.png';
 import demoVideoGif from '../../assets/demo-access-redesign/видео в экране что входит в демо.gif';
 
 export const DemoAccessScreen: React.FC = () => {
@@ -33,7 +33,7 @@ export const DemoAccessScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '99px', top: '359px', width: '804px' }}>
+        <div style={{ position: 'absolute', left: '99px', top: '359px', width: '980px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
             курс «демо» включает в себя 4 урока
           </p>
@@ -45,7 +45,7 @@ export const DemoAccessScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '101px', top: '507px', width: '935px' }}>
+        <div style={{ position: 'absolute', left: '101px', top: '507px', width: '980px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', whiteSpace: 'pre-wrap' }}>
             без доступа к основным сервисам
           </p>
@@ -73,9 +73,6 @@ export const DemoAccessScreen: React.FC = () => {
           style={{ position: 'absolute', left: '143px', top: '1902px', width: '894px', height: '139px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
         >
           <img src={payButtonBg} alt="оплатить доступ" className="button-inner-glow" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>
-            оплатить доступ
-          </div>
         </button>
 
         <Footer />

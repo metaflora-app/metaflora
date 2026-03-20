@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 
-import carouselCenter from '../../assets/figma-welcome/carousel-center.png';
-import carouselLeft from '../../assets/figma-welcome/carousel-left.png';
-import carouselRight from '../../assets/figma-welcome/carousel-right.png';
 import btnTour from '../../assets/welcome-elements/кнопка экскурсия по платформе.png';
 import btnFree from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
+import welcomeCard1 from '../../assets/welcome-redesign/заглушка-1.png';
+import welcomeCard2 from '../../assets/welcome-redesign/заглушка-2.png';
+import welcomeCard3 from '../../assets/welcome-redesign/заглушка-3.png';
+import welcomeCard4 from '../../assets/welcome-redesign/заглушка-4.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -19,10 +20,6 @@ export const WelcomeScreen: React.FC = () => {
   }, [navigate]);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const imgs = [carouselLeft, carouselCenter, carouselRight];
-  const [active, setActive] = React.useState(1);
-
-  const getImg = (pos: number) => imgs[(active + (pos - 1) + 3) % 3];
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -31,7 +28,7 @@ export const WelcomeScreen: React.FC = () => {
         <Header />
 
         {/* Ссылки политик */}
-        <div style={{ position: 'absolute', left: '101px', top: '78px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div style={{ position: 'absolute', left: '101px', top: '78px', display: 'flex', flexDirection: 'column', gap: '1px', width: '410px' }}>
           {[
             { text: 'публичная оферта', route: '/public-offer' },
             { text: 'политика конфиденциальности', route: '/privacy-policy' },
@@ -39,7 +36,7 @@ export const WelcomeScreen: React.FC = () => {
           ].map(l => (
             <span key={l.route} onClick={() => navigate(l.route)} style={{
               fontFamily: 'Cygre', fontWeight: 400, fontSize: '20px',
-              color: 'rgba(255,255,255,0.6)', cursor: 'pointer', lineHeight: '1.5',
+              color: 'rgba(255,255,255,0.6)', cursor: 'pointer', lineHeight: '1',
             }}>
               {l.text}
             </span>
@@ -63,42 +60,26 @@ export const WelcomeScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Карусель */}
-        <div style={{ position: 'absolute', left: 0, top: '639px', width: '1180px', height: '1000px', overflow: 'visible' }}>
-          {/* Левая */}
-          <div onClick={() => setActive((active - 1 + 3) % 3)} style={{ position: 'absolute', left: '-213px', top: 0, cursor: 'pointer' }}>
-            <div style={{ width: '609px', height: '972px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ transform: 'rotate(-5deg)', width: '530px', height: '930px', borderRadius: '40px', overflow: 'hidden' }}>
-                <img src={getImg(0)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-            </div>
-          </div>
-          {/* Центральная */}
-          <div style={{ position: 'absolute', left: '315px', top: 0 }}>
-            <div style={{ width: '530px', height: '930px', borderRadius: '40px', overflow: 'hidden' }}>
-              <img src={getImg(1)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-          </div>
-          {/* Правая */}
-          <div onClick={() => setActive((active + 1) % 3)} style={{ position: 'absolute', left: '764px', top: 0, cursor: 'pointer' }}>
-            <div style={{ width: '609px', height: '972px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ transform: 'rotate(5deg)', width: '530px', height: '930px', borderRadius: '40px', overflow: 'hidden' }}>
-                <img src={getImg(2)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Точки */}
-        <div style={{ position: 'absolute', left: 'calc(50% + 0.5px)', top: '1650px', transform: 'translateX(-50%)', display: 'flex', gap: '11px', alignItems: 'center' }}>
-          {[0,1,2].map(i => (
-            <div key={i} onClick={() => setActive(i)} style={{
-              width: active === i ? '63px' : '17px', height: '17px',
-              backgroundColor: active === i ? '#fffdfe' : '#d6d6d6',
-              borderRadius: '33px', transition: 'all 0.3s ease-out', cursor: 'pointer',
-            }} />
-          ))}
-        </div>
+        <img
+          src={welcomeCard2}
+          alt=""
+          style={{ position: 'absolute', left: '80px', top: '803px', width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px', transform: 'rotate(-5deg)', zIndex: 1, pointerEvents: 'none' }}
+        />
+        <img
+          src={welcomeCard3}
+          alt=""
+          style={{ position: 'absolute', left: '543px', top: '745px', width: '639px', height: '822px', objectFit: 'cover', borderRadius: '62px', transform: 'rotate(5deg)', zIndex: 1, pointerEvents: 'none' }}
+        />
+        <img
+          src={welcomeCard4}
+          alt=""
+          style={{ position: 'absolute', left: '427px', top: '803px', width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px', transform: 'rotate(5deg)', zIndex: 2, pointerEvents: 'none' }}
+        />
+        <img
+          src={welcomeCard1}
+          alt=""
+          style={{ position: 'absolute', left: '243px', top: '700px', width: '700px', height: '957px', objectFit: 'cover', borderRadius: '62px', zIndex: 3, pointerEvents: 'none' }}
+        />
 
         {/* Кнопка "экскурсия" */}
         <img src={btnTour} alt="экскурсия по платформе" onClick={() => navigate('/tour-video')} className="button-inner-glow" style={{
