@@ -11,10 +11,17 @@ import skeletonPrompt from '../../assets/prompt-redesign/скелет промп
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
+import promptScrollWindowPeopleBackdrop from '../../assets/prompt-redesign/окошко скролла промпта люди.png';
+import promptScrollWindowLogoBackdrop from '../../assets/prompt-redesign/окошко скролла промпта лого.png';
 
-const PROMPT_CARD_OFFSETS = [24, 1111];
-const figmaPromptPeopleBackdrop = 'https://www.figma.com/api/mcp/asset/f39d72bc-157d-4232-9f18-dca4c5669a06';
-const figmaPromptLogoBackdrop = 'https://www.figma.com/api/mcp/asset/d94d68cd-a055-4a91-b14a-70e3041d4f6f';
+const PROMPT_CARD_GAP = 31;
+const PROMPT_CARD_CANVAS_WIDTH = 831;
+const PROMPT_CARD_CANVAS_HEIGHT = 1064;
+const PROMPT_CARD_WIDTH = 822;
+const PROMPT_CARD_HEIGHT = 1059;
+const PROMPT_CARD_STEP = PROMPT_CARD_HEIGHT + PROMPT_CARD_GAP;
+const PROMPT_CARD_SCALE_X = PROMPT_CARD_WIDTH / PROMPT_CARD_CANVAS_WIDTH;
+const PROMPT_CARD_SCALE_Y = PROMPT_CARD_HEIGHT / PROMPT_CARD_CANVAS_HEIGHT;
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -65,61 +72,72 @@ export const PromptFirstScreen: React.FC = () => {
           <img key={index} src={src as string} alt="" style={{ position: 'absolute', left: `${left}px`, top: `${top}px`, width: '247px', height: '80px', objectFit: 'contain' }} />
         ))}
 
-        <div style={{ position: 'absolute', left: '182px', top: '927px', width: '832px', height: '1116px', overflow: 'hidden', pointerEvents: 'none' }}>
-          <img
-            src={figmaPromptPeopleBackdrop}
-            alt=""
+        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none' }}>
+          <div style={{ position: 'absolute', left: '69px', top: '91px', width: '832px', height: '1116px', overflow: 'hidden' }}>
+            <img
+              src={promptScrollWindowPeopleBackdrop}
+              alt=""
+              style={{
+                position: 'absolute',
+                height: '105.83%',
+                left: '-10.74%',
+                top: '-0.86%',
+                width: '113.22%',
+                maxWidth: 'none',
+              }}
+            />
+          </div>
+
+          <div style={{ position: 'absolute', left: 0, top: 0, width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
+              <div style={{ position: 'absolute', left: '164.44px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
+                <img
+                  src={promptScrollWindowLogoBackdrop}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    height: '252.58%',
+                    left: '-46.02%',
+                    top: '-71.61%',
+                    width: '188.85%',
+                    maxWidth: 'none',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
             style={{
               position: 'absolute',
-              height: '105.83%',
-              left: '-10.74%',
-              top: '-0.86%',
-              width: '113.22%',
-              maxWidth: 'none',
+              left: '38px',
+              top: '84px',
+              width: '884px',
+              height: '1121px',
+              backdropFilter: 'blur(50px)',
+              background: 'rgba(255,255,255,0.1)',
+              border: '4px solid rgba(255,255,255,0.3)',
+              borderRadius: '30px',
+              boxSizing: 'border-box',
             }}
           />
         </div>
 
-        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', pointerEvents: 'none' }}>
-          <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
-            <div style={{ position: 'absolute', left: '164.44px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
-              <img
-                src={figmaPromptLogoBackdrop}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '252.58%',
-                  left: '-46.02%',
-                  top: '-71.61%',
-                  width: '188.85%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div
-          style={{
-            position: 'absolute',
-            left: '151px',
-            top: '920px',
-            width: '884px',
-            height: '1121px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            boxSizing: 'border-box',
-            pointerEvents: 'none',
-            zIndex: 1,
-          }}
-        />
-
-        <div style={{ position: 'absolute', left: '182px', top: '949px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
-          <div style={{ position: 'relative', width: '831px', height: '2151px' }}>
-            {PROMPT_CARD_OFFSETS.map((top, index) => (
-              <div key={`${top}-${index}`} style={{ position: 'absolute', left: 0, top: `${index === 0 ? 0 : 1087}px`, width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
+        <div style={{ position: 'absolute', left: '182px', top: '951px', width: '822px', height: '1059px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
+          <div style={{ position: 'relative', width: '822px', height: '2149px' }}>
+            {[0, PROMPT_CARD_STEP].map((top, index) => (
+              <div key={`${top}-${index}`} style={{ position: 'absolute', left: 0, top: `${top}px`, width: '822px', height: '1059px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    width: '831px',
+                    height: '1064px',
+                    transform: `scale(${PROMPT_CARD_SCALE_X}, ${PROMPT_CARD_SCALE_Y})`,
+                    transformOrigin: 'top left',
+                  }}
+                >
                   <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
                     <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
@@ -188,6 +206,7 @@ export const PromptFirstScreen: React.FC = () => {
                       Редакция
                     </p>
                   </div>
+                </div>
               </div>
             ))}
           </div>
