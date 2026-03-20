@@ -7,7 +7,7 @@ import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
 import analysisDisabledBlurFramePng from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import openReelButtonPng from '../../assets/laba-analysis/open-reel-button.png';
-import blackReelBackground from '../../assets/laba-main/reel-card-black-bg.png';
+import shortStartAnalysisButtonPng from '../../assets/laba-analysis/short-start-analysis-button.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 type ActionVariant = 'dark' | 'light';
@@ -162,13 +162,13 @@ export const LabaAnalysisScreen: React.FC = () => {
               onTrack={() => void handleTrack()}
             />
 
-            <div style={{ width: '744px', margin: '24px auto 0' }}>
+            <div style={{ width: '744px', margin: '0 auto 0' }}>
               <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
                 описание
               </p>
               <p
                 style={{
-                  margin: '10px 0 0',
+                  margin: '12px 0 0',
                   fontFamily: textFont,
                   fontWeight: 400,
                   fontSize: '32px',
@@ -187,7 +187,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   position: 'relative',
                   width: '744px',
                   height: '328px',
-                  margin: '36px auto 0',
+                  margin: '16px auto 0',
                   overflow: 'hidden',
                 }}
               >
@@ -202,7 +202,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   style={{
                     position: 'absolute',
                     left: '107px',
-                    top: '35px',
+                    top: '59px',
                     width: '530px',
                     height: '139px',
                     cursor: analyzing ? 'default' : 'pointer',
@@ -211,7 +211,13 @@ export const LabaAnalysisScreen: React.FC = () => {
                     background: 'transparent',
                   }}
                   aria-label={analyzing ? 'анализируем' : 'начать анализ'}
-                />
+                >
+                  <img
+                    src={shortStartAnalysisButtonPng}
+                    alt=""
+                    style={{ width: '530px', height: '139px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
+                  />
+                </button>
               </div>
             ) : (
               <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px', paddingBottom: '10px' }}>
@@ -276,17 +282,6 @@ const AnalysisPreviewCard: React.FC<{
 
   return (
     <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          borderRadius: '30px',
-          overflow: 'hidden',
-        }}
-      >
-        <img src={blackReelBackground} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill', display: 'block' }} />
-      </div>
-
       <div
         style={{
           position: 'absolute',
