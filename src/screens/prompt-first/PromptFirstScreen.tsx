@@ -47,7 +47,19 @@ export const PromptFirstScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '302px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
-          <img src={workshopGif} alt="мастерская в окошке флоры" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img
+            src={workshopGif}
+            alt="мастерская в окошке флоры"
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '50%',
+              width: '100%',
+              height: 'auto',
+              transform: 'translateY(-50%)',
+              display: 'block',
+            }}
+          />
         </div>
 
         {[
@@ -68,8 +80,8 @@ export const PromptFirstScreen: React.FC = () => {
               <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
-            <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '42px', top: '48px', width: '72px', height: '72px', objectFit: 'contain' }} />
-            <img src={articleBadge} alt="новое" style={{ position: 'absolute', right: '35px', top: '54px', width: '116px', height: '42px', objectFit: 'fill' }} />
+            <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '78px', top: '64px', width: '62px', height: '62px', objectFit: 'contain' }} />
+            <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} />
 
             <button
               type="button"
@@ -93,7 +105,7 @@ export const PromptFirstScreen: React.FC = () => {
                   position: 'absolute',
                   left: '50%',
                   top: '50%',
-                  transform: 'translate(calc(-50% + 1px), calc(-50% - 1px))',
+                  transform: 'translate(calc(-50% + 1px), calc(-50% - 4px))',
                   width: '223px',
                   height: '29px',
                   display: 'flex',

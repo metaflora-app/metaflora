@@ -5,7 +5,6 @@ import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
-import blackSearchUnderlay from '../../assets/laba-search-account/черная подложка под добавление аккаунта.png';
 
 const textFont = 'Cygre, sans-serif';
 const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
@@ -104,27 +103,18 @@ export const LabaSearchAccountScreen: React.FC = () => {
           }}
         />
 
-        <img
-          src={blackSearchUnderlay}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '141px',
-            top: '453px',
-            width: '898px',
-            height: '1536px',
-            objectFit: 'fill',
-            pointerEvents: 'none',
-          }}
-        />
-
         <div
           style={{
             position: 'absolute',
-            left: '141px',
-            top: '453px',
-            width: '898px',
-            height: '1536px',
+            left: '175px',
+            top: '437px',
+            width: '826px',
+            height: '1569px',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            overflow: 'hidden',
           }}
         >
           <p style={{ position: 'absolute', left: '41px', top: '63px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
@@ -222,7 +212,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 lineHeight: '1',
                 textAlign: 'center',
                 position: 'relative',
-                top: '-5px',
+                top: '-7px',
               }}
             >
               {searching ? 'ищем...' : 'найти'}
