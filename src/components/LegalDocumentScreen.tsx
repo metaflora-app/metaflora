@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header, Footer, ThreeBg } from './ScreenLayout';
+import mainBackdrop from '../assets/shared-redesign/главная подложка новая.png';
 
 interface LegalDocumentScreenProps {
   title: string;
@@ -29,31 +30,33 @@ export const LegalDocumentScreen: React.FC<LegalDocumentScreenProps> = ({ title,
           </p>
         </div>
 
-        <div style={{
-          position: 'absolute',
-          left: '88px',
-          top: '560px',
-          width: '1004px',
-          height: '1482px',
-          backdropFilter: 'blur(50px)',
-          background: 'rgba(255,255,255,0.1)',
-          border: '4px solid rgba(255,255,255,0.3)',
-          borderRadius: '30px',
-        }} />
+        <img
+          src={mainBackdrop}
+          alt="главная подложка"
+          style={{
+            position: 'absolute',
+            left: '88px',
+            top: '560px',
+            width: '1004px',
+            height: '1482px',
+            objectFit: 'fill',
+            pointerEvents: 'none',
+          }}
+        />
 
-        <div style={{ position: 'absolute', left: '144px', top: '613px', width: '892px', height: '1373px' }}>
+        <div style={{ position: 'absolute', left: '141px', top: '616px', width: '898px', height: '1373px' }}>
           <div style={{
             position: 'absolute',
             inset: 0,
             backdropFilter: 'blur(50px)',
             background: 'black',
-            border: '1px solid rgba(255,255,255,0.3)',
+            border: '4px solid rgba(255,255,255,0.3)',
             borderRadius: '30px',
             overflow: 'hidden',
           }}>
             <div style={{
               position: 'absolute',
-              inset: '2.15% 3.83% 10.75% 3.7%',
+              inset: '2.15% 4.3% 10.75% 4.3%',
               overflowY: 'auto',
               overflowX: 'hidden',
             }}>
@@ -63,7 +66,7 @@ export const LegalDocumentScreen: React.FC<LegalDocumentScreenProps> = ({ title,
                 fontSize: '35px',
                 lineHeight: '1.28',
                 color: 'white',
-                textAlign: 'left',
+                textAlign: 'center',
                 whiteSpace: 'pre-wrap',
               }}>
                 {content}
