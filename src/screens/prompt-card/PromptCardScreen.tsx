@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getWorkshopPromptById } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
-import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
@@ -77,15 +76,30 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        <FigmaMainBackdrop style={{ left: '31px', top: '399px' }} />
+        <div
+          style={{
+            position: 'absolute',
+            left: '141px',
+            top: '401px',
+            width: '894px',
+            height: '1643px',
+            backdropFilter: 'blur(50px)',
+            background: 'rgba(255,255,255,0.1)',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            boxSizing: 'border-box',
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}
+        />
 
-        <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
+        <div style={{ position: 'absolute', left: '176px', top: '436px', width: '824px', height: '1573px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '41px', top: '41px', width: '742px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
             <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
 
-          <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain', zIndex: 2 }} />
-          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
+          <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '78px', top: '64px', width: '72px', height: '72px', objectFit: 'contain', zIndex: 2 }} />
+          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '640px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
 
           <div style={{ position: 'absolute', left: '50%', top: '784px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
