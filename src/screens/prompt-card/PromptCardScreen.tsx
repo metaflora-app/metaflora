@@ -87,30 +87,28 @@ export const PromptCardScreen: React.FC = () => {
           <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain' }} />
           {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} /> : null}
 
-          <div style={{ position: 'absolute', inset: 0, transform: 'translateY(-50px)' }}>
-            <div style={{ position: 'absolute', left: '66px', top: '809px', width: '694px' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
-            </div>
+          <div style={{ position: 'absolute', left: '66px', top: '828px', width: '694px' }}>
+            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
+          </div>
 
-            <div style={{ position: 'absolute', left: '306px', top: '934px', width: '61px', height: '43px' }}>
-              <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
+          <div style={{ position: 'absolute', left: '306px', top: '884px', width: '61px', height: '43px' }}>
+            <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </div>
 
-            <div style={{ position: 'absolute', left: '380px', top: '942px', width: '140px' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
-            </div>
+          <div style={{ position: 'absolute', left: '380px', top: '892px', width: '140px' }}>
+            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
+          </div>
 
-            <button
-              type="button"
-              onClick={handleCopy}
-              style={{ position: 'absolute', left: '289px', top: '1008px', padding: 0, border: 'none', background: 'transparent', cursor: 'pointer' }}
-            >
-              <FigmaPromptBadge className="button-inner-glow" textOffsetY={7} style={{ width: '249px', height: '81px', display: 'block' }} />
-            </button>
+          <button
+            type="button"
+            onClick={handleCopy}
+            style={{ position: 'absolute', left: '289px', top: '958px', padding: 0, border: 'none', background: 'transparent', cursor: 'pointer' }}
+          >
+            <FigmaPromptBadge className="button-inner-glow" textOffsetY={7} style={{ width: '249px', height: '81px', display: 'block' }} />
+          </button>
 
-            <div style={{ position: 'absolute', left: '66px', top: '1125px', width: '694px' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>{promptText}</p>
-            </div>
+          <div style={{ position: 'absolute', left: '66px', top: '1075px', width: '694px' }}>
+            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>{promptText}</p>
           </div>
         </div>
 
