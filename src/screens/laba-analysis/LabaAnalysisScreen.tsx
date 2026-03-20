@@ -5,8 +5,12 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
-import openReelButtonPng from '../../assets/laba-analysis/кнопка открыть рилс.png';
+import analysisDisabledBlurFramePng from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
+import openReelButtonPng from '../../assets/laba-analysis/open-reel-button.png';
+import blackReelBackground from '../../assets/laba-main/reel-card-black-bg.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+
+type ActionVariant = 'dark' | 'light';
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
@@ -17,10 +21,9 @@ const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4df
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
 const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c914514e-0b54-4b1b-8ce2-5473d0d1671f';
 const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/9706fd0a-d277-4e19-abed-e80b0990d5eb';
-const PREVIEW_CARD_WIDTH = 812;
-const PREVIEW_CARD_HEIGHT = 1060;
-const PREVIEW_CARD_SCALE = 744 / PREVIEW_CARD_WIDTH;
-const PREVIEW_CARD_SCALED_HEIGHT = PREVIEW_CARD_HEIGHT * PREVIEW_CARD_SCALE;
+const PREVIEW_CARD_WIDTH = 824;
+const PREVIEW_CARD_HEIGHT = 1054;
+const PREVIEW_COVER_SIZE = 754;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -150,7 +153,7 @@ export const LabaAnalysisScreen: React.FC = () => {
         <MainBackdropNew />
 
         <SecondaryBlackBackdrop>
-          <div style={{ position: 'absolute', inset: '34px 49px 40px', overflowY: 'auto', overflowX: 'hidden', paddingRight: '8px' }}>
+          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '40px' }}>
             <AnalysisPreviewCard
               reel={reel}
               isFavorite={likedCards.has(reel.id)}
@@ -159,7 +162,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               onTrack={() => void handleTrack()}
             />
 
-            <div style={{ width: '744px', margin: '10px auto 0' }}>
+            <div style={{ width: '744px', margin: '24px auto 0' }}>
               <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
                 описание
               </p>
@@ -180,62 +183,35 @@ export const LabaAnalysisScreen: React.FC = () => {
 
             {!analysis ? (
               <div
-                className="blur-wave"
                 style={{
                   position: 'relative',
                   width: '744px',
                   height: '328px',
                   margin: '36px auto 0',
-                  borderRadius: '30px',
-                  border: '4px solid rgba(255,255,255,0.3)',
-                  background: 'rgba(255,255,255,0.1)',
                   overflow: 'hidden',
                 }}
               >
+                <img
+                  src={analysisDisabledBlurFramePng}
+                  alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+                />
                 <button
                   type="button"
                   onClick={() => void handleStartAnalysis()}
-                  className="button-inner-glow"
                   style={{
                     position: 'absolute',
                     left: '107px',
-                    top: '92px',
+                    top: '35px',
                     width: '530px',
                     height: '139px',
-                    borderRadius: '62px',
-                    border: '4px solid rgba(255,255,255,0.3)',
-                    background: 'rgba(0,0,0,0.9)',
-                    color: '#fff',
-                    fontFamily: textFont,
-                    fontWeight: 700,
-                    fontSize: '32px',
                     cursor: analyzing ? 'default' : 'pointer',
                     padding: 0,
+                    border: 'none',
+                    background: 'transparent',
                   }}
-                >
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', transform: 'translateY(-2px)' }}>
-                    {analyzing ? 'анализируем...' : 'начать анализ'}
-                    {!analyzing ? <img src={metacoinSmall} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain' }} /> : null}
-                    {!analyzing ? LABA_COSTS.ANALYZE_REEL : null}
-                  </span>
-                </button>
-                <p
-                  style={{
-                    position: 'absolute',
-                    left: '135px',
-                    top: '245px',
-                    width: '473px',
-                    margin: 0,
-                    fontFamily: textFont,
-                    fontWeight: 400,
-                    fontSize: '32px',
-                    lineHeight: '1',
-                    color: 'rgba(255,255,255,0.6)',
-                    textAlign: 'center',
-                  }}
-                >
-                  вы можете пополнить баланс в личном кабинете
-                </p>
+                  aria-label={analyzing ? 'анализируем' : 'начать анализ'}
+                />
               </div>
             ) : (
               <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px', paddingBottom: '10px' }}>
@@ -299,188 +275,177 @@ const AnalysisPreviewCard: React.FC<{
     : reel.accountUsername;
 
   return (
-    <div style={{ position: 'relative', width: '744px', height: `${PREVIEW_CARD_SCALED_HEIGHT}px`, margin: '0 auto' }}>
+    <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>
       <div
         style={{
           position: 'absolute',
-          left: 0,
-          top: 0,
-          width: `${PREVIEW_CARD_WIDTH}px`,
-          height: `${PREVIEW_CARD_HEIGHT}px`,
-          transform: `scale(${PREVIEW_CARD_SCALE})`,
-          transformOrigin: 'top left',
+          inset: 0,
+          borderRadius: '30px',
+          overflow: 'hidden',
         }}
       >
-        <div style={{ position: 'absolute', left: '30px', top: '30px', width: '744px', height: '744px', borderRadius: '36px', overflow: 'hidden', border: '2px solid rgba(0,0,0,0.3)' }}>
-          <img src={figmaCardCover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
+        <img src={blackReelBackground} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill', display: 'block' }} />
+      </div>
 
-        <button
-          type="button"
-          onClick={() => onToggleFavorite(reel.id)}
-          style={{
-            position: 'absolute',
-            left: '62px',
-            top: '53px',
-            width: '72px',
-            height: '72px',
-            border: 'none',
-            background: 'rgba(4,22,39,0.1)',
-            backdropFilter: 'blur(12px)',
-            borderRadius: '32px',
-            cursor: 'pointer',
-            padding: '10px',
-          }}
-        >
-          <div style={{ position: 'relative', width: '20px', height: '20px', margin: 'auto' }}>
-            <img
-              src={isFavorite ? figmaLikeActive : figmaLikeInactive}
-              alt="лайк"
-              style={{
-                position: 'absolute',
-                inset: '-30% -35% -30% -40%',
-                width: 'calc(100% + 15px)',
-                height: 'calc(100% + 12px)',
-                maxWidth: 'none',
-              }}
-            />
-          </div>
-        </button>
+      <div
+        style={{
+          position: 'absolute',
+          left: '35px',
+          top: '35px',
+          width: `${PREVIEW_COVER_SIZE}px`,
+          height: `${PREVIEW_COVER_SIZE}px`,
+          borderRadius: '62px',
+          overflow: 'hidden',
+          border: 'none',
+          background: 'rgba(255,255,255,0.08)',
+        }}
+      >
+        <img src={figmaCardCover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
 
-        {reel.isNew ? (
-          <div
-            style={{
-              position: 'absolute',
-              right: '48px',
-              top: '50px',
-              minWidth: '102px',
-              height: '38px',
-              padding: '0 18px',
-              borderRadius: '62px',
-              border: '2px solid rgba(255,255,255,0.3)',
-              background: 'rgba(255,255,255,0.12)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: textFont,
-              fontWeight: 700,
-              fontSize: '20px',
-              color: '#fff',
-            }}
-          >
-            новое
-          </div>
-        ) : null}
-
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '72px',
-            transform: 'translateX(-50%)',
-            fontFamily: textFont,
-            fontWeight: 400,
-            fontSize: '32px',
-            lineHeight: '1',
-            color: '#fff',
-            textAlign: 'center',
-          }}
-        >
-          {formatTimeAgo(reel.publishedAt)}
-        </div>
-
-        <OpenReelButton onClick={onOpenReel} />
-
-        <div
-          className="blur-wave"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '650px',
-            transform: 'translateX(-50%)',
-            width: '468px',
-            height: '102px',
-            borderRadius: '62px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: '#000',
-            backdropFilter: 'blur(50px)',
-          }}
-        >
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '12px',
-            }}
-          >
-            <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
-            <MetricStat icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} cropLeft="-193.75%" cropTop="-115.69%" cropWidth="487.69%" width={96} />
-            <MetricStat icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} cropLeft="-304.47%" cropTop="-115.69%" cropWidth="487.69%" width={101} />
-          </div>
-        </div>
-
-        <div style={{ position: 'absolute', left: '62px', top: '803px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.12)' }}>
-          <img src={figmaProfilePhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-
-        <div style={{ position: 'absolute', left: '268px', top: '813px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+      <button
+        type="button"
+        onClick={() => onToggleFavorite(reel.id)}
+        style={{
+          position: 'absolute',
+          left: '62px',
+          top: '53px',
+          width: '72px',
+          height: '72px',
+          border: 'none',
+          background: 'rgba(4,22,39,0.1)',
+          backdropFilter: 'blur(12px)',
+          borderRadius: '32px',
+          cursor: 'pointer',
+          padding: '10px',
+        }}
+      >
+        <div style={{ position: 'relative', width: '20px', height: '20px', margin: 'auto' }}>
           <img
-            src={figmaInstagramIcon}
-            alt=""
+            src={isFavorite ? figmaLikeActive : figmaLikeInactive}
+            alt="лайк"
             style={{
               position: 'absolute',
-              height: '339.84%',
-              left: '-56.27%',
-              top: '-118.33%',
-              width: '620.89%',
+              inset: '-30% -35% -30% -40%',
+              width: 'calc(100% + 15px)',
+              height: 'calc(100% + 12px)',
               maxWidth: 'none',
             }}
           />
         </div>
+      </button>
 
-        <div style={{ position: 'absolute', left: '284px', top: '885px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
-          @{displayUsername}
-        </div>
-
-        <div style={{ position: 'absolute', left: '281px', top: '936px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
-          {formatCount(reel.accountFollowers)} подписчиков
-        </div>
-
-        <button
-          type="button"
-          onClick={onTrack}
-          className="button-inner-glow"
+      {reel.isNew ? (
+        <div
+          className="blur-wave"
           style={{
             position: 'absolute',
-            left: '518px',
-            top: '803px',
-            width: '247px',
-            height: '79px',
-            padding: 0,
+            right: '44px',
+            top: '40px',
+            minWidth: '102px',
+            height: '38px',
+            padding: '0 18px',
             borderRadius: '62px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: 'rgba(0,0,0,0.9)',
-            color: '#fff',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '27px',
-            cursor: 'pointer',
-            backdropFilter: 'blur(50px)',
+            border: '2px solid rgba(255,255,255,0.3)',
+            background: 'rgba(255,255,255,0.12)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            fontFamily: textFont,
+            fontWeight: 700,
+            fontSize: '20px',
+            color: '#fff',
           }}
         >
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', transform: 'translateY(-3px)' }}>
-            следить
-            <img src={metacoinSmall} alt="" style={{ width: '19px', height: '19px', objectFit: 'contain' }} />
-            100
-          </span>
-        </button>
+          новое
+        </div>
+      ) : null}
+
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '72px',
+          transform: 'translateX(-50%)',
+          fontFamily: textFont,
+          fontWeight: 400,
+          fontSize: '32px',
+          lineHeight: '1',
+          color: '#fff',
+          textAlign: 'center',
+        }}
+      >
+        {formatTimeAgo(reel.publishedAt)}
       </div>
+
+      <OpenReelButton onClick={onOpenReel} />
+
+      <div
+        className="blur-wave"
+        style={{
+          position: 'absolute',
+          left: '178px',
+          top: '654px',
+          width: '468px',
+          height: '102px',
+          borderRadius: '62px',
+          border: '4px solid rgba(255,255,255,0.3)',
+          background: '#000',
+          backdropFilter: 'blur(50px)',
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+          }}
+        >
+          <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
+          <MetricStat icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} cropLeft="-193.75%" cropTop="-115.69%" cropWidth="487.69%" width={96} />
+          <MetricStat icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} cropLeft="-304.47%" cropTop="-115.69%" cropWidth="487.69%" width={101} />
+        </div>
+      </div>
+
+      <div style={{ position: 'absolute', left: '66px', top: '807px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.12)' }}>
+        <img src={figmaProfilePhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+
+      <div style={{ position: 'absolute', left: '271px', top: '815px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+        <img
+          src={figmaInstagramIcon}
+          alt=""
+          style={{
+            position: 'absolute',
+            height: '339.84%',
+            left: '-56.27%',
+            top: '-118.33%',
+            width: '620.89%',
+            maxWidth: 'none',
+          }}
+        />
+      </div>
+
+      <div style={{ position: 'absolute', left: '290px', top: '889px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
+        @{displayUsername}
+      </div>
+
+      <div style={{ position: 'absolute', left: '287px', top: '940px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
+        {formatCount(reel.accountFollowers)} подписчиков
+      </div>
+
+      <ActionButton
+        label="следить"
+        cost={100}
+        variant="dark"
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+          event.stopPropagation();
+          onTrack();
+        }}
+      />
     </div>
   );
 };
@@ -491,25 +456,81 @@ const OpenReelButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     onClick={onClick}
     style={{
       position: 'absolute',
-      left: '50%',
+      left: '377px',
       top: '374px',
       width: '72px',
       height: '72px',
-      transform: 'translateX(-50%)',
       border: 'none',
-      borderRadius: '32px',
-      background: 'rgba(4,22,39,0.1)',
-      backdropFilter: 'blur(12px)',
+      background: 'transparent',
       cursor: 'pointer',
       padding: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden',
     }}
     aria-label="открыть рилс"
   >
-    <img src={openReelButtonPng} alt="" style={{ width: '72px', height: '72px', objectFit: 'contain', pointerEvents: 'none' }} />
+    <img src={openReelButtonPng} alt="" style={{ width: '72px', height: '72px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }} />
+  </button>
+);
+
+const ActionButton: React.FC<{
+  label: string;
+  cost?: number;
+  variant: ActionVariant;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}> = ({ label, cost, variant, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="button-inner-glow"
+    style={{
+      position: 'absolute',
+      left: '356px',
+      top: '800px',
+      width: '247px',
+      height: '79px',
+      padding: 0,
+      borderRadius: '62px',
+      border: '4px solid rgba(255,255,255,0.3)',
+      background: variant === 'light' ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.9)',
+      color: '#fff',
+      fontFamily: textFont,
+      fontWeight: 700,
+      fontSize: '27px',
+      cursor: 'pointer',
+      boxShadow: variant === 'light' ? 'inset 0 0 40px rgba(255,255,255,0.16)' : 'none',
+      backdropFilter: 'blur(50px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    {typeof cost === 'number' ? (
+      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <div
+          style={{
+            position: 'absolute',
+            left: '24px',
+            top: '17px',
+            width: '199px',
+            height: '29px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: textFont,
+            fontWeight: 700,
+            fontSize: '27px',
+            lineHeight: '1',
+            whiteSpace: 'pre',
+          }}
+        >
+          {`${label}    ${cost}`}
+        </div>
+        <div style={{ position: 'absolute', left: '150px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+          <img src={metacoinSmall} alt="" style={{ width: '19px', height: '19px', objectFit: 'contain' }} />
+        </div>
+      </div>
+    ) : (
+      <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
+    )}
   </button>
 );
 
