@@ -5,7 +5,7 @@ import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/Lab
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
-import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
+import activeFilterPillTemplatePng from '../../assets/laba-main/active-filter-pill-template.png';
 import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 
 const textFont = 'Cygre, sans-serif';
@@ -464,11 +464,26 @@ const FilterButton: React.FC<{
   >
     {active ? (
       <img
-        src={activeFilterShell}
+        src={activeFilterPillTemplatePng}
         alt=""
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
       />
     ) : null}
-    <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', transform: 'translateY(-5px)' }}>{label}</span>
+    <span
+      style={{
+        position: 'relative',
+        zIndex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        padding: '0 18px',
+        transform: 'translateY(-5px)',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {label}
+    </span>
   </button>
 );

@@ -162,7 +162,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               onTrack={() => void handleTrack()}
             />
 
-            <div style={{ width: '744px', margin: '0 auto 0' }}>
+            <div style={{ width: '744px', margin: '-24px auto 0' }}>
               <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
                 описание
               </p>
@@ -187,7 +187,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   position: 'relative',
                   width: '744px',
                   height: '328px',
-                  margin: '16px auto 0',
+                  margin: '-4px auto 0',
                   overflow: 'hidden',
                 }}
               >
