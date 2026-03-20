@@ -65,10 +65,12 @@ export const PromptFirstScreen: React.FC = () => {
         ))}
 
         <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', pointerEvents: 'auto' }}>
-            <div style={{ position: 'relative', width: '884px', height: '2175px' }}>
-              {PROMPT_CARD_POSITIONS.map((top) => (
-                <div key={top} style={{ position: 'absolute', left: '22px', top: `${top}px`, width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
+          <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none', zIndex: 1 }} />
+
+          <div style={{ position: 'absolute', left: '22px', top: '24px', width: '840px', height: '1068px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '23px', paddingBottom: '24px' }}>
+              {PROMPT_CARD_POSITIONS.map((top, index) => (
+                <div key={`${top}-${index}`} style={{ position: 'relative', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
                   <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
                     <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
@@ -91,7 +93,7 @@ export const PromptFirstScreen: React.FC = () => {
                       background: 'rgba(0,0,0,0.9)',
                       padding: 0,
                       cursor: 'pointer',
-                      zIndex: 20,
+                      zIndex: 999,
                     }}
                   >
                     <div
@@ -135,8 +137,6 @@ export const PromptFirstScreen: React.FC = () => {
               ))}
             </div>
           </div>
-
-          <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
         </div>
 
         <Footer />

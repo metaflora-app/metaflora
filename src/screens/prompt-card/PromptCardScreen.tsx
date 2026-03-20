@@ -91,11 +91,11 @@ export const PromptCardScreen: React.FC = () => {
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
           </div>
 
-          <div style={{ position: 'absolute', left: '50%', top: '885px', width: '225px', height: '43px', transform: 'translateX(-50%)' }}>
+          <div style={{ position: 'absolute', left: '50%', top: '885px', width: '197px', height: '43px', transform: 'translateX(-50%)' }}>
             <div style={{ position: 'absolute', left: 0, top: 0, width: '61px', height: '43px' }}>
               <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             </div>
-            <div style={{ position: 'absolute', left: '85px', top: '7px', width: '140px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'absolute', left: '57px', top: '7px', width: '140px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
             </div>
           </div>
