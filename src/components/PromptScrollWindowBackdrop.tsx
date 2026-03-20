@@ -35,7 +35,7 @@ export const PromptScrollWindowBackdrop: React.FC<PromptScrollWindowBackdropProp
 
     <div style={{ position: 'absolute', left: 0, top: 0, width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
-        <div style={{ position: 'absolute', left: '164.44px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', left: '40px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
           <img
             src={promptScrollWindowLogoBackdrop}
             alt=""
