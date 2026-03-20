@@ -194,7 +194,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <img
                   src={analysisDisabledBlurFramePng}
                   alt=""
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+                  style={{ position: 'absolute', left: 0, top: '-37px', width: '744px', height: '402px', objectFit: 'fill', pointerEvents: 'none' }}
                 />
                 <button
                   type="button"

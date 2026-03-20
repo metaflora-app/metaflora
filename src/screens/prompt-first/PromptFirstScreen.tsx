@@ -7,6 +7,7 @@ import sortButtonInactive from '../../assets/prompt-redesign/кнопка сор
 import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
 import recentButtonInactive from '../../assets/prompt-redesign/кнопка недавние неактив.png';
 import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
+import activeFilterPillTemplatePng from '../../assets/laba-main/active-filter-pill-template.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
@@ -21,11 +22,28 @@ const PROMPT_CARD_HEIGHT = 1059;
 const PROMPT_CARD_STEP = PROMPT_CARD_HEIGHT + PROMPT_CARD_GAP;
 const PROMPT_CARD_SCALE_X = PROMPT_CARD_WIDTH / PROMPT_CARD_CANVAS_WIDTH;
 const PROMPT_CARD_SCALE_Y = PROMPT_CARD_HEIGHT / PROMPT_CARD_CANVAS_HEIGHT;
+const promptSortOptions = ['LLM', 'фото', 'видео', 'другое'];
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const handleOpenPromptCard = () => navigate('/prompt-card');
+  const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
+  const [newActive, setNewActive] = React.useState(false);
+  const [recentActive, setRecentActive] = React.useState(false);
+  const [favoriteActive, setFavoriteActive] = React.useState(false);
+
+  const cycleSort = () => {
+    if (!selectedSort) {
+      window.Telegram?.WebApp?.showPopup?.({
+        message: `сортировка\n\n${promptSortOptions.join('\n')}`,
+      });
+      setSelectedSort(promptSortOptions[0]);
+      return;
+    }
+    const nextIndex = (promptSortOptions.indexOf(selectedSort) + 1) % promptSortOptions.length;
+    setSelectedSort(promptSortOptions[nextIndex]);
+  };
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -61,15 +79,11 @@ export const PromptFirstScreen: React.FC = () => {
           />
         </div>
 
-        {[
-          [returnButton, 220, 732],
-          [sortButtonInactive, 467, 732],
-          [newButtonInactive, 714, 732],
-          [recentButtonInactive, 343, 811],
-          [favoriteButtonInactive, 590, 811],
-        ].map(([src, left, top], index) => (
-          <img key={index} src={src as string} alt="" style={{ position: 'absolute', left: `${left}px`, top: `${top}px`, width: '247px', height: '80px', objectFit: 'contain' }} />
-        ))}
+        <img src={returnButton} alt="" style={{ position: 'absolute', left: '220px', top: '732px', width: '247px', height: '80px', objectFit: 'contain', cursor: 'pointer' }} />
+        <PromptFilterButton label={selectedSort || 'сортировка'} left={467} top={732} active={Boolean(selectedSort)} onClick={cycleSort} inactiveSrc={sortButtonInactive} />
+        <PromptFilterButton label="новое" left={714} top={732} active={newActive} onClick={() => setNewActive((prev) => !prev)} inactiveSrc={newButtonInactive} />
+        <PromptFilterButton label="недавние" left={343} top={811} active={recentActive} onClick={() => setRecentActive((prev) => !prev)} inactiveSrc={recentButtonInactive} />
+        <PromptFilterButton label="избранное" left={590} top={811} active={favoriteActive} onClick={() => setFavoriteActive((prev) => !prev)} inactiveSrc={favoriteButtonInactive} />
 
         <PromptScrollWindowBackdrop />
 
@@ -167,3 +181,58 @@ export const PromptFirstScreen: React.FC = () => {
     </div>
   );
 };
+
+const PromptFilterButton: React.FC<{
+  label: string;
+  left: number;
+  top: number;
+  active: boolean;
+  onClick: () => void;
+  inactiveSrc: string;
+}> = ({ label, left, top, active, onClick, inactiveSrc }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={active ? undefined : 'blur-wave'}
+    style={{
+      position: 'absolute',
+      left: `${left}px`,
+      top: `${top}px`,
+      width: '247px',
+      height: '80px',
+      border: 'none',
+      background: 'transparent',
+      padding: 0,
+      cursor: 'pointer',
+      overflow: 'hidden',
+    }}
+  >
+    <img
+      src={active ? activeFilterPillTemplatePng : inactiveSrc}
+      alt=""
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+    />
+    <span
+      style={{
+        position: 'relative',
+        zIndex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        padding: '0 18px',
+        fontFamily: 'Cygre',
+        fontWeight: 700,
+        fontSize: '27px',
+        lineHeight: '1',
+        color: '#fff',
+        transform: 'translateY(-5px)',
+        whiteSpace: 'nowrap',
+        textAlign: 'center',
+      }}
+    >
+      {label}
+    </span>
+  </button>
+);

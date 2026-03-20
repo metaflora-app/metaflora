@@ -126,7 +126,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
         })}
 
         <div style={{ position: 'absolute', left: '0', top: '547px', width: '1180px', height: '1450px', overflowY: visibleArticles.length > 4 ? 'auto' : 'visible', overflowX: 'hidden' }}>
-          <div style={{ position: 'relative', width: '1180px', minHeight: `${Math.max(visibleArticles.length, 1) * 286}px` }}>
+          <div style={{ position: 'relative', width: '1180px', minHeight: `${Math.max(visibleArticles.length, 1) * 279}px` }}>
             {error ? (
               <div style={{ position: 'absolute', left: '50%', top: '160px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontSize: '28px', color: '#ff7b7b', textAlign: 'center' }}>
                 ошибка загрузки: {error}
@@ -142,7 +142,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             ) : (
               visibleArticles.map((article, index) => {
                 const background = article.cover_image_url || FALLBACK_BACKGROUNDS[index % FALLBACK_BACKGROUNDS.length];
-                const top = 30 + index * 286;
+                const top = 30 + index * 279;
 
                 return (
                   <div key={article.id} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: '249px' }}>

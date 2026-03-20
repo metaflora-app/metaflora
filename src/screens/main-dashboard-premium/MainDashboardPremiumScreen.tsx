@@ -215,7 +215,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         />
         <ServiceCard
           bgSrc={labaBg}
-          top={816}
+          top={817}
           height={250}
           photoInset="0.4% 49.78% 0 0"
           textInset="0.4% 0 0 50.22%"
@@ -232,7 +232,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         />
         <ServiceCard
           bgSrc={poligonBg}
-          top={1378}
+          top={1376}
           photoInset="0 50% 0 0"
           textInset="0 0 0 49.97%"
           content={<><p style={{ margin: 0 }}>нужен разбор ИИ-новинки</p><p style={{ margin: 0 }}>или подробный кейс с</p><p style={{ margin: 0 }}>комментариями — всё это</p><p style={{ margin: 0 }}>уже есть в МЕТАФЛОРА*</p><p style={{ margin: 0 }}>полигон. новые статьи</p><p style={{ margin: 0 }}>публикуются регулярно</p></>}
@@ -240,7 +240,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         />
         <ServiceCard
           bgSrc={chatBg}
-          top={1659}
+          top={1655}
           photoInset="0 50.45% 0 0"
           textInset="0 0 0 49.56%"
           content={<><p style={{ margin: 0 }}>комьюнити специалистов,</p><p style={{ margin: 0 }}>кто только начинает или уже</p><p style={{ margin: 0 }}>давно работает с ИИ. здесь</p><p style={{ margin: 0 }}>найдется ответ на любой</p><p style={{ margin: 0 }}>вопрос (даже на самый</p><p style={{ margin: 0 }}>глупый)</p></>}
