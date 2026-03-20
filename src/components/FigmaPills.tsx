@@ -4,6 +4,7 @@ import downloadPlusIcon from '../assets/materials-redesign/кнопка скач
 interface BasePillProps {
   className?: string;
   style?: React.CSSProperties;
+  textOffsetY?: number;
 }
 
 interface PillButtonProps extends BasePillProps {
@@ -21,7 +22,7 @@ const basePillStyle: React.CSSProperties = {
   overflow: 'hidden',
 };
 
-export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style }) => (
+export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style, textOffsetY = 4 }) => (
   <div
     className={className}
     style={{
@@ -37,7 +38,7 @@ export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style }) 
         position: 'absolute',
         left: '50%',
         top: '50%',
-        transform: 'translate(-50%, calc(-50% - 4px))',
+        transform: `translate(-50%, calc(-50% - ${textOffsetY}px))`,
         width: '150px',
         height: '29.94px',
         display: 'flex',

@@ -3,12 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getWorkshopPromptById } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { FigmaPromptBadge } from '../../components/FigmaPills';
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
-import promptBadge from '../../assets/prompt-redesign/плашка промпт.png';
-import mainCardUnderlay from '../../assets/prompt-redesign/большая главная подложка.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
+import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 
 declare global {
   interface Window {
@@ -77,31 +77,37 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        <img src={mainCardUnderlay} alt="главная подложка" style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
+        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
 
         <div style={{ position: 'absolute', left: '176px', top: '456px', width: '860px', height: '1536px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', left: '42px', top: '37px', width: '774px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
             <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
 
-          <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '52px', top: '23px', width: '72px', height: '72px', objectFit: 'contain' }} />
-          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', right: '45px', top: '43px', width: '101px', height: '36px', objectFit: 'contain' }} /> : null}
+          <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '42px', top: '34px', width: '72px', height: '72px', objectFit: 'contain' }} />
+          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', right: '41px', top: '43px', width: '101px', height: '36px', objectFit: 'contain' }} /> : null}
 
-          <div style={{ position: 'absolute', left: '83px', top: '850px', width: '694px' }}>
+          <div style={{ position: 'absolute', left: '98px', top: '786px', width: '665px' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
           </div>
 
-          <div style={{ position: 'absolute', left: '349px', top: '944px', width: '61px', height: '43px' }}>
+          <div style={{ position: 'absolute', left: '286px', top: '885px', width: '61px', height: '43px' }}>
             <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
 
-          <div style={{ position: 'absolute', left: '425px', top: '952px' }}>
+          <div style={{ position: 'absolute', left: '377px', top: '893px', width: '140px' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
           </div>
 
-          <img src={promptBadge} alt="промпт" className="button-inner-glow" onClick={handleCopy} style={{ position: 'absolute', left: '306px', top: '1008px', width: '248px', height: '80px', objectFit: 'contain', cursor: 'pointer' }} />
+          <button
+            type="button"
+            onClick={handleCopy}
+            style={{ position: 'absolute', left: '305px', top: '953px', padding: 0, border: 'none', background: 'transparent', cursor: 'pointer' }}
+          >
+            <FigmaPromptBadge className="button-inner-glow" textOffsetY={7} style={{ width: '249px', height: '81px', display: 'block' }} />
+          </button>
 
-          <div onClick={handleCopy} style={{ position: 'absolute', left: '83px', top: '1125px', width: '694px', cursor: 'pointer' }}>
+          <div style={{ position: 'absolute', left: '83px', top: '1057px', width: '694px' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>{promptText}</p>
           </div>
         </div>
