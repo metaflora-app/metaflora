@@ -55,9 +55,17 @@ export const WelcomeScreen: React.FC = () => {
 
         {/* Подзаголовок */}
         <div style={{ position: 'absolute', left: '94px', top: '392px', width: '992px' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1.2', color: 'white' }}>
-            пожалуй, лучшее AI-powered мини-приложение — академия, лаба, цех и другие сервисы
-          </p>
+          {[
+            'пожалуй, лучшее AI-powered мини-приложение',
+            '— академия, лаба, цех и другие сервисы.',
+            'попробуйте демо-курс для погружения',
+            'или сразу оформите подписку на удобный срок',
+            'и получите полный доступ',
+          ].map((line) => (
+            <p key={line} style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+              {line}
+            </p>
+          ))}
         </div>
 
         <img

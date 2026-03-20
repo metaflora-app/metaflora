@@ -62,14 +62,6 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <img src={openBtn} alt="открыть" onClick={() => navigate('/academy-course-demo')} className="button-inner-glow" style={{
             position: 'absolute', left: '101px', top: '85px', width: '247px', height: '79px', cursor: 'pointer',
           }} />
-          <div className="button-inner-glow" style={{
-            position: 'absolute', left: '336px', top: '19px', width: '101px', height: '36px',
-            backdropFilter: 'blur(50px)', background: 'rgba(255,255,255,0.1)',
-            border: '2px solid rgba(255,255,255,0.3)', borderRadius: '62px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <span style={{ fontFamily: 'Cygre', fontWeight: 500, fontSize: '20px', color: 'white' }}>демо</span>
-          </div>
         </div>
 
         {/* Карточка "что скрывается в полном" — 894×1196px */}
