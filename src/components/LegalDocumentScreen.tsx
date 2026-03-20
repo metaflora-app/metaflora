@@ -35,16 +35,16 @@ export const LegalDocumentScreen: React.FC<LegalDocumentScreenProps> = ({ title,
           alt="главная подложка"
           style={{
             position: 'absolute',
-            left: '88px',
+            left: '141px',
             top: '560px',
-            width: '1004px',
+            width: '894px',
             height: '1482px',
             objectFit: 'fill',
             pointerEvents: 'none',
           }}
         />
 
-        <div style={{ position: 'absolute', left: '141px', top: '616px', width: '898px', height: '1373px' }}>
+        <div style={{ position: 'absolute', left: '175px', top: '616px', width: '826px', height: '1373px' }}>
           <div style={{
             position: 'absolute',
             inset: 0,
