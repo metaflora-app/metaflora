@@ -15,8 +15,9 @@ interface LabaFeedCardProps {
   actionVariant?: ActionVariant;
 }
 
-const CARD_WIDTH = 812;
-const COVER_SIZE = 744;
+const CARD_WIDTH = 824;
+const CARD_HEIGHT = 1054;
+const COVER_SIZE = 754;
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
@@ -49,7 +50,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       style={{
         position: 'relative',
         width: `${CARD_WIDTH}px`,
-        minHeight: '1060px',
+        minHeight: `${CARD_HEIGHT}px`,
         margin: '0 auto',
         cursor: onOpenAnalysis ? 'pointer' : 'default',
       }}
@@ -69,13 +70,13 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '30px',
-          top: '30px',
+          left: '35px',
+          top: '35px',
           width: `${COVER_SIZE}px`,
           height: `${COVER_SIZE}px`,
-          borderRadius: '36px',
+          borderRadius: '62px',
           overflow: 'hidden',
-          border: '2px solid rgba(0,0,0,0.3)',
+          border: 'none',
           background: 'rgba(255,255,255,0.08)',
         }}
       >
@@ -122,8 +123,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           className="blur-wave"
           style={{
             position: 'absolute',
-            right: '48px',
-            top: '50px',
+            right: '44px',
+            top: '40px',
             minWidth: '102px',
             height: '38px',
             padding: '0 18px',
@@ -153,11 +154,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           className="button-inner-glow blur-wave"
           style={{
             position: 'absolute',
-            left: '50%',
-            top: '374px',
-            transform: 'translateX(-50%)',
-            width: '246px',
-            height: '79px',
+            left: '283px',
+            top: '368px',
+            width: '251px',
+            height: '80px',
             borderRadius: '62px',
             border: '4px solid rgba(255,255,255,0.3)',
             background: '#000',
@@ -180,9 +180,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         className="blur-wave"
         style={{
           position: 'absolute',
-          left: '50%',
-          top: '650px',
-          transform: 'translateX(-50%)',
+          left: '178px',
+          top: '654px',
           width: '468px',
           height: '102px',
           borderRadius: '62px',
@@ -228,8 +227,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '62px',
-          top: '803px',
+          left: '66px',
+          top: '807px',
           width: '190px',
           height: '190px',
           borderRadius: '50%',
@@ -243,8 +242,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '268px',
-          top: '813px',
+          left: '271px',
+          top: '815px',
           width: '64px',
           height: '78px',
           overflow: 'hidden',
@@ -268,8 +267,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '284px',
-          top: '885px',
+          left: '290px',
+          top: '889px',
           width: '398px',
           fontFamily: textFont,
           fontWeight: 700,
@@ -285,8 +284,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '281px',
-          top: '936px',
+          left: '287px',
+          top: '940px',
           width: '350px',
           height: '32px',
           fontFamily: textFont,
@@ -322,7 +321,7 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
   showAccountRow = true,
   showActionRow = true,
 }) => (
-  <div style={{ position: 'relative', width: `${CARD_WIDTH}px`, minHeight: '1060px', margin: '0 auto' }}>
+  <div style={{ position: 'relative', width: `${CARD_WIDTH}px`, minHeight: `${CARD_HEIGHT}px`, margin: '0 auto' }}>
     <div
       className="blur-wave"
       style={{
@@ -338,11 +337,11 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
     <div
       style={{
         position: 'absolute',
-        left: '30px',
-        top: '30px',
+        left: '35px',
+        top: '35px',
         width: `${COVER_SIZE}px`,
         height: `${COVER_SIZE}px`,
-        borderRadius: '36px',
+        borderRadius: '62px',
         background: 'rgba(255,255,255,0.06)',
       }}
     />
@@ -350,10 +349,10 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
       style={{
         position: 'absolute',
         left: '50%',
-        top: '690px',
+        top: '654px',
         transform: 'translateX(-50%)',
         width: '468px',
-        height: '78px',
+        height: '102px',
         borderRadius: '62px',
         background: 'rgba(255,255,255,0.08)',
       }}
@@ -363,8 +362,8 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
         <div
           style={{
             position: 'absolute',
-            left: '32px',
-        top: '890px',
+            left: '66px',
+        top: '807px',
             width: '190px',
             height: '190px',
             borderRadius: '50%',
@@ -374,8 +373,8 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
         <div
           style={{
             position: 'absolute',
-            left: '246px',
-            top: '884px',
+            left: '290px',
+            top: '889px',
             width: '280px',
             height: '48px',
             borderRadius: '14px',
@@ -385,8 +384,8 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
         <div
           style={{
             position: 'absolute',
-            left: '246px',
-            top: '952px',
+            left: '287px',
+            top: '940px',
             width: '220px',
             height: '30px',
             borderRadius: '12px',
@@ -399,10 +398,10 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
       <div
         style={{
           position: 'absolute',
-          right: '40px',
-          top: '911px',
-          width: '246px',
-          height: '102px',
+          left: '361px',
+          top: '804px',
+          width: '251px',
+          height: '80px',
           borderRadius: '62px',
           background: 'rgba(255,255,255,0.08)',
         }}
