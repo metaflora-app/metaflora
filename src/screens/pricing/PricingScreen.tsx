@@ -7,7 +7,6 @@ import pricingCardMonth from '../../assets/pricing-redesign/карточка п�
 import pricingCardQuarter from '../../assets/pricing-redesign/карточка подписки 3 месяца.png';
 import activeMonthButton from '../../assets/pricing-redesign/кнопка активный месяц.png';
 import activeQuarterButton from '../../assets/pricing-redesign/кнопка активные 3 месяца.png';
-import choiceWindow from '../../assets/pricing-redesign/окошко выбор месяца.png';
 import payButton from '../../assets/pricing-redesign/кнопка оплатить доступ.png';
 
 export const PricingScreen: React.FC = () => {
@@ -46,10 +45,16 @@ export const PricingScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '143px', top: '399px', width: '894px', height: '79px' }}>
-          <img
-            src={choiceWindow}
-            alt="выбор периода подписки"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: '#000',
+              border: '4px solid rgba(255,255,255,0.3)',
+              borderRadius: '30px',
+              boxSizing: 'border-box',
+            }}
           />
 
           {selectedPlan === '1month' ? (
@@ -62,9 +67,10 @@ export const PricingScreen: React.FC = () => {
               <div
                 style={{
                   position: 'absolute',
-                  left: '653.5px',
-                  top: '28px',
-                  transform: 'translate(-50%, -50%)',
+                  left: '497px',
+                  top: '12px',
+                  width: '321px',
+                  height: '40px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
@@ -90,9 +96,10 @@ export const PricingScreen: React.FC = () => {
               <div
                 style={{
                   position: 'absolute',
-                  left: '220.5px',
-                  top: '29px',
-                  transform: 'translate(-50%, -50%)',
+                  left: '80px',
+                  top: '13px',
+                  width: '289px',
+                  height: '40px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
