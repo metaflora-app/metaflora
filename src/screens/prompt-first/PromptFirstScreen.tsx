@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import scrollFrame from '../../assets/prompt-redesign/окошко скролла промптов.png';
 import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
 import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
 import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
@@ -65,7 +64,19 @@ export const PromptFirstScreen: React.FC = () => {
         ))}
 
         <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
-          <img src={scrollFrame} alt="окошко скролла промптов" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none', zIndex: 1 }} />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              border: '4px solid rgba(255,255,255,0.3)',
+              borderRadius: '30px',
+              background: 'rgba(255,255,255,0.08)',
+              backdropFilter: 'blur(50px)',
+              boxSizing: 'border-box',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          />
 
           <div style={{ position: 'absolute', left: '22px', top: '24px', width: '840px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '23px', paddingBottom: '0' }}>
