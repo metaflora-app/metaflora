@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
 import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
 import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
@@ -64,30 +65,31 @@ export const PromptFirstScreen: React.FC = () => {
         ))}
 
         <div style={{ position: 'absolute', left: '145px', top: '921px', width: '884px', height: '1121px' }}>
-          <div
+          <img
+            src={reelsScrollWindowNew}
+            alt="окошко скролла промптов"
             style={{
               position: 'absolute',
-              inset: 0,
-              border: '4px solid rgba(255,255,255,0.3)',
-              borderRadius: '30px',
-              background: 'rgba(255,255,255,0.08)',
-              backdropFilter: 'blur(50px)',
-              boxSizing: 'border-box',
+              left: '-89px',
+              top: '-79px',
+              width: '1119px',
+              height: '1499px',
+              objectFit: 'fill',
               pointerEvents: 'none',
               zIndex: 1,
             }}
           />
 
-          <div style={{ position: 'absolute', left: '22px', top: '24px', width: '840px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '23px', paddingBottom: '0' }}>
+          <div style={{ position: 'absolute', left: '54px', top: '58px', width: '776px', height: '1030px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', pointerEvents: 'auto', zIndex: 2 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '34px', paddingBottom: '34px' }}>
               {PROMPT_CARD_POSITIONS.map((top, index) => (
-                <div key={`${top}-${index}`} style={{ position: 'relative', width: '831px', height: '1064px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
-                  <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
+                <div key={`${top}-${index}`} style={{ position: 'relative', width: '776px', height: '995px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden', isolation: 'isolate' }}>
+                  <div style={{ position: 'absolute', left: '32px', top: '35px', width: '712px', height: '699px', borderRadius: '58px', overflow: 'hidden' }}>
                     <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
 
-                  <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', objectFit: 'contain' }} />
-                  <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} />
+                  <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '68px', top: '56px', width: '68px', height: '68px', objectFit: 'contain' }} />
+                  <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '598px', top: '69px', width: '113px', height: '40px', objectFit: 'fill' }} />
 
                   <button
                     type="button"
@@ -95,10 +97,10 @@ export const PromptFirstScreen: React.FC = () => {
                     className="button-inner-glow"
                     style={{
                       position: 'absolute',
-                      left: '293px',
-                      top: '366px',
-                      width: '246.9305px',
-                      height: '79.25px',
+                      left: '274px',
+                      top: '344px',
+                      width: '230.942px',
+                      height: '74.108px',
                       borderRadius: '62px',
                       border: '4px solid rgba(255,255,255,0.3)',
                       background: 'rgba(0,0,0,0.9)',
@@ -110,16 +112,16 @@ export const PromptFirstScreen: React.FC = () => {
                     <div
                       style={{
                         position: 'absolute',
-                        left: '13px',
-                        top: '19px',
-                        width: '223px',
-                        height: '29.3116px',
+                        left: '12px',
+                        top: '18px',
+                        width: '207px',
+                        height: '27px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontFamily: 'Cygre',
                         fontWeight: 700,
-                        fontSize: '27px',
+                        fontSize: '25px',
                         lineHeight: '1',
                         color: 'white',
                         textAlign: 'center',
@@ -129,24 +131,24 @@ export const PromptFirstScreen: React.FC = () => {
                     </div>
                   </button>
 
-                  <div style={{ position: 'absolute', left: '69px', top: '804px', width: '694px' }}>
-                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
+                  <div style={{ position: 'absolute', left: '64px', top: '752px', width: '648px' }}>
+                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '48px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                       ИИ-копирайтер для блога
                     </p>
                   </div>
 
-                  <div style={{ position: 'absolute', left: '47px', top: '865px', width: '738px', height: '69px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
+                  <div style={{ position: 'absolute', left: '44px', top: '809px', width: '689px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '33px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                       настройте ИИ-копирайтера за один промпт, настройте ИИ-копирайтера
                     </p>
                   </div>
 
-                  <div style={{ position: 'absolute', left: '294px', top: '962px', width: '61px', height: '43px' }}>
+                  <div style={{ position: 'absolute', left: '274px', top: '900px', width: '57px', height: '40px' }}>
                     <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   </div>
 
-                  <div style={{ position: 'absolute', left: '367px', top: '971px' }}>
-                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+                  <div style={{ position: 'absolute', left: '343px', top: '908px' }}>
+                    <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '25px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
                       Редакция
                     </p>
                   </div>
