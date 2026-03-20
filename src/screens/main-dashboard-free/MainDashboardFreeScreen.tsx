@@ -85,7 +85,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
 
         {/* Текст под кнопкой */}
         <div style={{
-          position: 'absolute', left: '322px', top: '1546px', width: '530px', textAlign: 'center',
+          position: 'absolute', left: '322px', top: '1524px', width: '530px', textAlign: 'center',
           fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', color: 'rgba(255,255,255,0.6)', lineHeight: '1',
         }}>
           вы будете перенаправлены

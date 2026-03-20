@@ -33,7 +33,7 @@ export const DemoAccessScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '99px', top: '359px', width: '980px' }}>
+        <div style={{ position: 'absolute', left: '99px', top: '379px', width: '935px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
             курс «демо» включает в себя 4 урока
           </p>

@@ -8,6 +8,7 @@ import likeButton from '../../assets/prompt-redesign/кнопка лайк ак�
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
+import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 
 declare global {
   interface Window {
@@ -70,28 +71,13 @@ export const PromptCardScreen: React.FC = () => {
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>карточка промпта</p>
         </div>
 
-        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '760px' }}>
+        <div style={{ position: 'absolute', left: '85px', top: '291px', width: '916px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
             достаточно одного клика, чтобы скопировать весь промпт
           </p>
         </div>
 
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            left: '159px',
-            top: '430px',
-            width: '894px',
-            height: '1482px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            boxSizing: 'border-box',
-            pointerEvents: 'none',
-          }}
-        />
+        <img src={mainBackdrop} alt="главная подложка" style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '1643px', objectFit: 'fill', pointerEvents: 'none' }} />
 
         <div style={{ position: 'absolute', left: '176px', top: '456px', width: '860px', height: '1536px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden' }}>
@@ -105,11 +91,11 @@ export const PromptCardScreen: React.FC = () => {
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
           </div>
 
-          <div style={{ position: 'absolute', left: '356px', top: '934px', width: '61px', height: '43px' }}>
+          <div style={{ position: 'absolute', left: '323px', top: '934px', width: '61px', height: '43px' }}>
             <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
 
-          <div style={{ position: 'absolute', left: '431px', top: '942px', width: '140px' }}>
+          <div style={{ position: 'absolute', left: '397px', top: '942px', width: '140px' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
           </div>
 
