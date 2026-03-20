@@ -1,6 +1,6 @@
 import React from 'react';
 import promptScrollWindowPeopleBackdrop from '../assets/prompt-redesign/окошко скролла промпта люди.png';
-import promptScrollWindowLogoBackdrop from '../assets/prompt-redesign/окошко скролла промпта лого.png';
+import promptScrollWindowLargeLogo from '../assets/prompt-redesign/лого большое в экране демо новое.png';
 
 interface PromptScrollWindowBackdropProps {
   style?: React.CSSProperties;
@@ -33,23 +33,8 @@ export const PromptScrollWindowBackdrop: React.FC<PromptScrollWindowBackdropProp
       />
     </div>
 
-    <div style={{ position: 'absolute', left: 0, top: 0, width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-      <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
-        <div style={{ position: 'absolute', left: '40px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
-          <img
-            src={promptScrollWindowLogoBackdrop}
-            alt=""
-            style={{
-              position: 'absolute',
-              height: '252.58%',
-              left: '-46.02%',
-              top: '-71.61%',
-              width: '188.85%',
-              maxWidth: 'none',
-            }}
-          />
-        </div>
-      </div>
+    <div style={{ position: 'absolute', left: '164.44px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
+      <img src={promptScrollWindowLargeLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill', display: 'block' }} />
     </div>
 
     <div
