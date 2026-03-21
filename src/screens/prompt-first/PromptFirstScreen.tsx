@@ -114,7 +114,7 @@ export const PromptFirstScreen: React.FC = () => {
         description: 'подготавливаем реальные промпты из бэкенда',
         prompt_text: '',
         media_type: 'image' as const,
-        cover_image_url: skeletonPrompt,
+        cover_image_url: promptCardBgFigmaPng,
         cover_video_url: null,
         poster_image_url: null,
         filter_tags: ['новое'],
