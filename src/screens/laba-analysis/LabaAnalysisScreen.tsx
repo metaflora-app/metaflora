@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
@@ -19,8 +20,6 @@ const figmaProfilePhoto = 'https://www.figma.com/api/mcp/asset/7c7e9ccf-5f4d-421
 const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
 const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
-const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c914514e-0b54-4b1b-8ce2-5473d0d1671f';
-const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/9706fd0a-d277-4e19-abed-e80b0990d5eb';
 const PREVIEW_CARD_WIDTH = 824;
 const PREVIEW_CARD_HEIGHT = 1054;
 const PREVIEW_COVER_SIZE = 754;
@@ -311,37 +310,15 @@ const AnalysisPreviewCard: React.FC<{
         />
       </div>
 
-      <button
-        type="button"
+      <FigmaLikeButton
+        active={isFavorite}
         onClick={() => onToggleFavorite(reel.id)}
         style={{
           position: 'absolute',
           left: '62px',
           top: '53px',
-          width: '72px',
-          height: '72px',
-          border: 'none',
-          background: 'rgba(4,22,39,0.1)',
-          backdropFilter: 'blur(12px)',
-          borderRadius: '32px',
-          cursor: 'pointer',
-          padding: '10px',
         }}
-      >
-        <div style={{ position: 'relative', width: '20px', height: '20px', margin: 'auto' }}>
-          <img
-            src={isFavorite ? figmaLikeActive : figmaLikeInactive}
-            alt="лайк"
-            style={{
-              position: 'absolute',
-              inset: '-30% -35% -30% -40%',
-              width: 'calc(100% + 15px)',
-              height: 'calc(100% + 12px)',
-              maxWidth: 'none',
-            }}
-          />
-        </div>
-      </button>
+      />
 
       {reel.isNew ? (
         <div

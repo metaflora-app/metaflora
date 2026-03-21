@@ -1,4 +1,5 @@
 import React from 'react';
+import { FigmaLikeButton } from '../FigmaLikeButton';
 import type { Reel } from '../../types/laba';
 import { convertInstagramImageUrl, formatCount, formatTimeAgo } from '../../utils/labaApi';
 
@@ -25,8 +26,6 @@ const figmaProfilePhoto = 'https://www.figma.com/api/mcp/asset/7c7e9ccf-5f4d-421
 const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
 const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
-const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c914514e-0b54-4b1b-8ce2-5473d0d1671f';
-const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/9706fd0a-d277-4e19-abed-e80b0990d5eb';
 const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/e6b64005-5519-4c93-8ecd-51c66606778e';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
@@ -95,38 +94,18 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         />
       </div>
 
-      <button
-        type="button"
+      <FigmaLikeButton
+        active={isFavorite}
         onClick={(event) => {
           event.stopPropagation();
           onToggleFavorite(reel.id);
         }}
         style={{
           position: 'absolute',
-          left: '48px',
-          top: '47px',
-          width: '42px',
-          height: '42px',
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-          padding: 0,
+          left: '62px',
+          top: '53px',
         }}
-      >
-        <div style={{ position: 'relative', width: '30px', height: '30px', margin: 'auto' }}>
-          <img
-            src={isFavorite ? figmaLikeActive : figmaLikeInactive}
-            alt="лайк"
-            style={{
-              position: 'absolute',
-              inset: '-10% -15%',
-              width: 'calc(100% + 9px)',
-              height: 'calc(100% + 6px)',
-              maxWidth: 'none',
-            }}
-          />
-        </div>
-      </button>
+      />
 
       {reel.isNew ? (
         <div

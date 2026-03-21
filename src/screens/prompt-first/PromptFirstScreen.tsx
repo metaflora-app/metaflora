@@ -8,6 +8,7 @@ import {
   getRecentPromptIds,
   togglePromptFavorite,
 } from '../../utils/promptInteractions';
+import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
 import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
 import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
@@ -16,12 +17,11 @@ import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка и
 import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
-import promptScrollWindowPng from '../../assets/prompt-redesign/окошко скролла промптов.png';
-import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
+import promptScrollWindowPng from '../../assets/prompt-redesign/окошко скролла промпта.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
-const CARD_GAP = 23;
+const CARD_GAP = 31;
 
 type PromptFilter = 'popular' | 'new' | 'recent' | 'favorites' | null;
 
@@ -143,6 +143,15 @@ export const PromptFirstScreen: React.FC = () => {
   };
 
   const handleOpenPromptCard = (promptId: string) => navigate(`/prompt-card/${promptId}`);
+  const showSortPopup = () => {
+    const telegramWebApp = (window as typeof window & {
+      Telegram?: { WebApp?: { showPopup?: (params: { message: string }) => void } };
+    }).Telegram?.WebApp;
+
+    telegramWebApp?.showPopup?.({
+      message: 'сортировка\n\nпри нажатии включается выдача по популярности',
+    });
+  };
   const contentHeight = Math.max(promptsToRender.length * CARD_HEIGHT + Math.max(promptsToRender.length - 1, 0) * CARD_GAP, CARD_HEIGHT);
 
   return (
@@ -193,6 +202,9 @@ export const PromptFirstScreen: React.FC = () => {
                 }
 
                 const nextFilter = button.key;
+                if (button.key === 'popular') {
+                  showSortPopup();
+                }
                 setActiveFilter((current) => (current === nextFilter ? null : nextFilter));
               }}
               style={{
@@ -252,11 +264,12 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        <div style={{ position: 'absolute', left: '182px', top: '949px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
+        <div style={{ position: 'absolute', left: '182px', top: '951px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
               const mediaType = prompt.media_type === 'video' && prompt.cover_video_url ? 'video' : 'image';
               const isNew = prompt.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые');
+              const isFavorite = favoriteIds.includes(prompt.id);
 
               return (
                 <div
@@ -296,13 +309,12 @@ export const PromptFirstScreen: React.FC = () => {
                     )}
                   </div>
 
-                  <button
-                    type="button"
+                  <FigmaLikeButton
+                    active={isFavorite}
+                    disabled={prompt.id.startsWith('loading-')}
                     onClick={() => !prompt.id.startsWith('loading-') && handleToggleFavorite(prompt.id)}
-                    style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', padding: 0, border: 'none', background: 'transparent', cursor: prompt.id.startsWith('loading-') ? 'default' : 'pointer' }}
-                  >
-                    <img src={likeButton} alt="лайк" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
-                  </button>
+                    style={{ position: 'absolute', left: '73px', top: '59px', zIndex: 2 }}
+                  />
                   {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} /> : null}
 
                   <button

@@ -3,10 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { copyToClipboard } from '../../utils/clipboard';
 import { getWorkshopPromptById, trackWorkshopPromptCopy, trackWorkshopPromptView } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
+import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
-import likeButtonInactive from '../../assets/лайк не поставлен.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import promptBadge from '../../assets/shared-redesign/плашка промпт.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
@@ -141,13 +140,12 @@ export const PromptCardScreen: React.FC = () => {
                 )}
               </div>
 
-              <button
-                type="button"
+              <FigmaLikeButton
+                active={isFavorite}
+                disabled={!id}
                 onClick={handleToggleFavorite}
-                style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', padding: 0, border: 'none', background: 'transparent', cursor: id ? 'pointer' : 'default', zIndex: 2 }}
-              >
-                <img src={isFavorite ? likeButton : likeButtonInactive} alt="лайк" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
-              </button>
+                style={{ position: 'absolute', left: '73px', top: '59px', zIndex: 2 }}
+              />
               {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
 
               <div style={{ position: 'absolute', left: '50%', top: '804px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
