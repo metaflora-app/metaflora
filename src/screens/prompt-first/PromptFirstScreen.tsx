@@ -6,45 +6,37 @@ import type { WorkshopPrompt } from '../../types/content';
 import {
   getPromptFavoriteIds,
   getRecentPromptIds,
-  isPromptFavorite,
   togglePromptFavorite,
 } from '../../utils/promptInteractions';
 import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
-import sortButtonActive from '../../assets/prompt-redesign/кнопка сортировка промпта актив.png';
 import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
-import newButtonActive from '../../assets/prompt-redesign/кнопка новое актив.png';
 import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
-import recentButtonActive from '../../assets/prompt-redesign/кнопка недавние актив.png';
 import recentButtonInactive from '../../assets/prompt-redesign/кнопка недавние неактив.png';
-import favoriteButtonActive from '../../assets/prompt-redesign/кнопка избранное актив.png';
 import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
+import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
-import promptScrollWindowPng from '../../assets/prompt-redesign/окошко скролла промпта.png';
+import promptScrollWindowPng from '../../assets/prompt-redesign/окошко скролла промптов.png';
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
-import likeButtonInactive from '../../assets/лайк не поставлен.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
-
-const figmaPromptPeopleBackdrop = 'https://www.figma.com/api/mcp/asset/f39d72bc-157d-4232-9f18-dca4c5669a06';
-const figmaPromptLogoBackdrop = 'https://www.figma.com/api/mcp/asset/d94d68cd-a055-4a91-b14a-70e3041d4f6f';
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 23;
 
-type PromptFilter = 'popular' | 'new' | 'recent' | 'favorites';
+type PromptFilter = 'popular' | 'new' | 'recent' | 'favorites' | null;
 
 const FILTER_BUTTONS: Array<{
   key: 'return' | PromptFilter;
   left: number;
   top: number;
-  activeSrc?: string;
   inactiveSrc: string;
+  label?: string;
 }> = [
-  { key: 'return', left: 220, top: 732, inactiveSrc: returnButton },
-  { key: 'popular', left: 467, top: 732, activeSrc: sortButtonActive, inactiveSrc: sortButtonInactive },
-  { key: 'new', left: 714, top: 732, activeSrc: newButtonActive, inactiveSrc: newButtonInactive },
-  { key: 'recent', left: 343, top: 811, activeSrc: recentButtonActive, inactiveSrc: recentButtonInactive },
-  { key: 'favorites', left: 590, top: 811, activeSrc: favoriteButtonActive, inactiveSrc: favoriteButtonInactive },
+  { key: 'return', left: 220, top: 732, inactiveSrc: returnButton, label: 'вернуть' },
+  { key: 'popular', left: 467, top: 732, inactiveSrc: sortButtonInactive, label: 'сортировка' },
+  { key: 'new', left: 714, top: 732, inactiveSrc: newButtonInactive, label: 'новое' },
+  { key: 'recent', left: 343, top: 811, inactiveSrc: recentButtonInactive, label: 'недавние' },
+  { key: 'favorites', left: 590, top: 811, inactiveSrc: favoriteButtonInactive, label: 'избранное' },
 ];
 
 export const PromptFirstScreen: React.FC = () => {
@@ -52,7 +44,7 @@ export const PromptFirstScreen: React.FC = () => {
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [prompts, setPrompts] = React.useState<WorkshopPrompt[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const [activeFilter, setActiveFilter] = React.useState<PromptFilter>('new');
+  const [activeFilter, setActiveFilter] = React.useState<PromptFilter>(null);
   const [favoriteIds, setFavoriteIds] = React.useState<string[]>([]);
 
   React.useEffect(() => {
@@ -189,21 +181,19 @@ export const PromptFirstScreen: React.FC = () => {
 
         {FILTER_BUTTONS.map((button) => {
           const isActive = button.key !== 'return' && activeFilter === button.key;
-          const src = isActive ? button.activeSrc || button.inactiveSrc : button.inactiveSrc;
 
           return (
-            <img
-              key={button.key}
-              src={src}
-              alt=""
-              className={button.key === 'return' ? undefined : 'button-inner-glow'}
+            <button
+              key={button.key || 'return'}
+              type="button"
               onClick={() => {
                 if (button.key === 'return') {
-                  setActiveFilter('new');
+                  setActiveFilter(null);
                   return;
                 }
 
-                setActiveFilter(button.key);
+                const nextFilter = button.key;
+                setActiveFilter((current) => (current === nextFilter ? null : nextFilter));
               }}
               style={{
                 position: 'absolute',
@@ -211,46 +201,41 @@ export const PromptFirstScreen: React.FC = () => {
                 top: `${button.top}px`,
                 width: '247px',
                 height: '80px',
-                objectFit: 'contain',
                 cursor: 'pointer',
+                border: 'none',
+                background: 'transparent',
+                padding: 0,
               }}
-            />
+            >
+              <img
+                src={isActive ? activeFilterTemplate : button.inactiveSrc}
+                alt=""
+                className={button.key === 'return' ? undefined : 'button-inner-glow'}
+                style={{ position: 'absolute', inset: 0, width: '247px', height: '80px', objectFit: 'contain', pointerEvents: 'none' }}
+              />
+              {isActive ? (
+                <span
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: 'Cygre',
+                    fontWeight: 700,
+                    fontSize: '27px',
+                    lineHeight: '1',
+                    color: '#fff',
+                    transform: 'translateY(-4px)',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  {button.label}
+                </span>
+              ) : null}
+            </button>
           );
         })}
-
-        <div style={{ position: 'absolute', left: '182px', top: '927px', width: '832px', height: '1116px', overflow: 'hidden', pointerEvents: 'none' }}>
-          <img
-            src={figmaPromptPeopleBackdrop}
-            alt=""
-            style={{
-              position: 'absolute',
-              height: '105.83%',
-              left: '-10.74%',
-              top: '-0.86%',
-              width: '113.22%',
-              maxWidth: 'none',
-            }}
-          />
-        </div>
-
-        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', pointerEvents: 'none' }}>
-          <div style={{ position: 'relative', width: '1335px', height: '997px', transform: 'rotate(-90deg)' }}>
-            <div style={{ position: 'absolute', left: '164.44px', top: '114.29px', width: '740.55px', height: '1035.86px', overflow: 'hidden' }}>
-              <img
-                src={figmaPromptLogoBackdrop}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  height: '252.58%',
-                  left: '-46.02%',
-                  top: '-71.61%',
-                  width: '188.85%',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </div>
-        </div>
 
         <img
           src={promptScrollWindowPng}
@@ -270,7 +255,6 @@ export const PromptFirstScreen: React.FC = () => {
         <div style={{ position: 'absolute', left: '182px', top: '949px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
-              const isFavorite = !prompt.id.startsWith('loading-') && isPromptFavorite(prompt.id);
               const mediaType = prompt.media_type === 'video' && prompt.cover_video_url ? 'video' : 'image';
               const isNew = prompt.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые');
 
@@ -317,7 +301,7 @@ export const PromptFirstScreen: React.FC = () => {
                     onClick={() => !prompt.id.startsWith('loading-') && handleToggleFavorite(prompt.id)}
                     style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', padding: 0, border: 'none', background: 'transparent', cursor: prompt.id.startsWith('loading-') ? 'default' : 'pointer' }}
                   >
-                    <img src={isFavorite ? likeButton : likeButtonInactive} alt="лайк" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
+                    <img src={likeButton} alt="лайк" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
                   </button>
                   {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} /> : null}
 

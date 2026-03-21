@@ -65,6 +65,12 @@ export const PromptCardScreen: React.FC = () => {
   const promptText = useMemo(() => prompt?.prompt_text || FALLBACK_TEXT, [prompt]);
   const isNew = useMemo(() => prompt?.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые') ?? true, [prompt]);
   const mediaType = useMemo(() => (prompt?.media_type === 'video' && prompt?.cover_video_url ? 'video' : 'image'), [prompt]);
+  const contentHeight = useMemo(() => {
+    const lineEstimate = promptText
+      .split('\n')
+      .reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / 28)), 0);
+    return Math.max(1569, 1100 + lineEstimate * 40 + 120);
+  }, [promptText]);
 
   const handleCopy = async () => {
     try {
@@ -103,73 +109,71 @@ export const PromptCardScreen: React.FC = () => {
         <FigmaMainBackdrop style={{ left: '31px', top: '399px' }} />
 
         <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
-            {mediaType === 'video' ? (
-              <video
-                src={prompt?.cover_video_url || undefined}
-                poster={prompt?.poster_image_url || prompt?.cover_image_url || undefined}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            ) : (
-              <img
-                src={prompt?.cover_image_url || skeletonPrompt}
-                alt={title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            )}
-          </div>
-
-          <button
-            type="button"
-            onClick={handleToggleFavorite}
-            style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', padding: 0, border: 'none', background: 'transparent', cursor: id ? 'pointer' : 'default', zIndex: 2 }}
-          >
-            <img src={isFavorite ? likeButton : likeButtonInactive} alt="лайк" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
-          </button>
-          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
-
-          <div style={{ position: 'absolute', left: '50%', top: '804px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
-          </div>
-
-          <div style={{ position: 'absolute', left: '50%', top: '885px', width: '197px', height: '43px', transform: 'translateX(-50%)' }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, width: '61px', height: '43px' }}>
-              <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
-            <div style={{ position: 'absolute', left: '57px', top: '7px', width: '140px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
-            </div>
-          </div>
-
-          <img
-            src={promptBadge}
-            alt="плашка промпт"
-            className="button-inner-glow"
-            onClick={handleCopy}
-            style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', objectFit: 'contain', cursor: 'pointer', transform: 'translateX(-50%)' }}
-          />
-
           <div
             style={{
               position: 'absolute',
-              left: '50%',
-              top: '1057px',
-              width: '729px',
-              height: '385px',
-              transform: 'translateX(-50%)',
+              inset: 0,
               overflowY: 'auto',
               overflowX: 'hidden',
               WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 70px), transparent 100%)',
               maskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 70px), transparent 100%)',
             }}
           >
-            <div onClick={handleCopy} style={{ cursor: 'pointer', paddingBottom: '40px' }}>
-              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
+            <div style={{ position: 'relative', width: '826px', height: `${contentHeight}px` }}>
+              <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
+                {mediaType === 'video' ? (
+                  <video
+                    src={prompt?.cover_video_url || undefined}
+                    poster={prompt?.poster_image_url || prompt?.cover_image_url || undefined}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <img
+                    src={prompt?.cover_image_url || skeletonPrompt}
+                    alt={title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleToggleFavorite}
+                style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', padding: 0, border: 'none', background: 'transparent', cursor: id ? 'pointer' : 'default', zIndex: 2 }}
+              >
+                <img src={isFavorite ? likeButton : likeButtonInactive} alt="лайк" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
+              </button>
+              {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
+
+              <div style={{ position: 'absolute', left: '50%', top: '804px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
+                <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
+              </div>
+
+              <div style={{ position: 'absolute', left: '50%', top: '885px', width: '197px', height: '43px', transform: 'translateX(-50%)' }}>
+                <div style={{ position: 'absolute', left: 0, top: 0, width: '61px', height: '43px' }}>
+                  <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
+                <div style={{ position: 'absolute', left: '57px', top: '7px', width: '140px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>Редакция</p>
+                </div>
+              </div>
+
+              <img
+                src={promptBadge}
+                alt="плашка промпт"
+                className="button-inner-glow"
+                onClick={handleCopy}
+                style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', objectFit: 'contain', cursor: 'pointer', transform: 'translateX(-50%)' }}
+              />
+
+              <div onClick={handleCopy} style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)', cursor: 'pointer', paddingBottom: '40px' }}>
+                <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
+              </div>
             </div>
           </div>
         </div>

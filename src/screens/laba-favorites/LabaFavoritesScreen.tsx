@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { LabaFilterButton } from '../../components/laba/LabaFilterButton';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel } from '../../types/laba';
 import { getFavorites, getTelegramUserId, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
-import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
 
 const textFont = 'Cygre, sans-serif';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
@@ -185,8 +185,8 @@ export const LabaFavoritesScreen: React.FC = () => {
           </p>
         </div>
 
-        <FilterButton label="вернуть" left={220} top={482} width={247} onClick={() => void resetFilters()} />
-        <FilterButton
+        <LabaFilterButton label="вернуть" left={220} top={482} width={247} onClick={() => void resetFilters()} />
+        <LabaFilterButton
           label={selectedSort || 'сортировка'}
           left={467}
           top={482}
@@ -194,7 +194,7 @@ export const LabaFavoritesScreen: React.FC = () => {
           active={Boolean(selectedSort)}
           onClick={() => cycleFilter(selectedSort, setSelectedSort, sortOptions, 'сортировка')}
         />
-        <FilterButton
+        <LabaFilterButton
           label={selectedDate || 'дата'}
           left={714}
           top={482}
@@ -202,7 +202,7 @@ export const LabaFavoritesScreen: React.FC = () => {
           active={Boolean(selectedDate)}
           onClick={() => cycleFilter(selectedDate, setSelectedDate, dateOptions, 'дата публикации')}
         />
-        <FilterButton
+        <LabaFilterButton
           label={selectedAccount || 'аккаунт'}
           left={343}
           top={561}
@@ -210,7 +210,7 @@ export const LabaFavoritesScreen: React.FC = () => {
           active={Boolean(selectedAccount)}
           onClick={() => cycleFilter(selectedAccount, setSelectedAccount, accountOptions, 'размер аккаунта')}
         />
-        <FilterButton
+        <LabaFilterButton
           label={selectedLanguage || 'язык'}
           left={590}
           top={561}
@@ -268,52 +268,3 @@ export const LabaFavoritesScreen: React.FC = () => {
     </div>
   );
 };
-
-const FilterButton: React.FC<{
-  label: string;
-  left: number;
-  top: number;
-  width: number;
-  active?: boolean;
-  onClick: () => void;
-}> = ({ label, left, top, width, active = false, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={active ? undefined : 'blur-wave'}
-    style={{
-      position: 'absolute',
-      left: `${left}px`,
-      top: `${top}px`,
-      width: `${width}px`,
-      height: '79px',
-      borderRadius: '62px',
-      border: active ? 'none' : '4px solid rgba(255,255,255,0.3)',
-      background: active ? 'transparent' : 'rgba(0,0,0,0.9)',
-      backdropFilter: active ? undefined : 'blur(50px)',
-      color: '#fff',
-      fontFamily: textFont,
-      fontWeight: 700,
-      fontSize: '27px',
-      lineHeight: '1',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      padding: 0,
-      overflow: 'hidden',
-    }}
-  >
-    {active ? (
-      <img
-        src={activeFilterShell}
-        alt=""
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }}
-      />
-    ) : null}
-    <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', transform: 'translateY(-5px)' }}>
-      {label}
-    </span>
-  </button>
-);
