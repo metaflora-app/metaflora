@@ -55,8 +55,8 @@ export const MetacoinsScreen: React.FC = () => {
                 alt="30 000 (-10%)"
                 style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', objectFit: 'fill', pointerEvents: 'none' }}
               />
-              <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '482px', top: '25px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', left: '508px', top: '12px', width: '298px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
+              <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '497px', top: '27px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', left: '522px', top: '16px', width: '298px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
                 150 000 (-20%)
               </div>
             </>
@@ -68,7 +68,7 @@ export const MetacoinsScreen: React.FC = () => {
                 style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', objectFit: 'fill', pointerEvents: 'none' }}
               />
               <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '60px', top: '25px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
-              <div style={{ position: 'absolute', left: '87px', top: '13px', width: '275px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
+              <div style={{ position: 'absolute', left: '87px', top: '16px', width: '275px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
                 30 000 (-10%)
               </div>
             </>

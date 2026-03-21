@@ -67,8 +67,8 @@ export const PricingScreen: React.FC = () => {
               <div
                 style={{
                   position: 'absolute',
-                  left: '497px',
-                  top: '12px',
+                  left: '511px',
+                  top: '16px',
                   width: '321px',
                   height: '40px',
                   display: 'flex',
@@ -97,7 +97,7 @@ export const PricingScreen: React.FC = () => {
                 style={{
                   position: 'absolute',
                   left: '80px',
-                  top: '13px',
+                  top: '16px',
                   width: '289px',
                   height: '40px',
                   display: 'flex',
