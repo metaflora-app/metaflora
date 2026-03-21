@@ -13,8 +13,8 @@ export const AcademyCoursePromptingScreen: React.FC = () => {
         'форматы и советы',
       ]}
       placeholderCount={8}
-      placeholderText="Курс «Промптинг» — про техники, форматы и логику запросов для сильного результата."
-      cardDescriptionOverride={'Курс «Промптинг» — про техники,\nформаты и логику запросов\nдля сильного результата.\nкурс промптинг'}
+      placeholderText="Курс «Промптинг» — про точные запросы, логику формулировок и сильный результат."
+      cardDescriptionOverride={'Курс «Промптинг» —\nпро точные запросы,\nлогику формулировок\nи сильный результат'}
       cardTextFontSize={35}
     />
   );

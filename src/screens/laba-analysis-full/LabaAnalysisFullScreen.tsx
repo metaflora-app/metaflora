@@ -4,6 +4,7 @@ import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBa
 import { generateScenario, getTelegramUserId } from '../../utils/labaApi';
 import type { Analysis, Reel, Scenario } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { copyToClipboard } from '../../utils/clipboard';
 import disabledFrame from '../../assets/laba-redesign/analysis-disabled-frame.png';
 import createScenarioButton from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
@@ -29,7 +30,7 @@ export const LabaAnalysisFullScreen: React.FC = () => {
 
   const handleGenerateScenario = async () => {
     const userId = getTelegramUserId();
-    if (!userId || !analysis.id) return;
+    if (!userId || !analysis.id || generatingScenario) return;
 
     try {
       setGeneratingScenario(true);
@@ -46,6 +47,15 @@ export const LabaAnalysisFullScreen: React.FC = () => {
     } finally {
       setGeneratingScenario(false);
     }
+  };
+
+  const handleCopyScenario = async () => {
+    if (!scenario?.text) return;
+
+    const copied = await copyToClipboard(scenario.text);
+    if (!copied) return;
+
+    window.Telegram?.WebApp?.showPopup?.({ message: 'сценарий скопирован в буфер обмена' });
   };
 
   return (
@@ -77,7 +87,7 @@ export const LabaAnalysisFullScreen: React.FC = () => {
           ].map(([title, text], idx) => (
             <div key={title} style={{ marginBottom: idx === 3 ? '32px' : '26px' }}>
               <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>{title}</p>
-              <p style={{ margin: '10px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1.05', color: 'white' }}>{text}</p>
+              <p style={{ margin: '10px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white' }}>{text}</p>
             </div>
           ))}
 
@@ -95,8 +105,11 @@ export const LabaAnalysisFullScreen: React.FC = () => {
 
           <div>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>новый сценарий</p>
-            <p style={{ margin: '10px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1.05', color: 'white', whiteSpace: 'pre-wrap' }}>
-              {generatingScenario ? 'создаем сценарий...' : scenario?.text || 'сценарий появится после генерации'}
+            <p
+              onClick={() => void handleCopyScenario()}
+              style={{ margin: '10px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white', whiteSpace: 'pre-wrap', cursor: scenario ? 'pointer' : 'default' }}
+            >
+              {scenario?.text || 'сценарий появится после генерации'}
             </p>
           </div>
         </SecondaryBlackBackdrop>

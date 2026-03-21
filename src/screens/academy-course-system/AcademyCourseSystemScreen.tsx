@@ -13,8 +13,8 @@ export const AcademyCourseSystemScreen: React.FC = () => {
         'полноценно погрузиться в обучение',
       ]}
       placeholderCount={8}
-      placeholderText="Курс «Система» — про то, как грамотно выстраивать процессы, а не тушить пожары."
-      cardDescriptionOverride={'Курс «Система» — про то, как грамотно\nвыстраивать процессы,\nа не тушить пожары.\nкурс система'}
+      placeholderText="Курс «Система» — про то, как грамотно процессы, а не тушить пожары."
+      cardDescriptionOverride={'Курс «Система» —\nпро то, как грамотно\nпроцессы,\nа не тушить пожары'}
       cardTextFontSize={35}
     />
   );

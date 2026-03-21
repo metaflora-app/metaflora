@@ -13,8 +13,8 @@ export const AcademyCourseArtScreen: React.FC = () => {
         'с ИИ (и не только) через практику',
       ]}
       placeholderCount={8}
-      placeholderText="Курс «Искусство» — про создание сильного визуального контента с ИИ и не только."
-      cardDescriptionOverride={'Курс «Искусство» — про создание сильного\nвизуального контента\nс ИИ и не только.\nкурс искусство'}
+      placeholderText="Курс «Искусство» — про сильный визуал, AI-эстетику и выразительную подачу."
+      cardDescriptionOverride={'Курс «Искусство» —\nпро сильный визуал,\nAI-эстетику\nи выразительную подачу'}
       cardTextFontSize={35}
     />
   );

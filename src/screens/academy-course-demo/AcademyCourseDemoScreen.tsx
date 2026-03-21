@@ -13,8 +13,8 @@ export const AcademyCourseDemoScreen: React.FC = () => {
         'с академией',
       ]}
       placeholderCount={4}
-      placeholderText="Курс «Демо» — короткий вводный маршрут, чтобы познакомиться с академией и логикой обучения."
-      cardDescriptionOverride={'Курс «Демо» — короткий вводный маршрут,\nчтобы познакомиться с академией\nи логикой обучения.\nкурс демо'}
+      placeholderText="Курс «Демо» — короткий вход в академию без лишней теории и перегруза."
+      cardDescriptionOverride={'Курс «Демо» —\nкороткий вход в академию\nбез лишней теории\nи перегруза'}
       cardTextFontSize={35}
     />
   );

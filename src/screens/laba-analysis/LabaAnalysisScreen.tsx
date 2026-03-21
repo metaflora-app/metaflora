@@ -6,6 +6,7 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
+import { copyToClipboard } from '../../utils/clipboard';
 import analysisDisabledBlurFramePng from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import openReelButtonPng from '../../assets/laba-analysis/open-reel-button.png';
 import shortStartAnalysisButtonPng from '../../assets/laba-analysis/short-start-analysis-button.png';
@@ -99,7 +100,7 @@ export const LabaAnalysisScreen: React.FC = () => {
   };
 
   const handleGenerateScenario = async () => {
-    if (!analysis?.id) return;
+    if (!analysis?.id || generatingScenario) return;
     const userId = getTelegramUserId();
     if (!userId) {
       showMessage('ошибка получения telegram user id', 'popup');
@@ -117,6 +118,15 @@ export const LabaAnalysisScreen: React.FC = () => {
     } finally {
       setGeneratingScenario(false);
     }
+  };
+
+  const handleCopyScenario = async () => {
+    if (!scenario?.text) return;
+
+    const copied = await copyToClipboard(scenario.text);
+    if (!copied) return;
+
+    window.Telegram?.WebApp?.showPopup?.({ message: 'сценарий скопирован в буфер обмена' });
   };
 
   const handleOpenReel = async () => {
@@ -225,12 +235,27 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <AnalysisBlock title="суть видео" body={analysis.videoSummary} />
 
                 {!scenario ? (
-                  <div style={{ textAlign: 'center', paddingTop: '4px' }}>
+                  <div
+                    style={{
+                      position: 'relative',
+                      width: '744px',
+                      height: '328px',
+                      margin: '4px auto 0',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <img
+                      src={analysisDisabledBlurFramePng}
+                      alt=""
+                      style={{ position: 'absolute', left: 0, top: '-37px', width: '744px', height: '402px', objectFit: 'fill', pointerEvents: 'none' }}
+                    />
                     <button
                       type="button"
                       onClick={() => void handleGenerateScenario()}
-                      className="button-inner-glow"
                       style={{
+                        position: 'absolute',
+                        left: '107px',
+                        top: '59px',
                         width: '530px',
                         height: '139px',
                         borderRadius: '62px',
@@ -241,20 +266,36 @@ export const LabaAnalysisScreen: React.FC = () => {
                         fontWeight: 700,
                         fontSize: '32px',
                         cursor: generatingScenario ? 'default' : 'pointer',
+                        padding: 0,
                       }}
                     >
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
-                        {generatingScenario ? 'создаем сценарий...' : 'создать сценарий'}
-                        {!generatingScenario ? <img src={metacoinSmall} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain' }} /> : null}
-                        {!generatingScenario ? LABA_COSTS.GENERATE_SCENARIO : null}
+                        создать сценарий
+                        <img src={metacoinSmall} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain' }} />
+                        {LABA_COSTS.GENERATE_SCENARIO}
                       </span>
                     </button>
-                    <p style={{ margin: '20px 0 0', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
-                      вы можете пополнить баланс в личном кабинете
+                    <p
+                      style={{
+                        position: 'absolute',
+                        left: '135px',
+                        top: '205px',
+                        width: '473px',
+                        margin: 0,
+                        fontFamily: textFont,
+                        fontWeight: 400,
+                        fontSize: '32px',
+                        lineHeight: '1',
+                        color: 'rgba(255,255,255,0.6)',
+                        textAlign: 'center',
+                        whiteSpace: 'pre-wrap',
+                      }}
+                    >
+                      {'вы можете пополнить баланс\nв личном кабинете'}
                     </p>
                   </div>
                 ) : (
-                  <AnalysisBlock title="новый сценарий" body={scenario.text} />
+                  <AnalysisBlock title="новый сценарий" body={scenario.text} bodyClickable onBodyClick={() => void handleCopyScenario()} />
                 )}
               </div>
             )}
@@ -529,7 +570,7 @@ const ActionButton: React.FC<{
   </button>
 );
 
-const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string }> = ({ title, body, accent }) => (
+const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string; bodyClickable?: boolean; onBodyClick?: () => void }> = ({ title, body, accent, bodyClickable = false, onBodyClick }) => (
   <div>
     <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>{title}</p>
     {accent ? (
@@ -538,6 +579,7 @@ const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string }> 
       </p>
     ) : null}
     <p
+      onClick={onBodyClick}
       style={{
         margin: '12px 0 0',
         fontFamily: textFont,
@@ -546,6 +588,7 @@ const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string }> 
         lineHeight: '1.05',
         color: '#fff',
         whiteSpace: 'pre-wrap',
+        cursor: bodyClickable ? 'pointer' : 'default',
       }}
     >
       {body}
