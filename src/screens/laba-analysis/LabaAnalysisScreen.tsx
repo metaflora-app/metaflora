@@ -170,7 +170,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   margin: '12px 0 0',
                   fontFamily: textFont,
                   fontWeight: 400,
-                  fontSize: '32px',
+                  fontSize: '35px',
                   lineHeight: '1.05',
                   color: '#fff',
                   whiteSpace: 'pre-wrap',
@@ -179,7 +179,6 @@ export const LabaAnalysisScreen: React.FC = () => {
                 {reel.caption || 'без описания'}
               </p>
             </div>
-
             {!analysis ? (
               <div
                 style={{
@@ -534,7 +533,7 @@ const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string }> 
   <div>
     <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>{title}</p>
     {accent ? (
-      <p style={{ margin: '12px 0 0', fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#d5fc44' }}>
+      <p style={{ margin: '12px 0 0', fontFamily: textFont, fontWeight: 700, fontSize: '35px', lineHeight: '1', color: '#d5fc44' }}>
         {accent}
       </p>
     ) : null}
@@ -543,7 +542,7 @@ const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string }> 
         margin: '12px 0 0',
         fontFamily: textFont,
         fontWeight: 400,
-        fontSize: '32px',
+        fontSize: '35px',
         lineHeight: '1.05',
         color: '#fff',
         whiteSpace: 'pre-wrap',

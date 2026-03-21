@@ -13,7 +13,9 @@ export const AcademyCourseAutomationScreen: React.FC = () => {
         'вся автоматизация на ладони',
       ]}
       placeholderCount={8}
-      placeholderText="n8n, воркфлоу и практические сценарии автоматизации, которые можно быстро применить в работе."
+      placeholderText="Курс «Автоматизация» — про n8n, рабочие воркфлоу и сценарии, которые ускоряют работу."
+      cardDescriptionOverride={'Курс «Автоматизация» — про n8n,\nрабочие воркфлоу и сценарии,\nкоторые ускоряют работу.\nкурс автоматизация'}
+      cardTextFontSize={35}
     />
   );
 };

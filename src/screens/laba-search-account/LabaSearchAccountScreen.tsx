@@ -96,7 +96,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
           alt=""
           style={{
             position: 'absolute',
-            left: '31px',
+            left: '29px',
             top: '397px',
             width: '1162px',
             height: '1646px',

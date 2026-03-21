@@ -30,6 +30,8 @@ interface AcademyCourseGridScreenProps {
   subtitleWidth?: number;
   placeholderCount: number;
   placeholderText: string;
+  cardDescriptionOverride?: string;
+  cardTextFontSize?: number;
 }
 
 const DEMO_LAYOUT: CourseCardPosition[] = [
@@ -75,6 +77,8 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
   subtitleWidth = 882,
   placeholderCount,
   placeholderText,
+  cardDescriptionOverride,
+  cardTextFontSize = 27,
 }) => {
   const navigate = useNavigate();
   const [lessons, setLessons] = React.useState<AcademyLesson[]>([]);
@@ -158,7 +162,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
         {visibleLessons.map((lesson, index) => {
           const position = layout[index];
           const label = lesson.lesson_number || index + 1;
-          const description = lesson.description || lesson.annotation || placeholderText;
+          const description = cardDescriptionOverride || lesson.description || lesson.annotation || placeholderText;
 
           return (
             <React.Fragment key={lesson.id}>
@@ -190,7 +194,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
                     textAlign: 'center',
                     fontFamily: 'Cygre',
                     fontWeight: 400,
-                    fontSize: '27px',
+                    fontSize: `${cardTextFontSize}px`,
                     lineHeight: '1',
                     color: 'white',
                     whiteSpace: 'pre-wrap',

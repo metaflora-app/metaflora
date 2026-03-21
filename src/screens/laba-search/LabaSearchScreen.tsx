@@ -60,7 +60,7 @@ export const LabaSearchScreen: React.FC = () => {
           <img src={leftPanelGif} alt="слева" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
-        <div style={{ position: 'absolute', left: '601px', top: '404px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', left: '601px', top: '400px', width: '428px', height: '1643px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
           <img src={leftPanelGif} alt="справа" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 

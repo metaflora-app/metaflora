@@ -13,7 +13,9 @@ export const AcademyCoursePromptingScreen: React.FC = () => {
         'форматы и советы',
       ]}
       placeholderCount={8}
-      placeholderText="Техники и форматы промпт-инжиниринга, которые помогают получать нужный результат от LLM."
+      placeholderText="Курс «Промптинг» — про техники, форматы и логику запросов для сильного результата."
+      cardDescriptionOverride={'Курс «Промптинг» — про техники,\nформаты и логику запросов\nдля сильного результата.\nкурс промптинг'}
+      cardTextFontSize={35}
     />
   );
 };
