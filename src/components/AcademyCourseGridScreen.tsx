@@ -235,7 +235,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
                   lineHeight: '1',
                 }}
               >
-                {label}
+                <span style={{ transform: 'translateY(-5px)' }}>{label}</span>
               </div>
             </React.Fragment>
           );

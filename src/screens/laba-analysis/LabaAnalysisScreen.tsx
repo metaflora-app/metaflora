@@ -1,29 +1,15 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
+import { LabaFeedCard } from '../../components/laba/LabaFeedCard';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
-import { analyzeReel, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
-import analysisDisabledBlurFramePng from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
-import openReelButtonPng from '../../assets/laba-analysis/open-reel-button.png';
-import shortStartAnalysisButtonPng from '../../assets/laba-analysis/short-start-analysis-button.png';
+import { analyzeReel, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
+import mainBackdrop from '../../assets/shared-redesign/главная подложка новая.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
-type ActionVariant = 'dark' | 'light';
-
 const textFont = 'Cygre, sans-serif';
-const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
-const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/200ff601-2b41-4029-92e4-df8b7f6e9be8';
-const figmaProfilePhoto = 'https://www.figma.com/api/mcp/asset/7c7e9ccf-5f4d-4211-9ee3-97edfc45576f';
-const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
-const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
-const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
-const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c914514e-0b54-4b1b-8ce2-5473d0d1671f';
-const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/9706fd0a-d277-4e19-abed-e80b0990d5eb';
-const PREVIEW_CARD_WIDTH = 824;
-const PREVIEW_CARD_HEIGHT = 1054;
-const PREVIEW_COVER_SIZE = 754;
+const figmaPeopleBackdrop = 'https://www.figma.com/api/mcp/asset/36cb544f-3aec-4c88-a466-642384e86fa2';
+const figmaLargeLogoBackdrop = 'https://www.figma.com/api/mcp/asset/cc134e7c-9ac6-40af-a577-fca3aa01782c';
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -120,18 +106,6 @@ export const LabaAnalysisScreen: React.FC = () => {
     }
   };
 
-  const handleOpenReel = async () => {
-    if (!reel.reelUrl) {
-      showMessage('ссылка на рилс недоступна', 'popup');
-      return;
-    }
-
-    const shouldOpen = await showConfirm('открыть рилс в Instagram?');
-    if (shouldOpen) {
-      openLink(reel.reelUrl);
-    }
-  };
-
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
@@ -150,384 +124,181 @@ export const LabaAnalysisScreen: React.FC = () => {
           </p>
         </div>
 
-        <MainBackdropNew />
+        <div style={{ position: 'absolute', left: '141px', top: '449px', width: '896px', height: '1584px', pointerEvents: 'none' }}>
+          <img src={figmaPeopleBackdrop} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
 
-        <SecondaryBlackBackdrop>
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '40px' }}>
-            <AnalysisPreviewCard
-              reel={reel}
-              isFavorite={likedCards.has(reel.id)}
-              onOpenReel={() => void handleOpenReel()}
-              onToggleFavorite={toggleLocalFavorite}
-              onTrack={() => void handleTrack()}
-            />
+        <div style={{ position: 'absolute', left: '-29px', top: '372px', width: '1285px', height: '1720px', pointerEvents: 'none' }}>
+          <img src={figmaLargeLogoBackdrop} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
 
-            <div style={{ width: '744px', margin: '-24px auto 0' }}>
-              <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
-                описание
-              </p>
-              <p
-                style={{
-                  margin: '12px 0 0',
-                  fontFamily: textFont,
-                  fontWeight: 400,
-                  fontSize: '32px',
-                  lineHeight: '1.05',
-                  color: '#fff',
-                  whiteSpace: 'pre-wrap',
-                }}
-              >
-                {reel.caption || 'без описания'}
-              </p>
-            </div>
+        <img
+          src={mainBackdrop}
+          alt="главная подложка"
+          style={{ position: 'absolute', left: '88px', top: '395px', width: '1004px', height: '1646px', objectFit: 'fill', pointerEvents: 'none' }}
+        />
 
-            {!analysis ? (
-              <div
-                style={{
-                  position: 'relative',
-                  width: '744px',
-                  height: '328px',
-                  margin: '-4px auto 0',
-                  overflow: 'hidden',
-                }}
-              >
-                <img
-                  src={analysisDisabledBlurFramePng}
-                  alt=""
-                  style={{ position: 'absolute', left: 0, top: '-37px', width: '744px', height: '402px', objectFit: 'fill', pointerEvents: 'none' }}
-                />
-                <button
-                  type="button"
-                  onClick={() => void handleStartAnalysis()}
-                  style={{
-                    position: 'absolute',
-                    left: '107px',
-                    top: '59px',
-                    width: '530px',
-                    height: '139px',
-                    cursor: analyzing ? 'default' : 'pointer',
-                    padding: 0,
-                    border: 'none',
-                    background: 'transparent',
-                  }}
-                  aria-label={analyzing ? 'анализируем' : 'начать анализ'}
-                >
-                  <img
-                    src={shortStartAnalysisButtonPng}
-                    alt=""
-                    style={{ width: '530px', height: '139px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
-                  />
-                </button>
+        <div style={{ position: 'absolute', left: '143px', top: '430px', width: '894px', minHeight: '1569px' }}>
+          <LabaFeedCard
+            reel={reel}
+            isFavorite={likedCards.has(reel.id)}
+            onToggleFavorite={toggleLocalFavorite}
+            onAction={() => void handleTrack()}
+            actionLabel="следить"
+            actionCost={100}
+          />
+
+          <div style={{ width: '744px', margin: '28px auto 0' }}>
+            <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+              описание
+            </p>
+            <p
+              style={{
+                margin: '14px 0 0',
+                fontFamily: textFont,
+                fontWeight: 400,
+                fontSize: '32px',
+                lineHeight: '1.05',
+                color: '#fff',
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              {reel.caption || 'без описания'}
+            </p>
+          </div>
+
+          {!analysis ? (
+            <div
+              className="blur-wave"
+              style={{
+                position: 'relative',
+                width: '744px',
+                height: '328px',
+                margin: '128px auto 0',
+                borderRadius: '30px',
+                border: '4px solid rgba(255,255,255,0.3)',
+                background: 'rgba(255,255,255,0.08)',
+                overflow: 'hidden',
+              }}
+            >
+              <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.55 }}>
+                <img src={figmaLargeLogoBackdrop} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
-            ) : (
-              <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px', paddingBottom: '10px' }}>
-                <AnalysisBlock title="виральность" body={analysis.viralityExplanation} accent={`${analysis.viralityScore} баллов`} />
-                <AnalysisBlock title="хук" body={analysis.hookText} />
-                <AnalysisBlock title="транскрибация" body={analysis.transcription} />
-                <AnalysisBlock title="суть видео" body={analysis.videoSummary} />
-
-                {!scenario ? (
-                  <div style={{ textAlign: 'center', paddingTop: '4px' }}>
-                    <button
-                      type="button"
-                      onClick={() => void handleGenerateScenario()}
-                      className="button-inner-glow"
+              <button
+                type="button"
+                onClick={() => void handleStartAnalysis()}
+                className="button-inner-glow"
+                style={{
+                  position: 'absolute',
+                  left: '107px',
+                  top: '72px',
+                  width: '530px',
+                  height: '139px',
+                  borderRadius: '62px',
+                  border: '4px solid rgba(255,255,255,0.3)',
+                  background: 'rgba(0,0,0,0.9)',
+                  color: '#fff',
+                  fontFamily: textFont,
+                  fontWeight: 700,
+                  fontSize: '32px',
+                  cursor: analyzing ? 'default' : 'pointer',
+                  padding: 0,
+                }}
+              >
+                {analyzing ? (
+                  <span style={{ transform: 'translateY(-2px)' }}>анализируем...</span>
+                ) : (
+                  <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <div
                       style={{
-                        width: '530px',
-                        height: '139px',
-                        borderRadius: '62px',
-                        border: '4px solid rgba(255,255,255,0.3)',
-                        background: 'rgba(0,0,0,0.9)',
-                        color: '#fff',
+                        position: 'absolute',
+                        left: '29px',
+                        top: '49px',
+                        width: '473px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         fontFamily: textFont,
                         fontWeight: 700,
                         fontSize: '32px',
-                        cursor: generatingScenario ? 'default' : 'pointer',
+                        lineHeight: '1',
+                        whiteSpace: 'pre',
                       }}
                     >
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
-                        {generatingScenario ? 'создаем сценарий...' : 'создать сценарий'}
-                        {!generatingScenario ? <img src={metacoinSmall} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain' }} /> : null}
-                        {!generatingScenario ? LABA_COSTS.GENERATE_SCENARIO : null}
-                      </span>
-                    </button>
-                    <p style={{ margin: '20px 0 0', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
-                      вы можете пополнить баланс в личном кабинете
-                    </p>
+                      {`начать анализ    ${LABA_COSTS.ANALYZE_REEL}`}
+                    </div>
+                    <div style={{ position: 'absolute', left: '398px', top: '53px', width: '25px', height: '25px', overflow: 'hidden' }}>
+                      <img
+                        src={metacoinSmall}
+                        alt=""
+                        style={{ position: 'absolute', height: '130.34%', left: '-20%', top: '-14.48%', width: '140%', maxWidth: 'none' }}
+                      />
+                    </div>
                   </div>
-                ) : (
-                  <AnalysisBlock title="новый сценарий" body={scenario.text} />
                 )}
-              </div>
-            )}
-          </div>
-        </SecondaryBlackBackdrop>
+              </button>
+              <p
+                style={{
+                  position: 'absolute',
+                  left: '135px',
+                  top: '238px',
+                  width: '473px',
+                  margin: 0,
+                  fontFamily: textFont,
+                  fontWeight: 400,
+                  fontSize: '32px',
+                  lineHeight: '1',
+                  color: 'rgba(255,255,255,0.6)',
+                  textAlign: 'center',
+                }}
+              >
+                вы можете пополнить баланс в личном кабинете
+              </p>
+            </div>
+          ) : (
+            <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px' }}>
+              <AnalysisBlock title="виральность" body={analysis.viralityExplanation} accent={`${analysis.viralityScore} баллов`} />
+              <AnalysisBlock title="хук" body={analysis.hookText} />
+              <AnalysisBlock title="транскрибация" body={analysis.transcription} />
+              <AnalysisBlock title="суть видео" body={analysis.videoSummary} />
+
+              {!scenario ? (
+                <div style={{ textAlign: 'center', paddingTop: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => void handleGenerateScenario()}
+                    className="button-inner-glow"
+                    style={{
+                      width: '530px',
+                      height: '139px',
+                      borderRadius: '62px',
+                      border: '4px solid rgba(255,255,255,0.3)',
+                      background: 'rgba(0,0,0,0.9)',
+                      color: '#fff',
+                      fontFamily: textFont,
+                      fontWeight: 700,
+                      fontSize: '32px',
+                      cursor: generatingScenario ? 'default' : 'pointer',
+                    }}
+                  >
+                    {generatingScenario ? 'создаем сценарий...' : `создать сценарий ${LABA_COSTS.GENERATE_SCENARIO}`}
+                  </button>
+                  <p style={{ margin: '20px 0 0', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+                    вы можете пополнить баланс в личном кабинете
+                  </p>
+                </div>
+              ) : (
+                <AnalysisBlock title="новый сценарий" body={scenario.text} />
+              )}
+            </div>
+          )}
+        </div>
 
         <Footer />
       </div>
     </div>
   );
 };
-
-const AnalysisPreviewCard: React.FC<{
-  reel: Reel;
-  isFavorite: boolean;
-  onOpenReel: () => void;
-  onToggleFavorite: (reelId: string) => void;
-  onTrack: () => void;
-}> = ({ reel, isFavorite, onOpenReel, onToggleFavorite, onTrack }) => {
-  const displayUsername = reel.accountUsername.length > 15
-    ? `${reel.accountUsername.slice(0, 15)}..`
-    : reel.accountUsername;
-
-  return (
-    <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>
-      <div
-        style={{
-          position: 'absolute',
-          left: '35px',
-          top: '35px',
-          width: `${PREVIEW_COVER_SIZE}px`,
-          height: `${PREVIEW_COVER_SIZE}px`,
-          borderRadius: '62px',
-          overflow: 'hidden',
-          border: 'none',
-          background: 'rgba(255,255,255,0.08)',
-        }}
-      >
-        <img src={figmaCardCover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-      </div>
-
-      <button
-        type="button"
-        onClick={() => onToggleFavorite(reel.id)}
-        style={{
-          position: 'absolute',
-          left: '62px',
-          top: '53px',
-          width: '72px',
-          height: '72px',
-          border: 'none',
-          background: 'rgba(4,22,39,0.1)',
-          backdropFilter: 'blur(12px)',
-          borderRadius: '32px',
-          cursor: 'pointer',
-          padding: '10px',
-        }}
-      >
-        <div style={{ position: 'relative', width: '20px', height: '20px', margin: 'auto' }}>
-          <img
-            src={isFavorite ? figmaLikeActive : figmaLikeInactive}
-            alt="лайк"
-            style={{
-              position: 'absolute',
-              inset: '-30% -35% -30% -40%',
-              width: 'calc(100% + 15px)',
-              height: 'calc(100% + 12px)',
-              maxWidth: 'none',
-            }}
-          />
-        </div>
-      </button>
-
-      {reel.isNew ? (
-        <div
-          className="blur-wave"
-          style={{
-            position: 'absolute',
-            right: '44px',
-            top: '40px',
-            minWidth: '102px',
-            height: '38px',
-            padding: '0 18px',
-            borderRadius: '62px',
-            border: '2px solid rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.12)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '20px',
-            color: '#fff',
-          }}
-        >
-          новое
-        </div>
-      ) : null}
-
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '72px',
-          transform: 'translateX(-50%)',
-          fontFamily: textFont,
-          fontWeight: 400,
-          fontSize: '32px',
-          lineHeight: '1',
-          color: '#fff',
-          textAlign: 'center',
-        }}
-      >
-        {formatTimeAgo(reel.publishedAt)}
-      </div>
-
-      <OpenReelButton onClick={onOpenReel} />
-
-      <div
-        className="blur-wave"
-        style={{
-          position: 'absolute',
-          left: '178px',
-          top: '654px',
-          width: '468px',
-          height: '102px',
-          borderRadius: '62px',
-          border: '4px solid rgba(255,255,255,0.3)',
-          background: '#000',
-          backdropFilter: 'blur(50px)',
-        }}
-      >
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '12px',
-          }}
-        >
-          <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
-          <MetricStat icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} cropLeft="-193.75%" cropTop="-115.69%" cropWidth="487.69%" width={96} />
-          <MetricStat icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} cropLeft="-304.47%" cropTop="-115.69%" cropWidth="487.69%" width={101} />
-        </div>
-      </div>
-
-      <div style={{ position: 'absolute', left: '66px', top: '807px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.12)' }}>
-        <img src={figmaProfilePhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-      </div>
-
-      <div style={{ position: 'absolute', left: '271px', top: '815px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
-        <img
-          src={figmaInstagramIcon}
-          alt=""
-          style={{
-            position: 'absolute',
-            height: '339.84%',
-            left: '-56.27%',
-            top: '-118.33%',
-            width: '620.89%',
-            maxWidth: 'none',
-          }}
-        />
-      </div>
-
-      <div style={{ position: 'absolute', left: '290px', top: '889px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
-        @{displayUsername}
-      </div>
-
-      <div style={{ position: 'absolute', left: '287px', top: '940px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
-        {formatCount(reel.accountFollowers)} подписчиков
-      </div>
-
-      <ActionButton
-        label="следить"
-        cost={100}
-        variant="dark"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-          event.stopPropagation();
-          onTrack();
-        }}
-      />
-    </div>
-  );
-};
-
-const OpenReelButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={{
-      position: 'absolute',
-      left: '377px',
-      top: '374px',
-      width: '72px',
-      height: '72px',
-      border: 'none',
-      background: 'transparent',
-      cursor: 'pointer',
-      padding: 0,
-    }}
-    aria-label="открыть рилс"
-  >
-    <img src={openReelButtonPng} alt="" style={{ width: '72px', height: '72px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }} />
-  </button>
-);
-
-const ActionButton: React.FC<{
-  label: string;
-  cost?: number;
-  variant: ActionVariant;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className="button-inner-glow"
-    style={{
-      position: 'absolute',
-      left: '356px',
-      top: '800px',
-      width: '247px',
-      height: '79px',
-      padding: 0,
-      borderRadius: '62px',
-      border: '4px solid rgba(255,255,255,0.3)',
-      background: variant === 'light' ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.9)',
-      color: '#fff',
-      fontFamily: textFont,
-      fontWeight: 700,
-      fontSize: '27px',
-      cursor: 'pointer',
-      boxShadow: variant === 'light' ? 'inset 0 0 40px rgba(255,255,255,0.16)' : 'none',
-      backdropFilter: 'blur(50px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
-    {typeof cost === 'number' ? (
-      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-        <div
-          style={{
-            position: 'absolute',
-            left: '24px',
-            top: '17px',
-            width: '199px',
-            height: '29px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '27px',
-            lineHeight: '1',
-            whiteSpace: 'pre',
-          }}
-        >
-          {`${label}    ${cost}`}
-        </div>
-        <div style={{ position: 'absolute', left: '150px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
-          <img src={metacoinSmall} alt="" style={{ width: '19px', height: '19px', objectFit: 'contain' }} />
-        </div>
-      </div>
-    ) : (
-      <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
-    )}
-  </button>
-);
 
 const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string }> = ({ title, body, accent }) => (
   <div>
@@ -550,67 +321,5 @@ const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string }> 
     >
       {body}
     </p>
-  </div>
-);
-
-const MetricStat: React.FC<{
-  icon: string;
-  value: string;
-  iconWidth: number;
-  iconHeight: number;
-  cropLeft: string;
-  cropTop: string;
-  cropWidth: string;
-  width: number;
-}> = ({ icon, value, iconWidth, iconHeight, cropLeft, cropTop, cropWidth, width }) => (
-  <div
-    style={{
-      minWidth: `${width}px`,
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '5px',
-      flex: '0 1 auto',
-    }}
-  >
-    <div
-      style={{
-        position: 'relative',
-        width: `${iconWidth}px`,
-        height: `${iconHeight}px`,
-        overflow: 'hidden',
-        flex: '0 0 auto',
-      }}
-    >
-      <img
-        src={icon}
-        alt=""
-        style={{
-          position: 'absolute',
-          height: '339.22%',
-          left: cropLeft,
-          top: cropTop,
-          width: cropWidth,
-          maxWidth: 'none',
-        }}
-      />
-    </div>
-    <div
-      style={{
-        fontFamily: textFont,
-        fontWeight: 700,
-        fontSize: '35px',
-        lineHeight: '1',
-        color: '#fff',
-        whiteSpace: 'nowrap',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transform: 'translateY(-3px)',
-      }}
-    >
-      {value}
-    </div>
   </div>
 );

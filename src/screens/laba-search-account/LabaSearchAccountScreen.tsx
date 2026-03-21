@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUrl } from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
 
 const textFont = 'Cygre, sans-serif';
 const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
@@ -29,6 +29,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [foundAccount, setFoundAccount] = React.useState<InstagramAccount | null>(null);
   const [searching, setSearching] = React.useState(false);
   const [tracking, setTracking] = React.useState(false);
+  const [hasSearchAttempted, setHasSearchAttempted] = React.useState(false);
 
   const avatarUrl = React.useMemo(() => {
     if (!foundAccount?.profilePhotoUrl) return null;
@@ -43,6 +44,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
     }
 
     try {
+      setHasSearchAttempted(true);
       setSearching(true);
       const account = await searchAccount(query);
       setFoundAccount(account);
@@ -89,9 +91,34 @@ export const LabaSearchAccountScreen: React.FC = () => {
           </p>
         </div>
 
-        <MainBackdropNew />
+        <img
+          src={searchUnderlay}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: '31px',
+            top: '397px',
+            width: '1162px',
+            height: '1646px',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+          }}
+        />
 
-        <SecondaryBlackBackdrop>
+        <div
+          style={{
+            position: 'absolute',
+            left: '175px',
+            top: '437px',
+            width: '826px',
+            height: '1569px',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            overflow: 'hidden',
+          }}
+        >
           <p style={{ position: 'absolute', left: '41px', top: '63px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
             добавить ссылку
           </p>
@@ -158,7 +185,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             className="button-inner-glow"
             style={{
               position: 'absolute',
-              left: '326px',
+              left: '290px',
               top: '417px',
               width: '247px',
               height: '80px',
@@ -182,27 +209,29 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '150px',
+                width: '100%',
                 height: '29px',
                 lineHeight: '1',
                 textAlign: 'center',
                 position: 'relative',
-                top: '-7px',
+                top: '-4px',
               }}
             >
               {searching ? 'ищем...' : 'найти'}
             </span>
           </button>
 
-          <p style={{ position: 'absolute', left: '41px', top: '547px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
-            результат
-          </p>
+          {hasSearchAttempted ? (
+            <p style={{ position: 'absolute', left: '41px', top: '547px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
+              результат
+            </p>
+          ) : null}
 
-          {searching ? (
+          {hasSearchAttempted && searching ? (
             <div style={{ position: 'absolute', left: '41px', top: '620px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.7)' }}>
               ищем аккаунт...
             </div>
-          ) : foundAccount ? (
+          ) : hasSearchAttempted && foundAccount ? (
             <>
               <div style={{ position: 'absolute', left: '41px', top: '620px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
                 {avatarUrl ? <img src={avatarUrl} alt={foundAccount.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
@@ -294,7 +323,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               </p>
             </>
           ) : null}
-        </SecondaryBlackBackdrop>
+        </div>
 
         <Footer />
       </div>

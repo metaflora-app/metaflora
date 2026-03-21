@@ -2,9 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
-import { LABA_COSTS, Reel } from '../../types/laba';
+import { Reel } from '../../types/laba';
 import { getFavorites, getTelegramUserId, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
-import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
+import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
 
 const textFont = 'Cygre, sans-serif';
@@ -16,14 +16,12 @@ const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', 
 export const LabaFavoritesScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-
   const [reels, setReels] = React.useState<Reel[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
-  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
 
   const loadFavorites = React.useCallback(async () => {
     const userId = getTelegramUserId();
@@ -33,10 +31,6 @@ export const LabaFavoritesScreen: React.FC = () => {
     try {
       const favoriteReels = await getFavorites(userId);
       setReels(favoriteReels);
-      setLikedCards(new Set(favoriteReels.map((reel) => reel.id)));
-      if (favoriteReels.length === 0) {
-        showMessage('reels не добавлены в избранное', 'popup');
-      }
     } catch (error) {
       console.error('Ошибка загрузки избранного:', error);
       showMessage('ошибка загрузки избранного', 'popup');
@@ -58,8 +52,8 @@ export const LabaFavoritesScreen: React.FC = () => {
     return 'unknown';
   };
 
-  const applyFilters = React.useCallback((items: Reel[]) => {
-    let filtered = [...items];
+  const visibleReels = React.useMemo(() => {
+    let filtered = [...reels];
 
     if (selectedDate) {
       const daysMap: Record<string, number> = {
@@ -102,9 +96,7 @@ export const LabaFavoritesScreen: React.FC = () => {
     }
 
     return filtered;
-  }, [selectedAccount, selectedDate, selectedLanguage, selectedSort]);
-
-  const visibleReels = React.useMemo(() => applyFilters(reels), [applyFilters, reels]);
+  }, [reels, selectedAccount, selectedDate, selectedLanguage, selectedSort]);
 
   const cycleFilter = (
     value: string | null,
@@ -127,25 +119,15 @@ export const LabaFavoritesScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) return;
 
-    const removedReel = reels.find((reel) => reel.id === reelId);
-    setReels((prev) => prev.filter((reel) => reel.id !== reelId));
-    setLikedCards((prev) => {
-      const next = new Set(prev);
-      next.delete(reelId);
-      return next;
-    });
+    const removedReel = reels.find((item) => item.id === reelId);
+    setReels((prev) => prev.filter((item) => item.id !== reelId));
 
     try {
       await toggleFavorite(reelId, userId);
     } catch (error) {
       console.error('Ошибка удаления из избранного:', error);
       if (removedReel) {
-        setReels((prev) => [...prev, removedReel]);
-        setLikedCards((prev) => {
-          const next = new Set(prev);
-          next.add(reelId);
-          return next;
-        });
+        setReels((prev) => [removedReel, ...prev]);
       }
     }
   };
@@ -203,11 +185,11 @@ export const LabaFavoritesScreen: React.FC = () => {
           </p>
         </div>
 
-        <FilterButton label="вернуть" left={220} top={376} width={247} onClick={() => void resetFilters()} />
+        <FilterButton label="вернуть" left={220} top={482} width={247} onClick={() => void resetFilters()} />
         <FilterButton
           label={selectedSort || 'сортировка'}
           left={467}
-          top={376}
+          top={482}
           width={247}
           active={Boolean(selectedSort)}
           onClick={() => cycleFilter(selectedSort, setSelectedSort, sortOptions, 'сортировка')}
@@ -215,7 +197,7 @@ export const LabaFavoritesScreen: React.FC = () => {
         <FilterButton
           label={selectedDate || 'дата'}
           left={714}
-          top={376}
+          top={482}
           width={247}
           active={Boolean(selectedDate)}
           onClick={() => cycleFilter(selectedDate, setSelectedDate, dateOptions, 'дата публикации')}
@@ -223,7 +205,7 @@ export const LabaFavoritesScreen: React.FC = () => {
         <FilterButton
           label={selectedAccount || 'аккаунт'}
           left={343}
-          top={455}
+          top={561}
           width={247}
           active={Boolean(selectedAccount)}
           onClick={() => cycleFilter(selectedAccount, setSelectedAccount, accountOptions, 'размер аккаунта')}
@@ -231,20 +213,30 @@ export const LabaFavoritesScreen: React.FC = () => {
         <FilterButton
           label={selectedLanguage || 'язык'}
           left={590}
-          top={455}
+          top={561}
           width={247}
           active={Boolean(selectedLanguage)}
           onClick={() => cycleFilter(selectedLanguage, setSelectedLanguage, languageOptions, 'язык')}
         />
 
-        <div style={{ position: 'absolute', left: '141px', top: '566px', width: '894px', height: '1369px', pointerEvents: 'none' }}>
-          <img src={reelsScrollWindow} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
-        </div>
         <div
           style={{
             position: 'absolute',
-            left: '141px',
-            top: '566px',
+            left: '54px',
+            top: '593px',
+            width: '1119px',
+            height: '1499px',
+            pointerEvents: 'none',
+          }}
+        >
+          <img src={reelsScrollWindowNew} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '672px',
             width: '894px',
             height: '1369px',
             overflowY: 'auto',
@@ -260,12 +252,12 @@ export const LabaFavoritesScreen: React.FC = () => {
                   <LabaFeedCard
                     key={reel.id}
                     reel={reel}
-                    isFavorite={likedCards.has(reel.id)}
+                    isFavorite
                     onToggleFavorite={handleToggleFavorite}
                     onAction={() => void handleTrackFromCard(reel)}
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
                     actionLabel="следить"
-                    actionCost={LABA_COSTS.TRACK_ACCOUNT}
+                    actionCost={100}
                   />
                 ))}
           </div>
@@ -320,6 +312,8 @@ const FilterButton: React.FC<{
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }}
       />
     ) : null}
-    <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', transform: 'translateY(-5px)' }}>{label}</span>
+    <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', transform: 'translateY(-5px)' }}>
+      {label}
+    </span>
   </button>
 );

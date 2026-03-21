@@ -10,7 +10,7 @@ interface UIState {
   setSelectedMetacoinsPack: (pack: UIState['selectedMetacoinsPack']) => void;
 
   // Prompt filters
-  promptFilter: 'recent' | 'favorites' | 'popular' | 'new' | 'top';
+  promptFilter: 'recent' | 'favorites' | 'popular' | 'new' | 'top' | null;
   setPromptFilter: (filter: UIState['promptFilter']) => void;
   promptSearchQuery: string;
   setPromptSearchQuery: (query: string) => void;
@@ -52,7 +52,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
   const [selectedMetacoinsPack, setSelectedMetacoinsPack] = useState<UIState['selectedMetacoinsPack']>(null);
 
   // Prompt
-  const [promptFilter, setPromptFilter] = useState<UIState['promptFilter']>('new');
+  const [promptFilter, setPromptFilter] = useState<UIState['promptFilter']>(null);
   const [promptSearchQuery, setPromptSearchQuery] = useState('');
 
   // Poligon
