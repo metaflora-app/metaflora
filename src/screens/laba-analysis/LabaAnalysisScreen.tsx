@@ -7,11 +7,7 @@ import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
-import shortStartAnalysisButtonPng from '../../assets/laba-analysis/short-start-analysis-button.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
-import openReelChevron1 from '../../assets/laba-analysis/open-reel-chevron-1.png';
-import openReelChevron2 from '../../assets/laba-analysis/open-reel-chevron-2.png';
-import openReelChevron3 from '../../assets/laba-analysis/open-reel-chevron-3.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -22,6 +18,11 @@ const figmaProfilePhoto = 'https://www.figma.com/api/mcp/asset/7c7e9ccf-5f4d-421
 const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
 const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
+const figmaOpenReelChevron1 = 'https://www.figma.com/api/mcp/asset/6686ea99-376f-431b-96fb-359d8843df95';
+const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/40578be4-a6d1-4b7b-851d-2e0e7a925feb';
+const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/d56cba13-009a-442d-b106-7edce51a1b64';
+const figmaStartAnalysisCoin = 'https://www.figma.com/api/mcp/asset/d12ac15e-a47b-4efe-96b7-eb9c47f7e12f';
+const figmaCreateScenarioCoin = 'https://www.figma.com/api/mcp/asset/feb652b7-7196-40cb-9544-99cb93b04d28';
 const PREVIEW_CARD_WIDTH = 824;
 const PREVIEW_CARD_HEIGHT = 1054;
 const PREVIEW_COVER_SIZE = 754;
@@ -191,48 +192,15 @@ export const LabaAnalysisScreen: React.FC = () => {
               </p>
             </div>
             {!analysis ? (
-              <div
-                style={{
-                  position: 'relative',
-                  width: '744px',
-                  height: '328px',
-                  margin: '28px auto 0',
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backdropFilter: 'blur(50px)',
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '4px solid rgba(255,255,255,0.3)',
-                    borderRadius: '30px',
-                    boxSizing: 'border-box',
-                  }}
-                />
-                <img
-                  src={shortStartAnalysisButtonPng}
-                  alt=""
-                  style={{ position: 'absolute', left: '107px', top: '59px', width: '530px', height: '139px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
-                />
-                <button
-                  type="button"
-                  onClick={() => void handleStartAnalysis()}
-                  style={{
-                    position: 'absolute',
-                    left: '107px',
-                    top: '59px',
-                    width: '530px',
-                    height: '139px',
-                    cursor: analyzing ? 'default' : 'pointer',
-                    padding: 0,
-                    border: 'none',
-                    background: 'transparent',
-                  }}
-                  aria-label={analyzing ? 'анализируем' : 'начать анализ'}
-                />
-              </div>
+              <LockedActionFrame
+                label="начать анализ"
+                cost={LABA_COSTS.ANALYZE_REEL}
+                coinSrc={figmaStartAnalysisCoin}
+                disabled={analyzing}
+                ariaLabel={analyzing ? 'анализируем' : 'начать анализ'}
+                onClick={() => void handleStartAnalysis()}
+                style={{ margin: '28px auto 0' }}
+              />
             ) : (
               <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px', paddingBottom: '10px' }}>
                 <AnalysisBlock title="виральность" body={analysis.viralityExplanation} accent={`${analysis.viralityScore} баллов`} />
@@ -241,96 +209,15 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <AnalysisBlock title="суть видео" body={analysis.videoSummary} />
 
                 {!scenario ? (
-                  <div
-                    style={{
-                      position: 'relative',
-                      width: '744px',
-                      height: '328px',
-                      margin: '4px auto 0',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        backdropFilter: 'blur(50px)',
-                        background: 'rgba(255,255,255,0.1)',
-                        border: '4px solid rgba(255,255,255,0.3)',
-                        borderRadius: '30px',
-                        boxSizing: 'border-box',
-                      }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => void handleGenerateScenario()}
-                      style={{
-                        position: 'absolute',
-                        left: '107px',
-                        top: '59px',
-                        width: '530px',
-                        height: '139px',
-                        cursor: generatingScenario ? 'default' : 'pointer',
-                        padding: 0,
-                        border: 'none',
-                        background: 'transparent',
-                      }}
-                      aria-label="создать сценарий"
-                    >
-                      <div
-                        style={{
-                          position: 'absolute',
-                          inset: 0,
-                          backdropFilter: 'blur(50px)',
-                          background: 'rgba(0,0,0,0.9)',
-                          border: '4px solid rgba(255,255,255,0.3)',
-                          borderRadius: '62px',
-                          boxSizing: 'border-box',
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: 'absolute',
-                          left: '50%',
-                          top: '50%',
-                          width: '473px',
-                          height: '29px',
-                          transform: 'translate(-50%, calc(-50% - 6px))',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontFamily: textFont,
-                          fontWeight: 700,
-                          fontSize: '32px',
-                          lineHeight: '1',
-                          color: '#fff',
-                          textAlign: 'center',
-                          whiteSpace: 'pre',
-                        }}
-                      >
-                        создать сценарий    50
-                      </div>
-                    </button>
-                    <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '483px', top: '112px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }} />
-                    <p
-                      style={{
-                        position: 'absolute',
-                        left: '135px',
-                        top: '205px',
-                        width: '473px',
-                        margin: 0,
-                        fontFamily: textFont,
-                        fontWeight: 400,
-                        fontSize: '32px',
-                        lineHeight: '1',
-                        color: 'rgba(255,255,255,0.6)',
-                        textAlign: 'center',
-                        whiteSpace: 'pre-wrap',
-                      }}
-                    >
-                      {'вы можете пополнить баланс\nв личном кабинете'}
-                    </p>
-                  </div>
+                  <LockedActionFrame
+                    label="создать сценарий"
+                    cost={LABA_COSTS.GENERATE_SCENARIO}
+                    coinSrc={figmaCreateScenarioCoin}
+                    disabled={generatingScenario}
+                    ariaLabel="создать сценарий"
+                    onClick={() => void handleGenerateScenario()}
+                    style={{ margin: '4px auto 0' }}
+                  />
                 ) : (
                   <AnalysisBlock title="новый сценарий" body={scenario.text} bodyClickable onBodyClick={() => void handleCopyScenario()} />
                 )}
@@ -541,10 +428,33 @@ const OpenReelButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     aria-label="открыть рилс"
   >
     <div style={{ position: 'absolute', inset: 0, backdropFilter: 'blur(12px)', background: 'rgba(4,22,39,0.1)', borderRadius: '32px' }} />
-    <img src={openReelChevron1} alt="" style={{ position: 'absolute', left: '14px', top: '21px', width: '16px', height: '16px', objectFit: 'contain', pointerEvents: 'none' }} />
-    <img src={openReelChevron2} alt="" style={{ position: 'absolute', left: '22px', top: '21px', width: '16px', height: '16px', objectFit: 'contain', pointerEvents: 'none' }} />
-    <img src={openReelChevron3} alt="" style={{ position: 'absolute', left: '32px', top: '21px', width: '16px', height: '16px', objectFit: 'contain', pointerEvents: 'none' }} />
+    <OpenReelChevron src={figmaOpenReelChevron1} left={14} />
+    <OpenReelChevron src={figmaOpenReelChevron2} left={22} />
+    <OpenReelChevron src={figmaOpenReelChevron3} left={32} />
   </button>
+);
+
+const OpenReelChevron: React.FC<{ src: string; left: number }> = ({ src, left }) => (
+  <div
+    style={{
+      position: 'absolute',
+      left: `${left}px`,
+      top: '21px',
+      width: '32px',
+      height: '32px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: '32px',
+      pointerEvents: 'none',
+    }}
+  >
+    <div style={{ position: 'relative', width: '16px', height: '16px' }}>
+      <div style={{ position: 'absolute', inset: '-43.75% 0 -37.5% 0' }}>
+        <img src={src} alt="" style={{ display: 'block', width: '100%', height: '100%', maxWidth: 'none' }} />
+      </div>
+    </div>
+  </div>
 );
 
 const ActionButton: React.FC<{
@@ -608,6 +518,105 @@ const ActionButton: React.FC<{
       <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
     )}
   </button>
+);
+
+const LockedActionFrame: React.FC<{
+  label: string;
+  cost: number;
+  coinSrc: string;
+  disabled: boolean;
+  ariaLabel: string;
+  onClick: () => void;
+  style?: React.CSSProperties;
+}> = ({ label, cost, coinSrc, disabled, ariaLabel, onClick, style }) => (
+  <div
+    style={{
+      position: 'relative',
+      width: '744px',
+      height: '328px',
+      overflow: 'hidden',
+      ...style,
+    }}
+  >
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        backdropFilter: 'blur(50px)',
+        background: 'rgba(255,255,255,0.1)',
+        border: '4px solid rgba(255,255,255,0.3)',
+        borderRadius: '30px',
+        boxSizing: 'border-box',
+      }}
+    />
+    <button
+      type="button"
+      onClick={() => {
+        if (disabled) return;
+        onClick();
+      }}
+      style={{
+        position: 'absolute',
+        left: '107px',
+        top: '59px',
+        width: '530px',
+        height: '139px',
+        padding: 0,
+        border: '4px solid rgba(255,255,255,0.3)',
+        borderRadius: '62px',
+        background: 'rgba(0,0,0,0.9)',
+        backdropFilter: 'blur(50px)',
+        boxSizing: 'border-box',
+        cursor: disabled ? 'default' : 'pointer',
+      }}
+      aria-label={ariaLabel}
+      aria-disabled={disabled}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          width: '473px',
+          height: '29px',
+          transform: 'translate(-50%, calc(-50% - 6px))',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          fontFamily: textFont,
+          fontWeight: 700,
+          fontSize: '32px',
+          lineHeight: '1',
+          color: '#fff',
+          textAlign: 'center',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <span>{label}</span>
+        <img src={coinSrc} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain', flex: '0 0 auto' }} />
+        <span>{cost}</span>
+      </div>
+    </button>
+    <p
+      style={{
+        position: 'absolute',
+        left: '135px',
+        top: '205px',
+        width: '473px',
+        margin: 0,
+        fontFamily: textFont,
+        fontWeight: 400,
+        fontSize: '32px',
+        lineHeight: '1',
+        color: 'rgba(255,255,255,0.6)',
+        textAlign: 'center',
+        whiteSpace: 'pre-wrap',
+      }}
+    >
+      {'вы можете пополнить баланс\nв личном кабинете'}
+    </p>
+  </div>
 );
 
 const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string; bodyClickable?: boolean; onBodyClick?: () => void }> = ({ title, body, accent, bodyClickable = false, onBodyClick }) => (
