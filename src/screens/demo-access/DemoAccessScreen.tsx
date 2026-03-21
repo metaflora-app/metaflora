@@ -38,10 +38,10 @@ export const DemoAccessScreen: React.FC = () => {
             курс «демо» включает в себя 4 урока
           </p>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
-            по темам «система», «промптинг», «искусство»
+            по темам «система», «промптинг»,
           </p>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
-            и «автоматизация»
+            «искусство» и «автоматизация»
           </p>
         </div>
 

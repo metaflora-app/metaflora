@@ -18,7 +18,8 @@ import activeFilterTemplate from '../../assets/prompt-redesign/кнопка ак
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
 import promptScrollWindowPng from '../../assets/prompt-redesign/окошко скролла промпта.png';
-import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
+import promptScrollWindowPeoplePng from '../../assets/prompt-redesign/окошко скролла промпта люди.png';
+import promptScrollWindowLogoPng from '../../assets/prompt-redesign/окошко скролла промпта лого.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
@@ -249,22 +250,13 @@ export const PromptFirstScreen: React.FC = () => {
           );
         })}
 
-        <img
-          src={promptScrollWindowPng}
-          alt=""
-          style={{
-            position: 'absolute',
-            left: '151px',
-            top: '920px',
-            width: '884px',
-            height: '1121px',
-            objectFit: 'fill',
-            pointerEvents: 'none',
-            zIndex: 1,
-          }}
-        />
+        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none', zIndex: 1 }}>
+          <img src={promptScrollWindowPeoplePng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
+          <img src={promptScrollWindowLogoPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
+          <img src={promptScrollWindowPng} alt="" style={{ position: 'absolute', left: '38px', top: '84px', width: '884px', height: '1121px', objectFit: 'fill' }} />
+        </div>
 
-        <div style={{ position: 'absolute', left: '161px', top: '927px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
+        <div style={{ position: 'absolute', left: '177px', top: '948px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
               const mediaType = prompt.media_type === 'video' && prompt.cover_video_url ? 'video' : 'image';
@@ -315,7 +307,40 @@ export const PromptFirstScreen: React.FC = () => {
                     onClick={() => !prompt.id.startsWith('loading-') && handleToggleFavorite(prompt.id)}
                     style={{ position: 'absolute', left: '73px', top: '59px', zIndex: 2 }}
                   />
-                  {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill' }} /> : null}
+                  {isNew ? (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: '642px',
+                        top: '73px',
+                        width: '121px',
+                        height: '43px',
+                        backdropFilter: 'blur(50px)',
+                        background: 'rgba(255,255,255,0.1)',
+                        border: '2px solid rgba(255,255,255,0.3)',
+                        borderRadius: '62px',
+                        boxSizing: 'border-box',
+                        zIndex: 2,
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: '50%',
+                          top: '50%',
+                          transform: 'translate(-50%, calc(-50% - 4.5px))',
+                          fontFamily: 'Cygre',
+                          fontWeight: 700,
+                          fontSize: '20px',
+                          lineHeight: '1',
+                          color: '#fff',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        новое
+                      </div>
+                    </div>
+                  ) : null}
 
                   <button
                     type="button"
@@ -358,7 +383,7 @@ export const PromptFirstScreen: React.FC = () => {
                     </div>
                   </button>
 
-                  <div style={{ position: 'absolute', left: '69px', top: '804px', width: '694px' }}>
+                  <div style={{ position: 'absolute', left: '81px', top: '786px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                       {prompt.title}
                     </p>

@@ -44,7 +44,7 @@ export const WelcomeScreen: React.FC = () => {
         </div>
 
         {/* Заголовок */}
-        <div style={{ position: 'absolute', left: '94px', top: '197px' }}>
+        <div style={{ position: 'absolute', left: '94px', top: '207px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '90px', lineHeight: '1', color: 'white' }}>
             добро пожаловать
           </p>
@@ -53,19 +53,25 @@ export const WelcomeScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Подзаголовок */}
-        <div style={{ position: 'absolute', left: '94px', top: '392px', width: '992px' }}>
-          {[
-            'пожалуй, лучшее AI-powered мини-приложение',
-            '— академия, лаба, цех и другие сервисы.',
-            'попробуйте демо-курс для погружения',
-            'или сразу оформите подписку на удобный срок',
-            'и получите полный доступ',
-          ].map((line) => (
-            <p key={line} style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
-              {line}
-            </p>
-          ))}
+        <div style={{ position: 'absolute', left: '94px', top: '398px', width: '929px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            пожалуй, лучшее AI-powered мини-приложение
+          </p>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
+            — академия, лаба, цех и другие сервисы
+          </p>
+        </div>
+
+        <div style={{ position: 'absolute', left: '94px', top: '485px', width: '929px' }}>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+            попробуйте демо-курс для погружения
+          </p>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+            или сразу оформите подписку
+          </p>
+          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
+            и получите полный доступ
+          </p>
         </div>
 
         <img

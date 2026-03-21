@@ -6,7 +6,6 @@ import type { WorkshopPrompt } from '../../types/content';
 import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import promptBadge from '../../assets/shared-redesign/плашка промпт.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
@@ -146,7 +145,40 @@ export const PromptCardScreen: React.FC = () => {
                 onClick={handleToggleFavorite}
                 style={{ position: 'absolute', left: '73px', top: '59px', zIndex: 2 }}
               />
-              {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
+              {isNew ? (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '642px',
+                    top: '73px',
+                    width: '121px',
+                    height: '43px',
+                    backdropFilter: 'blur(50px)',
+                    background: 'rgba(255,255,255,0.1)',
+                    border: '2px solid rgba(255,255,255,0.3)',
+                    borderRadius: '62px',
+                    boxSizing: 'border-box',
+                    zIndex: 2,
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '50%',
+                      top: '50%',
+                      transform: 'translate(-50%, calc(-50% - 4.5px))',
+                      fontFamily: 'Cygre',
+                      fontWeight: 700,
+                      fontSize: '20px',
+                      lineHeight: '1',
+                      color: '#fff',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    новое
+                  </div>
+                </div>
+              ) : null}
 
               <div style={{ position: 'absolute', left: '50%', top: '804px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
                 <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>

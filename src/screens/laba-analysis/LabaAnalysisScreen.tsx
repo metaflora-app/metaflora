@@ -7,9 +7,10 @@ import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
-import analysisDisabledBlurFramePng from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
-import openReelButtonPng from '../../assets/laba-analysis/open-reel-button.png';
+import disabledAnalysisFramePng from '../../assets/laba-analysis/блюр фрейм недоступен анализ.png';
+import openReelButtonPng from '../../assets/laba-analysis/кнопка открыть рилс.png';
 import shortStartAnalysisButtonPng from '../../assets/laba-analysis/short-start-analysis-button.png';
+import shortCreateScenarioButtonPng from '../../assets/laba-analysis/укороченная кнопка создать сценарий.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 type ActionVariant = 'dark' | 'light';
@@ -200,7 +201,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 }}
               >
                 <img
-                  src={analysisDisabledBlurFramePng}
+                  src={disabledAnalysisFramePng}
                   alt=""
                   style={{ position: 'absolute', left: 0, top: '-37px', width: '744px', height: '402px', objectFit: 'fill', pointerEvents: 'none' }}
                 />
@@ -245,7 +246,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     }}
                   >
                     <img
-                      src={analysisDisabledBlurFramePng}
+                      src={disabledAnalysisFramePng}
                       alt=""
                       style={{ position: 'absolute', left: 0, top: '-37px', width: '744px', height: '402px', objectFit: 'fill', pointerEvents: 'none' }}
                     />
@@ -258,23 +259,20 @@ export const LabaAnalysisScreen: React.FC = () => {
                         top: '59px',
                         width: '530px',
                         height: '139px',
-                        borderRadius: '62px',
-                        border: '4px solid rgba(255,255,255,0.3)',
-                        background: 'rgba(0,0,0,0.9)',
-                        color: '#fff',
-                        fontFamily: textFont,
-                        fontWeight: 700,
-                        fontSize: '32px',
                         cursor: generatingScenario ? 'default' : 'pointer',
                         padding: 0,
+                        border: 'none',
+                        background: 'transparent',
                       }}
+                      aria-label="создать сценарий"
                     >
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
-                        создать сценарий
-                        <img src={metacoinSmall} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain' }} />
-                        {LABA_COSTS.GENERATE_SCENARIO}
-                      </span>
+                      <img
+                        src={shortCreateScenarioButtonPng}
+                        alt=""
+                        style={{ width: '530px', height: '139px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
+                      />
                     </button>
+                    <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '483px', top: '112px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
                     <p
                       style={{
                         position: 'absolute',
