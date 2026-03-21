@@ -5,7 +5,7 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 
-import materialsButton from '../../assets/about-screens/кнопка получить материалы.png';
+import materialsButton from '../../assets/about-screens/большая кнопка получить материалы.png';
 import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
 
 export const AcademyLessonVideoScreen: React.FC = () => {
@@ -192,32 +192,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             padding: 0,
           }}
         >
-          <img 
+          <img
             src={materialsButton}
-            alt=""
+            alt="получить материалы"
             className="button-inner-glow"
             style={{
-              position: 'absolute',
-              inset: 0,
               width: '100%',
               height: '100%',
               objectFit: 'fill',
               pointerEvents: 'none',
             }}
           />
-
-          <div style={{
-            position: 'relative',
-            zIndex: 1,
-            fontFamily: 'Cygre',
-            fontWeight: 700,
-            fontSize: '40px',
-            color: 'white',
-            textAlign: 'center',
-            transform: 'translateY(-4px)',
-          }}>
-            получить материалы
-          </div>
         </button>
         <Footer />
       </div>

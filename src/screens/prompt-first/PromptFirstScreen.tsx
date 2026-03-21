@@ -149,7 +149,7 @@ export const PromptFirstScreen: React.FC = () => {
     }).Telegram?.WebApp;
 
     telegramWebApp?.showPopup?.({
-      message: 'сортировка\n\nпри нажатии включается выдача по популярности',
+      message: 'сортировка\n\nLLM\nфото\nвидео',
     });
   };
   const contentHeight = Math.max(promptsToRender.length * CARD_HEIGHT + Math.max(promptsToRender.length - 1, 0) * CARD_GAP, CARD_HEIGHT);
@@ -264,7 +264,7 @@ export const PromptFirstScreen: React.FC = () => {
           }}
         />
 
-        <div style={{ position: 'absolute', left: '182px', top: '951px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
+        <div style={{ position: 'absolute', left: '161px', top: '927px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
               const mediaType = prompt.media_type === 'video' && prompt.cover_video_url ? 'video' : 'image';

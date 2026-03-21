@@ -1,5 +1,5 @@
 import React from 'react';
-import activeFilterShell from '../../assets/laba-main/кнопка сортировка актив.png';
+import activeFilterShell from '../../assets/laba-main/active-filter-pill-template.png';
 
 const textFont = 'Cygre, sans-serif';
 
