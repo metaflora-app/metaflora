@@ -4,10 +4,12 @@ import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
-import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
+import { Analysis, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
+import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -21,8 +23,6 @@ const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-9
 const figmaOpenReelChevron1 = 'https://www.figma.com/api/mcp/asset/6686ea99-376f-431b-96fb-359d8843df95';
 const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/40578be4-a6d1-4b7b-851d-2e0e7a925feb';
 const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/d56cba13-009a-442d-b106-7edce51a1b64';
-const figmaStartAnalysisCoin = 'https://www.figma.com/api/mcp/asset/d12ac15e-a47b-4efe-96b7-eb9c47f7e12f';
-const figmaCreateScenarioCoin = 'https://www.figma.com/api/mcp/asset/feb652b7-7196-40cb-9544-99cb93b04d28';
 const PREVIEW_CARD_WIDTH = 824;
 const PREVIEW_CARD_HEIGHT = 1054;
 const PREVIEW_COVER_SIZE = 754;
@@ -193,9 +193,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
             {!analysis ? (
               <LockedActionFrame
-                label="начать анализ"
-                cost={LABA_COSTS.ANALYZE_REEL}
-                coinSrc={figmaStartAnalysisCoin}
+                frameSrc={blurFrameMakeAnalysis}
                 disabled={analyzing}
                 ariaLabel={analyzing ? 'анализируем' : 'начать анализ'}
                 onClick={() => void handleStartAnalysis()}
@@ -210,9 +208,7 @@ export const LabaAnalysisScreen: React.FC = () => {
 
                 {!scenario ? (
                   <LockedActionFrame
-                    label="создать сценарий"
-                    cost={LABA_COSTS.GENERATE_SCENARIO}
-                    coinSrc={figmaCreateScenarioCoin}
+                    frameSrc={blurFrameMakeScenario}
                     disabled={generatingScenario}
                     ariaLabel="создать сценарий"
                     onClick={() => void handleGenerateScenario()}
@@ -521,14 +517,12 @@ const ActionButton: React.FC<{
 );
 
 const LockedActionFrame: React.FC<{
-  label: string;
-  cost: number;
-  coinSrc: string;
+  frameSrc: string;
   disabled: boolean;
   ariaLabel: string;
   onClick: () => void;
   style?: React.CSSProperties;
-}> = ({ label, cost, coinSrc, disabled, ariaLabel, onClick, style }) => (
+}> = ({ frameSrc, disabled, ariaLabel, onClick, style }) => (
   <div
     style={{
       position: 'relative',
@@ -538,15 +532,16 @@ const LockedActionFrame: React.FC<{
       ...style,
     }}
   >
-    <div
+    <img
+      src={frameSrc}
+      alt=""
       style={{
         position: 'absolute',
         inset: 0,
-        backdropFilter: 'blur(50px)',
-        background: 'rgba(255,255,255,0.1)',
-        border: '4px solid rgba(255,255,255,0.3)',
-        borderRadius: '30px',
-        boxSizing: 'border-box',
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        pointerEvents: 'none',
       }}
     />
     <button
@@ -562,60 +557,14 @@ const LockedActionFrame: React.FC<{
         width: '530px',
         height: '139px',
         padding: 0,
-        border: '4px solid rgba(255,255,255,0.3)',
+        border: 'none',
         borderRadius: '62px',
-        background: 'rgba(0,0,0,0.9)',
-        backdropFilter: 'blur(50px)',
-        boxSizing: 'border-box',
+        background: 'transparent',
         cursor: disabled ? 'default' : 'pointer',
       }}
       aria-label={ariaLabel}
       aria-disabled={disabled}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          width: '473px',
-          height: '29px',
-          transform: 'translate(-50%, calc(-50% - 6px))',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          fontFamily: textFont,
-          fontWeight: 700,
-          fontSize: '32px',
-          lineHeight: '1',
-          color: '#fff',
-          textAlign: 'center',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        <span>{label}</span>
-        <img src={coinSrc} alt="" style={{ width: '25px', height: '25px', objectFit: 'contain', flex: '0 0 auto' }} />
-        <span>{cost}</span>
-      </div>
-    </button>
-    <p
-      style={{
-        position: 'absolute',
-        left: '135px',
-        top: '205px',
-        width: '473px',
-        margin: 0,
-        fontFamily: textFont,
-        fontWeight: 400,
-        fontSize: '32px',
-        lineHeight: '1',
-        color: 'rgba(255,255,255,0.6)',
-        textAlign: 'center',
-        whiteSpace: 'pre-wrap',
-      }}
-    >
-      {'вы можете пополнить баланс\nв личном кабинете'}
-    </p>
+    />
   </div>
 );
 
