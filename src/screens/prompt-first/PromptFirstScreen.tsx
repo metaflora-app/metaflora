@@ -16,10 +16,9 @@ import recentButtonInactive from '../../assets/prompt-redesign/кнопка не
 import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
 import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
-import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
-import promptScrollWindowPng from '../../assets/prompt-redesign/окошко скролла промпта.png';
-import promptScrollWindowPeoplePng from '../../assets/prompt-redesign/окошко скролла промпта люди.png';
-import promptScrollWindowLogoPng from '../../assets/prompt-redesign/окошко скролла промпта лого.png';
+import promptCardBgFigmaPng from '../../assets/prompt-redesign/prompt-card-bg-figma.png';
+import promptScrollWindowPeopleFigmaPng from '../../assets/prompt-redesign/prompt-scroll-window-people-figma.png';
+import promptScrollWindowLogoFigmaPng from '../../assets/prompt-redesign/prompt-scroll-window-logo-figma.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
@@ -251,15 +250,14 @@ export const PromptFirstScreen: React.FC = () => {
         })}
 
         <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none', zIndex: 1 }}>
-          <img src={promptScrollWindowPeoplePng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
-          <img src={promptScrollWindowLogoPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
-          <img src={promptScrollWindowPng} alt="" style={{ position: 'absolute', left: '38px', top: '84px', width: '884px', height: '1121px', objectFit: 'fill' }} />
+          <img src={promptScrollWindowPeopleFigmaPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
+          <img src={promptScrollWindowLogoFigmaPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
+          <div style={{ position: 'absolute', left: '58px', top: '84px', width: '884px', height: '1121px', backdropFilter: 'blur(50px)', background: 'rgba(255,255,255,0.1)', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box' }} />
         </div>
 
         <div style={{ position: 'absolute', left: '177px', top: '948px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
-              const mediaType = prompt.media_type === 'video' && prompt.cover_video_url ? 'video' : 'image';
               const isNew = prompt.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые');
               const isFavorite = favoriteIds.includes(prompt.id);
 
@@ -272,34 +270,15 @@ export const PromptFirstScreen: React.FC = () => {
                     top: `${index * (CARD_HEIGHT + CARD_GAP)}px`,
                     width: '831px',
                     height: '1064px',
-                    background: '#000',
-                    border: '4px solid rgba(255,255,255,0.3)',
-                    borderRadius: '30px',
-                    boxSizing: 'border-box',
                     overflow: 'hidden',
                     isolation: 'isolate',
                   }}
                 >
-                  <div style={{ position: 'absolute', left: '35px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', background: '#050505' }}>
-                    {mediaType === 'video' ? (
-                      <video
-                        src={prompt.cover_video_url || undefined}
-                        poster={prompt.poster_image_url || prompt.cover_image_url || undefined}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    ) : (
-                      <img
-                        src={prompt.cover_image_url || skeletonPrompt}
-                        alt={prompt.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    )}
-                  </div>
+                  <img
+                    src={promptCardBgFigmaPng}
+                    alt=""
+                    style={{ position: 'absolute', inset: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
+                  />
 
                   <FigmaLikeButton
                     active={isFavorite}

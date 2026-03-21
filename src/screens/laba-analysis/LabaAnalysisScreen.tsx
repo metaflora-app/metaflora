@@ -7,11 +7,11 @@ import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
 import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
-import disabledAnalysisFramePng from '../../assets/laba-analysis/блюр фрейм недоступен анализ.png';
-import openReelButtonPng from '../../assets/laba-analysis/кнопка открыть рилс.png';
 import shortStartAnalysisButtonPng from '../../assets/laba-analysis/short-start-analysis-button.png';
-import shortCreateScenarioButtonPng from '../../assets/laba-analysis/укороченная кнопка создать сценарий.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import openReelChevron1 from '../../assets/laba-analysis/open-reel-chevron-1.png';
+import openReelChevron2 from '../../assets/laba-analysis/open-reel-chevron-2.png';
+import openReelChevron3 from '../../assets/laba-analysis/open-reel-chevron-3.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -200,10 +200,21 @@ export const LabaAnalysisScreen: React.FC = () => {
                   overflow: 'hidden',
                 }}
               >
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backdropFilter: 'blur(50px)',
+                    background: 'rgba(255,255,255,0.1)',
+                    border: '4px solid rgba(255,255,255,0.3)',
+                    borderRadius: '30px',
+                    boxSizing: 'border-box',
+                  }}
+                />
                 <img
-                  src={disabledAnalysisFramePng}
+                  src={shortStartAnalysisButtonPng}
                   alt=""
-                  style={{ position: 'absolute', left: 0, top: '-37px', width: '744px', height: '402px', objectFit: 'fill', pointerEvents: 'none' }}
+                  style={{ position: 'absolute', left: '107px', top: '59px', width: '530px', height: '139px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
                 />
                 <button
                   type="button"
@@ -220,13 +231,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     background: 'transparent',
                   }}
                   aria-label={analyzing ? 'анализируем' : 'начать анализ'}
-                >
-                  <img
-                    src={shortStartAnalysisButtonPng}
-                    alt=""
-                    style={{ width: '530px', height: '139px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
-                  />
-                </button>
+                />
               </div>
             ) : (
               <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px', paddingBottom: '10px' }}>
@@ -245,10 +250,16 @@ export const LabaAnalysisScreen: React.FC = () => {
                       overflow: 'hidden',
                     }}
                   >
-                    <img
-                      src={disabledAnalysisFramePng}
-                      alt=""
-                      style={{ position: 'absolute', left: 0, top: '-37px', width: '744px', height: '402px', objectFit: 'fill', pointerEvents: 'none' }}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backdropFilter: 'blur(50px)',
+                        background: 'rgba(255,255,255,0.1)',
+                        border: '4px solid rgba(255,255,255,0.3)',
+                        borderRadius: '30px',
+                        boxSizing: 'border-box',
+                      }}
                     />
                     <button
                       type="button"
@@ -266,13 +277,41 @@ export const LabaAnalysisScreen: React.FC = () => {
                       }}
                       aria-label="создать сценарий"
                     >
-                      <img
-                        src={shortCreateScenarioButtonPng}
-                        alt=""
-                        style={{ width: '530px', height: '139px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          backdropFilter: 'blur(50px)',
+                          background: 'rgba(0,0,0,0.9)',
+                          border: '4px solid rgba(255,255,255,0.3)',
+                          borderRadius: '62px',
+                          boxSizing: 'border-box',
+                        }}
                       />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: '50%',
+                          top: '50%',
+                          width: '473px',
+                          height: '29px',
+                          transform: 'translate(-50%, calc(-50% - 6px))',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontFamily: textFont,
+                          fontWeight: 700,
+                          fontSize: '32px',
+                          lineHeight: '1',
+                          color: '#fff',
+                          textAlign: 'center',
+                          whiteSpace: 'pre',
+                        }}
+                      >
+                        создать сценарий    50
+                      </div>
                     </button>
-                    <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '483px', top: '112px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
+                    <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '483px', top: '112px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }} />
                     <p
                       style={{
                         position: 'absolute',
@@ -501,7 +540,10 @@ const OpenReelButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     }}
     aria-label="открыть рилс"
   >
-    <img src={openReelButtonPng} alt="" style={{ width: '72px', height: '72px', objectFit: 'contain', display: 'block', pointerEvents: 'none' }} />
+    <div style={{ position: 'absolute', inset: 0, backdropFilter: 'blur(12px)', background: 'rgba(4,22,39,0.1)', borderRadius: '32px' }} />
+    <img src={openReelChevron1} alt="" style={{ position: 'absolute', left: '14px', top: '21px', width: '16px', height: '16px', objectFit: 'contain', pointerEvents: 'none' }} />
+    <img src={openReelChevron2} alt="" style={{ position: 'absolute', left: '22px', top: '21px', width: '16px', height: '16px', objectFit: 'contain', pointerEvents: 'none' }} />
+    <img src={openReelChevron3} alt="" style={{ position: 'absolute', left: '32px', top: '21px', width: '16px', height: '16px', objectFit: 'contain', pointerEvents: 'none' }} />
   </button>
 );
 
