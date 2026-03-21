@@ -94,11 +94,11 @@ const getProgressAsset = (value: number): string => {
     return progressGreenFull;
   }
 
-  if (value > 80) {
+  if (value >= 70) {
     return progressGreenPassive;
   }
 
-  if (value >= 40) {
+  if (value >= 35) {
     return progressYellow;
   }
 
@@ -108,6 +108,7 @@ const getProgressAsset = (value: number): string => {
 const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ value, left, top }) => {
   const normalized = Math.max(0, Math.min(100, value));
   const asset = getProgressAsset(normalized);
+  const visibleWidth = normalized === 0 ? 0 : Math.min(57, Math.max(14, (57 * normalized) / 100));
 
   return (
     <div
@@ -125,7 +126,7 @@ const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ v
       {normalized > 0 && (
         <div
           style={{
-            width: `${normalized}%`,
+            width: `${visibleWidth}px`,
             height: '100%',
             overflow: 'hidden',
           }}

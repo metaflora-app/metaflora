@@ -11,6 +11,8 @@ interface PillButtonProps extends BasePillProps {
   label?: string;
   onClick?: () => void;
   disabled?: boolean;
+  labelOffsetY?: number;
+  labelWidth?: number;
 }
 
 const basePillStyle: React.CSSProperties = {
@@ -21,6 +23,24 @@ const basePillStyle: React.CSSProperties = {
   boxSizing: 'border-box',
   overflow: 'hidden',
 };
+
+const getCenteredButtonLabelStyle = (labelOffsetY: number, labelWidth: number): React.CSSProperties => ({
+  position: 'absolute',
+  left: '50%',
+  top: '50%',
+  transform: `translate(-50%, calc(-50% - ${labelOffsetY}px))`,
+  width: `${labelWidth}px`,
+  height: '29.3116px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontFamily: 'Cygre',
+  fontWeight: 700,
+  fontSize: '27px',
+  lineHeight: '1',
+  color: 'white',
+  textAlign: 'center',
+});
 
 export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style, textOffsetY = 4 }) => (
   <div
@@ -92,7 +112,14 @@ export const FigmaMaterialsBadge: React.FC<BasePillProps> = ({ className, style 
   </div>
 );
 
-export const FigmaStudyButton: React.FC<PillButtonProps> = ({ className, style, onClick, disabled }) => (
+export const FigmaStudyButton: React.FC<PillButtonProps> = ({
+  className,
+  style,
+  onClick,
+  disabled,
+  labelOffsetY = 6,
+  labelWidth = 160,
+}) => (
   <button
     type="button"
     onClick={onClick}
@@ -109,29 +136,22 @@ export const FigmaStudyButton: React.FC<PillButtonProps> = ({ className, style, 
     }}
   >
     <div
-      style={{
-        position: 'absolute',
-        left: '47px',
-        top: '19px',
-        width: '150px',
-        height: '29.3116px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Cygre',
-        fontWeight: 700,
-        fontSize: '27px',
-        lineHeight: '1',
-        color: 'white',
-        textAlign: 'center',
-      }}
+      style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}
     >
       изучить
     </div>
   </button>
 );
 
-export const FigmaReadButton: React.FC<PillButtonProps> = ({ className, style, onClick, disabled, label }) => (
+export const FigmaReadButton: React.FC<PillButtonProps> = ({
+  className,
+  style,
+  onClick,
+  disabled,
+  label,
+  labelOffsetY = 6,
+  labelWidth = 160,
+}) => (
   <button
     type="button"
     onClick={onClick}
@@ -148,22 +168,7 @@ export const FigmaReadButton: React.FC<PillButtonProps> = ({ className, style, o
     }}
   >
     <div
-      style={{
-        position: 'absolute',
-        left: '47px',
-        top: '19px',
-        width: '150px',
-        height: '29.3116px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Cygre',
-        fontWeight: 700,
-        fontSize: '27px',
-        lineHeight: '1',
-        color: 'white',
-        textAlign: 'center',
-      }}
+      style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}
     >
       {label}
     </div>

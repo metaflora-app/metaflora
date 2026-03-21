@@ -8,7 +8,10 @@ export interface WorkshopPrompt {
   title: string;
   description: string | null;
   prompt_text: string | null;
+  media_type?: 'image' | 'video' | null;
   cover_image_url: string | null;
+  cover_video_url?: string | null;
+  poster_image_url?: string | null;
   filter_tags: string[] | null;
   search_keywords: string[] | null;
   views_count: number;
@@ -24,7 +27,10 @@ export interface WorkshopPromptInput {
   title: string;
   description?: string;
   prompt_text?: string;
+  media_type?: 'image' | 'video';
   cover_image_url?: string;
+  cover_video_url?: string;
+  poster_image_url?: string;
   filter_tags?: string[];
   is_active?: boolean;
   order_index?: number;
@@ -33,7 +39,7 @@ export interface WorkshopPromptInput {
 // ПОЛИГОН - Статьи
 export interface ContentBlock {
   id: string;
-  type: 'text' | 'image' | 'materials' | 'prompt';
+  type: 'text' | 'image' | 'video' | 'materials' | 'prompt';
   content: string;
 }
 

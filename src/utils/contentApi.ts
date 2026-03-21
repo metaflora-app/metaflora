@@ -59,6 +59,32 @@ export async function getWorkshopPromptById(id: string): Promise<ContentItemResp
   }
 }
 
+export async function trackWorkshopPromptView(id: string, userId?: number | null): Promise<boolean> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/content/workshop-prompts/${id}/view`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: userId || null }),
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Error tracking workshop prompt view:', error);
+    return false;
+  }
+}
+
+export async function trackWorkshopPromptCopy(id: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/content/workshop-prompts/${id}/copy`, {
+      method: 'POST',
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Error tracking workshop prompt copy:', error);
+    return false;
+  }
+}
+
 // ============================================
 // ПОЛИГОН - СТАТЬИ
 // ============================================

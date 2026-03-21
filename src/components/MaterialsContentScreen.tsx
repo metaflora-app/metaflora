@@ -69,6 +69,26 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       );
     }
 
+    if (block.type === 'video') {
+      const videoUrl = typeof block.content === 'string' ? block.content : block.content?.url;
+      if (!videoUrl) return null;
+
+      return (
+        <div key={block.id} style={{ position: 'relative', width: '760px', margin: '30px auto' }}>
+          <video
+            src={videoUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            controls
+            preload="auto"
+            style={{ width: '760px', display: 'block', borderRadius: '20px', background: '#000' }}
+          />
+        </div>
+      );
+    }
+
     if (block.type === 'prompt') {
       return (
         <div key={block.id} style={{ margin: '28px 0 30px' }}>

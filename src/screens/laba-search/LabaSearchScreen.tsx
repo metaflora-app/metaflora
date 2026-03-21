@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import leftPanelGif from '../../assets/laba-search/left-panel.gif';
 
 const SIDEBAR_HOTSPOTS = [
-  { left: 241, top: 1882, width: 129, height: 126, route: '/laba-main' },
-  { left: 393, top: 1882, width: 129, height: 126, route: '/laba-no-tracked' },
-  { left: 598, top: 1882, width: 129, height: 124, route: '/laba-favorites' },
-  { left: 741, top: 1880, width: 129, height: 132, route: '/metacoins' },
+  { left: 331, top: 1890, width: 82, height: 94, route: '/laba-main' },
+  { left: 466, top: 1890, width: 82, height: 94, route: '/laba-no-tracked' },
+  { left: 602, top: 1890, width: 82, height: 94, route: '/laba-favorites' },
+  { left: 737, top: 1890, width: 82, height: 94, route: '/metacoins' },
 ];
 
 const logoSmall = 'https://www.figma.com/api/mcp/asset/6cc89443-e3dd-4f50-8766-f7549c24f1c1';

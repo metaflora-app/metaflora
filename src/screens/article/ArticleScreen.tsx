@@ -45,6 +45,9 @@ export const ArticleScreen: React.FC = () => {
         article?.content_text
           ? { id: 'legacy-text', type: 'text', content: article.content_text }
           : null,
+        article?.video_url
+          ? { id: 'legacy-video', type: 'video', content: article.video_url }
+          : null,
         article?.prompt_text
           ? { id: 'legacy-prompt', type: 'prompt', content: article.prompt_text }
           : null,

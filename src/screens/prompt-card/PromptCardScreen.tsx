@@ -1,14 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
-import { getWorkshopPromptById } from '../../utils/contentApi';
+import { copyToClipboard } from '../../utils/clipboard';
+import { getWorkshopPromptById, trackWorkshopPromptCopy, trackWorkshopPromptView } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
+import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
+import likeButtonInactive from '../../assets/лайк не поставлен.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
 import promptBadge from '../../assets/shared-redesign/плашка промпт.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
+import { getTelegramUserId } from '../../utils/labaApi';
+import { isPromptFavorite, markPromptViewed, togglePromptFavorite } from '../../utils/promptInteractions';
 
 declare global {
   interface Window {
@@ -30,6 +34,7 @@ export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [prompt, setPrompt] = useState<WorkshopPrompt | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   useEffect(() => {
@@ -48,17 +53,35 @@ export const PromptCardScreen: React.FC = () => {
     loadPrompt();
   }, [id]);
 
+  useEffect(() => {
+    if (!id) return;
+
+    setIsFavorite(isPromptFavorite(id));
+    markPromptViewed(id);
+    void trackWorkshopPromptView(id, getTelegramUserId());
+  }, [id]);
+
   const title = useMemo(() => prompt?.title || 'ИИ-копирайтер для блога', [prompt]);
   const promptText = useMemo(() => prompt?.prompt_text || FALLBACK_TEXT, [prompt]);
   const isNew = useMemo(() => prompt?.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые') ?? true, [prompt]);
+  const mediaType = useMemo(() => (prompt?.media_type === 'video' && prompt?.cover_video_url ? 'video' : 'image'), [prompt]);
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(promptText);
-      window.Telegram?.WebApp?.showPopup?.({ message: 'Скопировано в буфер обмена' });
+      const copied = await copyToClipboard(promptText);
+      if (!copied) return;
+      if (id) {
+        void trackWorkshopPromptCopy(id);
+      }
+      window.Telegram?.WebApp?.showPopup?.({ message: 'промпт скопирован в буфер обмена' });
     } catch (error) {
       console.error('Copy failed:', error);
     }
+  };
+
+  const handleToggleFavorite = () => {
+    if (!id) return;
+    setIsFavorite(togglePromptFavorite(id));
   };
 
   return (
@@ -77,17 +100,40 @@ export const PromptCardScreen: React.FC = () => {
           </p>
         </div>
 
-        <MainBackdropNew />
+        <FigmaMainBackdrop style={{ left: '31px', top: '399px' }} />
 
-        <SecondaryBlackBackdrop>
-          <div style={{ position: 'absolute', left: '41px', top: '41px', width: '742px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
-            <img src={skeletonPrompt} alt="скелет промпт" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
+            {mediaType === 'video' ? (
+              <video
+                src={prompt?.cover_video_url || undefined}
+                poster={prompt?.poster_image_url || prompt?.cover_image_url || undefined}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              <img
+                src={prompt?.cover_image_url || skeletonPrompt}
+                alt={title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            )}
           </div>
 
-          <img src={likeButton} alt="лайк" style={{ position: 'absolute', left: '78px', top: '64px', width: '72px', height: '72px', objectFit: 'contain', zIndex: 2 }} />
-          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '640px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
+          <button
+            type="button"
+            onClick={handleToggleFavorite}
+            style={{ position: 'absolute', left: '73px', top: '59px', width: '72px', height: '72px', padding: 0, border: 'none', background: 'transparent', cursor: id ? 'pointer' : 'default', zIndex: 2 }}
+          >
+            <img src={isFavorite ? likeButton : likeButtonInactive} alt="лайк" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
+          </button>
+          {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
 
-          <div style={{ position: 'absolute', left: '50%', top: '784px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
+          <div style={{ position: 'absolute', left: '50%', top: '790px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
           </div>
 
@@ -111,7 +157,7 @@ export const PromptCardScreen: React.FC = () => {
           <div style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
           </div>
-        </SecondaryBlackBackdrop>
+        </div>
 
         <Footer />
       </div>

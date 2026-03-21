@@ -8,9 +8,32 @@ import hiddenCard from '../../assets/main-dashboard/карточка что ск
 import openBtn from '../../assets/main-dashboard/кнопка открыть на подписочке.png';
 import payBtn from '../../assets/main-dashboard/кнопка оплатить доступ укороченная.png';
 
+type GuestAnimal = {
+  adjective: string;
+  animal: string;
+};
+
+const GUEST_ANIMALS: GuestAnimal[] = [
+  { adjective: 'неопознанный', animal: 'бобёр' },
+  { adjective: 'неопознанная', animal: 'лама' },
+  { adjective: 'неопознанная', animal: 'косуля' },
+  { adjective: 'неопознанная', animal: 'белка' },
+];
+
 export const MainDashboardFreeScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [guestAnimal, setGuestAnimal] = React.useState(GUEST_ANIMALS[0]);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const storageKey = 'metaflora_guest_animal_index';
+    const previousIndex = Number(window.localStorage.getItem(storageKey) || '-1');
+    const nextIndex = (previousIndex + 1 + GUEST_ANIMALS.length) % GUEST_ANIMALS.length;
+    window.localStorage.setItem(storageKey, String(nextIndex));
+    setGuestAnimal(GUEST_ANIMALS[nextIndex]);
+  }, []);
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -21,7 +44,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
         {/* Имя */}
         <div style={{ position: 'absolute', left: '85px', top: '199px', width: '1020px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
-            неопознанный бобёр
+            {guestAnimal.adjective} {guestAnimal.animal}
           </p>
         </div>
 

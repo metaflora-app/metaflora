@@ -131,11 +131,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
               <div style={{ position: 'absolute', left: '50%', top: '160px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontSize: '28px', color: '#ff7b7b', textAlign: 'center' }}>
                 ошибка загрузки: {error}
               </div>
-            ) : loading ? (
-              <div style={{ position: 'absolute', left: '50%', top: '160px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontSize: '28px', color: 'rgba(255,255,255,0.7)' }}>
-                загружаем статьи
-              </div>
-            ) : visibleArticles.length === 0 ? (
+            ) : loading ? null : visibleArticles.length === 0 ? (
               <div style={{ position: 'absolute', left: '50%', top: '160px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontSize: '28px', color: 'rgba(255,255,255,0.7)' }}>
                 статьи не найдены
               </div>

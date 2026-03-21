@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Reel } from '../../types/laba';
-import { formatCount, formatTimeAgo } from '../../utils/labaApi';
+import { convertInstagramImageUrl, formatCount, formatTimeAgo } from '../../utils/labaApi';
 import blackReelBackground from '../../assets/laba-main/reel-card-black-bg.png';
 
 type ActionVariant = 'dark' | 'light';
@@ -44,6 +44,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
     : reel.accountUsername;
+  const coverImageUrl = convertInstagramImageUrl(reel.coverImageUrl) || figmaCardCover;
+  const profilePhotoUrl = convertInstagramImageUrl(reel.accountProfilePicUrl) || figmaProfilePhoto;
 
   return (
     <div
@@ -80,7 +82,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           background: 'rgba(255,255,255,0.08)',
         }}
       >
-        <img src={figmaCardCover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={coverImageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </div>
 
       <button
@@ -236,7 +238,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           background: 'rgba(255,255,255,0.12)',
         }}
       >
-        <img src={figmaProfilePhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={profilePhotoUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </div>
 
       <div
