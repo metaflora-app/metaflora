@@ -4,7 +4,7 @@ import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBa
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, LABA_COSTS, Reel, Scenario } from '../../types/laba';
-import { analyzeReel, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
+import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
 import analysisDisabledBlurFramePng from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import openReelButtonPng from '../../assets/laba-analysis/open-reel-button.png';
 import shortStartAnalysisButtonPng from '../../assets/laba-analysis/short-start-analysis-button.png';
@@ -187,7 +187,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   position: 'relative',
                   width: '744px',
                   height: '328px',
-                  margin: '-4px auto 0',
+                  margin: '28px auto 0',
                   overflow: 'hidden',
                 }}
               >
@@ -279,6 +279,8 @@ const AnalysisPreviewCard: React.FC<{
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
     : reel.accountUsername;
+  const coverSrc = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || figmaCardCover;
+  const avatarSrc = convertInstagramImageUrl(reel.accountProfilePicUrl) || reel.accountProfilePicUrl || figmaProfilePhoto;
 
   return (
     <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>
@@ -295,7 +297,18 @@ const AnalysisPreviewCard: React.FC<{
           background: 'rgba(255,255,255,0.08)',
         }}
       >
-        <img src={figmaCardCover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img
+          src={coverSrc}
+          alt=""
+          crossOrigin="anonymous"
+          onError={(event) => {
+            const target = event.currentTarget;
+            if (target.src !== figmaCardCover) {
+              target.src = figmaCardCover;
+            }
+          }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
 
       <button
@@ -406,7 +419,18 @@ const AnalysisPreviewCard: React.FC<{
       </div>
 
       <div style={{ position: 'absolute', left: '66px', top: '807px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.12)' }}>
-        <img src={figmaProfilePhoto} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img
+          src={avatarSrc}
+          alt=""
+          crossOrigin="anonymous"
+          onError={(event) => {
+            const target = event.currentTarget;
+            if (target.src !== figmaProfilePhoto) {
+              target.src = figmaProfilePhoto;
+            }
+          }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
 
       <div style={{ position: 'absolute', left: '271px', top: '815px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>

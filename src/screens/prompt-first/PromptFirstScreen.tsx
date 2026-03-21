@@ -20,6 +20,7 @@ import favoriteButtonActive from '../../assets/prompt-redesign/кнопка из
 import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
+import promptScrollWindowPng from '../../assets/prompt-redesign/окошко скролла промпта.png';
 import likeButton from '../../assets/prompt-redesign/кнопка лайк актив.png';
 import likeButtonInactive from '../../assets/лайк не поставлен.png';
 import articleBadge from '../../assets/prompt-redesign/плашка новое в статье.png';
@@ -251,18 +252,16 @@ export const PromptFirstScreen: React.FC = () => {
           </div>
         </div>
 
-        <div
+        <img
+          src={promptScrollWindowPng}
+          alt=""
           style={{
             position: 'absolute',
             left: '151px',
             top: '920px',
             width: '884px',
             height: '1121px',
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            boxSizing: 'border-box',
+            objectFit: 'fill',
             pointerEvents: 'none',
             zIndex: 1,
           }}

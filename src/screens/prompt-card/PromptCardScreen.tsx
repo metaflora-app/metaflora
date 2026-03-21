@@ -133,7 +133,7 @@ export const PromptCardScreen: React.FC = () => {
           </button>
           {isNew ? <img src={articleBadge} alt="новое" style={{ position: 'absolute', left: '642px', top: '73px', width: '121px', height: '43px', objectFit: 'fill', zIndex: 2 }} /> : null}
 
-          <div style={{ position: 'absolute', left: '50%', top: '790px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
+          <div style={{ position: 'absolute', left: '50%', top: '804px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(-50%)' }}>
             <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>{title}</p>
           </div>
 
@@ -154,8 +154,23 @@ export const PromptCardScreen: React.FC = () => {
             style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', objectFit: 'contain', cursor: 'pointer', transform: 'translateX(-50%)' }}
           />
 
-          <div style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)' }}>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '1057px',
+              width: '729px',
+              height: '385px',
+              transform: 'translateX(-50%)',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 70px), transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 70px), transparent 100%)',
+            }}
+          >
+            <div onClick={handleCopy} style={{ cursor: 'pointer', paddingBottom: '40px' }}>
+              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
+            </div>
           </div>
         </div>
 
