@@ -113,6 +113,27 @@ input::placeholder {
   opacity: 1;
 }
 
+.about-academy-videojs,
+.about-academy-videojs .media-minimal-skin,
+.about-academy-videojs video {
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+}
+
+.about-academy-videojs .media-minimal-skin {
+  --media-border-radius: 40px;
+  color: #ffffff;
+}
+
+.about-academy-videojs .media-minimal-skin video {
+  object-fit: cover;
+}
+
+.about-academy-videojs .media-minimal-skin .media-controls {
+  padding: 0 18px 22px;
+}
+
 /* Blur wave animation - DISABLED for GPU performance */
 /* @keyframes blurWave {
   0%, 100% {

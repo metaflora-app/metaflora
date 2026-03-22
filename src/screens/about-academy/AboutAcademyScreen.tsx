@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
+import { VideoJsPlayer } from '../../components/VideoJsPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
 import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
@@ -8,19 +9,15 @@ import expandPlashka from '../../assets/tour-video/плашка разверну
 export const AboutAcademyScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const playerWrapperRef = React.useRef<HTMLDivElement | null>(null);
 
   const handleExpandVideo = React.useCallback(async () => {
-    const video = videoRef.current;
-    if (!video) return;
+    const playerWrapper = playerWrapperRef.current;
+    if (!playerWrapper) return;
 
     try {
-      if (video.paused) {
-        await video.play();
-      }
-
-      if (video.requestFullscreen) {
-        await video.requestFullscreen();
+      if (playerWrapper.requestFullscreen) {
+        await playerWrapper.requestFullscreen();
       }
     } catch (error) {
       console.error('Error expanding academy intro video:', error);
@@ -40,22 +37,27 @@ export const AboutAcademyScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-          <video
-            ref={videoRef}
-            src="/about-academy-test-video.mp4"
-            playsInline
-            preload="auto"
-            controls={false}
+          <div
+            ref={playerWrapperRef}
             style={{
               position: 'absolute',
               inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
               borderRadius: '40px',
-              background: '#000',
+              overflow: 'hidden',
             }}
-          />
+          >
+            <VideoJsPlayer
+              src="/about-academy-test-video.mp4"
+              className="about-academy-videojs"
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '40px',
+                overflow: 'hidden',
+                background: '#000',
+              }}
+            />
+          </div>
 
           <button
             type="button"
