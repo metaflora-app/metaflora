@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getDemoLessonById } from '../../utils/contentApi';
 import type { AcademyLesson } from '../../types/content';
 import { MaterialsContentScreen } from '../../components/MaterialsContentScreen';
+import { getTelegramUserId } from '../../utils/labaApi';
+import { markLessonMaterialsRead } from '../../utils/userProgress';
 
 const parseMaterials = (content: any): Array<{ name: string; url: string }> => {
   if (!content) return [];
@@ -23,6 +25,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const lessonId = searchParams.get('lesson');
   const lessonType = searchParams.get('type') || 'academy';
   const [lesson, setLesson] = React.useState<AcademyLesson | null>(null);
+  const hasMarkedMaterialsReadRef = React.useRef(false);
 
   React.useEffect(() => {
     if (!lessonId) return;
@@ -57,18 +60,6 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const materialsBlock = lesson?.content_blocks?.find((block: any) => block.type === 'materials');
   const materials = parseMaterials(materialsBlock?.content);
 
-  const checkLessonCompletion = React.useCallback((id: string) => {
-    const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
-    const lessonProgress = progressData[id];
-    if (lessonProgress?.videoWatched && lessonProgress?.materialsRead) {
-      const completed = JSON.parse(localStorage.getItem('academy-lessons-completed') || '[]');
-      if (!completed.includes(id)) {
-        completed.push(id);
-        localStorage.setItem('academy-lessons-completed', JSON.stringify(completed));
-      }
-    }
-  }, []);
-
   const handleContentScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
     if (!lessonId || lessonType !== 'academy') return;
 
@@ -76,14 +67,14 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
     const hasScroll = element.scrollHeight > element.clientHeight;
     const scrollPercent = ((element.scrollTop + element.clientHeight) / element.scrollHeight) * 100;
 
-    if (!hasScroll || scrollPercent >= 95) {
-      const progressData = JSON.parse(localStorage.getItem('academy-lessons-progress') || '{}');
-      if (!progressData[lessonId]) progressData[lessonId] = {};
-      progressData[lessonId].materialsRead = true;
-      localStorage.setItem('academy-lessons-progress', JSON.stringify(progressData));
-      checkLessonCompletion(lessonId);
+    if ((!hasScroll || scrollPercent >= 95) && !hasMarkedMaterialsReadRef.current) {
+      const userId = getTelegramUserId();
+      if (!userId) return;
+
+      hasMarkedMaterialsReadRef.current = true;
+      void markLessonMaterialsRead(userId, lessonId);
     }
-  }, [checkLessonCompletion, lessonId, lessonType]);
+  }, [lessonId, lessonType]);
 
   const handleSendMaterials = async () => {
     try {

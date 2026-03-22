@@ -140,3 +140,11 @@ export async function wasVideoViewed(userId: number, lessonId: string): Promise<
 export async function markVideoViewed(userId: number, lessonId: string): Promise<boolean> {
   return updateLessonProgress(userId, lessonId, { videoViewed: true });
 }
+
+export async function markLessonVideoWatched(userId: number, lessonId: string): Promise<boolean> {
+  return updateLessonProgress(userId, lessonId, { videoWatched: true });
+}
+
+export async function markLessonMaterialsRead(userId: number, lessonId: string): Promise<boolean> {
+  return updateLessonProgress(userId, lessonId, { materialsRead: true });
+}

@@ -17,6 +17,7 @@ import { AcademyCourseArtScreen } from './screens/academy-course-art';
 import { AcademyCoursePromptingScreen } from './screens/academy-course-prompting';
 import { AcademyCourseAutomationScreen } from './screens/academy-course-automation';
 import { AcademyLessonVideoScreen } from './screens/academy-lesson-video';
+import { AcademyLessonVideoFullscreenScreen } from './screens/academy-lesson-video-fullscreen';
 import { AcademyLessonMaterialsScreen } from './screens/academy-lesson-materials';
 import { ArticleScreen } from './screens/article';
 import { PrivacyPolicyScreen } from './screens/privacy-policy';
@@ -218,6 +219,10 @@ export const router = createBrowserRouter([
   {
     path: '/academy-lesson-video',
     element: <AcademyLessonVideoScreen />,
+  },
+  {
+    path: '/academy-lesson-video-fullscreen',
+    element: <AcademyLessonVideoFullscreenScreen />,
   },
   {
     path: '/academy-lesson-materials',

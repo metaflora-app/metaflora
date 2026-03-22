@@ -153,6 +153,9 @@ export interface AcademyVideo {
   title: string;
   video_url: string | null;
   video_id: string | null; // Kinescope video ID
+  poster_url?: string | null;
+  duration_seconds?: number | null;
+  storage_path?: string | null;
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -163,6 +166,9 @@ export interface AcademyVideoInput {
   title: string;
   video_url?: string;
   video_id?: string; // Kinescope video ID
+  poster_url?: string;
+  duration_seconds?: number;
+  storage_path?: string;
   is_active?: boolean;
 }
 
