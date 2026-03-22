@@ -113,25 +113,139 @@ input::placeholder {
   opacity: 1;
 }
 
-.about-academy-videojs,
-.about-academy-videojs .media-minimal-skin,
-.about-academy-videojs video {
+.about-academy-vidstack,
+.about-academy-vidstack media-player,
+.about-academy-vidstack video {
   width: 100%;
   height: 100%;
   border-radius: 40px;
 }
 
-.about-academy-videojs .media-minimal-skin {
-  --media-border-radius: 40px;
-  color: #ffffff;
+.about-academy-vidstack {
+  position: relative;
 }
 
-.about-academy-videojs .media-minimal-skin video {
+.about-academy-vidstack media-player {
+  display: block;
+  background: #000;
+}
+
+.about-academy-vidstack video {
   object-fit: cover;
+  background: #000;
 }
 
-.about-academy-videojs .media-minimal-skin .media-controls {
-  padding: 0 18px 22px;
+.academy-vidstack-poster {
+  width: 100%;
+  height: 100%;
+}
+
+.academy-vidstack-controls {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 20px 20px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.72) 100%);
+  backdrop-filter: blur(22px);
+}
+
+.academy-vidstack-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.academy-vidstack-icon-button {
+  width: 88px;
+  height: 88px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.academy-vidstack-primary-button {
+  width: 108px;
+  height: 108px;
+}
+
+.academy-vidstack-icon-button svg {
+  width: 42px;
+  height: 42px;
+}
+
+.academy-vidstack-primary-button svg {
+  width: 54px;
+  height: 54px;
+}
+
+.academy-vidstack-time-row {
+  display: none;
+}
+
+.academy-vidstack-slider {
+  width: 100%;
+  height: 28px;
+  cursor: pointer;
+  --track-fill: 0%;
+}
+
+.academy-vidstack-slider::part(track) {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.academy-vidstack-slider::part(track-fill) {
+  background: #ffffff;
+  border-radius: 999px;
+}
+
+.academy-vidstack-slider::part(thumb) {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.academy-vidstack-inline-times {
+  position: absolute;
+  right: 28px;
+  bottom: 112px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.92);
+  font-family: "Gotham Pro", sans-serif;
+  font-size: 22px;
+}
+
+.academy-vidstack-inline-time-muted {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.academy-vidstack-inline-separator {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.academy-vidstack-gesture {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
 }
 
 /* Blur wave animation - DISABLED for GPU performance */
