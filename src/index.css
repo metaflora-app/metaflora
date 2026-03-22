@@ -50,6 +50,7 @@ img {
 body.telegram-webapp-mode,
 body.browser-preview-mode {
   --app-top-offset: 120px;
+  padding-top: 120px;
 }
 
 body {
