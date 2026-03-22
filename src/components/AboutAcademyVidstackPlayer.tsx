@@ -150,6 +150,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
   return (
     <div
+      className="about-academy-vidstack"
       style={{
         position: 'absolute',
         left: '142px',
@@ -171,6 +172,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         playsInline
         controls={false}
         playbackRate={playbackRate}
+        className="about-academy-vidstack"
         style={{
           position: 'relative',
           width: '100%',
@@ -183,7 +185,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             width: '100%',
             height: '100%',
             background: '#000',
-            objectFit: 'contain',
           }}
         />
 
