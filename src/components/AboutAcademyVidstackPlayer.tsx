@@ -19,14 +19,23 @@ import speedIcon from '../assets/about-academy-player/speed-icon.svg';
 import timelineThumb from '../assets/about-academy-player/timeline-thumb.svg';
 import timelineTrack from '../assets/about-academy-player/timeline-track.svg';
 import volumeIcon from '../assets/about-academy-player/volume-icon.svg';
-import expandPlashka from '../assets/tour-video/плашка развернуть видео.png';
 
 const CONTROL_SIZE = 100;
 const ICON_SIZE = 90;
-const CONTROL_TOP = 667.08;
 const BOTTOM_CONTROL_TOP = 1204.08;
 const CONTROL_BACKGROUND = 'rgba(4, 22, 39, 0.1)';
 const PLAYBACK_RATES = [1, 1.25, 1.5, 2];
+const SEEK_SECONDS = 15;
+const DOUBLE_TAP_DELAY_MS = 280;
+const OVERLAY_HIDE_DELAY_MS = 420;
+const TIMELINE_LEFT = 142;
+const TIMELINE_TOP = 1343;
+const TIMELINE_WIDTH = 600;
+const TIME_LEFT = 56;
+const DURATION_LEFT = 745;
+const TIME_TOP = 1336;
+
+type FlashOverlayState = 'seek-backward' | 'seek-forward' | 'play' | 'pause' | null;
 
 interface AboutAcademyVidstackPlayerProps {
   style?: React.CSSProperties;
@@ -64,24 +73,15 @@ const iconStyle: React.CSSProperties = {
   userSelect: 'none',
 };
 
-const visuallyHiddenStyle: React.CSSProperties = {
-  position: 'absolute',
-  width: '1px',
-  height: '1px',
-  padding: 0,
-  margin: '-1px',
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-  whiteSpace: 'nowrap',
-  border: 0,
-};
-
 export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProps> = ({
   style = {},
 }) => {
   const playerRef = React.useRef<MediaPlayerElement>(null);
   const timeSliderRef = React.useRef<MediaSliderElement>(null);
+  const overlayTimeoutRef = React.useRef<number | null>(null);
+  const lastTapRef = React.useRef({ left: 0, right: 0 });
   const [playbackRate, setPlaybackRate] = React.useState(1);
+  const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
   const fillPercent = React.useMemo(() => {
@@ -89,6 +89,14 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     if (!media.duration) return 0;
     return (media.currentTime / media.duration) * 100;
   }, [media.currentTime, media.duration, slider.fillPercent]);
+
+  React.useEffect(() => {
+    return () => {
+      if (overlayTimeoutRef.current !== null) {
+        window.clearTimeout(overlayTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
@@ -102,17 +110,31 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     }) | null;
   }, []);
 
+  const showOverlay = React.useCallback((state: Exclude<FlashOverlayState, null>) => {
+    if (overlayTimeoutRef.current !== null) {
+      window.clearTimeout(overlayTimeoutRef.current);
+    }
+
+    setFlashOverlay(state);
+    overlayTimeoutRef.current = window.setTimeout(() => {
+      setFlashOverlay(null);
+      overlayTimeoutRef.current = null;
+    }, OVERLAY_HIDE_DELAY_MS);
+  }, []);
+
   const handleTogglePlay = React.useCallback(async () => {
     const player = getPlayer();
     if (!player) return;
 
     if (media.paused) {
       await player.play();
+      showOverlay('play');
       return;
     }
 
     await player.pause();
-  }, [getPlayer, media.paused]);
+    showOverlay('pause');
+  }, [getPlayer, media.paused, showOverlay]);
 
   const handleSeek = React.useCallback((delta: number) => {
     const player = getPlayer();
@@ -122,6 +144,21 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     const nextTime = Math.max(0, Math.min(player.currentTime + delta, duration));
     player.currentTime = nextTime;
   }, [getPlayer, media.duration]);
+
+  const handleEdgeTap = React.useCallback((side: 'left' | 'right') => {
+    const now = Date.now();
+    const previousTapAt = lastTapRef.current[side];
+
+    if (now - previousTapAt <= DOUBLE_TAP_DELAY_MS) {
+      const delta = side === 'left' ? -SEEK_SECONDS : SEEK_SECONDS;
+      handleSeek(delta);
+      showOverlay(side === 'left' ? 'seek-backward' : 'seek-forward');
+      lastTapRef.current[side] = 0;
+      return;
+    }
+
+    lastTapRef.current[side] = now;
+  }, [handleSeek, showOverlay]);
 
   const handleToggleMute = React.useCallback(() => {
     const player = getPlayer();
@@ -188,39 +225,105 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           }}
         />
 
-        <button
-          type="button"
-          onClick={() => handleSeek(-10)}
-          aria-label="Перемотать назад на 10 секунд"
-          style={getControlStyle(145.92, CONTROL_TOP)}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 3,
+          }}
         >
-          <img src={seekBackwardIcon} alt="" style={iconStyle} />
-        </button>
+          <button
+            type="button"
+            aria-label={`Перемотать назад на ${SEEK_SECONDS} секунд двойным нажатием`}
+            onClick={() => handleEdgeTap('left')}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '33.33%',
+              height: 'calc(100% - 170px)',
+              border: 0,
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
+              touchAction: 'manipulation',
+            }}
+          />
 
-        <button
-          type="button"
-          onClick={handleTogglePlay}
-          aria-label={media.paused ? 'Воспроизвести видео' : 'Поставить видео на паузу'}
-          style={getControlStyle(396.92, CONTROL_TOP)}
-        >
-          <img src={media.paused ? playIcon : pauseIcon} alt="" style={iconStyle} />
-        </button>
+          <button
+            type="button"
+            aria-label={media.paused ? 'Воспроизвести видео' : 'Поставить видео на паузу'}
+            onClick={handleTogglePlay}
+            style={{
+              position: 'absolute',
+              left: '33.33%',
+              top: 0,
+              width: '33.34%',
+              height: 'calc(100% - 170px)',
+              border: 0,
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
+              touchAction: 'manipulation',
+            }}
+          />
 
-        <button
-          type="button"
-          onClick={() => handleSeek(10)}
-          aria-label="Перемотать вперед на 10 секунд"
-          style={getControlStyle(647.92, CONTROL_TOP)}
-        >
-          <img src={seekForwardIcon} alt="" style={iconStyle} />
-        </button>
+          <button
+            type="button"
+            aria-label={`Перемотать вперед на ${SEEK_SECONDS} секунд двойным нажатием`}
+            onClick={() => handleEdgeTap('right')}
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              width: '33.33%',
+              height: 'calc(100% - 170px)',
+              border: 0,
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
+              touchAction: 'manipulation',
+            }}
+          />
+        </div>
+
+        {flashOverlay ? (
+          <div
+            style={{
+              ...baseControlStyle,
+              zIndex: 4,
+              left:
+                flashOverlay === 'seek-backward'
+                  ? '145.92px'
+                  : flashOverlay === 'seek-forward'
+                    ? '647.92px'
+                    : '396.92px',
+              top: '667.08px',
+              pointerEvents: 'none',
+            }}
+          >
+            <img
+              src={
+                flashOverlay === 'seek-backward'
+                  ? seekBackwardIcon
+                  : flashOverlay === 'seek-forward'
+                    ? seekForwardIcon
+                    : flashOverlay === 'pause'
+                      ? pauseIcon
+                      : playIcon
+              }
+              alt=""
+              style={iconStyle}
+            />
+          </div>
+        ) : null}
 
         <button
           type="button"
           aria-label={`Скорость воспроизведения ${media.playbackRate}x`}
           title={`Скорость ${media.playbackRate}x`}
           onClick={handleCyclePlaybackRate}
-          style={getControlStyle(296.92, BOTTOM_CONTROL_TOP)}
+          style={getControlStyle(306.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={speedIcon} alt="" style={iconStyle} />
         </button>
@@ -229,7 +332,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           type="button"
           onClick={handleEnterFullscreen}
           aria-label="Развернуть видео на полный экран"
-          style={getControlStyle(396.92, BOTTOM_CONTROL_TOP)}
+          style={getControlStyle(406.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={fullscreenIcon} alt="" style={iconStyle} />
         </button>
@@ -238,7 +341,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           type="button"
           onClick={handleToggleMute}
           aria-label={media.muted || media.volume === 0 ? 'Включить звук' : 'Выключить звук'}
-          style={getControlStyle(496.92, BOTTOM_CONTROL_TOP)}
+          style={getControlStyle(506.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={media.muted || media.volume === 0 ? muteIcon : volumeIcon} alt="" style={iconStyle} />
         </button>
@@ -248,8 +351,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           showHours={false}
           style={{
             position: 'absolute',
-            left: '46px',
-            top: '1333px',
+            left: `${TIME_LEFT}px`,
+            top: `${TIME_TOP}px`,
             width: '87px',
             height: '21px',
             fontFamily: 'Cygre',
@@ -264,9 +367,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         <div
           style={{
             position: 'absolute',
-            left: '132px',
-            top: '1336px',
-            width: '600px',
+            left: `${TIMELINE_LEFT}px`,
+            top: `${TIMELINE_TOP}px`,
+            width: `${TIMELINE_WIDTH}px`,
             height: '21px',
             pointerEvents: 'none',
           }}
@@ -275,8 +378,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             style={{
               position: 'absolute',
               left: 0,
-              top: '5px',
-              width: '600px',
+              top: '10px',
+              width: `${TIMELINE_WIDTH}px`,
               height: '10px',
               backgroundImage: `url(${timelineTrack})`,
               backgroundRepeat: 'no-repeat',
@@ -288,7 +391,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             style={{
               position: 'absolute',
               left: 0,
-              top: '5px',
+              top: '10px',
               height: '10px',
               width: `${fillPercent}%`,
               borderRadius: '999px',
@@ -317,9 +420,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           aria-label="Таймлайн видео"
           style={{
             position: 'absolute',
-            left: '132px',
-            top: '1336px',
-            width: '600px',
+            left: `${TIMELINE_LEFT}px`,
+            top: `${TIMELINE_TOP}px`,
+            width: `${TIMELINE_WIDTH}px`,
             height: '21px',
             opacity: 0,
             cursor: 'pointer',
@@ -331,8 +434,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           showHours={false}
           style={{
             position: 'absolute',
-            left: '735px',
-            top: '1333px',
+            left: `${DURATION_LEFT}px`,
+            top: `${TIME_TOP}px`,
             width: '87px',
             height: '21px',
             fontFamily: 'Cygre',
@@ -344,35 +447,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           }}
         />
 
-        <button
-          type="button"
-          onClick={handleEnterFullscreen}
-          style={{
-            position: 'absolute',
-            left: '31.43%',
-            right: '31.43%',
-            top: '91.15%',
-            bottom: '3.43%',
-            width: '37.14%',
-            height: '5.42%',
-            border: 'none',
-            background: 'transparent',
-            padding: 0,
-            cursor: 'pointer',
-          }}
-        >
-          <span style={visuallyHiddenStyle}>развернуть видео на полный экран</span>
-          <img
-            src={expandPlashka}
-            alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              pointerEvents: 'none',
-            }}
-          />
-        </button>
       </MediaPlayer>
     </div>
   );
