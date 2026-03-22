@@ -16,7 +16,8 @@ import recentButtonInactive from '../../assets/prompt-redesign/кнопка не
 import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
 import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
-import promptScrollHelpPng from '../../assets/prompt-redesign/prompt-scroll-help-new.png';
+import promptScrollWindowDesktopPng from '../../assets/prompt-redesign/prompt-scroll-window-desktop.png';
+import promptCardBlackBgPng from '../../assets/prompt-redesign/prompt-card-black-bg.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
@@ -247,6 +248,10 @@ export const PromptFirstScreen: React.FC = () => {
           );
         })}
 
+        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none', zIndex: 1 }}>
+          <img src={promptScrollWindowDesktopPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
+        </div>
+
         <div style={{ position: 'absolute', left: '177px', top: '948px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
@@ -267,7 +272,7 @@ export const PromptFirstScreen: React.FC = () => {
                   }}
                 >
                   <img
-                    src={promptScrollHelpPng}
+                    src={promptCardBlackBgPng}
                     alt=""
                     style={{ position: 'absolute', inset: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
                   />
