@@ -19,8 +19,10 @@ import timelineThumb from '../assets/about-academy-player/timeline-thumb.svg';
 import timelineTrack from '../assets/about-academy-player/timeline-track.svg';
 import volumeIcon from '../assets/about-academy-player/volume-icon.svg';
 
-const CONTROL_SIZE = 150;
-const ICON_SIZE = 140;
+const CONTROL_SIZE = 100;
+const ICON_SIZE = 90;
+const OVERLAY_CONTROL_SIZE = 150;
+const OVERLAY_ICON_SIZE = 140;
 const OVERLAY_CONTROL_TOP = 642.08;
 const OVERLAY_BACKWARD_LEFT = 120.92;
 const OVERLAY_PLAY_LEFT = 371.92;
@@ -39,7 +41,7 @@ const TIMELINE_TOP = 1343;
 const TIMELINE_WIDTH = 600;
 const TIME_LEFT = 56;
 const DURATION_LEFT = 745;
-const TIME_TOP = 1346;
+const TIME_TOP = 1342;
 
 type FlashOverlayState = 'seek-backward' | 'seek-forward' | null;
 
@@ -65,6 +67,13 @@ const baseControlStyle: React.CSSProperties = {
   outline: 'none',
 };
 
+const overlayControlStyle: React.CSSProperties = {
+  ...baseControlStyle,
+  width: `${OVERLAY_CONTROL_SIZE}px`,
+  height: `${OVERLAY_CONTROL_SIZE}px`,
+  padding: '5px',
+};
+
 const getControlStyle = (left: number, top: number): React.CSSProperties => ({
   ...baseControlStyle,
   left: `${left}px`,
@@ -77,6 +86,12 @@ const iconStyle: React.CSSProperties = {
   display: 'block',
   pointerEvents: 'none',
   userSelect: 'none',
+};
+
+const overlayIconStyle: React.CSSProperties = {
+  ...iconStyle,
+  width: `${OVERLAY_ICON_SIZE}px`,
+  height: `${OVERLAY_ICON_SIZE}px`,
 };
 
 export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProps> = ({
@@ -298,7 +313,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         {flashOverlay || media.paused ? (
           <div
             style={{
-              ...baseControlStyle,
+              ...overlayControlStyle,
               zIndex: 4,
               left:
                 flashOverlay === 'seek-backward'
@@ -319,7 +334,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
                     : playIcon
               }
               alt=""
-              style={iconStyle}
+              style={overlayIconStyle}
             />
           </div>
         ) : null}
