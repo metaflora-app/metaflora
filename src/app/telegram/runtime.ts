@@ -3,7 +3,7 @@ export type TelegramRuntimeMode =
   | 'telegram-webapp'
   | 'browser-preview';
 
-const TELEGRAM_MINIAPP_PLATFORMS = new Set(['android', 'android_x', 'ios']);
+const TELEGRAM_WEB_PLATFORMS = new Set(['web', 'weba', 'webk']);
 
 function getTelegramWebApp() {
   if (typeof window === 'undefined') {
@@ -22,15 +22,11 @@ export function getTelegramRuntimeMode(): TelegramRuntimeMode {
 
   const platform = String(webApp.platform ?? '').toLowerCase();
 
-  if (!platform) {
-    return 'browser-preview';
+  if (TELEGRAM_WEB_PLATFORMS.has(platform) || platform.startsWith('web')) {
+    return 'telegram-webapp';
   }
 
-  if (TELEGRAM_MINIAPP_PLATFORMS.has(platform)) {
-    return 'telegram-miniapp';
-  }
-
-  return 'telegram-webapp';
+  return 'telegram-miniapp';
 }
 
 export function applyTelegramRuntimeClasses(): TelegramRuntimeMode {
