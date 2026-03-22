@@ -2,7 +2,8 @@ import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyVideos, getDemoVideos } from '../../utils/contentApi';
 import type { AcademyVideo } from '../../types/content';
-import { TelegramAcademyPlayer } from '../../components/TelegramAcademyPlayer';
+import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
+import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { markLessonVideoWatched, markVideoViewed } from '../../utils/userProgress';
 
@@ -109,21 +110,40 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
         }}
       >
         {video?.video_url ? (
-          <TelegramAcademyPlayer
-            src={video.video_url}
-            posterSrc={video.poster_url || poster || undefined}
+          <AboutAcademyVidstackPlayer
+            src={video.video_url as string}
             title={video.title || title}
             initialTime={restorePosition}
             autoPlay
-            borderRadius={24}
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}
             onTimeChange={persistPosition}
             style={{
-              width: '100%',
-              height: '100%',
+              position: 'relative',
+              left: 0,
+              top: 0,
+              width: '894px',
+              height: '1457px',
               maxWidth: '100%',
               maxHeight: '100%',
+              borderRadius: '24px',
+            }}
+          />
+        ) : video?.video_id ? (
+          <AboutVideoPlayer
+            videoId={video.video_id}
+            autoPlay
+            hidePlayButton
+            onPlaybackStart={handlePlaybackStart}
+            style={{
+              position: 'relative',
+              left: 0,
+              top: 0,
+              width: '894px',
+              height: '1457px',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              borderRadius: '24px',
             }}
           />
         ) : (

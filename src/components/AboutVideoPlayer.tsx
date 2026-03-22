@@ -9,6 +9,8 @@ interface AboutVideoPlayerProps {
   onPlaybackStart?: () => void;
 }
 
+// Legacy Kinescope fallback used only for old lessons that still have `video_id`
+// but do not yet have direct `video_url`/`poster_url` data.
 export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
   videoId = 'pD2N536keyLq269TK32qnE', // Видео из AboutLabaScreen по умолчанию
   style = {},
