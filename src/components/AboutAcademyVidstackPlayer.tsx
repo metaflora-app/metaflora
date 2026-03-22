@@ -46,7 +46,15 @@ const TIME_TOP = 1342;
 type FlashOverlayState = 'seek-backward' | 'seek-forward' | null;
 
 interface AboutAcademyVidstackPlayerProps {
+  src?: string;
+  title?: string;
   style?: React.CSSProperties;
+  autoPlay?: boolean;
+  initialTime?: number;
+  onExpand?: () => void;
+  onPlaybackStart?: () => void;
+  onWatchThreshold?: () => void;
+  onTimeChange?: (seconds: number) => void;
 }
 
 const baseControlStyle: React.CSSProperties = {
@@ -95,12 +103,23 @@ const overlayIconStyle: React.CSSProperties = {
 };
 
 export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProps> = ({
+  src = '/about-academy-test-video.mp4',
+  title = 'Как устроена МЕТАФЛОРА академия',
   style = {},
+  autoPlay = false,
+  initialTime = 0,
+  onExpand,
+  onPlaybackStart,
+  onWatchThreshold,
+  onTimeChange,
 }) => {
   const playerRef = React.useRef<MediaPlayerElement>(null);
   const timeSliderRef = React.useRef<MediaSliderElement>(null);
   const overlayTimeoutRef = React.useRef<number | null>(null);
   const lastTapRef = React.useRef({ left: 0, right: 0 });
+  const initialSeekDoneRef = React.useRef(false);
+  const playbackStartedRef = React.useRef(false);
+  const watchThresholdReachedRef = React.useRef(false);
   const [playbackRate, setPlaybackRate] = React.useState(1);
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
   const media = useMediaStore(playerRef);
@@ -119,6 +138,14 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     };
   }, []);
 
+  React.useEffect(() => {
+    initialSeekDoneRef.current = false;
+    playbackStartedRef.current = false;
+    watchThresholdReachedRef.current = false;
+    setFlashOverlay(null);
+    setPlaybackRate(1);
+  }, [initialTime, src]);
+
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
       play: () => Promise<void>;
@@ -130,6 +157,46 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       enterFullscreen: (target?: string) => Promise<void>;
     }) | null;
   }, []);
+
+  React.useEffect(() => {
+    const player = getPlayer();
+    if (!player || !autoPlay) return;
+    if (!media.paused) return;
+
+    void player.play().catch((error) => {
+      console.error('Autoplay failed:', error);
+    });
+  }, [autoPlay, getPlayer, media.paused]);
+
+  React.useEffect(() => {
+    const player = getPlayer();
+    if (!player) return;
+    if (!initialTime || initialSeekDoneRef.current) return;
+    if (!media.duration) return;
+
+    player.currentTime = initialTime;
+    initialSeekDoneRef.current = true;
+  }, [getPlayer, initialTime, media.duration]);
+
+  React.useEffect(() => {
+    onTimeChange?.(media.currentTime);
+
+    if (
+      onWatchThreshold &&
+      !watchThresholdReachedRef.current &&
+      media.duration > 0 &&
+      media.currentTime / media.duration >= 0.8
+    ) {
+      watchThresholdReachedRef.current = true;
+      onWatchThreshold();
+    }
+  }, [media.currentTime, media.duration, onTimeChange, onWatchThreshold]);
+
+  React.useEffect(() => {
+    if (!onPlaybackStart || playbackStartedRef.current || media.paused) return;
+    playbackStartedRef.current = true;
+    onPlaybackStart();
+  }, [media.paused, onPlaybackStart]);
 
   const showOverlay = React.useCallback((state: Exclude<FlashOverlayState, null>) => {
     if (overlayTimeoutRef.current !== null) {
@@ -186,10 +253,15 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer]);
 
   const handleEnterFullscreen = React.useCallback(async () => {
+    if (onExpand) {
+      onExpand();
+      return;
+    }
+
     const player = getPlayer();
     if (!player) return;
     await player.enterFullscreen('prefer-media');
-  }, [getPlayer]);
+  }, [getPlayer, onExpand]);
 
   const handleCyclePlaybackRate = React.useCallback(() => {
     setPlaybackRate((currentRate) => {
@@ -221,8 +293,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     >
       <MediaPlayer
         ref={playerRef}
-        src="/about-academy-test-video.mp4"
-        title="Как устроена МЕТАФЛОРА академия"
+        src={src}
+        title={title}
         viewType="video"
         streamType="on-demand"
         playsInline

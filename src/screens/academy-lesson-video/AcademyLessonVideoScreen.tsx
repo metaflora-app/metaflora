@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
-import { TelegramAcademyPlayer } from '../../components/TelegramAcademyPlayer';
+import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { markLessonVideoWatched, markVideoViewed } from '../../utils/userProgress';
@@ -134,21 +134,19 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-          {canUseCustomPlayer && video ? (
-            <TelegramAcademyPlayer
-              src={video.video_url as string}
-              posterSrc={video.poster_url || lesson?.cover_image_url || undefined}
-              title={lesson?.video_title || lesson?.title || video.title}
-              initialTime={initialTime}
-              autoPlay={playerActivated}
-              onExpand={handleExpand}
-              onPlaybackStart={handlePlaybackStart}
-              onWatchThreshold={handleWatchThreshold}
-              onTimeChange={persistVideoPosition}
-              style={{ width: '894px', height: '1457px', borderRadius: '40px' }}
-            />
-          ) : video?.video_id ? (
+        {canUseCustomPlayer && video ? (
+          <AboutAcademyVidstackPlayer
+            src={video.video_url as string}
+            title={lesson?.video_title || lesson?.title || video.title}
+            initialTime={initialTime}
+            onExpand={handleExpand}
+            onPlaybackStart={handlePlaybackStart}
+            onWatchThreshold={handleWatchThreshold}
+            onTimeChange={persistVideoPosition}
+          />
+        ) : (
+          <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
+            {video?.video_id ? (
             <AboutVideoPlayer
               videoId={video.video_id}
               autoPlay={playerActivated}
@@ -156,81 +154,82 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               onPlaybackStart={handlePlaybackStart}
               style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }}
             />
-          ) : (
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                borderRadius: '40px',
-                overflow: 'hidden',
-                background: '#000',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
+            ) : (
               <div
                 style={{
-                  color: 'white',
-                  fontSize: '32px',
-                  fontFamily: 'Cygre',
-                  textAlign: 'center',
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '40px',
+                  overflow: 'hidden',
+                  background: '#000',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                Видео не найдено
+                <div
+                  style={{
+                    color: 'white',
+                    fontSize: '32px',
+                    fontFamily: 'Cygre',
+                    textAlign: 'center',
+                  }}
+                >
+                  Видео не найдено
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {!playerActivated && canRenderAnyPlayer ? (
+            {!playerActivated && canRenderAnyPlayer ? (
+              <button
+                type="button"
+                onClick={handleActivatePlayer}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backdropFilter: 'blur(50px)',
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '4px solid rgba(255,255,255,0.3)',
+                  borderRadius: '30px',
+                  cursor: 'pointer',
+                  zIndex: 3,
+                }}
+              />
+            ) : null}
+
             <button
               type="button"
-              onClick={handleActivatePlayer}
+              onClick={handleExpand}
               style={{
                 position: 'absolute',
-                inset: 0,
-                backdropFilter: 'blur(50px)',
-                background: 'rgba(255,255,255,0.1)',
-                border: '4px solid rgba(255,255,255,0.3)',
-                borderRadius: '30px',
+                left: '31.43%',
+                right: '31.43%',
+                top: '91.15%',
+                bottom: '3.43%',
+                width: '37.14%',
+                height: '5.42%',
+                border: 'none',
+                background: 'transparent',
+                padding: 0,
                 cursor: 'pointer',
-                zIndex: 3,
+                pointerEvents: canRenderAnyPlayer ? 'auto' : 'none',
+                opacity: canRenderAnyPlayer ? 1 : 0.5,
+                zIndex: 5,
               }}
-            />
-          ) : null}
-
-          <button
-            type="button"
-            onClick={handleExpand}
-            style={{
-              position: 'absolute',
-              left: '31.43%',
-              right: '31.43%',
-              top: '91.15%',
-              bottom: '3.43%',
-              width: '37.14%',
-              height: '5.42%',
-              border: 'none',
-              background: 'transparent',
-              padding: 0,
-              cursor: 'pointer',
-              pointerEvents: canRenderAnyPlayer ? 'auto' : 'none',
-              opacity: canRenderAnyPlayer ? 1 : 0.5,
-              zIndex: 5,
-            }}
-          >
-            <img
-              src={expandPlashka}
-              alt="развернуть видео"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                pointerEvents: 'none',
-              }}
-            />
-          </button>
-        </div>
+            >
+              <img
+                src={expandPlashka}
+                alt="развернуть видео"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  pointerEvents: 'none',
+                }}
+              />
+            </button>
+          </div>
+        )}
 
         <button
           onClick={() => navigate(`/academy-lesson-materials?lesson=${lessonId}&type=${lessonType}`)}

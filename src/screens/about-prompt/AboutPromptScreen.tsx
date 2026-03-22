@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
-import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
+import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
-import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
 
 export const AboutPromptScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -22,35 +21,7 @@ export const AboutPromptScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-          <AboutVideoPlayer style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }} />
-
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            pointerEvents: 'none',
-          }} />
-
-          <img
-            src={expandPlashka}
-            alt="развернуть видео"
-            style={{
-              position: 'absolute',
-              left: '31.43%',
-              right: '31.43%',
-              top: '91.15%',
-              bottom: '3.43%',
-              width: '37.14%',
-              height: '5.42%',
-              objectFit: 'contain',
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
+        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* цех" />
 
         <img
           src={serviceBtn}
