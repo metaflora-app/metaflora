@@ -274,7 +274,7 @@ export const PromptFirstScreen: React.FC = () => {
                   <img
                     src={promptCardBlackBgPng}
                     alt=""
-                    style={{ position: 'absolute', inset: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
+                    style={{ position: 'absolute', left: '-4px', top: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
                   />
 
                   <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
