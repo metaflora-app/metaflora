@@ -128,6 +128,7 @@ export interface TopReelsResponse {
 export interface AnalyzeReelResponse {
   success: boolean;
   analysis: Analysis;
+  scenario?: Scenario | null;
   error?: string;
 }
 

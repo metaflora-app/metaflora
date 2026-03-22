@@ -5,7 +5,7 @@ import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBa
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, Reel, Scenario } from '../../types/laba';
-import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, showMessage, trackAccount } from '../../utils/labaApi';
+import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, getViralityColor, showMessage, trackAccount } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
@@ -91,7 +91,8 @@ export const LabaAnalysisScreen: React.FC = () => {
     setAnalyzing(true);
     try {
       const result = await analyzeReel(reel.id, userId);
-      setAnalysis(result);
+      setAnalysis(result.analysis);
+      setScenario(result.scenario || null);
       window.Telegram?.WebApp?.showPopup?.({ message: 'анализ успешно завершен' });
     } catch (error: any) {
       console.error('Ошибка анализа:', error);
@@ -212,7 +213,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     disabled={generatingScenario}
                     ariaLabel="создать сценарий"
                     onClick={() => void handleGenerateScenario()}
-                    style={{ margin: '18px auto 0' }}
+                    style={{ margin: '12px auto 0' }}
                   />
                 ) : (
                   <AnalysisBlock title="новый сценарий" body={scenario.text} bodyClickable onBodyClick={() => void handleCopyScenario()} />
@@ -527,8 +528,8 @@ const LockedActionFrame: React.FC<{
     style={{
       position: 'relative',
       width: '744px',
-      height: '348px',
-      overflow: 'visible',
+      height: '328px',
+      overflow: 'hidden',
       ...style,
     }}
   >
@@ -537,11 +538,10 @@ const LockedActionFrame: React.FC<{
       alt=""
       style={{
         position: 'absolute',
-        left: 0,
-        top: '10px',
+        inset: 0,
         width: '100%',
         height: '328px',
-        objectFit: 'contain',
+        objectFit: 'cover',
         pointerEvents: 'none',
       }}
     />
@@ -554,7 +554,7 @@ const LockedActionFrame: React.FC<{
       style={{
         position: 'absolute',
         left: '107px',
-        top: '69px',
+        top: '59px',
         width: '530px',
         height: '139px',
         padding: 0,
@@ -573,7 +573,7 @@ const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string; bo
   <div>
     <p style={{ margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>{title}</p>
     {accent ? (
-      <p style={{ margin: '12px 0 0', fontFamily: textFont, fontWeight: 700, fontSize: '35px', lineHeight: '1', color: '#d5fc44' }}>
+      <p style={{ margin: '12px 0 0', fontFamily: textFont, fontWeight: 700, fontSize: '35px', lineHeight: '1', color: getViralityColor(Number.parseInt(accent, 10) || 0) }}>
         {accent}
       </p>
     ) : null}

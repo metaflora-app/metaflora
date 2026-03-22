@@ -98,7 +98,7 @@ export async function getTopReels(category: TopReelCategory = 'нейросет�
  * ИИ-анализ reel (транскрибация, хук, виральность)
  * Стоимость: 100 метакоинов
  */
-export async function analyzeReel(reelId: string, userId: number): Promise<Analysis> {
+export async function analyzeReel(reelId: string, userId: number): Promise<{ analysis: Analysis; scenario?: Scenario | null }> {
   const response = await fetch(`${API_URL}/api/laba/analyze-reel`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -111,7 +111,10 @@ export async function analyzeReel(reelId: string, userId: number): Promise<Analy
     throw new Error(data.error || 'ошибка анализа');
   }
 
-  return data.analysis;
+  return {
+    analysis: data.analysis,
+    scenario: data.scenario ?? null,
+  };
 }
 
 /**
@@ -401,11 +404,9 @@ export function isValidInstagramUsername(username: string): boolean {
  * Получить цвет для виральности (для UI)
  */
 export function getViralityColor(score: number): string {
-  if (score >= 9) return '#00ff00'; // Зеленый - вирусный
-  if (score >= 7) return '#d5fc44'; // Лаймовый - хороший
-  if (score >= 5) return '#ffff00'; // Желтый - средний
-  if (score >= 3) return '#ff9900'; // Оранжевый - слабый
-  return '#ff0000'; // Красный - плохой
+  if (score >= 7) return '#d5fc44'; // Зеленый/лаймовый
+  if (score >= 4) return '#ffff00'; // Желтый
+  return '#ff0000'; // Красный
 }
 
 /**
