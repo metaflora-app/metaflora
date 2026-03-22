@@ -16,7 +16,6 @@ import recentButtonInactive from '../../assets/prompt-redesign/кнопка не
 import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
 import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
-import promptCardBgFigmaPng from '../../assets/prompt-redesign/prompt-card-bg-figma.png';
 import promptScrollHelpPng from '../../assets/prompt-redesign/prompt-scroll-help-new.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
@@ -113,7 +112,7 @@ export const PromptFirstScreen: React.FC = () => {
         description: 'подготавливаем реальные промпты из бэкенда',
         prompt_text: '',
         media_type: 'image' as const,
-        cover_image_url: promptCardBgFigmaPng,
+        cover_image_url: null,
         cover_video_url: null,
         poster_image_url: null,
         filter_tags: ['новое'],
@@ -248,10 +247,6 @@ export const PromptFirstScreen: React.FC = () => {
           );
         })}
 
-        <div style={{ position: 'absolute', left: '108px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none', zIndex: 1 }}>
-          <img src={promptScrollHelpPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
-        </div>
-
         <div style={{ position: 'absolute', left: '177px', top: '948px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
@@ -271,13 +266,11 @@ export const PromptFirstScreen: React.FC = () => {
                     isolation: 'isolate',
                   }}
                 >
-                  {prompt.id.startsWith('loading-') ? (
-                    <img
-                      src={promptCardBgFigmaPng}
-                      alt=""
-                      style={{ position: 'absolute', inset: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
-                    />
-                  ) : null}
+                  <img
+                    src={promptScrollHelpPng}
+                    alt=""
+                    style={{ position: 'absolute', inset: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
+                  />
 
                   <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
                     {prompt.media_type === 'video' && prompt.cover_video_url ? (
@@ -293,7 +286,7 @@ export const PromptFirstScreen: React.FC = () => {
                       />
                     ) : (
                       <img
-                        src={prompt.cover_image_url || prompt.poster_image_url || promptCardBgFigmaPng}
+                        src={prompt.cover_image_url || prompt.poster_image_url || workshopGif}
                         alt={prompt.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
