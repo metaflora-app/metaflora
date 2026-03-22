@@ -248,7 +248,7 @@ export const PromptFirstScreen: React.FC = () => {
           );
         })}
 
-        <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none', zIndex: 1 }}>
+        <div style={{ position: 'absolute', left: '108px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none', zIndex: 1 }}>
           <img src={promptScrollWindowDesktopPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
         </div>
 
