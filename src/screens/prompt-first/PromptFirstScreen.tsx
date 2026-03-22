@@ -17,7 +17,7 @@ import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка и
 import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import promptCardBgFigmaPng from '../../assets/prompt-redesign/prompt-card-bg-figma.png';
-import promptScrollHelpPng from '../../assets/prompt-redesign/prompt-scroll-help.png';
+import promptScrollHelpPng from '../../assets/prompt-redesign/prompt-scroll-help-new.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
@@ -276,6 +276,27 @@ export const PromptFirstScreen: React.FC = () => {
                     alt=""
                     style={{ position: 'absolute', inset: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
                   />
+
+                  <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '62px', overflow: 'hidden', zIndex: 1 }}>
+                    {prompt.media_type === 'video' && prompt.cover_video_url ? (
+                      <video
+                        src={prompt.cover_video_url}
+                        poster={prompt.poster_image_url || prompt.cover_image_url || undefined}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="auto"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <img
+                        src={prompt.cover_image_url || prompt.poster_image_url || promptCardBgFigmaPng}
+                        alt={prompt.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    )}
+                  </div>
 
                   <FigmaLikeButton
                     active={isFavorite}
