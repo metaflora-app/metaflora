@@ -4,13 +4,25 @@ import playButton from '../assets/tour-video/play-icon.png';
 interface AboutVideoPlayerProps {
   videoId?: string;
   style?: React.CSSProperties;
+  autoPlay?: boolean;
+  hidePlayButton?: boolean;
+  onPlaybackStart?: () => void;
 }
 
 export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
   videoId = 'pD2N536keyLq269TK32qnE', // Видео из AboutLabaScreen по умолчанию
   style = {},
+  autoPlay = false,
+  hidePlayButton = false,
+  onPlaybackStart,
 }) => {
-  const [videoStarted, setVideoStarted] = useState(false);
+  const [videoStarted, setVideoStarted] = useState(autoPlay);
+
+  useEffect(() => {
+    if (autoPlay) {
+      setVideoStarted(true);
+    }
+  }, [autoPlay]);
 
   // Слушаем события от Kinescope для возврата кнопки
   useEffect(() => {
@@ -33,7 +45,14 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
 
   const handlePlayClick = () => {
     setVideoStarted(true);
+    onPlaybackStart?.();
   };
+
+  useEffect(() => {
+    if (videoStarted) {
+      onPlaybackStart?.();
+    }
+  }, [onPlaybackStart, videoStarted]);
 
   return (
     <div style={{
@@ -90,7 +109,7 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
       </div>
       
       {/* Кастомная кнопка Play */}
-      {!videoStarted && (
+      {!videoStarted && !hidePlayButton && (
         <img
           src={playButton}
           alt="плей"

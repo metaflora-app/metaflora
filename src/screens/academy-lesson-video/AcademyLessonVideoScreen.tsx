@@ -37,6 +37,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   });
   const [, setLoading] = useState(true);
   const [playerActivated, setPlayerActivated] = useState(false);
+  const canUseCustomPlayer = Boolean(video?.video_url);
+  const canRenderAnyPlayer = Boolean(video?.video_url || video?.video_id);
 
 
   useEffect(() => {
@@ -116,9 +118,9 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   }, [lesson?.cover_image_url, lesson?.title, lesson?.video_title, lessonId, lessonType, navigate, video?.poster_url]);
 
   const handleActivatePlayer = React.useCallback(() => {
-    if (!video?.video_url) return;
+    if (!canRenderAnyPlayer) return;
     setPlayerActivated(true);
-  }, [video?.video_url]);
+  }, [canRenderAnyPlayer]);
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -133,9 +135,9 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-          {video?.video_url ? (
+          {canUseCustomPlayer && video ? (
             <TelegramAcademyPlayer
-              src={video.video_url}
+              src={video.video_url as string}
               posterSrc={video.poster_url || lesson?.cover_image_url || undefined}
               title={lesson?.video_title || lesson?.title || video.title}
               initialTime={initialTime}
@@ -149,6 +151,9 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           ) : video?.video_id ? (
             <AboutVideoPlayer
               videoId={video.video_id}
+              autoPlay={playerActivated}
+              hidePlayButton={playerActivated}
+              onPlaybackStart={handlePlaybackStart}
               style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }}
             />
           ) : (
@@ -177,7 +182,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             </div>
           )}
 
-          {!playerActivated && video?.video_url ? (
+          {!playerActivated && canRenderAnyPlayer ? (
             <button
               type="button"
               onClick={handleActivatePlayer}
@@ -209,8 +214,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               background: 'transparent',
               padding: 0,
               cursor: 'pointer',
-              pointerEvents: video?.video_url ? 'auto' : 'none',
-              opacity: video?.video_url ? 1 : 0.5,
+              pointerEvents: canRenderAnyPlayer ? 'auto' : 'none',
+              opacity: canRenderAnyPlayer ? 1 : 0.5,
               zIndex: 5,
             }}
           >
