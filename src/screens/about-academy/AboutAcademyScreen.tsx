@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
-import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
 import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
@@ -9,6 +8,24 @@ import expandPlashka from '../../assets/tour-video/плашка разверну
 export const AboutAcademyScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+
+  const handleExpandVideo = React.useCallback(async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      if (video.paused) {
+        await video.play();
+      }
+
+      if (video.requestFullscreen) {
+        await video.requestFullscreen();
+      }
+    } catch (error) {
+      console.error('Error expanding academy intro video:', error);
+    }
+  }, []);
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -23,21 +40,26 @@ export const AboutAcademyScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-          <AboutVideoPlayer style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }} />
+          <video
+            ref={videoRef}
+            src="/about-academy-test-video.mp4"
+            playsInline
+            preload="auto"
+            controls={false}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '40px',
+              background: '#000',
+            }}
+          />
 
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(50px)',
-            background: 'rgba(255,255,255,0.1)',
-            border: '4px solid rgba(255,255,255,0.3)',
-            borderRadius: '30px',
-            pointerEvents: 'none',
-          }} />
-
-          <img
-            src={expandPlashka}
-            alt="развернуть видео"
+          <button
+            type="button"
+            onClick={handleExpandVideo}
             style={{
               position: 'absolute',
               left: '31.43%',
@@ -46,10 +68,23 @@ export const AboutAcademyScreen: React.FC = () => {
               bottom: '3.43%',
               width: '37.14%',
               height: '5.42%',
-              objectFit: 'contain',
-              pointerEvents: 'none',
+              border: 'none',
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
             }}
-          />
+          >
+            <img
+              src={expandPlashka}
+              alt="развернуть видео"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                pointerEvents: 'none',
+              }}
+            />
+          </button>
         </div>
 
         <img src={serviceBtn} alt="перейти к сервису" onClick={() => navigate('/academy-courses-all')} className="button-inner-glow" style={{
