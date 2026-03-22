@@ -11,7 +11,6 @@ import type { MediaPlayerElement, MediaSliderElement } from 'vidstack';
 
 import fullscreenIcon from '../assets/about-academy-player/fullscreen-icon.svg';
 import muteIcon from '../assets/about-academy-player/mute-icon.svg';
-import pauseIcon from '../assets/about-academy-player/pause-icon.svg';
 import playIcon from '../assets/about-academy-player/play-icon.svg';
 import seekBackwardIcon from '../assets/about-academy-player/seek-backward-icon.svg';
 import seekForwardIcon from '../assets/about-academy-player/seek-forward-icon.svg';
@@ -20,8 +19,15 @@ import timelineThumb from '../assets/about-academy-player/timeline-thumb.svg';
 import timelineTrack from '../assets/about-academy-player/timeline-track.svg';
 import volumeIcon from '../assets/about-academy-player/volume-icon.svg';
 
-const CONTROL_SIZE = 100;
-const ICON_SIZE = 90;
+const CONTROL_SIZE = 150;
+const ICON_SIZE = 140;
+const OVERLAY_CONTROL_TOP = 642.08;
+const OVERLAY_BACKWARD_LEFT = 120.92;
+const OVERLAY_PLAY_LEFT = 371.92;
+const OVERLAY_FORWARD_LEFT = 622.92;
+const TAP_ZONE_WIDTH = 230;
+const TAP_ZONE_HEIGHT = 230;
+const TAP_ZONE_TOP = 602;
 const BOTTOM_CONTROL_TOP = 1204.08;
 const CONTROL_BACKGROUND = 'rgba(4, 22, 39, 0.1)';
 const PLAYBACK_RATES = [1, 1.25, 1.5, 2];
@@ -33,9 +39,9 @@ const TIMELINE_TOP = 1343;
 const TIMELINE_WIDTH = 600;
 const TIME_LEFT = 56;
 const DURATION_LEFT = 745;
-const TIME_TOP = 1336;
+const TIME_TOP = 1346;
 
-type FlashOverlayState = 'seek-backward' | 'seek-forward' | 'play' | 'pause' | null;
+type FlashOverlayState = 'seek-backward' | 'seek-forward' | null;
 
 interface AboutAcademyVidstackPlayerProps {
   style?: React.CSSProperties;
@@ -48,7 +54,7 @@ const baseControlStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '10px',
+  padding: '5px',
   border: 0,
   borderRadius: '100px',
   background: CONTROL_BACKGROUND,
@@ -128,13 +134,11 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     if (media.paused) {
       await player.play();
-      showOverlay('play');
       return;
     }
 
     await player.pause();
-    showOverlay('pause');
-  }, [getPlayer, media.paused, showOverlay]);
+  }, [getPlayer, media.paused]);
 
   const handleSeek = React.useCallback((delta: number) => {
     const player = getPlayer();
@@ -230,6 +234,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             position: 'absolute',
             inset: 0,
             zIndex: 3,
+            pointerEvents: 'none',
           }}
         >
           <button
@@ -238,15 +243,16 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             onClick={() => handleEdgeTap('left')}
             style={{
               position: 'absolute',
-              left: 0,
-              top: 0,
-              width: '33.33%',
-              height: 'calc(100% - 170px)',
+              left: `${OVERLAY_BACKWARD_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
+              top: `${TAP_ZONE_TOP}px`,
+              width: `${TAP_ZONE_WIDTH}px`,
+              height: `${TAP_ZONE_HEIGHT}px`,
               border: 0,
               background: 'transparent',
               padding: 0,
               cursor: 'pointer',
               touchAction: 'manipulation',
+              pointerEvents: 'auto',
             }}
           />
 
@@ -256,15 +262,16 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             onClick={handleTogglePlay}
             style={{
               position: 'absolute',
-              left: '33.33%',
-              top: 0,
-              width: '33.34%',
-              height: 'calc(100% - 170px)',
+              left: `${OVERLAY_PLAY_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
+              top: `${TAP_ZONE_TOP}px`,
+              width: `${TAP_ZONE_WIDTH}px`,
+              height: `${TAP_ZONE_HEIGHT}px`,
               border: 0,
               background: 'transparent',
               padding: 0,
               cursor: 'pointer',
               touchAction: 'manipulation',
+              pointerEvents: 'auto',
             }}
           />
 
@@ -274,31 +281,32 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             onClick={() => handleEdgeTap('right')}
             style={{
               position: 'absolute',
-              right: 0,
-              top: 0,
-              width: '33.33%',
-              height: 'calc(100% - 170px)',
+              left: `${OVERLAY_FORWARD_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
+              top: `${TAP_ZONE_TOP}px`,
+              width: `${TAP_ZONE_WIDTH}px`,
+              height: `${TAP_ZONE_HEIGHT}px`,
               border: 0,
               background: 'transparent',
               padding: 0,
               cursor: 'pointer',
               touchAction: 'manipulation',
+              pointerEvents: 'auto',
             }}
           />
         </div>
 
-        {flashOverlay ? (
+        {flashOverlay || media.paused ? (
           <div
             style={{
               ...baseControlStyle,
               zIndex: 4,
               left:
                 flashOverlay === 'seek-backward'
-                  ? '145.92px'
+                  ? `${OVERLAY_BACKWARD_LEFT}px`
                   : flashOverlay === 'seek-forward'
-                    ? '647.92px'
-                    : '396.92px',
-              top: '667.08px',
+                    ? `${OVERLAY_FORWARD_LEFT}px`
+                    : `${OVERLAY_PLAY_LEFT}px`,
+              top: `${OVERLAY_CONTROL_TOP}px`,
               pointerEvents: 'none',
             }}
           >
@@ -308,9 +316,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
                   ? seekBackwardIcon
                   : flashOverlay === 'seek-forward'
                     ? seekForwardIcon
-                    : flashOverlay === 'pause'
-                      ? pauseIcon
-                      : playIcon
+                    : playIcon
               }
               alt=""
               style={iconStyle}
