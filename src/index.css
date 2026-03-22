@@ -28,14 +28,6 @@ body,
   perspective: 1000px;
 }
 
-:root {
-  --app-top-offset: 0px;
-}
-
-#root {
-  padding-top: var(--app-top-offset);
-}
-
 /* Optimize image rendering - aggressive GPU */
 img {
   image-rendering: -webkit-optimize-contrast;
@@ -46,10 +38,9 @@ img {
   content-visibility: auto;
 }
 
-/* Верхний сдвиг только для Telegram Web и браузерного превью */
-body.telegram-webapp-mode,
-body.browser-preview-mode {
-  --app-top-offset: 120px;
+/* Отступ сверху для веб-апп версии (не мини-апп) */
+body.webapp-mode {
+  padding-top: 120px;
 }
 
 body {
