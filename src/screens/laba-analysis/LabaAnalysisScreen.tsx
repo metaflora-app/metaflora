@@ -212,7 +212,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     disabled={generatingScenario}
                     ariaLabel="создать сценарий"
                     onClick={() => void handleGenerateScenario()}
-                    style={{ margin: '4px auto 0' }}
+                    style={{ margin: '10px auto 0' }}
                   />
                 ) : (
                   <AnalysisBlock title="новый сценарий" body={scenario.text} bodyClickable onBodyClick={() => void handleCopyScenario()} />
@@ -527,8 +527,8 @@ const LockedActionFrame: React.FC<{
     style={{
       position: 'relative',
       width: '744px',
-      height: '328px',
-      overflow: 'hidden',
+      height: '336px',
+      overflow: 'visible',
       ...style,
     }}
   >
@@ -537,10 +537,11 @@ const LockedActionFrame: React.FC<{
       alt=""
       style={{
         position: 'absolute',
-        inset: 0,
+        left: 0,
+        top: '4px',
         width: '100%',
-        height: '100%',
-        objectFit: 'cover',
+        height: '328px',
+        objectFit: 'contain',
         pointerEvents: 'none',
       }}
     />
@@ -553,7 +554,7 @@ const LockedActionFrame: React.FC<{
       style={{
         position: 'absolute',
         left: '107px',
-        top: '59px',
+        top: '63px',
         width: '530px',
         height: '139px',
         padding: 0,
