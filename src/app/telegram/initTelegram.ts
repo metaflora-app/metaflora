@@ -4,6 +4,7 @@
  */
 
 import WebApp from '@twa-dev/sdk';
+import { applyTelegramRuntimeClasses } from './runtime';
 
 /**
  * Initialize Telegram WebApp
@@ -13,11 +14,11 @@ import WebApp from '@twa-dev/sdk';
  * - Detects webapp mode and adds CSS class for top padding
  */
 export function initTelegram(): void {
-  // Detect webapp mode FIRST
-  detectWebAppMode();
-
   // Ready the WebApp
   WebApp.ready();
+
+  // Split Telegram Web from native mini app before applying layout tweaks.
+  applyTelegramRuntimeClasses();
 
   // Expand to full height
   WebApp.expand();
@@ -41,20 +42,6 @@ export function initTelegram(): void {
   WebApp.BackButton.onClick(() => {
     window.history.back();
   });
-}
-
-/**
- * Detect if running as webapp (not mini-app) and add CSS class
- */
-function detectWebAppMode(): void {
-  // Check if we're NOT in Telegram by checking if WebApp is properly initialized
-  // In real Telegram mini-app, WebApp.version will be set
-  const isRealTelegram = WebApp.version && WebApp.version !== '';
-  
-  // If not in real Telegram client, we're in web browser
-  if (!isRealTelegram) {
-    document.body.classList.add('webapp-mode');
-  }
 }
 
 /**
