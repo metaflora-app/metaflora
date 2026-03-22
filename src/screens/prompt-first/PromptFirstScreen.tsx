@@ -17,8 +17,7 @@ import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка и
 import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
 import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import promptCardBgFigmaPng from '../../assets/prompt-redesign/prompt-card-bg-figma.png';
-import promptScrollWindowPeopleFigmaPng from '../../assets/prompt-redesign/prompt-scroll-window-people-figma.png';
-import promptScrollWindowLogoFigmaPng from '../../assets/prompt-redesign/prompt-scroll-window-logo-figma.png';
+import promptScrollHelpPng from '../../assets/prompt-redesign/prompt-scroll-help.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
@@ -250,9 +249,7 @@ export const PromptFirstScreen: React.FC = () => {
         })}
 
         <div style={{ position: 'absolute', left: '113px', top: '836px', width: '997px', height: '1335px', pointerEvents: 'none', zIndex: 1 }}>
-          <img src={promptScrollWindowPeopleFigmaPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
-          <img src={promptScrollWindowLogoFigmaPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
-          <div style={{ position: 'absolute', left: '58px', top: '84px', width: '884px', height: '1121px', backdropFilter: 'blur(50px)', background: 'rgba(255,255,255,0.1)', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box' }} />
+          <img src={promptScrollHelpPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
         </div>
 
         <div style={{ position: 'absolute', left: '177px', top: '948px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
