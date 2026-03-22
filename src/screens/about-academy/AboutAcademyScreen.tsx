@@ -1,23 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
-import { VidstackCustomPlayer, type VidstackCustomPlayerHandle } from '../../components/VidstackCustomPlayer';
+import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
-import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
 
 export const AboutAcademyScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const playerRef = React.useRef<VidstackCustomPlayerHandle | null>(null);
-
-  const handleExpandVideo = React.useCallback(async () => {
-    try {
-      playerRef.current?.enterFullscreen();
-    } catch (error) {
-      console.error('Error expanding academy intro video:', error);
-    }
-  }, []);
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -31,51 +21,7 @@ export const AboutAcademyScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-          <VidstackCustomPlayer
-            ref={playerRef}
-            src="/about-academy-test-video.mp4"
-            className="about-academy-vidstack"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              borderRadius: '40px',
-              overflow: 'hidden',
-              background: '#000',
-            }}
-          />
-
-          <button
-            type="button"
-            onClick={handleExpandVideo}
-            style={{
-              position: 'absolute',
-              left: '31.43%',
-              right: '31.43%',
-              top: '91.15%',
-              bottom: '3.43%',
-              width: '37.14%',
-              height: '5.42%',
-              border: 'none',
-              background: 'transparent',
-              padding: 0,
-              cursor: 'pointer',
-            }}
-          >
-            <img
-              src={expandPlashka}
-              alt="развернуть видео"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                pointerEvents: 'none',
-              }}
-            />
-          </button>
-        </div>
+        <AboutAcademyVidstackPlayer />
 
         <img src={serviceBtn} alt="перейти к сервису" onClick={() => navigate('/academy-courses-all')} className="button-inner-glow" style={{
           position: 'absolute', left: '143px', top: '1902px', width: '894px', height: '139px', cursor: 'pointer',
