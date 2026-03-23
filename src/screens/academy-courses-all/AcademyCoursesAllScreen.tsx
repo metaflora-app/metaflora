@@ -43,7 +43,7 @@ const courseCards: CourseCardConfig[] = [
     buttonLeft: 96,
     progressTop: 20,
     progressLeft: 25,
-    description: 'введение в простейшую автоматизацию, создание LLM-агента с нуля и тонкая настройка реалистичного ИИ-аватара в HeyGen',
+    description: 'начнем с маленьких\nшагов: введение\nв автоматизацию,\nсоздание LLM-агента\nи настройка аватара\nв HeyGen',
   },
   {
     key: 'промптинг',
@@ -57,7 +57,7 @@ const courseCards: CourseCardConfig[] = [
     buttonLeft: 96,
     progressTop: 21,
     progressLeft: 25,
-    description: 'самый подробный курс по промпт-инжинирингу: zero-shot, one-shot и few-shot техники, работа с markdown и JSON-форматами, структурирование ответов моделей',
+    description: 'самый подробный\nкурс по промптингу\nв СНГ: zero- / one- /\nfew-shot техники,\nработа с markdown\nи JSON-форматами',
   },
   {
     key: 'искусство',
@@ -71,7 +71,7 @@ const courseCards: CourseCardConfig[] = [
     buttonLeft: 96,
     progressTop: 20,
     progressLeft: 25,
-    description: 'разбор лучших ИИ-моделей для генерации изображений и видео, создание 360 character sheet step-by-step и приёмы создания cinematic / продуктовых шотов',
+    description: 'ИИ-креатор за 10+\nуроков: разбор ИИ-\nмоделей, создание\n360 character sheet,\nподготовка синематик\nи продуктовых шотов',
   },
   {
     key: 'автоматизация',
@@ -85,7 +85,7 @@ const courseCards: CourseCardConfig[] = [
     buttonLeft: 98,
     progressTop: 20,
     progressLeft: 25,
-    description: 'все возможности ИИ-автоматизации на текущий момент: работа с n8n, воркфлоу под бизнес-задачи и вайбкодинг от идеи до готового MVP',
+    description: 'все возможности ИИ-\nавтоматизации: работа\nс n8n, воркфлоу\nпод бизнес-задачи,\nвайбкодинг от идеи\nдо готового MVP',
   },
 ];
 
@@ -227,7 +227,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               </div>
 
               <div style={{ position: 'absolute', inset: card.textInset, backdropFilter: 'blur(50px)', background: 'black', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', left: '28px', right: '28px', top: '32px', bottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
+                <div style={{ position: 'absolute', left: '18px', right: '18px', top: '22px', bottom: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
                   {card.description}
                 </div>
               </div>

@@ -78,8 +78,8 @@ export const MainDashboardFreeScreen: React.FC = () => {
             border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <p style={{ margin: 0, width: '390px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
-              знакомство и безопасная установка OpenClaw, базовые техники промптинга и выбор рабочего стека для ИИ-креатора
+            <p style={{ margin: 0, width: '420px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
+              {'то, что нужно для\nлегкого старта:\nOpenClaw с нуля,\nбазовый промптинг\nи сборка стэка ИИ-\nкреатора'}
             </p>
           </div>
           <img src={openBtn} alt="открыть" onClick={() => navigate('/academy-course-demo')} className="button-inner-glow" style={{

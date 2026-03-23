@@ -45,14 +45,15 @@ const ServiceCard: React.FC<CardProps> = ({
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '390px',
+        width: '420px',
         maxWidth: 'calc(100% - 18px)',
         textAlign: 'center',
         fontFamily: 'Cygre',
         fontWeight: 400,
-        fontSize: '27px',
-        lineHeight: '1.12',
+        fontSize: '35px',
+        lineHeight: '1',
         color: 'white',
+        whiteSpace: 'pre-wrap',
       }}>
         {content}
       </div>
@@ -210,7 +211,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ServiceCard
           bgSrc={academyBg}
           top={538}
-          content={<><p style={{ margin: 0 }}>система, промптинг,</p><p style={{ margin: 0 }}>искусство, автоматизация —</p><p style={{ margin: 0 }}>4 больших курса и более 40</p><p style={{ margin: 0 }}>готовых уроков с гайдами,</p><p style={{ margin: 0 }}>шаблонами и чек-листами.</p><p style={{ margin: 0 }}>минимум воды и максимум</p><p style={{ margin: 0 }}>практики</p></>}
+          content={<><p style={{ margin: 0 }}>в академии собраны</p><p style={{ margin: 0 }}>4 больших курса</p><p style={{ margin: 0 }}>и более 40 уроков</p><p style={{ margin: 0 }}>с гайдами, чек-</p><p style={{ margin: 0 }}>листами, шаблонами</p><p style={{ margin: 0 }}>и промптами</p></>}
           onOpen={() => navigate('/about-academy')}
         />
         <ServiceCard
@@ -219,7 +220,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           height={250}
           photoInset="0.4% 49.78% 0 0"
           textInset="0.4% 0 0 50.22%"
-          content={<><p style={{ margin: 0 }}>в лабе ИИ выполняет всю</p><p style={{ margin: 0 }}>черновую работу за пару</p><p style={{ margin: 0 }}>минут: поиск аккаунтов,</p><p style={{ margin: 0 }}>анализ видео и написание</p><p style={{ margin: 0 }}>сценария. функции сервиса</p><p style={{ margin: 0 }}>доступны за внутреннюю</p><p style={{ margin: 0 }}>валюту — метакоины</p></>}
+          content={<><p style={{ margin: 0 }}>в лабе ИИ-выполняет</p><p style={{ margin: 0 }}>всю черновую работу:</p><p style={{ margin: 0 }}>поиск аккаунтов,</p><p style={{ margin: 0 }}>анализ видео</p><p style={{ margin: 0 }}>и написание</p><p style={{ margin: 0 }}>виральных сценариев</p></>}
           onOpen={() => navigate('/about-laba')}
         />
         <ServiceCard
@@ -227,7 +228,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           top={1097}
           photoInset="0 49.66% 0 0.11%"
           textInset="0 0 0 50.32%"
-          content={<><p style={{ margin: 0 }}>десятки готовых промптов,</p><p style={{ margin: 0 }}>позволяющих задать точную</p><p style={{ margin: 0 }}>роль LLM или воспроизвести</p><p style={{ margin: 0 }}>генерацию изображения или</p><p style={{ margin: 0 }}>видео буквально в один клик</p></>}
+          content={<><p style={{ margin: 0 }}>десятки промптов,</p><p style={{ margin: 0 }}>позволяющих задать</p><p style={{ margin: 0 }}>роль агента или</p><p style={{ margin: 0 }}>воспроизвести</p><p style={{ margin: 0 }}>генерацию из цеха</p><p style={{ margin: 0 }}>в один клик</p></>}
           onOpen={() => navigate('/about-prompt')}
         />
         <ServiceCard
@@ -235,7 +236,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           top={1376}
           photoInset="0 50% 0 0"
           textInset="0 0 0 49.97%"
-          content={<><p style={{ margin: 0 }}>нужен разбор ИИ-новинки</p><p style={{ margin: 0 }}>или подробный кейс с</p><p style={{ margin: 0 }}>комментариями — всё это</p><p style={{ margin: 0 }}>уже есть в МЕТАФЛОРА*</p><p style={{ margin: 0 }}>полигон. новые статьи</p><p style={{ margin: 0 }}>публикуются регулярно</p></>}
+          content={<><p style={{ margin: 0 }}>если нужен разбор</p><p style={{ margin: 0 }}>новинки или</p><p style={{ margin: 0 }}>подробный кейс —</p><p style={{ margin: 0 }}>это в полигон. статьи</p><p style={{ margin: 0 }}>публикуются</p><p style={{ margin: 0 }}>еженедельно</p></>}
           onOpen={() => navigate('/about-poligon')}
         />
         <ServiceCard
@@ -243,7 +244,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           top={1655}
           photoInset="0 50.45% 0 0"
           textInset="0 0 0 49.56%"
-          content={<><p style={{ margin: 0 }}>комьюнити специалистов,</p><p style={{ margin: 0 }}>кто только начинает или уже</p><p style={{ margin: 0 }}>давно работает с ИИ. здесь</p><p style={{ margin: 0 }}>найдется ответ на любой</p><p style={{ margin: 0 }}>вопрос (даже на самый</p><p style={{ margin: 0 }}>глупый)</p></>}
+          content={<><p style={{ margin: 0 }}>сильное комьюнити</p><p style={{ margin: 0 }}>ИИ-специалистов —</p><p style={{ margin: 0 }}>от новичков до</p><p style={{ margin: 0 }}>сеньоров, которые</p><p style={{ margin: 0 }}>обязательно заберут</p><p style={{ margin: 0 }}>под свое крыло</p></>}
         />
 
         <Footer />
