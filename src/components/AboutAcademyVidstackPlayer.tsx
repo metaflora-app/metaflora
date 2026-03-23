@@ -102,6 +102,17 @@ const overlayIconStyle: React.CSSProperties = {
   height: `${OVERLAY_ICON_SIZE}px`,
 };
 
+function formatTimeLabel(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds <= 0) {
+    return '0:00';
+  }
+
+  const totalSeconds = Math.floor(seconds);
+  const minutes = Math.floor(totalSeconds / 60);
+  const remainingSeconds = totalSeconds % 60;
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
 export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProps> = ({
   src = '/about-academy-test-video.mp4',
   title = 'Как устроена МЕТАФЛОРА академия',
@@ -439,9 +450,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           <img src={media.muted || media.volume === 0 ? muteIcon : volumeIcon} alt="" style={iconStyle} />
         </button>
 
-        <MediaTime
-          type="current"
-          showHours={false}
+        <div
           style={{
             position: 'absolute',
             left: `${TIME_LEFT}px`,
@@ -455,7 +464,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             color: '#fff',
             textAlign: 'center',
           }}
-        />
+        >
+          {formatTimeLabel(media.currentTime)}
+        </div>
 
         <div
           style={{
@@ -522,9 +533,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           }}
         />
 
-        <MediaTime
-          type="duration"
-          showHours={false}
+        <div
           style={{
             position: 'absolute',
             left: `${DURATION_LEFT}px`,
@@ -538,7 +547,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             color: '#fff',
             textAlign: 'center',
           }}
-        />
+        >
+          {formatTimeLabel(media.duration)}
+        </div>
 
       </MediaPlayer>
     </div>
