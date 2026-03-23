@@ -78,7 +78,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
             border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <p style={{ margin: 0, width: '420px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
+            <p style={{ margin: 0, width: '420px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', transform: 'translateY(-6px)' }}>
               {'то, что нужно для\nлегкого старта:\nOpenClaw с нуля,\nбазовый промптинг\nи сборка стэка ИИ-\nкреатора'}
             </p>
           </div>

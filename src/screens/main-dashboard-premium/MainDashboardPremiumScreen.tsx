@@ -43,7 +43,7 @@ const ServiceCard: React.FC<CardProps> = ({
       <div style={{
         position: 'absolute',
         left: '50%',
-        top: '50%',
+        top: 'calc(50% - 6px)',
         transform: 'translate(-50%, -50%)',
         width: '420px',
         maxWidth: 'calc(100% - 18px)',

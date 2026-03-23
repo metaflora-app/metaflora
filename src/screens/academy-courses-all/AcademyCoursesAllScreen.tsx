@@ -227,7 +227,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
               </div>
 
               <div style={{ position: 'absolute', inset: card.textInset, backdropFilter: 'blur(50px)', background: 'black', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', left: '18px', right: '18px', top: '22px', bottom: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap' }}>
+                <div style={{ position: 'absolute', left: '18px', right: '18px', top: '22px', bottom: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', whiteSpace: 'pre-wrap', transform: 'translateY(-6px)' }}>
                   {card.description}
                 </div>
               </div>
