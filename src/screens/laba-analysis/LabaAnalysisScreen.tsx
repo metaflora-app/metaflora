@@ -12,7 +12,7 @@ import {
   formatTimeAgo,
   generateScenario,
   getExistingAnalysis,
-  getInstagramAvatarSources,
+  getReelAvatarSources,
   getReelCoverSources,
   getTelegramUserId,
   getViralityColor,
@@ -290,8 +290,8 @@ const AnalysisPreviewCard: React.FC<{
     : reel.accountUsername;
   const coverSources = React.useMemo(() => getReelCoverSources(reel), [reel]);
   const avatarSources = React.useMemo(
-    () => getInstagramAvatarSources(reel.accountUsername, reel.accountProfilePicUrl),
-    [reel.accountProfilePicUrl, reel.accountUsername]
+    () => getReelAvatarSources(reel),
+    [reel]
   );
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);

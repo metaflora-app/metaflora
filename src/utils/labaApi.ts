@@ -36,6 +36,10 @@ function buildProxyImageUrl(url: string): string {
   return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}`;
 }
 
+function buildReelMediaUrl(reelId: string, kind: 'cover' | 'avatar'): string {
+  return `${API_URL}/api/laba/reel-media?reelId=${encodeURIComponent(reelId)}&kind=${kind}`;
+}
+
 function uniqueImageSources(sources: Array<string | null | undefined>): string[] {
   const seen = new Set<string>();
   const result: string[] = [];
@@ -92,6 +96,18 @@ export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUr
     proxiedReelUrl,
     convertInstagramImageUrl(reel.coverImageUrl),
     reel.coverImageUrl,
+  ]);
+}
+
+export function getReelAvatarSources(
+  reel: Pick<Reel, 'id' | 'accountUsername' | 'accountProfilePicUrl'>
+): string[] {
+  const reelId = String(reel.id || '').trim();
+  const directUrl = String(reel.accountProfilePicUrl || '').trim();
+
+  return uniqueImageSources([
+    reelId ? buildReelMediaUrl(reelId, 'avatar') : null,
+    directUrl,
   ]);
 }
 

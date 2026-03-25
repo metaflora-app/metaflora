@@ -5,7 +5,7 @@ import {
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
-  getInstagramAvatarSources,
+  getReelAvatarSources,
   getReelCoverSources,
 } from '../../utils/labaApi';
 
@@ -48,8 +48,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
     : reel.accountUsername;
   const coverSources = React.useMemo(() => getReelCoverSources(reel), [reel]);
   const avatarSources = React.useMemo(
-    () => getInstagramAvatarSources(reel.accountUsername, reel.accountProfilePicUrl),
-    [reel.accountProfilePicUrl, reel.accountUsername]
+    () => getReelAvatarSources(reel),
+    [reel]
   );
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
