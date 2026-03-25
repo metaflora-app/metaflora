@@ -71,6 +71,11 @@ export function convertInstagramImageUrl(url: string | null | undefined): string
 }
 
 export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string | null {
+  const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
+  if (directCoverUrl) {
+    return directCoverUrl;
+  }
+
   const instagramReelId = String(reel.instagramReelId || '').trim();
   if (instagramReelId) {
     return buildProxyImageUrl(`https://www.instagram.com/p/${instagramReelId}/`);
@@ -80,7 +85,7 @@ export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' |
     return buildProxyImageUrl(reel.reelUrl);
   }
 
-  return convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
+  return null;
 }
 
 export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string[] {
@@ -92,10 +97,10 @@ export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUr
       : null;
 
   return uniqueImageSources([
-    instagramPageUrl ? buildProxyImageUrl(instagramPageUrl) : null,
-    proxiedReelUrl,
     convertInstagramImageUrl(reel.coverImageUrl),
     reel.coverImageUrl,
+    instagramPageUrl ? buildProxyImageUrl(instagramPageUrl) : null,
+    proxiedReelUrl,
   ]);
 }
 

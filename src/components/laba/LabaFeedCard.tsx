@@ -17,13 +17,16 @@ interface LabaFeedCardProps {
   onToggleFavorite: (reelId: string) => void;
   onAction?: () => void;
   onOpenAnalysis?: () => void;
+  onOpenReel?: () => void;
   actionLabel: string;
   actionCost?: number;
   actionVariant?: ActionVariant;
 }
 
-const CARD_WIDTH = 812;
-const COVER_SIZE = 744;
+const CARD_WIDTH = 816;
+const CARD_HEIGHT = 1064;
+const CARD_INSET = 29;
+const COVER_SIZE = 758;
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
@@ -32,6 +35,9 @@ const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8
 const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
 const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/e6b64005-5519-4c93-8ecd-51c66606778e';
+const figmaOpenReelChevron1 = 'https://www.figma.com/api/mcp/asset/46749727-22f4-4d9a-9bec-58632e409a75';
+const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/d95dc372-a321-49f0-b303-8786f22fa066';
+const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/e822f148-b61f-4ac2-aca5-c4baf45e7efb';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
@@ -39,6 +45,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   onToggleFavorite,
   onAction,
   onOpenAnalysis,
+  onOpenReel,
   actionLabel,
   actionCost,
   actionVariant = 'dark',
@@ -71,7 +78,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       style={{
         position: 'relative',
         width: `${CARD_WIDTH}px`,
-        minHeight: '1060px',
+        minHeight: `${CARD_HEIGHT}px`,
         margin: '0 auto',
         cursor: onOpenAnalysis ? 'pointer' : 'default',
       }}
@@ -91,11 +98,11 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: '30px',
-          top: '30px',
+          left: `${CARD_INSET}px`,
+          top: `${CARD_INSET}px`,
           width: `${COVER_SIZE}px`,
           height: `${COVER_SIZE}px`,
-          borderRadius: '36px',
+          borderRadius: '62px',
           overflow: 'hidden',
           border: '2px solid rgba(0,0,0,0.3)',
           background: 'rgba(255,255,255,0.08)',
@@ -117,6 +124,15 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>
+
+      {onOpenReel ? (
+        <OpenReelButton
+          onClick={(event) => {
+            event.stopPropagation();
+            onOpenReel();
+          }}
+        />
+      ) : null}
 
       <FigmaLikeButton
         active={isFavorite}
@@ -318,7 +334,7 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
   showAccountRow = true,
   showActionRow = true,
 }) => (
-  <div style={{ position: 'relative', width: `${CARD_WIDTH}px`, minHeight: '1060px', margin: '0 auto' }}>
+  <div style={{ position: 'relative', width: `${CARD_WIDTH}px`, minHeight: `${CARD_HEIGHT}px`, margin: '0 auto' }}>
     <div
       className="blur-wave"
       style={{
@@ -334,11 +350,11 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
     <div
       style={{
         position: 'absolute',
-        left: '30px',
-        top: '30px',
+        left: `${CARD_INSET}px`,
+        top: `${CARD_INSET}px`,
         width: `${COVER_SIZE}px`,
         height: `${COVER_SIZE}px`,
-        borderRadius: '36px',
+        borderRadius: '62px',
         background: 'rgba(255,255,255,0.06)',
       }}
     />
@@ -540,5 +556,38 @@ const ActionButton: React.FC<{
     ) : (
       <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
     )}
+  </button>
+);
+
+const OpenReelButton: React.FC<{
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}> = ({ onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    aria-label="открыть рилс"
+    style={{
+      position: 'absolute',
+      left: '50%',
+      top: '374px',
+      transform: 'translateX(-50%)',
+      width: '72px',
+      height: '72px',
+      border: 'none',
+      borderRadius: '32px',
+      background: 'rgba(4,22,39,0.1)',
+      backdropFilter: 'blur(12px)',
+      padding: 0,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <div style={{ position: 'relative', width: '30px', height: '16px' }}>
+      <img src={figmaOpenReelChevron1} alt="" style={{ position: 'absolute', left: 0, top: 0, width: '16px', height: '16px' }} />
+      <img src={figmaOpenReelChevron2} alt="" style={{ position: 'absolute', left: '8px', top: 0, width: '16px', height: '16px' }} />
+      <img src={figmaOpenReelChevron3} alt="" style={{ position: 'absolute', left: '18px', top: 0, width: '16px', height: '16px' }} />
+    </div>
   </button>
 );

@@ -35,9 +35,10 @@ const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-9
 const figmaOpenReelChevron1 = 'https://www.figma.com/api/mcp/asset/6686ea99-376f-431b-96fb-359d8843df95';
 const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/40578be4-a6d1-4b7b-851d-2e0e7a925feb';
 const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/d56cba13-009a-442d-b106-7edce51a1b64';
-const PREVIEW_CARD_WIDTH = 824;
-const PREVIEW_CARD_HEIGHT = 1054;
-const PREVIEW_COVER_SIZE = 754;
+const PREVIEW_CARD_WIDTH = 816;
+const PREVIEW_CARD_HEIGHT = 1064;
+const PREVIEW_CARD_INSET = 29;
+const PREVIEW_COVER_SIZE = 758;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -310,26 +311,15 @@ const AnalysisPreviewCard: React.FC<{
   return (
     <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>
       <div
-        onClick={onOpenReel}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            onOpenReel();
-          }
-        }}
-        aria-label="открыть рилс"
         style={{
           position: 'absolute',
-          left: '35px',
-          top: '35px',
+          left: `${PREVIEW_CARD_INSET}px`,
+          top: `${PREVIEW_CARD_INSET}px`,
           width: `${PREVIEW_COVER_SIZE}px`,
           height: `${PREVIEW_COVER_SIZE}px`,
           borderRadius: '62px',
           overflow: 'hidden',
           background: 'rgba(255,255,255,0.08)',
-          cursor: 'pointer',
         }}
       >
         <img
@@ -348,6 +338,35 @@ const AnalysisPreviewCard: React.FC<{
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>
+
+      <button
+        type="button"
+        onClick={onOpenReel}
+        aria-label="открыть рилс"
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '374px',
+          transform: 'translateX(-50%)',
+          width: '72px',
+          height: '72px',
+          border: 'none',
+          borderRadius: '32px',
+          background: 'rgba(4,22,39,0.1)',
+          backdropFilter: 'blur(12px)',
+          padding: 0,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={{ position: 'relative', width: '30px', height: '16px' }}>
+          <img src={figmaOpenReelChevron1} alt="" style={{ position: 'absolute', left: 0, top: 0, width: '16px', height: '16px' }} />
+          <img src={figmaOpenReelChevron2} alt="" style={{ position: 'absolute', left: '8px', top: 0, width: '16px', height: '16px' }} />
+          <img src={figmaOpenReelChevron3} alt="" style={{ position: 'absolute', left: '18px', top: 0, width: '16px', height: '16px' }} />
+        </div>
+      </button>
 
       <FigmaLikeButton
         active={isFavorite}
