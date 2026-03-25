@@ -159,39 +159,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         </div>
       ) : null}
 
-      {onOpenAnalysis ? (
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            onOpenAnalysis();
-          }}
-          className="button-inner-glow blur-wave"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '374px',
-            transform: 'translateX(-50%)',
-            width: '246px',
-            height: '79px',
-            borderRadius: '62px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: '#000',
-            color: '#fff',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '27px',
-            lineHeight: '1',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <span style={{ transform: 'translateY(-4px)' }}>ИИ-анализ</span>
-        </button>
-      ) : null}
-
       <div
         className="blur-wave"
         style={{
