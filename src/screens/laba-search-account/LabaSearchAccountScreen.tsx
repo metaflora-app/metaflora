@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
+import { useUIState } from '../../contexts/UIStateContext';
 import { formatFollowersLabel, getInstagramAvatarSources, getTelegramUserId, searchAccount, trackAccount } from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
@@ -10,22 +12,15 @@ const textFont = 'Cygre, sans-serif';
 const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
 const instagramLogo = 'https://www.figma.com/api/mcp/asset/01c1f7bc-b497-447d-926a-d8ba816a7ad2';
 
-const searchFieldStyle: React.CSSProperties = {
-  position: 'absolute',
-  left: '37px',
-  width: '755px',
-  height: '79px',
-  borderRadius: '62px',
-  border: '4px solid rgba(255,255,255,0.3)',
-  background: '#000',
-  backdropFilter: 'blur(50px)',
-};
-
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [linkInput, setLinkInput] = React.useState('');
-  const [nicknameInput, setNicknameInput] = React.useState('');
+  const {
+    labaAccountLinkQuery,
+    setLabaAccountLinkQuery,
+    labaAccountNicknameQuery,
+    setLabaAccountNicknameQuery,
+  } = useUIState();
   const [foundAccount, setFoundAccount] = React.useState<InstagramAccount | null>(null);
   const [searching, setSearching] = React.useState(false);
   const [tracking, setTracking] = React.useState(false);
@@ -44,7 +39,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const avatarUrl = avatarSources[avatarIndex] || null;
 
   const handleSearch = async () => {
-    const query = linkInput.trim() || nicknameInput.trim();
+    const query = labaAccountLinkQuery.trim() || labaAccountNicknameQuery.trim();
     if (!query) {
       window.Telegram?.WebApp?.showPopup?.({ message: 'введите ссылку или ник аккаунта' });
       return;
@@ -130,61 +125,37 @@ export const LabaSearchAccountScreen: React.FC = () => {
             добавить ссылку
           </p>
 
-          <div style={{ ...searchFieldStyle, top: '136px' }}>
-            <div style={{ position: 'absolute', left: '24px', top: '50%', width: '38px', height: '38px', transform: 'translateY(-50%)' }}>
-              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
-            <input
-              value={linkInput}
-              onChange={(e) => setLinkInput(e.target.value)}
-              placeholder="вставьте ссылку напрямую"
-              style={{
-                position: 'absolute',
-                left: '72px',
-                top: '50%',
-                transform: 'translateY(-61%)',
-                width: '635px',
-                border: 'none',
-                outline: 'none',
-                background: 'transparent',
-                fontFamily: textFont,
-                fontWeight: 400,
-                fontSize: '27px',
-                lineHeight: '1',
-                color: '#fff',
-              }}
-            />
-          </div>
+          <LabaSearchInput
+            value={labaAccountLinkQuery}
+            onChange={setLabaAccountLinkQuery}
+            onEnter={() => void handleSearch()}
+            placeholder="вставьте ссылку напрямую"
+            iconSrc={searchIcon}
+            style={{
+              left: '37px',
+              top: '136px',
+              width: '755px',
+              height: '86px',
+            }}
+          />
 
           <p style={{ position: 'absolute', left: '41px', top: '241px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
             найти по нику
           </p>
 
-          <div style={{ ...searchFieldStyle, top: '308px' }}>
-            <div style={{ position: 'absolute', left: '24px', top: '50%', width: '38px', height: '38px', transform: 'translateY(-50%)' }}>
-              <img src={searchIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </div>
-            <input
-              value={nicknameInput}
-              onChange={(e) => setNicknameInput(e.target.value)}
-              placeholder="напишите юзернейм аккаунта через @"
-              style={{
-                position: 'absolute',
-                left: '72px',
-                top: '50%',
-                transform: 'translateY(-61%)',
-                width: '635px',
-                border: 'none',
-                outline: 'none',
-                background: 'transparent',
-                fontFamily: textFont,
-                fontWeight: 400,
-                fontSize: '27px',
-                lineHeight: '1',
-                color: '#fff',
-              }}
-            />
-          </div>
+          <LabaSearchInput
+            value={labaAccountNicknameQuery}
+            onChange={setLabaAccountNicknameQuery}
+            onEnter={() => void handleSearch()}
+            placeholder="напишите юзернейм через @"
+            iconSrc={searchIcon}
+            style={{
+              left: '37px',
+              top: '308px',
+              width: '755px',
+              height: '86px',
+            }}
+          />
 
           <button
             type="button"

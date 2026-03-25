@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFilterButton } from '../../components/laba/LabaFilterButton';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
+import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
@@ -19,7 +20,12 @@ const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const { labaReelsCache, setLabaReelsCache } = useUIState();
+  const {
+    labaReelsCache,
+    setLabaReelsCache,
+    labaMainSearchQuery,
+    setLabaMainSearchQuery,
+  } = useUIState();
 
   const [reels, setReels] = React.useState<Reel[]>(labaReelsCache);
   const [loading, setLoading] = React.useState(labaReelsCache.length === 0);
@@ -28,7 +34,6 @@ export const LabaMainScreen: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
-  const [searchValue, setSearchValue] = React.useState('');
   const [searching, setSearching] = React.useState(false);
 
   const loadTopReels = React.useCallback(async () => {
@@ -130,7 +135,7 @@ export const LabaMainScreen: React.FC = () => {
   };
 
   const handleSearch = async () => {
-    const keyword = searchValue.trim();
+    const keyword = labaMainSearchQuery.trim();
     if (!keyword) {
       showMessage('введите ключевое слово для поиска', 'popup');
       return;
@@ -218,7 +223,7 @@ export const LabaMainScreen: React.FC = () => {
     setSelectedLanguage(null);
     setSelectedAccount(null);
     setLikedCards(new Set());
-    setSearchValue('');
+    setLabaMainSearchQuery('');
     await loadTopReels();
   };
 
@@ -246,56 +251,19 @@ export const LabaMainScreen: React.FC = () => {
           </p>
         </div>
 
-        <div
-                style={{
-            position: 'absolute',
+        <LabaSearchInput
+          value={labaMainSearchQuery}
+          onChange={setLabaMainSearchQuery}
+          onEnter={() => void handleSearch()}
+          placeholder="найти видео по ключевому слову"
+          iconSrc={figmaSearchIcon}
+          style={{
             left: '152px',
             top: '376px',
             width: '876px',
-            height: '79px',
-            borderRadius: '62px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: '#000',
+            height: '86px',
           }}
-        >
-          <div style={{ position: 'absolute', left: '23px', top: '50%', width: '38px', height: '38px', transform: 'translateY(-50%)' }}>
-            <img src={figmaSearchIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-          </div>
-          <div
-            style={{
-              position: 'absolute',
-              left: '74px',
-              width: '612px',
-              height: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              top: '50%',
-              transform: 'translateY(-63%)',
-            }}
-          >
-            <input
-              value={searchValue}
-              onChange={(event) => setSearchValue(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') void handleSearch();
-              }}
-              placeholder="найти видео по ключевому слову"
-              style={{
-                width: '100%',
-                height: '40px',
-                padding: '0 0 2px',
-                border: 'none',
-                outline: 'none',
-                background: 'transparent',
-                fontFamily: textFont,
-                fontWeight: 400,
-                fontSize: '32px',
-                lineHeight: '40px',
-                color: 'rgba(255,255,255,0.3)',
-              }}
-            />
-          </div>
-        </div>
+        />
 
         <button
           type="button"

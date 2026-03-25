@@ -96,12 +96,16 @@ export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUr
 }
 
 export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {
+  if (fallbackUrl) {
+    return convertInstagramImageUrl(fallbackUrl) || fallbackUrl || null;
+  }
+
   const normalizedUsername = String(username || '').trim().replace(/^@/, '');
   if (normalizedUsername) {
     return buildProxyImageUrl(`https://www.instagram.com/${normalizedUsername}/`);
   }
 
-  return convertInstagramImageUrl(fallbackUrl) || fallbackUrl || null;
+  return null;
 }
 
 export function getInstagramAvatarSources(username?: string | null, fallbackUrl?: string | null): string[] {
@@ -111,9 +115,9 @@ export function getInstagramAvatarSources(username?: string | null, fallbackUrl?
     : null;
 
   return uniqueImageSources([
-    instagramProfileUrl,
     convertInstagramImageUrl(fallbackUrl),
     fallbackUrl,
+    instagramProfileUrl,
   ]);
 }
 

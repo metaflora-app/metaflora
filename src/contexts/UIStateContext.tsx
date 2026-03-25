@@ -40,6 +40,12 @@ interface UIState {
   // Laba reels cache (для сохранения списка при переходах)
   labaReelsCache: any[];
   setLabaReelsCache: (reels: any[]) => void;
+  labaMainSearchQuery: string;
+  setLabaMainSearchQuery: (query: string) => void;
+  labaAccountLinkQuery: string;
+  setLabaAccountLinkQuery: (query: string) => void;
+  labaAccountNicknameQuery: string;
+  setLabaAccountNicknameQuery: (query: string) => void;
 }
 
 const UIStateContext = createContext<UIState | undefined>(undefined);
@@ -86,6 +92,9 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
   const [labaTrackedAccounts, setLabaTrackedAccounts] = useState<string[]>([]);
   const [labaFavorites, setLabaFavorites] = useState<string[]>([]);
   const [labaReelsCache, setLabaReelsCache] = useState<any[]>([]);
+  const [labaMainSearchQuery, setLabaMainSearchQuery] = useState('');
+  const [labaAccountLinkQuery, setLabaAccountLinkQuery] = useState('');
+  const [labaAccountNicknameQuery, setLabaAccountNicknameQuery] = useState('');
 
   const addToTracked = (accountId: string) => {
     setLabaTrackedAccounts(prev => [...new Set([...prev, accountId])]);
@@ -128,6 +137,12 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
     removeFromFavorites,
     labaReelsCache,
     setLabaReelsCache,
+    labaMainSearchQuery,
+    setLabaMainSearchQuery,
+    labaAccountLinkQuery,
+    setLabaAccountLinkQuery,
+    labaAccountNicknameQuery,
+    setLabaAccountNicknameQuery,
   };
 
   return (
