@@ -1,7 +1,13 @@
 import React from 'react';
 import { FigmaLikeButton } from '../FigmaLikeButton';
 import type { Reel } from '../../types/laba';
-import { formatCount, formatTimeAgo, getInstagramAvatarSrc, getReelCoverSrc } from '../../utils/labaApi';
+import {
+  formatCount,
+  formatFollowersLabel,
+  formatTimeAgo,
+  getInstagramAvatarSources,
+  getReelCoverSources,
+} from '../../utils/labaApi';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -41,8 +47,24 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
     : reel.accountUsername;
-  const coverSrc = getReelCoverSrc(reel) || reel.coverImageUrl || figmaCardCover;
-  const avatarSrc = getInstagramAvatarSrc(reel.accountUsername, reel.accountProfilePicUrl) || reel.accountProfilePicUrl || figmaProfilePhoto;
+  const coverSources = React.useMemo(() => getReelCoverSources(reel), [reel]);
+  const avatarSources = React.useMemo(
+    () => getInstagramAvatarSources(reel.accountUsername, reel.accountProfilePicUrl),
+    [reel.accountProfilePicUrl, reel.accountUsername]
+  );
+  const [coverIndex, setCoverIndex] = React.useState(0);
+  const [avatarIndex, setAvatarIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    setCoverIndex(0);
+  }, [coverSources]);
+
+  React.useEffect(() => {
+    setAvatarIndex(0);
+  }, [avatarSources]);
+
+  const coverSrc = coverSources[coverIndex] || figmaCardCover;
+  const avatarSrc = avatarSources[avatarIndex] || figmaProfilePhoto;
 
   return (
     <div
@@ -85,6 +107,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           alt=""
           onError={(event) => {
             const target = event.currentTarget;
+            if (coverIndex < coverSources.length - 1) {
+              setCoverIndex((current) => current + 1);
+              return;
+            }
             if (target.src !== figmaCardCover) {
               target.src = figmaCardCover;
             }
@@ -233,6 +259,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           alt=""
           onError={(event) => {
             const target = event.currentTarget;
+            if (avatarIndex < avatarSources.length - 1) {
+              setAvatarIndex((current) => current + 1);
+              return;
+            }
             if (target.src !== figmaProfilePhoto) {
               target.src = figmaProfilePhoto;
             }
@@ -298,7 +328,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           whiteSpace: 'nowrap',
         }}
       >
-        {formatCount(reel.accountFollowers)} подписчиков
+        {formatFollowersLabel(reel.accountFollowers)}
       </div>
 
       <ActionButton

@@ -4,7 +4,8 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel, TrackedAccount } from '../../types/laba';
 import {
-  getInstagramAvatarSrc,
+  formatFollowersLabel,
+  getInstagramAvatarSources,
   getTelegramUserId,
   getTrackedAccounts,
   getTrackedReels,
@@ -212,7 +213,17 @@ const TrackedAccountCard: React.FC<{
   showRemoveOverlay: boolean;
   onAvatarClick: () => void;
 }> = ({ account, selected, onSelect, onRemove, showRemoveOverlay, onAvatarClick }) => {
-  const avatarUrl = getInstagramAvatarSrc(account.username, account.profilePhotoUrl) || account.profilePhotoUrl;
+  const avatarSources = React.useMemo(
+    () => getInstagramAvatarSources(account.username, account.profilePhotoUrl),
+    [account.profilePhotoUrl, account.username]
+  );
+  const [avatarIndex, setAvatarIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    setAvatarIndex(0);
+  }, [avatarSources]);
+
+  const avatarUrl = avatarSources[avatarIndex] || noAvatar;
 
   return (
     <div
@@ -239,7 +250,21 @@ const TrackedAccountCard: React.FC<{
         }}
         style={{ position: 'absolute', left: '21px', top: '8px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
       >
-        <img src={avatarUrl || noAvatar} alt={account.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img
+          src={avatarUrl}
+          alt={account.username}
+          onError={(event) => {
+            const target = event.currentTarget;
+            if (avatarIndex < avatarSources.length - 1) {
+              setAvatarIndex((current) => current + 1);
+              return;
+            }
+            if (target.src !== noAvatar) {
+              target.src = noAvatar;
+            }
+          }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
         {showRemoveOverlay ? (
           <img
             src={avatarUnfollowButton}
@@ -262,7 +287,7 @@ const TrackedAccountCard: React.FC<{
       </div>
 
       <div style={{ position: 'absolute', left: '242px', top: '141px', width: '420px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        {account.followersCount.toLocaleString('ru-RU')} подписчиков
+        {formatFollowersLabel(account.followersCount)}
       </div>
     </div>
   );

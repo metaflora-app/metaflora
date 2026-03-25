@@ -36,6 +36,20 @@ function buildProxyImageUrl(url: string): string {
   return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}`;
 }
 
+function uniqueImageSources(sources: Array<string | null | undefined>): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  for (const source of sources) {
+    const normalized = String(source || '').trim();
+    if (!normalized || seen.has(normalized)) continue;
+    seen.add(normalized);
+    result.push(normalized);
+  }
+
+  return result;
+}
+
 /**
  * Если есть instagram page URL, всегда используем его как первичный live source.
  * Так backend сам вытаскивает свежий og:image и не зависит от протухших CDN ссылок.
@@ -65,6 +79,22 @@ export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' |
   return convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
 }
 
+export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string[] {
+  const instagramReelId = String(reel.instagramReelId || '').trim();
+  const instagramPageUrl = instagramReelId ? `https://www.instagram.com/p/${instagramReelId}/` : null;
+  const proxiedReelUrl =
+    reel.reelUrl && /^https?:\/\/(www\.)?instagram\.com\//i.test(reel.reelUrl)
+      ? buildProxyImageUrl(reel.reelUrl)
+      : null;
+
+  return uniqueImageSources([
+    instagramPageUrl ? buildProxyImageUrl(instagramPageUrl) : null,
+    proxiedReelUrl,
+    convertInstagramImageUrl(reel.coverImageUrl),
+    reel.coverImageUrl,
+  ]);
+}
+
 export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {
   const normalizedUsername = String(username || '').trim().replace(/^@/, '');
   if (normalizedUsername) {
@@ -72,6 +102,25 @@ export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: st
   }
 
   return convertInstagramImageUrl(fallbackUrl) || fallbackUrl || null;
+}
+
+export function getInstagramAvatarSources(username?: string | null, fallbackUrl?: string | null): string[] {
+  const normalizedUsername = String(username || '').trim().replace(/^@/, '');
+  const instagramProfileUrl = normalizedUsername
+    ? buildProxyImageUrl(`https://www.instagram.com/${normalizedUsername}/`)
+    : null;
+
+  return uniqueImageSources([
+    instagramProfileUrl,
+    convertInstagramImageUrl(fallbackUrl),
+    fallbackUrl,
+  ]);
+}
+
+export function formatFollowersLabel(followersCount: number | null | undefined): string {
+  const followers = Number(followersCount || 0);
+  if (followers <= 0) return 'закрытый профиль';
+  return `${formatCount(followers)} подписчиков`;
 }
 
 // ================================================

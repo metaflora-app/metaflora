@@ -5,7 +5,20 @@ import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBa
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, Reel, Scenario } from '../../types/laba';
-import { analyzeReel, formatCount, formatTimeAgo, generateScenario, getExistingAnalysis, getInstagramAvatarSrc, getReelCoverSrc, getTelegramUserId, getViralityColor, showMessage, trackAccount } from '../../utils/labaApi';
+import {
+  analyzeReel,
+  formatCount,
+  formatFollowersLabel,
+  formatTimeAgo,
+  generateScenario,
+  getExistingAnalysis,
+  getInstagramAvatarSources,
+  getReelCoverSources,
+  getTelegramUserId,
+  getViralityColor,
+  showMessage,
+  trackAccount,
+} from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
@@ -276,8 +289,24 @@ const AnalysisPreviewCard: React.FC<{
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
     : reel.accountUsername;
-  const coverSrc = getReelCoverSrc(reel) || reel.coverImageUrl || figmaCardCover;
-  const avatarSrc = getInstagramAvatarSrc(reel.accountUsername, reel.accountProfilePicUrl) || reel.accountProfilePicUrl || figmaProfilePhoto;
+  const coverSources = React.useMemo(() => getReelCoverSources(reel), [reel]);
+  const avatarSources = React.useMemo(
+    () => getInstagramAvatarSources(reel.accountUsername, reel.accountProfilePicUrl),
+    [reel.accountProfilePicUrl, reel.accountUsername]
+  );
+  const [coverIndex, setCoverIndex] = React.useState(0);
+  const [avatarIndex, setAvatarIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    setCoverIndex(0);
+  }, [coverSources]);
+
+  React.useEffect(() => {
+    setAvatarIndex(0);
+  }, [avatarSources]);
+
+  const coverSrc = coverSources[coverIndex] || figmaCardCover;
+  const avatarSrc = avatarSources[avatarIndex] || figmaProfilePhoto;
 
   return (
     <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>
@@ -304,6 +333,10 @@ const AnalysisPreviewCard: React.FC<{
           alt=""
           onError={(event) => {
             const target = event.currentTarget;
+            if (coverIndex < coverSources.length - 1) {
+              setCoverIndex((current) => current + 1);
+              return;
+            }
             if (target.src !== figmaCardCover) {
               target.src = figmaCardCover;
             }
@@ -401,6 +434,10 @@ const AnalysisPreviewCard: React.FC<{
           alt=""
           onError={(event) => {
             const target = event.currentTarget;
+            if (avatarIndex < avatarSources.length - 1) {
+              setAvatarIndex((current) => current + 1);
+              return;
+            }
             if (target.src !== figmaProfilePhoto) {
               target.src = figmaProfilePhoto;
             }
@@ -429,7 +466,7 @@ const AnalysisPreviewCard: React.FC<{
       </div>
 
       <div style={{ position: 'absolute', left: '287px', top: '940px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
-        {formatCount(reel.accountFollowers)} подписчиков
+        {formatFollowersLabel(reel.accountFollowers)}
       </div>
 
       <ActionButton

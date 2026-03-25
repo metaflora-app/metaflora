@@ -1,12 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Reel } from '../types/laba';
-import { formatCount, formatTimeAgo, getInstagramAvatarSrc, getReelCoverSrc } from '../utils/labaApi';
+import {
+  formatCount,
+  formatFollowersLabel,
+  formatTimeAgo,
+  getInstagramAvatarSources,
+  getReelCoverSources,
+} from '../utils/labaApi';
 
 // Assets
 import analysisButtonPNG from '../assets/laba-main/кнопка анализ.png';
 import newBadgePNG from '../assets/laba-main/плашка новое.png';
-import playIcon from '../assets/tour-video/play-icon.png';
 import viewsIcon from '../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../assets/laba-icons/иконка лайки.png';
 import commentsIcon from '../assets/laba-icons/иконка комментарии.png';
@@ -35,15 +40,24 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
   const left = isLeftColumn ? '22px' : '444px';
   const top = `${23 + rowIndex * 805}px`;
   
-  // Конвертируем Instagram URL в прокси URL
-  const avatarUrl = React.useMemo(() => {
-    return getInstagramAvatarSrc(reel.accountUsername, reel.accountProfilePicUrl);
-  }, [reel.accountProfilePicUrl, reel.accountUsername]);
-  
-  // Конвертируем обложку через прокси
-  const coverUrl = React.useMemo(() => {
-    return getReelCoverSrc(reel) || reel.coverImageUrl;
-  }, [reel]);
+  const avatarSources = React.useMemo(
+    () => getInstagramAvatarSources(reel.accountUsername, reel.accountProfilePicUrl),
+    [reel.accountProfilePicUrl, reel.accountUsername]
+  );
+  const coverSources = React.useMemo(() => getReelCoverSources(reel), [reel]);
+  const [avatarIndex, setAvatarIndex] = React.useState(0);
+  const [coverIndex, setCoverIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    setAvatarIndex(0);
+  }, [avatarSources]);
+
+  React.useEffect(() => {
+    setCoverIndex(0);
+  }, [coverSources]);
+
+  const avatarUrl = avatarSources[avatarIndex] || null;
+  const coverUrl = coverSources[coverIndex] || reel.coverImageUrl;
   
   return (
     <div style={{
@@ -63,7 +77,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         pointerEvents: 'none',
       }} />
       
-      {/* Cover image - через прокси */}
+      {/* Cover image */}
       <div style={{
         position: 'absolute',
         top: '3.45%',
@@ -79,6 +93,10 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
           alt=""
           loading="lazy"
           onError={(e) => {
+            if (coverIndex < coverSources.length - 1) {
+              setCoverIndex((current) => current + 1);
+              return;
+            }
             console.error('[COVER] ❌ Ошибка загрузки обложки:', coverUrl);
           }}
           style={{
@@ -155,35 +173,6 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
             fill={isFavorite ? '#FF0000' : 'none'} 
           />
         </svg>
-      </div>
-
-      {/* Play button */}
-      <div className="blur-wave" style={{
-        position: 'absolute',
-        left: 'calc(50% - 49px)',
-        top: '178px',
-        width: '98px',
-        height: '98px',
-        backdropFilter: 'blur(50px)',
-        background: 'rgba(0, 0, 0, 0.1)',
-        border: '4px solid rgba(255, 255, 255, 0.3)',
-        borderRadius: '62px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-      }}
-      onClick={() => window.open(reel.reelUrl, '_blank')}
-      >
-        <img 
-          src={playIcon}
-          alt="play"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-        />
       </div>
 
       {/* Statistics bar - ДИНАМИЧЕСКОЕ ПОЗИЦИОНИРОВАНИЕ с минимальным gap */}
@@ -322,7 +311,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         lineHeight: 0,
       }}>
         <p style={{ lineHeight: 'normal', whiteSpace: 'pre-wrap', margin: 0 }}>
-          {formatCount(reel.accountFollowers)} подписчиков
+          {formatFollowersLabel(reel.accountFollowers)}
         </p>
       </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { searchAccount, trackAccount, getInstagramAvatarSrc, getTelegramUserId } from '../../utils/labaApi';
+import { formatFollowersLabel, getInstagramAvatarSources, getTelegramUserId, searchAccount, trackAccount } from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
@@ -31,10 +31,17 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [tracking, setTracking] = React.useState(false);
   const [hasSearchAttempted, setHasSearchAttempted] = React.useState(false);
 
-  const avatarUrl = React.useMemo(() => {
-    if (!foundAccount?.profilePhotoUrl) return null;
-    return getInstagramAvatarSrc(foundAccount.username, foundAccount.profilePhotoUrl);
-  }, [foundAccount?.profilePhotoUrl, foundAccount?.username]);
+  const avatarSources = React.useMemo(() => {
+    if (!foundAccount) return [];
+    return getInstagramAvatarSources(foundAccount.username, foundAccount.profilePhotoUrl);
+  }, [foundAccount]);
+  const [avatarIndex, setAvatarIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    setAvatarIndex(0);
+  }, [avatarSources]);
+
+  const avatarUrl = avatarSources[avatarIndex] || null;
 
   const handleSearch = async () => {
     const query = linkInput.trim() || nicknameInput.trim();
@@ -234,7 +241,21 @@ export const LabaSearchAccountScreen: React.FC = () => {
           ) : hasSearchAttempted && foundAccount ? (
             <>
               <div style={{ position: 'absolute', left: '41px', top: '620px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
-                {avatarUrl ? <img src={avatarUrl} alt={foundAccount.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={foundAccount.username}
+                    onError={(event) => {
+                      const target = event.currentTarget;
+                      if (avatarIndex < avatarSources.length - 1) {
+                        setAvatarIndex((current) => current + 1);
+                        return;
+                      }
+                      target.remove();
+                    }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : null}
               </div>
 
               <div style={{ position: 'absolute', left: '247px', top: '627px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
@@ -250,7 +271,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               </p>
 
               <p style={{ position: 'absolute', left: '254px', top: '746px', margin: 0, width: '350px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', whiteSpace: 'nowrap' }}>
-                {foundAccount.followersCount.toLocaleString('ru-RU')} подписчиков
+                {formatFollowersLabel(foundAccount.followersCount)}
               </p>
 
               <button
