@@ -262,7 +262,7 @@ export const LabaMainScreen: React.FC = () => {
             left: '152px',
             top: '376px',
             width: '876px',
-            height: '86px',
+            height: '79px',
           }}
         />
 

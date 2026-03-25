@@ -135,7 +135,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               left: '37px',
               top: '136px',
               width: '755px',
-              height: '86px',
+              height: '79px',
             }}
           />
 
@@ -153,7 +153,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               left: '37px',
               top: '308px',
               width: '755px',
-              height: '86px',
+              height: '79px',
             }}
           />
 

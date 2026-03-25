@@ -53,8 +53,9 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
             position: 'absolute',
             left: '74px',
             right: textRightInset,
-            top: 0,
-            bottom: 0,
+            top: 'calc(50% - 3.5px)',
+            transform: 'translateY(-50%)',
+            height: '44px',
             display: 'flex',
             alignItems: 'center',
             fontFamily: textFont,
@@ -86,9 +87,9 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
           position: 'absolute',
           left: '74px',
           right: textRightInset,
-          top: '50%',
+          top: 'calc(50% - 3.5px)',
           transform: 'translateY(-50%)',
-          height: '48px',
+          height: '44px',
           padding: 0,
           border: 'none',
           outline: 'none',
@@ -99,6 +100,8 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
           lineHeight: 'normal',
           color: '#fff',
           caretColor: '#fff',
+          display: 'flex',
+          alignItems: 'center',
         }}
       />
     </div>
