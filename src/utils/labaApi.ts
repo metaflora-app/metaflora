@@ -32,24 +32,45 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1
 // УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ
 // ================================================
 
+function buildProxyImageUrl(url: string): string {
+  return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}`;
+}
+
 /**
- * Возвращает ровно тот URL, который пришел из backend/Supabase.
- * Для laba не строим здесь дополнительные live fallback-адреса.
+ * Если есть instagram page URL, всегда используем его как первичный live source.
+ * Так backend сам вытаскивает свежий og:image и не зависит от протухших CDN ссылок.
  */
 export function convertInstagramImageUrl(url: string | null | undefined): string | null {
   if (!url || url === '') return null;
-  
-  // Если это уже наш прокси URL - возвращаем как есть
-  if (url.startsWith(API_URL)) return url;
-  
+
+  if (url.startsWith(`${API_URL}/api/proxy-image`)) return url;
+
+  if (/^https?:\/\/(www\.)?instagram\.com\//i.test(url)) {
+    return buildProxyImageUrl(url);
+  }
+
   return url;
 }
 
 export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string | null {
+  const instagramReelId = String(reel.instagramReelId || '').trim();
+  if (instagramReelId) {
+    return buildProxyImageUrl(`https://www.instagram.com/p/${instagramReelId}/`);
+  }
+
+  if (reel.reelUrl && /^https?:\/\/(www\.)?instagram\.com\//i.test(reel.reelUrl)) {
+    return buildProxyImageUrl(reel.reelUrl);
+  }
+
   return convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
 }
 
 export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {
+  const normalizedUsername = String(username || '').trim().replace(/^@/, '');
+  if (normalizedUsername) {
+    return buildProxyImageUrl(`https://www.instagram.com/${normalizedUsername}/`);
+  }
+
   return convertInstagramImageUrl(fallbackUrl) || fallbackUrl || null;
 }
 
