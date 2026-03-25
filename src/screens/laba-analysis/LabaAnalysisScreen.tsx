@@ -5,7 +5,7 @@ import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBa
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, Reel, Scenario } from '../../types/laba';
-import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getTelegramUserId, getViralityColor, showMessage, trackAccount } from '../../utils/labaApi';
+import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getExistingAnalysis, getTelegramUserId, getViralityColor, showMessage, trackAccount } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
@@ -37,11 +37,48 @@ export const LabaAnalysisScreen: React.FC = () => {
   const [scenario, setScenario] = React.useState<Scenario | null>(null);
   const [analyzing, setAnalyzing] = React.useState(false);
   const [generatingScenario, setGeneratingScenario] = React.useState(false);
+  const [hydratingAnalysis, setHydratingAnalysis] = React.useState(true);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
 
   React.useEffect(() => {
     if (!reel) navigate('/laba-main');
   }, [navigate, reel]);
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    const hydrateExistingAnalysis = async () => {
+      if (!reel) return;
+
+      setHydratingAnalysis(true);
+      setAnalysis(null);
+      setScenario(null);
+
+      const userId = getTelegramUserId();
+      if (!userId) {
+        if (!cancelled) setHydratingAnalysis(false);
+        return;
+      }
+
+      try {
+        const result = await getExistingAnalysis(reel.id, userId);
+        if (cancelled) return;
+
+        setAnalysis(result.analysis);
+        setScenario(result.scenario || null);
+      } catch (error) {
+        console.error('Ошибка загрузки сохраненного анализа:', error);
+      } finally {
+        if (!cancelled) setHydratingAnalysis(false);
+      }
+    };
+
+    void hydrateExistingAnalysis();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [reel]);
 
   if (!reel) return null;
 
@@ -192,7 +229,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 {reel.caption || 'без описания'}
               </p>
             </div>
-            {!analysis ? (
+            {hydratingAnalysis ? null : !analysis ? (
               <LockedActionFrame
                 frameSrc={blurFrameMakeAnalysis}
                 disabled={analyzing}

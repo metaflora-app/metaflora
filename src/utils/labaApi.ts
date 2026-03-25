@@ -13,6 +13,7 @@ import {
   SearchReelsResponse,
   TopReelsResponse,
   AnalyzeReelResponse,
+  ExistingAnalysisResponse,
   GenerateScenarioResponse,
   SearchAccountResponse,
   TrackAccountResponse,
@@ -24,8 +25,8 @@ import {
   TopReelCategory,
 } from '../types/laba';
 
-// Production URL от Railway
-const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
+// Canonical production URL for the Metaflora service backend.
+const API_URL = 'https://metaflora-service.ru';
 
 // ================================================
 // УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ
@@ -113,6 +114,26 @@ export async function analyzeReel(reelId: string, userId: number): Promise<{ ana
 
   return {
     analysis: data.analysis,
+    scenario: data.scenario ?? null,
+  };
+}
+
+/**
+ * Получить уже существующий анализ и сценарий без повторного списания метакоинов
+ */
+export async function getExistingAnalysis(reelId: string, userId: number): Promise<{ analysis: Analysis | null; scenario?: Scenario | null }> {
+  const response = await fetch(
+    `${API_URL}/api/laba/existing-analysis?reelId=${encodeURIComponent(reelId)}&userId=${encodeURIComponent(String(userId))}`
+  );
+
+  const data: ExistingAnalysisResponse = await response.json();
+
+  if (!data.success) {
+    throw new Error(data.error || 'ошибка загрузки сохраненного анализа');
+  }
+
+  return {
+    analysis: data.analysis ?? null,
     scenario: data.scenario ?? null,
   };
 }

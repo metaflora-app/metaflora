@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = 'https://lwjsbflvsmscfrdkejia.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMjgzMjEsImV4cCI6MjA4NDYwNDMyMX0.sf_9yMijf066geuGGjv0ylxRxKueaaC2J9u5z6Xa6sI';
 
-// API Proxy URL - metaflora service
-const API_PROXY_URL = 'https://service-production-f0b1.up.railway.app';
+// Canonical production URL for the Metaflora service backend.
+const API_PROXY_URL = 'https://metaflora-service.ru';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {

@@ -132,6 +132,13 @@ export interface AnalyzeReelResponse {
   error?: string;
 }
 
+export interface ExistingAnalysisResponse {
+  success: boolean;
+  analysis: Analysis | null;
+  scenario?: Scenario | null;
+  error?: string;
+}
+
 /**
  * Ответ API: Генерация сценария
  */
