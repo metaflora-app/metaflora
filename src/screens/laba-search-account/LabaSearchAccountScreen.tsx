@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { searchAccount, trackAccount, getTelegramUserId, convertInstagramImageUrl } from '../../utils/labaApi';
+import { searchAccount, trackAccount, getInstagramAvatarSrc, getTelegramUserId } from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
@@ -33,8 +33,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
 
   const avatarUrl = React.useMemo(() => {
     if (!foundAccount?.profilePhotoUrl) return null;
-    return convertInstagramImageUrl(foundAccount.profilePhotoUrl);
-  }, [foundAccount?.profilePhotoUrl]);
+    return getInstagramAvatarSrc(foundAccount.username, foundAccount.profilePhotoUrl);
+  }, [foundAccount?.profilePhotoUrl, foundAccount?.username]);
 
   const handleSearch = async () => {
     const query = linkInput.trim() || nicknameInput.trim();

@@ -25,8 +25,8 @@ import {
   TopReelCategory,
 } from '../types/laba';
 
-// Canonical production URL for the Metaflora service backend.
-const API_URL = 'https://metaflora-service.ru';
+// Laba endpoints are served from the dedicated Railway service backend.
+const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
 
 // ================================================
 // УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ
@@ -53,6 +53,26 @@ export function convertInstagramImageUrl(url: string | null | undefined): string
   
   // Для относительных URL возвращаем как есть
   return url;
+}
+
+function buildProxyImageUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}&format=jpeg`;
+}
+
+export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string | null {
+  const reelPageUrl = reel.instagramReelId
+    ? `https://www.instagram.com/p/${reel.instagramReelId}/`
+    : reel.reelUrl || null;
+
+  return buildProxyImageUrl(reelPageUrl) || convertInstagramImageUrl(reel.coverImageUrl);
+}
+
+export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {
+  const normalizedUsername = username?.replace(/^@/, '').trim();
+  const profileUrl = normalizedUsername ? `https://www.instagram.com/${normalizedUsername}/` : null;
+
+  return buildProxyImageUrl(profileUrl) || convertInstagramImageUrl(fallbackUrl);
 }
 
 // ================================================

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FigmaLikeButton } from '../FigmaLikeButton';
 import type { Reel } from '../../types/laba';
-import { convertInstagramImageUrl, formatCount, formatTimeAgo } from '../../utils/labaApi';
+import { formatCount, formatTimeAgo, getInstagramAvatarSrc, getReelCoverSrc } from '../../utils/labaApi';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -41,8 +41,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
     : reel.accountUsername;
-  const coverSrc = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || figmaCardCover;
-  const avatarSrc = convertInstagramImageUrl(reel.accountProfilePicUrl) || reel.accountProfilePicUrl || figmaProfilePhoto;
+  const coverSrc = getReelCoverSrc(reel) || reel.coverImageUrl || figmaCardCover;
+  const avatarSrc = getInstagramAvatarSrc(reel.accountUsername, reel.accountProfilePicUrl) || reel.accountProfilePicUrl || figmaProfilePhoto;
 
   return (
     <div

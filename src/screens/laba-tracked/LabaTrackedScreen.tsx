@@ -4,7 +4,7 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel, TrackedAccount } from '../../types/laba';
 import {
-  convertInstagramImageUrl,
+  getInstagramAvatarSrc,
   getTelegramUserId,
   getTrackedAccounts,
   getTrackedReels,
@@ -212,7 +212,7 @@ const TrackedAccountCard: React.FC<{
   showRemoveOverlay: boolean;
   onAvatarClick: () => void;
 }> = ({ account, selected, onSelect, onRemove, showRemoveOverlay, onAvatarClick }) => {
-  const avatarUrl = convertInstagramImageUrl(account.profilePhotoUrl) || account.profilePhotoUrl;
+  const avatarUrl = getInstagramAvatarSrc(account.username, account.profilePhotoUrl) || account.profilePhotoUrl;
 
   return (
     <div

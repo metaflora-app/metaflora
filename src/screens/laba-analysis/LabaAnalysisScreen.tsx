@@ -5,7 +5,7 @@ import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBa
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
 import { Analysis, Reel, Scenario } from '../../types/laba';
-import { analyzeReel, convertInstagramImageUrl, formatCount, formatTimeAgo, generateScenario, getExistingAnalysis, getTelegramUserId, getViralityColor, showMessage, trackAccount } from '../../utils/labaApi';
+import { analyzeReel, formatCount, formatTimeAgo, generateScenario, getExistingAnalysis, getInstagramAvatarSrc, getReelCoverSrc, getTelegramUserId, getViralityColor, showMessage, trackAccount } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
@@ -276,8 +276,8 @@ const AnalysisPreviewCard: React.FC<{
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
     : reel.accountUsername;
-  const coverSrc = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || figmaCardCover;
-  const avatarSrc = convertInstagramImageUrl(reel.accountProfilePicUrl) || reel.accountProfilePicUrl || figmaProfilePhoto;
+  const coverSrc = getReelCoverSrc(reel) || reel.coverImageUrl || figmaCardCover;
+  const avatarSrc = getInstagramAvatarSrc(reel.accountUsername, reel.accountProfilePicUrl) || reel.accountProfilePicUrl || figmaProfilePhoto;
 
   return (
     <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>

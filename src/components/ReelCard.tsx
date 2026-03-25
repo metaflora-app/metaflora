@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Reel } from '../types/laba';
-import { formatCount, formatTimeAgo, convertInstagramImageUrl } from '../utils/labaApi';
+import { formatCount, formatTimeAgo, getInstagramAvatarSrc, getReelCoverSrc } from '../utils/labaApi';
 
 // Assets
 import analysisButtonPNG from '../assets/laba-main/кнопка анализ.png';
@@ -37,13 +37,13 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
   
   // Конвертируем Instagram URL в прокси URL
   const avatarUrl = React.useMemo(() => {
-    return convertInstagramImageUrl(reel.accountProfilePicUrl);
-  }, [reel.accountProfilePicUrl]);
+    return getInstagramAvatarSrc(reel.accountUsername, reel.accountProfilePicUrl);
+  }, [reel.accountProfilePicUrl, reel.accountUsername]);
   
   // Конвертируем обложку через прокси
   const coverUrl = React.useMemo(() => {
-    return convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl;
-  }, [reel.coverImageUrl]);
+    return getReelCoverSrc(reel) || reel.coverImageUrl;
+  }, [reel]);
   
   return (
     <div style={{
