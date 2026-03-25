@@ -37,9 +37,9 @@ const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/40578be4-a6d1
 const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/d56cba13-009a-442d-b106-7edce51a1b64';
 const PREVIEW_CARD_WIDTH = 831;
 const PREVIEW_CARD_HEIGHT = 1064;
-const PREVIEW_CARD_INSET_X = 34;
-const PREVIEW_CARD_INSET_TOP = 37;
-const PREVIEW_COVER_SIZE = 758;
+const PREVIEW_CARD_INSET_X = 31;
+const PREVIEW_CARD_INSET_TOP = 31;
+const PREVIEW_COVER_SIZE = 769;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();

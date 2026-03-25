@@ -277,7 +277,7 @@ export const PromptFirstScreen: React.FC = () => {
                     style={{ position: 'absolute', left: '-4px', top: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
                   />
 
-                  <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
+                  <div style={{ position: 'absolute', left: '31px', top: '31px', width: '769px', height: '769px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
                     {prompt.media_type === 'video' && prompt.cover_video_url ? (
                       <video
                         src={prompt.cover_video_url}

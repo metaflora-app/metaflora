@@ -24,9 +24,9 @@ interface LabaFeedCardProps {
 
 const CARD_WIDTH = 831;
 const CARD_HEIGHT = 1064;
-const CARD_INSET_X = 34;
-const CARD_INSET_TOP = 37;
-const COVER_SIZE = 758;
+const CARD_INSET_X = 31;
+const CARD_INSET_TOP = 31;
+const COVER_SIZE = 769;
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';

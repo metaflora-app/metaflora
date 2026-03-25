@@ -118,7 +118,7 @@ export const PromptCardScreen: React.FC = () => {
             }}
           >
             <div style={{ position: 'relative', width: '826px', height: `${contentHeight}px` }}>
-              <div style={{ position: 'absolute', left: '34px', top: '37px', width: '758px', height: '744px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
+              <div style={{ position: 'absolute', left: '31px', top: '31px', width: '764px', height: '764px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
                 {mediaType === 'video' ? (
                   <video
                     src={prompt?.cover_video_url || undefined}
