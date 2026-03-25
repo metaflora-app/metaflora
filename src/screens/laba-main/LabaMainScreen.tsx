@@ -257,6 +257,7 @@ export const LabaMainScreen: React.FC = () => {
           onEnter={() => void handleSearch()}
           placeholder="найти видео по ключевому слову"
           iconSrc={figmaSearchIcon}
+          textRightInset="190px"
           style={{
             left: '152px',
             top: '376px',

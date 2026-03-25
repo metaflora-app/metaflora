@@ -8,6 +8,7 @@ interface LabaSearchInputProps {
   placeholder: string;
   iconSrc: string;
   onEnter?: () => void;
+  textRightInset?: string;
   style?: React.CSSProperties;
 }
 
@@ -17,6 +18,7 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
   placeholder,
   iconSrc,
   onEnter,
+  textRightInset = '28px',
   style,
 }) => {
   return (
@@ -50,13 +52,15 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
           style={{
             position: 'absolute',
             left: '74px',
-            right: '28px',
-            top: '50%',
-            transform: 'translateY(-54%)',
+            right: textRightInset,
+            top: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
             fontFamily: textFont,
             fontWeight: 400,
             fontSize: '35px',
-            lineHeight: '1',
+            lineHeight: 'normal',
             color: 'rgba(255,255,255,0.3)',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
@@ -81,10 +85,10 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
         style={{
           position: 'absolute',
           left: '74px',
-          right: '28px',
+          right: textRightInset,
           top: '50%',
-          transform: 'translateY(-54%)',
-          height: '44px',
+          transform: 'translateY(-50%)',
+          height: '48px',
           padding: 0,
           border: 'none',
           outline: 'none',
@@ -92,7 +96,7 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
           fontFamily: textFont,
           fontWeight: 400,
           fontSize: '35px',
-          lineHeight: '1',
+          lineHeight: 'normal',
           color: '#fff',
           caretColor: '#fff',
         }}
