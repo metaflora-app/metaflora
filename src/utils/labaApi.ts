@@ -32,33 +32,16 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1
 // УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ
 // ================================================
 
-function isSupabaseStorageUrl(url: string): boolean {
-  return url.includes('/storage/v1/object/public/');
-}
-
-function isLikelyInstagramCdnUrl(url: string): boolean {
-  return /cdninstagram|fbcdn|instagram\.(?:cdn|fbcdn|com)/i.test(url);
-}
-
 /**
- * Проксирует только проблемные внешние CDN-изображения.
- * Supabase public URLs отдаем напрямую, чтобы mini-app читала уже сохраненные данные.
+ * Возвращает ровно тот URL, который пришел из backend/Supabase.
+ * Для laba не строим здесь дополнительные live fallback-адреса.
  */
 export function convertInstagramImageUrl(url: string | null | undefined): string | null {
   if (!url || url === '') return null;
   
   // Если это уже наш прокси URL - возвращаем как есть
   if (url.startsWith(API_URL)) return url;
-
-  // Если изображение уже лежит в Supabase Storage - используем напрямую.
-  if (isSupabaseStorageUrl(url)) return url;
   
-  // Проксируем только старые Instagram/Facebook CDN-ссылки.
-  if ((url.startsWith('http://') || url.startsWith('https://')) && isLikelyInstagramCdnUrl(url)) {
-    return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}&format=jpeg`;
-  }
-  
-  // Для относительных URL возвращаем как есть
   return url;
 }
 

@@ -83,7 +83,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         <img
           src={coverSrc}
           alt=""
-          crossOrigin="anonymous"
           onError={(event) => {
             const target = event.currentTarget;
             if (target.src !== figmaCardCover) {
@@ -232,7 +231,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         <img
           src={avatarSrc}
           alt=""
-          crossOrigin="anonymous"
           onError={(event) => {
             const target = event.currentTarget;
             if (target.src !== figmaProfilePhoto) {

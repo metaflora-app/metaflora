@@ -78,7 +78,6 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
           src={coverUrl}
           alt=""
           loading="lazy"
-          crossOrigin="anonymous"
           onError={(e) => {
             console.error('[COVER] ❌ Ошибка загрузки обложки:', coverUrl);
           }}

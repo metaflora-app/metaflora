@@ -250,7 +250,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                     disabled={generatingScenario}
                     ariaLabel="создать сценарий"
                     onClick={() => void handleGenerateScenario()}
-                    style={{ margin: '12px auto 0' }}
+                    style={{ margin: '28px auto 0' }}
                   />
                 ) : (
                   <AnalysisBlock title="новый сценарий" body={scenario.text} bodyClickable onBodyClick={() => void handleCopyScenario()} />
@@ -302,7 +302,6 @@ const AnalysisPreviewCard: React.FC<{
         <img
           src={coverSrc}
           alt=""
-          crossOrigin="anonymous"
           onError={(event) => {
             const target = event.currentTarget;
             if (target.src !== figmaCardCover) {
@@ -400,7 +399,6 @@ const AnalysisPreviewCard: React.FC<{
         <img
           src={avatarSrc}
           alt=""
-          crossOrigin="anonymous"
           onError={(event) => {
             const target = event.currentTarget;
             if (target.src !== figmaProfilePhoto) {
