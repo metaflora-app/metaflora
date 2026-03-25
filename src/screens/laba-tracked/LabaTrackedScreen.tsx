@@ -19,7 +19,6 @@ import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
 import trackedAddBlackBg from '../../assets/laba-tracked/tracked-add-black-bg.png';
 import avatarUnfollowButton from '../../assets/laba-tracked/avatar-unfollow-button.png';
-import noAvatar from '../../assets/laba-tracked/no-avatar.png';
 
 const textFont = 'Cygre, sans-serif';
 
@@ -223,7 +222,7 @@ const TrackedAccountCard: React.FC<{
     setAvatarIndex(0);
   }, [avatarSources]);
 
-  const avatarUrl = avatarSources[avatarIndex] || noAvatar;
+  const avatarUrl = avatarSources[avatarIndex] || null;
 
   return (
     <div
@@ -250,21 +249,20 @@ const TrackedAccountCard: React.FC<{
         }}
         style={{ position: 'absolute', left: '21px', top: '8px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
       >
-        <img
-          src={avatarUrl}
-          alt={account.username}
-          onError={(event) => {
-            const target = event.currentTarget;
-            if (avatarIndex < avatarSources.length - 1) {
-              setAvatarIndex((current) => current + 1);
-              return;
-            }
-            if (target.src !== noAvatar) {
-              target.src = noAvatar;
-            }
-          }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt={account.username}
+            onError={() => {
+              if (avatarIndex < avatarSources.length - 1) {
+                setAvatarIndex((current) => current + 1);
+                return;
+              }
+              setAvatarIndex(avatarSources.length);
+            }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : null}
         {showRemoveOverlay ? (
           <img
             src={avatarUnfollowButton}

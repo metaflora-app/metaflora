@@ -28,7 +28,6 @@ const COVER_SIZE = 744;
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
 const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/200ff601-2b41-4029-92e4-df8b7f6e9be8';
-const figmaProfilePhoto = 'https://www.figma.com/api/mcp/asset/7c7e9ccf-5f4d-4211-9ee3-97edfc45576f';
 const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
 const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
@@ -64,7 +63,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   }, [avatarSources]);
 
   const coverSrc = coverSources[coverIndex] || figmaCardCover;
-  const avatarSrc = avatarSources[avatarIndex] || figmaProfilePhoto;
+  const avatarSrc = avatarSources[avatarIndex] || null;
 
   return (
     <div
@@ -254,21 +253,20 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           background: 'rgba(255,255,255,0.12)',
         }}
       >
-        <img
-          src={avatarSrc}
-          alt=""
-          onError={(event) => {
-            const target = event.currentTarget;
-            if (avatarIndex < avatarSources.length - 1) {
-              setAvatarIndex((current) => current + 1);
-              return;
-            }
-            if (target.src !== figmaProfilePhoto) {
-              target.src = figmaProfilePhoto;
-            }
-          }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        {avatarSrc ? (
+          <img
+            src={avatarSrc}
+            alt=""
+            onError={() => {
+              if (avatarIndex < avatarSources.length - 1) {
+                setAvatarIndex((current) => current + 1);
+                return;
+              }
+              setAvatarIndex(avatarSources.length);
+            }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : null}
       </div>
 
       <div

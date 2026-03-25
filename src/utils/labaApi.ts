@@ -96,17 +96,13 @@ export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUr
 }
 
 export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {
-  if (fallbackUrl) {
-    return convertInstagramImageUrl(fallbackUrl) || fallbackUrl || null;
-  }
-  return null;
+  const directUrl = String(fallbackUrl || '').trim();
+  return directUrl || null;
 }
 
 export function getInstagramAvatarSources(username?: string | null, fallbackUrl?: string | null): string[] {
-  return uniqueImageSources([
-    convertInstagramImageUrl(fallbackUrl),
-    fallbackUrl,
-  ]);
+  const directUrl = String(fallbackUrl || '').trim();
+  return uniqueImageSources([directUrl]);
 }
 
 export function formatFollowersLabel(followersCount: number | null | undefined): string {

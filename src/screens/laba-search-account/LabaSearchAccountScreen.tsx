@@ -216,13 +216,12 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   <img
                     src={avatarUrl}
                     alt={foundAccount.username}
-                    onError={(event) => {
-                      const target = event.currentTarget;
+                    onError={() => {
                       if (avatarIndex < avatarSources.length - 1) {
                         setAvatarIndex((current) => current + 1);
                         return;
                       }
-                      target.remove();
+                      setAvatarIndex(avatarSources.length);
                     }}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
