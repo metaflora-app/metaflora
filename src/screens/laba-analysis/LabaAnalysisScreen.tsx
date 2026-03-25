@@ -281,7 +281,10 @@ const AnalysisPreviewCard: React.FC<{
 
   return (
     <div style={{ position: 'relative', width: `${PREVIEW_CARD_WIDTH}px`, height: `${PREVIEW_CARD_HEIGHT}px`, margin: '0 auto' }}>
-      <div
+      <button
+        type="button"
+        onClick={onOpenReel}
+        aria-label="открыть рилс"
         style={{
           position: 'absolute',
           left: '35px',
@@ -292,6 +295,8 @@ const AnalysisPreviewCard: React.FC<{
           overflow: 'hidden',
           border: 'none',
           background: 'rgba(255,255,255,0.08)',
+          padding: 0,
+          cursor: 'pointer',
         }}
       >
         <img
@@ -306,7 +311,7 @@ const AnalysisPreviewCard: React.FC<{
           }}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
-      </div>
+      </button>
 
       <FigmaLikeButton
         active={isFavorite}
@@ -360,8 +365,6 @@ const AnalysisPreviewCard: React.FC<{
       >
         {formatTimeAgo(reel.publishedAt)}
       </div>
-
-      <OpenReelButton onClick={onOpenReel} />
 
       <div
         className="blur-wave"
@@ -443,53 +446,6 @@ const AnalysisPreviewCard: React.FC<{
     </div>
   );
 };
-
-const OpenReelButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={{
-      position: 'absolute',
-      left: '377px',
-      top: '374px',
-      width: '72px',
-      height: '72px',
-      border: 'none',
-      background: 'transparent',
-      cursor: 'pointer',
-      padding: 0,
-    }}
-    aria-label="открыть рилс"
-  >
-    <div style={{ position: 'absolute', inset: 0, backdropFilter: 'blur(12px)', background: 'rgba(4,22,39,0.1)', borderRadius: '32px' }} />
-    <OpenReelChevron src={figmaOpenReelChevron1} left={14} />
-    <OpenReelChevron src={figmaOpenReelChevron2} left={22} />
-    <OpenReelChevron src={figmaOpenReelChevron3} left={32} />
-  </button>
-);
-
-const OpenReelChevron: React.FC<{ src: string; left: number }> = ({ src, left }) => (
-  <div
-    style={{
-      position: 'absolute',
-      left: `${left}px`,
-      top: '21px',
-      width: '32px',
-      height: '32px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '32px',
-      pointerEvents: 'none',
-    }}
-  >
-    <div style={{ position: 'relative', width: '16px', height: '16px' }}>
-      <div style={{ position: 'absolute', inset: '-43.75% 0 -37.5% 0' }}>
-        <img src={src} alt="" style={{ display: 'block', width: '100%', height: '100%', maxWidth: 'none' }} />
-      </div>
-    </div>
-  </div>
-);
 
 const ActionButton: React.FC<{
   label: string;

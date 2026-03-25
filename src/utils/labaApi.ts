@@ -32,22 +32,29 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1
 // УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ
 // ================================================
 
+function isSupabaseStorageUrl(url: string): boolean {
+  return url.includes('/storage/v1/object/public/');
+}
+
+function isLikelyInstagramCdnUrl(url: string): boolean {
+  return /cdninstagram|fbcdn|instagram\.(?:cdn|fbcdn|com)/i.test(url);
+}
+
 /**
- * Конвертирует Instagram CDN URL в прокси URL через наш сервер
- * Решает проблему CORS и загрузки изображений из Instagram
- * ПРОКСИРУЕТ АБСОЛЮТНО ЛЮБУЮ ССЫЛКУ INSTAGRAM/FACEBOOK
- * КОНВЕРТИРУЕТ ВСЕ ФОРМАТЫ В JPEG
+ * Проксирует только проблемные внешние CDN-изображения.
+ * Supabase public URLs отдаем напрямую, чтобы mini-app читала уже сохраненные данные.
  */
 export function convertInstagramImageUrl(url: string | null | undefined): string | null {
   if (!url || url === '') return null;
   
   // Если это уже наш прокси URL - возвращаем как есть
   if (url.startsWith(API_URL)) return url;
+
+  // Если изображение уже лежит в Supabase Storage - используем напрямую.
+  if (isSupabaseStorageUrl(url)) return url;
   
-  // ПРОКСИРУЕМ ЛЮБУЮ ССЫЛКУ КОТОРАЯ НАЧИНАЕТСЯ С http/https
-  // Это гарантирует что ВСЕ внешние изображения пройдут через прокси
-  // ДОБАВЛЯЕМ &format=jpeg ДЛЯ КОНВЕРТАЦИИ ВСЕХ ФОРМАТОВ В JPEG
-  if (url.startsWith('http://') || url.startsWith('https://')) {
+  // Проксируем только старые Instagram/Facebook CDN-ссылки.
+  if ((url.startsWith('http://') || url.startsWith('https://')) && isLikelyInstagramCdnUrl(url)) {
     return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}&format=jpeg`;
   }
   
@@ -55,24 +62,12 @@ export function convertInstagramImageUrl(url: string | null | undefined): string
   return url;
 }
 
-function buildProxyImageUrl(url: string | null | undefined): string | null {
-  if (!url) return null;
-  return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}&format=jpeg`;
-}
-
 export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string | null {
-  const reelPageUrl = reel.instagramReelId
-    ? `https://www.instagram.com/p/${reel.instagramReelId}/`
-    : reel.reelUrl || null;
-
-  return buildProxyImageUrl(reelPageUrl) || convertInstagramImageUrl(reel.coverImageUrl);
+  return convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
 }
 
 export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {
-  const normalizedUsername = username?.replace(/^@/, '').trim();
-  const profileUrl = normalizedUsername ? `https://www.instagram.com/${normalizedUsername}/` : null;
-
-  return buildProxyImageUrl(profileUrl) || convertInstagramImageUrl(fallbackUrl);
+  return convertInstagramImageUrl(fallbackUrl) || fallbackUrl || null;
 }
 
 // ================================================
