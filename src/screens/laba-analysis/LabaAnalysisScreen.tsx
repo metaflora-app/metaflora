@@ -318,7 +318,7 @@ const AnalysisPreviewCard: React.FC<{
           top: `${PREVIEW_CARD_INSET_TOP}px`,
           width: `${PREVIEW_COVER_SIZE}px`,
           height: `${PREVIEW_COVER_SIZE}px`,
-          borderRadius: '62px',
+          borderRadius: '30px',
           overflow: 'hidden',
           background: 'rgba(255,255,255,0.08)',
         }}

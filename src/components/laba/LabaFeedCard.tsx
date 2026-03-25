@@ -98,7 +98,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           top: `${CARD_INSET_TOP}px`,
           width: `${COVER_SIZE}px`,
           height: `${COVER_SIZE}px`,
-          borderRadius: '62px',
+          borderRadius: '30px',
           overflow: 'hidden',
           border: '2px solid rgba(0,0,0,0.3)',
           background: 'rgba(255,255,255,0.08)',
