@@ -115,9 +115,9 @@ export function getInstagramAvatarSources(username?: string | null, fallbackUrl?
     : null;
 
   return uniqueImageSources([
-    instagramProfileUrl,
     convertInstagramImageUrl(fallbackUrl),
     fallbackUrl,
+    instagramProfileUrl,
   ]);
 }
 
