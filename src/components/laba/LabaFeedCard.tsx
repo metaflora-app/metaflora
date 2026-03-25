@@ -249,7 +249,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '62px',
-          top: '803px',
+          top: '834px',
           width: '190px',
           height: '190px',
           borderRadius: '50%',
@@ -277,7 +277,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '268px',
-          top: '813px',
+          top: '844px',
           width: '64px',
           height: '78px',
           overflow: 'hidden',
@@ -302,7 +302,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '284px',
-          top: '885px',
+          top: '916px',
           width: '398px',
           fontFamily: textFont,
           fontWeight: 700,
@@ -319,7 +319,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '281px',
-          top: '936px',
+          top: '967px',
           width: '350px',
           height: '32px',
           fontFamily: textFont,
@@ -397,7 +397,7 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
           style={{
             position: 'absolute',
             left: '32px',
-        top: '890px',
+            top: '921px',
             width: '190px',
             height: '190px',
             borderRadius: '50%',
@@ -408,7 +408,7 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
           style={{
             position: 'absolute',
             left: '246px',
-            top: '884px',
+            top: '915px',
             width: '280px',
             height: '48px',
             borderRadius: '14px',
@@ -419,7 +419,7 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
           style={{
             position: 'absolute',
             left: '246px',
-            top: '952px',
+            top: '983px',
             width: '220px',
             height: '30px',
             borderRadius: '12px',
@@ -433,7 +433,7 @@ export const LabaFeedPlaceholderCard: React.FC<PlaceholderProps> = ({
         style={{
           position: 'absolute',
           right: '40px',
-          top: '911px',
+          top: '942px',
           width: '246px',
           height: '102px',
           borderRadius: '62px',
@@ -519,7 +519,7 @@ const ActionButton: React.FC<{
     style={{
       position: 'absolute',
       left: '356px',
-      top: '800px',
+      top: '831px',
       width: '247px',
       height: '79px',
       padding: 0,

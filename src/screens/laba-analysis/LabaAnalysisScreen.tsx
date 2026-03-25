@@ -455,7 +455,7 @@ const AnalysisPreviewCard: React.FC<{
         </div>
       </div>
 
-      <div style={{ position: 'absolute', left: '66px', top: '807px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.12)' }}>
+      <div style={{ position: 'absolute', left: '66px', top: '838px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.12)' }}>
         {avatarSrc ? (
           <img
             src={avatarSrc}
@@ -472,7 +472,7 @@ const AnalysisPreviewCard: React.FC<{
         ) : null}
       </div>
 
-      <div style={{ position: 'absolute', left: '271px', top: '815px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+      <div style={{ position: 'absolute', left: '271px', top: '846px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
         <img
           src={figmaInstagramIcon}
           alt=""
@@ -487,11 +487,11 @@ const AnalysisPreviewCard: React.FC<{
         />
       </div>
 
-      <div style={{ position: 'absolute', left: '290px', top: '889px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', left: '290px', top: '920px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
         @{displayUsername}
       </div>
 
-      <div style={{ position: 'absolute', left: '287px', top: '940px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', left: '287px', top: '971px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
         {formatFollowersLabel(reel.accountFollowers)}
       </div>
 
@@ -521,7 +521,7 @@ const ActionButton: React.FC<{
     style={{
       position: 'absolute',
       left: '356px',
-      top: '800px',
+      top: '831px',
       width: '247px',
       height: '79px',
       padding: 0,
