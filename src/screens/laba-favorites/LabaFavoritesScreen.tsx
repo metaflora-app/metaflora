@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { openLink } from '../../app/telegram/telegramHelpers';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFilterButton } from '../../components/laba/LabaFilterButton';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
@@ -256,7 +255,6 @@ export const LabaFavoritesScreen: React.FC = () => {
                     isFavorite
                     onToggleFavorite={handleToggleFavorite}
                     onAction={() => void handleTrackFromCard(reel)}
-                    onOpenReel={() => openLink(reel.reelUrl)}
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
                     actionLabel="следить"
                     actionCost={100}

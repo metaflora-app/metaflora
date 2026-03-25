@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { openLink } from '../../app/telegram/telegramHelpers';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel, TrackedAccount } from '../../types/laba';
@@ -189,7 +188,6 @@ export const LabaTrackedScreen: React.FC = () => {
                     isFavorite={likedCards.has(reel.id)}
                     onToggleFavorite={handleToggleFavorite}
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
-                    onOpenReel={() => openLink(reel.reelUrl)}
                     onAction={() => {
                       if (selectedAccountId) void removeAccount(selectedAccountId);
                     }}
