@@ -380,23 +380,23 @@ export const PromptFirstScreen: React.FC = () => {
                     </div>
                   </button>
 
-                  <div style={{ position: 'absolute', left: '81px', top: '786px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ position: 'absolute', left: '81px', top: '812px', width: '666.8268px', height: '78.9156px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                       {prompt.title}
                     </p>
                   </div>
 
-                  <div style={{ position: 'absolute', left: '47px', top: '865px', width: '738px', minHeight: '69px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ position: 'absolute', left: '47px', top: '891px', width: '738px', minHeight: '69px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                       {prompt.description || 'откройте карточку, чтобы скопировать полный промпт'}
                     </p>
                   </div>
 
-                  <div style={{ position: 'absolute', left: '294px', top: '962px', width: '61px', height: '43px' }}>
+                  <div style={{ position: 'absolute', left: '294px', top: '988px', width: '61px', height: '43px' }}>
                     <img src={tinyLogo} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   </div>
 
-                  <div style={{ position: 'absolute', left: '367px', top: '971px' }}>
+                  <div style={{ position: 'absolute', left: '367px', top: '997px' }}>
                     <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '27px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>
                       Редакция
                     </p>

@@ -32,14 +32,14 @@ const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/200ff601-2b41-40
 const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
 const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
-const figmaOpenReelChevron1 = 'https://www.figma.com/api/mcp/asset/6686ea99-376f-431b-96fb-359d8843df95';
-const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/40578be4-a6d1-4b7b-851d-2e0e7a925feb';
-const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/d56cba13-009a-442d-b106-7edce51a1b64';
+const figmaOpenReelChevron1 = 'https://www.figma.com/api/mcp/asset/e5ce84d7-9216-4d66-9e83-921139f6af13';
+const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/65bb02d8-d7e6-4980-bd30-df2a1cb76e40';
+const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/f50b0bcc-03ba-48e5-b29f-8d4427c57b12';
 const PREVIEW_CARD_WIDTH = 831;
 const PREVIEW_CARD_HEIGHT = 1064;
-const PREVIEW_CARD_INSET_X = 31;
-const PREVIEW_CARD_INSET_TOP = 31;
-const PREVIEW_COVER_SIZE = 769;
+const PREVIEW_CARD_INSET_X = 43;
+const PREVIEW_CARD_INSET_TOP = 38;
+const PREVIEW_COVER_SIZE = 742;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -361,15 +361,9 @@ const AnalysisPreviewCard: React.FC<{
           justifyContent: 'center',
         }}
       >
-        <div style={{ position: 'absolute', left: '14px', top: '20px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={figmaOpenReelChevron1} alt="" style={{ width: '16px', height: '16px' }} />
-        </div>
-        <div style={{ position: 'absolute', left: '22px', top: '20px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={figmaOpenReelChevron2} alt="" style={{ width: '16px', height: '16px' }} />
-        </div>
-        <div style={{ position: 'absolute', left: '32px', top: '20px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={figmaOpenReelChevron3} alt="" style={{ width: '16px', height: '16px' }} />
-        </div>
+        <img src={figmaOpenReelChevron1} alt="" style={{ position: 'absolute', left: '14px', top: '20px', width: '32px', height: '32px', objectFit: 'contain', pointerEvents: 'none' }} />
+        <img src={figmaOpenReelChevron2} alt="" style={{ position: 'absolute', left: '22px', top: '20px', width: '32px', height: '32px', objectFit: 'contain', pointerEvents: 'none' }} />
+        <img src={figmaOpenReelChevron3} alt="" style={{ position: 'absolute', left: '32px', top: '20px', width: '32px', height: '32px', objectFit: 'contain', pointerEvents: 'none' }} />
       </button>
 
       <FigmaLikeButton
