@@ -117,13 +117,16 @@ export function getReelAvatarSources(
 }
 
 export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {
-  const directUrl = String(fallbackUrl || '').trim();
-  return directUrl || null;
+  const [primary] = getInstagramAvatarSources(username, fallbackUrl);
+  return primary || null;
 }
 
 export function getInstagramAvatarSources(username?: string | null, fallbackUrl?: string | null): string[] {
   const directUrl = String(fallbackUrl || '').trim();
-  return uniqueImageSources([directUrl]);
+  return uniqueImageSources([
+    directUrl,
+    directUrl ? buildProxyImageUrl(directUrl) : null,
+  ]);
 }
 
 export function formatFollowersLabel(followersCount: number | null | undefined): string {
@@ -240,10 +243,14 @@ export async function generateScenario(analysisId: string, userId: number): Prom
  * Бесплатно
  */
 export async function searchAccount(query: string): Promise<InstagramAccount> {
+  const normalizedQuery = query.includes('instagram.com')
+    ? query.trim()
+    : query.trim().replace(/^@+/, '');
+
   const response = await fetch(`${API_URL}/api/laba/search-account`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query }),
+    body: JSON.stringify({ query: normalizedQuery }),
   });
 
   const data: SearchAccountResponse = await response.json();

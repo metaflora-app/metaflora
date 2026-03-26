@@ -39,7 +39,9 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const avatarUrl = avatarSources[avatarIndex] || null;
 
   const handleSearch = async () => {
-    const query = labaAccountLinkQuery.trim() || labaAccountNicknameQuery.trim();
+    const nicknameQuery = labaAccountNicknameQuery.trim().replace(/^@+/, '');
+    const linkQuery = labaAccountLinkQuery.trim();
+    const query = nicknameQuery || linkQuery;
     if (!query) {
       window.Telegram?.WebApp?.showPopup?.({ message: 'введите ссылку или ник аккаунта' });
       return;
@@ -48,6 +50,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
     try {
       setHasSearchAttempted(true);
       setSearching(true);
+      setFoundAccount(null);
       const account = await searchAccount(query);
       setFoundAccount(account);
       window.Telegram?.WebApp?.showPopup?.({ message: 'аккаунт успешно найден' });
@@ -98,7 +101,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
           alt=""
           style={{
             position: 'absolute',
-            left: '29px',
+            left: '27px',
             top: '397px',
             width: '1162px',
             height: '1646px',
@@ -147,7 +150,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             value={labaAccountNicknameQuery}
             onChange={setLabaAccountNicknameQuery}
             onEnter={() => void handleSearch()}
-            placeholder="напишите юзернейм через @"
+            placeholder="напишите юзернейм"
             iconSrc={searchIcon}
             style={{
               left: '37px',
@@ -180,7 +183,9 @@ export const LabaSearchAccountScreen: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              opacity: searching ? 0.85 : 1,
             }}
+            disabled={searching}
           >
             <span
               style={{
@@ -195,7 +200,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 top: '-4px',
               }}
             >
-              {searching ? 'ищем...' : 'найти'}
+              найти
             </span>
           </button>
 
@@ -205,11 +210,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             </p>
           ) : null}
 
-          {hasSearchAttempted && searching ? (
-            <div style={{ position: 'absolute', left: '41px', top: '620px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.7)' }}>
-              ищем аккаунт...
-            </div>
-          ) : hasSearchAttempted && foundAccount ? (
+          {hasSearchAttempted && foundAccount ? (
             <>
               <div style={{ position: 'absolute', left: '41px', top: '620px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
                 {avatarUrl ? (
@@ -261,13 +262,14 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   cursor: tracking ? 'default' : 'pointer',
                   padding: 0,
                 }}
+                disabled={tracking}
               >
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <div
                     style={{
                       position: 'absolute',
-                      left: '29px',
-                      top: '49px',
+                      left: '28px',
+                      top: '42px',
                       width: '473px',
                       display: 'flex',
                       alignItems: 'center',
@@ -276,41 +278,37 @@ export const LabaSearchAccountScreen: React.FC = () => {
                       fontWeight: 700,
                       fontSize: '32px',
                       lineHeight: '1',
-                      whiteSpace: 'pre',
+                      gap: '10px',
                     }}
                   >
-                    {tracking ? 'отслеживаем...' : 'начать отслеживание    100'}
+                    <span style={{ whiteSpace: 'nowrap' }}>начать отслеживание</span>
+                    <img
+                      src={metacoinSmall}
+                      alt=""
+                      style={{ width: '25px', height: '25px', objectFit: 'contain', flex: '0 0 auto' }}
+                    />
+                    <span style={{ whiteSpace: 'nowrap' }}>100</span>
                   </div>
-                  {!tracking ? (
-                    <div style={{ position: 'absolute', left: '398px', top: '53px', width: '25px', height: '25px', overflow: 'hidden' }}>
-                      <img
-                        src={metacoinSmall}
-                        alt=""
-                        style={{ position: 'absolute', height: '130.34%', left: '-20%', top: '-14.48%', width: '140%', maxWidth: 'none' }}
-                      />
-                    </div>
-                  ) : null}
                 </div>
               </button>
 
               <p
                 style={{
                   position: 'absolute',
-                  left: '202px',
-                  top: '1021px',
+                  left: '189px',
+                  top: '1028px',
                   margin: 0,
-                  width: '430px',
+                  width: '456px',
                   fontFamily: textFont,
                   fontWeight: 400,
                   fontSize: '32px',
                   lineHeight: '1',
                   color: 'rgba(255,255,255,0.6)',
                   textAlign: 'center',
+                  whiteSpace: 'pre-line',
                 }}
               >
-                вы можете пополнить баланс
-                <br />
-                в личном кабинете
+                {'вы можете пополнить баланс\nв личном кабинете'}
               </p>
             </>
           ) : null}
