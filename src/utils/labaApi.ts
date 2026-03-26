@@ -122,10 +122,12 @@ export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: st
 }
 
 export function getInstagramAvatarSources(username?: string | null, fallbackUrl?: string | null): string[] {
+  const normalizedUsername = String(username || '').trim().replace(/^@+/, '');
   const directUrl = String(fallbackUrl || '').trim();
   return uniqueImageSources([
     directUrl,
     directUrl ? buildProxyImageUrl(directUrl) : null,
+    normalizedUsername ? buildProxyImageUrl(`https://www.instagram.com/${normalizedUsername}/`) : null,
   ]);
 }
 

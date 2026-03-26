@@ -268,26 +268,25 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   <div
                     style={{
                       position: 'absolute',
-                      left: '28px',
-                      top: '42px',
+                      left: '29px',
+                      top: '49px',
                       width: '473px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
                       fontFamily: textFont,
                       fontWeight: 700,
                       fontSize: '32px',
                       lineHeight: '1',
-                      gap: '10px',
+                      textAlign: 'center',
+                      whiteSpace: 'pre',
                     }}
                   >
-                    <span style={{ whiteSpace: 'nowrap' }}>начать отслеживание</span>
+                    начать отслеживание    100
+                  </div>
+                  <div style={{ position: 'absolute', left: '402px', top: '57px', width: '25px', height: '25px', overflow: 'hidden' }}>
                     <img
                       src={metacoinSmall}
                       alt=""
-                      style={{ width: '25px', height: '25px', objectFit: 'contain', flex: '0 0 auto' }}
+                      style={{ position: 'absolute', height: '130.34%', left: '-20%', top: '-14.48%', width: '140%', maxWidth: 'none' }}
                     />
-                    <span style={{ whiteSpace: 'nowrap' }}>100</span>
                   </div>
                 </div>
               </button>
@@ -295,20 +294,21 @@ export const LabaSearchAccountScreen: React.FC = () => {
               <p
                 style={{
                   position: 'absolute',
-                  left: '189px',
+                  left: '177px',
                   top: '1028px',
                   margin: 0,
-                  width: '456px',
+                  width: '477px',
                   fontFamily: textFont,
                   fontWeight: 400,
                   fontSize: '32px',
                   lineHeight: '1',
                   color: 'rgba(255,255,255,0.6)',
                   textAlign: 'center',
-                  whiteSpace: 'pre-line',
                 }}
               >
-                {'вы можете пополнить баланс\nв личном кабинете'}
+                вы можете пополнить баланс
+                <br />
+                в личном кабинете
               </p>
             </>
           ) : null}
