@@ -577,7 +577,6 @@ const LockedActionFrame: React.FC<{
       position: 'relative',
       width: '744px',
       height: '328px',
-      overflow: 'hidden',
       ...style,
     }}
   >
@@ -588,8 +587,9 @@ const LockedActionFrame: React.FC<{
         position: 'absolute',
         inset: 0,
         width: '100%',
-        height: '328px',
-        objectFit: 'cover',
+        height: '100%',
+        objectFit: 'contain',
+        objectPosition: 'top center',
         pointerEvents: 'none',
       }}
     />
