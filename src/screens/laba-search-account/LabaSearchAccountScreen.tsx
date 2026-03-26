@@ -269,7 +269,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                     style={{
                       position: 'absolute',
                       left: '29px',
-                      top: '49px',
+                      top: '45px',
                       width: '473px',
                       fontFamily: textFont,
                       fontWeight: 700,
