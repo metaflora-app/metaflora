@@ -281,35 +281,38 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   >
                     начать отслеживание    100
                   </div>
-                  <div style={{ position: 'absolute', left: '402px', top: '57px', width: '25px', height: '25px', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', left: '402px', top: '57px', width: '25px', height: '25px' }}>
                     <img
                       src={metacoinSmall}
                       alt=""
-                      style={{ position: 'absolute', height: '130.34%', left: '-20%', top: '-14.48%', width: '140%', maxWidth: 'none' }}
+                      style={{ width: '25px', height: '25px', objectFit: 'contain', display: 'block' }}
                     />
                   </div>
                 </div>
               </button>
 
-              <p
+              <div
                 style={{
                   position: 'absolute',
                   left: '177px',
                   top: '1028px',
-                  margin: 0,
                   width: '477px',
+                  height: '64px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   fontFamily: textFont,
                   fontWeight: 400,
                   fontSize: '32px',
-                  lineHeight: '1',
+                  lineHeight: '32px',
                   color: 'rgba(255,255,255,0.6)',
                   textAlign: 'center',
                 }}
               >
-                вы можете пополнить баланс
-                <br />
-                в личном кабинете
-              </p>
+                <span>вы можете пополнить баланс</span>
+                <span>в личном кабинете</span>
+              </div>
             </>
           ) : null}
         </div>
