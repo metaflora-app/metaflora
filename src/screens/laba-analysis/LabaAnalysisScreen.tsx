@@ -21,8 +21,6 @@ import {
 } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
-import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
-import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -245,8 +243,9 @@ export const LabaAnalysisScreen: React.FC = () => {
             </div>
             {hydratingAnalysis ? null : !analysis ? (
               <LockedActionFrame
-                frameSrc={blurFrameMakeAnalysis}
                 disabled={analyzing}
+                label="начать анализ"
+                cost={100}
                 ariaLabel={analyzing ? 'анализируем' : 'начать анализ'}
                 onClick={() => void handleStartAnalysis()}
                 style={{ margin: '28px auto 0' }}
@@ -260,8 +259,9 @@ export const LabaAnalysisScreen: React.FC = () => {
 
                 {!scenario ? (
                   <LockedActionFrame
-                    frameSrc={blurFrameMakeScenario}
                     disabled={generatingScenario}
+                    label="создать сценарий"
+                    cost={50}
                     ariaLabel="создать сценарий"
                     onClick={() => void handleGenerateScenario()}
                     style={{ margin: '28px auto 0' }}
@@ -566,33 +566,89 @@ const ActionButton: React.FC<{
 );
 
 const LockedActionFrame: React.FC<{
-  frameSrc: string;
   disabled: boolean;
+  label: string;
+  cost: number;
   ariaLabel: string;
   onClick: () => void;
   style?: React.CSSProperties;
-}> = ({ frameSrc, disabled, ariaLabel, onClick, style }) => (
+}> = ({ disabled, label, cost, ariaLabel, onClick, style }) => (
   <div
     style={{
       position: 'relative',
       width: '744px',
       height: '328px',
+      borderRadius: '30px',
+      border: '4px solid rgba(255,255,255,0.3)',
+      background: 'rgba(255,255,255,0.1)',
+      backdropFilter: 'blur(50px)',
+      overflow: 'hidden',
       ...style,
     }}
   >
-    <img
-      src={frameSrc}
-      alt=""
+    <div
       style={{
         position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'contain',
-        objectPosition: 'top center',
-        pointerEvents: 'none',
+        left: '107px',
+        top: '59px',
+        width: '530px',
+        height: '139px',
+        borderRadius: '62px',
+        border: '4px solid rgba(255,255,255,0.3)',
+        background: 'rgba(0,0,0,0.9)',
+        backdropFilter: 'blur(50px)',
       }}
     />
+    <div
+      style={{
+        position: 'absolute',
+        left: '135px',
+        top: '112px',
+        width: '473px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: textFont,
+        fontWeight: 700,
+        fontSize: '32px',
+        lineHeight: '1',
+        color: '#fff',
+        whiteSpace: 'pre',
+        pointerEvents: 'none',
+      }}
+    >
+      {`${label}    ${cost}`}
+    </div>
+    <div
+      style={{
+        position: 'absolute',
+        left: label === 'создать сценарий' ? '483px' : '441px',
+        top: '112px',
+        width: '25px',
+        height: '25px',
+        pointerEvents: 'none',
+      }}
+    >
+      <img src={metacoinSmall} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    </div>
+    <div
+      style={{
+        position: 'absolute',
+        left: '136px',
+        top: '214px',
+        width: '473px',
+        fontFamily: textFont,
+        fontWeight: 400,
+        fontSize: '32px',
+        lineHeight: '1.05',
+        color: 'rgba(255,255,255,0.6)',
+        textAlign: 'center',
+        whiteSpace: 'pre-line',
+        pointerEvents: 'none',
+      }}
+    >
+      {'вы можете пополнить баланс\nв личном кабинете'}
+    </div>
     <button
       type="button"
       onClick={() => {
