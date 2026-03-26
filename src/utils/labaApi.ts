@@ -266,7 +266,7 @@ export async function searchAccount(query: string): Promise<InstagramAccount> {
 
 /**
  * Начать отслеживание Instagram аккаунта
- * Стоимость: 150 метакоинов + 15 метакоинов за каждое видео
+ * Стоимость: 100 метакоинов + 15 метакоинов за каждое видео
  */
 export async function trackAccount(username: string, userId: number): Promise<{
   accountId: string;
