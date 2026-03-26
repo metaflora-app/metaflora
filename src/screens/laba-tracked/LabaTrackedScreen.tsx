@@ -288,15 +288,15 @@ const TrackedAccountCard: React.FC<{
         ) : null}
       </button>
 
-      <div style={{ position: 'absolute', left: '250px', top: '47px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+      <div style={{ position: 'absolute', left: '268px', top: '47px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
         <img src={instaLogoIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
 
-      <div style={{ position: 'absolute', left: '263px', top: '98px', width: '540px', height: '42px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', left: '286px', top: '110px', width: '500px', height: '42px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>
         @{account.username}
       </div>
 
-      <div style={{ position: 'absolute', left: '260px', top: '146px', width: '500px', height: '26px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', left: '283px', top: '161px', width: '500px', height: '26px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>
         {formatFollowersLabel(account.followersCount)}
       </div>
     </div>
