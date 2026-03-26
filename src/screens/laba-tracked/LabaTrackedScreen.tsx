@@ -241,13 +241,13 @@ const TrackedAccountCard: React.FC<{
       <div
         style={{
           position: 'absolute',
-          left: '35px',
-          top: '35px',
-          width: '640px',
-          height: '198px',
+          left: '31px',
+          top: '31px',
+          width: '832px',
+          height: '206px',
           background: '#000',
           border: '4px solid rgba(255,255,255,0.3)',
-          borderRadius: '15px',
+          borderRadius: '20px',
           boxSizing: 'border-box',
           pointerEvents: 'none',
         }}
@@ -259,7 +259,7 @@ const TrackedAccountCard: React.FC<{
           event.stopPropagation();
           onAvatarClick();
         }}
-        style={{ position: 'absolute', left: '56px', top: '39px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
+        style={{ position: 'absolute', left: '47px', top: '39px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
       >
         {avatarUrl ? (
           <img
@@ -288,15 +288,15 @@ const TrackedAccountCard: React.FC<{
         ) : null}
       </button>
 
-      <div style={{ position: 'absolute', left: '254px', top: '51px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+      <div style={{ position: 'absolute', left: '226px', top: '51px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
         <img src={instaLogoIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
 
-      <div style={{ position: 'absolute', left: '267px', top: '118px', width: '360px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <div style={{ position: 'absolute', left: '245px', top: '103px', width: '520px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
         @{account.username}
       </div>
 
-      <div style={{ position: 'absolute', left: '264px', top: '166px', width: '350px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <div style={{ position: 'absolute', left: '242px', top: '154px', width: '420px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
         {formatFollowersLabel(account.followersCount)}
       </div>
     </div>

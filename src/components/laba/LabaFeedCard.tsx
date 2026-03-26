@@ -35,8 +35,6 @@ const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8
 const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
 const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
 const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/e6b64005-5519-4c93-8ecd-51c66606778e';
-const figmaUntrackLogoLarge = 'https://www.figma.com/api/mcp/asset/c836f069-86ab-4866-b54e-7677cf621797';
-const figmaUntrackLogoPeople = 'https://www.figma.com/api/mcp/asset/69407d53-ccb2-424e-9951-c7d958e88c3d';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
@@ -522,12 +520,15 @@ const ActionButton: React.FC<{
       position: 'absolute',
       left: '356px',
       top: '831px',
-      width: variant === 'light' ? '251px' : '247px',
-      height: variant === 'light' ? '80px' : '79px',
+      width: '247px',
+      height: '79px',
       padding: 0,
       borderRadius: '62px',
       border: '4px solid rgba(255,255,255,0.3)',
-      background: variant === 'light' ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.9)',
+      background:
+        variant === 'light'
+          ? 'linear-gradient(90deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.34) 28%, rgba(0,0,0,0.08) 58%, rgba(0,0,0,0.34) 100%)'
+          : 'rgba(0,0,0,0.9)',
       color: '#fff',
       fontFamily: textFont,
       fontWeight: 700,
@@ -538,26 +539,9 @@ const ActionButton: React.FC<{
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      overflow: 'hidden',
     }}
   >
-    {variant === 'light' && typeof cost !== 'number' ? (
-      <>
-        <div style={{ position: 'absolute', left: '-22px', top: '-27px', width: '125px', height: '111px', borderRadius: '1568px', background: '#fff' }} />
-        <div style={{ position: 'absolute', left: '35px', top: '55px', width: '69px', height: '75px', borderRadius: '1568px', background: '#fff' }} />
-        <div style={{ position: 'absolute', left: '12px', top: '-20px', width: '62px', height: '83px', borderRadius: '1568px', background: '#fff', transform: 'rotate(14.39deg) skewX(-23.3deg) scaleY(0.92)' }} />
-        <div style={{ position: 'absolute', left: '2px', top: '0px', width: '247px', height: '80px', borderRadius: '62px', border: '4px solid rgba(255,255,255,0.3)', background: 'rgba(0,0,0,0.1)', backdropFilter: 'blur(50px)' }} />
-        <div style={{ position: 'absolute', left: '40px', top: '1px', width: '98px', height: '74px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={figmaUntrackLogoLarge} alt="" style={{ width: '98px', height: '74px', objectFit: 'contain', transform: 'rotate(179.37deg)' }} />
-        </div>
-        <div style={{ position: 'absolute', left: '28px', top: '3px', width: '195px', height: '74px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', opacity: 0.85 }}>
-          <img src={figmaUntrackLogoPeople} alt="" style={{ width: '195px', height: '74px', objectFit: 'cover', transform: 'rotate(-91.87deg) skewX(-1.66deg)' }} />
-        </div>
-        <span style={{ position: 'absolute', left: '43px', top: '21px', width: '160px', fontFamily: textFont, fontWeight: 700, fontSize: '27px', lineHeight: '1', textAlign: 'center', color: '#fff' }}>
-          {label}
-        </span>
-      </>
-    ) : typeof cost === 'number' ? (
+    {typeof cost === 'number' ? (
       <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <div
           style={{
@@ -594,7 +578,7 @@ const ActionButton: React.FC<{
         </div>
       </div>
     ) : (
-      <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
+      <span style={{ transform: 'translateY(-4px)', textShadow: variant === 'light' ? '0 1px 6px rgba(0,0,0,0.35)' : 'none' }}>{label}</span>
     )}
   </button>
 );
