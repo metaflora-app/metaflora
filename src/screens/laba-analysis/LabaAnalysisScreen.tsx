@@ -381,14 +381,14 @@ const AnalysisPreviewCard: React.FC<{
           className="blur-wave"
           style={{
             position: 'absolute',
-            right: '44px',
-            top: '40px',
-            minWidth: '102px',
-            height: '38px',
-            padding: '0 18px',
+            right: '46px',
+            top: '54px',
+            width: '123px',
+            height: '43px',
             borderRadius: '62px',
             border: '2px solid rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.12)',
+            background: 'rgba(255,255,255,0.1)',
+            backdropFilter: 'blur(50px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -398,7 +398,7 @@ const AnalysisPreviewCard: React.FC<{
             color: '#fff',
           }}
         >
-          новое
+          <span style={{ transform: 'translateY(-4px)', display: 'block', lineHeight: 1 }}>новое</span>
         </div>
       ) : null}
 

@@ -140,14 +140,13 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           className="blur-wave"
           style={{
             position: 'absolute',
-            right: '48px',
-            top: '50px',
-            minWidth: '121px',
-            height: '44px',
-            padding: '0 20px',
+            right: '46px',
+            top: '54px',
+            width: '123px',
+            height: '43px',
             borderRadius: '62px',
             border: '2px solid rgba(255,255,255,0.3)',
-            background: 'rgba(0,0,0,0.9)',
+            background: 'rgba(255,255,255,0.1)',
             backdropFilter: 'blur(50px)',
             display: 'flex',
             alignItems: 'center',
@@ -159,7 +158,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             textTransform: 'lowercase',
           }}
         >
-          новое
+          <span style={{ transform: 'translateY(-4px)', display: 'block', lineHeight: 1 }}>новое</span>
         </div>
       ) : null}
 
