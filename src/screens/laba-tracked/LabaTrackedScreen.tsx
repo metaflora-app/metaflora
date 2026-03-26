@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel, TrackedAccount } from '../../types/laba';
@@ -23,7 +23,12 @@ const textFont = 'Cygre, sans-serif';
 
 export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const preselectedAccountId = React.useMemo(
+    () => new URLSearchParams(location.search).get('accountId'),
+    [location.search]
+  );
 
   const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
@@ -42,7 +47,13 @@ export const LabaTrackedScreen: React.FC = () => {
       try {
         const trackedAccounts = await getTrackedAccounts(userId);
         setAccounts(trackedAccounts);
-        setSelectedAccountId((current) => current && trackedAccounts.some((item) => item.id === current) ? current : trackedAccounts[0]?.id || null);
+        setSelectedAccountId((current) => {
+          if (preselectedAccountId && trackedAccounts.some((item) => item.id === preselectedAccountId)) {
+            return preselectedAccountId;
+          }
+
+          return current && trackedAccounts.some((item) => item.id === current) ? current : trackedAccounts[0]?.id || null;
+        });
       } catch (error) {
         console.error('Ошибка загрузки аккаунтов:', error);
       } finally {
@@ -51,7 +62,7 @@ export const LabaTrackedScreen: React.FC = () => {
     };
 
     void fetchAccounts();
-  }, []);
+  }, [preselectedAccountId]);
 
   React.useEffect(() => {
     const fetchReels = async () => {
