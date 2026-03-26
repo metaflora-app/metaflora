@@ -8,6 +8,7 @@ import {
   getReelAvatarSources,
   getReelCoverSources,
 } from '../../utils/labaApi';
+import unfollowButtonShortActive from '../../assets/laba-tracked/unfollow-button-short-active.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -524,24 +525,24 @@ const ActionButton: React.FC<{
       height: '79px',
       padding: 0,
       borderRadius: '62px',
-      border: '4px solid rgba(255,255,255,0.3)',
-      background:
-        variant === 'light'
-          ? 'linear-gradient(90deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.34) 28%, rgba(0,0,0,0.08) 58%, rgba(0,0,0,0.34) 100%)'
-          : 'rgba(0,0,0,0.9)',
+      border: 'none',
+      background: variant === 'light' ? 'transparent' : 'rgba(0,0,0,0.9)',
       color: '#fff',
       fontFamily: textFont,
       fontWeight: 700,
       fontSize: '27px',
       cursor: 'pointer',
-      boxShadow: variant === 'light' ? 'inset 0 0 40px rgba(255,255,255,0.16)' : 'none',
+      boxShadow: 'none',
       backdropFilter: 'blur(50px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      overflow: 'visible',
     }}
   >
-    {typeof cost === 'number' ? (
+    {variant === 'light' ? (
+      <img src={unfollowButtonShortActive} alt={label} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+    ) : typeof cost === 'number' ? (
       <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <div
           style={{
@@ -578,7 +579,7 @@ const ActionButton: React.FC<{
         </div>
       </div>
     ) : (
-      <span style={{ transform: 'translateY(-4px)', textShadow: variant === 'light' ? '0 1px 6px rgba(0,0,0,0.35)' : 'none' }}>{label}</span>
+      <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
     )}
   </button>
 );

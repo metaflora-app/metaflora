@@ -259,7 +259,7 @@ const TrackedAccountCard: React.FC<{
           event.stopPropagation();
           onAvatarClick();
         }}
-        style={{ position: 'absolute', left: '47px', top: '39px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
+        style={{ position: 'absolute', left: '52px', top: '43px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
       >
         {avatarUrl ? (
           <img
@@ -288,15 +288,15 @@ const TrackedAccountCard: React.FC<{
         ) : null}
       </button>
 
-      <div style={{ position: 'absolute', left: '226px', top: '51px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
+      <div style={{ position: 'absolute', left: '250px', top: '47px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
         <img src={instaLogoIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
 
-      <div style={{ position: 'absolute', left: '245px', top: '103px', width: '520px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <div style={{ position: 'absolute', left: '263px', top: '98px', width: '540px', height: '42px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>
         @{account.username}
       </div>
 
-      <div style={{ position: 'absolute', left: '242px', top: '154px', width: '420px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <div style={{ position: 'absolute', left: '260px', top: '146px', width: '500px', height: '26px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>
         {formatFollowersLabel(account.followersCount)}
       </div>
     </div>
