@@ -41,6 +41,9 @@ const PREVIEW_CARD_HEIGHT = 1064;
 const PREVIEW_CARD_INSET_X = 43;
 const PREVIEW_CARD_INSET_TOP = 38;
 const PREVIEW_COVER_SIZE = 742;
+const LOCKED_FRAME_WIDTH = 744;
+const ANALYSIS_LOCKED_FRAME_HEIGHT = 402;
+const SCENARIO_LOCKED_FRAME_HEIGHT = 440;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -256,6 +259,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               <LockedActionFrame
                 disabled={analyzing}
                 frameSrc={blurFrameMakeAnalysis}
+                frameHeight={ANALYSIS_LOCKED_FRAME_HEIGHT}
                 ariaLabel={analyzing ? 'анализируем' : 'начать анализ'}
                 onClick={() => void handleStartAnalysis()}
                 style={{ margin: '28px auto 0' }}
@@ -271,6 +275,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                   <LockedActionFrame
                     disabled={generatingScenario}
                     frameSrc={blurFrameMakeScenario}
+                    frameHeight={SCENARIO_LOCKED_FRAME_HEIGHT}
                     ariaLabel="создать сценарий"
                     onClick={() => void handleGenerateScenario()}
                     style={{ margin: '28px auto 0' }}
@@ -622,20 +627,21 @@ const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => 
 const LockedActionFrame: React.FC<{
   disabled: boolean;
   frameSrc: string;
+  frameHeight: number;
   ariaLabel: string;
   onClick: () => void;
   style?: React.CSSProperties;
-}> = ({ disabled, frameSrc, ariaLabel, onClick, style }) => (
+}> = ({ disabled, frameSrc, frameHeight, ariaLabel, onClick, style }) => (
   <div
     style={{
       position: 'relative',
-      width: '744px',
-      height: '328px',
+      width: `${LOCKED_FRAME_WIDTH}px`,
+      height: `${frameHeight}px`,
       overflow: 'hidden',
       ...style,
     }}
   >
-    <img src={frameSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+    <img src={frameSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', display: 'block', pointerEvents: 'none' }} />
     <button
       type="button"
       onClick={() => {
@@ -644,10 +650,10 @@ const LockedActionFrame: React.FC<{
       }}
       style={{
         position: 'absolute',
-        left: '107px',
-        top: '58px',
-        width: '530px',
-        height: '139px',
+        left: '14.3817%',
+        top: '17.6829%',
+        width: '71.2366%',
+        height: '42.378%',
         padding: 0,
         border: 'none',
         borderRadius: '62px',

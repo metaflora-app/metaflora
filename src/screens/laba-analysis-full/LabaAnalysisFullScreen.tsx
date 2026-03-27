@@ -8,6 +8,9 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { copyToClipboard } from '../../utils/clipboard';
 import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
 
+const LOCKED_FRAME_WIDTH = 744;
+const SCENARIO_LOCKED_FRAME_HEIGHT = 440;
+
 export const LabaAnalysisFullScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -87,17 +90,17 @@ export const LabaAnalysisFullScreen: React.FC = () => {
             </div>
           ))}
 
-          <div style={{ position: 'relative', width: '744px', height: '328px', margin: '18px auto 34px' }}>
-            <img src={blurFrameMakeScenario} alt="блюр фрейм сделать сценарий" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+          <div style={{ position: 'relative', width: `${LOCKED_FRAME_WIDTH}px`, height: `${SCENARIO_LOCKED_FRAME_HEIGHT}px`, margin: '18px auto 34px' }}>
+            <img src={blurFrameMakeScenario} alt="блюр фрейм сделать сценарий" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', display: 'block', pointerEvents: 'none' }} />
             <button
               type="button"
               onClick={handleGenerateScenario}
               style={{
                 position: 'absolute',
-                left: '107px',
-                top: '58px',
-                width: '530px',
-                height: '139px',
+                left: '14.3817%',
+                top: '17.6829%',
+                width: '71.2366%',
+                height: '42.378%',
                 padding: 0,
                 border: 'none',
                 borderRadius: '62px',
