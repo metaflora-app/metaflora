@@ -6,9 +6,7 @@ import { generateScenario, getTelegramUserId } from '../../utils/labaApi';
 import type { Analysis, Reel, Scenario } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { copyToClipboard } from '../../utils/clipboard';
-import disabledFrame from '../../assets/laba-redesign/analysis-disabled-frame.png';
-import createScenarioButton from '../../assets/laba-analysis/поменьше кнопка создать сценарий.png';
-import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
 
 export const LabaAnalysisFullScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -90,15 +88,25 @@ export const LabaAnalysisFullScreen: React.FC = () => {
           ))}
 
           <div style={{ position: 'relative', width: '744px', height: '328px', margin: '18px auto 34px' }}>
-            <img src={disabledFrame} alt="блюр фрейм недоступен анализ" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
-            <img
-              src={createScenarioButton}
-              alt="создать сценарий"
-              className="button-inner-glow"
+            <img src={blurFrameMakeScenario} alt="блюр фрейм сделать сценарий" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+            <button
+              type="button"
               onClick={handleGenerateScenario}
-              style={{ position: 'absolute', left: '107px', top: '96px', width: '530px', height: '139px', objectFit: 'contain', cursor: generatingScenario ? 'default' : 'pointer', opacity: generatingScenario ? 0.7 : 1 }}
+              style={{
+                position: 'absolute',
+                left: '107px',
+                top: '58px',
+                width: '530px',
+                height: '139px',
+                padding: 0,
+                border: 'none',
+                borderRadius: '62px',
+                background: 'transparent',
+                cursor: generatingScenario ? 'default' : 'pointer',
+              }}
+              disabled={generatingScenario}
+              aria-label="создать сценарий"
             />
-            <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '483px', top: '149px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none' }} />
           </div>
 
           <div>

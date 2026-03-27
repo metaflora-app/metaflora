@@ -21,7 +21,7 @@ import {
   trackAccount,
 } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
-import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
+import blurFrameMakeAnalysis from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
 import followButtonShortActive from '../../assets/laba-analysis/кнопка следить активирована.png';
 import openReelButton from '../../assets/laba-analysis/open-reel-button.png';
@@ -550,7 +550,7 @@ const LockedActionFrame: React.FC<{
       }}
       style={{
         position: 'absolute',
-        left: '110px',
+        left: '107px',
         top: '58px',
         width: '530px',
         height: '139px',
