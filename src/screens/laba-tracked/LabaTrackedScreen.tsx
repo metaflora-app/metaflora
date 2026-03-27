@@ -17,7 +17,7 @@ import {
 import instaLogoIcon from '../../assets/laba-icons/лого инста.png';
 import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
-import avatarUnfollowButton from '../../assets/laba-tracked/avatar-unfollow-button.png';
+import avatarUnfollowButtonFull from '../../assets/laba-tracked/avatar-unfollow-button-full.png';
 import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
 import desktopShortUnfollowActiveButton from '../../assets/laba-main-buttons/desktop-short-unfollow-active.png';
 
@@ -145,7 +145,10 @@ export const LabaTrackedScreen: React.FC = () => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
+    <div
+      onClick={() => setShowAvatarRemoveForId(null)}
+      style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}
+    >
       <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <ThreeBg />
         <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
@@ -299,7 +302,7 @@ const TrackedAccountCard: React.FC<{
           event.stopPropagation();
           onAvatarClick();
         }}
-        style={{ position: 'absolute', left: '70px', top: '43px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
+        style={{ position: 'absolute', left: '70px', top: '36px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
       >
         {avatarUrl ? (
           <img
@@ -317,13 +320,13 @@ const TrackedAccountCard: React.FC<{
         ) : null}
         {showRemoveOverlay ? (
           <img
-            src={avatarUnfollowButton}
+            src={avatarUnfollowButtonFull}
             alt="не следить"
             onClick={(event) => {
               event.stopPropagation();
               onRemove();
             }}
-            style={{ position: 'absolute', left: '39px', top: '39px', width: '112px', height: '112px', objectFit: 'contain', cursor: 'pointer' }}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', cursor: 'pointer' }}
           />
         ) : null}
       </button>
