@@ -10,9 +10,6 @@ import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorit
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import searchIcon from '../../assets/иконка поиск.png';
-import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
-import desktopLikeActiveButton from '../../assets/laba-main-buttons/desktop-like-active.png';
-import desktopShortFollowButton from '../../assets/laba-main-buttons/desktop-short-follow.png';
 
 const textFont = 'Cygre, sans-serif';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
@@ -381,9 +378,6 @@ export const LabaMainScreen: React.FC = () => {
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
                     actionLabel="следить"
                     actionCost={100}
-                    likeButtonSrc={desktopLikeActiveButton}
-                    openAnalysisButtonSrc={desktopAiAnalysisButton}
-                    actionButtonSrc={desktopShortFollowButton}
                   />
                 ))}
           </div>

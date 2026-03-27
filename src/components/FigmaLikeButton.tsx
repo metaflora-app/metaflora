@@ -1,6 +1,7 @@
 import React from 'react';
-import likeActive from '../assets/лайк.png';
-import likeInactive from '../assets/лайк не поставлен.png';
+
+const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c8310fa1-7e0d-4dc7-a30c-c005fd95bf6c';
+const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/54705681-a8db-43a0-89e6-c7054609697b';
 
 interface FigmaLikeButtonProps {
   active: boolean;
@@ -34,22 +35,20 @@ export const FigmaLikeButton: React.FC<FigmaLikeButtonProps> = ({
     <div
       style={{
         position: 'relative',
-        width: '36px',
-        height: '36px',
+        width: '20px',
+        height: '20px',
         margin: 'auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
       }}
     >
       <img
-        src={active ? likeActive : likeInactive}
+        src={active ? figmaLikeActive : figmaLikeInactive}
         alt="лайк"
         style={{
-          width: '36px',
-          height: '36px',
-          objectFit: 'contain',
-          display: 'block',
+          position: 'absolute',
+          inset: '-30% -35% -30% -40%',
+          width: 'calc(100% + 15px)',
+          height: 'calc(100% + 12px)',
+          maxWidth: 'none',
         }}
       />
     </div>

@@ -23,9 +23,6 @@ import {
 import { copyToClipboard } from '../../utils/clipboard';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
-import openReelButton from '../../assets/laba-main-buttons/desktop-open-reel.png';
-import followButtonShort from '../../assets/laba-analysis/кнопка следить активирована.png';
-import unfollowButtonShort from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
@@ -35,6 +32,10 @@ type ActionVariant = 'dark' | 'light';
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
+const openReelChevronOne = 'https://www.figma.com/api/mcp/asset/c438e6ad-9b13-4d96-a92b-f79405621e12';
+const openReelChevronTwo = 'https://www.figma.com/api/mcp/asset/ca4f9322-b09a-4358-a069-4bf92288177c';
+const openReelChevronThree = 'https://www.figma.com/api/mcp/asset/1355747b-76c8-4fd1-a9a1-c9a669881457';
+const followMetacoin = 'https://www.figma.com/api/mcp/asset/a79513b9-0b71-424b-9846-a5db2e047107';
 const PREVIEW_CARD_WIDTH = 831;
 const PREVIEW_CARD_HEIGHT = 1064;
 const PREVIEW_CARD_INSET_X = 43;
@@ -364,7 +365,7 @@ const AnalysisPreviewCard: React.FC<{
           cursor: 'pointer',
         }}
       >
-        <img src={openReelButton} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+        <OpenReelButton />
       </button>
 
       <FigmaLikeButton
@@ -513,8 +514,8 @@ const ActionButton: React.FC<{
       position: 'absolute',
       left: '356px',
       top: '831px',
-      width: '247px',
-      height: '80px',
+      width: '251px',
+      height: '79.63px',
       padding: 0,
       border: 'none',
       background: 'transparent',
@@ -522,12 +523,101 @@ const ActionButton: React.FC<{
       opacity: variant === 'light' ? 0.92 : 1,
     }}
   >
-    <img
-      src={variant === 'light' ? unfollowButtonShort : followButtonShort}
-      alt={typeof cost === 'number' ? `${label} ${cost}` : label}
-      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
-    />
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        borderRadius: '62px',
+        border: '4px solid rgba(255,255,255,0.3)',
+        background: 'rgba(0,0,0,0.9)',
+        backdropFilter: 'blur(50px)',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '21.1px',
+          transform: 'translateX(-50%)',
+          width: '199px',
+          height: '29px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: textFont,
+          fontWeight: 700,
+          fontSize: '27px',
+          lineHeight: '1',
+          color: '#fff',
+          whiteSpace: 'pre',
+        }}
+      >
+        {`${label}    ${cost ?? ''}`}
+      </div>
+      <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+        <img
+          src={followMetacoin}
+          alt=""
+          style={{
+            position: 'absolute',
+            height: '130.34%',
+            left: '-20%',
+            top: '-14.48%',
+            width: '140%',
+            maxWidth: 'none',
+          }}
+        />
+      </div>
+    </div>
   </button>
+);
+
+const OpenReelButton: React.FC = () => (
+  <div style={{ position: 'relative', width: '72px', height: '72px', pointerEvents: 'none' }}>
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        borderRadius: '32px',
+        background: 'rgba(4,22,39,0.1)',
+        backdropFilter: 'blur(12px)',
+      }}
+    />
+    <ChevronIcon src={openReelChevronOne} left="14px" />
+    <ChevronIcon src={openReelChevronTwo} left="22px" />
+    <ChevronIcon src={openReelChevronThree} left="32px" />
+  </div>
+);
+
+const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => (
+  <div
+    style={{
+      position: 'absolute',
+      left,
+      top: '21px',
+      width: '32px',
+      height: '32px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <div style={{ position: 'relative', width: '16px', height: '16px' }}>
+      <img
+        src={src}
+        alt=""
+        style={{
+          position: 'absolute',
+          inset: '-43.75% 0 -37.5% 0',
+          width: '16px',
+          height: '16px',
+          maxWidth: 'none',
+        }}
+      />
+    </div>
+  </div>
 );
 
 const LockedActionFrame: React.FC<{

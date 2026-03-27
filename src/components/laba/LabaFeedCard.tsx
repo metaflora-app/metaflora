@@ -12,9 +12,6 @@ import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
-import openReelButton from '../../assets/laba-analysis/кнопка открыть рилс.png';
-import followButtonShort from '../../assets/laba-analysis/кнопка следить активирована.png';
-import unfollowButtonShort from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -27,9 +24,6 @@ interface LabaFeedCardProps {
   actionLabel: string;
   actionCost?: number;
   actionVariant?: ActionVariant;
-  likeButtonSrc?: string;
-  openAnalysisButtonSrc?: string;
-  actionButtonSrc?: string;
 }
 
 const CARD_WIDTH = 831;
@@ -40,6 +34,10 @@ const COVER_SIZE = 769;
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
+const openReelChevronOne = 'https://www.figma.com/api/mcp/asset/c438e6ad-9b13-4d96-a92b-f79405621e12';
+const openReelChevronTwo = 'https://www.figma.com/api/mcp/asset/ca4f9322-b09a-4358-a069-4bf92288177c';
+const openReelChevronThree = 'https://www.figma.com/api/mcp/asset/1355747b-76c8-4fd1-a9a1-c9a669881457';
+const followMetacoin = 'https://www.figma.com/api/mcp/asset/a79513b9-0b71-424b-9846-a5db2e047107';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
@@ -50,9 +48,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   actionLabel,
   actionCost,
   actionVariant = 'dark',
-  likeButtonSrc,
-  openAnalysisButtonSrc,
-  actionButtonSrc,
 }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
@@ -129,42 +124,18 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         />
       </div>
 
-      {likeButtonSrc ? (
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            onToggleFavorite(reel.id);
-          }}
-          style={{
-            position: 'absolute',
-            left: '62px',
-            top: '53px',
-            width: '72px',
-            height: '72px',
-            border: 'none',
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: 0,
-            zIndex: 3,
-          }}
-        >
-          <img src={likeButtonSrc} alt="лайк" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }} />
-        </button>
-      ) : (
-        <FigmaLikeButton
-          active={isFavorite}
-          onClick={(event) => {
-            event.stopPropagation();
-            onToggleFavorite(reel.id);
-          }}
-          style={{
-            position: 'absolute',
-            left: '62px',
-            top: '53px',
-          }}
-        />
-      )}
+      <FigmaLikeButton
+        active={isFavorite}
+        onClick={(event) => {
+          event.stopPropagation();
+          onToggleFavorite(reel.id);
+        }}
+        style={{
+          position: 'absolute',
+          left: '62px',
+          top: '53px',
+        }}
+      />
 
       {reel.isNew ? (
         <div
@@ -202,10 +173,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           }}
           style={{
             position: 'absolute',
-            left: openAnalysisButtonSrc ? '288px' : '304px',
-            top: openAnalysisButtonSrc ? '370px' : '362px',
-            width: openAnalysisButtonSrc ? '251px' : '223px',
-            height: openAnalysisButtonSrc ? '80px' : '95px',
+            left: '377px',
+            top: '374px',
+            width: '72px',
+            height: '72px',
             border: 'none',
             background: 'transparent',
             cursor: 'pointer',
@@ -213,7 +184,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             zIndex: 3,
           }}
         >
-          <img src={openAnalysisButtonSrc || openReelButton} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+          <OpenReelButton />
         </button>
       ) : null}
 
@@ -522,9 +493,8 @@ const ActionButton: React.FC<{
   label: string;
   cost?: number;
   variant: ActionVariant;
-  actionButtonSrc?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, actionButtonSrc, onClick }) => (
+}> = ({ label, cost, variant, onClick }) => (
   <button
     type="button"
     onClick={onClick}
@@ -532,20 +502,109 @@ const ActionButton: React.FC<{
       position: 'absolute',
       left: '356px',
       top: '831px',
-      width: '247px',
-      height: '80px',
+      width: '251px',
+      height: '79.63px',
       padding: 0,
       border: 'none',
       background: 'transparent',
       cursor: 'pointer',
-      overflow: 'visible',
+      opacity: variant === 'light' ? 0.92 : 1,
     }}
   >
-    <img
-      src={actionButtonSrc || (variant === 'light' ? unfollowButtonShort : followButtonShort)}
-      alt={typeof cost === 'number' ? `${label} ${cost}` : label}
-      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
-    />
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        borderRadius: '62px',
+        border: '4px solid rgba(255,255,255,0.3)',
+        background: 'rgba(0,0,0,0.9)',
+        backdropFilter: 'blur(50px)',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '21.1px',
+          transform: 'translateX(-50%)',
+          width: '199px',
+          height: '29px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: textFont,
+          fontWeight: 700,
+          fontSize: '27px',
+          lineHeight: '1',
+          color: '#fff',
+          whiteSpace: 'pre',
+        }}
+      >
+        {`${label}    ${cost ?? ''}`}
+      </div>
+      <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+        <img
+          src={followMetacoin}
+          alt=""
+          style={{
+            position: 'absolute',
+            height: '130.34%',
+            left: '-20%',
+            top: '-14.48%',
+            width: '140%',
+            maxWidth: 'none',
+          }}
+        />
+      </div>
+    </div>
   </button>
+);
+
+const OpenReelButton: React.FC = () => (
+  <div style={{ position: 'relative', width: '72px', height: '72px', pointerEvents: 'none' }}>
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        borderRadius: '32px',
+        background: 'rgba(4,22,39,0.1)',
+        backdropFilter: 'blur(12px)',
+      }}
+    />
+    <ChevronIcon src={openReelChevronOne} left="14px" />
+    <ChevronIcon src={openReelChevronTwo} left="22px" />
+    <ChevronIcon src={openReelChevronThree} left="32px" />
+  </div>
+);
+
+const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => (
+  <div
+    style={{
+      position: 'absolute',
+      left,
+      top: '21px',
+      width: '32px',
+      height: '32px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <div style={{ position: 'relative', width: '16px', height: '16px' }}>
+      <img
+        src={src}
+        alt=""
+        style={{
+          position: 'absolute',
+          inset: '-43.75% 0 -37.5% 0',
+          width: '16px',
+          height: '16px',
+          maxWidth: 'none',
+        }}
+      />
+    </div>
+  </div>
 );
 
