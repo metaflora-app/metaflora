@@ -6,6 +6,7 @@ import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/Lab
 import { Reel } from '../../types/laba';
 import { getFavorites, getTelegramUserId, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
+import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
 
 const textFont = 'Cygre, sans-serif';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
@@ -259,6 +260,8 @@ export const LabaFavoritesScreen: React.FC = () => {
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
                     actionLabel="следить"
                     actionCost={100}
+                    openAnalysisButtonSrc={desktopAiAnalysisButton}
+                    activityPillTop={674}
                   />
                 ))}
           </div>

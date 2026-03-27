@@ -18,6 +18,7 @@ import instaLogoIcon from '../../assets/laba-icons/лого инста.png';
 import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
 import avatarUnfollowButton from '../../assets/laba-tracked/avatar-unfollow-button.png';
+import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
 
 const textFont = 'Cygre, sans-serif';
 
@@ -216,6 +217,8 @@ export const LabaTrackedScreen: React.FC = () => {
                     }}
                     actionLabel="не следить"
                     actionVariant="light"
+                    openAnalysisButtonSrc={desktopAiAnalysisButton}
+                    activityPillTop={674}
                   />
                 ))}
           </div>
