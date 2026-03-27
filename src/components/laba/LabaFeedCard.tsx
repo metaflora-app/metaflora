@@ -8,7 +8,12 @@ import {
   getReelAvatarSources,
   getReelCoverSources,
 } from '../../utils/labaApi';
-import unfollowButtonShortActive from '../../assets/laba-tracked/unfollow-button-short-active.png';
+import instagramLogo from '../../assets/laba-icons/лого инста.png';
+import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
+import likesIcon from '../../assets/laba-icons/иконка лайки.png';
+import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
+import followButtonShortActive from '../../assets/laba-analysis/кнопка следить активирована.png';
+import unfollowButtonShort from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -31,11 +36,6 @@ const COVER_SIZE = 769;
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
-const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/200ff601-2b41-4029-92e4-df8b7f6e9be8';
-const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
-const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
-const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
-const figmaMetacoin = 'https://www.figma.com/api/mcp/asset/e6b64005-5519-4c93-8ecd-51c66606778e';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
@@ -201,7 +201,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '50%',
-          top: '650px',
+          top: '654px',
           transform: 'translateX(-50%)',
           width: '468px',
           height: '102px',
@@ -222,9 +222,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             transform: 'translateY(0px)',
           }}
         >
-          <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
-          <MetricStat icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} cropLeft="-193.75%" cropTop="-115.69%" cropWidth="487.69%" width={96} />
-          <MetricStat icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} cropLeft="-304.47%" cropTop="-115.69%" cropWidth="487.69%" width={101} />
+          <MetricStat icon={viewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} width={106} />
+          <MetricStat icon={likesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} width={96} />
+          <MetricStat icon={commentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} width={101} />
         </div>
       </div>
 
@@ -249,7 +249,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '62px',
-          top: '834px',
+          top: '838px',
           width: '190px',
           height: '190px',
           borderRadius: '50%',
@@ -277,7 +277,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '268px',
-          top: '844px',
+          top: '846px',
           width: '64px',
           height: '78px',
           overflow: 'hidden',
@@ -285,15 +285,12 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         }}
       >
         <img
-          src={figmaInstagramIcon}
+          src={instagramLogo}
           alt=""
           style={{
-            position: 'absolute',
-            height: '339.84%',
-            left: '-56.27%',
-            top: '-118.33%',
-            width: '620.89%',
-            maxWidth: 'none',
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
           }}
         />
       </div>
@@ -302,7 +299,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '284px',
-          top: '916px',
+          top: '920px',
           width: '398px',
           fontFamily: textFont,
           fontWeight: 700,
@@ -319,7 +316,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '281px',
-          top: '967px',
+          top: '971px',
           width: '350px',
           height: '32px',
           fontFamily: textFont,
@@ -449,11 +446,8 @@ const MetricStat: React.FC<{
   value: string;
   iconWidth: number;
   iconHeight: number;
-  cropLeft: string;
-  cropTop: string;
-  cropWidth: string;
   width: number;
-}> = ({ icon, value, iconWidth, iconHeight, cropLeft, cropTop, cropWidth, width }) => (
+}> = ({ icon, value, iconWidth, iconHeight, width }) => (
   <div
     style={{
       minWidth: `${width}px`,
@@ -478,12 +472,9 @@ const MetricStat: React.FC<{
         src={icon}
         alt=""
         style={{
-          position: 'absolute',
-          height: '339.22%',
-          left: cropLeft,
-          top: cropTop,
-          width: cropWidth,
-          maxWidth: 'none',
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
         }}
       />
     </div>
@@ -515,7 +506,6 @@ const ActionButton: React.FC<{
   <button
     type="button"
     onClick={onClick}
-    className="button-inner-glow"
     style={{
       position: 'absolute',
       left: '356px',
@@ -523,63 +513,17 @@ const ActionButton: React.FC<{
       width: '247px',
       height: '79px',
       padding: 0,
-      borderRadius: '62px',
       border: 'none',
-      background: variant === 'light' ? 'transparent' : 'rgba(0,0,0,0.9)',
-      color: '#fff',
-      fontFamily: textFont,
-      fontWeight: 700,
-      fontSize: '27px',
+      background: 'transparent',
       cursor: 'pointer',
-      boxShadow: 'none',
-      backdropFilter: 'blur(50px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       overflow: 'visible',
     }}
   >
-    {variant === 'light' ? (
-      <img src={unfollowButtonShortActive} alt={label} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
-    ) : typeof cost === 'number' ? (
-      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-        <div
-          style={{
-            position: 'absolute',
-            left: '24px',
-            top: '17px',
-            width: '199px',
-            height: '29px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '27px',
-            lineHeight: '1',
-            whiteSpace: 'pre',
-          }}
-        >
-          {`${label}    ${cost}`}
-        </div>
-        <div style={{ position: 'absolute', left: '150px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
-          <img
-            src={figmaMetacoin}
-            alt=""
-            style={{
-              position: 'absolute',
-              height: '130.34%',
-              left: '-20%',
-              top: '-14.48%',
-              width: '140%',
-              maxWidth: 'none',
-            }}
-          />
-        </div>
-      </div>
-    ) : (
-      <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
-    )}
+    <img
+      src={variant === 'light' ? unfollowButtonShort : followButtonShortActive}
+      alt={typeof cost === 'number' ? `${label} ${cost}` : label}
+      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+    />
   </button>
 );
 

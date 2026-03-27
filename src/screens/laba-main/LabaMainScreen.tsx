@@ -7,11 +7,11 @@ import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
 import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
+import searchIcon from '../../assets/иконка поиск.png';
 
 const textFont = 'Cygre, sans-serif';
-const figmaSearchIcon = 'https://www.figma.com/api/mcp/asset/3ed3e24e-7b3b-4e04-9934-abebf59d14dd';
-const figmaSearchCoin = 'https://www.figma.com/api/mcp/asset/e10ec07c-b658-4fd1-865f-71ba8fd86b2c';
 const sortOptions = ['>просмотров', '<просмотров', '>лайков', '<лайков', '>комментов', '<комментов'];
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
@@ -244,7 +244,7 @@ export const LabaMainScreen: React.FC = () => {
           onChange={setLabaMainSearchQuery}
           onEnter={() => void handleSearch()}
           placeholder="найти видео по ключевому слову"
-          iconSrc={figmaSearchIcon}
+          iconSrc={searchIcon}
           textRightInset="190px"
           style={{
             left: '152px',
@@ -294,15 +294,12 @@ export const LabaMainScreen: React.FC = () => {
             </div>
             <div style={{ position: 'absolute', left: '41px', top: '23px', width: '19px', height: '19px', overflow: 'hidden' }}>
               <img
-                src={figmaSearchCoin}
+                src={metacoinSmall}
                 alt=""
                 style={{
-                  position: 'absolute',
-                  height: '130.34%',
-                  left: '-20%',
-                  top: '-14.48%',
-                  width: '140%',
-                  maxWidth: 'none',
+                  width: '19px',
+                  height: '19px',
+                  objectFit: 'contain',
                 }}
               />
             </div>

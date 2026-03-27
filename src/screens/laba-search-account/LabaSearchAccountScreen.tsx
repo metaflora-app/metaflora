@@ -6,11 +6,11 @@ import { formatFollowersLabel, getInstagramAvatarSources, getTelegramUserId, sea
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import instagramLogo from '../../assets/laba-icons/лого инста.png';
+import searchIcon from '../../assets/laba-icons/иконка поиска.png';
 import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
 
 const textFont = 'Cygre, sans-serif';
-const searchIcon = 'https://www.figma.com/api/mcp/asset/2b95cc27-5ad3-49a5-8c6c-2782419c868b';
-const instagramLogo = 'https://www.figma.com/api/mcp/asset/01c1f7bc-b497-447d-926a-d8ba816a7ad2';
 
 export const LabaSearchAccountScreen: React.FC = () => {
   const navigate = useNavigate();

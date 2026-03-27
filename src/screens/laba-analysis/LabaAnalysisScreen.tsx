@@ -21,19 +21,19 @@ import {
   trackAccount,
 } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
-import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import blurFrameMakeAnalysis from '../../assets/laba-analysis/blur-frame-make-analysis.png';
+import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
+import followButtonShortActive from '../../assets/laba-analysis/кнопка следить активирована.png';
+import openReelButton from '../../assets/laba-analysis/open-reel-button.png';
+import instagramLogo from '../../assets/laba-icons/лого инста.png';
+import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
+import likesIcon from '../../assets/laba-icons/иконка лайки.png';
+import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 
 type ActionVariant = 'dark' | 'light';
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
-const figmaInstagramIcon = 'https://www.figma.com/api/mcp/asset/200ff601-2b41-4029-92e4-df8b7f6e9be8';
-const figmaViewsIcon = 'https://www.figma.com/api/mcp/asset/0ebdf626-69e3-4fbf-8d9e-93bb38c2a658';
-const figmaCommentsIcon = 'https://www.figma.com/api/mcp/asset/f1737cfb-06b3-4dfa-ad50-233a8dec72a0';
-const figmaLikesIcon = 'https://www.figma.com/api/mcp/asset/b45d8cd2-65a2-4ada-970d-40991751091f';
-const figmaOpenReelChevron1 = 'https://www.figma.com/api/mcp/asset/e5ce84d7-9216-4d66-9e83-921139f6af13';
-const figmaOpenReelChevron2 = 'https://www.figma.com/api/mcp/asset/65bb02d8-d7e6-4980-bd30-df2a1cb76e40';
-const figmaOpenReelChevron3 = 'https://www.figma.com/api/mcp/asset/f50b0bcc-03ba-48e5-b29f-8d4427c57b12';
 const PREVIEW_CARD_WIDTH = 831;
 const PREVIEW_CARD_HEIGHT = 1064;
 const PREVIEW_CARD_INSET_X = 43;
@@ -253,8 +253,7 @@ export const LabaAnalysisScreen: React.FC = () => {
             {hydratingAnalysis ? null : !analysis ? (
               <LockedActionFrame
                 disabled={analyzing}
-                label="начать анализ"
-                cost={100}
+                frameSrc={blurFrameMakeAnalysis}
                 ariaLabel={analyzing ? 'анализируем' : 'начать анализ'}
                 onClick={() => void handleStartAnalysis()}
                 style={{ margin: '28px auto 0' }}
@@ -269,8 +268,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                 {!scenario ? (
                   <LockedActionFrame
                     disabled={generatingScenario}
-                    label="создать сценарий"
-                    cost={50}
+                    frameSrc={blurFrameMakeScenario}
                     ariaLabel="создать сценарий"
                     onClick={() => void handleGenerateScenario()}
                     style={{ margin: '28px auto 0' }}
@@ -360,19 +358,12 @@ const AnalysisPreviewCard: React.FC<{
           width: '72px',
           height: '72px',
           border: 'none',
-          borderRadius: '32px',
-          background: 'rgba(4,22,39,0.1)',
-          backdropFilter: 'blur(12px)',
+          background: 'transparent',
           padding: 0,
           cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
-        <img src={figmaOpenReelChevron1} alt="" style={{ position: 'absolute', left: '14px', top: '20px', width: '32px', height: '32px', objectFit: 'contain', pointerEvents: 'none' }} />
-        <img src={figmaOpenReelChevron2} alt="" style={{ position: 'absolute', left: '22px', top: '20px', width: '32px', height: '32px', objectFit: 'contain', pointerEvents: 'none' }} />
-        <img src={figmaOpenReelChevron3} alt="" style={{ position: 'absolute', left: '32px', top: '20px', width: '32px', height: '32px', objectFit: 'contain', pointerEvents: 'none' }} />
+        <img src={openReelButton} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
       </button>
 
       <FigmaLikeButton
@@ -452,9 +443,9 @@ const AnalysisPreviewCard: React.FC<{
             gap: '12px',
           }}
         >
-          <MetricStat icon={figmaViewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} cropLeft="-69.53%" cropTop="-115.69%" cropWidth="426.73%" width={106} />
-          <MetricStat icon={figmaLikesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} cropLeft="-193.75%" cropTop="-115.69%" cropWidth="487.69%" width={96} />
-          <MetricStat icon={figmaCommentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} cropLeft="-304.47%" cropTop="-115.69%" cropWidth="487.69%" width={101} />
+          <MetricStat icon={viewsIcon} value={formatCount(reel.viewsCount)} iconWidth={58} iconHeight={48} width={106} />
+          <MetricStat icon={likesIcon} value={formatCount(reel.likesCount)} iconWidth={58} iconHeight={56} width={96} />
+          <MetricStat icon={commentsIcon} value={formatCount(reel.commentsCount)} iconWidth={60} iconHeight={58} width={101} />
         </div>
       </div>
 
@@ -477,15 +468,12 @@ const AnalysisPreviewCard: React.FC<{
 
       <div style={{ position: 'absolute', left: '271px', top: '846px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
         <img
-          src={figmaInstagramIcon}
+          src={instagramLogo}
           alt=""
           style={{
-            position: 'absolute',
-            height: '339.84%',
-            left: '-56.27%',
-            top: '-118.33%',
-            width: '620.89%',
-            maxWidth: 'none',
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
           }}
         />
       </div>
@@ -520,7 +508,6 @@ const ActionButton: React.FC<{
   <button
     type="button"
     onClick={onClick}
-    className="button-inner-glow"
     style={{
       position: 'absolute',
       left: '356px',
@@ -528,136 +515,33 @@ const ActionButton: React.FC<{
       width: '247px',
       height: '79px',
       padding: 0,
-      borderRadius: '62px',
-      border: '4px solid rgba(255,255,255,0.3)',
-      background: variant === 'light' ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.9)',
-      color: '#fff',
-      fontFamily: textFont,
-      fontWeight: 700,
-      fontSize: '27px',
+      border: 'none',
+      background: 'transparent',
       cursor: 'pointer',
-      boxShadow: variant === 'light' ? 'inset 0 0 40px rgba(255,255,255,0.16)' : 'none',
-      backdropFilter: 'blur(50px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      opacity: variant === 'light' ? 0.92 : 1,
     }}
   >
-    {typeof cost === 'number' ? (
-      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-        <div
-          style={{
-            position: 'absolute',
-            left: '24px',
-            top: '17px',
-            width: '199px',
-            height: '29px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '27px',
-            lineHeight: '1',
-            whiteSpace: 'pre',
-          }}
-        >
-          {`${label}    ${cost}`}
-        </div>
-        <div style={{ position: 'absolute', left: '150px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
-          <img src={metacoinSmall} alt="" style={{ width: '19px', height: '19px', objectFit: 'contain' }} />
-        </div>
-      </div>
-    ) : (
-      <span style={{ transform: 'translateY(-4px)' }}>{label}</span>
-    )}
+    <img src={followButtonShortActive} alt={typeof cost === 'number' ? `${label} ${cost}` : label} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
   </button>
 );
 
 const LockedActionFrame: React.FC<{
   disabled: boolean;
-  label: string;
-  cost: number;
+  frameSrc: string;
   ariaLabel: string;
   onClick: () => void;
   style?: React.CSSProperties;
-}> = ({ disabled, label, cost, ariaLabel, onClick, style }) => (
+}> = ({ disabled, frameSrc, ariaLabel, onClick, style }) => (
   <div
     style={{
       position: 'relative',
       width: '744px',
       height: '328px',
-      borderRadius: '30px',
-      border: '4px solid rgba(255,255,255,0.3)',
-      background: 'rgba(255,255,255,0.1)',
-      backdropFilter: 'blur(50px)',
       overflow: 'hidden',
       ...style,
     }}
   >
-    <div
-      style={{
-        position: 'absolute',
-        left: '107px',
-        top: '59px',
-        width: '530px',
-        height: '139px',
-        borderRadius: '62px',
-        border: '4px solid rgba(255,255,255,0.3)',
-        background: 'rgba(0,0,0,0.9)',
-        backdropFilter: 'blur(50px)',
-      }}
-    />
-    <div
-      style={{
-        position: 'absolute',
-        left: '135px',
-        top: '112px',
-        width: '473px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: textFont,
-        fontWeight: 700,
-        fontSize: '32px',
-        lineHeight: '1',
-        color: '#fff',
-        whiteSpace: 'pre',
-        pointerEvents: 'none',
-      }}
-    >
-      {`${label}    ${cost}`}
-    </div>
-    <div
-      style={{
-        position: 'absolute',
-        left: label === 'создать сценарий' ? '483px' : '441px',
-        top: '112px',
-        width: '25px',
-        height: '25px',
-        pointerEvents: 'none',
-      }}
-    >
-      <img src={metacoinSmall} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-    </div>
-    <div
-      style={{
-        position: 'absolute',
-        left: '136px',
-        top: '214px',
-        width: '473px',
-        fontFamily: textFont,
-        fontWeight: 400,
-        fontSize: '32px',
-        lineHeight: '1.05',
-        color: 'rgba(255,255,255,0.6)',
-        textAlign: 'center',
-        whiteSpace: 'pre-line',
-        pointerEvents: 'none',
-      }}
-    >
-      {'вы можете пополнить баланс\nв личном кабинете'}
-    </div>
+    <img src={frameSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
     <button
       type="button"
       onClick={() => {
@@ -666,8 +550,8 @@ const LockedActionFrame: React.FC<{
       }}
       style={{
         position: 'absolute',
-        left: '107px',
-        top: '59px',
+        left: '110px',
+        top: '58px',
         width: '530px',
         height: '139px',
         padding: 0,
@@ -713,11 +597,8 @@ const MetricStat: React.FC<{
   value: string;
   iconWidth: number;
   iconHeight: number;
-  cropLeft: string;
-  cropTop: string;
-  cropWidth: string;
   width: number;
-}> = ({ icon, value, iconWidth, iconHeight, cropLeft, cropTop, cropWidth, width }) => (
+}> = ({ icon, value, iconWidth, iconHeight, width }) => (
   <div
     style={{
       minWidth: `${width}px`,
@@ -742,12 +623,9 @@ const MetricStat: React.FC<{
         src={icon}
         alt=""
         style={{
-          position: 'absolute',
-          height: '339.22%',
-          left: cropLeft,
-          top: cropTop,
-          width: cropWidth,
-          maxWidth: 'none',
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
         }}
       />
     </div>

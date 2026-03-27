@@ -4,7 +4,6 @@ import bgBase from '../assets/figma-welcome/фон для эксперимент
 import logoSmall from '../assets/figma-welcome/logo-small.png';
 import logoFooter from '../assets/figma-welcome/logo-footer.png';
 import socialSprite from '../assets/welcome-elements/socials-sprite.png';
-import supportBadge from '../assets/shared-redesign/плашка поддержка.png';
 
 export const ThreeBg: React.FC = () => (
   <div style={{
@@ -101,19 +100,5 @@ export const Footer: React.FC<FooterProps> = ({ top = 2071 }) => (
     <div style={{ position: 'absolute', left: '735px', top: '13px', width: '40px', height: '51px', overflow: 'hidden' }}>
       <img src={socialSprite} alt="" style={{ position: 'absolute', height: '339.84%', left: '-59.08%', top: '-118.33%', width: '651.94%', maxWidth: 'none' }} />
     </div>
-
-    <img
-      src={supportBadge}
-      alt="поддержка"
-      style={{
-        position: 'absolute',
-        left: '417px',
-        top: '-3px',
-        width: '247px',
-        height: '79px',
-        objectFit: 'contain',
-        cursor: 'pointer',
-      }}
-    />
   </div>
 );
