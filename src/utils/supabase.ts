@@ -318,83 +318,74 @@ export async function trackMetacoinsSpend(
 }
 
 // Track subscription purchase
-export async function trackSubscriptionPurchase(subscriptionType: 'premium', months: number) {
+export async function trackSubscriptionPurchase(subscriptionType: 'premium', months: number): Promise<{
+  success: boolean;
+  firstPurchase: boolean;
+  months: number;
+}> {
   console.log('🔵 trackSubscriptionPurchase called:', subscriptionType, 'months:', months);
   
   const user = await getOrCreateUser(false); // Use cache
   if (!user) {
     console.error('❌ trackSubscriptionPurchase: No user found');
-    return false;
+    return {
+      success: false,
+      firstPurchase: false,
+      months,
+    };
   }
 
   console.log('✅ User found:', user.id, 'Current balance:', user.metacoins_balance);
 
-  // Subscription bonus is always 3000 metacoins (regardless of duration)
-  const bonusMetacoins = 3000;
-  const newBalance = user.metacoins_balance + bonusMetacoins;
-
-  // Calculate subscription end date
-  const endDate = new Date();
-  endDate.setMonth(endDate.getMonth() + months);
-
   try {
-    // Update subscription via direct Supabase (subscription_type not in API proxy)
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ 
+    const response = await fetch(`${API_PROXY_URL}/api/subscription/purchase`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: user.id,
         subscription_type: subscriptionType,
-        metacoins_balance: newBalance,
-        subscription_end_date: endDate.toISOString(),
-      })
-      .eq('id', user.id);
+        months,
+      }),
+    });
 
-    if (updateError) {
-      console.error('❌ Error updating subscription:', updateError);
-      return false;
+    const payload = await response.json();
+    if (!response.ok || !payload?.success) {
+      console.error('❌ Error updating subscription:', payload?.error || response.status);
+      return {
+        success: false,
+        firstPurchase: false,
+        months,
+      };
     }
 
-    // Create transaction record via API proxy
-    const txResponse = await fetch(
-      `${API_PROXY_URL}/api/transaction`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: user.id,
-          amount: bonusMetacoins,
-          balance_before: user.metacoins_balance,
-          balance_after: newBalance,
-          transaction_type: 'subscription_bonus',
-          description: `Бонус за подписку: ${months} мес.`,
-        }),
-      }
-    );
-
-    if (!txResponse.ok) {
-      console.error('❌ Error creating transaction:', txResponse.status);
-    }
-
-    console.log('✅ Subscription purchase successful. New balance:', newBalance);
-    console.log('💰 Bonus metacoins:', bonusMetacoins);
+    console.log('✅ Subscription purchase successful. New balance:', payload.newBalance);
     
     // Update cache
     userCache = { 
       ...user, 
       subscription_type: subscriptionType, 
-      metacoins_balance: newBalance,
-      subscription_end_date: endDate.toISOString(),
+      metacoins_balance: payload.newBalance,
+      subscription_end_date: payload.subscriptionEndDate,
     };
     cacheTime = Date.now();
     
     // Trigger balance refresh event
     window.dispatchEvent(new CustomEvent('balanceUpdated', { 
-      detail: { newBalance } 
+      detail: { newBalance: payload.newBalance } 
     }));
     
-    return true;
+    return {
+      success: true,
+      firstPurchase: Boolean(payload.firstPurchase),
+      months: Number(payload.months || months),
+    };
   } catch (error) {
     console.error('❌ Critical error in trackSubscriptionPurchase:', error);
-    return false;
+    return {
+      success: false,
+      firstPurchase: false,
+      months,
+    };
   }
 }
 

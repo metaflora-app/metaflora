@@ -84,13 +84,13 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const handleSendMaterials = async () => {
     try {
       if (!materials.length) {
-        alert('В этом уроке нет материалов');
+        showPopupMessage('в этом уроке нет материалов');
         return;
       }
 
       const userId = (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id;
       if (!userId) {
-        alert('Откройте мини-апп через Telegram');
+        showPopupMessage('откройте мини-апп через Telegram');
         return;
       }
 
@@ -106,13 +106,13 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
       const result = await response.json();
       if (response.ok && result.success) {
-        alert('материалы отправлены в чат с ботом');
+        showPopupMessage('материалы отправлены в чат с ботом');
       } else {
-        alert(`Ошибка отправки: ${result.error || 'Неизвестная ошибка'}`);
+        showPopupMessage(result.error || 'неизвестная ошибка');
       }
     } catch (error: any) {
       console.error('Error sending lesson materials:', error);
-      alert(`Критическая ошибка: ${error.message || error}`);
+      showPopupMessage(error?.message || 'неизвестная ошибка');
     }
   };
 

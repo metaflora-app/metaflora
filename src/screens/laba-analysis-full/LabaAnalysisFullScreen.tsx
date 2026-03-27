@@ -53,7 +53,7 @@ export const LabaAnalysisFullScreen: React.FC = () => {
     const copied = await copyToClipboard(scenario.text);
     if (!copied) return;
 
-    showPopupMessage('сценарий скопирован в буфер обмена');
+    showPopupMessage('новый сценарий скопирован в буфер обмена');
   };
 
   return (

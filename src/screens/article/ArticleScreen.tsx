@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getPolygonArticleById } from '../../utils/contentApi';
 import type { PolygonArticle } from '../../types/content';
 import { MaterialsContentScreen } from '../../components/MaterialsContentScreen';
@@ -59,13 +60,13 @@ export const ArticleScreen: React.FC = () => {
   const handleSendMaterials = async () => {
     try {
       if (!materials.length) {
-        alert('В этой статье нет материалов');
+        showPopupMessage('в этой статье нет материалов');
         return;
       }
 
       const userId = (window.Telegram?.WebApp as any)?.initDataUnsafe?.user?.id;
       if (!userId) {
-        alert('Откройте мини-апп через Telegram');
+        showPopupMessage('откройте мини-апп через Telegram');
         return;
       }
 
@@ -81,13 +82,13 @@ export const ArticleScreen: React.FC = () => {
 
       const result = await response.json();
       if (response.ok && result.success) {
-        alert('материалы отправлены в чат с ботом');
+        showPopupMessage('материалы отправлены в чат с ботом');
       } else {
-        alert(`Ошибка отправки: ${result.error || 'Неизвестная ошибка'}`);
+        showPopupMessage(result.error || 'неизвестная ошибка');
       }
     } catch (error: any) {
       console.error('Error sending article materials:', error);
-      alert(`Критическая ошибка: ${error.message || error}`);
+      showPopupMessage(error?.message || 'неизвестная ошибка');
     }
   };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { trackMetacoinsPurchase } from '../../utils/supabase';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import card30000 from '../../assets/metacoins-redesign/карточка покупки 30к метакоинов.png';
@@ -18,11 +19,11 @@ export const MetacoinsScreen: React.FC = () => {
     const amount = selectedPack === '30000' ? 30000 : 150000;
     const success = await trackMetacoinsPurchase(amount);
     if (success) {
-      window.Telegram?.WebApp?.showPopup?.({ message: `успешно куплено ${amount} метакоинов` });
+      showPopupMessage(`успешно куплено ${amount} метакоинов`);
       navigate('/main-dashboard-premium');
       return;
     }
-    window.Telegram?.WebApp?.showPopup?.({ message: 'ошибка при покупке метакоинов' });
+    showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
   };
 
   return (

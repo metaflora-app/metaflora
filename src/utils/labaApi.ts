@@ -24,6 +24,7 @@ import {
   FavoritesResponse,
   TopReelCategory,
 } from '../types/laba';
+import { showAlert, showPopupMessage } from '../app/telegram/telegramHelpers';
 
 // Laba endpoints are served from the dedicated Railway service backend.
 const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
@@ -608,19 +609,12 @@ export function getTelegramUserId(): number | null {
  * Показать сообщение пользователю через Telegram WebApp
  */
 export function showMessage(message: string, type: 'alert' | 'popup' = 'popup'): void {
-  if (typeof window === 'undefined') return;
-  
-  const webApp = (window as any).Telegram?.WebApp;
-  if (!webApp) {
-    console.warn('Telegram WebApp недоступен');
+  if (type === 'alert') {
+    void showAlert(message);
     return;
   }
 
-  if (type === 'alert' && webApp.showAlert) {
-    webApp.showAlert(message);
-  } else if (type === 'popup' && webApp.showPopup) {
-    webApp.showPopup({ message });
-  }
+  showPopupMessage(message);
 }
 
 /**

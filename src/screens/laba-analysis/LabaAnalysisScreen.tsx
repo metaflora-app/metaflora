@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import { openLink, showConfirm } from '../../app/telegram/telegramHelpers';
+import { openLink, showConfirm, showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { Analysis, Reel, Scenario } from '../../types/laba';
 import {
   analyzeReel,
@@ -150,7 +150,7 @@ export const LabaAnalysisScreen: React.FC = () => {
       const result = await analyzeReel(reel.id, userId);
       setAnalysis(result.analysis);
       setScenario(result.scenario || null);
-      window.Telegram?.WebApp?.showPopup?.({ message: 'анализ успешно завершен' });
+      showPopupMessage('анализ успешно завершен');
     } catch (error: any) {
       console.error('Ошибка анализа:', error);
       showMessage(error.message || 'ошибка анализа', 'popup');
@@ -172,7 +172,7 @@ export const LabaAnalysisScreen: React.FC = () => {
     try {
       const result = await generateScenario(analysis.id, userId);
       setScenario(result);
-      window.Telegram?.WebApp?.showPopup?.({ message: 'сценарий успешно создан' });
+      showPopupMessage('сценарий успешно создан');
     } catch (error: any) {
       console.error('Ошибка генерации сценария:', error);
       showMessage(error.message || 'ошибка генерации сценария', 'popup');
@@ -187,7 +187,7 @@ export const LabaAnalysisScreen: React.FC = () => {
     const copied = await copyToClipboard(scenario.text);
     if (!copied) return;
 
-    window.Telegram?.WebApp?.showPopup?.({ message: 'сценарий скопирован в буфер обмена' });
+    showPopupMessage('новый сценарий скопирован в буфер обмена');
   };
 
   const handleOpenReel = async () => {

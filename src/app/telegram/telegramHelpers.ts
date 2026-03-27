@@ -4,6 +4,19 @@
 
 import WebApp from '@twa-dev/sdk';
 
+export const UNKNOWN_ERROR_MESSAGE = 'неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support';
+
+function normalizePopupText(message: string): string {
+  const normalized = String(message || '').trim();
+  if (!normalized) return UNKNOWN_ERROR_MESSAGE;
+
+  if (/(^|[\s(])(error|ошибка|critical|critical error|unknown error|неизвестная ошибка)([\s):.!?]|$)/i.test(normalized)) {
+    return UNKNOWN_ERROR_MESSAGE;
+  }
+
+  return normalized;
+}
+
 /**
  * Open external Telegram link (user profile, channel, group)
  */
@@ -68,7 +81,7 @@ export function showConfirm(message: string): Promise<boolean> {
  */
 export function showAlert(message: string): Promise<void> {
   return new Promise((resolve) => {
-    WebApp.showAlert(message, resolve);
+    WebApp.showAlert(normalizePopupText(message), resolve);
   });
 }
 
@@ -76,18 +89,20 @@ export function showAlert(message: string): Promise<void> {
  * Show lightweight Telegram popup message with fallbacks
  */
 export function showPopupMessage(message: string): void {
+  const normalizedMessage = normalizePopupText(message);
+
   if (WebApp.showPopup) {
-    WebApp.showPopup({ message });
+    WebApp.showPopup({ message: normalizedMessage });
     return;
   }
 
   if (WebApp.showAlert) {
-    WebApp.showAlert(message);
+    WebApp.showAlert(normalizedMessage);
     return;
   }
 
   if (typeof window !== 'undefined') {
-    window.alert(message);
+    window.alert(normalizedMessage);
   }
 }
 

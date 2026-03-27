@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { trackSubscriptionPurchase } from '../../utils/supabase';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 
@@ -16,19 +17,19 @@ export const PricingScreen: React.FC = () => {
 
   const handlePayment = async () => {
     const months = selectedPlan === '1month' ? 1 : 3;
-    const success = await trackSubscriptionPurchase('premium', months);
+    const result = await trackSubscriptionPurchase('premium', months);
 
-    if (!success) {
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({
-          message: 'Подписка оформлена, но возникла ошибка синхронизации. Обратитесь в поддержку.',
-        });
-      } else {
-        alert('Подписка оформлена, но возникла ошибка синхронизации. Обратитесь в поддержку.');
-      }
+    if (!result.success) {
+      showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
       return;
     }
 
+    const planLabel = result.months === 3 ? '3 месяца' : '1 месяц';
+    showPopupMessage(
+      result.firstPurchase
+        ? `подписка на ${planLabel} успешно оплачена. загляните в бота — приготовили подарки`
+        : `подписка на ${planLabel} успешно оплачена`
+    );
     navigate('/main-dashboard-premium');
   };
 
