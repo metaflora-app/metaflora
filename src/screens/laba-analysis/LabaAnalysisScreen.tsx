@@ -23,7 +23,9 @@ import {
 import { copyToClipboard } from '../../utils/clipboard';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
-import openReelButton from '../../assets/laba-analysis/open-reel-button.png';
+import openReelButton from '../../assets/laba-analysis/кнопка открыть рилс.png';
+import followButtonShort from '../../assets/laba-analysis/кнопка следить активирована.png';
+import unfollowButtonShort from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
@@ -33,7 +35,6 @@ type ActionVariant = 'dark' | 'light';
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
-const followMetacoin = 'https://www.figma.com/api/mcp/asset/5057bb96-9588-4d8c-8764-1552f5ad454e';
 const PREVIEW_CARD_WIDTH = 831;
 const PREVIEW_CARD_HEIGHT = 1064;
 const PREVIEW_CARD_INSET_X = 43;
@@ -353,10 +354,10 @@ const AnalysisPreviewCard: React.FC<{
         aria-label="открыть рилс"
         style={{
           position: 'absolute',
-          left: '377px',
-          top: '374px',
-          width: '72px',
-          height: '72px',
+          left: '304px',
+          top: '362px',
+          width: '223px',
+          height: '95px',
           border: 'none',
           background: 'transparent',
           padding: 0,
@@ -512,8 +513,8 @@ const ActionButton: React.FC<{
       position: 'absolute',
       left: '356px',
       top: '831px',
-      width: '251px',
-      height: '79.63px',
+      width: '247px',
+      height: '80px',
       padding: 0,
       border: 'none',
       background: 'transparent',
@@ -521,54 +522,11 @@ const ActionButton: React.FC<{
       opacity: variant === 'light' ? 0.92 : 1,
     }}
   >
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        borderRadius: '62px',
-        border: '4px solid rgba(255,255,255,0.3)',
-        background: 'rgba(0,0,0,0.9)',
-        backdropFilter: 'blur(50px)',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '21.1px',
-          transform: 'translateX(-50%)',
-          width: '199px',
-          height: '29px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: textFont,
-          fontWeight: 700,
-          fontSize: '27px',
-          lineHeight: '1',
-          color: '#fff',
-          whiteSpace: 'pre',
-        }}
-      >
-        {`${label}    ${cost ?? ''}`}
-      </div>
-      <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
-        <img
-          src={followMetacoin}
-          alt=""
-          style={{
-            position: 'absolute',
-            height: '130.34%',
-            left: '-20%',
-            top: '-14.48%',
-            width: '140%',
-            maxWidth: 'none',
-          }}
-        />
-      </div>
-    </div>
+    <img
+      src={variant === 'light' ? unfollowButtonShort : followButtonShort}
+      alt={typeof cost === 'number' ? `${label} ${cost}` : label}
+      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
+    />
   </button>
 );
 
@@ -588,7 +546,7 @@ const LockedActionFrame: React.FC<{
       ...style,
     }}
   >
-    <img src={frameSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
+    <img src={frameSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
     <button
       type="button"
       onClick={() => {
