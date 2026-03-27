@@ -279,7 +279,7 @@ export const LabaAnalysisScreen: React.FC = () => {
 
                 {!scenario ? (
                   generatingScenario ? (
-                    <AnimatedBlurLoadingFrame kind="scenario" style={{ margin: '28px auto 0' }} />
+                    <AnimatedBlurLoadingFrame kind="scenario" style={{ margin: '8px auto 0' }} />
                   ) : (
                     <LockedActionFrame
                       disabled={false}
@@ -287,7 +287,7 @@ export const LabaAnalysisScreen: React.FC = () => {
                       frameHeight={SCENARIO_LOCKED_FRAME_HEIGHT}
                       ariaLabel="создать сценарий"
                       onClick={() => void handleGenerateScenario()}
-                      style={{ margin: '28px auto 0' }}
+                      style={{ margin: '8px auto 0' }}
                     />
                   )
                 ) : (

@@ -92,9 +92,9 @@ export const LabaAnalysisFullScreen: React.FC = () => {
           ))}
 
           {generatingScenario ? (
-            <AnimatedBlurLoadingFrame style={{ margin: '18px auto 34px' }} />
+            <AnimatedBlurLoadingFrame style={{ margin: '8px auto 34px' }} />
           ) : (
-            <div style={{ position: 'relative', width: `${LOCKED_FRAME_WIDTH}px`, height: `${SCENARIO_LOCKED_FRAME_HEIGHT}px`, margin: '18px auto 34px' }}>
+            <div style={{ position: 'relative', width: `${LOCKED_FRAME_WIDTH}px`, height: `${SCENARIO_LOCKED_FRAME_HEIGHT}px`, margin: '8px auto 34px' }}>
               <img src={blurFrameMakeScenario} alt="блюр фрейм сделать сценарий" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', display: 'block', pointerEvents: 'none' }} />
               <button
                 type="button"

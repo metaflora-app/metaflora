@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Footer } from '../../components/ScreenLayout';
 import leftPanelGif from '../../assets/laba-search/left-panel.gif';
 
 const SIDEBAR_HOTSPOTS = [
@@ -10,8 +11,6 @@ const SIDEBAR_HOTSPOTS = [
 ];
 
 const logoSmall = 'https://www.figma.com/api/mcp/asset/6cc89443-e3dd-4f50-8766-f7549c24f1c1';
-const logoFooter = 'https://www.figma.com/api/mcp/asset/8cbffe4a-e50d-4dbf-9309-c70270c1a013';
-const socialsSprite = 'https://www.figma.com/api/mcp/asset/47e834b0-2ec2-47a5-86c2-d642f138fe3b';
 const backgroundBase = 'https://www.figma.com/api/mcp/asset/ae38eb1c-b28c-46b9-a9c2-040a5cec66df';
 const backgroundOverlayOne = 'https://www.figma.com/api/mcp/asset/edb83794-7120-4b6d-bdf8-b2fe59317848';
 const backgroundOverlayTwo = 'https://www.figma.com/api/mcp/asset/b07f8e3a-732f-48a5-b5e5-a44c34d31812';
@@ -105,72 +104,7 @@ export const LabaSearchScreen: React.FC = () => {
           />
         ))}
 
-        <div style={{ position: 'absolute', left: '141px', top: '2071px', width: '888px', height: '124px' }}>
-          <div style={{ position: 'absolute', left: '2px', top: '-16px', width: '380px', height: '83px' }}>
-            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-              <img
-                src={logoFooter}
-                alt="МЕТАФЛОРА*"
-                style={{ position: 'absolute', height: '526.54%', left: '-37.89%', top: '-202.47%', width: '170.37%', maxWidth: 'none' }}
-              />
-            </div>
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              left: '2px',
-              top: '56px',
-              width: '433px',
-              fontFamily: 'Cygre',
-              fontWeight: 400,
-              fontSize: '20px',
-              lineHeight: '1',
-              color: 'rgba(255,255,255,0.6)',
-            }}
-          >
-            Copyright © Все права защищены
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              left: '417px',
-              top: '-2px',
-              width: '230px',
-              height: '78px',
-              borderRadius: '62px',
-              border: '4px solid rgba(255,255,255,0.3)',
-              background: '#000',
-              backdropFilter: 'blur(50px)',
-              overflow: 'hidden',
-            }}
-          >
-            <div style={{ position: 'absolute', left: '111px', top: '11px', width: '94px', height: '51px', opacity: 0.3, overflow: 'hidden' }}>
-              <img
-                src={socialsSprite}
-                alt=""
-                style={{ position: 'absolute', height: '339.84%', left: '-76.21%', top: '-118.33%', width: '277.42%', maxWidth: 'none' }}
-              />
-            </div>
-          </div>
-
-          <div style={{ position: 'absolute', left: '434px', top: '13px', width: '50px', height: '51px', overflow: 'hidden' }}>
-            <img
-              src={socialsSprite}
-              alt=""
-              style={{ position: 'absolute', height: '339.84%', left: '-377.92%', top: '-118.33%', width: '517.92%', maxWidth: 'none' }}
-            />
-          </div>
-
-          <div style={{ position: 'absolute', left: '488px', top: '13px', width: '40px', height: '51px', overflow: 'hidden' }}>
-            <img
-              src={socialsSprite}
-              alt=""
-              style={{ position: 'absolute', height: '339.84%', left: '-59.08%', top: '-118.33%', width: '651.94%', maxWidth: 'none' }}
-            />
-          </div>
-        </div>
+        <Footer />
       </div>
     </div>
   );

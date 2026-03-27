@@ -217,6 +217,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
             </p>
           ) : null}
 
+          {hasSearchAttempted && searching ? (
+            <SearchAccountLoadingState />
+          ) : null}
+
           {hasSearchAttempted && foundAccount ? (
             <>
               <div style={{ position: 'absolute', left: '41px', top: '620px', width: '190px', height: '190px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)' }}>
@@ -240,7 +244,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 <img
                   src={instagramLogo}
                   alt=""
-                  style={{ position: 'absolute', height: '339.84%', left: '-56.27%', top: '-118.33%', width: '620.89%', maxWidth: 'none' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </div>
 
@@ -329,3 +333,92 @@ export const LabaSearchAccountScreen: React.FC = () => {
     </div>
   );
 };
+
+const SearchAccountLoadingState: React.FC = () => (
+  <>
+    <div
+      className="blur-shimmer-bar"
+      style={{
+        position: 'absolute',
+        left: '41px',
+        top: '620px',
+        width: '190px',
+        height: '190px',
+        borderRadius: '50%',
+      }}
+    />
+
+    <div
+      className="blur-shimmer-bar"
+      style={{
+        position: 'absolute',
+        left: '247px',
+        top: '632px',
+        width: '58px',
+        height: '70px',
+        opacity: 0.72,
+      }}
+    />
+
+    <div
+      className="blur-shimmer-bar"
+      style={{
+        position: 'absolute',
+        left: '257px',
+        top: '706px',
+        width: '246px',
+        height: '40px',
+      }}
+    />
+
+    <div
+      className="blur-shimmer-bar"
+      style={{
+        position: 'absolute',
+        left: '254px',
+        top: '760px',
+        width: '316px',
+        height: '28px',
+        opacity: 0.78,
+      }}
+    />
+
+    <div
+      className="blur-shimmer-frame"
+      style={{
+        position: 'absolute',
+        left: '150px',
+        top: '878px',
+        width: '530px',
+        height: '139px',
+        padding: '30px 34px',
+      }}
+    >
+      <div className="blur-shimmer-bar" style={{ width: '100%', height: '52px', borderRadius: '62px' }} />
+    </div>
+
+    <div
+      className="blur-shimmer-bar"
+      style={{
+        position: 'absolute',
+        left: '220px',
+        top: '1041px',
+        width: '388px',
+        height: '24px',
+        opacity: 0.56,
+      }}
+    />
+
+    <div
+      className="blur-shimmer-bar"
+      style={{
+        position: 'absolute',
+        left: '260px',
+        top: '1077px',
+        width: '308px',
+        height: '24px',
+        opacity: 0.44,
+      }}
+    />
+  </>
+);
