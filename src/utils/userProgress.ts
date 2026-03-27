@@ -19,6 +19,12 @@ export interface UserProgressRow {
   updated_at: string;
 }
 
+export interface LessonProgressUpdateResult {
+  success: boolean;
+  completed: boolean;
+  justCompleted: boolean;
+}
+
 /**
  * Получить прогресс пользователя по всем урокам
  */
@@ -76,7 +82,7 @@ export async function updateLessonProgress(
   userId: number,
   lessonId: string,
   updates: Partial<LessonProgress>
-): Promise<boolean> {
+): Promise<LessonProgressUpdateResult> {
   const currentProgress = await getLessonProgress(userId, lessonId);
   
   const newProgress = {
@@ -87,6 +93,7 @@ export async function updateLessonProgress(
 
   // Автоматически устанавливаем completed если оба условия выполнены
   const completed = newProgress.video_watched && newProgress.materials_read;
+  const justCompleted = completed && !currentProgress?.completed;
 
   const { error } = await supabase
     .from('user_progress')
@@ -102,10 +109,18 @@ export async function updateLessonProgress(
 
   if (error) {
     console.error('Error updating lesson progress:', error);
-    return false;
+    return {
+      success: false,
+      completed,
+      justCompleted: false,
+    };
   }
 
-  return true;
+  return {
+    success: true,
+    completed,
+    justCompleted,
+  };
 }
 
 /**
@@ -138,13 +153,14 @@ export async function wasVideoViewed(userId: number, lessonId: string): Promise<
  * Отметить что видео было просмотрено (для блюра)
  */
 export async function markVideoViewed(userId: number, lessonId: string): Promise<boolean> {
-  return updateLessonProgress(userId, lessonId, { videoViewed: true });
+  const result = await updateLessonProgress(userId, lessonId, { videoViewed: true });
+  return result.success;
 }
 
-export async function markLessonVideoWatched(userId: number, lessonId: string): Promise<boolean> {
+export async function markLessonVideoWatched(userId: number, lessonId: string): Promise<LessonProgressUpdateResult> {
   return updateLessonProgress(userId, lessonId, { videoWatched: true });
 }
 
-export async function markLessonMaterialsRead(userId: number, lessonId: string): Promise<boolean> {
+export async function markLessonMaterialsRead(userId: number, lessonId: string): Promise<LessonProgressUpdateResult> {
   return updateLessonProgress(userId, lessonId, { materialsRead: true });
 }

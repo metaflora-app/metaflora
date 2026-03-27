@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { copyToClipboard } from '../../utils/clipboard';
 import { getWorkshopPromptById, trackWorkshopPromptCopy, trackWorkshopPromptView } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
@@ -11,16 +12,6 @@ import tinyLogo from '../../assets/prompt-redesign/лого очень мале�
 import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { isPromptFavorite, markPromptViewed, togglePromptFavorite } from '../../utils/promptInteractions';
-
-declare global {
-  interface Window {
-    Telegram?: {
-      WebApp?: {
-        showPopup: (params: { message: string }) => void;
-      };
-    };
-  }
-}
 
 const FALLBACK_TEXT = `A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
 
@@ -77,7 +68,7 @@ export const PromptCardScreen: React.FC = () => {
       if (id) {
         void trackWorkshopPromptCopy(id);
       }
-      window.Telegram?.WebApp?.showPopup?.({ message: 'промпт скопирован в буфер обмена' });
+      showPopupMessage('промпт скопирован в буфер обмена');
     } catch (error) {
       console.error('Copy failed:', error);
     }
@@ -85,7 +76,9 @@ export const PromptCardScreen: React.FC = () => {
 
   const handleToggleFavorite = () => {
     if (!id) return;
-    setIsFavorite(togglePromptFavorite(id));
+    const nextIsFavorite = togglePromptFavorite(id);
+    setIsFavorite(nextIsFavorite);
+    showPopupMessage(nextIsFavorite ? 'промпт добавлен в избранное' : 'промпт удален из избранного');
   };
 
   return (

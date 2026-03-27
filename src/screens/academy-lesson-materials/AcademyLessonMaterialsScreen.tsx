@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getAcademyLessonById, getDemoLessonById } from '../../utils/contentApi';
 import type { AcademyLesson } from '../../types/content';
 import { MaterialsContentScreen } from '../../components/MaterialsContentScreen';
@@ -72,7 +73,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       if (!userId) return;
 
       hasMarkedMaterialsReadRef.current = true;
-      void markLessonMaterialsRead(userId, lessonId);
+      void markLessonMaterialsRead(userId, lessonId).then((result) => {
+        if (result.justCompleted) {
+          showPopupMessage('урок завершен на 100%');
+        }
+      });
     }
   }, [lessonId, lessonType]);
 

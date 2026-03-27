@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
-import { formatFollowersLabel, getInstagramAvatarSources, getTelegramUserId, searchAccount, trackAccount } from '../../utils/labaApi';
+import { formatFollowersLabel, getInstagramAvatarSources, getTelegramUserId, searchAccount, showMessage, trackAccount } from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
@@ -51,13 +51,14 @@ export const LabaSearchAccountScreen: React.FC = () => {
       setHasSearchAttempted(true);
       setSearching(true);
       setFoundAccount(null);
+      showMessage('начался поиск аккаунта. Пожалуйста, подождите 10 секунд', 'popup');
       const account = await searchAccount(query);
       setFoundAccount(account);
-      window.Telegram?.WebApp?.showPopup?.({ message: 'аккаунт успешно найден' });
+      showMessage('аккаунт успешно найден', 'popup');
     } catch (error: any) {
       console.error('Search account error:', error);
       setFoundAccount(null);
-      window.Telegram?.WebApp?.showPopup?.({ message: error.message || 'ничего не найдено' });
+      showMessage(error.message || 'ничего не найдено', 'popup');
     } finally {
       setSearching(false);
     }
@@ -70,11 +71,17 @@ export const LabaSearchAccountScreen: React.FC = () => {
 
     try {
       setTracking(true);
-      await trackAccount(foundAccount.username, userId);
-      navigate('/laba-tracked', { state: { newAccountAdded: true } });
+      showMessage('ИИ-агент начал собирать рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
+      const result = await trackAccount(foundAccount.username, userId);
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(result.accountId)}`, {
+        state: {
+          trackingStarted: true,
+          trackedAccountId: result.accountId,
+        },
+      });
     } catch (error: any) {
       console.error('Track account error:', error);
-      window.Telegram?.WebApp?.showPopup?.({ message: error.message || 'ошибка отслеживания' });
+      showMessage(error.message || 'ошибка отслеживания', 'popup');
     } finally {
       setTracking(false);
     }

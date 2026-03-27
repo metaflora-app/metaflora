@@ -149,13 +149,12 @@ export const LabaMainScreen: React.FC = () => {
 
     setSearching(true);
     setLoading(true);
+    showMessage('начался поиск рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
     try {
       const foundReels = await searchReels(keyword, userId);
       setReels(foundReels);
       setLabaReelsCache(foundReels);
-      window.Telegram?.WebApp?.showPopup?.({
-        message: foundReels.length ? 'reels успешно найдены' : 'ничего не найдено',
-      });
+      showMessage(foundReels.length ? 'рилс успешно найдены' : 'ничего не найдено', 'popup');
     } catch (error: any) {
       console.error('Ошибка поиска:', error);
       showMessage(error.message || 'ошибка поиска', 'popup');
@@ -169,24 +168,17 @@ export const LabaMainScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) return;
 
-    const wasLiked = likedCards.has(reelId);
-    setLikedCards((prev) => {
-      const next = new Set(prev);
-      if (wasLiked) next.delete(reelId);
-      else next.add(reelId);
-      return next;
-    });
-
     try {
-      await toggleFavorite(reelId, userId);
-    } catch (error) {
-      console.error('Ошибка избранного:', error);
+      const nextIsFavorite = await toggleFavorite(reelId, userId);
       setLikedCards((prev) => {
         const next = new Set(prev);
-        if (wasLiked) next.add(reelId);
+        if (nextIsFavorite) next.add(reelId);
         else next.delete(reelId);
         return next;
       });
+      showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
+    } catch (error) {
+      console.error('Ошибка избранного:', error);
     }
   };
 
@@ -197,23 +189,19 @@ export const LabaMainScreen: React.FC = () => {
       return;
     }
 
-    const webApp = (window as any).Telegram?.WebApp;
-    if (webApp?.showPopup) {
-      webApp.showPopup(
-        {
-          message:
-            'аккаунт будет добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов',
+    showMessage('ИИ-агент начал собирать рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
+
+    try {
+      const result = await trackAccount(reel.accountUsername, userId);
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(result.accountId)}`, {
+        state: {
+          trackingStarted: true,
+          trackedAccountId: result.accountId,
         },
-        async () => {
-          try {
-            await trackAccount(reel.accountUsername, userId);
-            navigate('/laba-tracked');
-          } catch (error: any) {
-            console.error('Ошибка отслеживания:', error);
-            showMessage(error.message || 'ошибка отслеживания', 'popup');
-          }
-        },
-      );
+      });
+    } catch (error: any) {
+      console.error('Ошибка отслеживания:', error);
+      showMessage(error.message || 'ошибка отслеживания', 'popup');
     }
   };
 

@@ -73,6 +73,25 @@ export function showAlert(message: string): Promise<void> {
 }
 
 /**
+ * Show lightweight Telegram popup message with fallbacks
+ */
+export function showPopupMessage(message: string): void {
+  if (WebApp.showPopup) {
+    WebApp.showPopup({ message });
+    return;
+  }
+
+  if (WebApp.showAlert) {
+    WebApp.showAlert(message);
+    return;
+  }
+
+  if (typeof window !== 'undefined') {
+    window.alert(message);
+  }
+}
+
+/**
  * Haptic feedback
  */
 export function hapticImpact(style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft' = 'medium') {

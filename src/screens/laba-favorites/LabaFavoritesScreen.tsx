@@ -120,10 +120,15 @@ export const LabaFavoritesScreen: React.FC = () => {
     if (!userId) return;
 
     const removedReel = reels.find((item) => item.id === reelId);
-    setReels((prev) => prev.filter((item) => item.id !== reelId));
 
     try {
-      await toggleFavorite(reelId, userId);
+      const nextIsFavorite = await toggleFavorite(reelId, userId);
+      if (!nextIsFavorite) {
+        setReels((prev) => prev.filter((item) => item.id !== reelId));
+        showMessage('рилс удален из избранного', 'popup');
+        return;
+      }
+      showMessage('рилс добавлен в избранное', 'popup');
     } catch (error) {
       console.error('Ошибка удаления из избранного:', error);
       if (removedReel) {
@@ -139,23 +144,19 @@ export const LabaFavoritesScreen: React.FC = () => {
       return;
     }
 
-    const webApp = (window as any).Telegram?.WebApp;
-    if (webApp?.showPopup) {
-      webApp.showPopup(
-        {
-          message:
-            'аккаунт будет добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов',
+    showMessage('ИИ-агент начал собирать рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
+
+    try {
+      const result = await trackAccount(reel.accountUsername, userId);
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(result.accountId)}`, {
+        state: {
+          trackingStarted: true,
+          trackedAccountId: result.accountId,
         },
-        async () => {
-          try {
-            await trackAccount(reel.accountUsername, userId);
-            navigate('/laba-tracked');
-          } catch (error: any) {
-            console.error('Ошибка отслеживания:', error);
-            showMessage(error.message || 'ошибка отслеживания', 'popup');
-          }
-        },
-      );
+      });
+    } catch (error: any) {
+      console.error('Ошибка отслеживания:', error);
+      showMessage(error.message || 'ошибка отслеживания', 'popup');
     }
   };
 

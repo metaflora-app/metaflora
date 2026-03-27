@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { getWorkshopPromptsWithCache } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
@@ -139,6 +140,7 @@ export const PromptFirstScreen: React.FC = () => {
       else next.delete(promptId);
       return Array.from(next);
     });
+    showPopupMessage(nextIsFavorite ? 'промпт добавлен в избранное' : 'промпт удален из избранного');
   };
 
   const handleOpenPromptCard = (promptId: string) => navigate(`/prompt-card/${promptId}`);

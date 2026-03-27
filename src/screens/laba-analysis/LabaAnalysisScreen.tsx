@@ -17,6 +17,7 @@ import {
   getTelegramUserId,
   getViralityColor,
   showMessage,
+  toggleFavorite,
   trackAccount,
 } from '../../utils/labaApi';
 import { copyToClipboard } from '../../utils/clipboard';
@@ -94,13 +95,23 @@ export const LabaAnalysisScreen: React.FC = () => {
 
   if (!reel) return null;
 
-  const toggleLocalFavorite = (reelId: string) => {
-    setLikedCards((prev) => {
-      const next = new Set(prev);
-      if (next.has(reelId)) next.delete(reelId);
-      else next.add(reelId);
-      return next;
-    });
+  const handleToggleFavorite = async (reelId: string) => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
+
+    try {
+      const nextIsFavorite = await toggleFavorite(reelId, userId);
+      setLikedCards((prev) => {
+        const next = new Set(prev);
+        if (nextIsFavorite) next.add(reelId);
+        else next.delete(reelId);
+        return next;
+      });
+      showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
+    } catch (error) {
+      console.error('Ошибка избранного:', error);
+      showMessage('ошибка избранного', 'popup');
+    }
   };
 
   const handleTrack = async () => {
@@ -110,23 +121,19 @@ export const LabaAnalysisScreen: React.FC = () => {
       return;
     }
 
-    const webApp = (window as any).Telegram?.WebApp;
-    if (webApp?.showPopup) {
-      webApp.showPopup(
-        {
-          message:
-            'аккаунт будет добавлен в отслеживаемые вместе с последними опубликованными reels\n\nстоимость за каждое последующее видео после отслеживания — 15 метакоинов',
+    showMessage('ИИ-агент начал собирать рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
+
+    try {
+      const result = await trackAccount(reel.accountUsername, userId);
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(result.accountId)}`, {
+        state: {
+          trackingStarted: true,
+          trackedAccountId: result.accountId,
         },
-        async () => {
-          try {
-            await trackAccount(reel.accountUsername, userId);
-            navigate('/laba-tracked');
-          } catch (error: any) {
-            console.error('Ошибка отслеживания:', error);
-            showMessage(error.message || 'ошибка отслеживания', 'popup');
-          }
-        },
-      );
+      });
+    } catch (error: any) {
+      console.error('Ошибка отслеживания:', error);
+      showMessage(error.message || 'ошибка отслеживания', 'popup');
     }
   };
 
@@ -138,6 +145,7 @@ export const LabaAnalysisScreen: React.FC = () => {
     }
 
     setAnalyzing(true);
+    showMessage('ИИ-агент начал анализ рилс. Пожалуйста, подождите 20-30 секунд', 'popup');
     try {
       const result = await analyzeReel(reel.id, userId);
       setAnalysis(result.analysis);
@@ -160,6 +168,7 @@ export const LabaAnalysisScreen: React.FC = () => {
     }
 
     setGeneratingScenario(true);
+    showMessage('ИИ-агент начал создавать сценарий. Пожалуйста, подождите 20-30 секунд', 'popup');
     try {
       const result = await generateScenario(analysis.id, userId);
       setScenario(result);
@@ -219,7 +228,7 @@ export const LabaAnalysisScreen: React.FC = () => {
               reel={reel}
               isFavorite={likedCards.has(reel.id)}
               onOpenReel={() => void handleOpenReel()}
-              onToggleFavorite={toggleLocalFavorite}
+              onToggleFavorite={(reelId) => void handleToggleFavorite(reelId)}
               onTrack={() => void handleTrack()}
             />
 

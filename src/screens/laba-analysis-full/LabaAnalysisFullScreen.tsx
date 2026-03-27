@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { generateScenario, getTelegramUserId } from '../../utils/labaApi';
 import type { Analysis, Reel, Scenario } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
@@ -34,16 +35,13 @@ export const LabaAnalysisFullScreen: React.FC = () => {
 
     try {
       setGeneratingScenario(true);
+      showPopupMessage('ИИ-агент начал создавать сценарий. Пожалуйста, подождите 20-30 секунд');
       const result = await generateScenario(analysis.id, userId);
       setScenario(result);
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({ message: 'сценарий успешно создан' });
-      }
+      showPopupMessage('сценарий успешно создан');
     } catch (error: any) {
       console.error('Scenario generation error:', error);
-      if (window.Telegram?.WebApp?.showPopup) {
-        window.Telegram.WebApp.showPopup({ message: error.message || 'ошибка генерации сценария' });
-      }
+      showPopupMessage(error.message || 'ошибка генерации сценария');
     } finally {
       setGeneratingScenario(false);
     }
@@ -55,7 +53,7 @@ export const LabaAnalysisFullScreen: React.FC = () => {
     const copied = await copyToClipboard(scenario.text);
     if (!copied) return;
 
-    window.Telegram?.WebApp?.showPopup?.({ message: 'сценарий скопирован в буфер обмена' });
+    showPopupMessage('сценарий скопирован в буфер обмена');
   };
 
   return (

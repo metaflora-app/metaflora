@@ -25,6 +25,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const navigationState = (location.state as { trackingStarted?: boolean; trackedAccountId?: string } | null) ?? null;
   const preselectedAccountId = React.useMemo(
     () => new URLSearchParams(location.search).get('accountId'),
     [location.search]
@@ -37,6 +38,15 @@ export const LabaTrackedScreen: React.FC = () => {
   const [loadingReels, setLoadingReels] = React.useState(false);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [showAvatarRemoveForId, setShowAvatarRemoveForId] = React.useState<string | null>(null);
+  const hasShownTrackingStartPopupRef = React.useRef(false);
+  const pendingTrackedAccountIdRef = React.useRef<string | null>(navigationState?.trackedAccountId ?? null);
+  const hasShownTrackingSuccessPopupRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!navigationState?.trackingStarted || hasShownTrackingStartPopupRef.current) return;
+    hasShownTrackingStartPopupRef.current = true;
+    showMessage('ИИ-агент начал собирать рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
+  }, [navigationState?.trackingStarted]);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -78,6 +88,16 @@ export const LabaTrackedScreen: React.FC = () => {
           trackedReels = await getTrackedReels(selectedAccountId, userId);
         }
         setReels(trackedReels);
+        if (
+          !hasShownTrackingSuccessPopupRef.current &&
+          pendingTrackedAccountIdRef.current &&
+          pendingTrackedAccountIdRef.current === selectedAccountId &&
+          trackedReels.length > 0
+        ) {
+          hasShownTrackingSuccessPopupRef.current = true;
+          pendingTrackedAccountIdRef.current = null;
+          showMessage('рилс успешно найдены', 'popup');
+        }
       } catch (error: any) {
         console.error('Ошибка загрузки reels:', error);
         showMessage(error.message || 'ошибка загрузки reels', 'popup');
@@ -99,24 +119,17 @@ export const LabaTrackedScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) return;
 
-    const wasLiked = likedCards.has(reelId);
-    setLikedCards((prev) => {
-      const next = new Set(prev);
-      if (wasLiked) next.delete(reelId);
-      else next.add(reelId);
-      return next;
-    });
-
     try {
-      await toggleFavorite(reelId, userId);
-    } catch (error) {
-      console.error('Ошибка избранного:', error);
+      const nextIsFavorite = await toggleFavorite(reelId, userId);
       setLikedCards((prev) => {
         const next = new Set(prev);
-        if (wasLiked) next.add(reelId);
+        if (nextIsFavorite) next.add(reelId);
         else next.delete(reelId);
         return next;
       });
+      showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
+    } catch (error) {
+      console.error('Ошибка избранного:', error);
     }
   };
 
