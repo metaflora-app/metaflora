@@ -10,6 +10,7 @@ import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-sc
 
 const LOCKED_FRAME_WIDTH = 744;
 const SCENARIO_LOCKED_FRAME_HEIGHT = 440;
+const SCENARIO_LOADING_FRAME_HEIGHT = 420;
 
 export const LabaAnalysisFullScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -90,37 +91,42 @@ export const LabaAnalysisFullScreen: React.FC = () => {
             </div>
           ))}
 
-          <div style={{ position: 'relative', width: `${LOCKED_FRAME_WIDTH}px`, height: `${SCENARIO_LOCKED_FRAME_HEIGHT}px`, margin: '18px auto 34px' }}>
-            <img src={blurFrameMakeScenario} alt="блюр фрейм сделать сценарий" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', display: 'block', pointerEvents: 'none' }} />
-            <button
-              type="button"
-              onClick={handleGenerateScenario}
-              style={{
-                position: 'absolute',
-                left: '14.3817%',
-                top: '17.6829%',
-                width: '71.2366%',
-                height: '42.378%',
-                padding: 0,
-                border: 'none',
-                borderRadius: '62px',
-                background: 'transparent',
-                cursor: generatingScenario ? 'default' : 'pointer',
-              }}
-              disabled={generatingScenario}
-              aria-label="создать сценарий"
-            />
-          </div>
+          {generatingScenario ? (
+            <AnimatedBlurLoadingFrame style={{ margin: '18px auto 34px' }} />
+          ) : (
+            <div style={{ position: 'relative', width: `${LOCKED_FRAME_WIDTH}px`, height: `${SCENARIO_LOCKED_FRAME_HEIGHT}px`, margin: '18px auto 34px' }}>
+              <img src={blurFrameMakeScenario} alt="блюр фрейм сделать сценарий" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', display: 'block', pointerEvents: 'none' }} />
+              <button
+                type="button"
+                onClick={handleGenerateScenario}
+                style={{
+                  position: 'absolute',
+                  left: '14.3817%',
+                  top: '17.6829%',
+                  width: '71.2366%',
+                  height: '42.378%',
+                  padding: 0,
+                  border: 'none',
+                  borderRadius: '62px',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                }}
+                aria-label="создать сценарий"
+              />
+            </div>
+          )}
 
-          <div>
-            <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>новый сценарий</p>
-            <p
-              onClick={() => void handleCopyScenario()}
-              style={{ margin: '10px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white', whiteSpace: 'pre-wrap', cursor: scenario ? 'pointer' : 'default' }}
-            >
-              {scenario?.text || 'сценарий появится после генерации'}
-            </p>
-          </div>
+          {!generatingScenario ? (
+            <div>
+              <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', color: 'white' }}>новый сценарий</p>
+              <p
+                onClick={() => void handleCopyScenario()}
+                style={{ margin: '10px 0 0', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1.05', color: 'white', whiteSpace: 'pre-wrap', cursor: scenario ? 'pointer' : 'default' }}
+              >
+                {scenario?.text || 'сценарий появится после генерации'}
+              </p>
+            </div>
+          ) : null}
         </SecondaryBlackBackdrop>
 
         <Footer />
@@ -128,3 +134,22 @@ export const LabaAnalysisFullScreen: React.FC = () => {
     </div>
   );
 };
+
+const AnimatedBlurLoadingFrame: React.FC<{ style?: React.CSSProperties }> = ({ style }) => (
+  <div
+    className="blur-shimmer-frame"
+    style={{
+      width: `${LOCKED_FRAME_WIDTH}px`,
+      height: `${SCENARIO_LOADING_FRAME_HEIGHT}px`,
+      padding: '34px 34px 30px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '22px',
+      ...style,
+    }}
+  >
+    <div className="blur-shimmer-bar" style={{ width: '88%', height: '36px' }} />
+    <div className="blur-shimmer-bar" style={{ width: '61%', height: '28px', opacity: 0.78 }} />
+    <div className="blur-shimmer-bar" style={{ width: '100%', height: '228px', marginTop: '6px', borderRadius: '26px' }} />
+  </div>
+);

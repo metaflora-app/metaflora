@@ -44,6 +44,8 @@ const PREVIEW_COVER_SIZE = 742;
 const LOCKED_FRAME_WIDTH = 744;
 const ANALYSIS_LOCKED_FRAME_HEIGHT = 402;
 const SCENARIO_LOCKED_FRAME_HEIGHT = 440;
+const ANALYSIS_LOADING_FRAME_HEIGHT = 532;
+const SCENARIO_LOADING_FRAME_HEIGHT = 420;
 
 export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -256,14 +258,18 @@ export const LabaAnalysisScreen: React.FC = () => {
               </p>
             </div>
             {hydratingAnalysis ? null : !analysis ? (
-              <LockedActionFrame
-                disabled={analyzing}
-                frameSrc={blurFrameMakeAnalysis}
-                frameHeight={ANALYSIS_LOCKED_FRAME_HEIGHT}
-                ariaLabel={analyzing ? 'анализируем' : 'начать анализ'}
-                onClick={() => void handleStartAnalysis()}
-                style={{ margin: '28px auto 0' }}
-              />
+              analyzing ? (
+                <AnimatedBlurLoadingFrame kind="analysis" style={{ margin: '28px auto 0' }} />
+              ) : (
+                <LockedActionFrame
+                  disabled={false}
+                  frameSrc={blurFrameMakeAnalysis}
+                  frameHeight={ANALYSIS_LOCKED_FRAME_HEIGHT}
+                  ariaLabel="начать анализ"
+                  onClick={() => void handleStartAnalysis()}
+                  style={{ margin: '28px auto 0' }}
+                />
+              )
             ) : (
               <div style={{ width: '744px', margin: '28px auto 0', display: 'flex', flexDirection: 'column', gap: '26px', paddingBottom: '10px' }}>
                 <AnalysisBlock title="виральность" body={analysis.viralityExplanation} accent={`${analysis.viralityScore} баллов`} />
@@ -272,14 +278,18 @@ export const LabaAnalysisScreen: React.FC = () => {
                 <AnalysisBlock title="суть видео" body={analysis.videoSummary} />
 
                 {!scenario ? (
-                  <LockedActionFrame
-                    disabled={generatingScenario}
-                    frameSrc={blurFrameMakeScenario}
-                    frameHeight={SCENARIO_LOCKED_FRAME_HEIGHT}
-                    ariaLabel="создать сценарий"
-                    onClick={() => void handleGenerateScenario()}
-                    style={{ margin: '28px auto 0' }}
-                  />
+                  generatingScenario ? (
+                    <AnimatedBlurLoadingFrame kind="scenario" style={{ margin: '28px auto 0' }} />
+                  ) : (
+                    <LockedActionFrame
+                      disabled={false}
+                      frameSrc={blurFrameMakeScenario}
+                      frameHeight={SCENARIO_LOCKED_FRAME_HEIGHT}
+                      ariaLabel="создать сценарий"
+                      onClick={() => void handleGenerateScenario()}
+                      style={{ margin: '28px auto 0' }}
+                    />
+                  )
                 ) : (
                   <AnalysisBlock title="новый сценарий" body={scenario.text} bodyClickable onBodyClick={() => void handleCopyScenario()} />
                 )}
@@ -665,6 +675,53 @@ const LockedActionFrame: React.FC<{
     />
   </div>
 );
+
+const AnimatedBlurLoadingFrame: React.FC<{
+  kind: 'analysis' | 'scenario';
+  style?: React.CSSProperties;
+}> = ({ kind, style }) => {
+  const frameHeight = kind === 'analysis' ? ANALYSIS_LOADING_FRAME_HEIGHT : SCENARIO_LOADING_FRAME_HEIGHT;
+  const largeBlockHeight = kind === 'analysis' ? 292 : 228;
+  const bars = kind === 'analysis'
+    ? ['84%', '68%', '56%']
+    : ['88%', '61%'];
+
+  return (
+    <div
+      className="blur-shimmer-frame"
+      style={{
+        width: `${LOCKED_FRAME_WIDTH}px`,
+        height: `${frameHeight}px`,
+        padding: '34px 34px 30px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '22px',
+        ...style,
+      }}
+    >
+      {bars.map((width, index) => (
+        <div
+          key={width}
+          className="blur-shimmer-bar"
+          style={{
+            width,
+            height: index === 0 ? '36px' : '28px',
+            opacity: 0.92 - index * 0.12,
+          }}
+        />
+      ))}
+      <div
+        className="blur-shimmer-bar"
+        style={{
+          width: '100%',
+          height: `${largeBlockHeight}px`,
+          marginTop: '6px',
+          borderRadius: '26px',
+        }}
+      />
+    </div>
+  );
+};
 
 const AnalysisBlock: React.FC<{ title: string; body: string; accent?: string; bodyClickable?: boolean; onBodyClick?: () => void }> = ({ title, body, accent, bodyClickable = false, onBodyClick }) => (
   <div>

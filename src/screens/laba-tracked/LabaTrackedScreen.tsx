@@ -168,20 +168,38 @@ export const LabaTrackedScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '143px', top: '366px', width: '894px', height: '268px', overflowX: 'auto', overflowY: 'hidden' }}>
-          <div style={{ display: 'flex', gap: '22px', minWidth: 'max-content', paddingRight: '180px' }}>
+        <div
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '366px',
+            width: '894px',
+            height: '268px',
+            overflowX: 'auto',
+            overflowY: 'hidden',
+            scrollSnapType: 'x mandatory',
+            scrollBehavior: 'smooth',
+            WebkitOverflowScrolling: 'touch',
+          }}
+        >
+          <div style={{ display: 'flex', gap: '22px', minWidth: 'max-content' }}>
             {loadingAccounts
-              ? Array.from({ length: 2 }).map((_, index) => <TrackedAccountCardSkeleton key={index} />)
+              ? Array.from({ length: 2 }).map((_, index) => (
+                  <div key={index} style={{ flex: '0 0 894px', scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
+                    <TrackedAccountCardSkeleton />
+                  </div>
+                ))
               : accounts.map((account) => (
-                  <TrackedAccountCard
-                    key={account.id}
-                    account={account}
-                    selected={selectedAccountId === account.id}
-                    onSelect={() => setSelectedAccountId(account.id)}
-                    onRemove={() => void removeAccount(account.id)}
-                    showRemoveOverlay={showAvatarRemoveForId === account.id}
-                    onAvatarClick={() => setShowAvatarRemoveForId((current) => (current === account.id ? null : account.id))}
-                  />
+                  <div key={account.id} style={{ flex: '0 0 894px', scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
+                    <TrackedAccountCard
+                      account={account}
+                      selected={selectedAccountId === account.id}
+                      onSelect={() => setSelectedAccountId(account.id)}
+                      onRemove={() => void removeAccount(account.id)}
+                      showRemoveOverlay={showAvatarRemoveForId === account.id}
+                      onAvatarClick={() => setShowAvatarRemoveForId((current) => (current === account.id ? null : account.id))}
+                    />
+                  </div>
                 ))}
           </div>
         </div>

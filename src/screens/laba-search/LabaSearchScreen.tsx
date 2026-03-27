@@ -136,29 +136,6 @@ export const LabaSearchScreen: React.FC = () => {
             style={{
               position: 'absolute',
               left: '417px',
-              top: '-3px',
-              width: '247px',
-              height: '79px',
-              borderRadius: '62px',
-              border: '4px solid rgba(255,255,255,0.3)',
-              background: '#000',
-              backdropFilter: 'blur(50px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Cygre',
-              fontWeight: 400,
-              fontSize: '27px',
-              color: '#fff',
-            }}
-          >
-            поддержка
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              left: '664px',
               top: '-2px',
               width: '230px',
               height: '78px',
@@ -178,7 +155,7 @@ export const LabaSearchScreen: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ position: 'absolute', left: '681px', top: '13px', width: '50px', height: '51px', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '434px', top: '13px', width: '50px', height: '51px', overflow: 'hidden' }}>
             <img
               src={socialsSprite}
               alt=""
@@ -186,7 +163,7 @@ export const LabaSearchScreen: React.FC = () => {
             />
           </div>
 
-          <div style={{ position: 'absolute', left: '735px', top: '13px', width: '40px', height: '51px', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '488px', top: '13px', width: '40px', height: '51px', overflow: 'hidden' }}>
             <img
               src={socialsSprite}
               alt=""
