@@ -23,7 +23,7 @@ import {
 import { copyToClipboard } from '../../utils/clipboard';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
-import openReelButton from '../../assets/laba-analysis/кнопка открыть рилс.png';
+import openReelButton from '../../assets/laba-main-buttons/desktop-open-reel.png';
 import followButtonShort from '../../assets/laba-analysis/кнопка следить активирована.png';
 import unfollowButtonShort from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 import instagramLogo from '../../assets/laba-icons/лого инста.png';
@@ -354,10 +354,10 @@ const AnalysisPreviewCard: React.FC<{
         aria-label="открыть рилс"
         style={{
           position: 'absolute',
-          left: '304px',
-          top: '362px',
-          width: '223px',
-          height: '95px',
+          left: '377px',
+          top: '374px',
+          width: '72px',
+          height: '72px',
           border: 'none',
           background: 'transparent',
           padding: 0,

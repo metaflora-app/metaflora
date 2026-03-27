@@ -27,6 +27,9 @@ interface LabaFeedCardProps {
   actionLabel: string;
   actionCost?: number;
   actionVariant?: ActionVariant;
+  likeButtonSrc?: string;
+  openAnalysisButtonSrc?: string;
+  actionButtonSrc?: string;
 }
 
 const CARD_WIDTH = 831;
@@ -47,6 +50,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   actionLabel,
   actionCost,
   actionVariant = 'dark',
+  likeButtonSrc,
+  openAnalysisButtonSrc,
+  actionButtonSrc,
 }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
@@ -123,18 +129,42 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         />
       </div>
 
-      <FigmaLikeButton
-        active={isFavorite}
-        onClick={(event) => {
-          event.stopPropagation();
-          onToggleFavorite(reel.id);
-        }}
-        style={{
-          position: 'absolute',
-          left: '62px',
-          top: '53px',
-        }}
-      />
+      {likeButtonSrc ? (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            onToggleFavorite(reel.id);
+          }}
+          style={{
+            position: 'absolute',
+            left: '62px',
+            top: '53px',
+            width: '72px',
+            height: '72px',
+            border: 'none',
+            background: 'transparent',
+            cursor: 'pointer',
+            padding: 0,
+            zIndex: 3,
+          }}
+        >
+          <img src={likeButtonSrc} alt="лайк" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }} />
+        </button>
+      ) : (
+        <FigmaLikeButton
+          active={isFavorite}
+          onClick={(event) => {
+            event.stopPropagation();
+            onToggleFavorite(reel.id);
+          }}
+          style={{
+            position: 'absolute',
+            left: '62px',
+            top: '53px',
+          }}
+        />
+      )}
 
       {reel.isNew ? (
         <div
@@ -172,10 +202,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           }}
           style={{
             position: 'absolute',
-            left: '304px',
-            top: '362px',
-            width: '223px',
-            height: '95px',
+            left: openAnalysisButtonSrc ? '288px' : '304px',
+            top: openAnalysisButtonSrc ? '370px' : '362px',
+            width: openAnalysisButtonSrc ? '251px' : '223px',
+            height: openAnalysisButtonSrc ? '80px' : '95px',
             border: 'none',
             background: 'transparent',
             cursor: 'pointer',
@@ -183,7 +213,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             zIndex: 3,
           }}
         >
-          <img src={openReelButton} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+          <img src={openAnalysisButtonSrc || openReelButton} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
         </button>
       ) : null}
 
@@ -492,8 +522,9 @@ const ActionButton: React.FC<{
   label: string;
   cost?: number;
   variant: ActionVariant;
+  actionButtonSrc?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, onClick }) => (
+}> = ({ label, cost, variant, actionButtonSrc, onClick }) => (
   <button
     type="button"
     onClick={onClick}
@@ -511,7 +542,7 @@ const ActionButton: React.FC<{
     }}
   >
     <img
-      src={variant === 'light' ? unfollowButtonShort : followButtonShort}
+      src={actionButtonSrc || (variant === 'light' ? unfollowButtonShort : followButtonShort)}
       alt={typeof cost === 'number' ? `${label} ${cost}` : label}
       style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
     />
