@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getPolygonArticles } from '../../utils/contentApi';
 import type { PolygonArticle } from '../../types/content';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
@@ -38,7 +39,7 @@ const FALLBACK_BACKGROUNDS = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [activeFilter, setActiveFilter] = useState<ArticleFilter | null>(null);
+  const [activeFilters, setActiveFilters] = useState<ArticleFilter[]>([]);
   const [articles, setArticles] = useState<PolygonArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,9 +52,8 @@ const PoligonArticlesAllScreen: React.FC = () => {
 
       try {
         const result = await getPolygonArticles({
-          tags: activeFilter ? [activeFilter] : undefined,
           isActive: true,
-          limit: 20,
+          limit: 100,
           offset: 0,
         });
 
@@ -71,9 +71,15 @@ const PoligonArticlesAllScreen: React.FC = () => {
     };
 
     loadArticles();
-  }, [activeFilter]);
+  }, [activeFilters]);
 
-  const visibleArticles = useMemo(() => articles.slice(0, 20), [articles]);
+  const visibleArticles = useMemo(() => {
+    const filtered = activeFilters.length
+      ? articles.filter((article) => article.filter_tags?.some((tag) => activeFilters.includes(tag as ArticleFilter)))
+      : articles;
+
+    return filtered.slice(0, 20);
+  }, [activeFilters, articles]);
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -94,7 +100,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
         </div>
 
         {FILTER_BUTTONS.map((button) => {
-          const isActive = button.key !== 'return' && activeFilter === button.key;
+          const isActive = button.key !== 'return' && activeFilters.includes(button.key);
           const src = isActive ? button.activeSrc || button.inactiveSrc : button.inactiveSrc;
 
           return (
@@ -105,12 +111,23 @@ const PoligonArticlesAllScreen: React.FC = () => {
               className={button.key === 'return' ? undefined : 'button-inner-glow'}
               onClick={() => {
                 if (button.key === 'return') {
-                  setActiveFilter(null);
+                  setActiveFilters([]);
                   return;
                 }
 
                 const nextFilter = button.key;
-                setActiveFilter((prev) => (prev === nextFilter ? null : nextFilter));
+                setActiveFilters((prev) => {
+                  if (prev.includes(nextFilter)) {
+                    return prev.filter((filter) => filter !== nextFilter);
+                  }
+
+                  if (prev.length >= 3) {
+                    showPopupMessage('можно выбрать до 3 фильтров');
+                    return prev;
+                  }
+
+                  return [...prev, nextFilter];
+                });
               }}
               style={{
                 position: 'absolute',

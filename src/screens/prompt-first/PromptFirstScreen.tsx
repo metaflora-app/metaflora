@@ -22,22 +22,50 @@ import promptCardBlackBgPng from '../../assets/prompt-redesign/prompt-card-black
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
+const SORT_OPTIONS = ['LLM', 'фото', 'видео', 'другое'] as const;
 
-type PromptFilter = 'popular' | 'new' | 'recent' | 'favorites' | null;
+type PromptFilter = 'new' | 'recent' | 'favorites' | null;
+type PromptSortFilter = typeof SORT_OPTIONS[number] | null;
 
 const FILTER_BUTTONS: Array<{
-  key: 'return' | PromptFilter;
+  key: 'return' | 'sort' | Exclude<PromptFilter, null>;
   left: number;
   top: number;
   inactiveSrc: string;
   label?: string;
 }> = [
   { key: 'return', left: 220, top: 732, inactiveSrc: returnButton, label: 'вернуть' },
-  { key: 'popular', left: 467, top: 732, inactiveSrc: sortButtonInactive, label: 'сортировка' },
+  { key: 'sort', left: 467, top: 732, inactiveSrc: sortButtonInactive, label: 'сортировка' },
   { key: 'new', left: 714, top: 732, inactiveSrc: newButtonInactive, label: 'новое' },
   { key: 'recent', left: 343, top: 811, inactiveSrc: recentButtonInactive, label: 'недавние' },
   { key: 'favorites', left: 590, top: 811, inactiveSrc: favoriteButtonInactive, label: 'избранное' },
 ];
+
+const getPromptSortLabel = (prompt: WorkshopPrompt): PromptSortFilter => {
+  const combinedText = [prompt.title, prompt.description, prompt.prompt_text]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  const tags = (prompt.filter_tags || []).map((tag) => tag.toLowerCase());
+
+  if (tags.some((tag) => tag.includes('llm')) || combinedText.includes('llm') || combinedText.includes('gpt')) {
+    return 'LLM';
+  }
+
+  if (prompt.media_type === 'video' || Boolean(prompt.cover_video_url)) {
+    return 'видео';
+  }
+
+  if (
+    prompt.media_type === 'image' ||
+    Boolean(prompt.cover_image_url) ||
+    tags.some((tag) => tag.includes('фото') || tag.includes('image'))
+  ) {
+    return 'фото';
+  }
+
+  return 'другое';
+};
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -45,6 +73,7 @@ export const PromptFirstScreen: React.FC = () => {
   const [prompts, setPrompts] = React.useState<WorkshopPrompt[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [activeFilter, setActiveFilter] = React.useState<PromptFilter>(null);
+  const [activeSortFilter, setActiveSortFilter] = React.useState<PromptSortFilter>(null);
   const [favoriteIds, setFavoriteIds] = React.useState<string[]>([]);
 
   React.useEffect(() => {
@@ -92,19 +121,19 @@ export const PromptFirstScreen: React.FC = () => {
         .sort((a, b) => (recentOrder.get(a.id) ?? 999) - (recentOrder.get(b.id) ?? 999));
     }
 
-    if (activeFilter === 'popular') {
-      return items.sort((a, b) => {
-        const scoreA = (a.likes_count || 0) * 3 + (a.copies_count || 0) * 2 + (a.views_count || 0);
-        const scoreB = (b.likes_count || 0) * 3 + (b.copies_count || 0) * 2 + (b.views_count || 0);
-        return scoreB - scoreA;
-      });
-    }
-
     const newPrompts = items.filter((prompt) =>
       prompt.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые')
     );
-    return newPrompts.length ? newPrompts : items;
-  }, [activeFilter, favoriteIds, prompts]);
+    const baseItems = activeFilter === 'new'
+      ? (newPrompts.length ? newPrompts : items)
+      : items;
+
+    if (!activeSortFilter) {
+      return baseItems;
+    }
+
+    return baseItems.filter((prompt) => getPromptSortLabel(prompt) === activeSortFilter);
+  }, [activeFilter, activeSortFilter, favoriteIds, prompts]);
 
   const promptsToRender = React.useMemo(() => {
     if (loading) {
@@ -144,15 +173,6 @@ export const PromptFirstScreen: React.FC = () => {
   };
 
   const handleOpenPromptCard = (promptId: string) => navigate(`/prompt-card/${promptId}`);
-  const showSortPopup = () => {
-    const telegramWebApp = (window as typeof window & {
-      Telegram?: { WebApp?: { showPopup?: (params: { message: string }) => void } };
-    }).Telegram?.WebApp;
-
-    telegramWebApp?.showPopup?.({
-      message: 'сортировка\n\nLLM\nфото\nвидео',
-    });
-  };
   const contentHeight = Math.max(promptsToRender.length * CARD_HEIGHT + Math.max(promptsToRender.length - 1, 0) * CARD_GAP, CARD_HEIGHT);
 
   return (
@@ -190,7 +210,10 @@ export const PromptFirstScreen: React.FC = () => {
         </div>
 
         {FILTER_BUTTONS.map((button) => {
-          const isActive = button.key !== 'return' && activeFilter === button.key;
+          const isActive = button.key === 'sort'
+            ? Boolean(activeSortFilter)
+            : button.key !== 'return' && activeFilter === button.key;
+          const buttonLabel = button.key === 'sort' ? (activeSortFilter || button.label) : button.label;
 
           return (
             <button
@@ -199,13 +222,23 @@ export const PromptFirstScreen: React.FC = () => {
               onClick={() => {
                 if (button.key === 'return') {
                   setActiveFilter(null);
+                  setActiveSortFilter(null);
+                  return;
+                }
+
+                if (button.key === 'sort') {
+                  setActiveSortFilter((current) => {
+                    if (!current) {
+                      return SORT_OPTIONS[0];
+                    }
+
+                    const nextIndex = (SORT_OPTIONS.indexOf(current) + 1) % SORT_OPTIONS.length;
+                    return SORT_OPTIONS[nextIndex];
+                  });
                   return;
                 }
 
                 const nextFilter = button.key;
-                if (button.key === 'popular') {
-                  showSortPopup();
-                }
                 setActiveFilter((current) => (current === nextFilter ? null : nextFilter));
               }}
               style={{
@@ -243,7 +276,7 @@ export const PromptFirstScreen: React.FC = () => {
                     pointerEvents: 'none',
                   }}
                 >
-                  {button.label}
+                  {buttonLabel}
                 </span>
               ) : null}
             </button>

@@ -36,6 +36,9 @@ export const LabaMainScreen: React.FC = () => {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [searching, setSearching] = React.useState(false);
+  const [hasSearchResults, setHasSearchResults] = React.useState(
+    () => labaReelsCache.length > 0 && labaMainSearchQuery.trim().length > 0
+  );
 
   const loadTopReels = React.useCallback(async () => {
     setLoading(true);
@@ -49,6 +52,7 @@ export const LabaMainScreen: React.FC = () => {
       const allReels = [...neuro, ...marketing, ...content, ...promotion];
       setReels(allReels);
       setLabaReelsCache(allReels);
+      setHasSearchResults(false);
     } catch (error) {
       console.error('Ошибка загрузки reels:', error);
       showMessage('ошибка загрузки reels', 'alert');
@@ -58,8 +62,10 @@ export const LabaMainScreen: React.FC = () => {
   }, [setLabaReelsCache]);
 
   React.useEffect(() => {
-    void loadTopReels();
-  }, [loadTopReels]);
+    if (labaReelsCache.length === 0) {
+      void loadTopReels();
+    }
+  }, [labaReelsCache.length, loadTopReels]);
 
   const detectLanguage = (text: string | null): string => {
     if (!text) return 'unknown';
@@ -155,6 +161,7 @@ export const LabaMainScreen: React.FC = () => {
       const foundReels = await searchReels(keyword, userId);
       setReels(foundReels);
       setLabaReelsCache(foundReels);
+      setHasSearchResults(true);
       showMessage(foundReels.length ? 'рилс успешно найдены' : 'ничего не найдено', 'popup');
     } catch (error: any) {
       console.error('Ошибка поиска:', error);
@@ -211,9 +218,9 @@ export const LabaMainScreen: React.FC = () => {
     setSelectedDate(null);
     setSelectedLanguage(null);
     setSelectedAccount(null);
-    setLikedCards(new Set());
-    setLabaMainSearchQuery('');
-    await loadTopReels();
+    if (!hasSearchResults && reels.length === 0) {
+      await loadTopReels();
+    }
   };
 
   return (
@@ -368,7 +375,7 @@ export const LabaMainScreen: React.FC = () => {
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
             {loading || searching
-              ? Array.from({ length: 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
+              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
               : visibleReels.map((reel) => (
                   <LabaFeedCard
                     key={reel.id}

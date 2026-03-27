@@ -7,6 +7,7 @@ interface AboutVideoPlayerProps {
   autoPlay?: boolean;
   hidePlayButton?: boolean;
   onPlaybackStart?: () => void;
+  onWatchThreshold?: () => void;
 }
 
 // Legacy Kinescope fallback used only for old lessons that still have `video_id`
@@ -17,8 +18,14 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
   autoPlay = false,
   hidePlayButton = false,
   onPlaybackStart,
+  onWatchThreshold,
 }) => {
   const [videoStarted, setVideoStarted] = useState(autoPlay);
+  const thresholdReachedRef = React.useRef(false);
+
+  useEffect(() => {
+    thresholdReachedRef.current = false;
+  }, [videoId]);
 
   useEffect(() => {
     if (autoPlay) {
@@ -35,6 +42,37 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
         const data = event.data;
         if (data.event === 'ended') {
           setVideoStarted(false);
+          if (!thresholdReachedRef.current) {
+            thresholdReachedRef.current = true;
+            onWatchThreshold?.();
+          }
+        }
+
+        const eventName = String(data.event || data.type || '').toLowerCase();
+        const payload = data.data || data.payload || data.detail || {};
+        const currentTime = Number(
+          payload.currentTime ??
+          payload.current_time ??
+          data.currentTime ??
+          data.current_time
+        );
+        const duration = Number(
+          payload.duration ??
+          payload.total ??
+          data.duration ??
+          data.total
+        );
+
+        if (
+          !thresholdReachedRef.current &&
+          ['time-update', 'timeupdate', 'progress', 'playing'].includes(eventName) &&
+          Number.isFinite(currentTime) &&
+          Number.isFinite(duration) &&
+          duration > 0 &&
+          currentTime / duration >= 0.8
+        ) {
+          thresholdReachedRef.current = true;
+          onWatchThreshold?.();
         }
       } catch (error) {
         console.error('Ошибка обработки события:', error);
@@ -43,7 +81,7 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, []);
+  }, [onWatchThreshold]);
 
   const handlePlayClick = () => {
     setVideoStarted(true);

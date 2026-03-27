@@ -56,10 +56,13 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         lesson?.prompt_text
           ? { id: 'legacy-prompt', type: 'prompt', content: lesson.prompt_text }
           : null,
+        lesson?.materials?.length
+          ? { id: 'legacy-materials', type: 'materials', content: lesson.materials }
+          : null,
       ].filter(Boolean) as Array<{ id: string; type: string; content: any }>;
 
   const materialsBlock = lesson?.content_blocks?.find((block: any) => block.type === 'materials');
-  const materials = parseMaterials(materialsBlock?.content);
+  const materials = parseMaterials(materialsBlock?.content || lesson?.materials);
 
   const handleContentScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
     if (!lessonId || lessonType !== 'academy') return;
@@ -106,6 +109,13 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
       const result = await response.json();
       if (response.ok && result.success) {
+        if (lessonType === 'academy' && lessonId) {
+          const progressResult = await markLessonMaterialsRead(userId, lessonId);
+          if (progressResult.justCompleted) {
+            showPopupMessage('урок завершен на 100%');
+            return;
+          }
+        }
         showPopupMessage('материалы отправлены в чат с ботом');
       } else {
         showPopupMessage(result.error || 'неизвестная ошибка');

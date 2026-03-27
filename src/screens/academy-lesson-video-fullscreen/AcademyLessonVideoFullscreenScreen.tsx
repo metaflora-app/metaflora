@@ -140,6 +140,7 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
             autoPlay
             hidePlayButton
             onPlaybackStart={handlePlaybackStart}
+            onWatchThreshold={handleWatchThreshold}
             style={{
               position: 'relative',
               left: 0,

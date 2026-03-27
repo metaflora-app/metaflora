@@ -62,9 +62,28 @@ export const DemoAccessScreen: React.FC = () => {
           type="button"
           onClick={() => navigate('/main-dashboard-free')}
           className="button-inner-glow"
-          style={{ position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px', background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(50px)', color: 'white', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', cursor: 'pointer' }}
+          style={{ position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px', background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(50px)', color: 'white', cursor: 'pointer', padding: 0, overflow: 'hidden' }}
         >
-          продолжить
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '59px',
+              transform: 'translate(-50%, -50%)',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Cygre',
+              fontWeight: 700,
+              fontSize: '40px',
+              lineHeight: '1',
+              color: 'white',
+              pointerEvents: 'none',
+            }}
+          >
+            продолжить
+          </div>
         </button>
 
         <button

@@ -157,6 +157,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               autoPlay={playerActivated}
               hidePlayButton={playerActivated}
               onPlaybackStart={handlePlaybackStart}
+              onWatchThreshold={handleWatchThreshold}
               style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }}
             />
             ) : (

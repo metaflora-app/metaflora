@@ -4,7 +4,7 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { FigmaStudyButton } from '../../components/FigmaPills';
 import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
 import { getTelegramUserId } from '../../utils/labaApi';
-import { getCompletedLessons } from '../../utils/userProgress';
+import { getUserProgress } from '../../utils/userProgress';
 
 import systemBg from '../../assets/academy-redesign/фон система.png';
 import promptingBg from '../../assets/academy-redesign/фон промптинг.png';
@@ -154,49 +154,73 @@ export const AcademyCoursesAllScreen: React.FC = () => {
   const [completedLessons, setCompletedLessons] = React.useState(0);
   const [courseProgress, setCourseProgress] = React.useState<Record<string, number>>({});
 
+  const calculateProgress = React.useCallback(async () => {
+    try {
+      const userId = getTelegramUserId();
+      if (!userId) return;
+
+      const progressMap = await getUserProgress(userId);
+      const completedIds = new Set(
+        Object.entries(progressMap)
+          .filter(([, progress]) => progress.completed || (progress.videoWatched && progress.materialsRead))
+          .map(([lessonId]) => lessonId)
+      );
+
+      const results = await Promise.all(
+        ['искусство', 'промптинг', 'система', 'автоматизация'].map(async (courseType) => {
+          const courseResult = await getAcademyCourses({ courseType, isActive: true });
+          const courseId = courseResult.data?.[0]?.id;
+          if (!courseId) {
+            return { courseType, lessonsCount: 0, completedInCourse: 0, percentage: 0 };
+          }
+
+          const lessonsResult = await getAcademyLessons(courseId, { isActive: true });
+          const lessons = lessonsResult.data || [];
+          const completedInCourse = lessons.filter((lesson) => completedIds.has(lesson.id)).length;
+          const percentage = lessons.length > 0 ? Math.round((completedInCourse / lessons.length) * 100) : 0;
+
+          return { courseType, lessonsCount: lessons.length, completedInCourse, percentage };
+        })
+      );
+
+      const nextProgress: Record<string, number> = {};
+      let nextTotal = 0;
+      let nextCompleted = 0;
+      for (const result of results) {
+        nextProgress[result.courseType] = result.percentage;
+        nextTotal += result.lessonsCount;
+        nextCompleted += result.completedInCourse;
+      }
+
+      setCourseProgress(nextProgress);
+      setTotalLessons(nextTotal);
+      setCompletedLessons(nextCompleted);
+    } catch (error) {
+      console.error('Error calculating academy progress:', error);
+    }
+  }, []);
+
   React.useEffect(() => {
-    const calculateProgress = async () => {
-      try {
-        const userId = getTelegramUserId();
-        if (!userId) return;
+    void calculateProgress();
 
-        const completedIds = await getCompletedLessons(userId);
-        const results = await Promise.all(
-          ['искусство', 'промптинг', 'система', 'автоматизация'].map(async (courseType) => {
-            const courseResult = await getAcademyCourses({ courseType, isActive: true });
-            const courseId = courseResult.data?.[0]?.id;
-            if (!courseId) {
-              return { courseType, lessonsCount: 0, completedInCourse: 0, percentage: 0 };
-            }
+    const handleFocus = () => {
+      void calculateProgress();
+    };
 
-            const lessonsResult = await getAcademyLessons(courseId, { isActive: true });
-            const lessons = lessonsResult.data || [];
-            const completedInCourse = lessons.filter((lesson) => completedIds.includes(lesson.id)).length;
-            const percentage = lessons.length > 0 ? Math.round((completedInCourse / lessons.length) * 100) : 0;
-
-            return { courseType, lessonsCount: lessons.length, completedInCourse, percentage };
-          })
-        );
-
-        const nextProgress: Record<string, number> = {};
-        let nextTotal = 0;
-        let nextCompleted = 0;
-        for (const result of results) {
-          nextProgress[result.courseType] = result.percentage;
-          nextTotal += result.lessonsCount;
-          nextCompleted += result.completedInCourse;
-        }
-
-        setCourseProgress(nextProgress);
-        setTotalLessons(nextTotal);
-        setCompletedLessons(nextCompleted);
-      } catch (error) {
-        console.error('Error calculating academy progress:', error);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        void calculateProgress();
       }
     };
 
-    calculateProgress();
-  }, []);
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [calculateProgress]);
 
   const percentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
