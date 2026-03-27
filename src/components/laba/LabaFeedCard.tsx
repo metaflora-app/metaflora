@@ -25,6 +25,7 @@ interface LabaFeedCardProps {
   actionCost?: number;
   actionVariant?: ActionVariant;
   openAnalysisButtonSrc?: string;
+  activityPillTop?: number;
 }
 
 const CARD_WIDTH = 831;
@@ -50,6 +51,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   actionCost,
   actionVariant = 'dark',
   openAnalysisButtonSrc,
+  activityPillTop = 654,
 }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
@@ -199,7 +201,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '50%',
-          top: '654px',
+          top: `${activityPillTop}px`,
           transform: 'translateX(-50%)',
           width: '468px',
           height: '102px',
@@ -533,7 +535,7 @@ const ActionButton: React.FC<{
         style={{
           position: 'absolute',
           left: '50%',
-          top: '18.5px',
+          top: '16.5px',
           transform: 'translateX(-50%)',
           width: '199px',
           height: '29px',

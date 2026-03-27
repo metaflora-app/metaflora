@@ -380,6 +380,7 @@ export const LabaMainScreen: React.FC = () => {
                     actionLabel="следить"
                     actionCost={100}
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
+                    activityPillTop={674}
                   />
                 ))}
           </div>

@@ -539,7 +539,7 @@ const ActionButton: React.FC<{
         style={{
           position: 'absolute',
           left: '50%',
-          top: '18.5px',
+          top: '16.5px',
           transform: 'translateX(-50%)',
           width: '199px',
           height: '29px',
