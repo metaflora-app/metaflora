@@ -24,6 +24,7 @@ interface LabaFeedCardProps {
   actionLabel: string;
   actionCost?: number;
   actionVariant?: ActionVariant;
+  actionButtonImageSrc?: string;
   openAnalysisButtonSrc?: string;
   activityPillTop?: number;
 }
@@ -50,6 +51,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   actionLabel,
   actionCost,
   actionVariant = 'dark',
+  actionButtonImageSrc,
   openAnalysisButtonSrc,
   activityPillTop = 654,
 }) => {
@@ -334,6 +336,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         label={actionLabel}
         cost={actionCost}
         variant={actionVariant}
+        imageSrc={actionButtonImageSrc}
         onClick={(event) => {
           event.stopPropagation();
           onAction?.();
@@ -512,8 +515,9 @@ const ActionButton: React.FC<{
   label: string;
   cost?: number;
   variant: ActionVariant;
+  imageSrc?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, onClick }) => (
+}> = ({ label, cost, variant, imageSrc, onClick }) => (
   <button
     type="button"
     onClick={onClick}
@@ -530,54 +534,68 @@ const ActionButton: React.FC<{
       opacity: variant === 'light' ? 0.92 : 1,
     }}
   >
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        borderRadius: '62px',
-        border: '4px solid rgba(255,255,255,0.3)',
-        background: 'rgba(0,0,0,0.9)',
-        backdropFilter: 'blur(50px)',
-        overflow: 'hidden',
-      }}
-    >
+    {imageSrc ? (
+      <img
+        src={imageSrc}
+        alt=""
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'fill',
+          display: 'block',
+          pointerEvents: 'none',
+        }}
+      />
+    ) : (
       <div
         style={{
-          position: 'absolute',
-          left: '50%',
-          top: '16.5px',
-          transform: 'translateX(-50%)',
-          width: '199px',
-          height: '29px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: textFont,
-          fontWeight: 700,
-          fontSize: '27px',
-          lineHeight: '1',
-          color: '#fff',
-          whiteSpace: 'pre',
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          borderRadius: '62px',
+          border: '4px solid rgba(255,255,255,0.3)',
+          background: 'rgba(0,0,0,0.9)',
+          backdropFilter: 'blur(50px)',
+          overflow: 'hidden',
         }}
       >
-        {`${label}    ${cost ?? ''}`}
-      </div>
-      <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
-        <img
-          src={followMetacoin}
-          alt=""
+        <div
           style={{
             position: 'absolute',
-            height: '130.34%',
-            left: '-20%',
-            top: '-14.48%',
-            width: '140%',
-            maxWidth: 'none',
+            left: '50%',
+            top: '16.5px',
+            transform: 'translateX(-50%)',
+            width: '199px',
+            height: '29px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: textFont,
+            fontWeight: 700,
+            fontSize: '27px',
+            lineHeight: '1',
+            color: '#fff',
+            whiteSpace: 'pre',
           }}
-        />
+        >
+          {`${label}    ${cost ?? ''}`}
+        </div>
+        <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+          <img
+            src={followMetacoin}
+            alt=""
+            style={{
+              position: 'absolute',
+              height: '130.34%',
+              left: '-20%',
+              top: '-14.48%',
+              width: '140%',
+              maxWidth: 'none',
+            }}
+          />
+        </div>
       </div>
-    </div>
+    )}
   </button>
 );
 

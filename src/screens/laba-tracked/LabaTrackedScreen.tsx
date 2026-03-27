@@ -19,6 +19,7 @@ import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
 import avatarUnfollowButton from '../../assets/laba-tracked/avatar-unfollow-button.png';
 import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
+import desktopShortUnfollowActiveButton from '../../assets/laba-main-buttons/desktop-short-unfollow-active.png';
 
 const textFont = 'Cygre, sans-serif';
 
@@ -39,15 +40,8 @@ export const LabaTrackedScreen: React.FC = () => {
   const [loadingReels, setLoadingReels] = React.useState(false);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [showAvatarRemoveForId, setShowAvatarRemoveForId] = React.useState<string | null>(null);
-  const hasShownTrackingStartPopupRef = React.useRef(false);
   const pendingTrackedAccountIdRef = React.useRef<string | null>(navigationState?.trackedAccountId ?? null);
   const hasShownTrackingSuccessPopupRef = React.useRef(false);
-
-  React.useEffect(() => {
-    if (!navigationState?.trackingStarted || hasShownTrackingStartPopupRef.current) return;
-    hasShownTrackingStartPopupRef.current = true;
-    showMessage('ИИ-агент начал собирать рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
-  }, [navigationState?.trackingStarted]);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -235,6 +229,7 @@ export const LabaTrackedScreen: React.FC = () => {
                     }}
                     actionLabel="не следить"
                     actionVariant="light"
+                    actionButtonImageSrc={desktopShortUnfollowActiveButton}
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}
                   />

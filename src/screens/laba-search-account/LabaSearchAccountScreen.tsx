@@ -292,7 +292,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   >
                     начать отслеживание    100
                   </div>
-                  <div style={{ position: 'absolute', left: '402px', top: '57px', width: '25px', height: '25px' }}>
+                  <div style={{ position: 'absolute', left: '402px', top: '52px', width: '25px', height: '25px' }}>
                     <img
                       src={metacoinSmall}
                       alt=""
