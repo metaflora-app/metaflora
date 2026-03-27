@@ -173,6 +173,9 @@ export const PromptFirstScreen: React.FC = () => {
   };
 
   const handleOpenPromptCard = (promptId: string) => navigate(`/prompt-card/${promptId}`);
+  const showSortFilterPopup = () => {
+    showPopupMessage(`сортировка\n\n${SORT_OPTIONS.join('\n')}`);
+  };
   const contentHeight = Math.max(promptsToRender.length * CARD_HEIGHT + Math.max(promptsToRender.length - 1, 0) * CARD_GAP, CARD_HEIGHT);
 
   return (
@@ -229,6 +232,7 @@ export const PromptFirstScreen: React.FC = () => {
                 if (button.key === 'sort') {
                   setActiveSortFilter((current) => {
                     if (!current) {
+                      showSortFilterPopup();
                       return SORT_OPTIONS[0];
                     }
 

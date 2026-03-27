@@ -10,10 +10,6 @@ import systemBg from '../../assets/academy-redesign/фон система.png';
 import promptingBg from '../../assets/academy-redesign/фон промптинг.png';
 import artBg from '../../assets/academy-redesign/фон искусство.png';
 import automationBg from '../../assets/academy-redesign/фон автоматизация.png';
-import progressRed from '../../assets/academy-progress-redesign/progress-red.png';
-import progressYellow from '../../assets/academy-progress-redesign/progress-yellow.png';
-import progressGreenPassive from '../../assets/academy-progress-redesign/progress-green-passive.png';
-import progressGreenFull from '../../assets/academy-progress-redesign/progress-green-full.png';
 
 interface CourseCardConfig {
   key: string;
@@ -89,16 +85,25 @@ const courseCards: CourseCardConfig[] = [
   },
 ];
 
-const getProgressAsset = (value: number): string => {
+const progressRed = 'https://www.figma.com/api/mcp/asset/cc2c8bf3-8abd-4bad-81a0-640b9afcfd36';
+const progressYellow = 'https://www.figma.com/api/mcp/asset/8deaedb2-f168-4271-a404-a4b8637406b7';
+const progressGreenPassive = 'https://www.figma.com/api/mcp/asset/d14ae309-fe39-4ec0-b554-cc46cf3db046';
+const progressGreenFull = 'https://www.figma.com/api/mcp/asset/eb67b842-0834-4fb0-a869-504c231ae2a1';
+
+const getProgressAsset = (value: number): string | null => {
+  if (value <= 0) {
+    return null;
+  }
+
   if (value >= 100) {
     return progressGreenFull;
   }
 
-  if (value >= 70) {
+  if (value >= 80) {
     return progressGreenPassive;
   }
 
-  if (value >= 35) {
+  if (value >= 30) {
     return progressYellow;
   }
 
@@ -108,7 +113,6 @@ const getProgressAsset = (value: number): string => {
 const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ value, left, top }) => {
   const normalized = Math.max(0, Math.min(100, value));
   const asset = getProgressAsset(normalized);
-  const visibleWidth = normalized === 0 ? 0 : Math.min(57, Math.max(14, (57 * normalized) / 100));
 
   return (
     <div
@@ -118,31 +122,23 @@ const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ v
         top: `${top}px`,
         width: '57px',
         height: '20px',
-        background: '#111723',
+        background: '#141a25',
         borderRadius: '999px',
         overflow: 'hidden',
       }}
     >
-      {normalized > 0 && (
-        <div
+      {asset ? (
+        <img
+          src={asset}
+          alt="прогресс"
           style={{
-            width: `${visibleWidth}px`,
-            height: '100%',
-            overflow: 'hidden',
+            width: '57px',
+            height: '20px',
+            objectFit: 'fill',
+            display: 'block',
           }}
-        >
-          <img
-            src={asset}
-            alt="прогресс"
-            style={{
-              width: '57px',
-              height: '20px',
-              objectFit: 'fill',
-              display: 'block',
-            }}
-          />
-        </div>
-      )}
+        />
+      ) : null}
     </div>
   );
 };
