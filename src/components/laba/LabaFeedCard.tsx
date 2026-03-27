@@ -12,7 +12,7 @@ import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
-import followButtonShortActive from '../../assets/laba-analysis/кнопка следить активирована.png';
+import openReelButton from '../../assets/laba-analysis/open-reel-button.png';
 import unfollowButtonShort from '../../assets/laba-analysis/кнопка не следить если отмена.png';
 
 type ActionVariant = 'dark' | 'light';
@@ -36,6 +36,7 @@ const COVER_SIZE = 769;
 
 const textFont = 'Cygre, sans-serif';
 const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
+const followMetacoin = 'https://www.figma.com/api/mcp/asset/5057bb96-9588-4d8c-8764-1552f5ad454e';
 
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
@@ -169,30 +170,20 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             event.stopPropagation();
             onOpenAnalysis();
           }}
-          className="button-inner-glow blur-wave"
           style={{
             position: 'absolute',
-            left: '293px',
-            top: '366px',
-            width: '247px',
-            height: '79px',
-            borderRadius: '62px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: 'rgba(0,0,0,0.9)',
-            color: '#fff',
-            fontFamily: textFont,
-            fontWeight: 700,
-            fontSize: '27px',
-            lineHeight: '1',
+            left: '377px',
+            top: '374px',
+            width: '72px',
+            height: '72px',
+            border: 'none',
+            background: 'transparent',
             cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             padding: 0,
             zIndex: 3,
           }}
         >
-          <span style={{ transform: 'translateY(-4px)' }}>ИИ-анализ</span>
+          <img src={openReelButton} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
         </button>
       ) : null}
 
@@ -510,8 +501,8 @@ const ActionButton: React.FC<{
       position: 'absolute',
       left: '356px',
       top: '831px',
-      width: '247px',
-      height: '79px',
+      width: '251px',
+      height: '79.63px',
       padding: 0,
       border: 'none',
       background: 'transparent',
@@ -519,11 +510,62 @@ const ActionButton: React.FC<{
       overflow: 'visible',
     }}
   >
-    <img
-      src={variant === 'light' ? unfollowButtonShort : followButtonShortActive}
-      alt={typeof cost === 'number' ? `${label} ${cost}` : label}
-      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-    />
+    {variant === 'light' ? (
+      <img
+        src={unfollowButtonShort}
+        alt={typeof cost === 'number' ? `${label} ${cost}` : label}
+        style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+      />
+    ) : (
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          borderRadius: '62px',
+          border: '4px solid rgba(255,255,255,0.3)',
+          background: 'rgba(0,0,0,0.9)',
+          backdropFilter: 'blur(50px)',
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '21.1px',
+            transform: 'translateX(-50%)',
+            width: '199px',
+            height: '29px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: textFont,
+            fontWeight: 700,
+            fontSize: '27px',
+            lineHeight: '1',
+            color: '#fff',
+            whiteSpace: 'pre',
+          }}
+        >
+          {`${label}    ${cost ?? ''}`}
+        </div>
+        <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+          <img
+            src={followMetacoin}
+            alt=""
+            style={{
+              position: 'absolute',
+              height: '130.34%',
+              left: '-20%',
+              top: '-14.48%',
+              width: '140%',
+              maxWidth: 'none',
+            }}
+          />
+        </div>
+      </div>
+    )}
   </button>
 );
 
