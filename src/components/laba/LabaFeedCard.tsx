@@ -24,6 +24,7 @@ interface LabaFeedCardProps {
   actionLabel: string;
   actionCost?: number;
   actionVariant?: ActionVariant;
+  openAnalysisButtonSrc?: string;
 }
 
 const CARD_WIDTH = 831;
@@ -48,6 +49,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   actionLabel,
   actionCost,
   actionVariant = 'dark',
+  openAnalysisButtonSrc,
 }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
@@ -173,10 +175,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           }}
           style={{
             position: 'absolute',
-            left: '377px',
-            top: '374px',
-            width: '72px',
-            height: '72px',
+            left: openAnalysisButtonSrc ? '288px' : '377px',
+            top: openAnalysisButtonSrc ? '370px' : '374px',
+            width: openAnalysisButtonSrc ? '251px' : '72px',
+            height: openAnalysisButtonSrc ? '80px' : '72px',
             border: 'none',
             background: 'transparent',
             cursor: 'pointer',
@@ -184,7 +186,11 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             zIndex: 3,
           }}
         >
-          <OpenReelButton />
+          {openAnalysisButtonSrc ? (
+            <img src={openAnalysisButtonSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }} />
+          ) : (
+            <OpenReelButton />
+          )}
         </button>
       ) : null}
 
@@ -527,7 +533,7 @@ const ActionButton: React.FC<{
         style={{
           position: 'absolute',
           left: '50%',
-          top: '21.1px',
+          top: '18.5px',
           transform: 'translateX(-50%)',
           width: '199px',
           height: '29px',
@@ -584,7 +590,7 @@ const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => 
     style={{
       position: 'absolute',
       left,
-      top: '21px',
+      top: '20px',
       width: '32px',
       height: '32px',
       display: 'flex',
@@ -592,16 +598,15 @@ const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => 
       justifyContent: 'center',
     }}
   >
-    <div style={{ position: 'relative', width: '16px', height: '16px' }}>
+    <div style={{ position: 'relative', width: '32px', height: '32px' }}>
       <img
         src={src}
         alt=""
         style={{
-          position: 'absolute',
-          inset: '-43.75% 0 -37.5% 0',
-          width: '16px',
-          height: '16px',
-          maxWidth: 'none',
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          display: 'block',
         }}
       />
     </div>

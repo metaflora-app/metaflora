@@ -539,7 +539,7 @@ const ActionButton: React.FC<{
         style={{
           position: 'absolute',
           left: '50%',
-          top: '21.1px',
+          top: '18.5px',
           transform: 'translateX(-50%)',
           width: '199px',
           height: '29px',
@@ -596,7 +596,7 @@ const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => 
     style={{
       position: 'absolute',
       left,
-      top: '21px',
+      top: '20px',
       width: '32px',
       height: '32px',
       display: 'flex',
@@ -604,16 +604,15 @@ const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => 
       justifyContent: 'center',
     }}
   >
-    <div style={{ position: 'relative', width: '16px', height: '16px' }}>
+    <div style={{ position: 'relative', width: '32px', height: '32px' }}>
       <img
         src={src}
         alt=""
         style={{
-          position: 'absolute',
-          inset: '-43.75% 0 -37.5% 0',
-          width: '16px',
-          height: '16px',
-          maxWidth: 'none',
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          display: 'block',
         }}
       />
     </div>
