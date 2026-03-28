@@ -20,7 +20,63 @@ const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', 
 const LABA_CARD_GAP = 34;
 const LABA_CARD_HEIGHT = 1064;
 const LABA_CARD_STEP = LABA_CARD_HEIGHT + LABA_CARD_GAP;
-const SWIPE_THRESHOLD = 70;
+
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+const getStackCardMotionStyle = (index: number, scrollTop: number): React.CSSProperties => {
+  const rawOffset = index * LABA_CARD_STEP - scrollTop;
+  const progress = rawOffset / LABA_CARD_STEP;
+  const hidden = progress < -1.25 || progress > 3.4;
+
+  let translateY = rawOffset;
+  if (progress > 0) {
+    if (progress <= 1) {
+      translateY = progress * 214;
+    } else if (progress <= 2) {
+      translateY = 214 + (progress - 1) * 138;
+    } else {
+      translateY = 352 + (progress - 2) * 96;
+    }
+  } else {
+    translateY = rawOffset * 0.9;
+  }
+
+  const scale = progress <= 0
+    ? 1 - clamp(Math.abs(progress) * 0.08, 0, 0.14)
+    : progress <= 1
+      ? 1 - progress * 0.07
+      : progress <= 2
+        ? 0.93 - (progress - 1) * 0.07
+        : 0.86 - (progress - 2) * 0.04;
+
+  const opacity = progress <= 0
+    ? 1 - clamp(Math.abs(progress) * 0.28, 0, 0.45)
+    : progress <= 1
+      ? 1 - progress * 0.16
+      : progress <= 2
+        ? 0.84 - (progress - 1) * 0.24
+        : 0.6 - (progress - 2) * 0.16;
+
+  const rotateX = progress <= 0
+    ? -clamp(Math.abs(progress) * 7, 0, 8)
+    : clamp(progress * 10, 0, 18);
+
+  return {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '831px',
+    height: '1064px',
+    transform: `translate3d(0, ${translateY}px, 0) scale(${scale}) rotateX(${rotateX}deg)`,
+    transformOrigin: progress <= 0 ? 'center top' : 'center top',
+    opacity: hidden ? 0 : clamp(opacity, 0, 1),
+    filter: `blur(${progress > 1 ? Math.min((progress - 1) * 1.8, 4) : 0}px)`,
+    zIndex: Math.round(500 - progress * 100),
+    pointerEvents: hidden ? 'none' : 'auto',
+    transition: 'transform 70ms linear, opacity 120ms linear, filter 120ms linear',
+    willChange: 'transform, opacity, filter',
+  };
+};
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -41,12 +97,11 @@ export const LabaMainScreen: React.FC = () => {
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [searching, setSearching] = React.useState(false);
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
-  const [activeReelIndex, setActiveReelIndex] = React.useState(0);
+  const [reelsScrollTop, setReelsScrollTop] = React.useState(0);
   const [hasSearchResults, setHasSearchResults] = React.useState(
     () => labaReelsCache.length > 0 && labaMainSearchQuery.trim().length > 0
   );
-  const touchStartYRef = React.useRef<number | null>(null);
-  const flipLockRef = React.useRef<number | null>(null);
+  const reelsScrollRef = React.useRef<HTMLDivElement | null>(null);
 
   const loadTopReels = React.useCallback(async () => {
     setLoading(true);
@@ -61,7 +116,7 @@ export const LabaMainScreen: React.FC = () => {
       setReels(allReels);
       setLabaReelsCache(allReels);
       setHasSearchResults(false);
-      setActiveReelIndex(0);
+      setReelsScrollTop(0);
     } catch (error) {
       console.error('Ошибка загрузки reels:', error);
       showMessage('ошибка загрузки reels', 'alert');
@@ -132,36 +187,13 @@ export const LabaMainScreen: React.FC = () => {
   }, [selectedAccount, selectedDate, selectedLanguage, selectedSort]);
 
   const visibleReels = React.useMemo(() => applyFilters(reels), [applyFilters, reels]);
-  const displayCount = loading || searching ? (searching ? 40 : 2) : visibleReels.length;
-  const maxReelIndex = Math.max(displayCount - 1, 0);
-
-  const stepReels = React.useCallback((direction: 1 | -1) => {
-    if (flipLockRef.current !== null) {
-      return;
-    }
-
-    setActiveReelIndex((prev) => {
-      const next = Math.max(0, Math.min(prev + direction, maxReelIndex));
-      return next;
-    });
-
-    flipLockRef.current = window.setTimeout(() => {
-      if (flipLockRef.current !== null) {
-        window.clearTimeout(flipLockRef.current);
-        flipLockRef.current = null;
-      }
-    }, 580);
-  }, [maxReelIndex]);
-
-  React.useEffect(() => {
-    setActiveReelIndex((prev) => Math.min(prev, maxReelIndex));
-  }, [maxReelIndex]);
-
-  React.useEffect(() => () => {
-    if (flipLockRef.current !== null) {
-      window.clearTimeout(flipLockRef.current);
-    }
-  }, []);
+  const reelsToRender = loading || searching
+    ? Array.from({ length: searching ? 40 : 2 }, (_, index) => ({ id: `placeholder-${index}` }))
+    : visibleReels;
+  const contentHeight = Math.max(
+    reelsToRender.length * LABA_CARD_STEP - LABA_CARD_GAP,
+    LABA_CARD_HEIGHT
+  );
 
   const cycleFilter = (
     value: string | null,
@@ -195,7 +227,8 @@ export const LabaMainScreen: React.FC = () => {
 
     setSearching(true);
     setLoading(true);
-    setActiveReelIndex(0);
+    setReelsScrollTop(0);
+    reelsScrollRef.current?.scrollTo({ top: 0 });
     showMessage('начался поиск рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
     try {
       const foundReels = await searchReels(keyword, userId);
@@ -258,7 +291,8 @@ export const LabaMainScreen: React.FC = () => {
     setSelectedDate(null);
     setSelectedLanguage(null);
     setSelectedAccount(null);
-    setActiveReelIndex(0);
+    setReelsScrollTop(0);
+    reelsScrollRef.current?.scrollTo({ top: 0 });
     if (!hasSearchResults && reels.length === 0) {
       await loadTopReels();
     }
@@ -407,86 +441,36 @@ export const LabaMainScreen: React.FC = () => {
           <img src={reelsScrollWindowNew} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
         <div
+          ref={reelsScrollRef}
           style={{
             position: 'absolute',
             left: '143px',
             top: '672px',
             width: '894px',
             height: '1369px',
-            overflowY: 'hidden',
+            overflowY: 'auto',
             overflowX: 'hidden',
             paddingTop: '34px',
             paddingBottom: '44px',
-            touchAction: 'none',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain',
+            touchAction: 'pan-y',
+            zIndex: 2,
+            scrollbarWidth: 'none',
           }}
-          onWheel={(event) => {
-            event.preventDefault();
-            if (Math.abs(event.deltaY) < 24) {
-              return;
-            }
-            stepReels(event.deltaY > 0 ? 1 : -1);
-          }}
-          onTouchStart={(event) => {
-            touchStartYRef.current = event.touches[0]?.clientY ?? null;
-          }}
-          onTouchEnd={(event) => {
-            if (touchStartYRef.current === null) {
-              return;
-            }
-            const endY = event.changedTouches[0]?.clientY ?? touchStartYRef.current;
-            const deltaY = touchStartYRef.current - endY;
-            touchStartYRef.current = null;
-            if (Math.abs(deltaY) < SWIPE_THRESHOLD) {
-              return;
-            }
-            stepReels(deltaY > 0 ? 1 : -1);
+          onScroll={(event) => {
+            setReelsScrollTop(event.currentTarget.scrollTop);
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '34px',
-              transform: `translate3d(0, -${activeReelIndex * LABA_CARD_STEP}px, 0)`,
-              transition: 'transform 720ms cubic-bezier(0.22, 1, 0.36, 1)',
-              willChange: 'transform',
-            }}
-          >
+          <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px`, margin: '0 auto' }}>
             {loading || searching
-              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => {
-                  const distance = Math.abs(index - activeReelIndex);
-                  return (
-                    <div
-                      key={index}
-                      style={{
-                        transform: distance === 0 ? 'scale(1)' : distance === 1 ? 'scale(0.97)' : 'scale(0.94)',
-                        opacity: distance > 1 ? 0.46 : distance === 1 ? 0.78 : 1,
-                        transition: 'transform 720ms cubic-bezier(0.22, 1, 0.36, 1), opacity 480ms ease',
-                        transformOrigin: 'center top',
-                      }}
-                    >
-                      <LabaFeedPlaceholderCard />
-                    </div>
-                  );
-                })
+              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => (
+                  <div key={index} style={getStackCardMotionStyle(index, reelsScrollTop)}>
+                    <LabaFeedPlaceholderCard />
+                  </div>
+                ))
               : visibleReels.map((reel, index) => (
-                  <div
-                    key={reel.id}
-                    style={{
-                      transform: Math.abs(index - activeReelIndex) === 0
-                        ? 'scale(1) rotateX(0deg)'
-                        : Math.abs(index - activeReelIndex) === 1
-                          ? 'scale(0.972) rotateX(6deg)'
-                          : 'scale(0.94) rotateX(9deg)',
-                      opacity: Math.abs(index - activeReelIndex) > 1
-                        ? 0.42
-                        : Math.abs(index - activeReelIndex) === 1
-                          ? 0.78
-                          : 1,
-                      transition: 'transform 720ms cubic-bezier(0.22, 1, 0.36, 1), opacity 480ms ease',
-                      transformOrigin: 'center top',
-                    }}
-                  >
+                  <div key={reel.id} style={getStackCardMotionStyle(index, reelsScrollTop)}>
                     <LabaFeedCard
                       reel={reel}
                       isFavorite={likedCards.has(reel.id)}
