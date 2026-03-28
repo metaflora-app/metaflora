@@ -10,6 +10,8 @@ interface LabaSearchInputProps {
   onEnter?: () => void;
   textRightInset?: string;
   style?: React.CSSProperties;
+  className?: string;
+  onFocusChange?: (focused: boolean) => void;
 }
 
 export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
@@ -20,9 +22,12 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
   onEnter,
   textRightInset = '28px',
   style,
+  className,
+  onFocusChange,
 }) => {
   return (
     <div
+      className={className}
       style={{
         position: 'absolute',
         width: '755px',
@@ -79,6 +84,8 @@ export const LabaSearchInput: React.FC<LabaSearchInputProps> = ({
         onKeyDown={(event) => {
           if (event.key === 'Enter') onEnter?.();
         }}
+        onFocus={() => onFocusChange?.(true)}
+        onBlur={() => onFocusChange?.(false)}
         placeholder=""
         spellCheck={false}
         autoCapitalize="none"

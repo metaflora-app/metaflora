@@ -17,6 +17,10 @@ const sortOptions = ['>просмотров', '<просмотров', '>лай�
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
 const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
+const LABA_CARD_GAP = 34;
+const LABA_CARD_HEIGHT = 1064;
+const LABA_CARD_STEP = LABA_CARD_HEIGHT + LABA_CARD_GAP;
+const SWIPE_THRESHOLD = 70;
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -36,9 +40,13 @@ export const LabaMainScreen: React.FC = () => {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [searching, setSearching] = React.useState(false);
+  const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+  const [activeReelIndex, setActiveReelIndex] = React.useState(0);
   const [hasSearchResults, setHasSearchResults] = React.useState(
     () => labaReelsCache.length > 0 && labaMainSearchQuery.trim().length > 0
   );
+  const touchStartYRef = React.useRef<number | null>(null);
+  const flipLockRef = React.useRef<number | null>(null);
 
   const loadTopReels = React.useCallback(async () => {
     setLoading(true);
@@ -53,6 +61,7 @@ export const LabaMainScreen: React.FC = () => {
       setReels(allReels);
       setLabaReelsCache(allReels);
       setHasSearchResults(false);
+      setActiveReelIndex(0);
     } catch (error) {
       console.error('Ошибка загрузки reels:', error);
       showMessage('ошибка загрузки reels', 'alert');
@@ -123,6 +132,36 @@ export const LabaMainScreen: React.FC = () => {
   }, [selectedAccount, selectedDate, selectedLanguage, selectedSort]);
 
   const visibleReels = React.useMemo(() => applyFilters(reels), [applyFilters, reels]);
+  const displayCount = loading || searching ? (searching ? 40 : 2) : visibleReels.length;
+  const maxReelIndex = Math.max(displayCount - 1, 0);
+
+  const stepReels = React.useCallback((direction: 1 | -1) => {
+    if (flipLockRef.current !== null) {
+      return;
+    }
+
+    setActiveReelIndex((prev) => {
+      const next = Math.max(0, Math.min(prev + direction, maxReelIndex));
+      return next;
+    });
+
+    flipLockRef.current = window.setTimeout(() => {
+      if (flipLockRef.current !== null) {
+        window.clearTimeout(flipLockRef.current);
+        flipLockRef.current = null;
+      }
+    }, 580);
+  }, [maxReelIndex]);
+
+  React.useEffect(() => {
+    setActiveReelIndex((prev) => Math.min(prev, maxReelIndex));
+  }, [maxReelIndex]);
+
+  React.useEffect(() => () => {
+    if (flipLockRef.current !== null) {
+      window.clearTimeout(flipLockRef.current);
+    }
+  }, []);
 
   const cycleFilter = (
     value: string | null,
@@ -156,6 +195,7 @@ export const LabaMainScreen: React.FC = () => {
 
     setSearching(true);
     setLoading(true);
+    setActiveReelIndex(0);
     showMessage('начался поиск рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
     try {
       const foundReels = await searchReels(keyword, userId);
@@ -218,6 +258,7 @@ export const LabaMainScreen: React.FC = () => {
     setSelectedDate(null);
     setSelectedLanguage(null);
     setSelectedAccount(null);
+    setActiveReelIndex(0);
     if (!hasSearchResults && reels.length === 0) {
       await loadTopReels();
     }
@@ -251,6 +292,7 @@ export const LabaMainScreen: React.FC = () => {
           value={labaMainSearchQuery}
           onChange={setLabaMainSearchQuery}
           onEnter={() => void handleSearch()}
+          onFocusChange={setIsSearchFocused}
           placeholder="найти видео по ключевому слову"
           iconSrc={searchIcon}
           textRightInset="190px"
@@ -259,13 +301,17 @@ export const LabaMainScreen: React.FC = () => {
             top: '376px',
             width: '876px',
             height: '79px',
+            transform: isSearchFocused ? 'scale(1.04)' : 'scale(1)',
+            transformOrigin: 'center',
+            transition: 'transform 560ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease',
+            filter: isSearchFocused ? 'brightness(1.08)' : 'none',
           }}
         />
 
         <button
           type="button"
           onClick={() => void handleSearch()}
-          className="blur-wave"
+          className="premium-button-shell"
           style={{
             position: 'absolute',
             left: '900px',
@@ -273,15 +319,15 @@ export const LabaMainScreen: React.FC = () => {
             width: '129px',
             height: '73px',
             borderRadius: '62px',
-            border: '4px solid rgba(255,255,255,0.3)',
-            background: '#000',
             color: '#fff',
             cursor: 'pointer',
             padding: 0,
-            backdropFilter: 'blur(50px)',
+            border: 'none',
+            background: 'transparent',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+          <div className="premium-button-inner" />
+          <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
             <div
               style={{
                 position: 'absolute',
@@ -367,28 +413,94 @@ export const LabaMainScreen: React.FC = () => {
             top: '672px',
             width: '894px',
             height: '1369px',
-            overflowY: 'auto',
+            overflowY: 'hidden',
             overflowX: 'hidden',
             paddingTop: '34px',
             paddingBottom: '44px',
+            touchAction: 'none',
+          }}
+          onWheel={(event) => {
+            event.preventDefault();
+            if (Math.abs(event.deltaY) < 24) {
+              return;
+            }
+            stepReels(event.deltaY > 0 ? 1 : -1);
+          }}
+          onTouchStart={(event) => {
+            touchStartYRef.current = event.touches[0]?.clientY ?? null;
+          }}
+          onTouchEnd={(event) => {
+            if (touchStartYRef.current === null) {
+              return;
+            }
+            const endY = event.changedTouches[0]?.clientY ?? touchStartYRef.current;
+            const deltaY = touchStartYRef.current - endY;
+            touchStartYRef.current = null;
+            if (Math.abs(deltaY) < SWIPE_THRESHOLD) {
+              return;
+            }
+            stepReels(deltaY > 0 ? 1 : -1);
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '34px',
+              transform: `translate3d(0, -${activeReelIndex * LABA_CARD_STEP}px, 0)`,
+              transition: 'transform 720ms cubic-bezier(0.22, 1, 0.36, 1)',
+              willChange: 'transform',
+            }}
+          >
             {loading || searching
-              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
-              : visibleReels.map((reel) => (
-                  <LabaFeedCard
+              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => {
+                  const distance = Math.abs(index - activeReelIndex);
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        transform: distance === 0 ? 'scale(1)' : distance === 1 ? 'scale(0.97)' : 'scale(0.94)',
+                        opacity: distance > 1 ? 0.46 : distance === 1 ? 0.78 : 1,
+                        transition: 'transform 720ms cubic-bezier(0.22, 1, 0.36, 1), opacity 480ms ease',
+                        transformOrigin: 'center top',
+                      }}
+                    >
+                      <LabaFeedPlaceholderCard />
+                    </div>
+                  );
+                })
+              : visibleReels.map((reel, index) => (
+                  <div
                     key={reel.id}
-                    reel={reel}
-                    isFavorite={likedCards.has(reel.id)}
-                    onToggleFavorite={handleToggleFavorite}
-                    onAction={() => void handleTrackFromCard(reel)}
-                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
-                    actionLabel="следить"
-                    actionCost={100}
-                    openAnalysisButtonSrc={desktopAiAnalysisButton}
-                    activityPillTop={674}
-                  />
+                    style={{
+                      transform: Math.abs(index - activeReelIndex) === 0
+                        ? 'scale(1) rotateX(0deg)'
+                        : Math.abs(index - activeReelIndex) === 1
+                          ? 'scale(0.972) rotateX(6deg)'
+                          : 'scale(0.94) rotateX(9deg)',
+                      opacity: Math.abs(index - activeReelIndex) > 1
+                        ? 0.42
+                        : Math.abs(index - activeReelIndex) === 1
+                          ? 0.78
+                          : 1,
+                      transition: 'transform 720ms cubic-bezier(0.22, 1, 0.36, 1), opacity 480ms ease',
+                      transformOrigin: 'center top',
+                    }}
+                  >
+                    <LabaFeedCard
+                      reel={reel}
+                      isFavorite={likedCards.has(reel.id)}
+                      onToggleFavorite={handleToggleFavorite}
+                      onAction={() => void handleTrackFromCard(reel)}
+                      onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
+                      actionLabel="следить"
+                      actionCost={100}
+                      likeEffectVariant="tiktok"
+                      actionMotionVariant="premium"
+                      openAnalysisButtonSrc={desktopAiAnalysisButton}
+                      activityPillTop={674}
+                    />
+                  </div>
                 ))}
           </div>
         </div>

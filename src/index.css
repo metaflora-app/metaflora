@@ -156,16 +156,16 @@ body {
 
 @keyframes pricingCardSheen {
   0% {
-    opacity: 0.24;
-    transform: translate3d(-24%, 0, 0) rotate(-7deg) scale(0.98);
+    opacity: 0.18;
+    transform: translate3d(-56%, -6%, 0) rotate(-14deg) scale(1.08);
   }
   50% {
-    opacity: 0.42;
-    transform: translate3d(4%, 0, 0) rotate(-7deg) scale(1);
+    opacity: 0.58;
+    transform: translate3d(-2%, 0, 0) rotate(-14deg) scale(1.14);
   }
   100% {
-    opacity: 0.24;
-    transform: translate3d(28%, 0, 0) rotate(-7deg) scale(1.02);
+    opacity: 0.18;
+    transform: translate3d(56%, 6%, 0) rotate(-14deg) scale(1.1);
   }
 }
 
@@ -199,28 +199,29 @@ body {
 
 .pricing-card-sheen {
   position: absolute;
-  inset: -8% -30%;
+  inset: -18% -48%;
   border-radius: 999px;
   background: linear-gradient(
-    105deg,
+    104deg,
     rgba(255, 255, 255, 0) 10%,
-    rgba(255, 255, 255, 0.12) 28%,
-    rgba(255, 255, 255, 0.3) 48%,
-    rgba(255, 255, 255, 0.14) 66%,
-    rgba(255, 255, 255, 0) 86%
+    rgba(255, 255, 255, 0.08) 26%,
+    rgba(255, 255, 255, 0.28) 42%,
+    rgba(255, 255, 255, 0.54) 52%,
+    rgba(255, 255, 255, 0.18) 64%,
+    rgba(255, 255, 255, 0) 82%
   );
-  filter: blur(22px);
+  filter: blur(30px);
   mix-blend-mode: screen;
-  animation: pricingCardSheen 18s linear infinite;
+  animation: pricingCardSheen 14s linear infinite;
   pointer-events: none;
   z-index: 1;
 }
 
 .pricing-card-sheen-soft {
-  inset: -4% -22%;
-  opacity: 0.82;
-  filter: blur(34px);
-  animation-duration: 24s;
+  inset: -12% -38%;
+  opacity: 0.92;
+  filter: blur(48px);
+  animation-duration: 18s;
   animation-delay: 0s;
 }
 
@@ -363,6 +364,92 @@ body {
 .premium-button-content {
   position: relative;
   z-index: 2;
+}
+
+@keyframes tiktokLikeWave {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  18% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.65);
+  }
+}
+
+@keyframes tiktokLikeFlash {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+    filter: blur(18px);
+  }
+  28% {
+    opacity: 0.88;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+    filter: blur(30px);
+  }
+}
+
+.tiktok-like-button {
+  position: relative;
+  isolation: isolate;
+}
+
+.tiktok-like-wave,
+.tiktok-like-flash {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.tiktok-like-wave {
+  width: 86px;
+  height: 86px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 76, 76, 0.44) 0%, rgba(255, 76, 76, 0.18) 42%, rgba(255, 76, 76, 0) 74%);
+  mix-blend-mode: screen;
+}
+
+.tiktok-like-wave-delayed {
+  width: 106px;
+  height: 106px;
+}
+
+.tiktok-like-flash {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.82) 0%, rgba(255, 77, 77, 0.3) 42%, rgba(255, 77, 77, 0) 76%);
+  mix-blend-mode: screen;
+}
+
+.tiktok-like-icon {
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), filter 220ms ease;
+}
+
+.tiktok-like-button.is-bursting .tiktok-like-wave {
+  animation: tiktokLikeWave 620ms cubic-bezier(0.2, 0.82, 0.22, 1) forwards;
+}
+
+.tiktok-like-button.is-bursting .tiktok-like-wave-delayed {
+  animation-delay: 90ms;
+}
+
+.tiktok-like-button.is-bursting .tiktok-like-flash {
+  animation: tiktokLikeFlash 420ms ease-out forwards;
+}
+
+.tiktok-like-button.is-bursting .tiktok-like-icon {
+  transform: scale(1.28);
+  filter: drop-shadow(0 0 10px rgba(255, 84, 84, 0.8)) drop-shadow(0 0 18px rgba(255, 84, 84, 0.36));
 }
 
 /* Placeholder styles for search inputs */

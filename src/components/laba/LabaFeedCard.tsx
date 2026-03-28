@@ -27,6 +27,8 @@ interface LabaFeedCardProps {
   actionButtonImageSrc?: string;
   openAnalysisButtonSrc?: string;
   activityPillTop?: number;
+  likeEffectVariant?: 'default' | 'tiktok';
+  actionMotionVariant?: 'default' | 'premium';
 }
 
 const CARD_WIDTH = 831;
@@ -54,6 +56,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   actionButtonImageSrc,
   openAnalysisButtonSrc,
   activityPillTop = 654,
+  likeEffectVariant = 'default',
+  actionMotionVariant = 'default',
 }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
@@ -132,6 +136,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
 
       <FigmaLikeButton
         active={isFavorite}
+        effectVariant={likeEffectVariant}
         onClick={(event) => {
           event.stopPropagation();
           onToggleFavorite(reel.id);
@@ -337,6 +342,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         cost={actionCost}
         variant={actionVariant}
         imageSrc={actionButtonImageSrc}
+        motionVariant={actionMotionVariant}
         onClick={(event) => {
           event.stopPropagation();
           onAction?.();
@@ -516,11 +522,13 @@ const ActionButton: React.FC<{
   cost?: number;
   variant: ActionVariant;
   imageSrc?: string;
+  motionVariant?: 'default' | 'premium';
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, imageSrc, onClick }) => (
+}> = ({ label, cost, variant, imageSrc, motionVariant = 'default', onClick }) => (
   <button
     type="button"
     onClick={onClick}
+    className={motionVariant === 'premium' ? 'premium-button-shell' : undefined}
     style={{
       position: 'absolute',
       left: '356px',
@@ -548,6 +556,7 @@ const ActionButton: React.FC<{
       />
     ) : (
       <div
+        className={motionVariant === 'premium' ? 'premium-button-inner' : undefined}
         style={{
           position: 'relative',
           width: '100%',
