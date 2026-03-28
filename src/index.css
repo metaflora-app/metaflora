@@ -154,33 +154,24 @@ body {
   animation: blurShimmer 2.2s linear infinite;
 }
 
-@keyframes pricingCardSweep {
-  0% {
-    transform: translateX(-120%);
-  }
-  100% {
-    transform: translateX(120%);
-  }
-}
-
 @keyframes pricingCardGlow {
   0%, 100% {
-    opacity: 0.42;
-    transform: scale(0.96);
+    opacity: 0.34;
+    transform: translate3d(-2%, -2%, 0) scale(0.96);
   }
   50% {
-    opacity: 0.78;
-    transform: scale(1.05);
+    opacity: 0.7;
+    transform: translate3d(3%, 2%, 0) scale(1.04);
   }
 }
 
 @keyframes pricingInnerLife {
   0%, 100% {
-    opacity: 0.28;
+    opacity: 0.22;
     transform: translate3d(-4%, -3%, 0) scale(0.98);
   }
   50% {
-    opacity: 0.52;
+    opacity: 0.46;
     transform: translate3d(5%, 4%, 0) scale(1.04);
   }
 }
@@ -192,48 +183,47 @@ body {
   isolation: isolate;
 }
 
-.pricing-card-shell::before {
-  content: '';
+.pricing-card-halo {
   position: absolute;
-  inset: -8% -28%;
-  background: linear-gradient(
-    105deg,
-    rgba(255, 255, 255, 0) 20%,
-    rgba(255, 255, 255, 0.12) 40%,
-    rgba(255, 255, 255, 0.28) 50%,
-    rgba(255, 255, 255, 0.12) 60%,
-    rgba(255, 255, 255, 0) 80%
-  );
-  filter: blur(22px);
-  animation: pricingCardSweep 5.6s linear infinite;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.pricing-card-shell::after {
-  content: '';
-  position: absolute;
-  inset: 7% 10%;
-  border-radius: 44px;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 34%, rgba(255, 255, 255, 0) 72%);
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.09) 32%, rgba(255, 255, 255, 0) 72%);
   filter: blur(34px);
   animation: pricingCardGlow 5.8s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.pricing-card-halo-primary {
+  inset: 10% 12% 28%;
+}
+
+.pricing-card-halo-secondary {
+  inset: 36% 16% 12%;
+  animation-duration: 7.1s;
+  animation-delay: 0.8s;
+  opacity: 0.7;
 }
 
 .pricing-card-life {
   position: absolute;
-  inset: 16% 12%;
+  inset: 18% 11%;
   border-radius: 54px;
   background:
-    radial-gradient(circle at 28% 35%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 24%, rgba(255, 255, 255, 0) 52%),
-    radial-gradient(circle at 72% 62%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 22%, rgba(255, 255, 255, 0) 48%);
+    radial-gradient(circle at 28% 35%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 24%, rgba(255, 255, 255, 0) 52%),
+    radial-gradient(circle at 72% 62%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 22%, rgba(255, 255, 255, 0) 48%);
   filter: blur(28px);
   mix-blend-mode: screen;
   animation: pricingInnerLife 6.4s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
+}
+
+.pricing-card-life-secondary {
+  inset: 28% 16% 18%;
+  animation-duration: 8.2s;
+  animation-delay: 1.1s;
+  opacity: 0.82;
 }
 
 .pricing-toggle-shell {
@@ -291,22 +281,6 @@ body {
   overflow: hidden;
   border-radius: 70px;
   isolation: isolate;
-}
-
-.pricing-pay-fill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--hold-progress, 0%);
-  border-radius: inherit;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 55%, rgba(255, 255, 255, 0.08) 100%);
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.18);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.pricing-pay-shell.is-holding .pricing-pay-fill {
-  transition: width 80ms linear;
 }
 
 .pricing-pay-halo {

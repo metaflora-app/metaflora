@@ -12,9 +12,7 @@ import payButton from '../../assets/pricing-redesign/кнопка оплатит
 
 const TOGGLE_TRACK_WIDTH = 894;
 const TOGGLE_SEGMENT_WIDTH = 447;
-const HOLD_TO_PAY_MS = 1100;
 const SCRAMBLE_CHARS = 'XO01*';
-
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
 const useScrambleText = (targetText: string, triggerKey: string) => {
@@ -71,8 +69,6 @@ export const PricingScreen: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = React.useState<'1month' | '3months'>('1month');
   const [pillOffset, setPillOffset] = React.useState(0);
   const [isDraggingToggle, setIsDraggingToggle] = React.useState(false);
-  const [holdProgress, setHoldProgress] = React.useState(0);
-  const [isHoldingPay, setIsHoldingPay] = React.useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const toggleDragRef = React.useRef<{
@@ -82,9 +78,6 @@ export const PricingScreen: React.FC = () => {
     baseOffset: number;
     scaleFactor: number;
   } | null>(null);
-  const holdFrameRef = React.useRef<number | null>(null);
-  const holdStartedAtRef = React.useRef<number | null>(null);
-  const holdCompletedRef = React.useRef(false);
 
   const monthInactiveLabel = useScrambleText('1 месяц (-10%)', selectedPlan);
   const quarterInactiveLabel = useScrambleText('3 месяца (-20%)', selectedPlan);
@@ -106,7 +99,6 @@ export const PricingScreen: React.FC = () => {
 
     if (!result.success) {
       setIsProcessingPayment(false);
-      setHoldProgress(0);
       showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
       return;
     }
@@ -118,65 +110,6 @@ export const PricingScreen: React.FC = () => {
         : `подписка на ${planLabel} успешно оплачена`
     );
     navigate('/main-dashboard-premium');
-  };
-
-  const cancelHoldAnimation = React.useCallback(() => {
-    if (holdFrameRef.current !== null) {
-      cancelAnimationFrame(holdFrameRef.current);
-      holdFrameRef.current = null;
-    }
-  }, []);
-
-  const resetHoldToPay = React.useCallback(() => {
-    cancelHoldAnimation();
-    holdStartedAtRef.current = null;
-    holdCompletedRef.current = false;
-    setIsHoldingPay(false);
-    setHoldProgress(0);
-  }, [cancelHoldAnimation]);
-
-  React.useEffect(() => () => cancelHoldAnimation(), [cancelHoldAnimation]);
-
-  const startHoldToPay = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (isProcessingPayment) {
-      return;
-    }
-
-    event.currentTarget.setPointerCapture(event.pointerId);
-    cancelHoldAnimation();
-    holdCompletedRef.current = false;
-    holdStartedAtRef.current = performance.now();
-    setIsHoldingPay(true);
-    setHoldProgress(0);
-
-    const step = (timestamp: number) => {
-      if (!holdStartedAtRef.current) {
-        return;
-      }
-
-      const progress = clamp((timestamp - holdStartedAtRef.current) / HOLD_TO_PAY_MS, 0, 1);
-      setHoldProgress(progress);
-
-      if (progress >= 1 && !holdCompletedRef.current) {
-        holdCompletedRef.current = true;
-        setIsHoldingPay(false);
-        cancelHoldAnimation();
-        void handlePayment();
-        return;
-      }
-
-      holdFrameRef.current = requestAnimationFrame(step);
-    };
-
-    holdFrameRef.current = requestAnimationFrame(step);
-  };
-
-  const stopHoldToPay = () => {
-    if (holdCompletedRef.current) {
-      return;
-    }
-
-    resetHoldToPay();
   };
 
   const handleTogglePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -321,7 +254,10 @@ export const PricingScreen: React.FC = () => {
         </div>
 
         <div className="pricing-card-shell" style={{ position: 'absolute', left: '143px', top: '523px', width: '894px', height: '1178px' }}>
+          <div className="pricing-card-halo pricing-card-halo-primary" />
+          <div className="pricing-card-halo pricing-card-halo-secondary" />
           <div className="pricing-card-life" />
+          <div className="pricing-card-life pricing-card-life-secondary" />
           <img
             src={selectedPlan === '1month' ? pricingCardMonth : pricingCardQuarter}
             alt={selectedPlan === '1month' ? 'подписка на 1 месяц' : 'подписка на 3 месяца'}
@@ -331,11 +267,8 @@ export const PricingScreen: React.FC = () => {
 
         <button
           type="button"
-          className={`pricing-pay-shell button-inner-glow ${isHoldingPay ? 'is-holding' : ''}`}
-          onPointerDown={startHoldToPay}
-          onPointerUp={stopHoldToPay}
-          onPointerLeave={stopHoldToPay}
-          onPointerCancel={stopHoldToPay}
+          onClick={() => void handlePayment()}
+          className="pricing-pay-shell button-inner-glow"
           disabled={isProcessingPayment}
           style={{
             position: 'absolute',
@@ -347,11 +280,9 @@ export const PricingScreen: React.FC = () => {
             border: 'none',
             background: 'transparent',
             padding: 0,
-            '--hold-progress': `${holdProgress * 100}%`,
-          } as React.CSSProperties}
+          }}
         >
           <div className="pricing-pay-halo" />
-          <div className="pricing-pay-fill" />
           <img
             src={payButton}
             alt="оплатить доступ"
