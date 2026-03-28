@@ -59,7 +59,9 @@ const ServiceCard: React.FC<CardProps> = ({
       </div>
     </div>
 
-    <div
+    <button
+      type="button"
+      className="premium-button-shell"
       onClick={onOpen}
       style={{
         position: 'absolute',
@@ -73,12 +75,60 @@ const ServiceCard: React.FC<CardProps> = ({
         borderRadius: '62px',
         overflow: 'hidden',
         cursor: onOpen ? 'pointer' : 'default',
+        padding: 0,
       }}
     >
+      <div className="premium-button-content">
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 1.47px)',
+          top: 'calc(50% - 5.97px)',
+          transform: 'translate(-50%, -50%)',
+          width: '150px',
+          height: '29.312px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          fontFamily: 'Cygre',
+          fontWeight: 700,
+          fontSize: '27px',
+          lineHeight: '1',
+          color: 'white',
+        }}>
+          открыть
+        </div>
+      </div>
+    </button>
+  </div>
+);
+
+interface SmBtnProps { label: string; x: number; y: number; onClick?: () => void; }
+const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
+  <button
+    type="button"
+    className="premium-button-shell"
+    onClick={onClick}
+    style={{
+    position: 'absolute',
+    left: `${x}px`,
+    top: `${y}px`,
+    width: '168px',
+    height: '54px',
+    backdropFilter: 'blur(50px)',
+    background: 'rgba(0,0,0,0.9)',
+    border: '4px solid rgba(255,255,255,0.3)',
+    borderRadius: '62px',
+    overflow: 'hidden',
+    cursor: 'pointer',
+    padding: 0,
+  }}
+  >
+    <div className="premium-button-content">
       <div style={{
         position: 'absolute',
-        left: 'calc(50% - 1.47px)',
-        top: 'calc(50% - 5.97px)',
+        left: 'calc(50% - 1px)',
+        top: 'calc(50% - 6.34px)',
         transform: 'translate(-50%, -50%)',
         width: '150px',
         height: '29.312px',
@@ -92,47 +142,10 @@ const ServiceCard: React.FC<CardProps> = ({
         lineHeight: '1',
         color: 'white',
       }}>
-        открыть
+        {label}
       </div>
     </div>
-  </div>
-);
-
-interface SmBtnProps { label: string; x: number; y: number; onClick?: () => void; }
-const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
-  <div onClick={onClick} style={{
-    position: 'absolute',
-    left: `${x}px`,
-    top: `${y}px`,
-    width: '168px',
-    height: '54px',
-    backdropFilter: 'blur(50px)',
-    background: 'rgba(0,0,0,0.9)',
-    border: '4px solid rgba(255,255,255,0.3)',
-    borderRadius: '62px',
-    overflow: 'hidden',
-    cursor: 'pointer',
-  }}>
-    <div style={{
-      position: 'absolute',
-      left: 'calc(50% - 1px)',
-      top: 'calc(50% - 6.34px)',
-      transform: 'translate(-50%, -50%)',
-      width: '150px',
-      height: '29.312px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      fontFamily: 'Cygre',
-      fontWeight: 700,
-      fontSize: '27px',
-      lineHeight: '1',
-      color: 'white',
-    }}>
-      {label}
-    </div>
-  </div>
+  </button>
 );
 
 export const MainDashboardPremiumScreen: React.FC = () => {
