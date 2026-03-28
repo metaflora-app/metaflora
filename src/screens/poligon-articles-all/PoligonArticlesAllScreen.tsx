@@ -190,6 +190,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
                       <img
                         src={readButton}
                         alt="читать"
+                        className="button-inner-glow"
                         style={{ position: 'absolute', inset: 0, width: '247px', height: '80px', objectFit: 'contain', pointerEvents: 'none' }}
                       />
                     </button>

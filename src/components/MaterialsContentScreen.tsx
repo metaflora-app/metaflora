@@ -123,18 +123,19 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       const promptText = typeof block.content === 'string' ? block.content : String(block.content ?? '');
 
       return (
-        <button
-          key={block.id}
-          type="button"
-          onClick={() => void handleCopyPrompt(promptText)}
-          className="motion-press-grow"
-          style={{ margin: '28px 0 30px', border: 'none', background: 'transparent', padding: 0, width: '100%', cursor: 'pointer' }}
-        >
-          <FigmaPromptBadge className="button-inner-glow" style={{ display: 'block', margin: '0 auto 24px' }} />
+        <div key={block.id} style={{ margin: '28px 0 30px', width: '100%' }}>
+          <button
+            type="button"
+            onClick={() => void handleCopyPrompt(promptText)}
+            className="motion-press-grow"
+            style={{ display: 'block', margin: '0 auto 24px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
+          >
+            <FigmaPromptBadge className="button-inner-glow" />
+          </button>
           <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
             {promptText}
           </div>
-        </button>
+        </div>
       );
     }
 

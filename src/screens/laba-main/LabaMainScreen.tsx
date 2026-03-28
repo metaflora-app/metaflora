@@ -302,7 +302,7 @@ export const LabaMainScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => void handleSearch()}
-            className={`premium-button-shell button-inner-glow ${isSearchPressed ? 'is-pressed' : ''}`}
+            className={`motion-press-grow ${isSearchPressed ? 'is-pressed' : ''}`}
             onPointerDown={() => setIsSearchPressed(true)}
             onPointerUp={() => setIsSearchPressed(false)}
             onPointerLeave={() => setIsSearchPressed(false)}
@@ -317,14 +317,16 @@ export const LabaMainScreen: React.FC = () => {
               color: '#fff',
               cursor: 'pointer',
               padding: 0,
-              border: 'none',
-              background: 'transparent',
+              border: '4px solid rgba(255,255,255,0.3)',
+              background: 'rgba(0,0,0,0.9)',
+              backdropFilter: 'blur(50px)',
               zIndex: 2,
-              boxShadow: '0 0 10px rgba(255,255,255,0.18), 0 0 18px rgba(255,255,255,0.08)',
+              boxShadow: '0 0 8px rgba(255,255,255,0.22), 0 0 18px rgba(255,255,255,0.12)',
+              overflow: 'hidden',
             }}
           >
-            <div className="premium-button-inner" />
-            <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', boxShadow: 'inset 0 0 8px rgba(255,255,255,0.18), inset 0 0 18px rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
               <div
                 style={{
                   position: 'absolute',
