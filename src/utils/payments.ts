@@ -47,6 +47,14 @@ export interface PaymentStatusResponse {
   error?: string;
 }
 
+export interface PaymentCancelResponse {
+  success: boolean;
+  state: string;
+  paymentId: string;
+  cancellationReason?: string | null;
+  error?: string;
+}
+
 export async function createCheckoutPayment(productId: CheckoutProductId): Promise<PendingPayment> {
   const user = await getOrCreateUser(false);
   if (!user?.id) {
@@ -122,6 +130,20 @@ export async function getCheckoutPaymentStatus(paymentId: string): Promise<Payme
   const payload = await response.json() as PaymentStatusResponse;
   if (!response.ok) {
     throw new Error(payload.error || 'не удалось проверить статус оплаты');
+  }
+
+  return payload;
+}
+
+export async function cancelCheckoutPayment(paymentId: string): Promise<PaymentCancelResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/payments/cancel/${paymentId}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const payload = await response.json() as PaymentCancelResponse;
+  if (!response.ok) {
+    throw new Error(payload.error || 'не удалось отменить оплату');
   }
 
   return payload;

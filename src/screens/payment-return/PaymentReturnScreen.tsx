@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import {
+  cancelCheckoutPayment,
   clearPendingPayment,
   getCheckoutPaymentStatus,
   readPendingPayment,
@@ -66,7 +67,7 @@ export const PaymentReturnScreen: React.FC = () => {
         navigate(getFailureRoute(pendingPayment.productId), { replace: true });
       };
 
-      for (let attempt = 0; attempt < 15; attempt += 1) {
+      for (let attempt = 0; attempt < 3; attempt += 1) {
         if (cancelled) return;
 
         const status = await getCheckoutPaymentStatus(pendingPayment.paymentId);
@@ -86,7 +87,17 @@ export const PaymentReturnScreen: React.FC = () => {
           return;
         }
 
-        await new Promise((resolve) => window.setTimeout(resolve, 900));
+        if (status.state === 'pending' && attempt >= 1) {
+          try {
+            await cancelCheckoutPayment(pendingPayment.paymentId);
+          } catch (cancelError) {
+            console.error('Payment cancel failed:', cancelError);
+          }
+          finishFailure('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
+          return;
+        }
+
+        await new Promise((resolve) => window.setTimeout(resolve, 600));
       }
 
       finishFailure('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
