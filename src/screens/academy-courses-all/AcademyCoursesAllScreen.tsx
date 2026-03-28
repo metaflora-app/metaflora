@@ -90,6 +90,42 @@ const progressRed = 'https://www.figma.com/api/mcp/asset/cc2c8bf3-8abd-4bad-81a0
 const progressYellow = 'https://www.figma.com/api/mcp/asset/8deaedb2-f168-4271-a404-a4b8637406b7';
 const progressGreenPassive = 'https://www.figma.com/api/mcp/asset/d14ae309-fe39-4ec0-b554-cc46cf3db046';
 const progressGreenFull = 'https://www.figma.com/api/mcp/asset/eb67b842-0834-4fb0-a869-504c231ae2a1';
+const ACADEMY_PROGRESS_CACHE_KEY = 'academy_courses_progress_summary_v1';
+
+function getAcademyProgressStorage(): Storage | null {
+  if (typeof window === 'undefined') return null;
+  return window.localStorage;
+}
+
+const readAcademyProgressCache = (): {
+  courseProgress: Record<string, number>;
+  totalLessons: number;
+  completedLessons: number;
+} => {
+  try {
+    const cached = getAcademyProgressStorage()?.getItem(ACADEMY_PROGRESS_CACHE_KEY);
+    if (!cached) {
+      return {
+        courseProgress: {},
+        totalLessons: 0,
+        completedLessons: 0,
+      };
+    }
+
+    const parsed = JSON.parse(cached);
+    return {
+      courseProgress: parsed.courseProgress || {},
+      totalLessons: parsed.totalLessons || 0,
+      completedLessons: parsed.completedLessons || 0,
+    };
+  } catch {
+    return {
+      courseProgress: {},
+      totalLessons: 0,
+      completedLessons: 0,
+    };
+  }
+};
 
 const getProgressAsset = (value: number): string | null => {
   if (value <= 0) {
@@ -147,9 +183,9 @@ const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ v
 export const AcademyCoursesAllScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [totalLessons, setTotalLessons] = React.useState(0);
-  const [completedLessons, setCompletedLessons] = React.useState(0);
-  const [courseProgress, setCourseProgress] = React.useState<Record<string, number>>({});
+  const [totalLessons, setTotalLessons] = React.useState(() => readAcademyProgressCache().totalLessons);
+  const [completedLessons, setCompletedLessons] = React.useState(() => readAcademyProgressCache().completedLessons);
+  const [courseProgress, setCourseProgress] = React.useState<Record<string, number>>(() => readAcademyProgressCache().courseProgress);
 
   const calculateProgress = React.useCallback(async () => {
     try {
@@ -192,6 +228,11 @@ export const AcademyCoursesAllScreen: React.FC = () => {
       setCourseProgress(nextProgress);
       setTotalLessons(nextTotal);
       setCompletedLessons(nextCompleted);
+      getAcademyProgressStorage()?.setItem(ACADEMY_PROGRESS_CACHE_KEY, JSON.stringify({
+        courseProgress: nextProgress,
+        totalLessons: nextTotal,
+        completedLessons: nextCompleted,
+      }));
     } catch (error) {
       console.error('Error calculating academy progress:', error);
     }
@@ -199,24 +240,6 @@ export const AcademyCoursesAllScreen: React.FC = () => {
 
   React.useEffect(() => {
     void calculateProgress();
-
-    const handleFocus = () => {
-      void calculateProgress();
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        void calculateProgress();
-      }
-    };
-
-    window.addEventListener('focus', handleFocus);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      window.removeEventListener('focus', handleFocus);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
   }, [calculateProgress]);
 
   const percentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;

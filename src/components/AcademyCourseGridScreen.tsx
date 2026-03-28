@@ -82,7 +82,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
   cardTextFontSize = 27,
 }) => {
   const navigate = useNavigate();
-  const [lessons, setLessons] = React.useState<AcademyLesson[]>([]);
+  const [lessons, setLessons] = React.useState<AcademyLesson[] | null>(null);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const layout = placeholderCount === 4 ? DEMO_LAYOUT : FULL_LAYOUT;
 
@@ -106,23 +106,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
     };
   }, [source, courseType]);
 
-  const visibleLessons = (lessons.length ? lessons : Array.from({ length: placeholderCount }, (_, index) => ({
-    id: `placeholder-${index + 1}`,
-    course_id: '',
-    lesson_number: index + 1,
-    title: '',
-    description: placeholderText,
-    cover_image_url: null,
-    annotation: null,
-    prompt_text: null,
-    materials: null,
-    filter_tags: null,
-    keywords: null,
-    is_active: true,
-    order_index: index + 1,
-    created_at: '',
-    updated_at: '',
-  } satisfies AcademyLesson))).slice(0, layout.length);
+  const visibleLessons = (lessons || []).slice(0, layout.length);
 
   const openLesson = (lessonId: string) => {
     const search = source === 'demo' ? `?lesson=${lessonId}&type=demo` : `?lesson=${lessonId}`;
@@ -160,7 +144,11 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
           ))}
         </div>
 
-        {visibleLessons.map((lesson, index) => {
+        {lessons === null ? (
+          <div style={{ position: 'absolute', left: '50%', top: '760px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.75)' }}>
+            загружаем уроки...
+          </div>
+        ) : visibleLessons.map((lesson, index) => {
           const position = layout[index];
           const label = lesson.lesson_number || index + 1;
           const description = cardDescriptionOverride || lesson.description || lesson.annotation || placeholderText;
@@ -220,9 +208,8 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
 
                 <FigmaReadButton
                   label="перейти"
-                  onClick={() => lesson.id.startsWith('placeholder-') ? undefined : openLesson(lesson.id)}
-                  disabled={lesson.id.startsWith('placeholder-')}
-                  className={lesson.id.startsWith('placeholder-') ? undefined : 'button-inner-glow'}
+                  onClick={() => openLesson(lesson.id)}
+                  className="button-inner-glow"
                   style={{
                     position: 'absolute',
                     left: '50%',

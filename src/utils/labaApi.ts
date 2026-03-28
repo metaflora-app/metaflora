@@ -28,6 +28,105 @@ import { showAlert, showPopupMessage } from '../app/telegram/telegramHelpers';
 
 // Laba endpoints are served from the dedicated Railway service backend.
 const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
+const LABA_CACHE_PREFIX = 'metaflora_laba_cache_v1_';
+const LABA_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
+
+interface LabaCachePayload<T> {
+  timestamp: number;
+  data: T;
+}
+
+function getLabaStorage(): Storage | null {
+  if (typeof window === 'undefined') return null;
+  return window.localStorage;
+}
+
+function readLabaCache<T>(key: string): T | null {
+  const storage = getLabaStorage();
+  if (!storage) return null;
+
+  try {
+    const raw = storage.getItem(`${LABA_CACHE_PREFIX}${key}`);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as LabaCachePayload<T>;
+    if (!parsed || typeof parsed.timestamp !== 'number') return null;
+    if (Date.now() - parsed.timestamp > LABA_CACHE_TTL_MS) {
+      storage.removeItem(`${LABA_CACHE_PREFIX}${key}`);
+      return null;
+    }
+    return parsed.data;
+  } catch {
+    return null;
+  }
+}
+
+function writeLabaCache<T>(key: string, data: T): void {
+  const storage = getLabaStorage();
+  if (!storage) return;
+
+  try {
+    storage.setItem(`${LABA_CACHE_PREFIX}${key}`, JSON.stringify({
+      timestamp: Date.now(),
+      data,
+    } satisfies LabaCachePayload<T>));
+  } catch {
+    // Ignore storage quota errors, network data is still the source of truth.
+  }
+}
+
+function removeLabaCache(key: string): void {
+  const storage = getLabaStorage();
+  if (!storage) return;
+  storage.removeItem(`${LABA_CACHE_PREFIX}${key}`);
+}
+
+function sanitizeCacheKeyPart(value: string | number): string {
+  return String(value).trim().toLowerCase().replace(/[^a-z0-9а-яё_-]+/gi, '_');
+}
+
+export function getCachedTopReels(category: TopReelCategory): Reel[] {
+  return readLabaCache<Reel[]>(`top_reels_${sanitizeCacheKeyPart(category)}`) || [];
+}
+
+export function cacheTopReels(category: TopReelCategory, reels: Reel[]): void {
+  writeLabaCache(`top_reels_${sanitizeCacheKeyPart(category)}`, reels);
+}
+
+export function getCachedSearchReels(query: string): Reel[] {
+  return readLabaCache<Reel[]>(`search_reels_${sanitizeCacheKeyPart(query)}`) || [];
+}
+
+export function cacheSearchReels(query: string, reels: Reel[]): void {
+  writeLabaCache(`search_reels_${sanitizeCacheKeyPart(query)}`, reels);
+}
+
+export function getCachedFavorites(userId: number): Reel[] {
+  return readLabaCache<Reel[]>(`favorites_${sanitizeCacheKeyPart(userId)}`) || [];
+}
+
+export function cacheFavorites(userId: number, reels: Reel[]): void {
+  writeLabaCache(`favorites_${sanitizeCacheKeyPart(userId)}`, reels);
+}
+
+export function getCachedTrackedAccounts(userId: number): TrackedAccount[] {
+  return readLabaCache<TrackedAccount[]>(`tracked_accounts_${sanitizeCacheKeyPart(userId)}`) || [];
+}
+
+export function cacheTrackedAccounts(userId: number, accounts: TrackedAccount[]): void {
+  writeLabaCache(`tracked_accounts_${sanitizeCacheKeyPart(userId)}`, accounts);
+}
+
+export function getCachedTrackedReels(userId: number, accountId: string): Reel[] {
+  return readLabaCache<Reel[]>(`tracked_reels_${sanitizeCacheKeyPart(userId)}_${sanitizeCacheKeyPart(accountId)}`) || [];
+}
+
+export function cacheTrackedReels(userId: number, accountId: string, reels: Reel[]): void {
+  writeLabaCache(`tracked_reels_${sanitizeCacheKeyPart(userId)}_${sanitizeCacheKeyPart(accountId)}`, reels);
+}
+
+export function clearTrackedReelsCache(userId: number, accountId: string): void {
+  removeLabaCache(`tracked_reels_${sanitizeCacheKeyPart(userId)}_${sanitizeCacheKeyPart(accountId)}`);
+}
 
 // ================================================
 // УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ

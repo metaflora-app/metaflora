@@ -5,8 +5,22 @@ import { LabaFilterButton } from '../../components/laba/LabaFilterButton';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
-import { LABA_COSTS, Reel } from '../../types/laba';
-import { getFavorites, getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import { LABA_COSTS, Reel, TopReelCategory } from '../../types/laba';
+import {
+  cacheFavorites,
+  cacheSearchReels,
+  cacheTopReels,
+  getCachedFavorites,
+  getCachedSearchReels,
+  getCachedTopReels,
+  getFavorites,
+  getTelegramUserId,
+  getTopReels,
+  searchReels,
+  showMessage,
+  toggleFavorite,
+  trackAccount,
+} from '../../utils/labaApi';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import searchIcon from '../../assets/иконка поиск.png';
@@ -17,6 +31,7 @@ const sortOptions = ['>просмотров', '<просмотров', '>лай�
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
 const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
+const TOP_REEL_CATEGORIES: TopReelCategory[] = ['нейросети', 'маркетинг', 'контент', 'продвижение'];
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -27,9 +42,22 @@ export const LabaMainScreen: React.FC = () => {
     labaMainSearchQuery,
     setLabaMainSearchQuery,
   } = useUIState();
+  const initialCachedSearchReels = React.useMemo(
+    () => labaMainSearchQuery.trim() ? getCachedSearchReels(labaMainSearchQuery) : [],
+    [labaMainSearchQuery]
+  );
+  const initialCachedTopReels = React.useMemo(
+    () => TOP_REEL_CATEGORIES.flatMap((category) => getCachedTopReels(category)),
+    []
+  );
+  const initialReels = labaReelsCache.length > 0
+    ? labaReelsCache
+    : initialCachedSearchReels.length > 0
+      ? initialCachedSearchReels
+      : initialCachedTopReels;
 
-  const [reels, setReels] = React.useState<Reel[]>(labaReelsCache);
-  const [loading, setLoading] = React.useState(labaReelsCache.length === 0);
+  const [reels, setReels] = React.useState<Reel[]>(initialReels);
+  const [loading, setLoading] = React.useState(initialReels.length === 0);
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
@@ -39,20 +67,23 @@ export const LabaMainScreen: React.FC = () => {
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
   const [isSearchPressed, setIsSearchPressed] = React.useState(false);
   const [hasSearchResults, setHasSearchResults] = React.useState(
-    () => labaReelsCache.length > 0 && labaMainSearchQuery.trim().length > 0
+    () => labaMainSearchQuery.trim().length > 0 && (initialCachedSearchReels.length > 0 || labaReelsCache.length > 0)
   );
   const reelsScrollRef = React.useRef<HTMLDivElement | null>(null);
 
   const loadTopReels = React.useCallback(async () => {
     setLoading(true);
     try {
-      const [neuro, marketing, content, promotion] = await Promise.all([
+      const results = await Promise.all([
         getTopReels('нейросети'),
         getTopReels('маркетинг'),
         getTopReels('контент'),
         getTopReels('продвижение'),
       ]);
-      const allReels = [...neuro, ...marketing, ...content, ...promotion];
+      results.forEach((items, index) => {
+        cacheTopReels(TOP_REEL_CATEGORIES[index], items);
+      });
+      const allReels = results.flat();
       setReels(allReels);
       setLabaReelsCache(allReels);
       setHasSearchResults(false);
@@ -65,10 +96,10 @@ export const LabaMainScreen: React.FC = () => {
   }, [setLabaReelsCache]);
 
   React.useEffect(() => {
-    if (labaReelsCache.length === 0) {
+    if (initialReels.length === 0) {
       void loadTopReels();
     }
-  }, [labaReelsCache.length, loadTopReels]);
+  }, [initialReels.length, loadTopReels]);
 
   React.useEffect(() => {
     const hydrateFavorites = async () => {
@@ -78,7 +109,12 @@ export const LabaMainScreen: React.FC = () => {
       }
 
       try {
+        const cachedFavorites = getCachedFavorites(userId);
+        if (cachedFavorites.length > 0) {
+          setLikedCards(new Set(cachedFavorites.map((reel) => reel.id)));
+        }
         const favoriteReels = await getFavorites(userId);
+        cacheFavorites(userId, favoriteReels);
         setLikedCards(new Set(favoriteReels.map((reel) => reel.id)));
       } catch (error) {
         console.error('Ошибка загрузки избранного:', error);
@@ -181,6 +217,7 @@ export const LabaMainScreen: React.FC = () => {
     showMessage('начался поиск рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
     try {
       const foundReels = await searchReels(keyword, userId);
+      cacheSearchReels(keyword, foundReels);
       setReels(foundReels);
       setLabaReelsCache(foundReels);
       setHasSearchResults(true);
@@ -197,15 +234,26 @@ export const LabaMainScreen: React.FC = () => {
   const handleToggleFavorite = async (reelId: string) => {
     const userId = getTelegramUserId();
     if (!userId) return;
+    const targetReel = reels.find((item) => item.id === reelId);
 
     try {
       const nextIsFavorite = await toggleFavorite(reelId, userId);
+      setReels((prev) => prev.map((item) => item.id === reelId ? { ...item, isFavorite: nextIsFavorite } : item));
       setLikedCards((prev) => {
         const next = new Set(prev);
         if (nextIsFavorite) next.add(reelId);
         else next.delete(reelId);
         return next;
       });
+      const cachedFavorites = getCachedFavorites(userId);
+      if (nextIsFavorite && targetReel) {
+        cacheFavorites(userId, [
+          { ...targetReel, isFavorite: true },
+          ...cachedFavorites.filter((item) => item.id !== reelId),
+        ]);
+      } else {
+        cacheFavorites(userId, cachedFavorites.filter((item) => item.id !== reelId));
+      }
       showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
     } catch (error) {
       console.error('Ошибка избранного:', error);

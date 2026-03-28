@@ -29,14 +29,14 @@ export const AcademyLessonVideoScreen: React.FC = () => {
 
   // Кэшируем данные урока и видео (отдельно для academy и demo)
   const [lesson, setLesson] = useState<AcademyLesson | null>(() => {
-    const cached = sessionStorage.getItem(`${lessonType}_lesson_${lessonId}`);
+    const cached = lessonId ? sessionStorage.getItem(`${lessonType}_lesson_${lessonId}`) : null;
     return cached ? JSON.parse(cached) : null;
   });
   const [video, setVideo] = useState<AcademyVideo | null>(() => {
-    const cached = sessionStorage.getItem(`${lessonType}_video_${lessonId}`);
+    const cached = lessonId ? sessionStorage.getItem(`${lessonType}_video_${lessonId}`) : null;
     return cached ? JSON.parse(cached) : null;
   });
-  const [, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [playerActivated, setPlayerActivated] = useState(false);
   const canUseCustomPlayer = Boolean(video?.video_url);
   const canRenderAnyPlayer = Boolean(video?.video_url || video?.video_id);
@@ -44,11 +44,16 @@ export const AcademyLessonVideoScreen: React.FC = () => {
 
   useEffect(() => {
     if (lessonId) {
+      const cachedLesson = sessionStorage.getItem(`${lessonType}_lesson_${lessonId}`);
+      const cachedVideo = sessionStorage.getItem(`${lessonType}_video_${lessonId}`);
+      setLesson(cachedLesson ? JSON.parse(cachedLesson) : null);
+      setVideo(cachedVideo ? JSON.parse(cachedVideo) : null);
+      setPlayerActivated(false);
       loadLesson(lessonId);
     } else {
       setLoading(false);
     }
-  }, [lessonId]);
+  }, [lessonId, lessonType]);
 
   const loadLesson = async (id: string) => {
     setLoading(true);
@@ -77,9 +82,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         sessionStorage.setItem(`${lessonType}_video_${id}`, JSON.stringify(videoResult.data[0]));
       } else {
         console.log('❌ No video found for lesson:', id);
+        setVideo(null);
       }
     } catch (error) {
       console.error('Error loading lesson:', error);
+      setVideo(null);
     } finally {
       setLoading(false);
     }
@@ -151,7 +158,17 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           />
         ) : (
           <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-            {video?.video_id ? (
+            {loading ? (
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '40px',
+                  overflow: 'hidden',
+                  background: '#000',
+                }}
+              />
+            ) : video?.video_id ? (
             <AboutVideoPlayer
               videoId={video.video_id}
               autoPlay={playerActivated}
@@ -186,7 +203,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               </div>
             )}
 
-            {!playerActivated && canRenderAnyPlayer ? (
+            {!loading && !playerActivated && canRenderAnyPlayer ? (
               <button
                 type="button"
                 onClick={handleActivatePlayer}

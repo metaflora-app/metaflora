@@ -19,7 +19,11 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
   const lessonType = searchParams.get('type') || 'academy';
   const title = searchParams.get('title') || '';
   const poster = searchParams.get('poster') || '';
-  const [video, setVideo] = React.useState<AcademyVideo | null>(null);
+  const [video, setVideo] = React.useState<AcademyVideo | null>(() => {
+    const cached = lessonId ? sessionStorage.getItem(`${lessonType}_video_${lessonId}`) : null;
+    return cached ? JSON.parse(cached) : null;
+  });
+  const [loading, setLoading] = React.useState(true);
 
   const userId = React.useMemo(() => (
     lessonType === 'academy' ? getTelegramUserId() : null
@@ -36,9 +40,13 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
   }, [lessonId, lessonType]);
 
   React.useEffect(() => {
-    if (!lessonId) return;
+    if (!lessonId) {
+      setLoading(false);
+      return;
+    }
 
     const loadVideo = async () => {
+      setLoading(true);
       try {
         const result = lessonType === 'demo'
           ? await getDemoVideos(lessonId)
@@ -46,13 +54,19 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
 
         if (!result.error && result.data?.length) {
           setVideo(result.data[0]);
+          sessionStorage.setItem(`${lessonType}_video_${lessonId}`, JSON.stringify(result.data[0]));
+        } else {
+          setVideo(null);
         }
       } catch (error) {
         console.error('Error loading fullscreen video:', error);
+        setVideo(null);
+      } finally {
+        setLoading(false);
       }
     };
 
-    loadVideo();
+    void loadVideo();
   }, [lessonId, lessonType]);
 
   const handlePlaybackStart = React.useCallback(() => {
@@ -114,7 +128,18 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
           padding: '90px 24px 24px',
         }}
       >
-        {video?.video_url ? (
+        {loading ? (
+          <div
+            style={{
+              width: '894px',
+              height: '1457px',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              borderRadius: '24px',
+              background: '#000',
+            }}
+          />
+        ) : video?.video_url ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={video.title || title}

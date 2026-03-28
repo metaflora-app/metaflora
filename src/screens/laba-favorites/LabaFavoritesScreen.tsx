@@ -4,7 +4,7 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFilterButton } from '../../components/laba/LabaFilterButton';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel } from '../../types/laba';
-import { getFavorites, getTelegramUserId, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import { cacheFavorites, getCachedFavorites, getFavorites, getTelegramUserId, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
 
@@ -17,8 +17,13 @@ const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', 
 export const LabaFavoritesScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [reels, setReels] = React.useState<Reel[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const initialCachedReels = React.useMemo(() => {
+    const userId = getTelegramUserId();
+    return userId ? getCachedFavorites(userId) : [];
+  }, []);
+  const hasInitialCachedReels = initialCachedReels.length > 0;
+  const [reels, setReels] = React.useState<Reel[]>(initialCachedReels);
+  const [loading, setLoading] = React.useState(initialCachedReels.length === 0);
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
@@ -28,9 +33,12 @@ export const LabaFavoritesScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) return;
 
-    setLoading(true);
+    if (!hasInitialCachedReels) {
+      setLoading(true);
+    }
     try {
       const favoriteReels = await getFavorites(userId);
+      cacheFavorites(userId, favoriteReels);
       setReels(favoriteReels);
     } catch (error) {
       console.error('Ошибка загрузки избранного:', error);
@@ -38,7 +46,7 @@ export const LabaFavoritesScreen: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [hasInitialCachedReels]);
 
   React.useEffect(() => {
     void loadFavorites();
@@ -125,10 +133,13 @@ export const LabaFavoritesScreen: React.FC = () => {
     try {
       const nextIsFavorite = await toggleFavorite(reelId, userId);
       if (!nextIsFavorite) {
-        setReels((prev) => prev.filter((item) => item.id !== reelId));
+        const nextReels = reels.filter((item) => item.id !== reelId);
+        setReels(nextReels);
+        cacheFavorites(userId, nextReels);
         showMessage('рилс удален из избранного', 'popup');
         return;
       }
+      cacheFavorites(userId, reels);
       showMessage('рилс добавлен в избранное', 'popup');
     } catch (error) {
       console.error('Ошибка удаления из избранного:', error);

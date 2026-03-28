@@ -4,7 +4,14 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel, TrackedAccount } from '../../types/laba';
 import {
+  cacheFavorites,
+  cacheTrackedAccounts,
+  cacheTrackedReels,
+  clearTrackedReelsCache,
   formatFollowersLabel,
+  getCachedFavorites,
+  getCachedTrackedAccounts,
+  getCachedTrackedReels,
   getInstagramAvatarSources,
   getTelegramUserId,
   getTrackedAccounts,
@@ -27,30 +34,45 @@ export const LabaTrackedScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const telegramUserId = React.useMemo(() => getTelegramUserId(), []);
   const navigationState = (location.state as { trackingStarted?: boolean; trackedAccountId?: string } | null) ?? null;
   const preselectedAccountId = React.useMemo(
     () => new URLSearchParams(location.search).get('accountId'),
     [location.search]
   );
+  const initialCachedAccounts = React.useMemo(
+    () => telegramUserId ? getCachedTrackedAccounts(telegramUserId) : [],
+    [telegramUserId]
+  );
+  const hasInitialCachedAccounts = initialCachedAccounts.length > 0;
 
-  const [accounts, setAccounts] = React.useState<TrackedAccount[]>([]);
-  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(null);
+  const [accounts, setAccounts] = React.useState<TrackedAccount[]>(initialCachedAccounts);
+  const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(
+    preselectedAccountId && initialCachedAccounts.some((item) => item.id === preselectedAccountId)
+      ? preselectedAccountId
+      : initialCachedAccounts[0]?.id || null
+  );
   const [reels, setReels] = React.useState<Reel[]>([]);
-  const [loadingAccounts, setLoadingAccounts] = React.useState(true);
+  const [loadingAccounts, setLoadingAccounts] = React.useState(initialCachedAccounts.length === 0);
   const [loadingReels, setLoadingReels] = React.useState(false);
-  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
+  const [likedCards, setLikedCards] = React.useState<Set<string>>(
+    () => new Set((telegramUserId ? getCachedFavorites(telegramUserId) : []).map((reel) => reel.id))
+  );
   const [showAvatarRemoveForId, setShowAvatarRemoveForId] = React.useState<string | null>(null);
   const pendingTrackedAccountIdRef = React.useRef<string | null>(navigationState?.trackedAccountId ?? null);
   const hasShownTrackingSuccessPopupRef = React.useRef(false);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
-      const userId = getTelegramUserId();
+      const userId = telegramUserId;
       if (!userId) return;
 
-      setLoadingAccounts(true);
+      if (!hasInitialCachedAccounts) {
+        setLoadingAccounts(true);
+      }
       try {
         const trackedAccounts = await getTrackedAccounts(userId);
+        cacheTrackedAccounts(userId, trackedAccounts);
         setAccounts(trackedAccounts);
         setSelectedAccountId((current) => {
           if (preselectedAccountId && trackedAccounts.some((item) => item.id === preselectedAccountId)) {
@@ -67,21 +89,36 @@ export const LabaTrackedScreen: React.FC = () => {
     };
 
     void fetchAccounts();
-  }, [preselectedAccountId]);
+  }, [hasInitialCachedAccounts, preselectedAccountId, telegramUserId]);
+
+  React.useEffect(() => {
+    if (!telegramUserId) return;
+    const cachedFavorites = getCachedFavorites(telegramUserId);
+    if (cachedFavorites.length > 0) {
+      setLikedCards(new Set(cachedFavorites.map((reel) => reel.id)));
+    }
+  }, [telegramUserId]);
 
   React.useEffect(() => {
     const fetchReels = async () => {
       if (!selectedAccountId) return;
-      const userId = getTelegramUserId();
+      const userId = telegramUserId;
       if (!userId) return;
 
-      setLoadingReels(true);
+      const cachedTracked = getCachedTrackedReels(userId, selectedAccountId);
+      if (cachedTracked.length > 0) {
+        setReels(cachedTracked);
+        setLoadingReels(false);
+      } else {
+        setLoadingReels(true);
+      }
       try {
         let trackedReels = await getTrackedReels(selectedAccountId, userId);
         if (trackedReels.length === 0) {
           await scrapeAccountReels(selectedAccountId, userId);
           trackedReels = await getTrackedReels(selectedAccountId, userId);
         }
+        cacheTrackedReels(userId, selectedAccountId, trackedReels);
         setReels(trackedReels);
         if (
           !hasShownTrackingSuccessPopupRef.current &&
@@ -102,7 +139,7 @@ export const LabaTrackedScreen: React.FC = () => {
     };
 
     void fetchReels();
-  }, [selectedAccountId]);
+  }, [selectedAccountId, telegramUserId]);
 
   React.useEffect(() => {
     if (!loadingAccounts && accounts.length === 0) {
@@ -111,17 +148,28 @@ export const LabaTrackedScreen: React.FC = () => {
   }, [accounts.length, loadingAccounts, navigate]);
 
   const handleToggleFavorite = async (reelId: string) => {
-    const userId = getTelegramUserId();
+    const userId = telegramUserId;
     if (!userId) return;
+    const targetReel = reels.find((item) => item.id === reelId);
 
     try {
       const nextIsFavorite = await toggleFavorite(reelId, userId);
+      setReels((prev) => prev.map((item) => item.id === reelId ? { ...item, isFavorite: nextIsFavorite } : item));
       setLikedCards((prev) => {
         const next = new Set(prev);
         if (nextIsFavorite) next.add(reelId);
         else next.delete(reelId);
         return next;
       });
+      const cachedFavorites = getCachedFavorites(userId);
+      if (nextIsFavorite && targetReel) {
+        cacheFavorites(userId, [
+          { ...targetReel, isFavorite: true },
+          ...cachedFavorites.filter((item) => item.id !== reelId),
+        ]);
+      } else {
+        cacheFavorites(userId, cachedFavorites.filter((item) => item.id !== reelId));
+      }
       showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
     } catch (error) {
       console.error('Ошибка избранного:', error);
@@ -129,12 +177,14 @@ export const LabaTrackedScreen: React.FC = () => {
   };
 
   const removeAccount = async (accountId: string) => {
-    const userId = getTelegramUserId();
+    const userId = telegramUserId;
     if (!userId) return;
 
     try {
       await untrackAccount(accountId, userId);
       const nextAccounts = accounts.filter((account) => account.id !== accountId);
+      cacheTrackedAccounts(userId, nextAccounts);
+      clearTrackedReelsCache(userId, accountId);
       setAccounts(nextAccounts);
       setSelectedAccountId(nextAccounts[0]?.id || null);
       setShowAvatarRemoveForId((current) => (current === accountId ? null : current));

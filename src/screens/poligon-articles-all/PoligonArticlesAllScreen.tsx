@@ -5,6 +5,7 @@ import { getPolygonArticles } from '../../utils/contentApi';
 import type { PolygonArticle } from '../../types/content';
 import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { FigmaReadButton } from '../../components/FigmaPills';
 import returnButton from '../../assets/poligon-redesign/кнопка вернуть.png';
 import systemActive from '../../assets/poligon-redesign/кнопка система актив.png';
 import systemInactive from '../../assets/poligon-redesign/кнопка система неактив.png';
@@ -71,7 +72,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
     };
 
     loadArticles();
-  }, [activeFilters]);
+  }, []);
 
   const visibleArticles = useMemo(() => {
     const filtered = activeFilters.length
@@ -180,16 +181,17 @@ const PoligonArticlesAllScreen: React.FC = () => {
                       </div>
                     </div>
 
-                    <button
-                      type="button"
+                    <FigmaReadButton
+                      label="читать"
+                      labelWidth={150}
                       onClick={() => navigate(`/article/${article.id}`)}
-                      className="premium-button-shell motion-press-grow"
-                      style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', borderRadius: '62px', border: '4px solid rgba(255,255,255,0.3)', background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(50px)', padding: 0, cursor: 'pointer', overflow: 'visible', color: '#fff' }}
-                    >
-                      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '27px', lineHeight: '1', color: 'white', transform: 'translateY(-2px)', pointerEvents: 'none', zIndex: 2 }}>
-                        читать
-                      </div>
-                    </button>
+                      className="button-inner-glow"
+                      style={{
+                        position: 'absolute',
+                        left: '101px',
+                        top: '85px',
+                      }}
+                    />
                   </InteractiveTiltCard>
                 );
               })

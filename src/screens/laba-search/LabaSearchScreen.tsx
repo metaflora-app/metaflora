@@ -9,7 +9,6 @@ const SIDEBAR_HOTSPOTS = [
   { left: 602, top: 1890, width: 82, height: 94, route: '/laba-favorites' },
   { left: 737, top: 1890, width: 82, height: 94, route: '/metacoins' },
 ];
-const SIDEBAR_PILL_POSITIONS = [14, 149, 285, 420];
 
 const logoSmall = 'https://www.figma.com/api/mcp/asset/6cc89443-e3dd-4f50-8766-f7549c24f1c1';
 const backgroundBase = 'https://www.figma.com/api/mcp/asset/ae38eb1c-b28c-46b9-a9c2-040a5cec66df';
@@ -20,12 +19,10 @@ const sidebarIcons = 'https://www.figma.com/api/mcp/asset/962a497e-6ecb-4126-913
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [activeSidebarIndex, setActiveSidebarIndex] = React.useState(1);
 
   const snapToSidebarIndex = React.useCallback((index: number) => {
-    const safeIndex = Math.max(0, Math.min(index, SIDEBAR_PILL_POSITIONS.length - 1));
-    setActiveSidebarIndex(safeIndex);
-    window.setTimeout(() => navigate(SIDEBAR_HOTSPOTS[safeIndex].route), 160);
+    const safeIndex = Math.max(0, Math.min(index, SIDEBAR_HOTSPOTS.length - 1));
+    navigate(SIDEBAR_HOTSPOTS[safeIndex].route);
   }, [navigate]);
 
   return (
@@ -72,7 +69,6 @@ export const LabaSearchScreen: React.FC = () => {
         </div>
 
         <div
-          className="pricing-card-shell"
           style={{
             position: 'absolute',
             left: '320px',
@@ -85,12 +81,7 @@ export const LabaSearchScreen: React.FC = () => {
             backdropFilter: 'blur(50px)',
           }}
         >
-          <div className="pricing-card-sheen-zone">
-            <div className="pricing-card-sheen" />
-            <div className="pricing-card-sheen pricing-card-sheen-soft" />
-          </div>
-          <div className="glass-sidebar-pill" style={{ transform: `translateX(${SIDEBAR_PILL_POSITIONS[activeSidebarIndex]}px)` }} />
-          <div style={{ position: 'absolute', left: '0', top: '21px', width: '534px', height: '98px', overflow: 'hidden', pointerEvents: 'none' }}>
+          <div style={{ position: 'absolute', left: '0', top: '21px', width: '534px', height: '98px', overflow: 'hidden', pointerEvents: 'none', zIndex: 1 }}>
             <img
               src={sidebarIcons}
               alt="сайдбар иконки новые"
