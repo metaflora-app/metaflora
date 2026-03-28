@@ -59,6 +59,22 @@ export async function getWorkshopPromptById(id: string): Promise<ContentItemResp
   }
 }
 
+export async function getWorkshopPromptByIdWithCache(id: string): Promise<ContentItemResponse<WorkshopPrompt>> {
+  const cacheKey = `workshop_prompt_${id}`;
+  const cached = getCachedData<ContentItemResponse<WorkshopPrompt>>(cacheKey);
+
+  if (cached?.data) {
+    return cached;
+  }
+
+  const result = await getWorkshopPromptById(id);
+  if (!result.error && result.data) {
+    setCachedData(cacheKey, result);
+  }
+
+  return result;
+}
+
 export async function trackWorkshopPromptView(id: string, userId?: number | null): Promise<boolean> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/content/workshop-prompts/${id}/view`, {

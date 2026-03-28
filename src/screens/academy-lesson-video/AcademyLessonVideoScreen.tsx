@@ -149,6 +149,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         {canUseCustomPlayer && video ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
+            poster={video.poster_url || lesson?.cover_image_url || undefined}
             title={lesson?.video_title || lesson?.title || video.title}
             initialTime={initialTime}
             onExpand={handleExpand}

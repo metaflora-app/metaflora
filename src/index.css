@@ -301,9 +301,8 @@ body {
 .premium-static-shell::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -0.5px;
   border-radius: inherit;
-  padding: 2px;
   background: conic-gradient(
     from 0deg,
     rgba(255, 255, 255, 0.01) 0deg,
@@ -317,15 +316,10 @@ body {
     rgba(255, 255, 255, 0.01) 360deg
   );
   animation: premiumButtonGlowRotate 18s linear infinite;
-  opacity: 0.6;
+  opacity: 0.9;
   pointer-events: none;
   z-index: 0;
   will-change: transform;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
 }
 
 .premium-button-shell::after,
@@ -335,8 +329,8 @@ body {
   inset: -1px;
   border-radius: inherit;
   box-shadow:
-    0 0 3px rgba(255, 255, 255, 0.12),
-    0 0 6px rgba(255, 255, 255, 0.04);
+    0 0 4px rgba(255, 255, 255, 0.18),
+    0 0 8px rgba(255, 255, 255, 0.06);
   pointer-events: none;
   z-index: 0;
 }
@@ -375,6 +369,7 @@ body {
 .premium-button-content {
   position: relative;
   z-index: 2;
+  isolation: isolate;
 }
 
 .motion-press-grow {
@@ -692,11 +687,25 @@ input::placeholder {
     filter: brightness(1) contrast(1);
   }
   50% {
-    filter: brightness(1.1) contrast(1.02);
+    filter: brightness(1.35) contrast(1.05);
   }
 }
 
 .button-inner-glow {
+  animation: buttonInnerGlow 5s ease-in-out infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: filter;
+}
+
+.premium-button-shell.button-inner-glow,
+.premium-static-shell.button-inner-glow {
+  animation: none;
+}
+
+.premium-button-shell.button-inner-glow .premium-button-inner,
+.premium-static-shell.button-inner-glow .premium-static-inner {
   animation: buttonInnerGlow 5s ease-in-out infinite;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;

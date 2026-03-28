@@ -131,6 +131,7 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
         {video?.video_url ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
+            poster={video.poster_url || undefined}
             title={video.title || title}
             initialTime={restorePosition}
             autoPlay

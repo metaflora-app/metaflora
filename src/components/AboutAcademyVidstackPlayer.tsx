@@ -18,6 +18,7 @@ import speedIcon from '../assets/about-academy-player/speed-icon.svg';
 import timelineThumb from '../assets/about-academy-player/timeline-thumb.svg';
 import timelineTrack from '../assets/about-academy-player/timeline-track.svg';
 import volumeIcon from '../assets/about-academy-player/volume-icon.svg';
+import defaultVideoPoster from '../assets/tour-video/video-thumbnail.png';
 
 const CONTROL_SIZE = 100;
 const ICON_SIZE = 90;
@@ -47,6 +48,7 @@ type FlashOverlayState = 'seek-backward' | 'seek-forward' | null;
 
 interface AboutAcademyVidstackPlayerProps {
   src?: string;
+  poster?: string;
   title?: string;
   style?: React.CSSProperties;
   autoPlay?: boolean;
@@ -115,6 +117,7 @@ function formatTimeLabel(seconds: number): string {
 
 export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProps> = ({
   src = '/about-academy-test-video.mp4',
+  poster,
   title = 'Как устроена МЕТАФЛОРА академия',
   style = {},
   autoPlay = false,
@@ -133,6 +136,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const watchThresholdReachedRef = React.useRef(false);
   const [playbackRate, setPlaybackRate] = React.useState(1);
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
+  const [posterSrc, setPosterSrc] = React.useState<string>(poster || defaultVideoPoster);
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
   const fillPercent = React.useMemo(() => {
@@ -156,6 +160,65 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     setFlashOverlay(null);
     setPlaybackRate(1);
   }, [initialTime, src]);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    setPosterSrc(poster || defaultVideoPoster);
+
+    if (poster) {
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const probeVideo = document.createElement('video');
+    probeVideo.src = src;
+    probeVideo.muted = true;
+    probeVideo.playsInline = true;
+    probeVideo.preload = 'auto';
+    probeVideo.crossOrigin = 'anonymous';
+
+    const captureFrame = () => {
+      if (cancelled || probeVideo.videoWidth === 0 || probeVideo.videoHeight === 0) {
+        return;
+      }
+
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = probeVideo.videoWidth;
+        canvas.height = probeVideo.videoHeight;
+        const context = canvas.getContext('2d');
+
+        if (!context) {
+          return;
+        }
+
+        context.drawImage(probeVideo, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+
+        if (!cancelled) {
+          setPosterSrc(dataUrl);
+        }
+      } catch (error) {
+        console.error('Poster capture failed:', error);
+      }
+    };
+
+    const handleLoadedData = () => {
+      captureFrame();
+    };
+
+    probeVideo.addEventListener('loadeddata', handleLoadedData);
+    probeVideo.load();
+
+    return () => {
+      cancelled = true;
+      probeVideo.removeEventListener('loadeddata', handleLoadedData);
+      probeVideo.pause();
+      probeVideo.removeAttribute('src');
+      probeVideo.load();
+    };
+  }, [poster, src]);
 
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
@@ -287,6 +350,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     });
   }, [getPlayer, media.playbackRate]);
 
+  const shouldShowPoster = Boolean(posterSrc) && media.currentTime < 0.05;
+
   return (
     <div
       className="about-academy-vidstack"
@@ -326,6 +391,23 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             background: '#000',
           }}
         />
+
+        {shouldShowPoster ? (
+          <img
+            src={posterSrc}
+            alt=""
+            className="academy-vidstack-poster"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 1,
+              pointerEvents: 'none',
+            }}
+          />
+        ) : null}
 
         <div
           style={{

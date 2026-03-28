@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import { getWorkshopPromptsWithCache } from '../../utils/contentApi';
+import { getCachedData, getWorkshopPromptsWithCache } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
 import {
   getPromptFavoriteIds,
@@ -23,6 +23,7 @@ import tinyLogo from '../../assets/prompt-redesign/лого очень мале�
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
 const SORT_OPTIONS = ['LLM', 'фото', 'видео', 'другое'] as const;
+const PROMPTS_CACHE_KEY = 'workshop_prompts_{"isActive":true,"limit":50,"offset":0}';
 
 type PromptFilter = 'new' | 'recent' | 'favorites' | null;
 type PromptSortFilter = typeof SORT_OPTIONS[number] | null;
@@ -70,8 +71,12 @@ const getPromptSortLabel = (prompt: WorkshopPrompt): PromptSortFilter => {
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [prompts, setPrompts] = React.useState<WorkshopPrompt[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const cachedPrompts = React.useMemo(() => {
+    const cached = getCachedData<{ data: WorkshopPrompt[] }>(PROMPTS_CACHE_KEY);
+    return cached?.data ?? [];
+  }, []);
+  const [prompts, setPrompts] = React.useState<WorkshopPrompt[]>(cachedPrompts);
+  const [, setLoading] = React.useState(() => cachedPrompts.length === 0);
   const [activeFilter, setActiveFilter] = React.useState<PromptFilter>(null);
   const [activeSortFilter, setActiveSortFilter] = React.useState<PromptSortFilter>(null);
   const [favoriteIds, setFavoriteIds] = React.useState<string[]>([]);
@@ -84,7 +89,9 @@ export const PromptFirstScreen: React.FC = () => {
     let mounted = true;
 
     const loadPrompts = async () => {
-      setLoading(true);
+      if (cachedPrompts.length === 0) {
+        setLoading(true);
+      }
       try {
         const result = await getWorkshopPromptsWithCache({ isActive: true, limit: 50, offset: 0 });
         if (mounted && !result.error) {
@@ -104,7 +111,7 @@ export const PromptFirstScreen: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [cachedPrompts.length]);
 
   const visiblePrompts = React.useMemo(() => {
     const items = [...prompts];
@@ -136,30 +143,8 @@ export const PromptFirstScreen: React.FC = () => {
   }, [activeFilter, activeSortFilter, favoriteIds, prompts]);
 
   const promptsToRender = React.useMemo(() => {
-    if (loading) {
-      return Array.from({ length: 2 }, (_, index) => ({
-        id: `loading-${index}`,
-        title: 'ИИ-копирайтер для блога',
-        description: 'подготавливаем реальные промпты из бэкенда',
-        prompt_text: '',
-        media_type: 'image' as const,
-        cover_image_url: null,
-        cover_video_url: null,
-        poster_image_url: null,
-        filter_tags: ['новое'],
-        search_keywords: [],
-        views_count: 0,
-        copies_count: 0,
-        likes_count: 0,
-        is_active: true,
-        order_index: index,
-        created_at: '',
-        updated_at: '',
-      } satisfies WorkshopPrompt));
-    }
-
     return visiblePrompts;
-  }, [loading, visiblePrompts]);
+  }, [visiblePrompts]);
 
   const handleToggleFavorite = (promptId: string) => {
     const nextIsFavorite = togglePromptFavorite(promptId);
@@ -339,9 +324,8 @@ export const PromptFirstScreen: React.FC = () => {
 
                   <FigmaLikeButton
                     active={isFavorite}
-                    disabled={prompt.id.startsWith('loading-')}
                     effectVariant="tiktok"
-                    onClick={() => !prompt.id.startsWith('loading-') && handleToggleFavorite(prompt.id)}
+                    onClick={() => handleToggleFavorite(prompt.id)}
                     style={{ position: 'absolute', left: '73px', top: '59px', zIndex: 2 }}
                   />
                   {isNew ? (
@@ -381,7 +365,7 @@ export const PromptFirstScreen: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => !prompt.id.startsWith('loading-') && handleOpenPromptCard(prompt.id)}
+                    onClick={() => handleOpenPromptCard(prompt.id)}
                     className="premium-button-shell button-inner-glow motion-press-grow"
                     style={{
                       position: 'absolute',
@@ -393,7 +377,7 @@ export const PromptFirstScreen: React.FC = () => {
                       border: 'none',
                       background: 'transparent',
                       padding: 0,
-                      cursor: prompt.id.startsWith('loading-') ? 'default' : 'pointer',
+                      cursor: 'pointer',
                       zIndex: 999,
                       overflow: 'hidden',
                     }}

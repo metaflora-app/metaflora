@@ -2,27 +2,30 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { copyToClipboard } from '../../utils/clipboard';
-import { getWorkshopPromptById, trackWorkshopPromptCopy, trackWorkshopPromptView } from '../../utils/contentApi';
+import { getCachedData, getWorkshopPromptByIdWithCache, trackWorkshopPromptCopy, trackWorkshopPromptView } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
 import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import promptBadge from '../../assets/shared-redesign/плашка промпт.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
-import skeletonPrompt from '../../assets/prompt-redesign/скелет промпт.png';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { isPromptFavorite, markPromptViewed, togglePromptFavorite } from '../../utils/promptInteractions';
-
-const FALLBACK_TEXT = `A close-up of a campfire burning intensely, flames dancing and flickering, the fire gradually fills the entire frame, warm orange glow.
-
-А второй клип начинается с солнца, которое тоже заполняет кадр:
-
-A bright orange sun rising over the ocean horizon, starting as a small glowing orb that.`;
 
 export const PromptCardScreen: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [prompt, setPrompt] = useState<WorkshopPrompt | null>(null);
+  const [prompt, setPrompt] = useState<WorkshopPrompt | null>(() => {
+    if (!id) return null;
+
+    const cachedPrompt = getCachedData<{ data: WorkshopPrompt }>(`workshop_prompt_${id}`);
+    if (cachedPrompt?.data) {
+      return cachedPrompt.data;
+    }
+
+    const cachedList = getCachedData<{ data: WorkshopPrompt[] }>('workshop_prompts_{"isActive":true,"limit":50,"offset":0}');
+    return cachedList?.data?.find((item) => item.id === id) ?? null;
+  });
   const [isFavorite, setIsFavorite] = useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
@@ -30,7 +33,7 @@ export const PromptCardScreen: React.FC = () => {
     const loadPrompt = async () => {
       if (!id) return;
       try {
-        const result = await getWorkshopPromptById(id);
+        const result = await getWorkshopPromptByIdWithCache(id);
         if (!result.error && result.data) {
           setPrompt(result.data);
         }
@@ -50,9 +53,9 @@ export const PromptCardScreen: React.FC = () => {
     void trackWorkshopPromptView(id, getTelegramUserId());
   }, [id]);
 
-  const title = useMemo(() => prompt?.title || 'ИИ-копирайтер для блога', [prompt]);
-  const promptText = useMemo(() => prompt?.prompt_text || FALLBACK_TEXT, [prompt]);
-  const isNew = useMemo(() => prompt?.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые') ?? true, [prompt]);
+  const title = useMemo(() => prompt?.title || '', [prompt]);
+  const promptText = useMemo(() => prompt?.prompt_text || '', [prompt]);
+  const isNew = useMemo(() => prompt?.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые') ?? false, [prompt]);
   const mediaType = useMemo(() => (prompt?.media_type === 'video' && prompt?.cover_video_url ? 'video' : 'image'), [prompt]);
   const contentHeight = useMemo(() => {
     const lineEstimate = promptText
@@ -124,13 +127,13 @@ export const PromptCardScreen: React.FC = () => {
                     preload="auto"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                ) : (
+                ) : prompt?.cover_image_url || prompt?.poster_image_url ? (
                   <img
-                    src={prompt?.cover_image_url || skeletonPrompt}
+                    src={prompt?.cover_image_url || prompt?.poster_image_url || ''}
                     alt={title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                )}
+                ) : null}
               </div>
 
               <FigmaLikeButton
