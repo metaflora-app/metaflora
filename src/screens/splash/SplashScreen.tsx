@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { preloadAllImages } from '../../utils/assetPreloader';
+import { preloadAllImages, preloadCriticalFonts } from '../../utils/assetPreloader';
 import { getOrCreateUser } from '../../utils/supabase';
 import { ThreeBg } from '../../components/ScreenLayout';
 import logo from '../../assets/figma-welcome/splash-logo.png';
@@ -13,14 +13,17 @@ export const SplashScreen: React.FC = () => {
     let isActive = true;
 
     const init = async () => {
+      void preloadCriticalFonts();
       void preloadAllImages();
-      const user = await getOrCreateUser();
+      const userPromise = getOrCreateUser().catch(() => null);
+      await new Promise((resolve) => window.setTimeout(resolve, 12000));
+      const user = await userPromise;
 
       if (!isActive) {
         return;
       }
 
-      if (user && user.subscription_type === 'premium') {
+      if (user?.subscription_type === 'premium') {
         navigate('/main-dashboard-premium');
       } else {
         navigate('/welcome');
