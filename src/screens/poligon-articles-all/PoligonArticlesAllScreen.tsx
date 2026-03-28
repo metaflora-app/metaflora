@@ -184,15 +184,13 @@ const PoligonArticlesAllScreen: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => navigate(`/article/${article.id}`)}
-                      className="premium-button-shell motion-press-grow"
-                      style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer', borderRadius: '62px', overflow: 'hidden' }}
+                      className="motion-press-grow"
+                      style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer', borderRadius: '62px', overflow: 'visible' }}
                     >
-                      <div className="premium-button-inner" />
                       <img
                         src={readButton}
                         alt="читать"
-                        className="button-inner-glow"
-                        style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+                        style={{ position: 'absolute', inset: 0, width: '247px', height: '80px', objectFit: 'contain', pointerEvents: 'none' }}
                       />
                     </button>
                   </InteractiveTiltCard>

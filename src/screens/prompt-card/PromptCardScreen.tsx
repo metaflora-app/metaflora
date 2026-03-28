@@ -99,7 +99,7 @@ export const PromptCardScreen: React.FC = () => {
 
         <FigmaMainBackdrop style={{ left: '31px', top: '399px' }} />
 
-        <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'visible' }}>
           <div
             style={{
               position: 'absolute',
@@ -190,17 +190,14 @@ export const PromptCardScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={handleCopy}
-                className="premium-button-shell button-inner-glow motion-press-grow"
-                style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', cursor: 'pointer', transform: 'translateX(-50%)', border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'hidden' }}
+                className="motion-press-grow"
+                style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', cursor: 'pointer', transform: 'translateX(-50%)', border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'visible' }}
               >
-                <div className="premium-button-inner" />
-                <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
-                  <img
-                    src={promptBadge}
-                    alt="плашка промпт"
-                    style={{ position: 'absolute', inset: '2px', width: 'calc(100% - 4px)', height: 'calc(100% - 4px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
-                  />
-                </div>
+                <img
+                  src={promptBadge}
+                  alt="плашка промпт"
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }}
+                />
               </button>
 
               <div onClick={handleCopy} style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)', cursor: 'pointer', paddingBottom: '40px' }}>

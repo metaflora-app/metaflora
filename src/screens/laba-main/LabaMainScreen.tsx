@@ -319,6 +319,8 @@ export const LabaMainScreen: React.FC = () => {
               padding: 0,
               border: 'none',
               background: 'transparent',
+              zIndex: 2,
+              boxShadow: '0 0 10px rgba(255,255,255,0.18), 0 0 18px rgba(255,255,255,0.08)',
             }}
           >
             <div className="premium-button-inner" />

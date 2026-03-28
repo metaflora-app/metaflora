@@ -306,7 +306,7 @@ export const PromptFirstScreen: React.FC = () => {
                     top: `${index * (CARD_HEIGHT + CARD_GAP)}px`,
                     width: '831px',
                     height: '1064px',
-                    overflow: 'hidden',
+                    overflow: 'visible',
                     isolation: 'isolate',
                   }}
                 >
