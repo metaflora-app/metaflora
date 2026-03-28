@@ -382,7 +382,7 @@ export const PromptFirstScreen: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => !prompt.id.startsWith('loading-') && handleOpenPromptCard(prompt.id)}
-                    className="button-inner-glow motion-press-grow"
+                    className="premium-button-shell button-inner-glow motion-press-grow"
                     style={{
                       position: 'absolute',
                       left: '293px',
@@ -390,33 +390,37 @@ export const PromptFirstScreen: React.FC = () => {
                       width: '246.9305px',
                       height: '79.25px',
                       borderRadius: '62px',
-                      border: '4px solid rgba(255,255,255,0.3)',
-                      background: 'rgba(0,0,0,0.9)',
+                      border: 'none',
+                      background: 'transparent',
                       padding: 0,
                       cursor: prompt.id.startsWith('loading-') ? 'default' : 'pointer',
                       zIndex: 999,
+                      overflow: 'hidden',
                     }}
                   >
-                    <div
-                      style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, calc(-50% - 6px))',
-                        width: '210px',
-                        height: '29.3116px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontFamily: 'Cygre',
-                        fontWeight: 700,
-                        fontSize: '27px',
-                        lineHeight: '1',
-                        color: 'white',
-                        textAlign: 'center',
-                      }}
-                    >
-                      скопировать
+                    <div className="premium-button-inner" />
+                    <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: '50%',
+                          top: '50%',
+                          transform: 'translate(-50%, calc(-50% - 6px))',
+                          width: '210px',
+                          height: '29.3116px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontFamily: 'Cygre',
+                          fontWeight: 700,
+                          fontSize: '27px',
+                          lineHeight: '1',
+                          color: 'white',
+                          textAlign: 'center',
+                        }}
+                      >
+                        скопировать
+                      </div>
                     </div>
                   </button>
 

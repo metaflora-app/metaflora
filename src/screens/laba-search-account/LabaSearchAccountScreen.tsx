@@ -202,7 +202,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => void handleSearch()}
-            className="premium-button-shell motion-press-grow"
+            className="premium-button-shell button-inner-glow motion-press-grow"
             style={{
               position: 'absolute',
               left: '290px',
@@ -227,21 +227,20 @@ export const LabaSearchAccountScreen: React.FC = () => {
           >
             <div className="premium-button-inner" />
             <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: '29px',
-                lineHeight: '1',
-                textAlign: 'center',
-                position: 'relative',
-                top: '-4px',
-              }}
-            >
-              найти
-            </span>
+              <span
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  lineHeight: '1',
+                  textAlign: 'center',
+                  transform: 'translateY(-4px)',
+                }}
+              >
+                найти
+              </span>
             </div>
           </button>
 
@@ -293,7 +292,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => void handleStartTracking()}
-                className="premium-button-shell motion-press-grow"
+                className="premium-button-shell button-inner-glow motion-press-grow"
                 style={{
                   position: 'absolute',
                   left: '150px',

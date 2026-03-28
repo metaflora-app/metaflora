@@ -33,7 +33,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/laba-search-account')}
-          className="premium-button-shell motion-press-grow"
+          className="premium-button-shell button-inner-glow motion-press-grow"
           style={{ position: 'absolute', left: '325px', top: '1169px', width: '530px', height: '139px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer', zIndex: 2, borderRadius: '62px', overflow: 'hidden' }}
         >
           <img

@@ -227,7 +227,7 @@ export const PricingScreen: React.FC = () => {
           </div>
 
           <div
-            className={`pricing-toggle-label ${selectedPlan === '3months' ? 'is-inactive' : 'is-active'}`}
+            className={`pricing-toggle-label ${selectedPlan === '3months' ? 'is-active' : 'is-inactive'}`}
             style={{
               position: 'absolute',
               left: '497px',
@@ -251,7 +251,7 @@ export const PricingScreen: React.FC = () => {
           </div>
 
           <div
-            className={`pricing-toggle-label ${selectedPlan === '1month' ? 'is-inactive' : 'is-active'}`}
+            className={`pricing-toggle-label ${selectedPlan === '1month' ? 'is-active' : 'is-inactive'}`}
             style={{
               position: 'absolute',
               left: '80px',

@@ -179,7 +179,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       {onOpenAnalysis ? (
         <button
           type="button"
-          className={`premium-button-shell ${isAnalysisPressed ? 'is-pressed' : ''}`}
+          className={`premium-button-shell button-inner-glow ${isAnalysisPressed ? 'is-pressed' : ''}`}
           onClick={(event) => {
             event.stopPropagation();
             onOpenAnalysis();
@@ -204,7 +204,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           }}
         >
           {openAnalysisButtonSrc ? (
-            <img src={openAnalysisButtonSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none', position: 'relative', zIndex: 2 }} />
+            <img src={openAnalysisButtonSrc} alt="" style={{ position: 'absolute', inset: '2px', width: 'calc(100% - 4px)', height: 'calc(100% - 4px)', objectFit: 'contain', display: 'block', pointerEvents: 'none', zIndex: 2 }} />
           ) : (
             <OpenReelButton />
           )}

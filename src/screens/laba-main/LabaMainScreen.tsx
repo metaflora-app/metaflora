@@ -6,7 +6,7 @@ import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/Lab
 import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
 import { LABA_COSTS, Reel } from '../../types/laba';
-import { getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import { getFavorites, getTelegramUserId, getTopReels, searchReels, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import searchIcon from '../../assets/иконка поиск.png';
@@ -69,6 +69,24 @@ export const LabaMainScreen: React.FC = () => {
       void loadTopReels();
     }
   }, [labaReelsCache.length, loadTopReels]);
+
+  React.useEffect(() => {
+    const hydrateFavorites = async () => {
+      const userId = getTelegramUserId();
+      if (!userId) {
+        return;
+      }
+
+      try {
+        const favoriteReels = await getFavorites(userId);
+        setLikedCards(new Set(favoriteReels.map((reel) => reel.id)));
+      } catch (error) {
+        console.error('Ошибка загрузки избранного:', error);
+      }
+    };
+
+    void hydrateFavorites();
+  }, []);
 
   const detectLanguage = (text: string | null): string => {
     if (!text) return 'unknown';
@@ -284,7 +302,7 @@ export const LabaMainScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => void handleSearch()}
-            className={`premium-button-shell ${isSearchPressed ? 'is-pressed' : ''}`}
+            className={`premium-button-shell button-inner-glow ${isSearchPressed ? 'is-pressed' : ''}`}
             onPointerDown={() => setIsSearchPressed(true)}
             onPointerUp={() => setIsSearchPressed(false)}
             onPointerLeave={() => setIsSearchPressed(false)}
