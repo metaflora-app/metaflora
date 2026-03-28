@@ -162,7 +162,9 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
               <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', lineHeight: '1', color: 'white', display: 'inline-block' }}>
                 скачать файлы ({downloadCount})
               </span>
-              <FigmaDownloadIconButton className="button-inner-glow" style={{ marginTop: '0', transform: 'translateY(-1px)' }} />
+              <span style={{ width: '32px', height: '32px', borderRadius: '32px', border: '4px solid rgba(255,255,255,0.3)', background: '#000', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', transform: 'translateY(4px)', boxSizing: 'border-box' }}>
+                <FigmaDownloadIconButton className="button-inner-glow" style={{ width: '16px', height: '16px', marginTop: 0, transform: 'none' }} />
+              </span>
             </span>
           </button>
         </div>

@@ -20,46 +20,13 @@ const sidebarIcons = 'https://www.figma.com/api/mcp/asset/962a497e-6ecb-4126-913
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [pillOffset, setPillOffset] = React.useState(SIDEBAR_PILL_POSITIONS[1]);
-  const [isDraggingSidebar, setIsDraggingSidebar] = React.useState(false);
-  const dragRef = React.useRef<{ pointerId: number; startX: number; startOffset: number } | null>(null);
+  const [activeSidebarIndex, setActiveSidebarIndex] = React.useState(1);
 
   const snapToSidebarIndex = React.useCallback((index: number) => {
     const safeIndex = Math.max(0, Math.min(index, SIDEBAR_PILL_POSITIONS.length - 1));
-    setPillOffset(SIDEBAR_PILL_POSITIONS[safeIndex]);
+    setActiveSidebarIndex(safeIndex);
     window.setTimeout(() => navigate(SIDEBAR_HOTSPOTS[safeIndex].route), 160);
   }, [navigate]);
-
-  const handleSidebarPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    dragRef.current = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startOffset: pillOffset,
-    };
-    setIsDraggingSidebar(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handleSidebarPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
-    const delta = event.clientX - dragRef.current.startX;
-    const min = SIDEBAR_PILL_POSITIONS[0];
-    const max = SIDEBAR_PILL_POSITIONS[SIDEBAR_PILL_POSITIONS.length - 1];
-    setPillOffset(Math.max(min, Math.min(max, dragRef.current.startOffset + delta)));
-  };
-
-  const handleSidebarPointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
-    const nearestIndex = SIDEBAR_PILL_POSITIONS.reduce((bestIndex, position, index) => {
-      const bestDistance = Math.abs(SIDEBAR_PILL_POSITIONS[bestIndex] - pillOffset);
-      const nextDistance = Math.abs(position - pillOffset);
-      return nextDistance < bestDistance ? index : bestIndex;
-    }, 0);
-    dragRef.current = null;
-    setIsDraggingSidebar(false);
-    event.currentTarget.releasePointerCapture(event.pointerId);
-    snapToSidebarIndex(nearestIndex);
-  };
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -105,11 +72,7 @@ export const LabaSearchScreen: React.FC = () => {
         </div>
 
         <div
-          className={`glass-sidebar-track ${isDraggingSidebar ? 'is-dragging' : ''}`}
-          onPointerDown={handleSidebarPointerDown}
-          onPointerMove={handleSidebarPointerMove}
-          onPointerUp={handleSidebarPointerEnd}
-          onPointerCancel={handleSidebarPointerEnd}
+          className="pricing-card-shell"
           style={{
             position: 'absolute',
             left: '320px',
@@ -122,7 +85,11 @@ export const LabaSearchScreen: React.FC = () => {
             backdropFilter: 'blur(50px)',
           }}
         >
-          <div className="glass-sidebar-pill" style={{ transform: `translateX(${pillOffset}px)` }} />
+          <div className="pricing-card-sheen-zone">
+            <div className="pricing-card-sheen" />
+            <div className="pricing-card-sheen pricing-card-sheen-soft" />
+          </div>
+          <div className="glass-sidebar-pill" style={{ transform: `translateX(${SIDEBAR_PILL_POSITIONS[activeSidebarIndex]}px)` }} />
           <div style={{ position: 'absolute', left: '0', top: '21px', width: '534px', height: '98px', overflow: 'hidden', pointerEvents: 'none' }}>
             <img
               src={sidebarIcons}
@@ -137,6 +104,7 @@ export const LabaSearchScreen: React.FC = () => {
             key={item.route}
             type="button"
             onClick={() => snapToSidebarIndex(index)}
+            className="motion-press-grow"
             style={{
               position: 'absolute',
               left: `${item.left}px`,
