@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
+import { HaloLayer } from '../../components/animation/HaloLayer';
 
 import userPhoto from '../../assets/main-dashboard/фото из тг.png';
 import metacoinCircle from '../../assets/main-dashboard/кружок метакоины на подписочке.png';
@@ -19,48 +20,61 @@ interface CardProps {
   onOpen?: () => void;
   photoInset?: string;
   textInset?: string;
+  revealClassName?: string;
 }
 
 const ServiceCard: React.FC<CardProps> = ({
   bgSrc, content, top, height = 249, onOpen,
   photoInset = '0 49.78% 0 0',
   textInset = '0 0 0 50.22%',
+  revealClassName,
 }) => (
-  <div style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: `${height}px` }}>
+  <div
+    className={revealClassName}
+    style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: `${height}px` }}
+  >
     <div style={{ position: 'absolute', inset: photoInset, borderRadius: '26px', overflow: 'hidden' }}>
       <img src={bgSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '26px' }} />
     </div>
 
-    <div style={{
-      position: 'absolute',
-      inset: textInset,
-      backdropFilter: 'blur(50px)',
-      background: 'black',
-      border: '4px solid rgba(255,255,255,0.3)',
-      borderRadius: '30px',
-      overflow: 'hidden',
-    }}>
-      <div style={{
+    <div
+      className="motion-conic-border"
+      style={{
         position: 'absolute',
-        left: '50%',
-        top: 'calc(50% - 6px)',
-        transform: 'translate(-50%, -50%)',
-        width: '420px',
-        maxWidth: 'calc(100% - 18px)',
-        textAlign: 'center',
-        fontFamily: 'Cygre',
-        fontWeight: 400,
-        fontSize: '35px',
-        lineHeight: '1',
-        color: 'white',
-        whiteSpace: 'pre-wrap',
-      }}>
-        {content}
+        inset: textInset,
+        backdropFilter: 'blur(50px)',
+        background: 'black',
+        border: '4px solid rgba(255,255,255,0.3)',
+        borderRadius: '30px',
+        overflow: 'hidden',
+      }}
+    >
+      <HaloLayer className="motion-halo-soft" />
+      <div className="motion-surface-content">
+        <div style={{
+          position: 'absolute',
+          left: '50%',
+          top: 'calc(50% - 6px)',
+          transform: 'translate(-50%, -50%)',
+          width: '420px',
+          maxWidth: 'calc(100% - 18px)',
+          textAlign: 'center',
+          fontFamily: 'Cygre',
+          fontWeight: 400,
+          fontSize: '35px',
+          lineHeight: '1',
+          color: 'white',
+          whiteSpace: 'pre-wrap',
+        }}>
+          {content}
+        </div>
       </div>
     </div>
 
-    <div
+    <button
+      type="button"
       onClick={onOpen}
+      className="motion-conic-border motion-slide-fill motion-pressable"
       style={{
         position: 'absolute',
         top: '34.14%',
@@ -73,12 +87,62 @@ const ServiceCard: React.FC<CardProps> = ({
         borderRadius: '62px',
         overflow: 'hidden',
         cursor: onOpen ? 'pointer' : 'default',
+        padding: 0,
       }}
     >
+      <HaloLayer className="motion-halo-tight" />
+      <div className="motion-surface-content">
+        <div style={{
+          position: 'absolute',
+          left: 'calc(50% - 1.47px)',
+          top: 'calc(50% - 5.97px)',
+          transform: 'translate(-50%, -50%)',
+          width: '150px',
+          height: '29.312px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          fontFamily: 'Cygre',
+          fontWeight: 700,
+          fontSize: '27px',
+          lineHeight: '1',
+          color: 'white',
+        }}>
+          открыть
+        </div>
+      </div>
+    </button>
+  </div>
+);
+
+interface SmBtnProps { label: string; x: number; y: number; onClick?: () => void; }
+const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="motion-conic-border motion-slide-fill motion-pressable"
+    style={{
+    position: 'absolute',
+    left: `${x}px`,
+    top: `${y}px`,
+    width: '168px',
+    height: '54px',
+    backdropFilter: 'blur(50px)',
+    background: 'rgba(0,0,0,0.9)',
+    border: '4px solid rgba(255,255,255,0.3)',
+    borderRadius: '62px',
+    overflow: 'hidden',
+    cursor: 'pointer',
+    padding: 0,
+  }}
+  >
+    <HaloLayer className="motion-halo-tight" />
+    <div className="motion-surface-content">
       <div style={{
         position: 'absolute',
-        left: 'calc(50% - 1.47px)',
-        top: 'calc(50% - 5.97px)',
+        left: 'calc(50% - 1px)',
+        top: 'calc(50% - 6.34px)',
         transform: 'translate(-50%, -50%)',
         width: '150px',
         height: '29.312px',
@@ -92,47 +156,10 @@ const ServiceCard: React.FC<CardProps> = ({
         lineHeight: '1',
         color: 'white',
       }}>
-        открыть
+        {label}
       </div>
     </div>
-  </div>
-);
-
-interface SmBtnProps { label: string; x: number; y: number; onClick?: () => void; }
-const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
-  <div onClick={onClick} style={{
-    position: 'absolute',
-    left: `${x}px`,
-    top: `${y}px`,
-    width: '168px',
-    height: '54px',
-    backdropFilter: 'blur(50px)',
-    background: 'rgba(0,0,0,0.9)',
-    border: '4px solid rgba(255,255,255,0.3)',
-    borderRadius: '62px',
-    overflow: 'hidden',
-    cursor: 'pointer',
-  }}>
-    <div style={{
-      position: 'absolute',
-      left: 'calc(50% - 1px)',
-      top: 'calc(50% - 6.34px)',
-      transform: 'translate(-50%, -50%)',
-      width: '150px',
-      height: '29.312px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      fontFamily: 'Cygre',
-      fontWeight: 700,
-      fontSize: '27px',
-      lineHeight: '1',
-      color: 'white',
-    }}>
-      {label}
-    </div>
-  </div>
+  </button>
 );
 
 export const MainDashboardPremiumScreen: React.FC = () => {
@@ -174,13 +201,15 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ThreeBg />
         <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
-        <div style={{ position: 'absolute', left: '85px', top: '207px', width: '1020px', height: '80px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div className="motion-reveal-up" style={{ position: 'absolute', left: '85px', top: '207px', width: '1020px', height: '80px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white', opacity: loading ? 0 : 1, transition: 'opacity 0.3s' }}>
             {userName}
           </p>
         </div>
 
-        <img src={profilePhotoUrl} alt="фото" style={{ position: 'absolute', left: '79px', top: '325px', width: '159px', height: '159px', borderRadius: '79.5px', objectFit: 'cover', opacity: loading ? 0 : 1, transition: 'opacity 0.3s' }} />
+        <div className="motion-reveal-up motion-delay-1" style={{ position: 'absolute', left: '79px', top: '325px', width: '159px', height: '159px', borderRadius: '79.5px' }}>
+          <img src={profilePhotoUrl} alt="фото" style={{ position: 'absolute', inset: 0, width: '159px', height: '159px', borderRadius: '79.5px', objectFit: 'cover', opacity: loading ? 0 : 1, transition: 'opacity 0.3s' }} />
+        </div>
 
         <div style={{ position: 'absolute', left: '258px', top: '338px', width: '357px', height: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'rgba(255,255,255,0.6)' }}>комьюнити</p>
@@ -194,7 +223,8 @@ export const MainDashboardPremiumScreen: React.FC = () => {
 
         <SmBtn label="продлить" x={259} y={430} onClick={() => navigate('/pricing')} />
 
-        <div style={{ position: 'absolute', left: '610px', top: '327px', width: '159px', height: '159px', borderRadius: '79.5px', border: '4px solid rgba(255,255,255,0.3)', overflow: 'hidden' }}>
+        <div className="motion-conic-border motion-reveal-up motion-delay-1" style={{ position: 'absolute', left: '610px', top: '327px', width: '159px', height: '159px', borderRadius: '79.5px', border: '4px solid rgba(255,255,255,0.3)', overflow: 'hidden' }}>
+          <HaloLayer className="motion-halo-soft" style={{ inset: '18%' }} />
           <img src={metacoinCircle} alt="метакоины" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
@@ -211,6 +241,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ServiceCard
           bgSrc={academyBg}
           top={538}
+          revealClassName="motion-reveal-up motion-delay-1"
           content={<><p style={{ margin: 0 }}>в академии собраны</p><p style={{ margin: 0 }}>4 больших курса</p><p style={{ margin: 0 }}>и более 40 уроков</p><p style={{ margin: 0 }}>с гайдами, чек-</p><p style={{ margin: 0 }}>листами, шаблонами</p><p style={{ margin: 0 }}>и промптами</p></>}
           onOpen={() => navigate('/about-academy')}
         />
@@ -218,6 +249,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           bgSrc={labaBg}
           top={817}
           height={250}
+          revealClassName="motion-reveal-up motion-delay-2"
           photoInset="0.4% 49.78% 0 0"
           textInset="0.4% 0 0 50.22%"
           content={<><p style={{ margin: 0 }}>в лабе ИИ-выполняет</p><p style={{ margin: 0 }}>всю черновую работу:</p><p style={{ margin: 0 }}>поиск аккаунтов,</p><p style={{ margin: 0 }}>анализ видео</p><p style={{ margin: 0 }}>и написание</p><p style={{ margin: 0 }}>виральных сценариев</p></>}
@@ -226,6 +258,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ServiceCard
           bgSrc={tsekhBg}
           top={1097}
+          revealClassName="motion-reveal-up motion-delay-3"
           photoInset="0 49.66% 0 0.11%"
           textInset="0 0 0 50.32%"
           content={<><p style={{ margin: 0 }}>десятки промптов,</p><p style={{ margin: 0 }}>позволяющих задать</p><p style={{ margin: 0 }}>роль агента или</p><p style={{ margin: 0 }}>воспроизвести</p><p style={{ margin: 0 }}>генерацию из цеха</p><p style={{ margin: 0 }}>в один клик</p></>}
@@ -234,6 +267,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ServiceCard
           bgSrc={poligonBg}
           top={1376}
+          revealClassName="motion-reveal-up motion-delay-4"
           photoInset="0 50% 0 0"
           textInset="0 0 0 49.97%"
           content={<><p style={{ margin: 0 }}>если нужен разбор</p><p style={{ margin: 0 }}>новинки или</p><p style={{ margin: 0 }}>подробный кейс —</p><p style={{ margin: 0 }}>это в полигон. статьи</p><p style={{ margin: 0 }}>публикуются</p><p style={{ margin: 0 }}>еженедельно</p></>}
@@ -242,6 +276,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <ServiceCard
           bgSrc={chatBg}
           top={1655}
+          revealClassName="motion-reveal-up motion-delay-4"
           photoInset="0 50.45% 0 0"
           textInset="0 0 0 49.56%"
           content={<><p style={{ margin: 0 }}>сильное комьюнити</p><p style={{ margin: 0 }}>ИИ-специалистов —</p><p style={{ margin: 0 }}>от новичков до</p><p style={{ margin: 0 }}>сеньоров, которые</p><p style={{ margin: 0 }}>обязательно заберут</p><p style={{ margin: 0 }}>под свое крыло</p></>}

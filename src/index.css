@@ -154,6 +154,293 @@ body {
   animation: blurShimmer 2.2s linear infinite;
 }
 
+@keyframes motionConicRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes motionHaloFloat {
+  0%, 100% {
+    transform: translate3d(-8%, -6%, 0) scale(0.95);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translate3d(7%, 8%, 0) scale(1.08);
+    opacity: 0.78;
+  }
+}
+
+@keyframes motionRevealUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes motionPulseBurst {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes motionLogoPreload {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 90px, 0) scale(0.92);
+    filter: blur(24px);
+  }
+  18% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+  64% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1.02);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translate3d(0, -84px, 0) scale(1.06);
+    filter: blur(18px);
+  }
+}
+
+.motion-conic-border,
+.motion-slide-fill,
+.motion-pressable,
+.motion-like-button {
+  position: relative;
+  isolation: isolate;
+}
+
+.motion-conic-border::before {
+  content: '';
+  position: absolute;
+  inset: var(--motion-border-inset, -4px);
+  border-radius: inherit;
+  padding: var(--motion-border-size, 4px);
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.04) 0deg,
+    rgba(255, 255, 255, 0.82) 70deg,
+    rgba(255, 255, 255, 0.14) 145deg,
+    rgba(0, 232, 255, 0.48) 215deg,
+    rgba(255, 255, 255, 0.72) 300deg,
+    rgba(255, 255, 255, 0.04) 360deg
+  );
+  animation: motionConicRotate var(--motion-rotate-duration, 6.5s) linear infinite;
+  opacity: var(--motion-border-opacity, 0.72);
+  filter: blur(var(--motion-border-blur, 0px));
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.motion-conic-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    0 0 32px rgba(255, 255, 255, 0.08),
+    0 0 70px rgba(0, 232, 255, 0.08);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.motion-surface-content {
+  position: relative;
+  z-index: 1;
+}
+
+.motion-halo-layer {
+  position: absolute;
+  inset: 14%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 32%, rgba(255, 255, 255, 0.04) 56%, rgba(255, 255, 255, 0) 78%);
+  filter: blur(20px);
+  opacity: 0.58;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: motionHaloFloat var(--motion-halo-duration, 7s) ease-in-out infinite;
+  z-index: 0;
+}
+
+.motion-halo-soft {
+  inset: 20% 16%;
+  opacity: 0.48;
+  filter: blur(24px);
+}
+
+.motion-halo-tight {
+  inset: 24% 22%;
+  opacity: 0.42;
+  filter: blur(16px);
+}
+
+.motion-slide-fill {
+  overflow: hidden;
+}
+
+.motion-slide-fill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.96) 0%, rgba(17, 17, 17, 0.92) 48%, rgba(0, 0, 0, 0.98) 100%);
+  transform: translateX(var(--motion-slide-offset, -104%));
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.motion-slide-fill.is-active::before,
+.motion-slide-fill:hover::before,
+.motion-slide-fill:focus-visible::before {
+  transform: translateX(0);
+}
+
+.motion-pressable {
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 180ms ease,
+    box-shadow 220ms ease;
+  will-change: transform, filter;
+}
+
+.motion-pressable:hover {
+  filter: brightness(1.08);
+}
+
+.motion-pressable:active {
+  transform: translate3d(0, 2px, 0) scale(0.985);
+  filter: brightness(1.12);
+}
+
+.motion-reveal-up {
+  opacity: 0;
+  animation: motionRevealUp 620ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.motion-delay-1 {
+  animation-delay: 70ms;
+}
+
+.motion-delay-2 {
+  animation-delay: 140ms;
+}
+
+.motion-delay-3 {
+  animation-delay: 210ms;
+}
+
+.motion-delay-4 {
+  animation-delay: 280ms;
+}
+
+.motion-like-button {
+  overflow: visible;
+}
+
+.motion-like-button .motion-like-ring,
+.motion-like-button .motion-like-flash {
+  position: absolute;
+  inset: 14px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.motion-like-button .motion-like-ring {
+  border: 2px solid rgba(255, 255, 255, 0.75);
+}
+
+.motion-like-button .motion-like-flash {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.14) 45%, rgba(255, 255, 255, 0) 74%);
+  filter: blur(10px);
+}
+
+.motion-like-button.is-pulsing .motion-like-ring,
+.motion-like-button.is-pulsing .motion-like-flash {
+  animation: motionPulseBurst 520ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.motion-like-button .motion-like-icon {
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 220ms ease;
+}
+
+.motion-like-button.is-pulsing .motion-like-icon {
+  transform: scale(1.18);
+  filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.46));
+}
+
+.motion-logo-preloader {
+  position: relative;
+}
+
+.motion-logo-preloader::before {
+  content: '';
+  position: absolute;
+  inset: -60px -70px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.16) 28%, rgba(255, 255, 255, 0) 72%);
+  filter: blur(32px);
+  opacity: 0.72;
+  animation: motionHaloFloat 4.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.motion-logo-preloader img,
+.motion-logo-preloader .motion-logo-node {
+  position: relative;
+  z-index: 1;
+  animation: motionLogoPreload 2.85s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  transform-origin: center center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-conic-border::before,
+  .motion-halo-layer,
+  .motion-logo-preloader::before,
+  .motion-logo-preloader img,
+  .motion-logo-preloader .motion-logo-node,
+  .motion-like-button.is-pulsing .motion-like-ring,
+  .motion-like-button.is-pulsing .motion-like-flash,
+  .motion-reveal-up {
+    animation: none !important;
+  }
+
+  .motion-slide-fill::before,
+  .motion-pressable,
+  .motion-like-button .motion-like-icon {
+    transition: none !important;
+  }
+}
+
 /* Placeholder styles for search inputs */
 input::placeholder {
   color: #848484;
