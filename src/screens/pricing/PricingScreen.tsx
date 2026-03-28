@@ -70,6 +70,7 @@ export const PricingScreen: React.FC = () => {
   const [pillOffset, setPillOffset] = React.useState(0);
   const [isDraggingToggle, setIsDraggingToggle] = React.useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
+  const [isPayPressed, setIsPayPressed] = React.useState(false);
   const [cardTilt, setCardTilt] = React.useState({ rotateX: 0, rotateY: 0, scale: 1 });
   const [isTiltingCard, setIsTiltingCard] = React.useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -296,8 +297,12 @@ export const PricingScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => void handlePayment()}
-          className="pricing-pay-shell button-inner-glow"
+          className={`pricing-pay-shell button-inner-glow motion-press-grow ${isPayPressed ? 'is-pressed' : ''}`}
           disabled={isProcessingPayment}
+          onPointerDown={() => setIsPayPressed(true)}
+          onPointerUp={() => setIsPayPressed(false)}
+          onPointerLeave={() => setIsPayPressed(false)}
+          onPointerCancel={() => setIsPayPressed(false)}
           style={{
             position: 'absolute',
             left: '143px',

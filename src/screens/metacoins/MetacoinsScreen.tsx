@@ -71,6 +71,7 @@ export const MetacoinsScreen: React.FC = () => {
   const [pillOffset, setPillOffset] = React.useState(0);
   const [isDraggingToggle, setIsDraggingToggle] = React.useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
+  const [isBuyPressed, setIsBuyPressed] = React.useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const toggleDragRef = React.useRef<{
     pointerId: number;
@@ -224,7 +225,11 @@ export const MetacoinsScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => void handleBuyClick()}
-          className="pricing-pay-shell button-inner-glow motion-press-grow"
+          className={`pricing-pay-shell button-inner-glow motion-press-grow ${isBuyPressed ? 'is-pressed' : ''}`}
+          onPointerDown={() => setIsBuyPressed(true)}
+          onPointerUp={() => setIsBuyPressed(false)}
+          onPointerLeave={() => setIsBuyPressed(false)}
+          onPointerCancel={() => setIsBuyPressed(false)}
           style={{ position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
         >
           <div className="pricing-pay-halo" />

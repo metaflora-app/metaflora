@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
-import { Header, ThreeBg } from '../../components/ScreenLayout';
 import {
   clearPendingPayment,
   getCheckoutPaymentStatus,
@@ -23,8 +22,6 @@ function getFailureRoute(productId: string | undefined): string {
 
 export const PaymentReturnScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [statusText, setStatusText] = React.useState('проверяем оплату...');
-  const [detailsText, setDetailsText] = React.useState('пожалуйста, подождите несколько секунд');
 
   React.useEffect(() => {
     let cancelled = false;
@@ -89,9 +86,7 @@ export const PaymentReturnScreen: React.FC = () => {
           return;
         }
 
-        setStatusText('ожидаем подтверждение оплаты...');
-        setDetailsText('после подтверждения вы автоматически вернетесь в приложение');
-        await new Promise((resolve) => window.setTimeout(resolve, 2000));
+        await new Promise((resolve) => window.setTimeout(resolve, 900));
       }
 
       finishFailure('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
@@ -109,24 +104,5 @@ export const PaymentReturnScreen: React.FC = () => {
     };
   }, [navigate]);
 
-  return (
-    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
-      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px' }}>
-        <ThreeBg />
-        <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
-
-        <div style={{ position: 'absolute', left: '94px', top: '560px', width: '992px', textAlign: 'center' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '72px', lineHeight: '1', color: '#fff' }}>
-            {statusText}
-          </p>
-        </div>
-
-        <div style={{ position: 'absolute', left: '140px', top: '680px', width: '900px', textAlign: 'center' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '38px', lineHeight: '1', color: 'rgba(255,255,255,0.8)' }}>
-            {detailsText}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+  return null;
 };
