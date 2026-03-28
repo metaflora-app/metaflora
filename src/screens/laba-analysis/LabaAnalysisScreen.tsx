@@ -573,7 +573,7 @@ const ActionButton: React.FC<{
           position: 'absolute',
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, calc(-50% + 1px))',
+          transform: 'translate(-50%, -50%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

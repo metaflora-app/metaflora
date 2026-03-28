@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
-import { trackMetacoinsPurchase } from '../../utils/supabase';
 import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { createCheckoutPayment, redirectToCheckout } from '../../utils/payments';
 import card30000 from '../../assets/metacoins-redesign/карточка покупки 30к метакоинов.png';
 import card150000 from '../../assets/metacoins-redesign/карточка покупки 150к метакоинов.png';
 import activePack30000 from '../../assets/metacoins-redesign/кнопка активный пак метакоинов на 30к.png';
@@ -70,6 +70,7 @@ export const MetacoinsScreen: React.FC = () => {
   const [selectedPack, setSelectedPack] = React.useState<'30000' | '150000'>('30000');
   const [pillOffset, setPillOffset] = React.useState(0);
   const [isDraggingToggle, setIsDraggingToggle] = React.useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const toggleDragRef = React.useRef<{
     pointerId: number;
@@ -88,12 +89,19 @@ export const MetacoinsScreen: React.FC = () => {
   }, [isDraggingToggle, selectedPack]);
 
   const handleBuyClick = async () => {
-    const amount = selectedPack === '30000' ? 30000 : 150000;
-    const success = await trackMetacoinsPurchase(amount);
-    if (success) {
-      showPopupMessage(`успешно куплено ${amount} метакоинов`);
-      navigate('/main-dashboard-premium');
+    if (isProcessingPayment) {
       return;
+    }
+
+    setIsProcessingPayment(true);
+    try {
+      const productId = selectedPack === '30000' ? 'metacoins_30000' : 'metacoins_150000';
+      const payment = await createCheckoutPayment(productId);
+      redirectToCheckout(payment.checkoutUrl);
+    } catch (error) {
+      console.error('Metacoins checkout failed:', error);
+      setIsProcessingPayment(false);
+      showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
     }
   };
 

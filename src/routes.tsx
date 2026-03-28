@@ -25,6 +25,7 @@ import { MarketingConsentScreen } from './screens/marketing-consent';
 import { PublicOfferScreen } from './screens/public-offer';
 import { PromptCardScreen } from './screens/prompt-card';
 import { PromptFirstScreen } from './screens/prompt-first';
+import { PaymentReturnScreen } from './screens/payment-return/PaymentReturnScreen';
 import { PoligonArticlesAllScreen } from './screens/poligon-articles-all';
 import { LabaSearchScreen } from './screens/laba-search';
 import { LabaNoTrackedScreen } from './screens/laba-no-tracked';
@@ -121,6 +122,10 @@ export const router = createBrowserRouter([
   {
     path: '/pricing',
     element: <PricingScreen />,
+  },
+  {
+    path: '/payment-return',
+    element: <PaymentReturnScreen />,
   },
   {
     path: '/main-dashboard-free',

@@ -313,8 +313,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     });
   }, [getPlayer, media.playbackRate]);
 
-  const shouldShowPreview = previewReady && media.currentTime < 0.05 && (media.paused || media.duration === 0);
-  const shouldHideMediaSurface = media.currentTime < 0.05 && (media.paused || media.duration === 0);
+  const isMediaFrameReady = media.currentTime > 0.08 || (!media.paused && media.currentTime > 0.08);
+  const shouldShowPreview = previewReady && !isMediaFrameReady;
+  const shouldHideMediaSurface = !isMediaFrameReady;
 
   return (
     <div

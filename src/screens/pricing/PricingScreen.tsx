@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
-import { trackSubscriptionPurchase } from '../../utils/supabase';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
+import { createCheckoutPayment, redirectToCheckout } from '../../utils/payments';
 
 import pricingCardMonth from '../../assets/pricing-redesign/карточка подписки 1 месяц.png';
 import pricingCardQuarter from '../../assets/pricing-redesign/карточка подписки 3 месяца.png';
@@ -96,21 +96,15 @@ export const PricingScreen: React.FC = () => {
     }
 
     setIsProcessingPayment(true);
-    const months = selectedPlan === '1month' ? 1 : 3;
-    const result = await trackSubscriptionPurchase('premium', months);
-
-    if (!result.success) {
+    try {
+      const productId = selectedPlan === '1month' ? 'subscription_1month' : 'subscription_3months';
+      const payment = await createCheckoutPayment(productId);
+      redirectToCheckout(payment.checkoutUrl);
+    } catch (error) {
+      console.error('Subscription checkout failed:', error);
       setIsProcessingPayment(false);
-      return;
+      showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
     }
-
-    const planLabel = result.months === 3 ? '3 месяца' : '1 месяц';
-    showPopupMessage(
-      result.firstPurchase
-        ? `подписка на ${planLabel} успешно оплачена. загляните в бота — приготовили подарки`
-        : `подписка на ${planLabel} успешно оплачена`
-    );
-    navigate('/main-dashboard-premium');
   };
 
   const handleTogglePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
