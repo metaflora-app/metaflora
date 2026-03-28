@@ -184,8 +184,8 @@ const PoligonArticlesAllScreen: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => navigate(`/article/${article.id}`)}
-                      className="motion-press-grow"
-                      style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer', borderRadius: '62px', overflow: 'visible' }}
+                      className="motion-press-grow read-cta-glow"
+                      style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', border: 'none', background: 'rgba(4,22,39,0.08)', backdropFilter: 'blur(10px)', padding: 0, cursor: 'pointer', borderRadius: '62px', overflow: 'visible' }}
                     >
                       <img
                         src={readButton}

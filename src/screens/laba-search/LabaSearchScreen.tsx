@@ -9,6 +9,7 @@ const SIDEBAR_HOTSPOTS = [
   { left: 602, top: 1890, width: 82, height: 94, route: '/laba-favorites' },
   { left: 737, top: 1890, width: 82, height: 94, route: '/metacoins' },
 ];
+const SIDEBAR_PILL_POSITIONS = [14, 149, 285, 420];
 
 const logoSmall = 'https://www.figma.com/api/mcp/asset/6cc89443-e3dd-4f50-8766-f7549c24f1c1';
 const backgroundBase = 'https://www.figma.com/api/mcp/asset/ae38eb1c-b28c-46b9-a9c2-040a5cec66df';
@@ -19,7 +20,46 @@ const sidebarIcons = 'https://www.figma.com/api/mcp/asset/962a497e-6ecb-4126-913
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [activeSidebarRoute, setActiveSidebarRoute] = React.useState<string | null>(null);
+  const [pillOffset, setPillOffset] = React.useState(SIDEBAR_PILL_POSITIONS[1]);
+  const [isDraggingSidebar, setIsDraggingSidebar] = React.useState(false);
+  const dragRef = React.useRef<{ pointerId: number; startX: number; startOffset: number } | null>(null);
+
+  const snapToSidebarIndex = React.useCallback((index: number) => {
+    const safeIndex = Math.max(0, Math.min(index, SIDEBAR_PILL_POSITIONS.length - 1));
+    setPillOffset(SIDEBAR_PILL_POSITIONS[safeIndex]);
+    window.setTimeout(() => navigate(SIDEBAR_HOTSPOTS[safeIndex].route), 160);
+  }, [navigate]);
+
+  const handleSidebarPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startOffset: pillOffset,
+    };
+    setIsDraggingSidebar(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleSidebarPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
+    const delta = event.clientX - dragRef.current.startX;
+    const min = SIDEBAR_PILL_POSITIONS[0];
+    const max = SIDEBAR_PILL_POSITIONS[SIDEBAR_PILL_POSITIONS.length - 1];
+    setPillOffset(Math.max(min, Math.min(max, dragRef.current.startOffset + delta)));
+  };
+
+  const handleSidebarPointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
+    const nearestIndex = SIDEBAR_PILL_POSITIONS.reduce((bestIndex, position, index) => {
+      const bestDistance = Math.abs(SIDEBAR_PILL_POSITIONS[bestIndex] - pillOffset);
+      const nextDistance = Math.abs(position - pillOffset);
+      return nextDistance < bestDistance ? index : bestIndex;
+    }, 0);
+    dragRef.current = null;
+    setIsDraggingSidebar(false);
+    event.currentTarget.releasePointerCapture(event.pointerId);
+    snapToSidebarIndex(nearestIndex);
+  };
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -65,6 +105,11 @@ export const LabaSearchScreen: React.FC = () => {
         </div>
 
         <div
+          className={`glass-sidebar-track ${isDraggingSidebar ? 'is-dragging' : ''}`}
+          onPointerDown={handleSidebarPointerDown}
+          onPointerMove={handleSidebarPointerMove}
+          onPointerUp={handleSidebarPointerEnd}
+          onPointerCancel={handleSidebarPointerEnd}
           style={{
             position: 'absolute',
             left: '320px',
@@ -76,21 +121,26 @@ export const LabaSearchScreen: React.FC = () => {
             background: 'rgba(0,0,0,0.1)',
             backdropFilter: 'blur(50px)',
           }}
-        />
+        >
+          <div className="glass-sidebar-pill" style={{ transform: `translateX(${pillOffset}px)` }} />
+          <div style={{ position: 'absolute', left: '0', top: '21px', width: '534px', height: '98px', overflow: 'hidden', pointerEvents: 'none' }}>
+            <img
+              src={sidebarIcons}
+              alt="сайдбар иконки новые"
+              style={{ position: 'absolute', height: '544.9%', left: 0, top: '-222.45%', width: '100%', maxWidth: 'none' }}
+            />
+          </div>
+        </div>
 
-        {SIDEBAR_HOTSPOTS.map((item) => (
+        {SIDEBAR_HOTSPOTS.map((item, index) => (
           <button
             key={item.route}
             type="button"
-            onClick={() => {
-              setActiveSidebarRoute(item.route);
-              window.setTimeout(() => navigate(item.route), 140);
-            }}
-            className={`glass-sidebar-toggle ${activeSidebarRoute === item.route ? 'is-active' : ''}`}
+            onClick={() => snapToSidebarIndex(index)}
             style={{
               position: 'absolute',
               left: `${item.left}px`,
-              top: `${item.top + 2}px`,
+              top: `${item.top}px`,
               width: `${item.width}px`,
               height: `${item.height}px`,
               border: 'none',
@@ -99,22 +149,7 @@ export const LabaSearchScreen: React.FC = () => {
               zIndex: 2,
               padding: 0,
             }}
-          >
-            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 'inherit', pointerEvents: 'none' }}>
-              <img
-                src={sidebarIcons}
-                alt=""
-                style={{
-                  position: 'absolute',
-                  left: `${-(item.left - 320)}px`,
-                  top: '-218px',
-                  width: '534px',
-                  height: '534px',
-                  maxWidth: 'none',
-                }}
-              />
-            </div>
-          </button>
+          />
         ))}
 
         <Footer />

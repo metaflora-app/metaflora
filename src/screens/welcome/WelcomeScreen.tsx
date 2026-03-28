@@ -12,6 +12,7 @@ import welcomeCard4 from '../../assets/welcome-redesign/заглушка-4.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [activeCard, setActiveCard] = React.useState(0);
 
   React.useEffect(() => {
     getOrCreateUser().then(user => {
@@ -20,6 +21,50 @@ export const WelcomeScreen: React.FC = () => {
   }, [navigate]);
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const cards = [
+    { src: welcomeCard1, width: 700, height: 957 },
+    { src: welcomeCard2, width: 674, height: 826 },
+    { src: welcomeCard3, width: 639, height: 822 },
+    { src: welcomeCard4, width: 674, height: 826 },
+  ];
+
+  const getCardSlot = (index: number) => {
+    const order = (index - activeCard + cards.length) % cards.length;
+
+    if (order === 0) {
+      return {
+        left: 243,
+        top: 700,
+        zIndex: 4,
+        className: 'welcome-stack-front',
+      };
+    }
+
+    if (order === 1) {
+      return {
+        left: 543,
+        top: 745,
+        zIndex: 1,
+        className: 'welcome-stack-back-right',
+      };
+    }
+
+    if (order === 2) {
+      return {
+        left: 427,
+        top: 803,
+        zIndex: 2,
+        className: 'welcome-stack-mid',
+      };
+    }
+
+    return {
+      left: 80,
+      top: 803,
+      zIndex: 1,
+      className: 'welcome-stack-back-left',
+    };
+  };
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -74,34 +119,36 @@ export const WelcomeScreen: React.FC = () => {
           </p>
         </div>
 
-        <div className="welcome-stack-card welcome-stack-back-left" style={{ position: 'absolute', left: '80px', top: '803px', width: '674px', height: '826px', zIndex: 1, pointerEvents: 'none' }}>
-          <img
-            src={welcomeCard2}
-            alt=""
-            style={{ width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px' }}
-          />
-        </div>
-        <div className="welcome-stack-card welcome-stack-back-right" style={{ position: 'absolute', left: '543px', top: '745px', width: '639px', height: '822px', zIndex: 1, pointerEvents: 'none' }}>
-          <img
-            src={welcomeCard3}
-            alt=""
-            style={{ width: '639px', height: '822px', objectFit: 'cover', borderRadius: '62px' }}
-          />
-        </div>
-        <div className="welcome-stack-card welcome-stack-mid" style={{ position: 'absolute', left: '427px', top: '803px', width: '674px', height: '826px', zIndex: 2, pointerEvents: 'none' }}>
-          <img
-            src={welcomeCard4}
-            alt=""
-            style={{ width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px' }}
-          />
-        </div>
-        <div className="welcome-stack-card welcome-stack-front" style={{ position: 'absolute', left: '243px', top: '700px', width: '700px', height: '957px', zIndex: 3, pointerEvents: 'none' }}>
-          <img
-            src={welcomeCard1}
-            alt=""
-            style={{ width: '700px', height: '957px', objectFit: 'cover', borderRadius: '62px' }}
-          />
-        </div>
+        {cards.map((card, index) => {
+          const slot = getCardSlot(index);
+
+          return (
+            <button
+              key={card.src}
+              type="button"
+              onClick={() => setActiveCard(index)}
+              className={`welcome-stack-card ${slot.className}`}
+              style={{
+                position: 'absolute',
+                left: `${slot.left}px`,
+                top: `${slot.top}px`,
+                width: `${card.width}px`,
+                height: `${card.height}px`,
+                zIndex: slot.zIndex,
+                border: 'none',
+                background: 'transparent',
+                padding: 0,
+                cursor: 'pointer',
+              }}
+            >
+              <img
+                src={card.src}
+                alt=""
+                style={{ width: `${card.width}px`, height: `${card.height}px`, objectFit: 'cover', borderRadius: '62px', display: 'block', pointerEvents: 'none' }}
+              />
+            </button>
+          );
+        })}
 
         {/* Кнопка "экскурсия" */}
         <button

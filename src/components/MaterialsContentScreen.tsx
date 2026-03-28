@@ -154,15 +154,16 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '12px',
               margin: '14px auto 0',
               cursor: 'pointer',
             }}
           >
-            <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', lineHeight: '1', color: 'white', transform: 'translateY(1px)' }}>
-              <span className="materials-download-pulse">скачать файлы ({downloadCount})</span>
+            <span className="materials-download-pulse" style={{ transform: 'translateY(1px)' }}>
+              <span style={{ fontFamily: 'Cygre', fontWeight: 700, fontSize: '32px', lineHeight: '1', color: 'white', display: 'inline-block' }}>
+                скачать файлы ({downloadCount})
+              </span>
+              <FigmaDownloadIconButton className="button-inner-glow" style={{ marginTop: '0', transform: 'translateY(-1px)' }} />
             </span>
-            <FigmaDownloadIconButton className="button-inner-glow" style={{ marginTop: '2px' }} />
           </button>
         </div>
       );
