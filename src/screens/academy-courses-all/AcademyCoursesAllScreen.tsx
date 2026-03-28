@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { FigmaStudyButton } from '../../components/FigmaPills';
 import { getAcademyCourses, getAcademyLessons } from '../../utils/contentApi';
@@ -241,7 +242,18 @@ export const AcademyCoursesAllScreen: React.FC = () => {
         {courseCards.map((card) => {
           const progressValue = courseProgress[card.key] ?? 0;
           return (
-            <div key={card.key} style={{ position: 'absolute', left: '141px', top: `${card.top}px`, width: '894px', height: `${card.height}px` }}>
+            <InteractiveTiltCard
+              key={card.key}
+              className="pricing-card-shell"
+              maxRotateX={3}
+              maxRotateY={4}
+              maxScale={1.01}
+              style={{ position: 'absolute', left: '141px', top: `${card.top}px`, width: '894px', height: `${card.height}px` }}
+            >
+              <div className="pricing-card-sheen-zone">
+                <div className="pricing-card-sheen" />
+                <div className="pricing-card-sheen pricing-card-sheen-soft" />
+              </div>
               <div style={{ position: 'absolute', inset: card.bgInset, borderRadius: '26px', overflow: 'hidden' }}>
                 <img src={card.bg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '26px' }} />
               </div>
@@ -263,7 +275,7 @@ export const AcademyCoursesAllScreen: React.FC = () => {
                   top: `${card.buttonTop}px`,
                 }}
               />
-            </div>
+            </InteractiveTiltCard>
           );
         })}
 

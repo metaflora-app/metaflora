@@ -235,6 +235,7 @@ export const LabaFavoritesScreen: React.FC = () => {
         </div>
 
         <div
+          className="laba-feed-scroll"
           style={{
             position: 'absolute',
             left: '143px',
@@ -260,6 +261,7 @@ export const LabaFavoritesScreen: React.FC = () => {
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
                     actionLabel="следить"
                     actionCost={100}
+                    actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}
                   />

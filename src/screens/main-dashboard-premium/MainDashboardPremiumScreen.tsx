@@ -224,7 +224,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
         <SmBtn label="продлить" x={259} y={430} onClick={() => navigate('/pricing')} />
 
         <div style={{ position: 'absolute', left: '610px', top: '327px', width: '159px', height: '159px', borderRadius: '79.5px', border: '4px solid rgba(255,255,255,0.3)', overflow: 'hidden' }}>
-          <img src={metacoinCircle} alt="метакоины" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={metacoinCircle} alt="метакоины" className="motion-metacoin" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
         <div style={{ position: 'absolute', left: '790px', top: '339px', width: '145px', height: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center', opacity: loading ? 0 : 1 }}>

@@ -44,15 +44,15 @@ const getCenteredButtonLabelStyle = (labelOffsetY: number, labelWidth: number): 
 
 export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style, textOffsetY = 4 }) => (
   <div
-    className={className}
+    className={['premium-static-shell', className].filter(Boolean).join(' ')}
     style={{
-      ...basePillStyle,
       position: 'relative',
       width: '249.6507px',
       height: '80.9526px',
       ...style,
     }}
   >
+    <div className="premium-static-inner" />
     <div
       style={{
         position: 'absolute',
@@ -79,15 +79,15 @@ export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style, te
 
 export const FigmaMaterialsBadge: React.FC<BasePillProps> = ({ className, style }) => (
   <div
-    className={className}
+    className={['premium-static-shell', className].filter(Boolean).join(' ')}
     style={{
-      ...basePillStyle,
       position: 'relative',
       width: '245.7405px',
       height: '79.3512px',
       ...style,
     }}
   >
+    <div className="premium-static-inner" />
     <div
       style={{
         position: 'absolute',
@@ -119,29 +119,43 @@ export const FigmaStudyButton: React.FC<PillButtonProps> = ({
   disabled,
   labelOffsetY = 6,
   labelWidth = 160,
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    disabled={disabled}
-    className={className}
-    style={{
-      ...basePillStyle,
-      position: 'relative',
-      width: '246.9305px',
-      height: '79.25px',
-      padding: 0,
-      cursor: disabled ? 'default' : 'pointer',
-      ...style,
-    }}
-  >
-    <div
-      style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}
+}) => {
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={['premium-button-shell', className, isPressed ? 'is-pressed' : ''].filter(Boolean).join(' ')}
+      onPointerDown={() => !disabled && setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onPointerCancel={() => setIsPressed(false)}
+      style={{
+        position: 'relative',
+        width: '246.9305px',
+        height: '79.25px',
+        padding: 0,
+        cursor: disabled ? 'default' : 'pointer',
+        border: 'none',
+        background: 'transparent',
+        borderRadius: '62px',
+        overflow: 'hidden',
+        ...style,
+      }}
     >
-      изучить
-    </div>
-  </button>
-);
+      <div className="premium-button-inner" />
+      <div className="premium-button-content" style={{ width: '100%', height: '100%' }}>
+        <div
+          style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}
+        >
+          изучить
+        </div>
+      </div>
+    </button>
+  );
+};
 
 export const FigmaReadButton: React.FC<PillButtonProps> = ({
   className,
@@ -151,29 +165,43 @@ export const FigmaReadButton: React.FC<PillButtonProps> = ({
   label,
   labelOffsetY = 6,
   labelWidth = 160,
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    disabled={disabled}
-    className={className}
-    style={{
-      ...basePillStyle,
-      position: 'relative',
-      width: '246.9305px',
-      height: '79.25px',
-      padding: 0,
-      cursor: disabled ? 'default' : 'pointer',
-      ...style,
-    }}
-  >
-    <div
-      style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}
+}) => {
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={['premium-button-shell', className, isPressed ? 'is-pressed' : ''].filter(Boolean).join(' ')}
+      onPointerDown={() => !disabled && setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onPointerCancel={() => setIsPressed(false)}
+      style={{
+        position: 'relative',
+        width: '246.9305px',
+        height: '79.25px',
+        padding: 0,
+        cursor: disabled ? 'default' : 'pointer',
+        border: 'none',
+        background: 'transparent',
+        borderRadius: '62px',
+        overflow: 'hidden',
+        ...style,
+      }}
     >
-      {label}
-    </div>
-  </button>
-);
+      <div className="premium-button-inner" />
+      <div className="premium-button-content" style={{ width: '100%', height: '100%' }}>
+        <div
+          style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}
+        >
+          {label}
+        </div>
+      </div>
+    </button>
+  );
+};
 
 export const FigmaDownloadIconButton: React.FC<BasePillProps> = ({ className, style }) => (
   <img

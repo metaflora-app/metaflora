@@ -559,17 +559,19 @@ const ActionButton: React.FC<{
         overflow: 'hidden',
       }}
     >
+      {motionVariant === 'premium' ? <div className="premium-button-inner" /> : null}
       {imageSrc ? (
         <img
           src={imageSrc}
           alt=""
           style={{
-            width: '100%',
-            height: '100%',
+            position: 'absolute',
+            inset: motionVariant === 'premium' ? '4px' : 0,
+            width: motionVariant === 'premium' ? 'calc(100% - 8px)' : '100%',
+            height: motionVariant === 'premium' ? 'calc(100% - 8px)' : '100%',
             objectFit: 'fill',
             display: 'block',
             pointerEvents: 'none',
-            position: 'relative',
             zIndex: 2,
           }}
         />
@@ -612,6 +614,7 @@ const ActionButton: React.FC<{
           <img
             src={followMetacoin}
             alt=""
+            className="motion-metacoin"
             style={{
               position: 'absolute',
               height: '130.34%',

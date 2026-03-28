@@ -96,12 +96,12 @@ export const WelcomeScreen: React.FC = () => {
         />
 
         {/* Кнопка "экскурсия" */}
-        <img src={btnTour} alt="экскурсия по платформе" onClick={() => navigate('/tour-video')} className="button-inner-glow" style={{
+        <img src={btnTour} alt="экскурсия по платформе" onClick={() => navigate('/tour-video')} className="button-inner-glow motion-press-grow" style={{
           position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', cursor: 'pointer',
         }} />
 
         {/* Кнопка "попробовать бесплатно" */}
-        <img src={btnFree} alt="попробовать бесплатно" onClick={() => navigate('/demo-access')} className="button-inner-glow" style={{
+        <img src={btnFree} alt="попробовать бесплатно" onClick={() => navigate('/demo-access')} className="button-inner-glow motion-press-grow" style={{
           position: 'absolute', left: '143px', top: '1902px', width: '894px', height: '139px', cursor: 'pointer',
         }} />
 

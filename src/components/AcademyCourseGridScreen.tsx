@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { InteractiveTiltCard } from './InteractiveTiltCard';
 import { Footer, Header, ThreeBg } from './ScreenLayout';
 import { FigmaReadButton } from './FigmaPills';
 import {
@@ -166,7 +167,11 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
 
           return (
             <React.Fragment key={lesson.id}>
-              <div
+              <InteractiveTiltCard
+                className="pricing-card-shell"
+                maxRotateX={3}
+                maxRotateY={4}
+                maxScale={1.01}
                 style={{
                   position: 'absolute',
                   left: `${position.cardLeft}px`,
@@ -174,13 +179,23 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
                   transform: 'translateX(-50%)',
                   width: `${position.cardWidth}px`,
                   height: '317px',
-                  backdropFilter: 'blur(50px)',
-                  background: 'black',
-                  border: '4px solid rgba(255,255,255,0.3)',
-                  borderRadius: '30px',
-                  overflow: 'hidden',
                 }}
               >
+                <div className="pricing-card-sheen-zone">
+                  <div className="pricing-card-sheen" />
+                  <div className="pricing-card-sheen pricing-card-sheen-soft" />
+                </div>
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backdropFilter: 'blur(50px)',
+                    background: 'black',
+                    border: '4px solid rgba(255,255,255,0.3)',
+                    borderRadius: '30px',
+                    overflow: 'hidden',
+                  }}
+                >
                 <div
                   style={{
                     position: 'absolute',
@@ -215,7 +230,8 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
                     transform: 'translateX(-50%)',
                   }}
                 />
-              </div>
+                </div>
+              </InteractiveTiltCard>
 
               <div
                 style={{

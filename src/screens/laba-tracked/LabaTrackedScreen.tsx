@@ -205,6 +205,7 @@ export const LabaTrackedScreen: React.FC = () => {
           <img src={reelsScrollWindow} alt="" style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
         </div>
         <div
+          className="laba-feed-scroll"
           style={{
             position: 'absolute',
             left: '141px',
@@ -233,6 +234,7 @@ export const LabaTrackedScreen: React.FC = () => {
                     actionLabel="не следить"
                     actionVariant="light"
                     actionButtonImageSrc={desktopShortUnfollowActiveButton}
+                    actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}
                   />

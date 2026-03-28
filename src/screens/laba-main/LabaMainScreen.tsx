@@ -327,6 +327,7 @@ export const LabaMainScreen: React.FC = () => {
                 <img
                   src={metacoinSmall}
                   alt=""
+                  className="motion-metacoin"
                   style={{
                     width: '19px',
                     height: '19px',

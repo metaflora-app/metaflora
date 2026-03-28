@@ -27,7 +27,7 @@ export const AboutPoligonScreen: React.FC = () => {
           src={serviceBtn}
           alt="перейти к сервису"
           onClick={() => navigate('/poligon-articles-all')}
-          className="button-inner-glow"
+          className="button-inner-glow motion-press-grow"
           style={{ position: 'absolute', left: '143px', top: '1902px', width: '894px', height: '139px', cursor: 'pointer' }}
         />
 

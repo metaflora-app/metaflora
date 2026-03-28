@@ -33,7 +33,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
         <img
           src={startTrackingButton}
           alt="начать отслеживание"
-          className="button-inner-glow"
+          className="button-inner-glow motion-press-grow"
           onClick={() => navigate('/laba-search-account')}
           style={{ position: 'absolute', left: '325px', top: '1169px', width: '530px', height: '139px', objectFit: 'contain', cursor: 'pointer', zIndex: 2 }}
         />

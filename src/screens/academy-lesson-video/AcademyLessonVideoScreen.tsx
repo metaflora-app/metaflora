@@ -239,6 +239,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
 
         <button
           onClick={() => navigate(`/academy-lesson-materials?lesson=${lessonId}&type=${lessonType}`)}
+          className="motion-press-grow"
           style={{
             position: 'absolute',
             left: 'calc(50% - 1px)',

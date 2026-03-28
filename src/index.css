@@ -297,15 +297,20 @@ body {
   z-index: 0;
 }
 
-.premium-button-shell {
+.premium-button-shell,
+.premium-static-shell {
   position: relative;
   isolation: isolate;
+}
+
+.premium-button-shell {
   transition:
     transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 320ms ease;
 }
 
-.premium-button-shell::before {
+.premium-button-shell::before,
+.premium-static-shell::before {
   content: '';
   position: absolute;
   inset: -0.5px;
@@ -329,7 +334,8 @@ body {
   will-change: transform;
 }
 
-.premium-button-shell::after {
+.premium-button-shell::after,
+.premium-static-shell::after {
   content: '';
   position: absolute;
   inset: -1px;
@@ -342,6 +348,17 @@ body {
 }
 
 .premium-button-inner {
+  position: absolute;
+  inset: 4px;
+  border-radius: inherit;
+  backdrop-filter: blur(50px);
+  background: rgba(0, 0, 0, 0.9);
+  border: 4px solid rgba(255,255,255,0.3);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.premium-static-inner {
   position: absolute;
   inset: 4px;
   border-radius: inherit;
@@ -366,6 +383,20 @@ body {
   z-index: 2;
 }
 
+.motion-press-grow {
+  transition:
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 220ms ease;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.motion-press-grow:active,
+.motion-press-grow.is-pressed {
+  transform: scale(1.22);
+  filter: brightness(1.08);
+}
+
 .laba-feed-scroll {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -387,6 +418,33 @@ body {
 .laba-filter-button.is-pressed {
   transform: scale(1.12);
   filter: brightness(1.08);
+}
+
+@keyframes metacoinShimmer {
+  0% {
+    transform: translateZ(0) scale(1) rotate(0deg);
+    filter: brightness(1) saturate(1) drop-shadow(0 0 0 rgba(255,255,255,0));
+  }
+  25% {
+    filter: brightness(1.1) saturate(1.08) drop-shadow(0 0 4px rgba(255,255,255,0.18));
+  }
+  50% {
+    transform: translateZ(0) scale(1.06) rotate(3deg);
+    filter: brightness(1.28) saturate(1.18) drop-shadow(0 0 10px rgba(255,255,255,0.28));
+  }
+  75% {
+    filter: brightness(1.12) saturate(1.08) drop-shadow(0 0 6px rgba(255,255,255,0.16));
+  }
+  100% {
+    transform: translateZ(0) scale(1) rotate(0deg);
+    filter: brightness(1) saturate(1) drop-shadow(0 0 0 rgba(255,255,255,0));
+  }
+}
+
+.motion-metacoin {
+  animation: metacoinShimmer 4.8s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, filter;
 }
 
 @keyframes tiktokLikeWave {

@@ -108,7 +108,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
               key={button.key}
               src={src}
               alt={button.key}
-              className={button.key === 'return' ? undefined : 'button-inner-glow'}
+              className={button.key === 'return' ? 'motion-press-grow' : 'button-inner-glow motion-press-grow'}
               onClick={() => {
                 if (button.key === 'return') {
                   setActiveFilters([]);
@@ -173,7 +173,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
                       src={readButton}
                       alt="читать"
                       onClick={() => navigate(`/article/${article.id}`)}
-                      className="button-inner-glow"
+                      className="button-inner-glow motion-press-grow"
                       style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', objectFit: 'contain', cursor: 'pointer' }}
                     />
                   </div>

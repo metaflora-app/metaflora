@@ -99,6 +99,7 @@ export const LabaAnalysisFullScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={handleGenerateScenario}
+                className="motion-press-grow"
                 style={{
                   position: 'absolute',
                   left: '14.3817%',

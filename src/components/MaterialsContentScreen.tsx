@@ -6,6 +6,7 @@ import { showPopupMessage } from '../app/telegram/telegramHelpers';
 import { copyToClipboard } from '../utils/clipboard';
 import { convertPngToJpeg } from '../utils/imageConverter';
 import { FigmaDownloadIconButton, FigmaMaterialsBadge, FigmaPromptBadge } from './FigmaPills';
+import { InteractiveTiltCard } from './InteractiveTiltCard';
 
 interface ContentBlockLike {
   id: string;
@@ -57,7 +58,18 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     if (block.type === 'image') {
       const imageUrl = convertPngToJpeg(block.content);
       return (
-        <div key={block.id} style={{ position: 'relative', width: '760px', margin: '30px auto' }}>
+        <InteractiveTiltCard
+          key={block.id}
+          className="pricing-card-shell"
+          maxRotateX={3}
+          maxRotateY={4}
+          maxScale={1.008}
+          style={{ position: 'relative', width: '760px', margin: '30px auto' }}
+        >
+          <div className="pricing-card-sheen-zone">
+            <div className="pricing-card-sheen" />
+            <div className="pricing-card-sheen pricing-card-sheen-soft" />
+          </div>
           <img
             src={imageUrl}
             alt="изображение"
@@ -72,7 +84,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             }}
             style={{ width: '760px', display: 'block', borderRadius: '20px', cursor: 'pointer' }}
           />
-        </div>
+        </InteractiveTiltCard>
       );
     }
 
@@ -81,7 +93,18 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       if (!videoUrl) return null;
 
       return (
-        <div key={block.id} style={{ position: 'relative', width: '760px', margin: '30px auto' }}>
+        <InteractiveTiltCard
+          key={block.id}
+          className="pricing-card-shell"
+          maxRotateX={3}
+          maxRotateY={4}
+          maxScale={1.008}
+          style={{ position: 'relative', width: '760px', margin: '30px auto' }}
+        >
+          <div className="pricing-card-sheen-zone">
+            <div className="pricing-card-sheen" />
+            <div className="pricing-card-sheen pricing-card-sheen-soft" />
+          </div>
           <video
             src={videoUrl}
             autoPlay
@@ -92,7 +115,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             preload="auto"
             style={{ width: '760px', display: 'block', borderRadius: '20px', background: '#000' }}
           />
-        </div>
+        </InteractiveTiltCard>
       );
     }
 
@@ -104,6 +127,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
           key={block.id}
           type="button"
           onClick={() => void handleCopyPrompt(promptText)}
+          className="motion-press-grow"
           style={{ margin: '28px 0 30px', border: 'none', background: 'transparent', padding: 0, width: '100%', cursor: 'pointer' }}
         >
           <FigmaPromptBadge className="button-inner-glow" style={{ display: 'block', margin: '0 auto 24px' }} />
@@ -121,6 +145,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
           <button
             type="button"
             onClick={onSendMaterials}
+            className="motion-press-grow"
             style={{
               border: 'none',
               background: 'transparent',

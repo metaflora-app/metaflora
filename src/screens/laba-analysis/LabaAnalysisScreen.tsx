@@ -368,6 +368,7 @@ const AnalysisPreviewCard: React.FC<{
         type="button"
         onClick={onOpenReel}
         aria-label="открыть рилс"
+        className="motion-press-grow"
         style={{
           position: 'absolute',
           left: '377px',
@@ -385,6 +386,7 @@ const AnalysisPreviewCard: React.FC<{
 
       <FigmaLikeButton
         active={isFavorite}
+        effectVariant="tiktok"
         onClick={() => onToggleFavorite(reel.id)}
         style={{
           position: 'absolute',
@@ -521,35 +523,44 @@ const ActionButton: React.FC<{
   cost?: number;
   variant: ActionVariant;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={{
-      position: 'absolute',
-      left: '356px',
-      top: '831px',
-      width: '251px',
-      height: '79.63px',
-      padding: 0,
-      border: 'none',
-      background: 'transparent',
-      cursor: 'pointer',
-      opacity: variant === 'light' ? 0.92 : 1,
-    }}
-  >
-    <div
+}> = ({ label, cost, variant, onClick }) => {
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`premium-button-shell ${isPressed ? 'is-pressed' : ''}`}
+      onPointerDown={() => setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onPointerCancel={() => setIsPressed(false)}
       style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
+        position: 'absolute',
+        left: '356px',
+        top: '831px',
+        width: '251px',
+        height: '79.63px',
+        padding: 0,
+        border: 'none',
+        background: 'transparent',
+        cursor: 'pointer',
+        opacity: variant === 'light' ? 0.92 : 1,
         borderRadius: '62px',
-        border: '4px solid rgba(255,255,255,0.3)',
-        background: 'rgba(0,0,0,0.9)',
-        backdropFilter: 'blur(50px)',
         overflow: 'hidden',
       }}
     >
+      <div className="premium-button-inner" />
+      <div
+        className="premium-button-content"
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          borderRadius: '62px',
+          overflow: 'hidden',
+        }}
+      >
       <div
         style={{
           position: 'absolute',
@@ -575,6 +586,7 @@ const ActionButton: React.FC<{
         <img
           src={followMetacoin}
           alt=""
+          className="motion-metacoin"
           style={{
             position: 'absolute',
             height: '130.34%',
@@ -585,9 +597,10 @@ const ActionButton: React.FC<{
           }}
         />
       </div>
-    </div>
-  </button>
-);
+      </div>
+    </button>
+  );
+};
 
 const OpenReelButton: React.FC = () => (
   <div style={{ position: 'relative', width: '72px', height: '72px', pointerEvents: 'none' }}>
@@ -658,6 +671,7 @@ const LockedActionFrame: React.FC<{
         if (disabled) return;
         onClick();
       }}
+      className="motion-press-grow"
       style={{
         position: 'absolute',
         left: '14.3817%',

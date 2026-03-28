@@ -189,7 +189,7 @@ export const PromptCardScreen: React.FC = () => {
               <img
                 src={promptBadge}
                 alt="плашка промпт"
-                className="button-inner-glow"
+                className="button-inner-glow motion-press-grow"
                 onClick={handleCopy}
                 style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', objectFit: 'contain', cursor: 'pointer', transform: 'translateX(-50%)' }}
               />

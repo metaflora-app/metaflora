@@ -82,7 +82,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
               {'то, что нужно для\nлегкого старта:\nOpenClaw с нуля,\nбазовый промптинг\nи сборка стэка ИИ-\nкреатора'}
             </p>
           </div>
-          <img src={openBtn} alt="открыть" onClick={() => navigate('/academy-course-demo')} className="button-inner-glow" style={{
+          <img src={openBtn} alt="открыть" onClick={() => navigate('/academy-course-demo')} className="button-inner-glow motion-press-grow" style={{
             position: 'absolute', left: '101px', top: '85px', width: '247px', height: '79px', cursor: 'pointer',
           }} />
         </div>
@@ -94,7 +94,7 @@ export const MainDashboardFreeScreen: React.FC = () => {
         }} />
 
         {/* Кнопка "оплатить" — укороченная 530px, по центру карточки */}
-        <img src={payBtn} alt="оплатить полный доступ" onClick={() => navigate('/pricing')} className="button-inner-glow" style={{
+        <img src={payBtn} alt="оплатить полный доступ" onClick={() => navigate('/pricing')} className="button-inner-glow motion-press-grow" style={{
           position: 'absolute', left: '322px', top: '1375px', width: '530px', height: '139px', cursor: 'pointer',
         }} />
 

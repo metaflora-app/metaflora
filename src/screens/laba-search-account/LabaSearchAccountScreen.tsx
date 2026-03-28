@@ -170,7 +170,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => void handleSearch()}
-            className="button-inner-glow"
+            className="premium-button-shell motion-press-grow"
             style={{
               position: 'absolute',
               left: '290px',
@@ -191,9 +191,12 @@ export const LabaSearchAccountScreen: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               opacity: searching ? 0.85 : 1,
+              overflow: 'hidden',
             }}
             disabled={searching}
           >
+            <div className="premium-button-inner" />
+            <div className="premium-button-content" style={{ width: '100%', height: '100%' }}>
             <span
               style={{
                 display: 'flex',
@@ -209,6 +212,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             >
               найти
             </span>
+            </div>
           </button>
 
           {hasSearchAttempted ? (
@@ -259,7 +263,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => void handleStartTracking()}
-                className="button-inner-glow"
+                className="premium-button-shell motion-press-grow"
                 style={{
                   position: 'absolute',
                   left: '150px',
@@ -272,10 +276,12 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   color: '#fff',
                   cursor: tracking ? 'default' : 'pointer',
                   padding: 0,
+                  overflow: 'hidden',
                 }}
                 disabled={tracking}
               >
-                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                <div className="premium-button-inner" />
+                <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <div
                     style={{
                       position: 'absolute',
@@ -296,6 +302,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                     <img
                       src={metacoinSmall}
                       alt=""
+                      className="motion-metacoin"
                       style={{ width: '25px', height: '25px', objectFit: 'contain', display: 'block' }}
                     />
                   </div>

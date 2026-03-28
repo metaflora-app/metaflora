@@ -222,6 +222,7 @@ export const PromptFirstScreen: React.FC = () => {
             <button
               key={button.key || 'return'}
               type="button"
+              className="motion-press-grow"
               onClick={() => {
                 if (button.key === 'return') {
                   setActiveFilter(null);
@@ -381,7 +382,7 @@ export const PromptFirstScreen: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => !prompt.id.startsWith('loading-') && handleOpenPromptCard(prompt.id)}
-                    className="button-inner-glow"
+                    className="button-inner-glow motion-press-grow"
                     style={{
                       position: 'absolute',
                       left: '293px',
