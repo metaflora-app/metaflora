@@ -206,6 +206,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
 
           <SecondaryBlackBackdrop>
             <div
+              className="laba-feed-scroll"
               onScroll={onContentScroll}
               style={{ position: 'absolute', inset: 0, overflowY: 'auto', padding: '40px 25px 110px', WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)', maskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)' }}
             >

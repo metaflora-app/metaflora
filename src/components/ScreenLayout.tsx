@@ -17,6 +17,7 @@ export const ThreeBg: React.FC = () => (
     <img
       src={bgBase}
       alt=""
+      fetchPriority="high"
       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
     />
   </div>

@@ -121,13 +121,20 @@ export const FigmaStudyButton: React.FC<PillButtonProps> = ({
   labelWidth = 160,
 }) => {
   const [isPressed, setIsPressed] = React.useState(false);
+  const shellClassName = [className, 'premium-button-shell', isPressed ? 'is-pressed' : '']
+    .filter(Boolean)
+    .join(' ')
+    .replace(/\bbutton-inner-glow\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const innerClassName = className?.includes('button-inner-glow') ? 'button-inner-glow premium-button-inner' : 'premium-button-inner';
 
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={['premium-button-shell', className, isPressed ? 'is-pressed' : ''].filter(Boolean).join(' ')}
+      className={shellClassName}
       onPointerDown={() => !disabled && setIsPressed(true)}
       onPointerUp={() => setIsPressed(false)}
       onPointerLeave={() => setIsPressed(false)}
@@ -145,7 +152,7 @@ export const FigmaStudyButton: React.FC<PillButtonProps> = ({
         ...style,
       }}
     >
-      <div className="premium-button-inner" />
+      <div className={innerClassName} />
       <div className="premium-button-content" style={{ width: '100%', height: '100%' }}>
         <div
           style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}
@@ -167,13 +174,20 @@ export const FigmaReadButton: React.FC<PillButtonProps> = ({
   labelWidth = 160,
 }) => {
   const [isPressed, setIsPressed] = React.useState(false);
+  const shellClassName = [className, 'premium-button-shell', isPressed ? 'is-pressed' : '']
+    .filter(Boolean)
+    .join(' ')
+    .replace(/\bbutton-inner-glow\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const innerClassName = className?.includes('button-inner-glow') ? 'button-inner-glow premium-button-inner' : 'premium-button-inner';
 
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={['premium-button-shell', className, isPressed ? 'is-pressed' : ''].filter(Boolean).join(' ')}
+      className={shellClassName}
       onPointerDown={() => !disabled && setIsPressed(true)}
       onPointerUp={() => setIsPressed(false)}
       onPointerLeave={() => setIsPressed(false)}
@@ -191,7 +205,7 @@ export const FigmaReadButton: React.FC<PillButtonProps> = ({
         ...style,
       }}
     >
-      <div className="premium-button-inner" />
+      <div className={innerClassName} />
       <div className="premium-button-content" style={{ width: '100%', height: '100%' }}>
         <div
           style={getCenteredButtonLabelStyle(labelOffsetY, labelWidth)}

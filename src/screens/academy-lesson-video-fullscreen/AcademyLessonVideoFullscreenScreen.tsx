@@ -128,18 +128,7 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
           padding: '90px 24px 24px',
         }}
       >
-        {loading ? (
-          <div
-            style={{
-              width: '894px',
-              height: '1457px',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              borderRadius: '24px',
-              background: '#000',
-            }}
-          />
-        ) : video?.video_url ? (
+        {video?.video_url ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={video.title || title}
@@ -177,7 +166,7 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
               borderRadius: '24px',
             }}
           />
-        ) : (
+        ) : loading ? null : (
           <div
             style={{
               color: 'white',

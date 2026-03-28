@@ -53,6 +53,33 @@ const FULL_LAYOUT: CourseCardPosition[] = [
   { cardLeft: 822.5, cardTop: 1582, cardWidth: 425, badgeLeft: 610, badgeTop: 1554 },
 ];
 
+function getCourseLessonsCacheKey(source: CourseSource, courseType: string): string {
+  return `metaflora_course_lessons_${source}_${courseType}`;
+}
+
+function readCachedCourseLessons(source: CourseSource, courseType: string): AcademyLesson[] {
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const raw = window.localStorage.getItem(getCourseLessonsCacheKey(source, courseType));
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeCachedCourseLessons(source: CourseSource, courseType: string, lessons: AcademyLesson[]): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    window.localStorage.setItem(getCourseLessonsCacheKey(source, courseType), JSON.stringify(lessons));
+  } catch {
+    // Ignore storage quota errors.
+  }
+}
+
 async function loadCourseLessons(source: CourseSource, courseType: string): Promise<AcademyLesson[]> {
   if (source === 'demo') {
     const courseResult = await getDemoCourses({ courseType, isActive: true });
@@ -82,7 +109,8 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
   cardTextFontSize = 27,
 }) => {
   const navigate = useNavigate();
-  const [lessons, setLessons] = React.useState<AcademyLesson[] | null>(null);
+  const [lessons, setLessons] = React.useState<AcademyLesson[]>(() => readCachedCourseLessons(source, courseType));
+  const [loadingLessons, setLoadingLessons] = React.useState(() => readCachedCourseLessons(source, courseType).length === 0);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const layout = placeholderCount === 4 ? DEMO_LAYOUT : FULL_LAYOUT;
 
@@ -91,12 +119,20 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
 
     const run = async () => {
       try {
+        if (readCachedCourseLessons(source, courseType).length === 0) {
+          setLoadingLessons(true);
+        }
         const data = await loadCourseLessons(source, courseType);
         if (mounted) {
           setLessons(data);
+          writeCachedCourseLessons(source, courseType, data);
         }
       } catch (error) {
         console.error('Error loading academy course lessons:', error);
+      } finally {
+        if (mounted) {
+          setLoadingLessons(false);
+        }
       }
     };
 
@@ -106,7 +142,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
     };
   }, [source, courseType]);
 
-  const visibleLessons = (lessons || []).slice(0, layout.length);
+  const visibleLessons = lessons.slice(0, layout.length);
 
   const openLesson = (lessonId: string) => {
     const search = source === 'demo' ? `?lesson=${lessonId}&type=demo` : `?lesson=${lessonId}`;
@@ -144,11 +180,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
           ))}
         </div>
 
-        {lessons === null ? (
-          <div style={{ position: 'absolute', left: '50%', top: '760px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontWeight: 400, fontSize: '32px', lineHeight: '1', color: 'rgba(255,255,255,0.75)' }}>
-            загружаем уроки...
-          </div>
-        ) : visibleLessons.map((lesson, index) => {
+        {!loadingLessons ? visibleLessons.map((lesson, index) => {
           const position = layout[index];
           const label = lesson.lesson_number || index + 1;
           const description = cardDescriptionOverride || lesson.description || lesson.annotation || placeholderText;
@@ -246,7 +278,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
               </div>
             </React.Fragment>
           );
-        })}
+        }) : null}
 
         <Footer />
       </div>

@@ -158,17 +158,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           />
         ) : (
           <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-            {loading ? (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: '40px',
-                  overflow: 'hidden',
-                  background: '#000',
-                }}
-              />
-            ) : video?.video_id ? (
+            {video?.video_id ? (
             <AboutVideoPlayer
               videoId={video.video_id}
               autoPlay={playerActivated}
@@ -203,7 +193,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
               </div>
             )}
 
-            {!loading && !playerActivated && canRenderAnyPlayer ? (
+            {!playerActivated && canRenderAnyPlayer ? (
               <button
                 type="button"
                 onClick={handleActivatePlayer}

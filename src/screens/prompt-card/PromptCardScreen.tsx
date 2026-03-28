@@ -101,6 +101,7 @@ export const PromptCardScreen: React.FC = () => {
 
       <div style={{ position: 'absolute', left: '175px', top: '437px', width: '826px', height: '1569px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box', overflow: 'visible' }}>
           <div
+            className="laba-feed-scroll"
             style={{
               position: 'absolute',
               inset: 0,

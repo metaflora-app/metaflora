@@ -237,7 +237,7 @@ export const LabaAnalysisScreen: React.FC = () => {
         <MainBackdropNew />
 
         <SecondaryBlackBackdrop>
-          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '40px' }}>
+          <div className="laba-feed-scroll" style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '40px' }}>
             <AnalysisPreviewCard
               reel={reel}
               isFavorite={likedCards.has(reel.id)}

@@ -25,8 +25,6 @@ async function bootstrapApp() {
   document.documentElement.style.background = '#020101';
   document.body.style.background = '#020101';
 
-  await preloadCriticalFonts();
-
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <UIStateProvider>
@@ -36,6 +34,7 @@ async function bootstrapApp() {
   );
 
   const warmAssets = () => {
+    void preloadCriticalFonts();
     void preloadAllImages();
   };
 

@@ -140,7 +140,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     if (!media.duration) return 0;
     return (media.currentTime / media.duration) * 100;
   }, [media.currentTime, media.duration, slider.fillPercent]);
-  const isMediaReady = media.duration > 0;
 
   React.useEffect(() => {
     return () => {
@@ -328,75 +327,73 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           }}
         />
 
-        {isMediaReady ? (
-          <div
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 3,
+            pointerEvents: 'none',
+          }}
+        >
+          <button
+            type="button"
+            aria-label={`Перемотать назад на ${SEEK_SECONDS} секунд двойным нажатием`}
+            onClick={() => handleEdgeTap('left')}
             style={{
               position: 'absolute',
-              inset: 0,
-              zIndex: 3,
-              pointerEvents: 'none',
+              left: `${OVERLAY_BACKWARD_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
+              top: `${TAP_ZONE_TOP}px`,
+              width: `${TAP_ZONE_WIDTH}px`,
+              height: `${TAP_ZONE_HEIGHT}px`,
+              border: 0,
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
+              touchAction: 'manipulation',
+              pointerEvents: 'auto',
             }}
-          >
-            <button
-              type="button"
-              aria-label={`Перемотать назад на ${SEEK_SECONDS} секунд двойным нажатием`}
-              onClick={() => handleEdgeTap('left')}
-              style={{
-                position: 'absolute',
-                left: `${OVERLAY_BACKWARD_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
-                top: `${TAP_ZONE_TOP}px`,
-                width: `${TAP_ZONE_WIDTH}px`,
-                height: `${TAP_ZONE_HEIGHT}px`,
-                border: 0,
-                background: 'transparent',
-                padding: 0,
-                cursor: 'pointer',
-                touchAction: 'manipulation',
-                pointerEvents: 'auto',
-              }}
-            />
+          />
 
-            <button
-              type="button"
-              aria-label={media.paused ? 'Воспроизвести видео' : 'Поставить видео на паузу'}
-              onClick={handleTogglePlay}
-              style={{
-                position: 'absolute',
-                left: `${OVERLAY_PLAY_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
-                top: `${TAP_ZONE_TOP}px`,
-                width: `${TAP_ZONE_WIDTH}px`,
-                height: `${TAP_ZONE_HEIGHT}px`,
-                border: 0,
-                background: 'transparent',
-                padding: 0,
-                cursor: 'pointer',
-                touchAction: 'manipulation',
-                pointerEvents: 'auto',
-              }}
-            />
+          <button
+            type="button"
+            aria-label={media.paused ? 'Воспроизвести видео' : 'Поставить видео на паузу'}
+            onClick={handleTogglePlay}
+            style={{
+              position: 'absolute',
+              left: `${OVERLAY_PLAY_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
+              top: `${TAP_ZONE_TOP}px`,
+              width: `${TAP_ZONE_WIDTH}px`,
+              height: `${TAP_ZONE_HEIGHT}px`,
+              border: 0,
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
+              touchAction: 'manipulation',
+              pointerEvents: 'auto',
+            }}
+          />
 
-            <button
-              type="button"
-              aria-label={`Перемотать вперед на ${SEEK_SECONDS} секунд двойным нажатием`}
-              onClick={() => handleEdgeTap('right')}
-              style={{
-                position: 'absolute',
-                left: `${OVERLAY_FORWARD_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
-                top: `${TAP_ZONE_TOP}px`,
-                width: `${TAP_ZONE_WIDTH}px`,
-                height: `${TAP_ZONE_HEIGHT}px`,
-                border: 0,
-                background: 'transparent',
-                padding: 0,
-                cursor: 'pointer',
-                touchAction: 'manipulation',
-                pointerEvents: 'auto',
-              }}
-            />
-          </div>
-        ) : null}
+          <button
+            type="button"
+            aria-label={`Перемотать вперед на ${SEEK_SECONDS} секунд двойным нажатием`}
+            onClick={() => handleEdgeTap('right')}
+            style={{
+              position: 'absolute',
+              left: `${OVERLAY_FORWARD_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
+              top: `${TAP_ZONE_TOP}px`,
+              width: `${TAP_ZONE_WIDTH}px`,
+              height: `${TAP_ZONE_HEIGHT}px`,
+              border: 0,
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
+              touchAction: 'manipulation',
+              pointerEvents: 'auto',
+            }}
+          />
+        </div>
 
-        {isMediaReady && (flashOverlay || media.paused) ? (
+        {flashOverlay || media.paused ? (
           <div
             className={`vid-control-button ${media.paused && !flashOverlay ? 'is-pulsing' : ''}`}
             style={{
@@ -426,8 +423,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           </div>
         ) : null}
 
-        {isMediaReady ? (
-        <>
         <button
           type="button"
           aria-label={`Скорость воспроизведения ${media.playbackRate}x`}
@@ -559,8 +554,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         >
           {formatTimeLabel(media.duration)}
         </div>
-        </>
-        ) : null}
       </MediaPlayer>
     </div>
   );

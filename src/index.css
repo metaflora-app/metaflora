@@ -294,6 +294,7 @@ body {
   transition:
     transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 320ms ease;
+  will-change: transform, filter;
 }
 
 .premium-button-shell::before,
@@ -315,7 +316,7 @@ body {
     rgba(255, 255, 255, 0.01) 360deg
   );
   animation: premiumButtonGlowRotate 18s linear infinite;
-  opacity: 0.9;
+  opacity: 0.6;
   pointer-events: none;
   z-index: 0;
   will-change: transform;
@@ -328,8 +329,8 @@ body {
   inset: -1px;
   border-radius: inherit;
   box-shadow:
-    0 0 4px rgba(255, 255, 255, 0.18),
-    0 0 8px rgba(255, 255, 255, 0.06);
+    0 0 3px rgba(255, 255, 255, 0.12),
+    0 0 6px rgba(255, 255, 255, 0.04);
   pointer-events: none;
   z-index: 0;
 }
@@ -685,7 +686,7 @@ input::placeholder {
     filter: brightness(1) contrast(1);
   }
   50% {
-    filter: brightness(1.35) contrast(1.05);
+    filter: brightness(1.1) contrast(1.02);
   }
 }
 
