@@ -572,37 +572,43 @@ const ActionButton: React.FC<{
         style={{
           position: 'absolute',
           left: '50%',
-          top: '16.5px',
-          transform: 'translateX(-50%)',
-          width: '199px',
-          height: '29px',
+          top: '50%',
+          transform: 'translate(-50%, calc(-50% + 5px))',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          gap: '8px',
+          minWidth: '199px',
+          height: '29px',
           fontFamily: textFont,
           fontWeight: 700,
           fontSize: '27px',
           lineHeight: '1',
           color: '#fff',
-          whiteSpace: 'pre',
+          whiteSpace: 'nowrap',
         }}
       >
-        {`${label}    ${cost ?? ''}`}
-      </div>
-      <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
-        <img
-          src={followMetacoin}
-          alt=""
-          className="motion-metacoin"
-          style={{
-            position: 'absolute',
-            height: '130.34%',
-            left: '-20%',
-            top: '-14.48%',
-            width: '140%',
-            maxWidth: 'none',
-          }}
-        />
+        <span>{label}</span>
+        {typeof cost === 'number' ? (
+          <>
+            <span style={{ position: 'relative', width: '19px', height: '19px', display: 'inline-block', overflow: 'hidden', transform: 'translateY(1px)' }}>
+              <img
+                src={followMetacoin}
+                alt=""
+                className="motion-metacoin"
+                style={{
+                  position: 'absolute',
+                  height: '130.34%',
+                  left: '-20%',
+                  top: '-14.48%',
+                  width: '140%',
+                  maxWidth: 'none',
+                }}
+              />
+            </span>
+            <span>{cost}</span>
+          </>
+        ) : null}
       </div>
       </div>
     </button>

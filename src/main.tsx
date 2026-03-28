@@ -4,7 +4,9 @@ import App from './App';
 import './index.css';
 import { initTelegram } from './app/telegram/initTelegram';
 import { UIStateProvider } from './contexts/UIStateContext';
-import { preloadAllImages, preloadCriticalFonts } from './utils/assetPreloader';
+import { preloadAllImages, preloadCriticalFonts, preloadImageSources } from './utils/assetPreloader';
+import splashBackground from './assets/figma-welcome/фон для эксперимента.png';
+import splashLogo from './assets/figma-welcome/splash-logo.png';
 
 // Disable Service Worker to prevent caching issues
 if ('serviceWorker' in navigator) {
@@ -24,6 +26,8 @@ async function bootstrapApp() {
   initTelegram();
   document.documentElement.style.background = '#020101';
   document.body.style.background = '#020101';
+
+  await preloadImageSources([splashBackground, splashLogo]);
 
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

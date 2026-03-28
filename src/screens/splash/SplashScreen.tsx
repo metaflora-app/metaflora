@@ -44,6 +44,7 @@ export const SplashScreen: React.FC = () => {
         <img
           src={logo}
           alt="МЕТАФЛОРА*"
+          fetchPriority="high"
           className="soft-logo-reveal"
           style={{
             position: 'absolute',

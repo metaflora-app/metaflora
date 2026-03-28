@@ -132,7 +132,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const watchThresholdReachedRef = React.useRef(false);
   const [playbackRate, setPlaybackRate] = React.useState(1);
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
-  const [posterSrc, setPosterSrc] = React.useState<string>('');
+  const previewVideoRef = React.useRef<HTMLVideoElement | null>(null);
+  const [previewReady, setPreviewReady] = React.useState(false);
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
   const fillPercent = React.useMemo(() => {
@@ -155,78 +156,28 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     watchThresholdReachedRef.current = false;
     setFlashOverlay(null);
     setPlaybackRate(1);
+    setPreviewReady(false);
   }, [initialTime, src]);
 
   React.useEffect(() => {
-    let cancelled = false;
-    const storageKey = `metaflora_video_poster_${src}`;
-    const cachedPoster = typeof window !== 'undefined' ? window.sessionStorage.getItem(storageKey) : null;
-    setPosterSrc(cachedPoster || '');
+    const previewVideo = previewVideoRef.current;
+    if (!previewVideo) return;
 
-    const probeVideo = document.createElement('video');
-    probeVideo.src = src;
-    probeVideo.muted = true;
-    probeVideo.playsInline = true;
-    probeVideo.preload = 'metadata';
-    probeVideo.crossOrigin = 'anonymous';
-
-    const captureFrame = () => {
-      if (cancelled || probeVideo.videoWidth === 0 || probeVideo.videoHeight === 0) {
-        return;
-      }
-
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = probeVideo.videoWidth;
-        canvas.height = probeVideo.videoHeight;
-        const context = canvas.getContext('2d');
-
-        if (!context) {
-          return;
-        }
-
-        context.drawImage(probeVideo, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
-
-        if (!cancelled) {
-          window.sessionStorage.setItem(storageKey, dataUrl);
-          setPosterSrc(dataUrl);
-        }
-      } catch (error) {
-        console.error('Poster capture failed:', error);
-      }
+    const handleLoadedData = () => {
+      setPreviewReady(true);
     };
 
-    const handleSeeked = () => {
-      captureFrame();
+    const handleCanPlay = () => {
+      setPreviewReady(true);
     };
 
-    const handleLoadedMetadata = () => {
-      const targetTime = Math.min(Math.max(probeVideo.duration || 0, 0), 1);
-      if (targetTime <= 0.05) {
-        captureFrame();
-        return;
-      }
-
-      try {
-        probeVideo.currentTime = targetTime;
-      } catch (error) {
-        console.error('Poster seek failed:', error);
-        captureFrame();
-      }
-    };
-
-    probeVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
-    probeVideo.addEventListener('seeked', handleSeeked);
-    probeVideo.load();
+    previewVideo.addEventListener('loadeddata', handleLoadedData);
+    previewVideo.addEventListener('canplay', handleCanPlay);
+    previewVideo.load();
 
     return () => {
-      cancelled = true;
-      probeVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      probeVideo.removeEventListener('seeked', handleSeeked);
-      probeVideo.pause();
-      probeVideo.removeAttribute('src');
-      probeVideo.load();
+      previewVideo.removeEventListener('loadeddata', handleLoadedData);
+      previewVideo.removeEventListener('canplay', handleCanPlay);
     };
   }, [src]);
 
@@ -360,8 +311,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     });
   }, [getPlayer, media.playbackRate]);
 
-  const shouldShowPoster = Boolean(posterSrc) && media.currentTime < 0.05;
-  const shouldHideMediaSurface = !posterSrc && media.currentTime < 0.05 && media.paused;
+  const shouldShowPreview = previewReady && media.currentTime < 0.05 && (media.paused || media.duration === 0);
+  const shouldHideMediaSurface = shouldShowPreview;
 
   return (
     <div
@@ -395,6 +346,24 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           background: 'transparent',
         }}
       >
+        <video
+          ref={previewVideoRef}
+          src={src}
+          muted
+          playsInline
+          preload="auto"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: shouldShowPreview && previewReady ? 1 : 0,
+            transition: 'opacity 180ms ease',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
         <MediaOutlet
           style={{
             width: '100%',
@@ -403,23 +372,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             opacity: shouldHideMediaSurface ? 0 : 1,
           }}
         />
-
-        {shouldShowPoster ? (
-          <img
-            src={posterSrc}
-            alt=""
-            className="academy-vidstack-poster"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              zIndex: 1,
-              pointerEvents: 'none',
-            }}
-          />
-        ) : null}
 
         <div
           style={{
