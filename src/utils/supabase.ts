@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { showPopupMessage } from '../app/telegram/telegramHelpers';
 
 const supabaseUrl = 'https://lwjsbflvsmscfrdkejia.supabase.co';
 const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3anNiZmx2c21zY2ZyZGtlamlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwMjgzMjEsImV4cCI6MjA4NDYwNDMyMX0.sf_9yMijf066geuGGjv0ylxRxKueaaC2J9u5z6Xa6sI';
@@ -147,6 +148,7 @@ export async function trackMetacoinsPurchase(amount: number) {
   const user = await getOrCreateUser(false); // Use cache
   if (!user) {
     console.error('❌ trackMetacoinsPurchase: No user found');
+    showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
     return false;
   }
 
@@ -167,6 +169,7 @@ export async function trackMetacoinsPurchase(amount: number) {
 
     if (!updateResponse.ok) {
       console.error('❌ Error updating balance:', updateResponse.status);
+      showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
       return false;
     }
 
@@ -205,6 +208,7 @@ export async function trackMetacoinsPurchase(amount: number) {
     return true;
   } catch (error) {
     console.error('❌ Critical error in trackMetacoinsPurchase:', error);
+    showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
     return false;
   }
 }
@@ -227,7 +231,7 @@ export async function trackMetacoinsSpend(
     const user = await getOrCreateUser(false);
     if (!user) {
       console.error('❌ trackMetacoinsSpend: No user found');
-      alert('DEBUG: No user found');
+      showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
       return false;
     }
 
@@ -236,7 +240,7 @@ export async function trackMetacoinsSpend(
     // Check balance from cache
     if (user.metacoins_balance < cost) {
       console.error('❌ Insufficient balance. Required:', cost, 'Available:', user.metacoins_balance);
-      alert(`DEBUG: Insufficient balance. Required: ${cost}, Available: ${user.metacoins_balance}`);
+      showPopupMessage('недостаточно метакоинов — пополните баланс в личном кабинете');
       return false;
     }
 
@@ -313,6 +317,7 @@ export async function trackMetacoinsSpend(
     return true;
   } catch (error) {
     console.error('❌ Critical error in trackMetacoinsSpend:', error);
+    showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
     return false;
   }
 }
@@ -328,6 +333,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
   const user = await getOrCreateUser(false); // Use cache
   if (!user) {
     console.error('❌ trackSubscriptionPurchase: No user found');
+    showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
     return {
       success: false,
       firstPurchase: false,
@@ -351,6 +357,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
     const payload = await response.json();
     if (!response.ok || !payload?.success) {
       console.error('❌ Error updating subscription:', payload?.error || response.status);
+      showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
       return {
         success: false,
         firstPurchase: false,
@@ -381,6 +388,7 @@ export async function trackSubscriptionPurchase(subscriptionType: 'premium', mon
     };
   } catch (error) {
     console.error('❌ Critical error in trackSubscriptionPurchase:', error);
+    showPopupMessage('оплата не прошла. Пожалуйста, попробуйте еще раз, либо свяжитесь с поддержкой metaflora_support');
     return {
       success: false,
       firstPurchase: false,

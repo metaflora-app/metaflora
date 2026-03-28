@@ -101,7 +101,6 @@ export const PricingScreen: React.FC = () => {
 
     if (!result.success) {
       setIsProcessingPayment(false);
-      showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
       return;
     }
 

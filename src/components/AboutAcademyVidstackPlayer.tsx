@@ -165,10 +165,12 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     const handleLoadedData = () => {
       setPreviewReady(true);
+      void previewVideo.play().catch(() => {});
     };
 
     const handleCanPlay = () => {
       setPreviewReady(true);
+      void previewVideo.play().catch(() => {});
     };
 
     previewVideo.addEventListener('loadeddata', handleLoadedData);
@@ -312,7 +314,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, media.playbackRate]);
 
   const shouldShowPreview = previewReady && media.currentTime < 0.05 && (media.paused || media.duration === 0);
-  const shouldHideMediaSurface = shouldShowPreview;
+  const shouldHideMediaSurface = media.currentTime < 0.05 && (media.paused || media.duration === 0);
 
   return (
     <div
@@ -351,6 +353,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           src={src}
           muted
           playsInline
+          autoPlay
+          loop
           preload="auto"
           style={{
             position: 'absolute',

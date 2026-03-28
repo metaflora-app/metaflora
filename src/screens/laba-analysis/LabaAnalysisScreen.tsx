@@ -573,7 +573,7 @@ const ActionButton: React.FC<{
           position: 'absolute',
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, calc(-50% + 5px))',
+          transform: 'translate(-50%, calc(-50% + 1px))',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -591,7 +591,7 @@ const ActionButton: React.FC<{
         <span>{label}</span>
         {typeof cost === 'number' ? (
           <>
-            <span style={{ position: 'relative', width: '19px', height: '19px', display: 'inline-block', overflow: 'hidden', transform: 'translateY(1px)' }}>
+            <span style={{ position: 'relative', width: '19px', height: '19px', display: 'inline-block', overflow: 'hidden', transform: 'translateY(0)' }}>
               <img
                 src={followMetacoin}
                 alt=""

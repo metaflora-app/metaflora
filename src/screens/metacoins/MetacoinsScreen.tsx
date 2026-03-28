@@ -95,7 +95,6 @@ export const MetacoinsScreen: React.FC = () => {
       navigate('/main-dashboard-premium');
       return;
     }
-    showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
   };
 
   const handleTogglePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
