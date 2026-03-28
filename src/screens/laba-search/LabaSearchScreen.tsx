@@ -19,6 +19,7 @@ const sidebarIcons = 'https://www.figma.com/api/mcp/asset/962a497e-6ecb-4126-913
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [activeSidebarRoute, setActiveSidebarRoute] = React.useState<string | null>(null);
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -77,31 +78,43 @@ export const LabaSearchScreen: React.FC = () => {
           }}
         />
 
-        <div style={{ position: 'absolute', left: '320px', top: '1884px', width: '534px', height: '98px', overflow: 'hidden', pointerEvents: 'none' }}>
-          <img
-            src={sidebarIcons}
-            alt="сайдбар иконки новые"
-            style={{ position: 'absolute', height: '544.9%', left: 0, top: '-222.45%', width: '100%', maxWidth: 'none' }}
-          />
-        </div>
-
         {SIDEBAR_HOTSPOTS.map((item) => (
           <button
             key={item.route}
             type="button"
-            onClick={() => navigate(item.route)}
+            onClick={() => {
+              setActiveSidebarRoute(item.route);
+              window.setTimeout(() => navigate(item.route), 140);
+            }}
+            className={`glass-sidebar-toggle ${activeSidebarRoute === item.route ? 'is-active' : ''}`}
             style={{
               position: 'absolute',
               left: `${item.left}px`,
-              top: `${item.top}px`,
+              top: `${item.top + 2}px`,
               width: `${item.width}px`,
               height: `${item.height}px`,
               border: 'none',
               background: 'transparent',
               cursor: 'pointer',
               zIndex: 2,
+              padding: 0,
             }}
-          />
+          >
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 'inherit', pointerEvents: 'none' }}>
+              <img
+                src={sidebarIcons}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  left: `${-(item.left - 320)}px`,
+                  top: '-218px',
+                  width: '534px',
+                  height: '534px',
+                  maxWidth: 'none',
+                }}
+              />
+            </div>
+          </button>
         ))}
 
         <Footer />

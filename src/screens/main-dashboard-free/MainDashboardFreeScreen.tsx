@@ -90,15 +90,14 @@ export const MainDashboardFreeScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/academy-course-demo')}
-            className="premium-button-shell motion-press-grow"
+            className="premium-button-shell button-inner-glow motion-press-grow"
             style={{
               position: 'absolute', left: '101px', top: '85px', width: '247px', height: '79px', cursor: 'pointer',
               border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'hidden',
             }}
           >
-            <div className="premium-button-inner" />
             <img src={openBtn} alt="открыть" className="button-inner-glow" style={{
-              position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2,
+              position: 'absolute', inset: '2px', width: 'calc(100% - 4px)', height: 'calc(100% - 4px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2,
             }} />
           </button>
         </InteractiveTiltCard>
@@ -122,15 +121,14 @@ export const MainDashboardFreeScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/pricing')}
-          className="premium-button-shell motion-press-grow"
+          className="premium-button-shell button-inner-glow motion-press-grow"
           style={{
             position: 'absolute', left: '322px', top: '1375px', width: '530px', height: '139px', cursor: 'pointer',
             border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'hidden',
           }}
         >
-          <div className="premium-button-inner" />
           <img src={payBtn} alt="оплатить полный доступ" className="button-inner-glow" style={{
-            position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2,
+            position: 'absolute', inset: '2px', width: 'calc(100% - 4px)', height: 'calc(100% - 4px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2,
           }} />
         </button>
 

@@ -61,9 +61,11 @@ export const DemoAccessScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/main-dashboard-free')}
-          className="button-inner-glow motion-press-grow"
-          style={{ position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '62px', background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(50px)', color: 'white', cursor: 'pointer', padding: 0, overflow: 'hidden' }}
+          className="premium-button-shell button-inner-glow motion-press-grow"
+          style={{ position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', border: 'none', borderRadius: '62px', background: 'transparent', color: 'white', cursor: 'pointer', padding: 0, overflow: 'hidden' }}
         >
+          <div className="premium-button-inner" />
+          <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
           <div
             style={{
               position: 'absolute',
@@ -83,6 +85,7 @@ export const DemoAccessScreen: React.FC = () => {
             }}
           >
             продолжить
+          </div>
           </div>
         </button>
 

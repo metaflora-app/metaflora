@@ -74,31 +74,61 @@ export const WelcomeScreen: React.FC = () => {
           </p>
         </div>
 
-        <img
-          src={welcomeCard2}
-          alt=""
-          style={{ position: 'absolute', left: '80px', top: '803px', width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px', transform: 'rotate(-5deg)', zIndex: 1, pointerEvents: 'none' }}
-        />
-        <img
-          src={welcomeCard3}
-          alt=""
-          style={{ position: 'absolute', left: '543px', top: '745px', width: '639px', height: '822px', objectFit: 'cover', borderRadius: '62px', transform: 'rotate(5deg)', zIndex: 1, pointerEvents: 'none' }}
-        />
-        <img
-          src={welcomeCard4}
-          alt=""
-          style={{ position: 'absolute', left: '427px', top: '803px', width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px', transform: 'rotate(5deg)', zIndex: 2, pointerEvents: 'none' }}
-        />
-        <img
-          src={welcomeCard1}
-          alt=""
-          style={{ position: 'absolute', left: '243px', top: '700px', width: '700px', height: '957px', objectFit: 'cover', borderRadius: '62px', zIndex: 3, pointerEvents: 'none' }}
-        />
+        <div className="welcome-stack-card welcome-stack-back-left" style={{ position: 'absolute', left: '80px', top: '803px', width: '674px', height: '826px', zIndex: 1, pointerEvents: 'none' }}>
+          <img
+            src={welcomeCard2}
+            alt=""
+            style={{ width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px' }}
+          />
+        </div>
+        <div className="welcome-stack-card welcome-stack-back-right" style={{ position: 'absolute', left: '543px', top: '745px', width: '639px', height: '822px', zIndex: 1, pointerEvents: 'none' }}>
+          <img
+            src={welcomeCard3}
+            alt=""
+            style={{ width: '639px', height: '822px', objectFit: 'cover', borderRadius: '62px' }}
+          />
+        </div>
+        <div className="welcome-stack-card welcome-stack-mid" style={{ position: 'absolute', left: '427px', top: '803px', width: '674px', height: '826px', zIndex: 2, pointerEvents: 'none' }}>
+          <img
+            src={welcomeCard4}
+            alt=""
+            style={{ width: '674px', height: '826px', objectFit: 'cover', borderRadius: '62px' }}
+          />
+        </div>
+        <div className="welcome-stack-card welcome-stack-front" style={{ position: 'absolute', left: '243px', top: '700px', width: '700px', height: '957px', zIndex: 3, pointerEvents: 'none' }}>
+          <img
+            src={welcomeCard1}
+            alt=""
+            style={{ width: '700px', height: '957px', objectFit: 'cover', borderRadius: '62px' }}
+          />
+        </div>
 
         {/* Кнопка "экскурсия" */}
-        <img src={btnTour} alt="экскурсия по платформе" onClick={() => navigate('/tour-video')} className="button-inner-glow motion-press-grow" style={{
-          position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', cursor: 'pointer',
-        }} />
+        <button
+          type="button"
+          onClick={() => navigate('/tour-video')}
+          className="premium-button-shell button-inner-glow motion-press-grow"
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '1744px',
+            width: '894px',
+            height: '139px',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent',
+            padding: 0,
+            borderRadius: '62px',
+            overflow: 'hidden',
+          }}
+        >
+          <img
+            src={btnTour}
+            alt="экскурсия по платформе"
+            className="button-inner-glow"
+            style={{ position: 'absolute', inset: '2px', width: 'calc(100% - 4px)', height: 'calc(100% - 4px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+          />
+        </button>
 
         {/* Кнопка "попробовать бесплатно" */}
         <img src={btnFree} alt="попробовать бесплатно" onClick={() => navigate('/demo-access')} className="button-inner-glow motion-press-grow" style={{

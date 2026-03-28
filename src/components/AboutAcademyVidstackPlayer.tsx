@@ -395,6 +395,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
         {flashOverlay || media.paused ? (
           <div
+            className={`vid-control-button ${media.paused && !flashOverlay ? 'is-pulsing' : ''}`}
             style={{
               ...overlayControlStyle,
               zIndex: 4,
@@ -427,6 +428,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           aria-label={`Скорость воспроизведения ${media.playbackRate}x`}
           title={`Скорость ${media.playbackRate}x`}
           onClick={handleCyclePlaybackRate}
+          className="vid-control-button"
           style={getControlStyle(306.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={speedIcon} alt="" style={iconStyle} />
@@ -436,6 +438,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           type="button"
           onClick={handleEnterFullscreen}
           aria-label="Развернуть видео на полный экран"
+          className="vid-control-button"
           style={getControlStyle(406.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={fullscreenIcon} alt="" style={iconStyle} />
@@ -445,6 +448,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           type="button"
           onClick={handleToggleMute}
           aria-label={media.muted || media.volume === 0 ? 'Включить звук' : 'Выключить звук'}
+          className="vid-control-button"
           style={getControlStyle(506.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={media.muted || media.volume === 0 ? muteIcon : volumeIcon} alt="" style={iconStyle} />
