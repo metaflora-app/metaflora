@@ -37,6 +37,7 @@ export const LabaMainScreen: React.FC = () => {
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [searching, setSearching] = React.useState(false);
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
+  const [isSearchPressed, setIsSearchPressed] = React.useState(false);
   const [hasSearchResults, setHasSearchResults] = React.useState(
     () => labaReelsCache.length > 0 && labaMainSearchQuery.trim().length > 0
   );
@@ -251,15 +252,9 @@ export const LabaMainScreen: React.FC = () => {
           </p>
         </div>
 
-        <LabaSearchInput
-          value={labaMainSearchQuery}
-          onChange={setLabaMainSearchQuery}
-          onEnter={() => void handleSearch()}
-          onFocusChange={setIsSearchFocused}
-          placeholder="найти видео по ключевому слову"
-          iconSrc={searchIcon}
-          textRightInset="190px"
+        <div
           style={{
+            position: 'absolute',
             left: '152px',
             top: '376px',
             width: '876px',
@@ -269,59 +264,79 @@ export const LabaMainScreen: React.FC = () => {
             transition: 'transform 560ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease',
             filter: isSearchFocused ? 'brightness(1.08)' : 'none',
           }}
-        />
-
-        <button
-          type="button"
-          onClick={() => void handleSearch()}
-          className="premium-button-shell"
-          style={{
-            position: 'absolute',
-            left: '900px',
-            top: '378px',
-            width: '129px',
-            height: '73px',
-            borderRadius: '62px',
-            color: '#fff',
-            cursor: 'pointer',
-            padding: 0,
-            border: 'none',
-            background: 'transparent',
-          }}
         >
-          <div className="premium-button-inner" />
-          <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <div
-              style={{
-                position: 'absolute',
-                left: '55px',
-                top: '17px',
-                width: '42px',
-                height: '26px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: textFont,
-                fontWeight: 700,
-                fontSize: '27px',
-                lineHeight: '1',
-              }}
-            >
-              {LABA_COSTS.SEARCH_REELS}
-            </div>
-            <div style={{ position: 'absolute', left: '41px', top: '23px', width: '19px', height: '19px', overflow: 'hidden' }}>
-              <img
-                src={metacoinSmall}
-                alt=""
+          <LabaSearchInput
+            value={labaMainSearchQuery}
+            onChange={setLabaMainSearchQuery}
+            onEnter={() => void handleSearch()}
+            onFocusChange={setIsSearchFocused}
+            placeholder="найти видео по ключевому слову"
+            iconSrc={searchIcon}
+            textRightInset="190px"
+            style={{
+              left: '0px',
+              top: '0px',
+              width: '876px',
+              height: '79px',
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={() => void handleSearch()}
+            className={`premium-button-shell ${isSearchPressed ? 'is-pressed' : ''}`}
+            onPointerDown={() => setIsSearchPressed(true)}
+            onPointerUp={() => setIsSearchPressed(false)}
+            onPointerLeave={() => setIsSearchPressed(false)}
+            onPointerCancel={() => setIsSearchPressed(false)}
+            style={{
+              position: 'absolute',
+              left: '748px',
+              top: '2px',
+              width: '129px',
+              height: '73px',
+              borderRadius: '62px',
+              color: '#fff',
+              cursor: 'pointer',
+              padding: 0,
+              border: 'none',
+              background: 'transparent',
+            }}
+          >
+            <div className="premium-button-inner" />
+            <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
+              <div
                 style={{
-                  width: '19px',
-                  height: '19px',
-                  objectFit: 'contain',
+                  position: 'absolute',
+                  left: '55px',
+                  top: '17px',
+                  width: '42px',
+                  height: '26px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: textFont,
+                  fontWeight: 700,
+                  fontSize: '27px',
+                  lineHeight: '1',
                 }}
-              />
+              >
+                {LABA_COSTS.SEARCH_REELS}
+              </div>
+              <div style={{ position: 'absolute', left: '41px', top: '23px', width: '19px', height: '19px', overflow: 'hidden' }}>
+                <img
+                  src={metacoinSmall}
+                  alt=""
+                  style={{
+                    width: '19px',
+                    height: '19px',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        </button>
+          </button>
+        </div>
 
         <LabaFilterButton label="вернуть" left={220} top={482} width={247} onClick={() => void resetFilters()} />
         <LabaFilterButton
@@ -406,7 +421,6 @@ export const LabaMainScreen: React.FC = () => {
                     actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}
-                    tiltVariant="interactive"
                   />
                 ))}
           </div>

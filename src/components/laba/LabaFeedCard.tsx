@@ -29,7 +29,6 @@ interface LabaFeedCardProps {
   activityPillTop?: number;
   likeEffectVariant?: 'default' | 'tiktok';
   actionMotionVariant?: 'default' | 'premium';
-  tiltVariant?: 'none' | 'interactive';
 }
 
 const CARD_WIDTH = 831;
@@ -59,7 +58,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   activityPillTop = 654,
   likeEffectVariant = 'default',
   actionMotionVariant = 'default',
-  tiltVariant = 'none',
 }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
@@ -71,7 +69,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   );
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
-  const [tilt, setTilt] = React.useState({ rotateX: 0, rotateY: 0, scale: 1 });
+  const [isAnalysisPressed, setIsAnalysisPressed] = React.useState(false);
 
   React.useEffect(() => {
     setCoverIndex(0);
@@ -83,50 +81,16 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
 
   const coverSrc = coverSources[coverIndex] || figmaCardCover;
   const avatarSrc = avatarSources[avatarIndex] || null;
-  const isTiltInteractive = tiltVariant === 'interactive';
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!isTiltInteractive) {
-      return;
-    }
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const relativeX = (event.clientX - rect.left) / rect.width;
-    const relativeY = (event.clientY - rect.top) / rect.height;
-
-    setTilt({
-      rotateX: (0.5 - relativeY) * 7,
-      rotateY: (relativeX - 0.5) * 8,
-      scale: 1.014,
-    });
-  };
-
-  const resetTilt = () => {
-    if (!isTiltInteractive) {
-      return;
-    }
-    setTilt({ rotateX: 0, rotateY: 0, scale: 1 });
-  };
 
   return (
     <div
       onClick={onOpenAnalysis}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetTilt}
-      onPointerUp={resetTilt}
-      onPointerCancel={resetTilt}
       style={{
         position: 'relative',
         width: `${CARD_WIDTH}px`,
         minHeight: `${CARD_HEIGHT}px`,
         margin: '0 auto',
         cursor: onOpenAnalysis ? 'pointer' : 'default',
-        transform: `perspective(1800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${tilt.scale})`,
-        transformStyle: 'preserve-3d',
-        transition: isTiltInteractive
-          ? 'transform 220ms cubic-bezier(0.22, 1, 0.36, 1), filter 220ms ease'
-          : undefined,
-        willChange: isTiltInteractive ? 'transform' : undefined,
       }}
     >
       <div
@@ -215,10 +179,15 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       {onOpenAnalysis ? (
         <button
           type="button"
+          className={`premium-button-shell ${isAnalysisPressed ? 'is-pressed' : ''}`}
           onClick={(event) => {
             event.stopPropagation();
             onOpenAnalysis();
           }}
+          onPointerDown={() => setIsAnalysisPressed(true)}
+          onPointerUp={() => setIsAnalysisPressed(false)}
+          onPointerLeave={() => setIsAnalysisPressed(false)}
+          onPointerCancel={() => setIsAnalysisPressed(false)}
           style={{
             position: 'absolute',
             left: openAnalysisButtonSrc ? '288px' : '377px',
@@ -230,10 +199,12 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             cursor: 'pointer',
             padding: 0,
             zIndex: 3,
+            borderRadius: openAnalysisButtonSrc ? '62px' : '32px',
+            overflow: 'hidden',
           }}
         >
           {openAnalysisButtonSrc ? (
-            <img src={openAnalysisButtonSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }} />
+            <img src={openAnalysisButtonSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none', position: 'relative', zIndex: 2 }} />
           ) : (
             <OpenReelButton />
           )}
@@ -561,50 +532,61 @@ const ActionButton: React.FC<{
   imageSrc?: string;
   motionVariant?: 'default' | 'premium';
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, imageSrc, motionVariant = 'default', onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={motionVariant === 'premium' ? 'premium-button-shell' : undefined}
-    style={{
-      position: 'absolute',
-      left: '356px',
-      top: '831px',
-      width: '251px',
-      height: '79.63px',
-      padding: 0,
-      border: 'none',
-      background: 'transparent',
-      cursor: 'pointer',
-      opacity: variant === 'light' ? 0.92 : 1,
-    }}
-  >
-    {imageSrc ? (
-      <img
-        src={imageSrc}
-        alt=""
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'fill',
-          display: 'block',
-          pointerEvents: 'none',
-        }}
-      />
-    ) : (
-      <div
-        className={motionVariant === 'premium' ? 'premium-button-inner' : undefined}
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          borderRadius: '62px',
-          border: '4px solid rgba(255,255,255,0.3)',
-          background: 'rgba(0,0,0,0.9)',
-          backdropFilter: 'blur(50px)',
-          overflow: 'hidden',
-        }}
-      >
+}> = ({ label, cost, variant, imageSrc, motionVariant = 'default', onClick }) => {
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={motionVariant === 'premium' ? `premium-button-shell ${isPressed ? 'is-pressed' : ''}` : undefined}
+      onPointerDown={() => setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onPointerCancel={() => setIsPressed(false)}
+      style={{
+        position: 'absolute',
+        left: '356px',
+        top: '831px',
+        width: '251px',
+        height: '79.63px',
+        padding: 0,
+        border: 'none',
+        background: 'transparent',
+        cursor: 'pointer',
+        opacity: variant === 'light' ? 0.92 : 1,
+        borderRadius: '62px',
+        overflow: 'hidden',
+      }}
+    >
+      {imageSrc ? (
+        <img
+          src={imageSrc}
+          alt=""
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'fill',
+            display: 'block',
+            pointerEvents: 'none',
+            position: 'relative',
+            zIndex: 2,
+          }}
+        />
+      ) : (
+        <div
+          className={motionVariant === 'premium' ? 'premium-button-inner' : undefined}
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            borderRadius: '62px',
+            border: '4px solid rgba(255,255,255,0.3)',
+            background: 'rgba(0,0,0,0.9)',
+            backdropFilter: 'blur(50px)',
+            overflow: 'hidden',
+          }}
+        >
         <div
           style={{
             position: 'absolute',
@@ -640,10 +622,11 @@ const ActionButton: React.FC<{
             }}
           />
         </div>
-      </div>
-    )}
-  </button>
-);
+        </div>
+      )}
+    </button>
+  );
+};
 
 const OpenReelButton: React.FC = () => (
   <div style={{ position: 'relative', width: '72px', height: '72px', pointerEvents: 'none' }}>
