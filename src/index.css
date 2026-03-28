@@ -154,25 +154,14 @@ body {
   animation: blurShimmer 2.2s linear infinite;
 }
 
-@keyframes pricingCardGlow {
+@keyframes pricingCardSheen {
   0%, 100% {
-    opacity: 0.52;
-    transform: translate3d(-4%, -2%, 0) scale(0.95);
+    opacity: 0.18;
+    transform: translate3d(-16%, 0, 0) rotate(-8deg) scale(0.98);
   }
   50% {
-    opacity: 0.9;
-    transform: translate3d(6%, 4%, 0) scale(1.08);
-  }
-}
-
-@keyframes pricingInnerLife {
-  0%, 100% {
-    opacity: 0.28;
-    transform: translate3d(-7%, -4%, 0) scale(0.97);
-  }
-  50% {
-    opacity: 0.66;
-    transform: translate3d(8%, 6%, 0) scale(1.06);
+    opacity: 0.34;
+    transform: translate3d(14%, 0, 0) rotate(-8deg) scale(1.02);
   }
 }
 
@@ -190,59 +179,49 @@ body {
   overflow: hidden;
   border-radius: 36px;
   isolation: isolate;
+  transform-style: preserve-3d;
+  transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
-.pricing-card-blur-zone {
+.pricing-card-sheen-zone {
   position: absolute;
-  inset: 46% 4% 3.5% 4%;
-  border-radius: 40px;
+  inset: 0;
+  border-radius: 36px;
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
 }
 
-.pricing-card-halo {
+.pricing-card-sheen {
   position: absolute;
+  inset: 44% -18% 4% -18%;
   border-radius: 999px;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 28%, rgba(255, 255, 255, 0) 72%);
-  filter: blur(36px);
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0) 18%,
+    rgba(255, 255, 255, 0.08) 34%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.08) 66%,
+    rgba(255, 255, 255, 0) 82%
+  );
+  filter: blur(20px);
   mix-blend-mode: screen;
-  animation: pricingCardGlow 4.8s ease-in-out infinite;
+  animation: pricingCardSheen 11s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
 }
 
-.pricing-card-halo-primary {
-  inset: 2% 4% 44% 2%;
+.pricing-card-sheen-soft {
+  inset: 52% -12% 6% -12%;
+  opacity: 0.58;
+  filter: blur(28px);
+  animation-duration: 13s;
+  animation-delay: 1s;
 }
 
-.pricing-card-halo-secondary {
-  inset: 18% 38% 16% 28%;
-  animation-duration: 5.8s;
-  animation-delay: 0.45s;
-  opacity: 0.9;
-}
-
-.pricing-card-life {
-  position: absolute;
-  inset: 8% 4% 8% 4%;
-  border-radius: 44px;
-  background:
-    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.12) 18%, rgba(255, 255, 255, 0) 42%),
-    radial-gradient(circle at 74% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 16%, rgba(255, 255, 255, 0) 38%),
-    radial-gradient(circle at 34% 74%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 18%, rgba(255, 255, 255, 0) 36%);
-  filter: blur(26px);
-  mix-blend-mode: screen;
-  animation: pricingInnerLife 5.4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.pricing-card-life-secondary {
-  inset: 12% 22% 2% 36%;
-  animation-duration: 6.2s;
-  animation-delay: 0.8s;
-  opacity: 0.94;
+.pricing-card-shell.is-tilting {
+  transition: transform 220ms ease-out;
 }
 
 .pricing-toggle-shell {
@@ -317,25 +296,26 @@ body {
   position: relative;
   isolation: isolate;
   transition:
-    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 220ms ease;
 }
 
 .premium-button-shell::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -1px;
   border-radius: inherit;
   background: conic-gradient(
     from 0deg,
-    rgba(255, 255, 255, 0.02) 0deg,
-    rgba(255, 255, 255, 0.98) 70deg,
-    rgba(255, 255, 255, 0.14) 145deg,
-    rgba(255, 255, 255, 0.98) 235deg,
-    rgba(255, 255, 255, 0.02) 360deg
+    rgba(255, 255, 255, 0.01) 0deg,
+    rgba(255, 255, 255, 0.72) 62deg,
+    rgba(255, 255, 255, 0.1) 144deg,
+    rgba(255, 255, 255, 0.72) 232deg,
+    rgba(255, 255, 255, 0.01) 360deg
   );
-  animation: premiumButtonGlowRotate 2.8s linear infinite;
-  filter: blur(0.4px);
+  animation: premiumButtonGlowRotate 6.8s linear infinite;
+  filter: blur(0.2px);
+  opacity: 0.92;
   pointer-events: none;
   z-index: 0;
 }
@@ -343,11 +323,11 @@ body {
 .premium-button-shell::after {
   content: '';
   position: absolute;
-  inset: -1px;
+  inset: -2px;
   border-radius: inherit;
   box-shadow:
-    0 0 18px rgba(255, 255, 255, 0.38),
-    0 0 38px rgba(255, 255, 255, 0.16);
+    0 0 10px rgba(255, 255, 255, 0.22),
+    0 0 18px rgba(255, 255, 255, 0.08);
   pointer-events: none;
   z-index: 0;
 }
@@ -368,7 +348,7 @@ body {
 }
 
 .premium-button-shell:active {
-  transform: scale(1.1);
+  transform: scale(1.18);
   filter: brightness(1.12);
 }
 

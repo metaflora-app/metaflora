@@ -70,6 +70,8 @@ export const PricingScreen: React.FC = () => {
   const [pillOffset, setPillOffset] = React.useState(0);
   const [isDraggingToggle, setIsDraggingToggle] = React.useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
+  const [cardTilt, setCardTilt] = React.useState({ rotateX: 0, rotateY: 0, scale: 1 });
+  const [isTiltingCard, setIsTiltingCard] = React.useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const toggleDragRef = React.useRef<{
     pointerId: number;
@@ -156,6 +158,26 @@ export const PricingScreen: React.FC = () => {
     setIsDraggingToggle(false);
     setSelectedPlan(nextPlan);
     setPillOffset(nextPlan === '1month' ? 0 : TOGGLE_SEGMENT_WIDTH);
+  };
+
+  const handleCardPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    const rotateY = (x - 0.5) * 6;
+    const rotateX = (0.5 - y) * 5;
+
+    setIsTiltingCard(true);
+    setCardTilt({
+      rotateX,
+      rotateY,
+      scale: 1.012,
+    });
+  };
+
+  const resetCardTilt = () => {
+    setIsTiltingCard(false);
+    setCardTilt({ rotateX: 0, rotateY: 0, scale: 1 });
   };
 
   return (
@@ -253,12 +275,23 @@ export const PricingScreen: React.FC = () => {
           </div>
         </div>
 
-        <div className="pricing-card-shell" style={{ position: 'absolute', left: '143px', top: '523px', width: '894px', height: '1178px' }}>
-          <div className="pricing-card-blur-zone">
-            <div className="pricing-card-halo pricing-card-halo-primary" />
-            <div className="pricing-card-halo pricing-card-halo-secondary" />
-            <div className="pricing-card-life" />
-            <div className="pricing-card-life pricing-card-life-secondary" />
+        <div
+          className={`pricing-card-shell ${isTiltingCard ? 'is-tilting' : ''}`}
+          onPointerMove={handleCardPointerMove}
+          onPointerLeave={resetCardTilt}
+          onPointerCancel={resetCardTilt}
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '523px',
+            width: '894px',
+            height: '1178px',
+            transform: `perspective(1600px) rotateX(${cardTilt.rotateX}deg) rotateY(${cardTilt.rotateY}deg) scale(${cardTilt.scale})`,
+          }}
+        >
+          <div className="pricing-card-sheen-zone">
+            <div className="pricing-card-sheen" />
+            <div className="pricing-card-sheen pricing-card-sheen-soft" />
           </div>
           <img
             src={selectedPlan === '1month' ? pricingCardMonth : pricingCardQuarter}
