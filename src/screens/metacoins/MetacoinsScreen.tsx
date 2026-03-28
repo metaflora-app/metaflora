@@ -13,7 +13,57 @@ import metacoinSmall from '../../assets/metacoins-redesign/новый метак
 
 const TOGGLE_TRACK_WIDTH = 894;
 const TOGGLE_SEGMENT_WIDTH = 447;
+const SCRAMBLE_CHARS = 'XO01*';
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+const useScrambleText = (targetText: string, triggerKey: string) => {
+  const [displayText, setDisplayText] = React.useState(targetText);
+
+  React.useEffect(() => {
+    let frame = 0;
+    let animationFrameId = 0;
+    let timeoutId = 0;
+    const totalFrames = 24;
+
+    const tick = () => {
+      frame += 1;
+      const revealCount = Math.floor((frame / totalFrames) * targetText.length);
+      const next = targetText
+        .split('')
+        .map((char, index) => {
+          if (char === ' ') {
+            return ' ';
+          }
+
+          if (index < revealCount) {
+            return targetText[index];
+          }
+
+          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        })
+        .join('');
+
+      setDisplayText(frame >= totalFrames ? targetText : next);
+
+      if (frame < totalFrames) {
+        timeoutId = window.setTimeout(() => {
+          animationFrameId = requestAnimationFrame(tick);
+        }, 28);
+      }
+    };
+
+    setDisplayText(targetText);
+    animationFrameId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.clearTimeout(timeoutId);
+      setDisplayText(targetText);
+    };
+  }, [targetText, triggerKey]);
+
+  return displayText;
+};
 
 export const MetacoinsScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -28,6 +78,8 @@ export const MetacoinsScreen: React.FC = () => {
     baseOffset: number;
     scaleFactor: number;
   } | null>(null);
+  const smallPackInactiveLabel = useScrambleText('30 000 (-10%)', selectedPack);
+  const largePackInactiveLabel = useScrambleText('150 000 (-20%)', selectedPack);
 
   React.useEffect(() => {
     if (!isDraggingToggle) {
@@ -136,21 +188,15 @@ export const MetacoinsScreen: React.FC = () => {
             />
           </div>
 
-          {selectedPack === '30000' ? (
-            <>
-              <img src={metacoinSmall} alt="" className="motion-metacoin" style={{ position: 'absolute', left: '482px', top: '25px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none', zIndex: 1 }} />
-              <div className="pricing-toggle-label is-inactive" style={{ position: 'absolute', left: '508px', top: '13px', width: '298px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 1 }}>
-                150 000 (-20%)
-              </div>
-            </>
-          ) : (
-            <>
-              <img src={metacoinSmall} alt="" className="motion-metacoin" style={{ position: 'absolute', left: '60px', top: '25px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none', zIndex: 1 }} />
-              <div className="pricing-toggle-label is-inactive" style={{ position: 'absolute', left: '87px', top: '13px', width: '275px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 1 }}>
-                30 000 (-10%)
-              </div>
-            </>
-          )}
+          <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '60px', top: '25px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none', zIndex: 1, opacity: selectedPack === '150000' ? 1 : 0 }} />
+          <div className={`pricing-toggle-label ${selectedPack === '150000' ? 'is-inactive' : 'is-active'}`} style={{ position: 'absolute', left: '87px', top: '13px', width: '275px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 1 }}>
+            {smallPackInactiveLabel}
+          </div>
+
+          <img src={metacoinSmall} alt="" style={{ position: 'absolute', left: '482px', top: '25px', width: '25px', height: '25px', objectFit: 'contain', pointerEvents: 'none', zIndex: 1, opacity: selectedPack === '30000' ? 1 : 0 }} />
+          <div className={`pricing-toggle-label ${selectedPack === '30000' ? 'is-inactive' : 'is-active'}`} style={{ position: 'absolute', left: '508px', top: '13px', width: '298px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cygre', fontWeight: 700, fontSize: '40px', lineHeight: '1', textAlign: 'center', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 1 }}>
+            {largePackInactiveLabel}
+          </div>
 
           <button type="button" onClick={() => setSelectedPack('30000')} style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }} aria-label="30 000 (-10%)" />
 

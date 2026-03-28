@@ -108,7 +108,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
             <button
               key={button.key}
               type="button"
-              className="premium-button-shell motion-press-grow"
+              className="motion-press-grow"
               onClick={() => {
                 if (button.key === 'return') {
                   setActiveFilters([]);
@@ -139,16 +139,12 @@ const PoligonArticlesAllScreen: React.FC = () => {
                 border: 'none',
                 background: 'transparent',
                 padding: 0,
-                borderRadius: '62px',
-                overflow: 'hidden',
               }}
             >
-              <div className="premium-button-inner" />
               <img
                 src={src}
                 alt={button.key}
-                className="button-inner-glow"
-                style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+                style={{ position: 'absolute', inset: 0, width: '247px', height: '80px', objectFit: 'contain', pointerEvents: 'none' }}
               />
             </button>
           );

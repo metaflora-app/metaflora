@@ -169,14 +169,14 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
             <React.Fragment key={lesson.id}>
               <InteractiveTiltCard
                 className="pricing-card-shell"
-                maxRotateX={3}
-                maxRotateY={4}
-                maxScale={1.01}
+                baseTransform="translateX(-50%)"
+                maxRotateX={4}
+                maxRotateY={5}
+                maxScale={1.012}
                 style={{
                   position: 'absolute',
                   left: `${position.cardLeft}px`,
                   top: `${position.cardTop}px`,
-                  transform: 'translateX(-50%)',
                   width: `${position.cardWidth}px`,
                   height: '317px',
                 }}

@@ -4,6 +4,7 @@ interface InteractiveTiltCardProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
+  baseTransform?: string;
   maxRotateX?: number;
   maxRotateY?: number;
   maxScale?: number;
@@ -14,6 +15,7 @@ export const InteractiveTiltCard: React.FC<InteractiveTiltCardProps> = ({
   children,
   style,
   className,
+  baseTransform,
   maxRotateX = 5,
   maxRotateY = 6,
   maxScale = 1.014,
@@ -52,7 +54,7 @@ export const InteractiveTiltCard: React.FC<InteractiveTiltCardProps> = ({
       onPointerUp={resetTilt}
       onPointerCancel={resetTilt}
       style={{
-        transform: `perspective(1800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${tilt.scale})`,
+        transform: `${baseTransform ? `${baseTransform} ` : ''}perspective(1800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${tilt.scale})`,
         transformStyle: 'preserve-3d',
         transition: 'transform 240ms cubic-bezier(0.22, 1, 0.36, 1)',
         willChange: 'transform',

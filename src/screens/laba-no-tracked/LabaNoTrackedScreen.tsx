@@ -30,13 +30,19 @@ export const LabaNoTrackedScreen: React.FC = () => {
           <img src={trackingGif} alt="видео с отслеживанием экран" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
-        <img
-          src={startTrackingButton}
-          alt="начать отслеживание"
-          className="button-inner-glow motion-press-grow"
+        <button
+          type="button"
           onClick={() => navigate('/laba-search-account')}
-          style={{ position: 'absolute', left: '325px', top: '1169px', width: '530px', height: '139px', objectFit: 'contain', cursor: 'pointer', zIndex: 2 }}
-        />
+          className="premium-button-shell motion-press-grow"
+          style={{ position: 'absolute', left: '325px', top: '1169px', width: '530px', height: '139px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer', zIndex: 2, borderRadius: '62px', overflow: 'hidden' }}
+        >
+          <img
+            src={startTrackingButton}
+            alt="начать отслеживание"
+            className="button-inner-glow"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+          />
+        </button>
 
         <div
           style={{

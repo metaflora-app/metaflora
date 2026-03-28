@@ -222,7 +222,7 @@ export const PromptFirstScreen: React.FC = () => {
             <button
               key={button.key || 'return'}
               type="button"
-              className="premium-button-shell motion-press-grow"
+              className="motion-press-grow"
               onClick={() => {
                 if (button.key === 'return') {
                   setActiveFilter(null);
@@ -256,16 +256,12 @@ export const PromptFirstScreen: React.FC = () => {
                 border: 'none',
                 background: 'transparent',
                 padding: 0,
-                borderRadius: '62px',
-                overflow: 'hidden',
               }}
             >
-              <div className="premium-button-inner" />
               <img
                 src={isActive ? activeFilterTemplate : button.inactiveSrc}
                 alt=""
-                className="button-inner-glow"
-                style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+                style={{ position: 'absolute', inset: 0, width: '247px', height: '80px', objectFit: 'contain', pointerEvents: 'none' }}
               />
               {isActive ? (
                 <span
@@ -344,6 +340,7 @@ export const PromptFirstScreen: React.FC = () => {
                   <FigmaLikeButton
                     active={isFavorite}
                     disabled={prompt.id.startsWith('loading-')}
+                    effectVariant="tiktok"
                     onClick={() => !prompt.id.startsWith('loading-') && handleToggleFavorite(prompt.id)}
                     style={{ position: 'absolute', left: '73px', top: '59px', zIndex: 2 }}
                   />
@@ -385,7 +382,7 @@ export const PromptFirstScreen: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => !prompt.id.startsWith('loading-') && handleOpenPromptCard(prompt.id)}
-                    className="premium-button-shell motion-press-grow"
+                    className="button-inner-glow motion-press-grow"
                     style={{
                       position: 'absolute',
                       left: '293px',
@@ -393,15 +390,14 @@ export const PromptFirstScreen: React.FC = () => {
                       width: '246.9305px',
                       height: '79.25px',
                       borderRadius: '62px',
+                      border: '4px solid rgba(255,255,255,0.3)',
+                      background: 'rgba(0,0,0,0.9)',
                       padding: 0,
                       cursor: prompt.id.startsWith('loading-') ? 'default' : 'pointer',
                       zIndex: 999,
-                      overflow: 'hidden',
                     }}
                   >
-                    <div className="premium-button-inner" />
                     <div
-                      className="premium-button-content"
                       style={{
                         position: 'absolute',
                         left: '50%',

@@ -226,7 +226,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
             disabled={searching}
           >
             <div className="premium-button-inner" />
-            <div className="premium-button-content" style={{ width: '100%', height: '100%' }}>
+            <div className="premium-button-content" style={{ position: 'relative', width: '100%', height: '100%' }}>
             <span
               style={{
                 display: 'flex',
@@ -330,7 +330,6 @@ export const LabaSearchAccountScreen: React.FC = () => {
                     <img
                       src={metacoinSmall}
                       alt=""
-                      className="motion-metacoin"
                       style={{ width: '25px', height: '25px', objectFit: 'contain', display: 'block' }}
                     />
                   </div>

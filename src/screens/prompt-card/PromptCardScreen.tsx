@@ -135,6 +135,7 @@ export const PromptCardScreen: React.FC = () => {
               <FigmaLikeButton
                 active={isFavorite}
                 disabled={!id}
+                effectVariant="tiktok"
                 onClick={handleToggleFavorite}
                 style={{ position: 'absolute', left: '73px', top: '59px', zIndex: 2 }}
               />
@@ -189,15 +190,13 @@ export const PromptCardScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={handleCopy}
-                className="premium-button-shell motion-press-grow"
+                className="button-inner-glow motion-press-grow"
                 style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', cursor: 'pointer', transform: 'translateX(-50%)', border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'hidden' }}
               >
-                <div className="premium-button-inner" />
                 <img
                   src={promptBadge}
                   alt="плашка промпт"
-                  className="button-inner-glow"
-                  style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
                 />
               </button>
 
