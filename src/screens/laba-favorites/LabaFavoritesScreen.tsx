@@ -258,7 +258,7 @@ export const LabaFavoritesScreen: React.FC = () => {
                     isFavorite
                     onToggleFavorite={handleToggleFavorite}
                     onAction={() => void handleTrackFromCard(reel)}
-                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
+                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: true } } })}
                     actionLabel="следить"
                     actionCost={100}
                     actionMotionVariant="premium"

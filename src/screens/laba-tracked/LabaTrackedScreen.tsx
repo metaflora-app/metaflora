@@ -166,6 +166,7 @@ export const LabaTrackedScreen: React.FC = () => {
         </div>
 
         <div
+          className="laba-feed-scroll"
           style={{
             position: 'absolute',
             left: '143px',
@@ -227,7 +228,7 @@ export const LabaTrackedScreen: React.FC = () => {
                     reel={reel}
                     isFavorite={likedCards.has(reel.id)}
                     onToggleFavorite={handleToggleFavorite}
-                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
+                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: likedCards.has(reel.id) } } })}
                     onAction={() => {
                       if (selectedAccountId) void removeAccount(selectedAccountId);
                     }}

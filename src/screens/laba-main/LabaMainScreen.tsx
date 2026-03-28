@@ -415,7 +415,7 @@ export const LabaMainScreen: React.FC = () => {
                     isFavorite={likedCards.has(reel.id)}
                     onToggleFavorite={handleToggleFavorite}
                     onAction={() => void handleTrackFromCard(reel)}
-                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
+                            onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: likedCards.has(reel.id) } } })}
                     actionLabel="следить"
                     actionCost={100}
                     likeEffectVariant="tiktok"

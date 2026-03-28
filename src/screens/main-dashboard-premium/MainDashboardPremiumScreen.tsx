@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrCreateUser } from '../../utils/supabase';
+import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 
 import userPhoto from '../../assets/main-dashboard/фото из тг.png';
@@ -29,7 +30,11 @@ const ServiceCard: React.FC<CardProps> = ({
   const [isPressed, setIsPressed] = React.useState(false);
 
   return (
-  <div style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: `${height}px` }}>
+  <InteractiveTiltCard className="pricing-card-shell" maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: `${height}px` }}>
+    <div className="pricing-card-sheen-zone">
+      <div className="pricing-card-sheen" />
+      <div className="pricing-card-sheen pricing-card-sheen-soft" />
+    </div>
     <div style={{ position: 'absolute', inset: photoInset, borderRadius: '26px', overflow: 'hidden' }}>
       <img src={bgSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '26px' }} />
     </div>
@@ -107,7 +112,7 @@ const ServiceCard: React.FC<CardProps> = ({
         </div>
       </div>
     </button>
-  </div>
+  </InteractiveTiltCard>
   );
 };
 

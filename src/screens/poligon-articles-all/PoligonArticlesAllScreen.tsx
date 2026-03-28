@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getPolygonArticles } from '../../utils/contentApi';
 import type { PolygonArticle } from '../../types/content';
+import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import readButton from '../../assets/poligon-redesign/кнопка читать.png';
 import returnButton from '../../assets/poligon-redesign/кнопка вернуть.png';
@@ -104,11 +105,10 @@ const PoligonArticlesAllScreen: React.FC = () => {
           const src = isActive ? button.activeSrc || button.inactiveSrc : button.inactiveSrc;
 
           return (
-            <img
+            <button
               key={button.key}
-              src={src}
-              alt={button.key}
-              className={button.key === 'return' ? 'motion-press-grow' : 'button-inner-glow motion-press-grow'}
+              type="button"
+              className="premium-button-shell motion-press-grow"
               onClick={() => {
                 if (button.key === 'return') {
                   setActiveFilters([]);
@@ -135,14 +135,26 @@ const PoligonArticlesAllScreen: React.FC = () => {
                 top: `${button.top}px`,
                 width: '247px',
                 height: '80px',
-                objectFit: 'contain',
                 cursor: 'pointer',
+                border: 'none',
+                background: 'transparent',
+                padding: 0,
+                borderRadius: '62px',
+                overflow: 'hidden',
               }}
-            />
+            >
+              <div className="premium-button-inner" />
+              <img
+                src={src}
+                alt={button.key}
+                className="button-inner-glow"
+                style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+              />
+            </button>
           );
         })}
 
-        <div style={{ position: 'absolute', left: '0', top: '547px', width: '1180px', height: '1450px', overflowY: visibleArticles.length > 4 ? 'auto' : 'visible', overflowX: 'hidden' }}>
+        <div className="laba-feed-scroll" style={{ position: 'absolute', left: '0', top: '547px', width: '1180px', height: '1450px', overflowY: visibleArticles.length > 4 ? 'auto' : 'visible', overflowX: 'hidden' }}>
           <div style={{ position: 'relative', width: '1180px', minHeight: `${Math.max(visibleArticles.length, 1) * 279}px` }}>
             {error ? (
               <div style={{ position: 'absolute', left: '50%', top: '160px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontSize: '28px', color: '#ff7b7b', textAlign: 'center' }}>
@@ -158,7 +170,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
                 const top = 30 + index * 279;
 
                 return (
-                  <div key={article.id} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: '249px' }}>
+                  <InteractiveTiltCard key={article.id} className="pricing-card-shell" maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: '249px' }}>
+                    <div className="pricing-card-sheen-zone">
+                      <div className="pricing-card-sheen" />
+                      <div className="pricing-card-sheen pricing-card-sheen-soft" />
+                    </div>
                     <img src={background} alt="" style={{ position: 'absolute', left: 0, top: 0, width: '449px', height: '249px', borderRadius: '26px', objectFit: 'cover' }} />
 
                     <div style={{ position: 'absolute', left: '449px', top: 0, width: '445px', height: '249px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box' }}>
@@ -169,14 +185,21 @@ const PoligonArticlesAllScreen: React.FC = () => {
                       </div>
                     </div>
 
-                    <img
-                      src={readButton}
-                      alt="читать"
+                    <button
+                      type="button"
                       onClick={() => navigate(`/article/${article.id}`)}
-                      className="button-inner-glow motion-press-grow"
-                      style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', objectFit: 'contain', cursor: 'pointer' }}
-                    />
-                  </div>
+                      className="premium-button-shell motion-press-grow"
+                      style={{ position: 'absolute', left: '101px', top: '85px', width: '247px', height: '80px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer', borderRadius: '62px', overflow: 'hidden' }}
+                    >
+                      <div className="premium-button-inner" />
+                      <img
+                        src={readButton}
+                        alt="читать"
+                        className="button-inner-glow"
+                        style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+                      />
+                    </button>
+                  </InteractiveTiltCard>
                 );
               })
             )}

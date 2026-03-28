@@ -186,13 +186,20 @@ export const PromptCardScreen: React.FC = () => {
                 </div>
               </div>
 
-              <img
-                src={promptBadge}
-                alt="плашка промпт"
-                className="button-inner-glow motion-press-grow"
+              <button
+                type="button"
                 onClick={handleCopy}
-                style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', objectFit: 'contain', cursor: 'pointer', transform: 'translateX(-50%)' }}
-              />
+                className="premium-button-shell motion-press-grow"
+                style={{ position: 'absolute', left: '50%', top: '953px', width: '246.9305px', height: '80.9526px', cursor: 'pointer', transform: 'translateX(-50%)', border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'hidden' }}
+              >
+                <div className="premium-button-inner" />
+                <img
+                  src={promptBadge}
+                  alt="плашка промпт"
+                  className="button-inner-glow"
+                  style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2 }}
+                />
+              </button>
 
               <div onClick={handleCopy} style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)', cursor: 'pointer', paddingBottom: '40px' }}>
                 <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>

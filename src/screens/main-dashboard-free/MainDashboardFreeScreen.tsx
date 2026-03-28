@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
+import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 
 import nnAvatar from '../../assets/main-dashboard/нн аватарка.png';
 import demoBg from '../../assets/main-dashboard/фон демо.png';
@@ -67,7 +68,11 @@ export const MainDashboardFreeScreen: React.FC = () => {
         </div>
 
         {/* Карточка демо-курса */}
-        <div style={{ position: 'absolute', left: '141px', top: '536px', width: '894px', height: '249px' }}>
+        <InteractiveTiltCard className="pricing-card-shell" maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: '536px', width: '894px', height: '249px' }}>
+          <div className="pricing-card-sheen-zone">
+            <div className="pricing-card-sheen" />
+            <div className="pricing-card-sheen pricing-card-sheen-soft" />
+          </div>
           <img src={demoBg} alt="" style={{
             position: 'absolute', left: 0, top: '5px', width: '447px', height: '240px',
             objectFit: 'cover', borderRadius: '26px',
@@ -82,21 +87,52 @@ export const MainDashboardFreeScreen: React.FC = () => {
               {'то, что нужно для\nлегкого старта:\nOpenClaw с нуля,\nбазовый промптинг\nи сборка стэка ИИ-\nкреатора'}
             </p>
           </div>
-          <img src={openBtn} alt="открыть" onClick={() => navigate('/academy-course-demo')} className="button-inner-glow motion-press-grow" style={{
-            position: 'absolute', left: '101px', top: '85px', width: '247px', height: '79px', cursor: 'pointer',
-          }} />
-        </div>
+          <button
+            type="button"
+            onClick={() => navigate('/academy-course-demo')}
+            className="premium-button-shell motion-press-grow"
+            style={{
+              position: 'absolute', left: '101px', top: '85px', width: '247px', height: '79px', cursor: 'pointer',
+              border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'hidden',
+            }}
+          >
+            <div className="premium-button-inner" />
+            <img src={openBtn} alt="открыть" className="button-inner-glow" style={{
+              position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2,
+            }} />
+          </button>
+        </InteractiveTiltCard>
 
         {/* Карточка "что скрывается в полном" — 894×1196px */}
-        <img src={hiddenCard} alt="" style={{
+        <InteractiveTiltCard className="pricing-card-shell" maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{
           position: 'absolute', left: '143px', top: '847px',
-          width: '894px', height: '1196px', objectFit: 'cover', borderRadius: '30px',
-        }} />
+          width: '894px', height: '1196px',
+        }}>
+          <div className="pricing-card-sheen-zone">
+            <div className="pricing-card-sheen" />
+            <div className="pricing-card-sheen pricing-card-sheen-soft" />
+          </div>
+          <img src={hiddenCard} alt="" style={{
+            position: 'absolute', inset: 0,
+            width: '894px', height: '1196px', objectFit: 'cover', borderRadius: '30px',
+          }} />
+        </InteractiveTiltCard>
 
         {/* Кнопка "оплатить" — укороченная 530px, по центру карточки */}
-        <img src={payBtn} alt="оплатить полный доступ" onClick={() => navigate('/pricing')} className="button-inner-glow motion-press-grow" style={{
-          position: 'absolute', left: '322px', top: '1375px', width: '530px', height: '139px', cursor: 'pointer',
-        }} />
+        <button
+          type="button"
+          onClick={() => navigate('/pricing')}
+          className="premium-button-shell motion-press-grow"
+          style={{
+            position: 'absolute', left: '322px', top: '1375px', width: '530px', height: '139px', cursor: 'pointer',
+            border: 'none', background: 'transparent', padding: 0, borderRadius: '62px', overflow: 'hidden',
+          }}
+        >
+          <div className="premium-button-inner" />
+          <img src={payBtn} alt="оплатить полный доступ" className="button-inner-glow" style={{
+            position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', pointerEvents: 'none', zIndex: 2,
+          }} />
+        </button>
 
         {/* Текст под кнопкой */}
         <div style={{

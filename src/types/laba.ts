@@ -24,6 +24,7 @@ export interface Reel {
   accountFollowers: number;
   accountProfilePicUrl?: string | null; // Аватарка аккаунта
   trackedAccountId?: string | null; // Присутствует если reel из отслеживаемого аккаунта
+  isFavorite?: boolean;
 }
 
 /**

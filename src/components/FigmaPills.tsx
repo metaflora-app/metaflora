@@ -44,15 +44,15 @@ const getCenteredButtonLabelStyle = (labelOffsetY: number, labelWidth: number): 
 
 export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style, textOffsetY = 4 }) => (
   <div
-    className={['premium-static-shell', className].filter(Boolean).join(' ')}
+    className={className}
     style={{
+      ...basePillStyle,
       position: 'relative',
       width: '249.6507px',
       height: '80.9526px',
       ...style,
     }}
   >
-    <div className="premium-static-inner" />
     <div
       style={{
         position: 'absolute',
@@ -79,15 +79,15 @@ export const FigmaPromptBadge: React.FC<BasePillProps> = ({ className, style, te
 
 export const FigmaMaterialsBadge: React.FC<BasePillProps> = ({ className, style }) => (
   <div
-    className={['premium-static-shell', className].filter(Boolean).join(' ')}
+    className={className}
     style={{
+      ...basePillStyle,
       position: 'relative',
       width: '245.7405px',
       height: '79.3512px',
       ...style,
     }}
   >
-    <div className="premium-static-inner" />
     <div
       style={{
         position: 'absolute',

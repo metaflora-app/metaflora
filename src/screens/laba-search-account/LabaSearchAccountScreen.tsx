@@ -25,6 +25,8 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [searching, setSearching] = React.useState(false);
   const [tracking, setTracking] = React.useState(false);
   const [hasSearchAttempted, setHasSearchAttempted] = React.useState(false);
+  const [isLinkFocused, setIsLinkFocused] = React.useState(false);
+  const [isNicknameFocused, setIsNicknameFocused] = React.useState(false);
 
   const avatarSources = React.useMemo(() => {
     if (!foundAccount) return [];
@@ -135,37 +137,67 @@ export const LabaSearchAccountScreen: React.FC = () => {
             добавить ссылку
           </p>
 
-          <LabaSearchInput
-            value={labaAccountLinkQuery}
-            onChange={setLabaAccountLinkQuery}
-            onEnter={() => void handleSearch()}
-            placeholder="вставьте ссылку напрямую"
-            iconSrc={searchIcon}
+          <div
             style={{
+              position: 'absolute',
               left: '37px',
               top: '136px',
               width: '755px',
               height: '79px',
+              transform: isLinkFocused ? 'scale(1.04)' : 'scale(1)',
+              transformOrigin: 'center',
+              transition: 'transform 560ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease',
+              filter: isLinkFocused ? 'brightness(1.08)' : 'none',
             }}
-          />
+          >
+            <LabaSearchInput
+              value={labaAccountLinkQuery}
+              onChange={setLabaAccountLinkQuery}
+              onEnter={() => void handleSearch()}
+              onFocusChange={setIsLinkFocused}
+              placeholder="вставьте ссылку напрямую"
+              iconSrc={searchIcon}
+              style={{
+                left: 0,
+                top: 0,
+                width: '755px',
+                height: '79px',
+              }}
+            />
+          </div>
 
           <p style={{ position: 'absolute', left: '41px', top: '241px', margin: 0, fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '1', color: '#fff' }}>
             найти по нику
           </p>
 
-          <LabaSearchInput
-            value={labaAccountNicknameQuery}
-            onChange={setLabaAccountNicknameQuery}
-            onEnter={() => void handleSearch()}
-            placeholder="напишите юзернейм"
-            iconSrc={searchIcon}
+          <div
             style={{
+              position: 'absolute',
               left: '37px',
               top: '308px',
               width: '755px',
               height: '79px',
+              transform: isNicknameFocused ? 'scale(1.04)' : 'scale(1)',
+              transformOrigin: 'center',
+              transition: 'transform 560ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease',
+              filter: isNicknameFocused ? 'brightness(1.08)' : 'none',
             }}
-          />
+          >
+            <LabaSearchInput
+              value={labaAccountNicknameQuery}
+              onChange={setLabaAccountNicknameQuery}
+              onEnter={() => void handleSearch()}
+              onFocusChange={setIsNicknameFocused}
+              placeholder="напишите юзернейм"
+              iconSrc={searchIcon}
+              style={{
+                left: 0,
+                top: 0,
+                width: '755px',
+                height: '79px',
+              }}
+            />
+          </div>
 
           <button
             type="button"
@@ -178,8 +210,6 @@ export const LabaSearchAccountScreen: React.FC = () => {
               width: '247px',
               height: '80px',
               borderRadius: '62px',
-              border: '4px solid rgba(255,255,255,0.3)',
-              background: 'rgba(0,0,0,0.9)',
               color: '#fff',
               fontFamily: textFont,
               fontWeight: 700,
@@ -271,8 +301,6 @@ export const LabaSearchAccountScreen: React.FC = () => {
                   width: '530px',
                   height: '139px',
                   borderRadius: '62px',
-                  border: '4px solid rgba(255,255,255,0.3)',
-                  background: 'rgba(0,0,0,0.9)',
                   color: '#fff',
                   cursor: tracking ? 'default' : 'pointer',
                   padding: 0,

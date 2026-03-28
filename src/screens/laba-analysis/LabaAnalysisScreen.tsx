@@ -58,7 +58,14 @@ export const LabaAnalysisScreen: React.FC = () => {
   const [analyzing, setAnalyzing] = React.useState(false);
   const [generatingScenario, setGeneratingScenario] = React.useState(false);
   const [hydratingAnalysis, setHydratingAnalysis] = React.useState(true);
-  const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
+  const [likedCards, setLikedCards] = React.useState<Set<string>>(() => new Set(reel?.isFavorite ? [reel.id] : []));
+
+  React.useEffect(() => {
+    if (!reel) {
+      return;
+    }
+    setLikedCards(new Set(reel.isFavorite ? [reel.id] : []));
+  }, [reel]);
 
   React.useEffect(() => {
     if (!reel) navigate('/laba-main');

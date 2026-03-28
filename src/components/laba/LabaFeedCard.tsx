@@ -203,8 +203,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             overflow: 'hidden',
           }}
         >
+          {openAnalysisButtonSrc ? <div className="premium-button-inner" /> : null}
           {openAnalysisButtonSrc ? (
-            <img src={openAnalysisButtonSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none', position: 'relative', zIndex: 2 }} />
+            <img src={openAnalysisButtonSrc} alt="" style={{ position: 'absolute', inset: '4px', width: 'calc(100% - 8px)', height: 'calc(100% - 8px)', objectFit: 'contain', display: 'block', pointerEvents: 'none', zIndex: 2 }} />
           ) : (
             <OpenReelButton />
           )}
