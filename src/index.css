@@ -156,23 +156,23 @@ body {
 
 @keyframes pricingCardGlow {
   0%, 100% {
-    opacity: 0.58;
-    transform: translate3d(-3%, -2%, 0) scale(0.94);
+    opacity: 0.52;
+    transform: translate3d(-4%, -2%, 0) scale(0.95);
   }
   50% {
-    opacity: 0.98;
-    transform: translate3d(5%, 4%, 0) scale(1.12);
+    opacity: 0.9;
+    transform: translate3d(6%, 4%, 0) scale(1.08);
   }
 }
 
 @keyframes pricingInnerLife {
   0%, 100% {
-    opacity: 0.34;
-    transform: translate3d(-6%, -4%, 0) scale(0.96);
+    opacity: 0.28;
+    transform: translate3d(-7%, -4%, 0) scale(0.97);
   }
   50% {
-    opacity: 0.78;
-    transform: translate3d(7%, 6%, 0) scale(1.08);
+    opacity: 0.66;
+    transform: translate3d(8%, 6%, 0) scale(1.06);
   }
 }
 
@@ -192,48 +192,57 @@ body {
   isolation: isolate;
 }
 
+.pricing-card-blur-zone {
+  position: absolute;
+  inset: 46% 4% 3.5% 4%;
+  border-radius: 40px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .pricing-card-halo {
   position: absolute;
   border-radius: 999px;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.16) 28%, rgba(255, 255, 255, 0) 72%);
-  filter: blur(42px);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 28%, rgba(255, 255, 255, 0) 72%);
+  filter: blur(36px);
+  mix-blend-mode: screen;
   animation: pricingCardGlow 4.8s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
-  mix-blend-mode: screen;
 }
 
 .pricing-card-halo-primary {
-  inset: 7% 9% 24%;
+  inset: 2% 4% 44% 2%;
 }
 
 .pricing-card-halo-secondary {
-  inset: 30% 10% 10%;
-  animation-duration: 6.6s;
-  animation-delay: 0.5s;
-  opacity: 0.92;
+  inset: 18% 38% 16% 28%;
+  animation-duration: 5.8s;
+  animation-delay: 0.45s;
+  opacity: 0.9;
 }
 
 .pricing-card-life {
   position: absolute;
-  inset: 12% 8%;
-  border-radius: 54px;
+  inset: 8% 4% 8% 4%;
+  border-radius: 44px;
   background:
-    radial-gradient(circle at 22% 28%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 22%, rgba(255, 255, 255, 0) 50%),
-    radial-gradient(circle at 76% 42%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.09) 18%, rgba(255, 255, 255, 0) 46%),
-    radial-gradient(circle at 58% 76%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 18%, rgba(255, 255, 255, 0) 44%);
-  filter: blur(30px);
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.12) 18%, rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 74% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 16%, rgba(255, 255, 255, 0) 38%),
+    radial-gradient(circle at 34% 74%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 18%, rgba(255, 255, 255, 0) 36%);
+  filter: blur(26px);
   mix-blend-mode: screen;
-  animation: pricingInnerLife 5.2s ease-in-out infinite;
+  animation: pricingInnerLife 5.4s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
 }
 
 .pricing-card-life-secondary {
-  inset: 24% 12% 12%;
-  animation-duration: 6.8s;
-  animation-delay: 0.9s;
-  opacity: 1;
+  inset: 12% 22% 2% 36%;
+  animation-duration: 6.2s;
+  animation-delay: 0.8s;
+  opacity: 0.94;
 }
 
 .pricing-toggle-shell {
@@ -315,9 +324,8 @@ body {
 .premium-button-shell::before {
   content: '';
   position: absolute;
-  inset: -5px;
+  inset: 0;
   border-radius: inherit;
-  padding: 5px;
   background: conic-gradient(
     from 0deg,
     rgba(255, 255, 255, 0.02) 0deg,
@@ -327,14 +335,9 @@ body {
     rgba(255, 255, 255, 0.02) 360deg
   );
   animation: premiumButtonGlowRotate 2.8s linear infinite;
-  filter: blur(1px);
+  filter: blur(0.4px);
   pointer-events: none;
   z-index: 0;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
 }
 
 .premium-button-shell::after {
@@ -349,6 +352,17 @@ body {
   z-index: 0;
 }
 
+.premium-button-inner {
+  position: absolute;
+  inset: 4px;
+  border-radius: inherit;
+  backdrop-filter: blur(50px);
+  background: rgba(0, 0, 0, 0.9);
+  border: 4px solid rgba(255,255,255,0.3);
+  overflow: hidden;
+  z-index: 1;
+}
+
 .premium-button-shell:hover {
   filter: brightness(1.08);
 }
@@ -360,7 +374,7 @@ body {
 
 .premium-button-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Placeholder styles for search inputs */

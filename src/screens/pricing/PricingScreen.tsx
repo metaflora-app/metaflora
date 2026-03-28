@@ -254,10 +254,12 @@ export const PricingScreen: React.FC = () => {
         </div>
 
         <div className="pricing-card-shell" style={{ position: 'absolute', left: '143px', top: '523px', width: '894px', height: '1178px' }}>
-          <div className="pricing-card-halo pricing-card-halo-primary" />
-          <div className="pricing-card-halo pricing-card-halo-secondary" />
-          <div className="pricing-card-life" />
-          <div className="pricing-card-life pricing-card-life-secondary" />
+          <div className="pricing-card-blur-zone">
+            <div className="pricing-card-halo pricing-card-halo-primary" />
+            <div className="pricing-card-halo pricing-card-halo-secondary" />
+            <div className="pricing-card-life" />
+            <div className="pricing-card-life pricing-card-life-secondary" />
+          </div>
           <img
             src={selectedPlan === '1month' ? pricingCardMonth : pricingCardQuarter}
             alt={selectedPlan === '1month' ? 'подписка на 1 месяц' : 'подписка на 3 месяца'}

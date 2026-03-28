@@ -69,15 +69,15 @@ const ServiceCard: React.FC<CardProps> = ({
         right: '61.08%',
         bottom: '34.04%',
         left: '11.3%',
-        backdropFilter: 'blur(50px)',
-        background: 'rgba(0,0,0,0.9)',
-        border: '4px solid rgba(255,255,255,0.3)',
         borderRadius: '62px',
         overflow: 'hidden',
         cursor: onOpen ? 'pointer' : 'default',
         padding: 0,
+        border: 'none',
+        background: 'transparent',
       }}
     >
+      <div className="premium-button-inner" />
       <div className="premium-button-content">
         <div style={{
           position: 'absolute',
@@ -115,15 +115,15 @@ const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
     top: `${y}px`,
     width: '168px',
     height: '54px',
-    backdropFilter: 'blur(50px)',
-    background: 'rgba(0,0,0,0.9)',
-    border: '4px solid rgba(255,255,255,0.3)',
     borderRadius: '62px',
     overflow: 'hidden',
     cursor: 'pointer',
     padding: 0,
+    border: 'none',
+    background: 'transparent',
   }}
   >
+    <div className="premium-button-inner" />
     <div className="premium-button-content">
       <div style={{
         position: 'absolute',
