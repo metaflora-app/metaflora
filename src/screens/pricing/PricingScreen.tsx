@@ -10,16 +10,103 @@ import activeMonthButton from '../../assets/pricing-redesign/кнопка акт
 import activeQuarterButton from '../../assets/pricing-redesign/кнопка активные 3 месяца.png';
 import payButton from '../../assets/pricing-redesign/кнопка оплатить доступ.png';
 
+const TOGGLE_TRACK_WIDTH = 894;
+const TOGGLE_SEGMENT_WIDTH = 447;
+const HOLD_TO_PAY_MS = 1100;
+const SCRAMBLE_CHARS = 'XO01*';
+
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+const useScrambleText = (targetText: string, triggerKey: string) => {
+  const [displayText, setDisplayText] = React.useState(targetText);
+
+  React.useEffect(() => {
+    let frame = 0;
+    let animationFrameId = 0;
+    let timeoutId = 0;
+    const totalFrames = 24;
+
+    const tick = () => {
+      frame += 1;
+      const revealCount = Math.floor((frame / totalFrames) * targetText.length);
+      const next = targetText
+        .split('')
+        .map((char, index) => {
+          if (char === ' ') {
+            return ' ';
+          }
+
+          if (index < revealCount) {
+            return targetText[index];
+          }
+
+          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        })
+        .join('');
+
+      setDisplayText(frame >= totalFrames ? targetText : next);
+
+      if (frame < totalFrames) {
+        timeoutId = window.setTimeout(() => {
+          animationFrameId = requestAnimationFrame(tick);
+        }, 28);
+      }
+    };
+
+    setDisplayText(targetText);
+    animationFrameId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.clearTimeout(timeoutId);
+      setDisplayText(targetText);
+    };
+  }, [targetText, triggerKey]);
+
+  return displayText;
+};
+
 export const PricingScreen: React.FC = () => {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = React.useState<'1month' | '3months'>('1month');
+  const [pillOffset, setPillOffset] = React.useState(0);
+  const [isDraggingToggle, setIsDraggingToggle] = React.useState(false);
+  const [holdProgress, setHoldProgress] = React.useState(0);
+  const [isHoldingPay, setIsHoldingPay] = React.useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const toggleDragRef = React.useRef<{
+    pointerId: number;
+    startLocalX: number;
+    currentLocalX: number;
+    baseOffset: number;
+    scaleFactor: number;
+  } | null>(null);
+  const holdFrameRef = React.useRef<number | null>(null);
+  const holdStartedAtRef = React.useRef<number | null>(null);
+  const holdCompletedRef = React.useRef(false);
+
+  const monthInactiveLabel = useScrambleText('1 месяц (-10%)', selectedPlan);
+  const quarterInactiveLabel = useScrambleText('3 месяца (-20%)', selectedPlan);
+
+  React.useEffect(() => {
+    if (!isDraggingToggle) {
+      setPillOffset(selectedPlan === '1month' ? 0 : TOGGLE_SEGMENT_WIDTH);
+    }
+  }, [isDraggingToggle, selectedPlan]);
 
   const handlePayment = async () => {
+    if (isProcessingPayment) {
+      return;
+    }
+
+    setIsProcessingPayment(true);
     const months = selectedPlan === '1month' ? 1 : 3;
     const result = await trackSubscriptionPurchase('premium', months);
 
     if (!result.success) {
+      setIsProcessingPayment(false);
+      setHoldProgress(0);
       showPopupMessage('неизвестная ошибка. Пожалуйста, обратитесь в поддержку metaflora_support');
       return;
     }
@@ -31,6 +118,111 @@ export const PricingScreen: React.FC = () => {
         : `подписка на ${planLabel} успешно оплачена`
     );
     navigate('/main-dashboard-premium');
+  };
+
+  const cancelHoldAnimation = React.useCallback(() => {
+    if (holdFrameRef.current !== null) {
+      cancelAnimationFrame(holdFrameRef.current);
+      holdFrameRef.current = null;
+    }
+  }, []);
+
+  const resetHoldToPay = React.useCallback(() => {
+    cancelHoldAnimation();
+    holdStartedAtRef.current = null;
+    holdCompletedRef.current = false;
+    setIsHoldingPay(false);
+    setHoldProgress(0);
+  }, [cancelHoldAnimation]);
+
+  React.useEffect(() => () => cancelHoldAnimation(), [cancelHoldAnimation]);
+
+  const startHoldToPay = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (isProcessingPayment) {
+      return;
+    }
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    cancelHoldAnimation();
+    holdCompletedRef.current = false;
+    holdStartedAtRef.current = performance.now();
+    setIsHoldingPay(true);
+    setHoldProgress(0);
+
+    const step = (timestamp: number) => {
+      if (!holdStartedAtRef.current) {
+        return;
+      }
+
+      const progress = clamp((timestamp - holdStartedAtRef.current) / HOLD_TO_PAY_MS, 0, 1);
+      setHoldProgress(progress);
+
+      if (progress >= 1 && !holdCompletedRef.current) {
+        holdCompletedRef.current = true;
+        setIsHoldingPay(false);
+        cancelHoldAnimation();
+        void handlePayment();
+        return;
+      }
+
+      holdFrameRef.current = requestAnimationFrame(step);
+    };
+
+    holdFrameRef.current = requestAnimationFrame(step);
+  };
+
+  const stopHoldToPay = () => {
+    if (holdCompletedRef.current) {
+      return;
+    }
+
+    resetHoldToPay();
+  };
+
+  const handleTogglePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const scaleFactor = TOGGLE_TRACK_WIDTH / rect.width;
+    const localX = (event.clientX - rect.left) * scaleFactor;
+    const baseOffset = selectedPlan === '1month' ? 0 : TOGGLE_SEGMENT_WIDTH;
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    toggleDragRef.current = {
+      pointerId: event.pointerId,
+      startLocalX: localX,
+      currentLocalX: localX,
+      baseOffset,
+      scaleFactor,
+    };
+    setIsDraggingToggle(true);
+    setPillOffset(baseOffset);
+  };
+
+  const handleTogglePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!toggleDragRef.current || toggleDragRef.current.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const localX = (event.clientX - rect.left) * toggleDragRef.current.scaleFactor;
+    toggleDragRef.current.currentLocalX = localX;
+    const delta = localX - toggleDragRef.current.startLocalX;
+    setPillOffset(clamp(toggleDragRef.current.baseOffset + delta, 0, TOGGLE_SEGMENT_WIDTH));
+  };
+
+  const finishToggleDrag = () => {
+    if (!toggleDragRef.current) {
+      return;
+    }
+
+    const dragDistance = Math.abs(toggleDragRef.current.currentLocalX - toggleDragRef.current.startLocalX);
+    const nextPlan = dragDistance < 14
+      ? (toggleDragRef.current.currentLocalX >= TOGGLE_SEGMENT_WIDTH ? '3months' : '1month')
+      : (pillOffset >= TOGGLE_SEGMENT_WIDTH / 2 ? '3months' : '1month');
+
+    toggleDragRef.current = null;
+    setIsDraggingToggle(false);
+    setSelectedPlan(nextPlan);
+    setPillOffset(nextPlan === '1month' ? 0 : TOGGLE_SEGMENT_WIDTH);
   };
 
   return (
@@ -45,7 +237,14 @@ export const PricingScreen: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ position: 'absolute', left: '143px', top: '399px', width: '894px', height: '79px' }}>
+        <div
+          className={`pricing-toggle-shell ${isDraggingToggle ? 'is-dragging' : ''}`}
+          onPointerDown={handleTogglePointerDown}
+          onPointerMove={handleTogglePointerMove}
+          onPointerUp={finishToggleDrag}
+          onPointerCancel={finishToggleDrag}
+          style={{ position: 'absolute', left: '143px', top: '399px', width: '894px', height: '79px', cursor: isDraggingToggle ? 'grabbing' : 'grab' }}
+        >
           <div
             style={{
               position: 'absolute',
@@ -57,95 +256,108 @@ export const PricingScreen: React.FC = () => {
               boxSizing: 'border-box',
             }}
           />
+          <div className="pricing-toggle-track-glow" />
 
-          {selectedPlan === '1month' ? (
-            <>
-              <img
-                src={activeMonthButton}
-                alt="1 месяц"
-                style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', objectFit: 'fill', pointerEvents: 'none' }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '497px',
-                  top: '12px',
-                  width: '321px',
-                  height: '40px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  fontFamily: 'Cygre',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  lineHeight: '1',
-                  color: '#fff',
-                  textAlign: 'center',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                3 месяца (-20%)
-              </div>
-            </>
-          ) : (
-            <>
-              <img
-                src={activeQuarterButton}
-                alt="3 месяца"
-                style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', objectFit: 'fill', pointerEvents: 'none' }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '80px',
-                  top: '13px',
-                  width: '289px',
-                  height: '40px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  fontFamily: 'Cygre',
-                  fontWeight: 700,
-                  fontSize: '40px',
-                  lineHeight: '1',
-                  color: '#fff',
-                  textAlign: 'center',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                1 месяц (-10%)
-              </div>
-            </>
-          )}
+          <div
+            className="pricing-toggle-pill"
+            style={{
+              transform: `translateX(${pillOffset}px)`,
+            }}
+          >
+            <img
+              src={selectedPlan === '1month' ? activeMonthButton : activeQuarterButton}
+              alt={selectedPlan === '1month' ? '1 месяц' : '3 месяца'}
+              style={{ position: 'absolute', inset: 0, width: '447px', height: '79px', objectFit: 'fill', pointerEvents: 'none' }}
+            />
+          </div>
 
-          <button
-            type="button"
-            onClick={() => setSelectedPlan('1month')}
-            style={{ position: 'absolute', left: 0, top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
-            aria-label="1 месяц (-10%)"
-          />
+          <div
+            className={`pricing-toggle-label ${selectedPlan === '3months' ? 'is-inactive' : 'is-active'}`}
+            style={{
+              position: 'absolute',
+              left: '497px',
+              top: '12px',
+              width: '321px',
+              height: '40px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontFamily: 'Cygre',
+              fontWeight: 700,
+              fontSize: '40px',
+              lineHeight: '1',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          >
+            {quarterInactiveLabel}
+          </div>
 
-          <button
-            type="button"
-            onClick={() => setSelectedPlan('3months')}
-            style={{ position: 'absolute', left: '447px', top: 0, width: '447px', height: '79px', border: 'none', background: 'transparent', padding: 0, cursor: 'pointer' }}
-            aria-label="3 месяца (-20%)"
+          <div
+            className={`pricing-toggle-label ${selectedPlan === '1month' ? 'is-inactive' : 'is-active'}`}
+            style={{
+              position: 'absolute',
+              left: '80px',
+              top: '13px',
+              width: '289px',
+              height: '40px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontFamily: 'Cygre',
+              fontWeight: 700,
+              fontSize: '40px',
+              lineHeight: '1',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          >
+            {monthInactiveLabel}
+          </div>
+        </div>
+
+        <div className="pricing-card-shell" style={{ position: 'absolute', left: '143px', top: '523px', width: '894px', height: '1178px' }}>
+          <div className="pricing-card-life" />
+          <img
+            src={selectedPlan === '1month' ? pricingCardMonth : pricingCardQuarter}
+            alt={selectedPlan === '1month' ? 'подписка на 1 месяц' : 'подписка на 3 месяца'}
+            style={{ position: 'absolute', inset: 0, width: '894px', height: '1178px', objectFit: 'fill', zIndex: 0 }}
           />
         </div>
 
-        <img
-          src={selectedPlan === '1month' ? pricingCardMonth : pricingCardQuarter}
-          alt={selectedPlan === '1month' ? 'подписка на 1 месяц' : 'подписка на 3 месяца'}
-          style={{ position: 'absolute', left: '143px', top: '523px', width: '894px', height: '1178px', objectFit: 'fill' }}
-        />
-
-        <img
-          src={payButton}
-          alt="оплатить доступ"
-          onClick={handlePayment}
-          className="button-inner-glow"
-          style={{ position: 'absolute', left: '143px', top: '1744px', width: '894px', height: '139px', cursor: 'pointer' }}
-        />
+        <button
+          type="button"
+          className={`pricing-pay-shell button-inner-glow ${isHoldingPay ? 'is-holding' : ''}`}
+          onPointerDown={startHoldToPay}
+          onPointerUp={stopHoldToPay}
+          onPointerLeave={stopHoldToPay}
+          onPointerCancel={stopHoldToPay}
+          disabled={isProcessingPayment}
+          style={{
+            position: 'absolute',
+            left: '143px',
+            top: '1744px',
+            width: '894px',
+            height: '139px',
+            cursor: isProcessingPayment ? 'progress' : 'pointer',
+            border: 'none',
+            background: 'transparent',
+            padding: 0,
+            '--hold-progress': `${holdProgress * 100}%`,
+          } as React.CSSProperties}
+        >
+          <div className="pricing-pay-halo" />
+          <div className="pricing-pay-fill" />
+          <img
+            src={payButton}
+            alt="оплатить доступ"
+            style={{ position: 'absolute', inset: 0, width: '894px', height: '139px', objectFit: 'fill', pointerEvents: 'none', zIndex: 2 }}
+          />
+        </button>
 
         <Footer />
       </div>
