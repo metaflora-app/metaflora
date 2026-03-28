@@ -31,28 +31,18 @@ export const SplashScreen: React.FC = () => {
     <div style={{ width: '100vw', height: '100vh', position: 'relative', background: '#020101', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '1180px', height: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <ThreeBg />
-        <div
-          className="motion-logo-preloader"
+        <img
+          src={logo}
+          alt="МЕТАФЛОРА*"
           style={{
             position: 'absolute',
             left: '371px',
             top: '772px',
             width: '438px',
             height: '309px',
+            objectFit: 'contain',
           }}
-        >
-          <img
-            src={logo}
-            alt="МЕТАФЛОРА*"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '438px',
-              height: '309px',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
+        />
       </div>
     </div>
   );

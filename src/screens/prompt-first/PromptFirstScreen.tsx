@@ -10,7 +10,6 @@ import {
   togglePromptFavorite,
 } from '../../utils/promptInteractions';
 import { FigmaLikeButton } from '../../components/FigmaLikeButton';
-import { HaloLayer } from '../../components/animation/HaloLayer';
 import returnButton from '../../assets/prompt-redesign/кнопка вернуть.png';
 import sortButtonInactive from '../../assets/prompt-redesign/кнопка сортировка промпта неактив.png';
 import newButtonInactive from '../../assets/prompt-redesign/кнопка новое неактив.png';
@@ -24,29 +23,6 @@ import tinyLogo from '../../assets/prompt-redesign/лого очень мале�
 const CARD_HEIGHT = 1064;
 const CARD_GAP = 31;
 const SORT_OPTIONS = ['LLM', 'фото', 'видео', 'другое'] as const;
-
-const getPromptCardMotionStyle = (index: number, scrollTop: number): React.CSSProperties => {
-  const cardSpan = CARD_HEIGHT + CARD_GAP;
-  const relative = (index * cardSpan - scrollTop) / cardSpan;
-  const clamped = Math.max(-1.3, Math.min(relative, 1.3));
-  const depth = Math.min(Math.abs(clamped), 1.2);
-  const translateY = clamped < 0 ? clamped * 170 : clamped * 78;
-  const scale = clamped < 0 ? 1 - depth * 0.045 : 1 - depth * 0.1;
-  const rotateX = clamped < 0 ? depth * 11 : -depth * 7;
-  const rotateZ = clamped < 0 ? depth * -4.5 : depth * 2.2;
-  const opacity = 1 - Math.max(0, depth - 0.08) * 0.24;
-  const blur = depth > 0.35 ? (depth - 0.35) * 3 : 0;
-
-  return {
-    transform: `translate3d(0, ${translateY}px, 0) scale(${scale}) rotateX(${rotateX}deg) rotateZ(${rotateZ}deg)`,
-    opacity,
-    filter: blur ? `blur(${blur}px)` : undefined,
-    transformOrigin: '50% 12%',
-    transition:
-      'transform 220ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease, filter 220ms ease',
-    willChange: 'transform, opacity, filter',
-  };
-};
 
 type PromptFilter = 'new' | 'recent' | 'favorites' | null;
 type PromptSortFilter = typeof SORT_OPTIONS[number] | null;
@@ -99,7 +75,6 @@ export const PromptFirstScreen: React.FC = () => {
   const [activeFilter, setActiveFilter] = React.useState<PromptFilter>(null);
   const [activeSortFilter, setActiveSortFilter] = React.useState<PromptSortFilter>(null);
   const [favoriteIds, setFavoriteIds] = React.useState<string[]>([]);
-  const [scrollTop, setScrollTop] = React.useState(0);
 
   React.useEffect(() => {
     setFavoriteIds(getPromptFavoriteIds());
@@ -209,20 +184,19 @@ export const PromptFirstScreen: React.FC = () => {
         <ThreeBg />
         <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
-        <div className="motion-reveal-up" style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
+        <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
             МЕТАФЛОРА* цех
           </p>
         </div>
 
-        <div className="motion-reveal-up motion-delay-1" style={{ position: 'absolute', left: '85px', top: '273px', width: '980px' }}>
+        <div style={{ position: 'absolute', left: '85px', top: '273px', width: '980px' }}>
           <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '40px', lineHeight: '1', color: 'white' }}>
             создавайте ИИ-ассистентов или повторяйте горячие тренды - промпты на любой вкус
           </p>
         </div>
 
-        <div className="motion-conic-border motion-reveal-up motion-delay-1" style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '302px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
-          <HaloLayer className="motion-halo-soft" style={{ inset: '18% 14%' }} />
+        <div style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '302px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
           <img
             src={workshopGif}
             alt="мастерская в окошке флоры"
@@ -248,12 +222,10 @@ export const PromptFirstScreen: React.FC = () => {
             <button
               key={button.key || 'return'}
               type="button"
-              className={`motion-conic-border motion-slide-fill motion-pressable motion-reveal-up motion-delay-2 ${isActive ? 'is-active' : ''}`}
               onClick={() => {
                 if (button.key === 'return') {
                   setActiveFilter(null);
                   setActiveSortFilter(null);
-                  setScrollTop(0);
                   return;
                 }
 
@@ -283,19 +255,16 @@ export const PromptFirstScreen: React.FC = () => {
                 border: 'none',
                 background: 'transparent',
                 padding: 0,
-                borderRadius: '40px',
               }}
             >
-              <HaloLayer className="motion-halo-tight" style={{ inset: '22% 15%' }} />
               <img
                 src={isActive ? activeFilterTemplate : button.inactiveSrc}
                 alt=""
-                className={`motion-surface-content ${button.key === 'return' ? '' : 'button-inner-glow'}`.trim()}
+                className={button.key === 'return' ? undefined : 'button-inner-glow'}
                 style={{ position: 'absolute', inset: 0, width: '247px', height: '80px', objectFit: 'contain', pointerEvents: 'none' }}
               />
               {isActive ? (
                 <span
-                  className="motion-surface-content"
                   style={{
                     position: 'absolute',
                     inset: 0,
@@ -322,10 +291,7 @@ export const PromptFirstScreen: React.FC = () => {
           <img src={promptScrollWindowDesktopPng} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill' }} />
         </div>
 
-        <div
-          onScroll={(event) => setScrollTop(event.currentTarget.scrollTop)}
-          style={{ position: 'absolute', left: '177px', top: '948px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2, perspective: '1800px' }}
-        >
+        <div style={{ position: 'absolute', left: '177px', top: '948px', width: '831px', height: '1064px', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y', zIndex: 2 }}>
           <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px` }}>
             {promptsToRender.map((prompt, index) => {
               const isNew = prompt.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые');
@@ -334,7 +300,6 @@ export const PromptFirstScreen: React.FC = () => {
               return (
                 <div
                   key={prompt.id}
-                  className={index === 0 ? 'motion-reveal-up motion-delay-3' : undefined}
                   style={{
                     position: 'absolute',
                     left: 0,
@@ -343,10 +308,8 @@ export const PromptFirstScreen: React.FC = () => {
                     height: '1064px',
                     overflow: 'hidden',
                     isolation: 'isolate',
-                    ...getPromptCardMotionStyle(index, scrollTop),
                   }}
                 >
-                  <HaloLayer className="motion-halo-soft" style={{ inset: '24% 16% 42%' }} />
                   <img
                     src={promptCardBlackBgPng}
                     alt=""
@@ -418,7 +381,7 @@ export const PromptFirstScreen: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => !prompt.id.startsWith('loading-') && handleOpenPromptCard(prompt.id)}
-                    className="button-inner-glow motion-conic-border motion-slide-fill motion-pressable"
+                    className="button-inner-glow"
                     style={{
                       position: 'absolute',
                       left: '293px',
@@ -433,9 +396,7 @@ export const PromptFirstScreen: React.FC = () => {
                       zIndex: 999,
                     }}
                   >
-                    <HaloLayer className="motion-halo-tight" style={{ inset: '24% 14%' }} />
                     <div
-                      className="motion-surface-content"
                       style={{
                         position: 'absolute',
                         left: '50%',
