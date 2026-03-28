@@ -136,9 +136,10 @@ export async function getCheckoutPaymentStatus(paymentId: string): Promise<Payme
 }
 
 export async function cancelCheckoutPayment(paymentId: string): Promise<PaymentCancelResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/payments/cancel/${paymentId}`, {
+  const response = await fetch(`${API_BASE_URL}/api/payments/cancel`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ paymentId }),
   });
 
   const payload = await response.json() as PaymentCancelResponse;
