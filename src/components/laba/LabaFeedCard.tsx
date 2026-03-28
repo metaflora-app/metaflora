@@ -29,6 +29,7 @@ interface LabaFeedCardProps {
   activityPillTop?: number;
   likeEffectVariant?: 'default' | 'tiktok';
   actionMotionVariant?: 'default' | 'premium';
+  tiltVariant?: 'none' | 'interactive';
 }
 
 const CARD_WIDTH = 831;
@@ -58,6 +59,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   activityPillTop = 654,
   likeEffectVariant = 'default',
   actionMotionVariant = 'default',
+  tiltVariant = 'none',
 }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
@@ -69,6 +71,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   );
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
+  const [tilt, setTilt] = React.useState({ rotateX: 0, rotateY: 0, scale: 1 });
 
   React.useEffect(() => {
     setCoverIndex(0);
@@ -80,16 +83,50 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
 
   const coverSrc = coverSources[coverIndex] || figmaCardCover;
   const avatarSrc = avatarSources[avatarIndex] || null;
+  const isTiltInteractive = tiltVariant === 'interactive';
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isTiltInteractive) {
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const relativeX = (event.clientX - rect.left) / rect.width;
+    const relativeY = (event.clientY - rect.top) / rect.height;
+
+    setTilt({
+      rotateX: (0.5 - relativeY) * 7,
+      rotateY: (relativeX - 0.5) * 8,
+      scale: 1.014,
+    });
+  };
+
+  const resetTilt = () => {
+    if (!isTiltInteractive) {
+      return;
+    }
+    setTilt({ rotateX: 0, rotateY: 0, scale: 1 });
+  };
 
   return (
     <div
       onClick={onOpenAnalysis}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetTilt}
+      onPointerUp={resetTilt}
+      onPointerCancel={resetTilt}
       style={{
         position: 'relative',
         width: `${CARD_WIDTH}px`,
         minHeight: `${CARD_HEIGHT}px`,
         margin: '0 auto',
         cursor: onOpenAnalysis ? 'pointer' : 'default',
+        transform: `perspective(1800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${tilt.scale})`,
+        transformStyle: 'preserve-3d',
+        transition: isTiltInteractive
+          ? 'transform 220ms cubic-bezier(0.22, 1, 0.36, 1), filter 220ms ease'
+          : undefined,
+        willChange: isTiltInteractive ? 'transform' : undefined,
       }}
     >
       <div

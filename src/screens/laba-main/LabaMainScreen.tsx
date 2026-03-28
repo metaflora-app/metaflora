@@ -17,66 +17,6 @@ const sortOptions = ['>просмотров', '<просмотров', '>лай�
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
 const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
-const LABA_CARD_GAP = 34;
-const LABA_CARD_HEIGHT = 1064;
-const LABA_CARD_STEP = LABA_CARD_HEIGHT + LABA_CARD_GAP;
-
-const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
-
-const getStackCardMotionStyle = (index: number, scrollTop: number): React.CSSProperties => {
-  const rawOffset = index * LABA_CARD_STEP - scrollTop;
-  const progress = rawOffset / LABA_CARD_STEP;
-  const hidden = progress < -1.25 || progress > 3.4;
-
-  let translateY = rawOffset;
-  if (progress > 0) {
-    if (progress <= 1) {
-      translateY = progress * 214;
-    } else if (progress <= 2) {
-      translateY = 214 + (progress - 1) * 138;
-    } else {
-      translateY = 352 + (progress - 2) * 96;
-    }
-  } else {
-    translateY = rawOffset * 0.9;
-  }
-
-  const scale = progress <= 0
-    ? 1 - clamp(Math.abs(progress) * 0.08, 0, 0.14)
-    : progress <= 1
-      ? 1 - progress * 0.07
-      : progress <= 2
-        ? 0.93 - (progress - 1) * 0.07
-        : 0.86 - (progress - 2) * 0.04;
-
-  const opacity = progress <= 0
-    ? 1 - clamp(Math.abs(progress) * 0.28, 0, 0.45)
-    : progress <= 1
-      ? 1 - progress * 0.16
-      : progress <= 2
-        ? 0.84 - (progress - 1) * 0.24
-        : 0.6 - (progress - 2) * 0.16;
-
-  const rotateX = progress <= 0
-    ? -clamp(Math.abs(progress) * 7, 0, 8)
-    : clamp(progress * 10, 0, 18);
-
-  return {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '831px',
-    height: '1064px',
-    transform: `translate3d(0, ${translateY}px, 0) scale(${scale}) rotateX(${rotateX}deg)`,
-    transformOrigin: progress <= 0 ? 'center top' : 'center top',
-    opacity: hidden ? 0 : clamp(opacity, 0, 1),
-    filter: `blur(${progress > 1 ? Math.min((progress - 1) * 1.8, 4) : 0}px)`,
-    zIndex: Math.round(500 - progress * 100),
-    pointerEvents: hidden ? 'none' : 'auto',
-    transition: 'transform 70ms linear, opacity 120ms linear, filter 120ms linear',
-    willChange: 'transform, opacity, filter',
-  };
-};
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -97,7 +37,6 @@ export const LabaMainScreen: React.FC = () => {
   const [likedCards, setLikedCards] = React.useState<Set<string>>(new Set());
   const [searching, setSearching] = React.useState(false);
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
-  const [reelsScrollTop, setReelsScrollTop] = React.useState(0);
   const [hasSearchResults, setHasSearchResults] = React.useState(
     () => labaReelsCache.length > 0 && labaMainSearchQuery.trim().length > 0
   );
@@ -116,7 +55,6 @@ export const LabaMainScreen: React.FC = () => {
       setReels(allReels);
       setLabaReelsCache(allReels);
       setHasSearchResults(false);
-      setReelsScrollTop(0);
     } catch (error) {
       console.error('Ошибка загрузки reels:', error);
       showMessage('ошибка загрузки reels', 'alert');
@@ -187,13 +125,6 @@ export const LabaMainScreen: React.FC = () => {
   }, [selectedAccount, selectedDate, selectedLanguage, selectedSort]);
 
   const visibleReels = React.useMemo(() => applyFilters(reels), [applyFilters, reels]);
-  const reelsToRender = loading || searching
-    ? Array.from({ length: searching ? 40 : 2 }, (_, index) => ({ id: `placeholder-${index}` }))
-    : visibleReels;
-  const contentHeight = Math.max(
-    reelsToRender.length * LABA_CARD_STEP - LABA_CARD_GAP,
-    LABA_CARD_HEIGHT
-  );
 
   const cycleFilter = (
     value: string | null,
@@ -227,7 +158,6 @@ export const LabaMainScreen: React.FC = () => {
 
     setSearching(true);
     setLoading(true);
-    setReelsScrollTop(0);
     reelsScrollRef.current?.scrollTo({ top: 0 });
     showMessage('начался поиск рилс. Пожалуйста, подождите 30-40 секунд', 'popup');
     try {
@@ -291,7 +221,6 @@ export const LabaMainScreen: React.FC = () => {
     setSelectedDate(null);
     setSelectedLanguage(null);
     setSelectedAccount(null);
-    setReelsScrollTop(0);
     reelsScrollRef.current?.scrollTo({ top: 0 });
     if (!hasSearchResults && reels.length === 0) {
       await loadTopReels();
@@ -442,6 +371,7 @@ export const LabaMainScreen: React.FC = () => {
         </div>
         <div
           ref={reelsScrollRef}
+          className="laba-feed-scroll"
           style={{
             position: 'absolute',
             left: '143px',
@@ -456,35 +386,28 @@ export const LabaMainScreen: React.FC = () => {
             overscrollBehavior: 'contain',
             touchAction: 'pan-y',
             zIndex: 2,
-            scrollbarWidth: 'none',
-          }}
-          onScroll={(event) => {
-            setReelsScrollTop(event.currentTarget.scrollTop);
+            scrollBehavior: 'smooth',
           }}
         >
-          <div style={{ position: 'relative', width: '831px', height: `${contentHeight}px`, margin: '0 auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
             {loading || searching
-              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => (
-                  <div key={index} style={getStackCardMotionStyle(index, reelsScrollTop)}>
-                    <LabaFeedPlaceholderCard />
-                  </div>
-                ))
-              : visibleReels.map((reel, index) => (
-                  <div key={reel.id} style={getStackCardMotionStyle(index, reelsScrollTop)}>
-                    <LabaFeedCard
-                      reel={reel}
-                      isFavorite={likedCards.has(reel.id)}
-                      onToggleFavorite={handleToggleFavorite}
-                      onAction={() => void handleTrackFromCard(reel)}
-                      onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
-                      actionLabel="следить"
-                      actionCost={100}
-                      likeEffectVariant="tiktok"
-                      actionMotionVariant="premium"
-                      openAnalysisButtonSrc={desktopAiAnalysisButton}
-                      activityPillTop={674}
-                    />
-                  </div>
+              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
+              : visibleReels.map((reel) => (
+                  <LabaFeedCard
+                    key={reel.id}
+                    reel={reel}
+                    isFavorite={likedCards.has(reel.id)}
+                    onToggleFavorite={handleToggleFavorite}
+                    onAction={() => void handleTrackFromCard(reel)}
+                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel } })}
+                    actionLabel="следить"
+                    actionCost={100}
+                    likeEffectVariant="tiktok"
+                    actionMotionVariant="premium"
+                    openAnalysisButtonSrc={desktopAiAnalysisButton}
+                    activityPillTop={674}
+                    tiltVariant="interactive"
+                  />
                 ))}
           </div>
         </div>
