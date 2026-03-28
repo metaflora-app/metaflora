@@ -25,7 +25,10 @@ const ServiceCard: React.FC<CardProps> = ({
   bgSrc, content, top, height = 249, onOpen,
   photoInset = '0 49.78% 0 0',
   textInset = '0 0 0 50.22%',
-}) => (
+}) => {
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  return (
   <div style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: `${height}px` }}>
     <div style={{ position: 'absolute', inset: photoInset, borderRadius: '26px', overflow: 'hidden' }}>
       <img src={bgSrc} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '26px' }} />
@@ -61,8 +64,12 @@ const ServiceCard: React.FC<CardProps> = ({
 
     <button
       type="button"
-      className="premium-button-shell"
+      className={`premium-button-shell ${isPressed ? 'is-pressed' : ''}`}
       onClick={onOpen}
+      onPointerDown={() => setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onPointerCancel={() => setIsPressed(false)}
       style={{
         position: 'absolute',
         top: '34.14%',
@@ -101,14 +108,22 @@ const ServiceCard: React.FC<CardProps> = ({
       </div>
     </button>
   </div>
-);
+  );
+};
 
 interface SmBtnProps { label: string; x: number; y: number; onClick?: () => void; }
-const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
+const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => {
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  return (
   <button
     type="button"
-    className="premium-button-shell"
+    className={`premium-button-shell ${isPressed ? 'is-pressed' : ''}`}
     onClick={onClick}
+    onPointerDown={() => setIsPressed(true)}
+    onPointerUp={() => setIsPressed(false)}
+    onPointerLeave={() => setIsPressed(false)}
+    onPointerCancel={() => setIsPressed(false)}
     style={{
     position: 'absolute',
     left: `${x}px`,
@@ -146,7 +161,8 @@ const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => (
       </div>
     </div>
   </button>
-);
+  );
+};
 
 export const MainDashboardPremiumScreen: React.FC = () => {
   const navigate = useNavigate();
