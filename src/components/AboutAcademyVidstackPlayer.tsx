@@ -18,8 +18,6 @@ import speedIcon from '../assets/about-academy-player/speed-icon.svg';
 import timelineThumb from '../assets/about-academy-player/timeline-thumb.svg';
 import timelineTrack from '../assets/about-academy-player/timeline-track.svg';
 import volumeIcon from '../assets/about-academy-player/volume-icon.svg';
-import defaultVideoPoster from '../assets/tour-video/video-thumbnail.png';
-
 const CONTROL_SIZE = 100;
 const ICON_SIZE = 90;
 const OVERLAY_CONTROL_SIZE = 150;
@@ -48,7 +46,6 @@ type FlashOverlayState = 'seek-backward' | 'seek-forward' | null;
 
 interface AboutAcademyVidstackPlayerProps {
   src?: string;
-  poster?: string;
   title?: string;
   style?: React.CSSProperties;
   autoPlay?: boolean;
@@ -117,7 +114,6 @@ function formatTimeLabel(seconds: number): string {
 
 export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProps> = ({
   src = '/about-academy-test-video.mp4',
-  poster,
   title = 'Как устроена МЕТАФЛОРА академия',
   style = {},
   autoPlay = false,
@@ -136,7 +132,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const watchThresholdReachedRef = React.useRef(false);
   const [playbackRate, setPlaybackRate] = React.useState(1);
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
-  const [posterSrc, setPosterSrc] = React.useState<string>(poster || defaultVideoPoster);
+  const [posterSrc, setPosterSrc] = React.useState<string>('');
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
   const fillPercent = React.useMemo(() => {
@@ -163,19 +159,15 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
   React.useEffect(() => {
     let cancelled = false;
-    setPosterSrc(poster || defaultVideoPoster);
-
-    if (poster) {
-      return () => {
-        cancelled = true;
-      };
-    }
+    const storageKey = `metaflora_video_poster_${src}`;
+    const cachedPoster = typeof window !== 'undefined' ? window.sessionStorage.getItem(storageKey) : null;
+    setPosterSrc(cachedPoster || '');
 
     const probeVideo = document.createElement('video');
     probeVideo.src = src;
     probeVideo.muted = true;
     probeVideo.playsInline = true;
-    probeVideo.preload = 'auto';
+    probeVideo.preload = 'metadata';
     probeVideo.crossOrigin = 'anonymous';
 
     const captureFrame = () => {
@@ -197,6 +189,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
 
         if (!cancelled) {
+          window.sessionStorage.setItem(storageKey, dataUrl);
           setPosterSrc(dataUrl);
         }
       } catch (error) {
@@ -204,21 +197,38 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       }
     };
 
-    const handleLoadedData = () => {
+    const handleSeeked = () => {
       captureFrame();
     };
 
-    probeVideo.addEventListener('loadeddata', handleLoadedData);
+    const handleLoadedMetadata = () => {
+      const targetTime = Math.min(Math.max(probeVideo.duration || 0, 0), 1);
+      if (targetTime <= 0.05) {
+        captureFrame();
+        return;
+      }
+
+      try {
+        probeVideo.currentTime = targetTime;
+      } catch (error) {
+        console.error('Poster seek failed:', error);
+        captureFrame();
+      }
+    };
+
+    probeVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
+    probeVideo.addEventListener('seeked', handleSeeked);
     probeVideo.load();
 
     return () => {
       cancelled = true;
-      probeVideo.removeEventListener('loadeddata', handleLoadedData);
+      probeVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      probeVideo.removeEventListener('seeked', handleSeeked);
       probeVideo.pause();
       probeVideo.removeAttribute('src');
       probeVideo.load();
     };
-  }, [poster, src]);
+  }, [src]);
 
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
@@ -351,6 +361,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, media.playbackRate]);
 
   const shouldShowPoster = Boolean(posterSrc) && media.currentTime < 0.05;
+  const shouldHideMediaSurface = !posterSrc && media.currentTime < 0.05 && media.paused;
 
   return (
     <div
@@ -363,7 +374,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         height: '1457px',
         overflow: 'hidden',
         borderRadius: '40px',
-        background: '#000',
+        background: 'transparent',
         ...style,
       }}
     >
@@ -381,14 +392,15 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           position: 'relative',
           width: '100%',
           height: '100%',
-          background: '#000',
+          background: 'transparent',
         }}
       >
         <MediaOutlet
           style={{
             width: '100%',
             height: '100%',
-            background: '#000',
+            background: 'transparent',
+            opacity: shouldHideMediaSurface ? 0 : 1,
           }}
         />
 
