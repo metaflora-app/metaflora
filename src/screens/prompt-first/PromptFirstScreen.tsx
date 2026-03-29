@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import { getCachedData, getWorkshopPromptsWithCache } from '../../utils/contentApi';
+import { getCachedData, getWorkshopPrompts } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
 import {
   getPromptFavoriteIds,
@@ -96,7 +96,7 @@ export const PromptFirstScreen: React.FC = () => {
         setLoading(true);
       }
       try {
-        const result = await getWorkshopPromptsWithCache({ isActive: true, limit: 50, offset: 0 });
+        const result = await getWorkshopPrompts({ isActive: true, limit: 50, offset: 0 });
         if (mounted && !result.error) {
           setPrompts(result.data);
         }
@@ -305,19 +305,41 @@ export const PromptFirstScreen: React.FC = () => {
                   />
 
                   <div style={{ position: 'absolute', left: '31px', top: '31px', width: '769px', height: '769px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
-                    <img
-                      src={getPromptPreviewImage(prompt)}
-                      alt={prompt.title}
-                      loading="eager"
-                      decoding="async"
-                      onError={(event) => {
-                        const target = event.currentTarget;
-                        if (target.src !== workshopGif) {
-                          target.src = workshopGif;
-                        }
-                      }}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
+                    {getPromptPreviewImage(prompt) !== workshopGif ? (
+                      <img
+                        src={getPromptPreviewImage(prompt)}
+                        alt={prompt.title}
+                        loading="eager"
+                        decoding="async"
+                        onError={(event) => {
+                          const target = event.currentTarget;
+                          if (prompt.cover_video_url) {
+                            target.style.display = 'none';
+                            return;
+                          }
+                          if (target.src !== workshopGif) {
+                            target.src = workshopGif;
+                          }
+                        }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : prompt.cover_video_url ? (
+                      <video
+                        src={prompt.cover_video_url}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                      />
+                    ) : (
+                      <img
+                        src={workshopGif}
+                        alt={prompt.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    )}
                   </div>
 
                   <FigmaLikeButton

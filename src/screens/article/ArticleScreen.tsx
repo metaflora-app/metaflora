@@ -40,7 +40,7 @@ export const ArticleScreen: React.FC = () => {
     run();
   }, [id]);
 
-  const contentBlocks = article?.content_blocks?.length
+  const rawContentBlocks = article?.content_blocks?.length
     ? article.content_blocks
     : [
         article?.content_text
@@ -53,6 +53,10 @@ export const ArticleScreen: React.FC = () => {
           ? { id: 'legacy-prompt', type: 'prompt', content: article.prompt_text }
           : null,
       ].filter(Boolean) as Array<{ id: string; type: string; content: any }>;
+
+  const titleBlock = rawContentBlocks.find((block: any) => block?.type === 'title' && typeof block?.content === 'string');
+  const contentTitle = (article?.title || '').trim() || (typeof titleBlock?.content === 'string' ? titleBlock.content : '');
+  const contentBlocks = rawContentBlocks.filter((block: any) => !(block?.type === 'title' && block?.content === contentTitle));
 
   const materialsBlock = article?.content_blocks?.find((block: any) => block.type === 'materials');
   const materials = parseMaterials(materialsBlock?.content);
@@ -75,7 +79,7 @@ export const ArticleScreen: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           materials,
-          lessonTitle: article?.title || 'Статья',
+          lessonTitle: contentTitle || 'Статья',
           userId,
         }),
       });
@@ -97,7 +101,7 @@ export const ArticleScreen: React.FC = () => {
       homeRoute="/main-dashboard-premium"
       heading="материалы статьи"
       subtitleLines={['помимо текста, из статьи всегда можно получить промпты и файлы']}
-      contentTitle={article?.title || ''}
+      contentTitle={contentTitle}
       contentBlocks={contentBlocks}
       downloadCount={materials.length}
       onSendMaterials={handleSendMaterials}

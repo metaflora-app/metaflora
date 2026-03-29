@@ -62,8 +62,11 @@ export const PromptCardScreen: React.FC = () => {
   const contentHeight = useMemo(() => {
     const lineEstimate = promptText
       .split('\n')
-      .reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / 28)), 0);
-    return Math.max(1569, 1100 + lineEstimate * 40 + 120);
+      .reduce((sum, line) => sum + Math.max(1, Math.ceil(line.trim().length / 38)), 0);
+    const textBlockHeight = lineEstimate * 36;
+    const promptTextTop = 1057;
+    const bottomGap = 110;
+    return Math.max(1569, promptTextTop + textBlockHeight + bottomGap);
   }, [promptText]);
 
   useEffect(() => {
