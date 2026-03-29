@@ -56,7 +56,7 @@ export const ArticleScreen: React.FC = () => {
 
   const titleBlock = rawContentBlocks.find((block: any) => block?.type === 'title' && typeof block?.content === 'string');
   const contentTitle = (article?.title || '').trim() || (typeof titleBlock?.content === 'string' ? titleBlock.content : '');
-  const contentBlocks = rawContentBlocks.filter((block: any) => !(block?.type === 'title' && block?.content === contentTitle));
+  const contentBlocks = rawContentBlocks.filter((block: any) => block?.type !== 'title');
 
   const materialsBlock = article?.content_blocks?.find((block: any) => block.type === 'materials');
   const materials = parseMaterials(materialsBlock?.content);

@@ -110,6 +110,7 @@ export async function getPolygonArticles(
 ): Promise<ContentListResponse<PolygonArticle>> {
   try {
     const params = new URLSearchParams();
+    params.append('t', String(Date.now()));
     if (filters?.tags?.length) params.append('tags', filters.tags.join(','));
     if (filters?.keywords?.length) params.append('keywords', filters.keywords.join(','));
     if (filters?.isActive !== undefined) params.append('is_active', String(filters.isActive));
@@ -131,7 +132,7 @@ export async function getPolygonArticles(
 
 export async function getPolygonArticleById(id: string): Promise<ContentItemResponse<PolygonArticle>> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/content/polygon-articles/${id}`);
+    const response = await fetch(`${API_BASE_URL}/api/content/polygon-articles/${id}?t=${Date.now()}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

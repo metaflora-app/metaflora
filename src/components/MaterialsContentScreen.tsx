@@ -60,6 +60,8 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             color: 'white',
             textAlign: 'center',
             whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere',
           }}
         >
           {block.content}
@@ -80,6 +82,8 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             color: 'rgba(255,255,255,0.82)',
             textAlign: 'center',
             whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere',
           }}
         >
           {block.content}
@@ -89,7 +93,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
 
     if (block.type === 'text') {
       return (
-        <div key={block.id} style={{ marginBottom: '30px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
+        <div key={block.id} style={{ marginBottom: '30px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
           {block.content}
         </div>
       );
@@ -172,9 +176,21 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
           >
             <FigmaPromptBadge className="button-inner-glow" />
           </button>
-          <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
-            {promptText}
-          </div>
+          <button
+            type="button"
+            onClick={() => void handleCopyPrompt(promptText)}
+            style={{
+              border: 'none',
+              background: 'transparent',
+              padding: 0,
+              width: '100%',
+              cursor: 'pointer',
+            }}
+          >
+            <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+              {promptText}
+            </div>
+          </button>
         </div>
       );
     }
@@ -248,7 +264,17 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             <div
               className="laba-feed-scroll"
               onScroll={onContentScroll}
-              style={{ position: 'absolute', inset: 0, overflowY: 'auto', padding: '40px 25px 110px', WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)', maskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)' }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                padding: '40px 25px 110px',
+                touchAction: 'pan-y',
+                overscrollBehaviorX: 'none',
+                WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)',
+                maskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)',
+              }}
             >
               <h2 style={{ margin: '0 0 34px', fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
                 {contentTitle}
