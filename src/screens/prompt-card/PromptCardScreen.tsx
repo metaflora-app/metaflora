@@ -9,7 +9,6 @@ import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import promptBadge from '../../assets/shared-redesign/плашка промпт.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
-import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { isPromptFavorite, markPromptViewed, togglePromptFavorite } from '../../utils/promptInteractions';
 
@@ -79,8 +78,7 @@ export const PromptCardScreen: React.FC = () => {
     if (!playPromise) return;
 
     playPromise.catch(() => {
-      video.muted = true;
-      void video.play().catch(() => undefined);
+      console.error('Prompt video autoplay with sound failed');
     });
   }, [mediaType, prompt?.cover_video_url]);
 
@@ -140,35 +138,22 @@ export const PromptCardScreen: React.FC = () => {
                   <video
                     ref={videoRef}
                     src={prompt?.cover_video_url || undefined}
-                    poster={prompt?.poster_image_url || prompt?.cover_image_url || workshopGif}
+                    poster={prompt?.poster_image_url || prompt?.cover_image_url || undefined}
                     autoPlay
                     loop
                     playsInline
-                    controls
                     preload="metadata"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
                   />
                 ) : prompt?.cover_image_url || prompt?.poster_image_url ? (
                   <img
-                    src={prompt?.cover_image_url || prompt?.poster_image_url || workshopGif}
+                    src={prompt?.cover_image_url || prompt?.poster_image_url || ''}
                     alt={title}
                     loading="eager"
                     decoding="async"
-                    onError={(event) => {
-                      const target = event.currentTarget;
-                      if (target.src !== workshopGif) {
-                        target.src = workshopGif;
-                      }
-                    }}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                ) : (
-                  <img
-                    src={workshopGif}
-                    alt={title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                )}
+                ) : null}
               </div>
 
               <FigmaLikeButton
