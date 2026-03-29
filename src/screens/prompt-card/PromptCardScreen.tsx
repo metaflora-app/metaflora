@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { copyToClipboard } from '../../utils/clipboard';
@@ -9,6 +9,7 @@ import { FigmaMainBackdrop } from '../../components/FigmaMainBackdrop';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import promptBadge from '../../assets/shared-redesign/плашка промпт.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
+import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { isPromptFavorite, markPromptViewed, togglePromptFavorite } from '../../utils/promptInteractions';
 
@@ -27,6 +28,7 @@ export const PromptCardScreen: React.FC = () => {
     return cachedList?.data?.find((item) => item.id === id) ?? null;
   });
   const [isFavorite, setIsFavorite] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
 
   useEffect(() => {
@@ -63,6 +65,21 @@ export const PromptCardScreen: React.FC = () => {
       .reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / 28)), 0);
     return Math.max(1569, 1100 + lineEstimate * 40 + 120);
   }, [promptText]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || mediaType !== 'video') return;
+
+    video.muted = false;
+    video.volume = 1;
+    const playPromise = video.play();
+    if (!playPromise) return;
+
+    playPromise.catch(() => {
+      video.muted = true;
+      void video.play().catch(() => undefined);
+    });
+  }, [mediaType, prompt?.cover_video_url]);
 
   const handleCopy = async () => {
     try {
@@ -118,22 +135,37 @@ export const PromptCardScreen: React.FC = () => {
               <div style={{ position: 'absolute', left: '31px', top: '31px', width: '764px', height: '764px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
                 {mediaType === 'video' ? (
                   <video
+                    ref={videoRef}
                     src={prompt?.cover_video_url || undefined}
-                    poster={prompt?.poster_image_url || prompt?.cover_image_url || undefined}
+                    poster={prompt?.poster_image_url || prompt?.cover_image_url || workshopGif}
                     autoPlay
                     loop
-                    muted
                     playsInline
-                    preload="auto"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    controls
+                    preload="metadata"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
                   />
                 ) : prompt?.cover_image_url || prompt?.poster_image_url ? (
                   <img
-                    src={prompt?.cover_image_url || prompt?.poster_image_url || ''}
+                    src={prompt?.cover_image_url || prompt?.poster_image_url || workshopGif}
+                    alt={title}
+                    loading="eager"
+                    decoding="async"
+                    onError={(event) => {
+                      const target = event.currentTarget;
+                      if (target.src !== workshopGif) {
+                        target.src = workshopGif;
+                      }
+                    }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <img
+                    src={workshopGif}
                     alt={title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                ) : null}
+                )}
               </div>
 
               <FigmaLikeButton

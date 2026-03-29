@@ -68,6 +68,9 @@ const getPromptSortLabel = (prompt: WorkshopPrompt): PromptSortFilter => {
   return 'другое';
 };
 
+const getPromptPreviewImage = (prompt: WorkshopPrompt) =>
+  prompt.poster_image_url || prompt.cover_image_url || workshopGif;
+
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -302,24 +305,19 @@ export const PromptFirstScreen: React.FC = () => {
                   />
 
                   <div style={{ position: 'absolute', left: '31px', top: '31px', width: '769px', height: '769px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
-                    {prompt.media_type === 'video' && prompt.cover_video_url ? (
-                      <video
-                        src={prompt.cover_video_url}
-                        poster={prompt.poster_image_url || prompt.cover_image_url || undefined}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    ) : (
-                      <img
-                        src={prompt.cover_image_url || prompt.poster_image_url || workshopGif}
-                        alt={prompt.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    )}
+                    <img
+                      src={getPromptPreviewImage(prompt)}
+                      alt={prompt.title}
+                      loading="eager"
+                      decoding="async"
+                      onError={(event) => {
+                        const target = event.currentTarget;
+                        if (target.src !== workshopGif) {
+                          target.src = workshopGif;
+                        }
+                      }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
                   </div>
 
                   <FigmaLikeButton

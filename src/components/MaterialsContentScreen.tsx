@@ -47,6 +47,46 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   }, []);
 
   const renderBlock = (block: ContentBlockLike) => {
+    if (block.type === 'title') {
+      return (
+        <div
+          key={block.id}
+          style={{
+            margin: '0 0 30px',
+            fontFamily: 'Cygre',
+            fontWeight: 700,
+            fontSize: '52px',
+            lineHeight: '1',
+            color: 'white',
+            textAlign: 'center',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {block.content}
+        </div>
+      );
+    }
+
+    if (block.type === 'description') {
+      return (
+        <div
+          key={block.id}
+          style={{
+            marginBottom: '30px',
+            fontFamily: 'Cygre',
+            fontWeight: 400,
+            fontSize: '35px',
+            lineHeight: '1',
+            color: 'rgba(255,255,255,0.82)',
+            textAlign: 'center',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {block.content}
+        </div>
+      );
+    }
+
     if (block.type === 'text') {
       return (
         <div key={block.id} style={{ marginBottom: '30px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
