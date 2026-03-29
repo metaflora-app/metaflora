@@ -176,21 +176,27 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
           >
             <FigmaPromptBadge className="button-inner-glow" />
           </button>
-          <button
-            type="button"
+          <div
+            role="button"
+            tabIndex={0}
             onClick={() => void handleCopyPrompt(promptText)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                void handleCopyPrompt(promptText);
+              }
+            }}
             style={{
-              border: 'none',
-              background: 'transparent',
               padding: 0,
               width: '100%',
               cursor: 'pointer',
+              display: 'block',
             }}
           >
-            <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+            <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere', width: '100%', userSelect: 'text' }}>
               {promptText}
             </div>
-          </button>
+          </div>
         </div>
       );
     }
