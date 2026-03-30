@@ -186,12 +186,16 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
       style={{
         position: 'relative',
         width: '100vw',
-        minHeight: '100vh',
+        height: shouldEnableCourseScroll ? '100dvh' : '100vh',
+        minHeight: shouldEnableCourseScroll ? '100dvh' : '100vh',
         background: '#020101',
         overflowX: 'hidden',
         overflowY: shouldEnableCourseScroll ? 'auto' : 'hidden',
         scrollbarWidth: shouldEnableCourseScroll ? 'none' : undefined,
         msOverflowStyle: shouldEnableCourseScroll ? 'none' : undefined,
+        WebkitOverflowScrolling: shouldEnableCourseScroll ? 'touch' : undefined,
+        touchAction: shouldEnableCourseScroll ? 'pan-y' : undefined,
+        overscrollBehaviorY: shouldEnableCourseScroll ? 'contain' : undefined,
       }}
     >
       {shouldEnableCourseScroll ? (
