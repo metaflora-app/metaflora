@@ -14,7 +14,6 @@ export const AcademyCourseAutomationScreen: React.FC = () => {
       ]}
       placeholderCount={8}
       placeholderText="Курс «Автоматизация» — про n8n, рабочие воркфлоу и сценарии, которые ускоряют работу."
-      cardDescriptionOverride={'Курс «Автоматизация» — про n8n,\nрабочие воркфлоу и сценарии,\nкоторые ускоряют работу.\nкурс автоматизация'}
       cardTextFontSize={35}
     />
   );

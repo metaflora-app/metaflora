@@ -54,7 +54,7 @@ const FULL_LAYOUT: CourseCardPosition[] = [
 ];
 
 function getCourseLessonsCacheKey(source: CourseSource, courseType: string): string {
-  return `metaflora_course_lessons_${source}_${courseType}`;
+  return `metaflora_course_lessons_v2_${source}_${courseType}`;
 }
 
 function readCachedCourseLessons(source: CourseSource, courseType: string): AcademyLesson[] {

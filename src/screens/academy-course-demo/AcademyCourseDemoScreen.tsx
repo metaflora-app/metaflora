@@ -14,7 +14,6 @@ export const AcademyCourseDemoScreen: React.FC = () => {
       ]}
       placeholderCount={4}
       placeholderText="Курс «Демо» — короткий вход в академию без лишней теории и перегруза."
-      cardDescriptionOverride={'Курс «Демо» —\nкороткий вход в академию\nбез лишней теории\nи перегруза'}
       cardTextFontSize={35}
     />
   );

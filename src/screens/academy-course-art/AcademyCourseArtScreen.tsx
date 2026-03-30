@@ -14,7 +14,6 @@ export const AcademyCourseArtScreen: React.FC = () => {
       ]}
       placeholderCount={8}
       placeholderText="Курс «Искусство» — про сильный визуал, AI-эстетику и выразительную подачу."
-      cardDescriptionOverride={'Курс «Искусство» —\nпро сильный визуал,\nAI-эстетику\nи выразительную подачу'}
       cardTextFontSize={35}
     />
   );
