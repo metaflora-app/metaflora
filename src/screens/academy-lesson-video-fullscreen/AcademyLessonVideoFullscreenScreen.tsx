@@ -128,7 +128,7 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
           padding: '90px 24px 24px',
         }}
       >
-        {video?.video_url ? (
+        {loading ? null : video?.video_url ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={video.title || title}

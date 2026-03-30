@@ -146,7 +146,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </p>
         </div>
 
-        {canUseCustomPlayer && video ? (
+        {loading ? null : canUseCustomPlayer && video ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={lesson?.video_title || lesson?.title || video.title}
