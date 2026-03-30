@@ -35,6 +35,18 @@ interface AcademyCourseGridScreenProps {
   cardTextFontSize?: number;
 }
 
+const CARD_HEIGHT = 317;
+const SCROLL_THRESHOLD = 9;
+const SCROLLABLE_CARD_LEFT = 353.5;
+const SCROLLABLE_CARD_RIGHT = 822.5;
+const SCROLLABLE_BADGE_LEFT = 141;
+const SCROLLABLE_BADGE_RIGHT = 610;
+const SCROLLABLE_LEFT_TOP_START = 430;
+const SCROLLABLE_RIGHT_TOP_START = 535;
+const SCROLLABLE_LEFT_BADGE_TOP_START = 402;
+const SCROLLABLE_RIGHT_BADGE_TOP_START = 507;
+const SCROLLABLE_ROW_GAP = 349;
+
 const DEMO_LAYOUT: CourseCardPosition[] = [
   { cardLeft: 353.5, cardTop: 430, cardWidth: 425, badgeLeft: 141, badgeTop: 402 },
   { cardLeft: 822.5, cardTop: 535, cardWidth: 425, badgeLeft: 610, badgeTop: 507 },
@@ -55,6 +67,20 @@ const FULL_LAYOUT: CourseCardPosition[] = [
 
 function getCourseLessonsCacheKey(source: CourseSource, courseType: string): string {
   return `metaflora_course_lessons_v2_${source}_${courseType}`;
+}
+
+function getScrollableCourseCardPosition(index: number): CourseCardPosition {
+  const row = Math.floor(index / 2);
+  const isRight = index % 2 === 1;
+
+  return {
+    cardLeft: isRight ? SCROLLABLE_CARD_RIGHT : SCROLLABLE_CARD_LEFT,
+    cardTop: (isRight ? SCROLLABLE_RIGHT_TOP_START : SCROLLABLE_LEFT_TOP_START) + row * SCROLLABLE_ROW_GAP,
+    cardWidth: 425,
+    badgeLeft: isRight ? SCROLLABLE_BADGE_RIGHT : SCROLLABLE_BADGE_LEFT,
+    badgeTop: (isRight ? SCROLLABLE_RIGHT_BADGE_TOP_START : SCROLLABLE_LEFT_BADGE_TOP_START) + row * SCROLLABLE_ROW_GAP,
+    badgeThinBorder: index === 3,
+  };
 }
 
 function readCachedCourseLessons(source: CourseSource, courseType: string): AcademyLesson[] {
@@ -113,6 +139,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
   const [loadingLessons, setLoadingLessons] = React.useState(() => readCachedCourseLessons(source, courseType).length === 0);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const layout = placeholderCount === 4 ? DEMO_LAYOUT : FULL_LAYOUT;
+  const shouldEnableCourseScroll = lessons.length >= SCROLL_THRESHOLD;
 
   React.useEffect(() => {
     let mounted = true;
@@ -142,7 +169,11 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
     };
   }, [source, courseType]);
 
-  const visibleLessons = lessons.slice(0, layout.length);
+  const visibleLessons = shouldEnableCourseScroll ? lessons : lessons.slice(0, layout.length);
+  const footerTop = shouldEnableCourseScroll
+    ? Math.max(2071, (Math.floor((Math.max(visibleLessons.length, 1) - 1) / 2) * SCROLLABLE_ROW_GAP) + SCROLLABLE_RIGHT_TOP_START + CARD_HEIGHT + 180)
+    : 2071;
+  const sceneHeight = Math.max(2550, footerTop + 220);
 
   const openLesson = (lessonId: string) => {
     const search = source === 'demo' ? `?lesson=${lessonId}&type=demo` : `?lesson=${lessonId}`;
@@ -150,8 +181,23 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
   };
 
   return (
-    <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
-      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+    <div
+      className={shouldEnableCourseScroll ? 'academy-course-scroll' : undefined}
+      style={{
+        position: 'relative',
+        width: '100vw',
+        minHeight: '100vh',
+        background: '#020101',
+        overflowX: 'hidden',
+        overflowY: shouldEnableCourseScroll ? 'auto' : 'hidden',
+        scrollbarWidth: shouldEnableCourseScroll ? 'none' : undefined,
+        msOverflowStyle: shouldEnableCourseScroll ? 'none' : undefined,
+      }}
+    >
+      {shouldEnableCourseScroll ? (
+        <style>{`.academy-course-scroll::-webkit-scrollbar{display:none;width:0;height:0;}`}</style>
+      ) : null}
+      <div style={{ position: 'relative', width: '1180px', minHeight: `${sceneHeight}px`, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <ThreeBg />
         <Header onLogoClick={() => navigate(homeRoute)} />
 
@@ -181,7 +227,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
         </div>
 
         {!loadingLessons ? visibleLessons.map((lesson, index) => {
-          const position = layout[index];
+          const position = shouldEnableCourseScroll ? getScrollableCourseCardPosition(index) : layout[index];
           const label = lesson.lesson_number || index + 1;
           const description = cardDescriptionOverride || lesson.description || lesson.annotation || placeholderText;
 
@@ -280,7 +326,7 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
           );
         }) : null}
 
-        <Footer />
+        <Footer top={footerTop} />
       </div>
     </div>
   );
