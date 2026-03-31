@@ -24,8 +24,8 @@ if ('serviceWorker' in navigator) {
 // Initialize Telegram Mini App
 async function bootstrapApp() {
   initTelegram();
-  document.documentElement.style.background = '#020101';
-  document.body.style.background = '#020101';
+  document.documentElement.style.background = '#7a7a7a';
+  document.body.style.background = '#7a7a7a';
 
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
@@ -41,15 +41,9 @@ async function bootstrapApp() {
     void preloadAllImages();
   };
 
-  const windowWithIdleCallback = window as Window & {
-    requestIdleCallback?: (callback: () => void) => number;
-  };
-
-  if (typeof windowWithIdleCallback.requestIdleCallback === 'function') {
-    windowWithIdleCallback.requestIdleCallback(warmAssets);
-  } else {
-    window.setTimeout(warmAssets, 800);
-  }
+  window.requestAnimationFrame(() => {
+    warmAssets();
+  });
 }
 
 void bootstrapApp();

@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 import { getTelegramUserId } from '../../utils/labaApi';
@@ -38,9 +37,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     return cached ? JSON.parse(cached) : null;
   });
   const [loading, setLoading] = useState(true);
-  const [playerActivated, setPlayerActivated] = useState(false);
   const canUseCustomPlayer = Boolean(video?.video_url);
-  const canRenderAnyPlayer = Boolean(video?.video_url || video?.video_id);
 
 
   useEffect(() => {
@@ -49,7 +46,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
       const cachedVideo = sessionStorage.getItem(`${lessonType}_video_${lessonId}`);
       setLesson(cachedLesson ? JSON.parse(cachedLesson) : null);
       setVideo(cachedVideo ? JSON.parse(cachedVideo) : null);
-      setPlayerActivated(false);
       loadLesson(lessonId);
     } else {
       setLoading(false);
@@ -129,11 +125,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
 
     navigate(`/academy-lesson-video-fullscreen?${fullscreenParams.toString()}`);
   }, [lesson?.cover_image_url, lesson?.title, lesson?.video_title, lessonId, lessonType, navigate, video?.poster_url]);
-
-  const handleActivatePlayer = React.useCallback(() => {
-    if (!canRenderAnyPlayer) return;
-    setPlayerActivated(true);
-  }, [canRenderAnyPlayer]);
+  const visibleTitle = lesson?.video_title || lesson?.title || video?.title || '';
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -141,10 +133,28 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         <ThreeBg />
         <Header onLogoClick={() => navigate(homeRoute)} />
 
+        <div style={{ position: 'absolute', left: '94px', top: '207px', width: '980px' }}>
+          <p
+            style={{
+              margin: 0,
+              fontFamily: 'Cygre',
+              fontWeight: 700,
+              fontSize: '80px',
+              lineHeight: '1',
+              color: 'white',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              overflowWrap: 'anywhere',
+            }}
+          >
+            {visibleTitle}
+          </p>
+        </div>
+
         {loading ? null : canUseCustomPlayer && video ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
-            title={lesson?.video_title || lesson?.title || video.title}
+            title={visibleTitle}
             posterSrc={video.poster_url || lesson?.cover_image_url || lessonPoster}
             initialTime={initialTime}
             onPlaybackStart={handlePlaybackStart}
@@ -153,57 +163,29 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           />
         ) : (
           <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
-            {video?.video_id ? (
-            <AboutVideoPlayer
-              videoId={video.video_id}
-              autoPlay={playerActivated}
-              hidePlayButton={playerActivated}
-              onPlaybackStart={handlePlaybackStart}
-              onWatchThreshold={handleWatchThreshold}
-              style={{ left: '0px', top: '0px', width: '894px', height: '1457px', borderRadius: '40px' }}
-            />
-            ) : (
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                borderRadius: '40px',
+                overflow: 'hidden',
+                background: '#000',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <div
                 style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: '40px',
-                  overflow: 'hidden',
-                  background: '#000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontFamily: 'Cygre',
+                  textAlign: 'center',
                 }}
               >
-                <div
-                  style={{
-                    color: 'white',
-                    fontSize: '32px',
-                    fontFamily: 'Cygre',
-                    textAlign: 'center',
-                  }}
-                >
-                  Видео не найдено
-                </div>
+                Видео не найдено
               </div>
-            )}
-
-            {!playerActivated && canRenderAnyPlayer ? (
-              <button
-                type="button"
-                onClick={handleActivatePlayer}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backdropFilter: 'blur(50px)',
-                  background: 'rgba(255,255,255,0.1)',
-                  border: '4px solid rgba(255,255,255,0.3)',
-                  borderRadius: '30px',
-                  cursor: 'pointer',
-                  zIndex: 3,
-                }}
-              />
-            ) : null}
+            </div>
 
             <button
               type="button"
@@ -220,8 +202,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 background: 'transparent',
                 padding: 0,
                 cursor: 'pointer',
-                pointerEvents: canRenderAnyPlayer ? 'auto' : 'none',
-                opacity: canRenderAnyPlayer ? 1 : 0.5,
+                pointerEvents: canUseCustomPlayer ? 'auto' : 'none',
+                opacity: canUseCustomPlayer ? 1 : 0.5,
                 zIndex: 5,
               }}
             >

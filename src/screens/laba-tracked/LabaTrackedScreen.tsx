@@ -48,9 +48,7 @@ export const LabaTrackedScreen: React.FC = () => {
 
   const [accounts, setAccounts] = React.useState<TrackedAccount[]>(initialCachedAccounts);
   const [selectedAccountId, setSelectedAccountId] = React.useState<string | null>(
-    preselectedAccountId && initialCachedAccounts.some((item) => item.id === preselectedAccountId)
-      ? preselectedAccountId
-      : initialCachedAccounts[0]?.id || null
+    preselectedAccountId || initialCachedAccounts[0]?.id || null
   );
   const [reels, setReels] = React.useState<Reel[]>([]);
   const [loadingAccounts, setLoadingAccounts] = React.useState(initialCachedAccounts.length === 0);
@@ -61,7 +59,8 @@ export const LabaTrackedScreen: React.FC = () => {
   const [showAvatarRemoveForId, setShowAvatarRemoveForId] = React.useState<string | null>(null);
   const pendingTrackedAccountIdRef = React.useRef<string | null>(navigationState?.trackedAccountId ?? null);
   const hasShownTrackingSuccessPopupRef = React.useRef(false);
-  const accountCardRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
+  const accountScrollerRef = React.useRef<HTMLDivElement | null>(null);
+  const hasAppliedInitialAccountScrollRef = React.useRef(false);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -93,16 +92,15 @@ export const LabaTrackedScreen: React.FC = () => {
 
   React.useEffect(() => {
     if (!selectedAccountId) return;
-    const cardNode = accountCardRefs.current[selectedAccountId];
-    if (!cardNode) return;
+    const scroller = accountScrollerRef.current;
+    const selectedIndex = accounts.findIndex((account) => account.id === selectedAccountId);
+    if (!scroller || selectedIndex < 0) return;
 
-    window.requestAnimationFrame(() => {
-      cardNode.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'start',
-      });
+    scroller.scrollTo({
+      left: selectedIndex * (894 + 22),
+      behavior: hasAppliedInitialAccountScrollRef.current ? 'smooth' : 'auto',
     });
+    hasAppliedInitialAccountScrollRef.current = true;
   }, [selectedAccountId, accounts.length]);
 
   React.useEffect(() => {
@@ -230,6 +228,7 @@ export const LabaTrackedScreen: React.FC = () => {
         </div>
 
         <div
+          ref={accountScrollerRef}
           className="laba-feed-scroll"
           style={{
             position: 'absolute',
@@ -254,9 +253,6 @@ export const LabaTrackedScreen: React.FC = () => {
               : accounts.map((account) => (
                   <div
                     key={account.id}
-                    ref={(node) => {
-                      accountCardRefs.current[account.id] = node;
-                    }}
                     style={{ flex: '0 0 894px', scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
                   >
                     <TrackedAccountCard
@@ -375,22 +371,31 @@ const TrackedAccountCard: React.FC<{
           event.stopPropagation();
           onAvatarClick();
         }}
-        style={{ position: 'absolute', left: '70px', top: '36px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer', zIndex: 4 }}
+        style={{ position: 'absolute', left: '70px', top: '36px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'visible', padding: 0, background: 'transparent', cursor: 'pointer', zIndex: 6 }}
       >
-        {avatarUrl ? (
-          <img
-            src={avatarUrl}
-            alt={account.username}
-            onError={() => {
-              if (avatarIndex < avatarSources.length - 1) {
-                setAvatarIndex((current) => current + 1);
-                return;
-              }
-              setAvatarIndex(avatarSources.length);
-            }}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        ) : null}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '50%',
+            overflow: 'hidden',
+          }}
+        >
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={account.username}
+              onError={() => {
+                if (avatarIndex < avatarSources.length - 1) {
+                  setAvatarIndex((current) => current + 1);
+                  return;
+                }
+                setAvatarIndex(avatarSources.length);
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : null}
+        </div>
         {showRemoveOverlay ? (
           <img
             src={avatarUnfollowButtonFull}
@@ -399,7 +404,7 @@ const TrackedAccountCard: React.FC<{
               event.stopPropagation();
               onRemove();
             }}
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', cursor: 'pointer', zIndex: 5 }}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', cursor: 'pointer', zIndex: 7 }}
           />
         ) : null}
       </button>

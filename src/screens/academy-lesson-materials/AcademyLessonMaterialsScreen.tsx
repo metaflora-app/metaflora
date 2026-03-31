@@ -47,7 +47,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
     run();
   }, [lessonId, lessonType]);
 
-  const contentBlocks = lesson?.content_blocks?.length
+  const rawContentBlocks = lesson?.content_blocks?.length
     ? lesson.content_blocks
     : [
         lesson?.annotation
@@ -60,6 +60,10 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
           ? { id: 'legacy-materials', type: 'materials', content: lesson.materials }
           : null,
       ].filter(Boolean) as Array<{ id: string; type: string; content: any }>;
+
+  const titleBlock = rawContentBlocks.find((block: any) => block?.type === 'title' && typeof block?.content === 'string');
+  const contentTitle = (typeof titleBlock?.content === 'string' ? titleBlock.content : '').trim() || (lesson?.title || '').trim();
+  const contentBlocks = rawContentBlocks.filter((block: any) => block?.type !== 'title');
 
   const materialsBlock = lesson?.content_blocks?.find((block: any) => block.type === 'materials');
   const materials = parseMaterials(materialsBlock?.content || lesson?.materials);
@@ -131,7 +135,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       homeRoute={lessonType === 'demo' ? '/main-dashboard-free' : '/main-dashboard-premium'}
       heading="материалы урока"
       subtitleLines={['уроки можно не только смотреть, но и читать', 'в удобном формате']}
-      contentTitle={lesson?.title || ''}
+      contentTitle={contentTitle}
       contentBlocks={contentBlocks}
       downloadCount={materials.length}
       onSendMaterials={handleSendMaterials}

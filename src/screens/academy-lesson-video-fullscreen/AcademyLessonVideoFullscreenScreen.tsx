@@ -4,7 +4,6 @@ import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getAcademyVideos, getDemoVideos } from '../../utils/contentApi';
 import type { AcademyVideo } from '../../types/content';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
-import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { markLessonVideoWatched, markVideoViewed } from '../../utils/userProgress';
 import lessonPoster from '../../assets/shared-redesign/обложка урока.png';
@@ -136,7 +135,6 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
             title={video.title || title}
             posterSrc={video.poster_url || poster || lessonPoster}
             initialTime={restorePosition}
-            autoPlay
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}
             onTimeChange={persistPosition}
@@ -149,24 +147,6 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
               maxWidth: '100vw',
               maxHeight: '100dvh',
               borderRadius: 0,
-            }}
-          />
-        ) : video?.video_id ? (
-          <AboutVideoPlayer
-            videoId={video.video_id}
-            autoPlay
-            hidePlayButton
-            onPlaybackStart={handlePlaybackStart}
-            onWatchThreshold={handleWatchThreshold}
-            style={{
-              position: 'relative',
-              left: 0,
-              top: 0,
-              width: '894px',
-              height: '1457px',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              borderRadius: '24px',
             }}
           />
         ) : loading ? null : (

@@ -304,12 +304,23 @@ export const PromptFirstScreen: React.FC = () => {
                     style={{ position: 'absolute', left: '-4px', top: 0, width: '831px', height: '1064px', objectFit: 'fill', pointerEvents: 'none' }}
                   />
 
-                  <div style={{ position: 'absolute', left: '31px', top: '31px', width: '769px', height: '769px', borderRadius: '30px', overflow: 'hidden', zIndex: 1 }}>
+                  <div style={{ position: 'absolute', left: '31px', top: '31px', width: '769px', height: '769px', borderRadius: '30px', overflow: 'hidden', zIndex: 1, background: '#000' }}>
+                    {prompt.cover_video_url ? (
+                      <video
+                        src={prompt.cover_video_url}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                      />
+                    ) : null}
                     {getPromptPreviewImage(prompt) !== workshopGif ? (
                       <img
                         src={getPromptPreviewImage(prompt)}
                         alt={prompt.title}
-                        loading="eager"
+                        loading="lazy"
                         decoding="async"
                         onError={(event) => {
                           const target = event.currentTarget;
@@ -321,17 +332,7 @@ export const PromptFirstScreen: React.FC = () => {
                             target.src = workshopGif;
                           }
                         }}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    ) : prompt.cover_video_url ? (
-                      <video
-                        src={prompt.cover_video_url}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                        style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
                       />
                     ) : (
                       <img

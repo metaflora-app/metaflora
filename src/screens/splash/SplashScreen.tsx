@@ -18,7 +18,7 @@ export const SplashScreen: React.FC = () => {
       const userPromise = getOrCreateUser().catch(() => null);
       const [user] = await Promise.all([
         userPromise,
-        new Promise((resolve) => window.setTimeout(resolve, 1600)),
+        new Promise((resolve) => window.setTimeout(resolve, 12000)),
       ]);
 
       if (!isActive) {
