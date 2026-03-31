@@ -16,8 +16,10 @@ export const SplashScreen: React.FC = () => {
       void preloadCriticalFonts();
       void preloadAllImages();
       const userPromise = getOrCreateUser().catch(() => null);
-      await new Promise((resolve) => window.setTimeout(resolve, 12000));
-      const user = await userPromise;
+      const [user] = await Promise.all([
+        userPromise,
+        new Promise((resolve) => window.setTimeout(resolve, 1600)),
+      ]);
 
       if (!isActive) {
         return;
@@ -38,7 +40,7 @@ export const SplashScreen: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative', background: '#020101', overflow: 'hidden' }}>
+    <div style={{ width: '100vw', height: '100dvh', position: 'relative', background: '#020101', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '1180px', height: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <ThreeBg />
         <img

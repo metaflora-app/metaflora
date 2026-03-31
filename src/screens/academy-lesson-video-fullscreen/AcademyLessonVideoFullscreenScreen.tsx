@@ -7,6 +7,7 @@ import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstac
 import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { markLessonVideoWatched, markVideoViewed } from '../../utils/userProgress';
+import lessonPoster from '../../assets/shared-redesign/обложка урока.png';
 
 function getVideoPositionKey(lessonType: string, lessonId: string) {
   return `${lessonType}_video_position_${lessonId}`;
@@ -91,8 +92,9 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
     <div
       style={{
         width: '100vw',
-        minHeight: '100vh',
-        background: '#020101',
+        height: '100dvh',
+        minHeight: '100dvh',
+        background: '#000',
         overflow: 'hidden',
         position: 'relative',
       }}
@@ -102,16 +104,16 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
         onClick={() => navigate(-1)}
         style={{
           position: 'absolute',
-          top: '24px',
-          left: '24px',
+          top: '18px',
+          left: '18px',
           zIndex: 5,
           borderRadius: '62px',
-          border: '2px solid rgba(255,255,255,0.35)',
-          background: 'rgba(255,255,255,0.1)',
+          border: '1px solid rgba(255,255,255,0.22)',
+          background: 'rgba(0,0,0,0.45)',
           color: 'white',
           fontFamily: 'Cygre',
-          fontSize: '22px',
-          padding: '14px 24px',
+          fontSize: '18px',
+          padding: '10px 18px',
           cursor: 'pointer',
         }}
       >
@@ -121,17 +123,18 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
       <div
         style={{
           width: '100vw',
-          height: '100vh',
+          height: '100dvh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '90px 24px 24px',
+          padding: 0,
         }}
       >
         {loading ? null : video?.video_url ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={video.title || title}
+            posterSrc={video.poster_url || poster || lessonPoster}
             initialTime={restorePosition}
             autoPlay
             onPlaybackStart={handlePlaybackStart}
@@ -141,11 +144,11 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
               position: 'relative',
               left: 0,
               top: 0,
-              width: '894px',
-              height: '1457px',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              borderRadius: '24px',
+              width: 'min(100vw, calc(100dvh * 894 / 1457))',
+              height: 'min(100dvh, calc(100vw * 1457 / 894))',
+              maxWidth: '100vw',
+              maxHeight: '100dvh',
+              borderRadius: 0,
             }}
           />
         ) : video?.video_id ? (

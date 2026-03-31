@@ -14,8 +14,8 @@ import {
   getCachedTrackedReels,
   getInstagramAvatarSources,
   getTelegramUserId,
-  getTrackedAccounts,
   getTrackedReels,
+  refreshTrackedAccounts,
   scrapeAccountReels,
   showMessage,
   toggleFavorite,
@@ -61,6 +61,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const [showAvatarRemoveForId, setShowAvatarRemoveForId] = React.useState<string | null>(null);
   const pendingTrackedAccountIdRef = React.useRef<string | null>(navigationState?.trackedAccountId ?? null);
   const hasShownTrackingSuccessPopupRef = React.useRef(false);
+  const accountCardRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -71,8 +72,7 @@ export const LabaTrackedScreen: React.FC = () => {
         setLoadingAccounts(true);
       }
       try {
-        const trackedAccounts = await getTrackedAccounts(userId);
-        cacheTrackedAccounts(userId, trackedAccounts);
+        const trackedAccounts = await refreshTrackedAccounts(userId);
         setAccounts(trackedAccounts);
         setSelectedAccountId((current) => {
           if (preselectedAccountId && trackedAccounts.some((item) => item.id === preselectedAccountId)) {
@@ -90,6 +90,20 @@ export const LabaTrackedScreen: React.FC = () => {
 
     void fetchAccounts();
   }, [hasInitialCachedAccounts, preselectedAccountId, telegramUserId]);
+
+  React.useEffect(() => {
+    if (!selectedAccountId) return;
+    const cardNode = accountCardRefs.current[selectedAccountId];
+    if (!cardNode) return;
+
+    window.requestAnimationFrame(() => {
+      cardNode.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start',
+      });
+    });
+  }, [selectedAccountId, accounts.length]);
 
   React.useEffect(() => {
     if (!telegramUserId) return;
@@ -238,7 +252,13 @@ export const LabaTrackedScreen: React.FC = () => {
                   </div>
                 ))
               : accounts.map((account) => (
-                  <div key={account.id} style={{ flex: '0 0 894px', scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
+                  <div
+                    key={account.id}
+                    ref={(node) => {
+                      accountCardRefs.current[account.id] = node;
+                    }}
+                    style={{ flex: '0 0 894px', scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+                  >
                     <TrackedAccountCard
                       account={account}
                       selected={selectedAccountId === account.id}
@@ -355,7 +375,7 @@ const TrackedAccountCard: React.FC<{
           event.stopPropagation();
           onAvatarClick();
         }}
-        style={{ position: 'absolute', left: '70px', top: '36px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer' }}
+        style={{ position: 'absolute', left: '70px', top: '36px', width: '190px', height: '190px', border: 'none', borderRadius: '50%', overflow: 'hidden', padding: 0, background: 'transparent', cursor: 'pointer', zIndex: 4 }}
       >
         {avatarUrl ? (
           <img
@@ -379,7 +399,7 @@ const TrackedAccountCard: React.FC<{
               event.stopPropagation();
               onRemove();
             }}
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', cursor: 'pointer' }}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', cursor: 'pointer', zIndex: 5 }}
           />
         ) : null}
       </button>

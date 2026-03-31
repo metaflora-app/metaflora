@@ -11,6 +11,7 @@ import { markLessonVideoWatched, markVideoViewed } from '../../utils/userProgres
 
 import materialsButton from '../../assets/about-screens/большая кнопка получить материалы.png';
 import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
+import lessonPoster from '../../assets/shared-redesign/обложка урока.png';
 
 function getVideoPositionKey(lessonType: string, lessonId: string) {
   return `${lessonType}_video_position_${lessonId}`;
@@ -140,18 +141,12 @@ export const AcademyLessonVideoScreen: React.FC = () => {
         <ThreeBg />
         <Header onLogoClick={() => navigate(homeRoute)} />
 
-        <div style={{ position: 'absolute', left: '94px', top: '207px', width: '1020px' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
-            {lesson?.video_title || lesson?.title || ''}
-          </p>
-        </div>
-
         {loading ? null : canUseCustomPlayer && video ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={lesson?.video_title || lesson?.title || video.title}
+            posterSrc={video.poster_url || lesson?.cover_image_url || lessonPoster}
             initialTime={initialTime}
-            onExpand={handleExpand}
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}
             onTimeChange={persistVideoPosition}

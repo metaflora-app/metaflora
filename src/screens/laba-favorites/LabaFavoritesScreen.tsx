@@ -4,7 +4,18 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFilterButton } from '../../components/laba/LabaFilterButton';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel } from '../../types/laba';
-import { cacheFavorites, getCachedFavorites, getFavorites, getTelegramUserId, showMessage, toggleFavorite, trackAccount } from '../../utils/labaApi';
+import {
+  cacheFavorites,
+  findTrackedAccountByUsername,
+  getCachedFavorites,
+  getCachedTrackedAccounts,
+  getFavorites,
+  getTelegramUserId,
+  refreshTrackedAccounts,
+  showMessage,
+  toggleFavorite,
+  trackAccount,
+} from '../../utils/labaApi';
 import reelsScrollWindowNew from '../../assets/laba-main/reels-scroll-window-new.png';
 import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
 
@@ -22,12 +33,17 @@ export const LabaFavoritesScreen: React.FC = () => {
     return userId ? getCachedFavorites(userId) : [];
   }, []);
   const hasInitialCachedReels = initialCachedReels.length > 0;
+  const initialTrackedAccounts = React.useMemo(() => {
+    const userId = getTelegramUserId();
+    return userId ? getCachedTrackedAccounts(userId) : [];
+  }, []);
   const [reels, setReels] = React.useState<Reel[]>(initialCachedReels);
   const [loading, setLoading] = React.useState(initialCachedReels.length === 0);
   const [selectedSort, setSelectedSort] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
+  const [trackedAccounts, setTrackedAccounts] = React.useState(initialTrackedAccounts);
 
   const loadFavorites = React.useCallback(async () => {
     const userId = getTelegramUserId();
@@ -51,6 +67,17 @@ export const LabaFavoritesScreen: React.FC = () => {
   React.useEffect(() => {
     void loadFavorites();
   }, [loadFavorites]);
+
+  React.useEffect(() => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
+
+    void refreshTrackedAccounts(userId)
+      .then(setTrackedAccounts)
+      .catch((error) => {
+        console.error('Ошибка загрузки tracked accounts:', error);
+      });
+  }, []);
 
   const detectLanguage = (text: string | null): string => {
     if (!text) return 'unknown';
@@ -153,6 +180,16 @@ export const LabaFavoritesScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) {
       showMessage('ошибка получения telegram user id', 'popup');
+      return;
+    }
+
+    const existingTrackedAccount = findTrackedAccountByUsername(trackedAccounts, reel.accountUsername);
+    if (existingTrackedAccount) {
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(existingTrackedAccount.id)}`, {
+        state: {
+          trackedAccountId: existingTrackedAccount.id,
+        },
+      });
       return;
     }
 
@@ -270,8 +307,8 @@ export const LabaFavoritesScreen: React.FC = () => {
                     onToggleFavorite={handleToggleFavorite}
                     onAction={() => void handleTrackFromCard(reel)}
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: true } } })}
-                    actionLabel="следить"
-                    actionCost={100}
+                    actionLabel={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? 'к аккаунту' : 'следить'}
+                    actionCost={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? undefined : 100}
                     actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}

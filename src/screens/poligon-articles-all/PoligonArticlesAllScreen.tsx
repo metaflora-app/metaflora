@@ -174,8 +174,8 @@ const PoligonArticlesAllScreen: React.FC = () => {
                     <img src={background} alt="" style={{ position: 'absolute', left: 0, top: 0, width: '449px', height: '249px', borderRadius: '26px', objectFit: 'cover' }} />
 
                     <div style={{ position: 'absolute', left: '449px', top: 0, width: '445px', height: '249px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box' }}>
-                      <div style={{ position: 'absolute', left: '27px', top: '22px', width: '390px', height: '170px', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '8px' }}>
-                        <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
+                      <div style={{ position: 'absolute', left: '27px', top: '22px', width: '390px', height: '170px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
                           {article.annotation || article.title}
                         </p>
                       </div>

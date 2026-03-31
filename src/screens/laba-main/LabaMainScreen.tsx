@@ -10,12 +10,15 @@ import {
   cacheFavorites,
   cacheSearchReels,
   cacheTopReels,
+  findTrackedAccountByUsername,
   getCachedFavorites,
+  getCachedTrackedAccounts,
   getCachedSearchReels,
   getCachedTopReels,
   getFavorites,
   getTelegramUserId,
   getTopReels,
+  refreshTrackedAccounts,
   searchReels,
   showMessage,
   toggleFavorite,
@@ -50,6 +53,10 @@ export const LabaMainScreen: React.FC = () => {
     () => TOP_REEL_CATEGORIES.flatMap((category) => getCachedTopReels(category)),
     []
   );
+  const initialTrackedAccounts = React.useMemo(() => {
+    const userId = getTelegramUserId();
+    return userId ? getCachedTrackedAccounts(userId) : [];
+  }, []);
   const initialReels = labaReelsCache.length > 0
     ? labaReelsCache
     : initialCachedSearchReels.length > 0
@@ -69,6 +76,7 @@ export const LabaMainScreen: React.FC = () => {
   const [hasSearchResults, setHasSearchResults] = React.useState(
     () => labaMainSearchQuery.trim().length > 0 && (initialCachedSearchReels.length > 0 || labaReelsCache.length > 0)
   );
+  const [trackedAccounts, setTrackedAccounts] = React.useState(initialTrackedAccounts);
   const reelsScrollRef = React.useRef<HTMLDivElement | null>(null);
 
   const loadTopReels = React.useCallback(async () => {
@@ -122,6 +130,17 @@ export const LabaMainScreen: React.FC = () => {
     };
 
     void hydrateFavorites();
+  }, []);
+
+  React.useEffect(() => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
+
+    void refreshTrackedAccounts(userId)
+      .then(setTrackedAccounts)
+      .catch((error) => {
+        console.error('Ошибка загрузки tracked accounts:', error);
+      });
   }, []);
 
   const detectLanguage = (text: string | null): string => {
@@ -264,6 +283,16 @@ export const LabaMainScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) {
       showMessage('ошибка получения telegram user id', 'popup');
+      return;
+    }
+
+    const existingTrackedAccount = findTrackedAccountByUsername(trackedAccounts, reel.accountUsername);
+    if (existingTrackedAccount) {
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(existingTrackedAccount.id)}`, {
+        state: {
+          trackedAccountId: existingTrackedAccount.id,
+        },
+      });
       return;
     }
 
@@ -484,9 +513,9 @@ export const LabaMainScreen: React.FC = () => {
                     isFavorite={likedCards.has(reel.id)}
                     onToggleFavorite={handleToggleFavorite}
                     onAction={() => void handleTrackFromCard(reel)}
-                            onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: likedCards.has(reel.id) } } })}
-                    actionLabel="следить"
-                    actionCost={100}
+                    onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: likedCards.has(reel.id) } } })}
+                    actionLabel={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? 'к аккаунту' : 'следить'}
+                    actionCost={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? undefined : 100}
                     likeEffectVariant="tiktok"
                     actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}

@@ -116,6 +116,19 @@ export function cacheTrackedAccounts(userId: number, accounts: TrackedAccount[])
   writeLabaCache(`tracked_accounts_${sanitizeCacheKeyPart(userId)}`, accounts);
 }
 
+export function normalizeInstagramHandle(value: string | null | undefined): string {
+  return String(value || '').trim().replace(/^@+/, '').toLowerCase();
+}
+
+export function findTrackedAccountByUsername(
+  accounts: TrackedAccount[],
+  username: string | null | undefined,
+): TrackedAccount | null {
+  const normalizedUsername = normalizeInstagramHandle(username);
+  if (!normalizedUsername) return null;
+  return accounts.find((account) => normalizeInstagramHandle(account.username) === normalizedUsername) || null;
+}
+
 export function getCachedTrackedReels(userId: number, accountId: string): Reel[] {
   return readLabaCache<Reel[]>(`tracked_reels_${sanitizeCacheKeyPart(userId)}_${sanitizeCacheKeyPart(accountId)}`) || [];
 }
@@ -436,6 +449,12 @@ export async function getTrackedAccounts(userId: number): Promise<TrackedAccount
   return data.accounts || [];
 }
 
+export async function refreshTrackedAccounts(userId: number): Promise<TrackedAccount[]> {
+  const accounts = await getTrackedAccounts(userId);
+  cacheTrackedAccounts(userId, accounts);
+  return accounts;
+}
+
 /**
  * Получить reels отслеживаемого аккаунта
  */
@@ -464,7 +483,10 @@ export async function untrackAccount(accountId: string, userId: number): Promise
   });
 
   const data: UntrackAccountResponse = await response.json();
-  return data.success;
+  if (!data.success) {
+    throw new Error(data.error || 'ошибка удаления аккаунта');
+  }
+  return true;
 }
 
 /**

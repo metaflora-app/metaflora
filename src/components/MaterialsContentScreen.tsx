@@ -5,6 +5,7 @@ import { Footer, Header, ThreeBg } from './ScreenLayout';
 import { showPopupMessage } from '../app/telegram/telegramHelpers';
 import { copyToClipboard } from '../utils/clipboard';
 import { convertPngToJpeg } from '../utils/imageConverter';
+import { AboutAcademyVidstackPlayer } from './AboutAcademyVidstackPlayer';
 import { FigmaDownloadIconButton, FigmaMaterialsBadge, FigmaPromptBadge } from './FigmaPills';
 import { InteractiveTiltCard } from './InteractiveTiltCard';
 
@@ -26,6 +27,12 @@ interface MaterialsContentScreenProps {
   badgeTheme?: 'academy' | 'article';
 }
 
+function buildImageSources(content: string): string[] {
+  const normalized = String(content || '').trim();
+  const converted = convertPngToJpeg(normalized);
+  return Array.from(new Set([converted, normalized].filter(Boolean)));
+}
+
 export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   homeRoute,
   heading,
@@ -39,7 +46,8 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
 }) => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const [expandedImage, setExpandedImage] = React.useState<string | null>(null);
+  const [expandedImageSources, setExpandedImageSources] = React.useState<string[] | null>(null);
+  const [expandedImageIndex, setExpandedImageIndex] = React.useState(0);
   const handleCopyPrompt = React.useCallback(async (promptText: string) => {
     const copied = await copyToClipboard(promptText);
     if (!copied) return;
@@ -100,7 +108,8 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     }
 
     if (block.type === 'image') {
-      const imageUrl = convertPngToJpeg(block.content);
+      const imageSources = buildImageSources(block.content);
+      const imageUrl = imageSources[0] || String(block.content || '');
       return (
         <InteractiveTiltCard
           key={block.id}
@@ -119,11 +128,15 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             alt="изображение"
             loading="eager"
             crossOrigin="anonymous"
-            onClick={() => setExpandedImage(imageUrl)}
+            onClick={() => {
+              setExpandedImageSources(imageSources);
+              setExpandedImageIndex(0);
+            }}
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              if (target.src !== block.content) {
-                target.src = block.content;
+              const nextSource = imageSources.find((source) => source !== target.src);
+              if (nextSource) {
+                target.src = nextSource;
               }
             }}
             style={{ width: '760px', display: 'block', borderRadius: '20px', cursor: 'pointer' }}
@@ -134,6 +147,9 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
 
     if (block.type === 'video') {
       const videoUrl = typeof block.content === 'string' ? block.content : block.content?.url;
+      const posterSrc = typeof block.content === 'object'
+        ? block.content?.poster_url || block.content?.poster || block.content?.cover_image_url || null
+        : null;
       if (!videoUrl) return null;
 
       return (
@@ -149,15 +165,18 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             <div className="pricing-card-sheen" />
             <div className="pricing-card-sheen pricing-card-sheen-soft" />
           </div>
-          <video
+          <AboutAcademyVidstackPlayer
             src={videoUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            controls
-            preload="auto"
-            style={{ width: '760px', display: 'block', borderRadius: '20px', background: '#000' }}
+            title={contentTitle}
+            posterSrc={posterSrc}
+            style={{
+              position: 'relative',
+              left: 0,
+              top: 0,
+              width: '760px',
+              height: '760px',
+              borderRadius: '20px',
+            }}
           />
         </InteractiveTiltCard>
       );
@@ -238,14 +257,29 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
 
   return (
     <>
-      {expandedImage && (
+      {expandedImageSources?.length ? (
         <div
-          onClick={() => setExpandedImage(null)}
+          onClick={() => {
+            setExpandedImageSources(null);
+            setExpandedImageIndex(0);
+          }}
           style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.94)', backdropFilter: 'blur(20px)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
         >
-          <img src={expandedImage} alt="fullscreen" style={{ maxWidth: '95vw', maxHeight: '95vh', objectFit: 'contain' }} />
+          <img
+            src={expandedImageSources?.[expandedImageIndex] || ''}
+            alt="fullscreen"
+            onError={() => {
+              setExpandedImageIndex((current) => {
+                if (!expandedImageSources || current >= expandedImageSources.length - 1) {
+                  return current;
+                }
+                return current + 1;
+              });
+            }}
+            style={{ maxWidth: '95vw', maxHeight: '95vh', objectFit: 'contain' }}
+          />
         </div>
-      )}
+      ) : null}
 
       <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
         <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>

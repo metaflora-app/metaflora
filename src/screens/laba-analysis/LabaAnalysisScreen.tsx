@@ -7,15 +7,18 @@ import { openLink, showConfirm, showPopupMessage } from '../../app/telegram/tele
 import { Analysis, Reel, Scenario } from '../../types/laba';
 import {
   analyzeReel,
+  findTrackedAccountByUsername,
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
   generateScenario,
+  getCachedTrackedAccounts,
   getExistingAnalysis,
   getReelAvatarSources,
   getReelCoverSources,
   getTelegramUserId,
   getViralityColor,
+  refreshTrackedAccounts,
   showMessage,
   toggleFavorite,
   trackAccount,
@@ -59,6 +62,10 @@ export const LabaAnalysisScreen: React.FC = () => {
   const [generatingScenario, setGeneratingScenario] = React.useState(false);
   const [hydratingAnalysis, setHydratingAnalysis] = React.useState(true);
   const [likedCards, setLikedCards] = React.useState<Set<string>>(() => new Set(reel?.isFavorite ? [reel.id] : []));
+  const [trackedAccounts, setTrackedAccounts] = React.useState(() => {
+    const userId = getTelegramUserId();
+    return userId ? getCachedTrackedAccounts(userId) : [];
+  });
 
   React.useEffect(() => {
     if (!reel) {
@@ -66,6 +73,17 @@ export const LabaAnalysisScreen: React.FC = () => {
     }
     setLikedCards(new Set(reel.isFavorite ? [reel.id] : []));
   }, [reel]);
+
+  React.useEffect(() => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
+
+    void refreshTrackedAccounts(userId)
+      .then(setTrackedAccounts)
+      .catch((error) => {
+        console.error('Ошибка загрузки tracked accounts:', error);
+      });
+  }, []);
 
   React.useEffect(() => {
     if (!reel) navigate('/laba-main');
@@ -132,6 +150,16 @@ export const LabaAnalysisScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) {
       showMessage('ошибка получения telegram user id', 'popup');
+      return;
+    }
+
+    const existingTrackedAccount = findTrackedAccountByUsername(trackedAccounts, reel.accountUsername);
+    if (existingTrackedAccount) {
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(existingTrackedAccount.id)}`, {
+        state: {
+          trackedAccountId: existingTrackedAccount.id,
+        },
+      });
       return;
     }
 
@@ -244,6 +272,8 @@ export const LabaAnalysisScreen: React.FC = () => {
               onOpenReel={() => void handleOpenReel()}
               onToggleFavorite={(reelId) => void handleToggleFavorite(reelId)}
               onTrack={() => void handleTrack()}
+              trackLabel={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? 'к аккаунту' : 'следить'}
+              trackCost={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? undefined : 100}
             />
 
             <div style={{ width: '744px', margin: '-24px auto 0' }}>
@@ -317,7 +347,9 @@ const AnalysisPreviewCard: React.FC<{
   onOpenReel: () => void;
   onToggleFavorite: (reelId: string) => void;
   onTrack: () => void;
-}> = ({ reel, isFavorite, onOpenReel, onToggleFavorite, onTrack }) => {
+  trackLabel: string;
+  trackCost?: number;
+}> = ({ reel, isFavorite, onOpenReel, onToggleFavorite, onTrack, trackLabel, trackCost }) => {
   const displayUsername = reel.accountUsername.length > 15
     ? `${reel.accountUsername.slice(0, 15)}..`
     : reel.accountUsername;
@@ -513,8 +545,8 @@ const AnalysisPreviewCard: React.FC<{
       </div>
 
       <ActionButton
-        label="следить"
-        cost={100}
+        label={trackLabel}
+        cost={trackCost}
         variant="dark"
         onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.stopPropagation();

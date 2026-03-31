@@ -2,7 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
-import { formatFollowersLabel, getInstagramAvatarSources, getTelegramUserId, searchAccount, showMessage, trackAccount } from '../../utils/labaApi';
+import {
+  findTrackedAccountByUsername,
+  formatFollowersLabel,
+  getCachedTrackedAccounts,
+  getInstagramAvatarSources,
+  getTelegramUserId,
+  refreshTrackedAccounts,
+  searchAccount,
+  showMessage,
+  trackAccount,
+} from '../../utils/labaApi';
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
@@ -27,6 +37,10 @@ export const LabaSearchAccountScreen: React.FC = () => {
   const [hasSearchAttempted, setHasSearchAttempted] = React.useState(false);
   const [isLinkFocused, setIsLinkFocused] = React.useState(false);
   const [isNicknameFocused, setIsNicknameFocused] = React.useState(false);
+  const [trackedAccounts, setTrackedAccounts] = React.useState(() => {
+    const userId = getTelegramUserId();
+    return userId ? getCachedTrackedAccounts(userId) : [];
+  });
 
   const avatarSources = React.useMemo(() => {
     if (!foundAccount) return [];
@@ -39,6 +53,21 @@ export const LabaSearchAccountScreen: React.FC = () => {
   }, [avatarSources]);
 
   const avatarUrl = avatarSources[avatarIndex] || null;
+  const foundTrackedAccount = React.useMemo(
+    () => findTrackedAccountByUsername(trackedAccounts, foundAccount?.username),
+    [foundAccount?.username, trackedAccounts]
+  );
+
+  React.useEffect(() => {
+    const userId = getTelegramUserId();
+    if (!userId) return;
+
+    void refreshTrackedAccounts(userId)
+      .then(setTrackedAccounts)
+      .catch((error) => {
+        console.error('Ошибка загрузки tracked accounts:', error);
+      });
+  }, []);
 
   const handleSearch = async () => {
     const nicknameQuery = labaAccountNicknameQuery.trim().replace(/^@+/, '');
@@ -70,6 +99,15 @@ export const LabaSearchAccountScreen: React.FC = () => {
     if (!foundAccount) return;
     const userId = getTelegramUserId();
     if (!userId) return;
+
+    if (foundTrackedAccount) {
+      navigate(`/laba-tracked?accountId=${encodeURIComponent(foundTrackedAccount.id)}`, {
+        state: {
+          trackedAccountId: foundTrackedAccount.id,
+        },
+      });
+      return;
+    }
 
     try {
       setTracking(true);
@@ -323,15 +361,17 @@ export const LabaSearchAccountScreen: React.FC = () => {
                       whiteSpace: 'pre',
                     }}
                   >
-                    начать отслеживание    100
+                    {foundTrackedAccount ? 'к аккаунту' : 'начать отслеживание    100'}
                   </div>
-                  <div style={{ position: 'absolute', left: '402px', top: '52px', width: '25px', height: '25px' }}>
-                    <img
-                      src={metacoinSmall}
-                      alt=""
-                      style={{ width: '25px', height: '25px', objectFit: 'contain', display: 'block' }}
-                    />
-                  </div>
+                  {!foundTrackedAccount ? (
+                    <div style={{ position: 'absolute', left: '402px', top: '52px', width: '25px', height: '25px' }}>
+                      <img
+                        src={metacoinSmall}
+                        alt=""
+                        style={{ width: '25px', height: '25px', objectFit: 'contain', display: 'block' }}
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </button>
 

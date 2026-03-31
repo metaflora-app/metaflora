@@ -46,6 +46,9 @@ const SCROLLABLE_RIGHT_TOP_START = 535;
 const SCROLLABLE_LEFT_BADGE_TOP_START = 402;
 const SCROLLABLE_RIGHT_BADGE_TOP_START = 507;
 const SCROLLABLE_ROW_GAP = 349;
+const SCROLL_VIEWPORT_TOP = 380;
+const SCROLL_VIEWPORT_HEIGHT = 1605;
+const SCROLL_CONTENT_BOTTOM_GAP = 84;
 
 const DEMO_LAYOUT: CourseCardPosition[] = [
   { cardLeft: 353.5, cardTop: 430, cardWidth: 425, badgeLeft: 141, badgeTop: 402 },
@@ -170,38 +173,140 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
   }, [source, courseType]);
 
   const visibleLessons = shouldEnableCourseScroll ? lessons : lessons.slice(0, layout.length);
-  const footerTop = shouldEnableCourseScroll
-    ? Math.max(2071, (Math.floor((Math.max(visibleLessons.length, 1) - 1) / 2) * SCROLLABLE_ROW_GAP) + SCROLLABLE_RIGHT_TOP_START + CARD_HEIGHT + 180)
-    : 2071;
-  const sceneHeight = Math.max(2550, footerTop + 220);
+  const footerTop = 2071;
+  const scrollContentHeight = shouldEnableCourseScroll
+    ? Math.max(
+        SCROLL_VIEWPORT_HEIGHT,
+        (Math.floor((Math.max(visibleLessons.length, 1) - 1) / 2) * SCROLLABLE_ROW_GAP) +
+          SCROLLABLE_RIGHT_TOP_START +
+          CARD_HEIGHT -
+          SCROLL_VIEWPORT_TOP +
+          SCROLL_CONTENT_BOTTOM_GAP,
+      )
+    : 0;
 
   const openLesson = (lessonId: string) => {
     const search = source === 'demo' ? `?lesson=${lessonId}&type=demo` : `?lesson=${lessonId}`;
     navigate(`/academy-lesson-video${search}`);
   };
 
+  const renderLessonCard = (lesson: AcademyLesson, index: number, topOffset = 0) => {
+    const position = shouldEnableCourseScroll ? getScrollableCourseCardPosition(index) : layout[index];
+    const label = lesson.lesson_number || index + 1;
+    const description = cardDescriptionOverride || lesson.description || lesson.annotation || placeholderText;
+    const cardTop = position.cardTop - topOffset;
+    const badgeTop = position.badgeTop - topOffset;
+
+    return (
+      <React.Fragment key={lesson.id}>
+        <InteractiveTiltCard
+          className="pricing-card-shell"
+          baseTransform="translateX(-50%)"
+          maxRotateX={4}
+          maxRotateY={5}
+          maxScale={1.012}
+          style={{
+            position: 'absolute',
+            left: `${position.cardLeft}px`,
+            top: `${cardTop}px`,
+            width: `${position.cardWidth}px`,
+            height: '317px',
+          }}
+        >
+          <div className="pricing-card-sheen-zone">
+            <div className="pricing-card-sheen" />
+            <div className="pricing-card-sheen pricing-card-sheen-soft" />
+          </div>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backdropFilter: 'blur(50px)',
+              background: 'black',
+              border: '4px solid rgba(255,255,255,0.3)',
+              borderRadius: '30px',
+              overflow: 'hidden',
+            }}
+          >
+          <div
+            style={{
+              position: 'absolute',
+              left: '18px',
+              right: '18px',
+              top: '8px',
+              bottom: '106px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              fontFamily: 'Cygre',
+              fontWeight: 400,
+              fontSize: `${cardTextFontSize}px`,
+              lineHeight: '1',
+              color: 'white',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            {description}
+          </div>
+
+          <FigmaReadButton
+            label="перейти"
+            onClick={() => openLesson(lesson.id)}
+            className="button-inner-glow"
+            style={{
+              position: 'absolute',
+              left: '50%',
+              bottom: '19px',
+              transform: 'translateX(-50%)',
+            }}
+          />
+          </div>
+        </InteractiveTiltCard>
+
+        <div
+          style={{
+            position: 'absolute',
+            left: `${position.badgeLeft}px`,
+            top: `${badgeTop}px`,
+            transform: 'translateX(-50%)',
+            width: '56px',
+            height: '56px',
+            border: position.badgeThinBorder ? '1px solid rgba(255,255,255,0.3)' : '4px solid rgba(255,255,255,0.3)',
+            borderRadius: '30px',
+            backdropFilter: 'blur(50px)',
+            background: 'black',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontFamily: 'Cygre',
+            fontWeight: 700,
+            fontSize: '32px',
+            lineHeight: '1',
+          }}
+        >
+          <span style={{ transform: 'translateY(-5px)' }}>{label}</span>
+        </div>
+      </React.Fragment>
+    );
+  };
+
   return (
     <div
-      className={shouldEnableCourseScroll ? 'academy-course-scroll' : undefined}
       style={{
         position: 'relative',
         width: '100vw',
-        height: shouldEnableCourseScroll ? '100dvh' : '100vh',
-        minHeight: shouldEnableCourseScroll ? '100dvh' : '100vh',
+        height: '100dvh',
+        minHeight: '100dvh',
         background: '#020101',
-        overflowX: 'hidden',
-        overflowY: shouldEnableCourseScroll ? 'auto' : 'hidden',
-        scrollbarWidth: shouldEnableCourseScroll ? 'none' : undefined,
-        msOverflowStyle: shouldEnableCourseScroll ? 'none' : undefined,
-        WebkitOverflowScrolling: shouldEnableCourseScroll ? 'touch' : undefined,
-        touchAction: shouldEnableCourseScroll ? 'pan-y' : undefined,
-        overscrollBehaviorY: shouldEnableCourseScroll ? 'contain' : undefined,
+        overflow: 'hidden',
       }}
     >
       {shouldEnableCourseScroll ? (
         <style>{`.academy-course-scroll::-webkit-scrollbar{display:none;width:0;height:0;}`}</style>
       ) : null}
-      <div style={{ position: 'relative', width: '1180px', minHeight: `${sceneHeight}px`, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+      <div style={{ position: 'relative', width: '1180px', minHeight: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <ThreeBg />
         <Header onLogoClick={() => navigate(homeRoute)} />
 
@@ -230,105 +335,31 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
           ))}
         </div>
 
-        {!loadingLessons ? visibleLessons.map((lesson, index) => {
-          const position = shouldEnableCourseScroll ? getScrollableCourseCardPosition(index) : layout[index];
-          const label = lesson.lesson_number || index + 1;
-          const description = cardDescriptionOverride || lesson.description || lesson.annotation || placeholderText;
-
-          return (
-            <React.Fragment key={lesson.id}>
-              <InteractiveTiltCard
-                className="pricing-card-shell"
-                baseTransform="translateX(-50%)"
-                maxRotateX={4}
-                maxRotateY={5}
-                maxScale={1.012}
-                style={{
-                  position: 'absolute',
-                  left: `${position.cardLeft}px`,
-                  top: `${position.cardTop}px`,
-                  width: `${position.cardWidth}px`,
-                  height: '317px',
-                }}
-              >
-                <div className="pricing-card-sheen-zone">
-                  <div className="pricing-card-sheen" />
-                  <div className="pricing-card-sheen pricing-card-sheen-soft" />
-                </div>
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backdropFilter: 'blur(50px)',
-                    background: 'black',
-                    border: '4px solid rgba(255,255,255,0.3)',
-                    borderRadius: '30px',
-                    overflow: 'hidden',
-                  }}
-                >
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: '18px',
-                    right: '18px',
-                    top: '8px',
-                    bottom: '106px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    fontFamily: 'Cygre',
-                    fontWeight: 400,
-                    fontSize: `${cardTextFontSize}px`,
-                    lineHeight: '1',
-                    color: 'white',
-                    whiteSpace: 'pre-wrap',
-                  }}
-                >
-                  {description}
-                </div>
-
-                <FigmaReadButton
-                  label="перейти"
-                  onClick={() => openLesson(lesson.id)}
-                  className="button-inner-glow"
-                  style={{
-                    position: 'absolute',
-                    left: '50%',
-                    bottom: '19px',
-                    transform: 'translateX(-50%)',
-                  }}
-                />
-                </div>
-              </InteractiveTiltCard>
-
-              <div
-                style={{
-                  position: 'absolute',
-                  left: `${position.badgeLeft}px`,
-                  top: `${position.badgeTop}px`,
-                  transform: 'translateX(-50%)',
-                  width: '56px',
-                  height: '56px',
-                  border: position.badgeThinBorder ? '1px solid rgba(255,255,255,0.3)' : '4px solid rgba(255,255,255,0.3)',
-                  borderRadius: '30px',
-                  backdropFilter: 'blur(50px)',
-                  background: 'black',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontFamily: 'Cygre',
-                  fontWeight: 700,
-                  fontSize: '32px',
-                  lineHeight: '1',
-                }}
-              >
-                <span style={{ transform: 'translateY(-5px)' }}>{label}</span>
-              </div>
-            </React.Fragment>
-          );
-        }) : null}
+        {shouldEnableCourseScroll ? (
+          <div
+            className="academy-course-scroll"
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: `${SCROLL_VIEWPORT_TOP}px`,
+              width: '1180px',
+              height: `${SCROLL_VIEWPORT_HEIGHT}px`,
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch',
+              touchAction: 'pan-y',
+              overscrollBehaviorY: 'contain',
+            }}
+          >
+            <div style={{ position: 'relative', width: '1180px', minHeight: `${scrollContentHeight}px` }}>
+              {!loadingLessons ? visibleLessons.map((lesson, index) => renderLessonCard(lesson, index, SCROLL_VIEWPORT_TOP)) : null}
+            </div>
+          </div>
+        ) : (
+          !loadingLessons ? visibleLessons.map((lesson, index) => renderLessonCard(lesson, index)) : null
+        )}
 
         <Footer top={footerTop} />
       </div>
