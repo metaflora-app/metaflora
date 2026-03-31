@@ -21,7 +21,7 @@ export const AboutPoligonScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* полигон" />
+        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* полигон" controlsVariant="full" />
 
         <img
           src={serviceBtn}

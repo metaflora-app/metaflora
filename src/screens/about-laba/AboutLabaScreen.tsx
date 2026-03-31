@@ -21,7 +21,7 @@ export const AboutLabaScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* лаба" />
+        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* лаба" controlsVariant="full" />
 
         <img
           src={serviceBtn}

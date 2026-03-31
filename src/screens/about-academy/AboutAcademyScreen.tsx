@@ -21,7 +21,7 @@ export const AboutAcademyScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer />
+        <AboutAcademyVidstackPlayer controlsVariant="full" />
 
         <img src={serviceBtn} alt="перейти к сервису" onClick={() => navigate('/academy-courses-all')} className="button-inner-glow motion-press-grow" style={{
           position: 'absolute', left: '143px', top: '1902px', width: '894px', height: '139px', cursor: 'pointer',

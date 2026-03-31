@@ -156,6 +156,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
             src={video.video_url as string}
             title={visibleTitle}
             posterSrc={video.poster_url || lesson?.cover_image_url || lessonPoster}
+            controlsVariant="full"
             initialTime={initialTime}
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}

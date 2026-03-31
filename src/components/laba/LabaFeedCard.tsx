@@ -550,6 +550,79 @@ const ActionButton: React.FC<{
 }> = ({ label, cost, variant, imageSrc, motionVariant = 'default', onClick }) => {
   const [isPressed, setIsPressed] = React.useState(false);
 
+  if (variant === 'light') {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        onPointerDown={() => setIsPressed(true)}
+        onPointerUp={() => setIsPressed(false)}
+        onPointerLeave={() => setIsPressed(false)}
+        onPointerCancel={() => setIsPressed(false)}
+        style={{
+          position: 'absolute',
+          left: '356px',
+          top: '831px',
+          width: '251px',
+          height: '79.63px',
+          padding: 0,
+          border: '4px solid rgba(255,255,255,0.3)',
+          background: 'rgba(0,0,0,0.9)',
+          cursor: 'pointer',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          boxShadow: isPressed ? '0 0 18px rgba(255,255,255,0.16)' : '0 0 28px rgba(255,255,255,0.24)',
+        }}
+      >
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            left: '-20px',
+            top: '-22px',
+            width: '124px',
+            height: '110px',
+            borderRadius: '999px',
+            background: 'rgba(255,255,255,0.96)',
+            filter: 'blur(22px)',
+            opacity: 0.95,
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            inset: '4px',
+            borderRadius: '62px',
+            border: '4px solid rgba(255,255,255,0.3)',
+            background: 'rgba(0,0,0,0.1)',
+          }}
+        />
+        <span
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            display: 'flex',
+            width: '100%',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: textFont,
+            fontWeight: 700,
+            fontSize: '27px',
+            lineHeight: '1',
+            color: '#fff',
+            textAlign: 'center',
+            textShadow: '0 0 10px rgba(255,255,255,0.18)',
+            transform: isPressed ? 'scale(0.985)' : 'scale(1)',
+          }}
+        >
+          {label}
+        </span>
+      </button>
+    );
+  }
+
   return (
     <button
       type="button"
@@ -569,7 +642,7 @@ const ActionButton: React.FC<{
         border: 'none',
         background: 'transparent',
         cursor: 'pointer',
-        opacity: variant === 'light' ? 0.92 : 1,
+        opacity: 1,
         borderRadius: '62px',
         overflow: 'hidden',
       }}

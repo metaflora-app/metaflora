@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { preloadAllImages, preloadCriticalFonts } from '../../utils/assetPreloader';
 import { getOrCreateUser } from '../../utils/supabase';
-import { ThreeBg } from '../../components/ScreenLayout';
 import logo from '../../assets/figma-welcome/splash-logo.png';
+import splashBackground from '../../assets/figma-welcome/фон для эксперимента.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -42,7 +42,18 @@ export const SplashScreen: React.FC = () => {
   return (
     <div style={{ width: '100vw', height: '100dvh', position: 'relative', background: '#020101', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '1180px', height: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
-        <ThreeBg />
+        <img
+          src={splashBackground}
+          alt=""
+          fetchPriority="high"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
         <img
           src={logo}
           alt="МЕТАФЛОРА*"

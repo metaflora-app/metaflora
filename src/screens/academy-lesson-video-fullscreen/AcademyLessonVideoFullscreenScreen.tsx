@@ -134,6 +134,7 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
             src={video.video_url as string}
             title={video.title || title}
             posterSrc={video.poster_url || poster || lessonPoster}
+            controlsVariant="full"
             initialTime={restorePosition}
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}

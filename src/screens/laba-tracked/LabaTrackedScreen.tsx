@@ -26,7 +26,6 @@ import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
 import avatarUnfollowButtonFull from '../../assets/laba-tracked/avatar-unfollow-button-full.png';
 import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
-import desktopShortUnfollowActiveButton from '../../assets/laba-main-buttons/desktop-short-unfollow-active.png';
 
 const textFont = 'Cygre, sans-serif';
 
@@ -61,6 +60,8 @@ export const LabaTrackedScreen: React.FC = () => {
   const hasShownTrackingSuccessPopupRef = React.useRef(false);
   const accountScrollerRef = React.useRef<HTMLDivElement | null>(null);
   const hasAppliedInitialAccountScrollRef = React.useRef(false);
+  const selectionFromScrollRef = React.useRef(false);
+  const accountScrollRafRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -95,6 +96,10 @@ export const LabaTrackedScreen: React.FC = () => {
     const scroller = accountScrollerRef.current;
     const selectedIndex = accounts.findIndex((account) => account.id === selectedAccountId);
     if (!scroller || selectedIndex < 0) return;
+    if (selectionFromScrollRef.current) {
+      selectionFromScrollRef.current = false;
+      return;
+    }
 
     scroller.scrollTo({
       left: selectedIndex * (894 + 22),
@@ -206,6 +211,39 @@ export const LabaTrackedScreen: React.FC = () => {
     }
   };
 
+  const handleAccountScrollerScroll = React.useCallback(() => {
+    if (accountScrollRafRef.current !== null) {
+      window.cancelAnimationFrame(accountScrollRafRef.current);
+    }
+
+    accountScrollRafRef.current = window.requestAnimationFrame(() => {
+      const scroller = accountScrollerRef.current;
+      if (!scroller || accounts.length === 0) {
+        accountScrollRafRef.current = null;
+        return;
+      }
+
+      const step = 894 + 22;
+      const nextIndex = Math.max(0, Math.min(accounts.length - 1, Math.round(scroller.scrollLeft / step)));
+      const nextAccountId = accounts[nextIndex]?.id ?? null;
+
+      if (nextAccountId && nextAccountId !== selectedAccountId) {
+        selectionFromScrollRef.current = true;
+        setSelectedAccountId(nextAccountId);
+      }
+
+      accountScrollRafRef.current = null;
+    });
+  }, [accounts, selectedAccountId]);
+
+  React.useEffect(() => {
+    return () => {
+      if (accountScrollRafRef.current !== null) {
+        window.cancelAnimationFrame(accountScrollRafRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div
       onClick={() => setShowAvatarRemoveForId(null)}
@@ -230,6 +268,7 @@ export const LabaTrackedScreen: React.FC = () => {
         <div
           ref={accountScrollerRef}
           className="laba-feed-scroll"
+          onScroll={handleAccountScrollerScroll}
           style={{
             position: 'absolute',
             left: '143px',
@@ -300,7 +339,6 @@ export const LabaTrackedScreen: React.FC = () => {
                     }}
                     actionLabel="не следить"
                     actionVariant="light"
-                    actionButtonImageSrc={desktopShortUnfollowActiveButton}
                     actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}

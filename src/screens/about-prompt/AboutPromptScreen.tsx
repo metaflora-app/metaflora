@@ -21,7 +21,7 @@ export const AboutPromptScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* цех" />
+        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* цех" controlsVariant="full" />
 
         <img
           src={serviceBtn}
