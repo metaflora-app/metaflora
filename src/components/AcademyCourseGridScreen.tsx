@@ -140,9 +140,11 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
   const navigate = useNavigate();
   const [lessons, setLessons] = React.useState<AcademyLesson[]>(() => readCachedCourseLessons(source, courseType));
   const [loadingLessons, setLoadingLessons] = React.useState(() => readCachedCourseLessons(source, courseType).length === 0);
+  const [showScrollFade, setShowScrollFade] = React.useState(true);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const layout = placeholderCount === 4 ? DEMO_LAYOUT : FULL_LAYOUT;
   const shouldEnableCourseScroll = lessons.length >= SCROLL_THRESHOLD;
+  const scrollViewportRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     let mounted = true;
@@ -184,6 +186,30 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
           SCROLL_CONTENT_BOTTOM_GAP,
       )
     : 0;
+
+  React.useEffect(() => {
+    if (!shouldEnableCourseScroll) {
+      setShowScrollFade(false);
+      return;
+    }
+
+    const viewport = scrollViewportRef.current;
+    if (!viewport) return;
+
+    const syncFade = () => {
+      const atBottom = viewport.scrollTop + viewport.clientHeight >= viewport.scrollHeight - 8;
+      setShowScrollFade(!atBottom);
+    };
+
+    syncFade();
+    viewport.addEventListener('scroll', syncFade, { passive: true });
+    window.addEventListener('resize', syncFade);
+
+    return () => {
+      viewport.removeEventListener('scroll', syncFade);
+      window.removeEventListener('resize', syncFade);
+    };
+  }, [lessons.length, scrollContentHeight, shouldEnableCourseScroll]);
 
   const openLesson = (lessonId: string) => {
     const search = source === 'demo' ? `?lesson=${lessonId}&type=demo` : `?lesson=${lessonId}`;
@@ -337,25 +363,48 @@ export const AcademyCourseGridScreen: React.FC<AcademyCourseGridScreenProps> = (
 
         {shouldEnableCourseScroll ? (
           <div
-            className="academy-course-scroll"
             style={{
               position: 'absolute',
               left: 0,
               top: `${SCROLL_VIEWPORT_TOP}px`,
               width: '1180px',
               height: `${SCROLL_VIEWPORT_HEIGHT}px`,
-              overflowY: 'auto',
-              overflowX: 'hidden',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-              touchAction: 'pan-y',
-              overscrollBehaviorY: 'contain',
+              overflow: 'hidden',
             }}
           >
-            <div style={{ position: 'relative', width: '1180px', minHeight: `${scrollContentHeight}px` }}>
-              {!loadingLessons ? visibleLessons.map((lesson, index) => renderLessonCard(lesson, index, SCROLL_VIEWPORT_TOP)) : null}
+            <div
+              ref={scrollViewportRef}
+              className="academy-course-scroll"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch',
+                touchAction: 'pan-y',
+                overscrollBehaviorY: 'contain',
+              }}
+            >
+              <div style={{ position: 'relative', width: '1180px', minHeight: `${scrollContentHeight}px` }}>
+                {!loadingLessons ? visibleLessons.map((lesson, index) => renderLessonCard(lesson, index, SCROLL_VIEWPORT_TOP)) : null}
+              </div>
             </div>
+            {showScrollFade ? (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: '220px',
+                  pointerEvents: 'none',
+                  background: 'linear-gradient(180deg, rgba(2,1,1,0) 0%, rgba(2,1,1,0.48) 44%, rgba(2,1,1,0.86) 78%, rgba(2,1,1,1) 100%)',
+                  zIndex: 3,
+                }}
+              />
+            ) : null}
           </div>
         ) : (
           !loadingLessons ? visibleLessons.map((lesson, index) => renderLessonCard(lesson, index)) : null

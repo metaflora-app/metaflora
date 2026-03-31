@@ -550,6 +550,45 @@ const ActionButton: React.FC<{
 }> = ({ label, cost, variant, imageSrc, motionVariant = 'default', onClick }) => {
   const [isPressed, setIsPressed] = React.useState(false);
 
+  if (imageSrc) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        onPointerDown={() => setIsPressed(true)}
+        onPointerUp={() => setIsPressed(false)}
+        onPointerLeave={() => setIsPressed(false)}
+        onPointerCancel={() => setIsPressed(false)}
+        style={{
+          position: 'absolute',
+          left: '356px',
+          top: '831px',
+          width: '251px',
+          height: '79.63px',
+          padding: 0,
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          transform: isPressed ? 'scale(0.985)' : 'scale(1)',
+        }}
+      >
+        <img
+          src={imageSrc}
+          alt={label}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'fill',
+            display: 'block',
+            pointerEvents: 'none',
+          }}
+        />
+      </button>
+    );
+  }
+
   if (variant === 'light') {
     return (
       <button

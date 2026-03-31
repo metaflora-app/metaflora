@@ -30,6 +30,7 @@ import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
+import shortTrackedActiveButton from '../../assets/laba-main-buttons/кнопка следить очень короткая актив.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -548,6 +549,7 @@ const AnalysisPreviewCard: React.FC<{
         label={trackLabel}
         cost={trackCost}
         variant={typeof trackCost === 'number' ? 'dark' : 'light'}
+        imageSrc={typeof trackCost === 'number' ? undefined : shortTrackedActiveButton}
         onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.stopPropagation();
           onTrack();
@@ -561,9 +563,49 @@ const ActionButton: React.FC<{
   label: string;
   cost?: number;
   variant: ActionVariant;
+  imageSrc?: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-}> = ({ label, cost, variant, onClick }) => {
+}> = ({ label, cost, variant, imageSrc, onClick }) => {
   const [isPressed, setIsPressed] = React.useState(false);
+
+  if (imageSrc) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        onPointerDown={() => setIsPressed(true)}
+        onPointerUp={() => setIsPressed(false)}
+        onPointerLeave={() => setIsPressed(false)}
+        onPointerCancel={() => setIsPressed(false)}
+        style={{
+          position: 'absolute',
+          left: '356px',
+          top: '831px',
+          width: '251px',
+          height: '79.63px',
+          padding: 0,
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+          borderRadius: '62px',
+          overflow: 'hidden',
+          transform: isPressed ? 'scale(0.985)' : 'scale(1)',
+        }}
+      >
+        <img
+          src={imageSrc}
+          alt={label}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'fill',
+            display: 'block',
+            pointerEvents: 'none',
+          }}
+        />
+      </button>
+    );
+  }
 
   if (variant === 'light') {
     return (
