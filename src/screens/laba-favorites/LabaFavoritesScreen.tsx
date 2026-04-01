@@ -309,6 +309,7 @@ export const LabaFavoritesScreen: React.FC = () => {
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: true } } })}
                     actionLabel={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? 'к аккаунту' : 'следить'}
                     actionCost={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? undefined : 100}
+                    likeEffectVariant="tiktok"
                     actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}

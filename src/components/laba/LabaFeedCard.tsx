@@ -12,6 +12,7 @@ import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
+import shortTrackedActiveButton from '../../assets/laba-main-buttons/кнопка следить очень короткая актив.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -81,6 +82,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
 
   const coverSrc = coverSources[coverIndex] || figmaCardCover;
   const avatarSrc = avatarSources[avatarIndex] || null;
+  const resolvedActionButtonImageSrc =
+    actionButtonImageSrc ?? (typeof actionCost === 'number' ? undefined : shortTrackedActiveButton);
 
   return (
     <div
@@ -360,7 +363,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         label={actionLabel}
         cost={actionCost}
         variant={actionVariant}
-        imageSrc={actionButtonImageSrc}
+        imageSrc={resolvedActionButtonImageSrc}
         motionVariant={actionMotionVariant}
         onClick={(event) => {
           event.stopPropagation();
