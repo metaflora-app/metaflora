@@ -176,7 +176,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         </div>
       ) : null}
 
-      {onOpenAnalysis ? (
+      {onOpenAnalysis && openAnalysisButtonSrc ? (
         <button
           type="button"
           className={`premium-button-shell ${isAnalysisPressed ? 'is-pressed' : ''}`}
@@ -199,31 +199,26 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             cursor: 'pointer',
             padding: 0,
             zIndex: 3,
-            borderRadius: openAnalysisButtonSrc ? '62px' : '32px',
+            borderRadius: '62px',
             overflow: 'hidden',
-            opacity: openAnalysisButtonSrc ? 1 : 0,
           }}
         >
-          {openAnalysisButtonSrc ? <div className="premium-button-inner" /> : null}
-          {openAnalysisButtonSrc ? (
-            <img
-              src={openAnalysisButtonSrc}
-              alt=""
-              className="button-inner-glow"
-              style={{
-                position: 'absolute',
-                inset: '2px',
-                width: 'calc(100% - 4px)',
-                height: 'calc(100% - 4px)',
-                objectFit: 'contain',
-                display: 'block',
-                pointerEvents: 'none',
-                zIndex: 2,
-              }}
-            />
-          ) : (
-            <OpenReelButton />
-          )}
+          <div className="premium-button-inner" />
+          <img
+            src={openAnalysisButtonSrc}
+            alt=""
+            className="button-inner-glow"
+            style={{
+              position: 'absolute',
+              inset: '2px',
+              width: 'calc(100% - 4px)',
+              height: 'calc(100% - 4px)',
+              objectFit: 'contain',
+              display: 'block',
+              pointerEvents: 'none',
+              zIndex: 2,
+            }}
+          />
         </button>
       ) : null}
 

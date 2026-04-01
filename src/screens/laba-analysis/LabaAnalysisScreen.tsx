@@ -404,26 +404,6 @@ const AnalysisPreviewCard: React.FC<{
         />
       </div>
 
-      <button
-        type="button"
-        onClick={onOpenReel}
-        aria-label="открыть рилс"
-        className="motion-press-grow"
-        style={{
-          position: 'absolute',
-          left: '377px',
-          top: '374px',
-          width: '72px',
-          height: '72px',
-          border: 'none',
-          background: 'transparent',
-          padding: 0,
-          cursor: 'pointer',
-        }}
-      >
-        <OpenReelButton />
-      </button>
-
       <FigmaLikeButton
         active={isFavorite}
         effectVariant="tiktok"
