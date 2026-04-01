@@ -167,12 +167,14 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     const handleLoadedData = () => {
       setPreviewReady(true);
-      void previewVideo.play().catch(() => {});
+      previewVideo.currentTime = 0.01;
+      previewVideo.pause();
     };
 
     const handleCanPlay = () => {
       setPreviewReady(true);
-      void previewVideo.play().catch(() => {});
+      previewVideo.currentTime = 0.01;
+      previewVideo.pause();
     };
 
     previewVideo.addEventListener('loadeddata', handleLoadedData);
@@ -356,8 +358,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           src={src}
           muted
           playsInline
-          autoPlay
-          loop
           preload="auto"
           style={{
             position: 'absolute',

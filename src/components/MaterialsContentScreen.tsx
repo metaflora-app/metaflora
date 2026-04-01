@@ -5,9 +5,9 @@ import { Footer, Header, ThreeBg } from './ScreenLayout';
 import { showPopupMessage } from '../app/telegram/telegramHelpers';
 import { copyToClipboard } from '../utils/clipboard';
 import { convertPngToJpeg } from '../utils/imageConverter';
-import { AboutAcademyVidstackPlayer } from './AboutAcademyVidstackPlayer';
 import { FigmaDownloadIconButton, FigmaMaterialsBadge, FigmaPromptBadge } from './FigmaPills';
 import { InteractiveTiltCard } from './InteractiveTiltCard';
+import playIcon from '../assets/about-academy-player/play-icon.svg';
 
 interface ContentBlockLike {
   id: string;
@@ -165,19 +165,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
             <div className="pricing-card-sheen" />
             <div className="pricing-card-sheen pricing-card-sheen-soft" />
           </div>
-          <AboutAcademyVidstackPlayer
-            src={videoUrl}
-            title={contentTitle}
-            posterSrc={posterSrc}
-            style={{
-              position: 'relative',
-              left: 0,
-              top: 0,
-              width: '760px',
-              height: '760px',
-              borderRadius: '20px',
-            }}
-          />
+          <InlineContentVideoPlayer src={videoUrl} posterSrc={posterSrc} />
         </InteractiveTiltCard>
       );
     }
@@ -327,5 +315,109 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
         </div>
       </div>
     </>
+  );
+};
+
+const InlineContentVideoPlayer: React.FC<{
+  src: string;
+  posterSrc?: string | null;
+}> = ({ src, posterSrc }) => {
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [aspectRatio, setAspectRatio] = React.useState<number>(9 / 16);
+
+  const handleTogglePlayback = React.useCallback(async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.paused) {
+      await video.play();
+      return;
+    }
+
+    video.pause();
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: '760px',
+        aspectRatio: `${aspectRatio}`,
+        maxHeight: '1100px',
+        borderRadius: '20px',
+        overflow: 'hidden',
+        background: '#000',
+      }}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        poster={posterSrc || undefined}
+        playsInline
+        preload="metadata"
+        onLoadedMetadata={(event) => {
+          const video = event.currentTarget;
+          if (video.videoWidth > 0 && video.videoHeight > 0) {
+            setAspectRatio(video.videoWidth / video.videoHeight);
+          }
+        }}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => setIsPlaying(false)}
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'block',
+          objectFit: 'contain',
+          background: '#000',
+        }}
+      />
+
+      <button
+        type="button"
+        onClick={() => void handleTogglePlayback()}
+        aria-label={isPlaying ? 'пауза' : 'воспроизвести видео'}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          border: 'none',
+          background: 'transparent',
+          padding: 0,
+          cursor: 'pointer',
+        }}
+      />
+
+      {!isPlaying ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '150px',
+            height: '150px',
+            borderRadius: '999px',
+            background: 'rgba(4, 22, 39, 0.18)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none',
+          }}
+        >
+          <img
+            src={playIcon}
+            alt=""
+            style={{
+              width: '140px',
+              height: '140px',
+              display: 'block',
+            }}
+          />
+        </div>
+      ) : null}
+    </div>
   );
 };
