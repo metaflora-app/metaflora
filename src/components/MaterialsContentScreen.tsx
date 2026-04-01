@@ -153,20 +153,12 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       if (!videoUrl) return null;
 
       return (
-        <InteractiveTiltCard
+        <div
           key={block.id}
-          className="pricing-card-shell"
-          maxRotateX={3}
-          maxRotateY={4}
-          maxScale={1.008}
-          style={{ position: 'relative', width: '760px', margin: '30px auto' }}
+          style={{ position: 'relative', width: '100%', margin: '30px auto' }}
         >
-          <div className="pricing-card-sheen-zone">
-            <div className="pricing-card-sheen" />
-            <div className="pricing-card-sheen pricing-card-sheen-soft" />
-          </div>
           <InlineContentVideoPlayer src={videoUrl} posterSrc={posterSrc} />
-        </InteractiveTiltCard>
+        </div>
       );
     }
 
@@ -342,7 +334,7 @@ const InlineContentVideoPlayer: React.FC<{
     <div
       style={{
         position: 'relative',
-        width: '760px',
+        width: '100%',
         aspectRatio: `${aspectRatio}`,
         maxHeight: '1100px',
         borderRadius: '20px',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { LabaSidebarNav } from '../../components/laba/LabaSidebarNav';
 import trackingGif from '../../assets/laba-redesign/tracked-screen.gif';
 import startTrackingButton from '../../assets/laba-redesign/start-tracking-button.png';
 
@@ -67,6 +68,8 @@ export const LabaNoTrackedScreen: React.FC = () => {
         >
           вы можете пополнить баланс в личном кабинете
         </div>
+
+        <LabaSidebarNav activeItem="tracked" left={266} top={1863} />
 
         <Footer />
       </div>

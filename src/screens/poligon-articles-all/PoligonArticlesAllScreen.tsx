@@ -37,6 +37,7 @@ const FILTER_BUTTONS: Array<{
 ];
 
 const FALLBACK_BACKGROUNDS = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
+const SCROLL_THRESHOLD = 6;
 
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -150,7 +151,20 @@ const PoligonArticlesAllScreen: React.FC = () => {
           );
         })}
 
-        <div className="laba-feed-scroll" style={{ position: 'absolute', left: '0', top: '547px', width: '1180px', height: '1450px', overflowY: visibleArticles.length > 4 ? 'auto' : 'visible', overflowX: 'hidden' }}>
+        <div
+          className="laba-feed-scroll"
+          style={{
+            position: 'absolute',
+            left: '0',
+            top: '547px',
+            width: '1180px',
+            height: '1450px',
+            overflowY: visibleArticles.length >= SCROLL_THRESHOLD ? 'auto' : 'visible',
+            overflowX: 'hidden',
+            WebkitMaskImage: visibleArticles.length >= SCROLL_THRESHOLD ? 'linear-gradient(to bottom, black 0%, black 90%, transparent 100%)' : undefined,
+            maskImage: visibleArticles.length >= SCROLL_THRESHOLD ? 'linear-gradient(to bottom, black 0%, black 90%, transparent 100%)' : undefined,
+          }}
+        >
           <div style={{ position: 'relative', width: '1180px', minHeight: `${Math.max(visibleArticles.length, 1) * 279}px` }}>
             {error ? (
               <div style={{ position: 'absolute', left: '50%', top: '160px', transform: 'translateX(-50%)', fontFamily: 'Cygre', fontSize: '28px', color: '#ff7b7b', textAlign: 'center' }}>
@@ -174,7 +188,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
                     <img src={background} alt="" style={{ position: 'absolute', left: 0, top: 0, width: '449px', height: '249px', borderRadius: '26px', objectFit: 'cover' }} />
 
                     <div style={{ position: 'absolute', left: '449px', top: 0, width: '445px', height: '249px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box' }}>
-                      <div style={{ position: 'absolute', left: '27px', top: '22px', width: '390px', height: '170px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ position: 'absolute', left: '27px', top: '18px', width: '390px', height: '205px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
                           {article.annotation || article.title}
                         </p>
