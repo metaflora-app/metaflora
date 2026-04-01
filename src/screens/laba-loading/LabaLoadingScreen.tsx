@@ -34,7 +34,7 @@ export const LabaLoadingScreen: React.FC = () => {
           <img src={leftPanelGif} alt="справа" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
-        <LabaSidebarNav activeItem="search" left={266} top={1863} />
+        <LabaSidebarNav activeItem="search" left={276} top={1863} />
 
         <Footer />
       </div>

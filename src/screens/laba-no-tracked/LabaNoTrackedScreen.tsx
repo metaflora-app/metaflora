@@ -69,7 +69,7 @@ export const LabaNoTrackedScreen: React.FC = () => {
           вы можете пополнить баланс в личном кабинете
         </div>
 
-        <LabaSidebarNav activeItem="tracked" left={266} top={1863} />
+        <LabaSidebarNav activeItem="tracked" left={276} top={1863} />
 
         <Footer />
       </div>

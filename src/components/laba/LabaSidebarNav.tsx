@@ -1,9 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCachedTrackedAccounts, getTelegramUserId, refreshTrackedAccounts } from '../../utils/labaApi';
-import sidebarBg from '../../assets/laba-redesign/sidebar-bg.png';
-import sidebarIcons from '../../assets/laba-redesign/сайдбар иконки новые.png';
-import searchIcon from '../../assets/иконка поиск.png';
+import sidebarFull from '../../assets/laba-redesign/sidebar-full-desktop.png';
 
 type SidebarItem = 'search' | 'main' | 'tracked' | 'favorites' | 'metacoins';
 
@@ -13,10 +11,10 @@ interface LabaSidebarNavProps {
   top: number;
 }
 
-const SIDEBAR_WIDTH = 683;
+const SIDEBAR_WIDTH = 628;
 const SIDEBAR_HEIGHT = 139;
 
-export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left, top }) => {
+export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem: _activeItem, left, top }) => {
   const navigate = useNavigate();
   const telegramUserId = React.useMemo(() => getTelegramUserId(), []);
   const [hasTrackedAccounts, setHasTrackedAccounts] = React.useState(() => {
@@ -36,11 +34,11 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
   const trackedRoute = hasTrackedAccounts ? '/laba-tracked' : '/laba-no-tracked';
 
   const items: Array<{ key: SidebarItem; left: number; width: number; route: string }> = [
-    { key: 'search', left: 28, width: 90, route: '/laba-search-account' },
-    { key: 'main', left: 142, width: 90, route: '/laba-main' },
-    { key: 'tracked', left: 260, width: 90, route: trackedRoute },
-    { key: 'favorites', left: 378, width: 90, route: '/laba-favorites' },
-    { key: 'metacoins', left: 496, width: 90, route: '/metacoins' },
+    { key: 'main', left: 14, width: 96, route: '/laba-main' },
+    { key: 'search', left: 136, width: 96, route: '/laba-search-account' },
+    { key: 'tracked', left: 258, width: 96, route: trackedRoute },
+    { key: 'favorites', left: 380, width: 96, route: '/laba-favorites' },
+    { key: 'metacoins', left: 502, width: 96, route: '/metacoins' },
   ];
 
   return (
@@ -54,60 +52,17 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
       }}
     >
       <img
-        src={sidebarBg}
+        src={sidebarFull}
         alt=""
         style={{
           position: 'absolute',
           inset: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'contain',
+          objectFit: 'fill',
           pointerEvents: 'none',
         }}
       />
-
-      <div
-        style={{
-          position: 'absolute',
-          left: '141px',
-          top: '22px',
-          width: '446px',
-          height: '92px',
-          pointerEvents: 'none',
-        }}
-      >
-        <img
-          src={sidebarIcons}
-          alt=""
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-        />
-      </div>
-
-      <div
-        style={{
-          position: 'absolute',
-          left: '69px',
-          top: '50px',
-          width: '38px',
-          height: '38px',
-          pointerEvents: 'none',
-          opacity: 1,
-        }}
-      >
-        <img
-          src={searchIcon}
-          alt=""
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-        />
-      </div>
 
       {items.map((item) => (
         <button
@@ -118,12 +73,12 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
           style={{
             position: 'absolute',
             left: `${item.left}px`,
-            top: '20px',
+            top: '18px',
             width: `${item.width}px`,
-            height: '96px',
+            height: '103px',
             border: 'none',
             background: 'transparent',
-            borderRadius: '18px',
+            borderRadius: '24px',
             padding: 0,
             cursor: 'pointer',
           }}
