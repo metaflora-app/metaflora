@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCachedTrackedAccounts, getTelegramUserId, refreshTrackedAccounts } from '../../utils/labaApi';
-import sidebarBg from '../../assets/laba-redesign/сайдбар подложка.png';
+import sidebarBg from '../../assets/laba-redesign/sidebar-bg.png';
 import sidebarIcons from '../../assets/laba-redesign/сайдбар иконки новые.png';
 import searchIcon from '../../assets/иконка поиск.png';
 
@@ -13,7 +13,7 @@ interface LabaSidebarNavProps {
   top: number;
 }
 
-const SIDEBAR_WIDTH = 650;
+const SIDEBAR_WIDTH = 683;
 const SIDEBAR_HEIGHT = 139;
 
 export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left, top }) => {
@@ -36,11 +36,11 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
   const trackedRoute = hasTrackedAccounts ? '/laba-tracked' : '/laba-no-tracked';
 
   const items: Array<{ key: SidebarItem; left: number; width: number; route: string }> = [
-    { key: 'search', left: 24, width: 96, route: '/laba-search-account' },
-    { key: 'main', left: 132, width: 96, route: '/laba-main' },
-    { key: 'tracked', left: 242, width: 96, route: trackedRoute },
-    { key: 'favorites', left: 352, width: 96, route: '/laba-favorites' },
-    { key: 'metacoins', left: 462, width: 96, route: '/metacoins' },
+    { key: 'search', left: 28, width: 90, route: '/laba-search-account' },
+    { key: 'main', left: 142, width: 90, route: '/laba-main' },
+    { key: 'tracked', left: 260, width: 90, route: trackedRoute },
+    { key: 'favorites', left: 378, width: 90, route: '/laba-favorites' },
+    { key: 'metacoins', left: 496, width: 90, route: '/metacoins' },
   ];
 
   return (
@@ -61,7 +61,7 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
           inset: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'fill',
+          objectFit: 'contain',
           pointerEvents: 'none',
         }}
       />
@@ -69,10 +69,10 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
       <div
         style={{
           position: 'absolute',
-          left: '133px',
-          top: '21px',
-          width: '432px',
-          height: '96px',
+          left: '141px',
+          top: '22px',
+          width: '446px',
+          height: '92px',
           pointerEvents: 'none',
         }}
       >
@@ -90,12 +90,12 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
       <div
         style={{
           position: 'absolute',
-          left: '58px',
-          top: '44px',
-          width: '40px',
-          height: '40px',
+          left: '69px',
+          top: '50px',
+          width: '38px',
+          height: '38px',
           pointerEvents: 'none',
-          opacity: activeItem === 'search' ? 1 : 0.85,
+          opacity: 1,
         }}
       >
         <img
@@ -118,12 +118,12 @@ export const LabaSidebarNav: React.FC<LabaSidebarNavProps> = ({ activeItem, left
           style={{
             position: 'absolute',
             left: `${item.left}px`,
-            top: '18px',
+            top: '20px',
             width: `${item.width}px`,
-            height: '102px',
+            height: '96px',
             border: 'none',
-            background: activeItem === item.key ? 'rgba(255,255,255,0.08)' : 'transparent',
-            borderRadius: '24px',
+            background: 'transparent',
+            borderRadius: '18px',
             padding: 0,
             cursor: 'pointer',
           }}

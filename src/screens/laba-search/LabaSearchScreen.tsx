@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaSidebarNav } from '../../components/laba/LabaSidebarNav';
-import leftPanelGif from '../../assets/laba-redesign/left-panel.gif';
+import leftPanelGif from '../../assets/laba-search/left-panel.gif';
 
 export const LabaSearchScreen: React.FC = () => {
   const navigate = useNavigate();
