@@ -27,6 +27,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
   const lessonType = searchParams.get('type') || 'academy';
   const [lesson, setLesson] = React.useState<AcademyLesson | null>(null);
   const hasMarkedMaterialsReadRef = React.useRef(false);
+  const contentContainerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     if (!lessonId) return;
@@ -67,26 +68,52 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
 
   const materialsBlock = lesson?.content_blocks?.find((block: any) => block.type === 'materials');
   const materials = parseMaterials(materialsBlock?.content || lesson?.materials);
+  const shouldCompleteByScroll = materials.length === 0;
+
+  const completeLessonFromScroll = React.useCallback(async () => {
+    if (hasMarkedMaterialsReadRef.current) return;
+
+    hasMarkedMaterialsReadRef.current = true;
+
+    if (lessonType === 'academy' && lessonId) {
+      const userId = getTelegramUserId();
+      if (!userId) return;
+
+      const result = await markLessonMaterialsRead(userId, lessonId);
+      if (result.justCompleted) {
+        showPopupMessage('урок успешно пройден');
+      }
+      return;
+    }
+
+    showPopupMessage('урок успешно пройден');
+  }, [lessonId, lessonType]);
 
   const handleContentScroll = React.useCallback((event: React.UIEvent<HTMLDivElement>) => {
-    if (!lessonId || lessonType !== 'academy') return;
+    if (!shouldCompleteByScroll) return;
 
     const element = event.currentTarget;
     const hasScroll = element.scrollHeight > element.clientHeight;
     const scrollPercent = ((element.scrollTop + element.clientHeight) / element.scrollHeight) * 100;
 
     if ((!hasScroll || scrollPercent >= 95) && !hasMarkedMaterialsReadRef.current) {
-      const userId = getTelegramUserId();
-      if (!userId) return;
-
-      hasMarkedMaterialsReadRef.current = true;
-      void markLessonMaterialsRead(userId, lessonId).then((result) => {
-        if (result.justCompleted) {
-          showPopupMessage('урок завершен на 100%');
-        }
-      });
+      void completeLessonFromScroll();
     }
-  }, [lessonId, lessonType]);
+  }, [completeLessonFromScroll, shouldCompleteByScroll]);
+
+  React.useEffect(() => {
+    hasMarkedMaterialsReadRef.current = false;
+  }, [lessonId, lessonType, shouldCompleteByScroll]);
+
+  React.useEffect(() => {
+    if (!shouldCompleteByScroll) return;
+    if (!contentContainerRef.current) return;
+
+    const element = contentContainerRef.current;
+    if (element.scrollHeight <= element.clientHeight + 1) {
+      void completeLessonFromScroll();
+    }
+  }, [completeLessonFromScroll, contentBlocks.length, shouldCompleteByScroll]);
 
   const handleSendMaterials = async () => {
     try {
@@ -106,7 +133,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           materials,
-          lessonTitle: lesson?.title || 'Урок',
+          lessonTitle: contentTitle || lesson?.title || 'Урок',
           userId,
         }),
       });
@@ -116,11 +143,11 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
         if (lessonType === 'academy' && lessonId) {
           const progressResult = await markLessonMaterialsRead(userId, lessonId);
           if (progressResult.justCompleted) {
-            showPopupMessage('урок завершен на 100%');
+            showPopupMessage('урок успешно пройден. материалы отправлены в чат');
             return;
           }
         }
-        showPopupMessage('материалы отправлены в чат с ботом');
+        showPopupMessage('материалы отправлены в чат');
       } else {
         showPopupMessage(result.error || 'неизвестная ошибка');
       }
@@ -139,6 +166,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       contentBlocks={contentBlocks}
       downloadCount={materials.length}
       onSendMaterials={handleSendMaterials}
+      contentContainerRef={contentContainerRef}
       badgeTheme="academy"
       onContentScroll={handleContentScroll}
     />

@@ -24,6 +24,7 @@ interface MaterialsContentScreenProps {
   downloadCount: number;
   onSendMaterials: () => void;
   onContentScroll?: React.UIEventHandler<HTMLDivElement>;
+  contentContainerRef?: React.Ref<HTMLDivElement>;
   badgeTheme?: 'academy' | 'article';
 }
 
@@ -42,6 +43,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   downloadCount,
   onSendMaterials,
   onContentScroll,
+  contentContainerRef,
   badgeTheme = 'academy',
 }) => {
   const navigate = useNavigate();
@@ -283,6 +285,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
           <SecondaryBlackBackdrop>
             <div
               className="laba-feed-scroll"
+              ref={contentContainerRef}
               onScroll={onContentScroll}
               style={{
                 position: 'absolute',
