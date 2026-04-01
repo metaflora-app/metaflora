@@ -419,7 +419,6 @@ const AnalysisPreviewCard: React.FC<{
           background: 'transparent',
           padding: 0,
           cursor: 'pointer',
-          opacity: 0,
         }}
       >
         <OpenReelButton />
@@ -721,7 +720,7 @@ const ActionButton: React.FC<{
           style={{
             position: 'absolute',
             left: '50%',
-            top: '16.5px',
+            top: '20px',
             transform: 'translateX(-50%)',
             width: '199px',
             height: '29px',
@@ -738,7 +737,7 @@ const ActionButton: React.FC<{
         >
           {`${label}    ${cost ?? ''}`}
         </div>
-        <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', left: '146px', top: '29.5px', width: '19px', height: '19px', overflow: 'hidden' }}>
           <img
             src={followMetacoin}
             alt=""
