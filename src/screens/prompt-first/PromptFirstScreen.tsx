@@ -320,6 +320,18 @@ export const PromptFirstScreen: React.FC = () => {
                   />
 
                   <div style={{ position: 'absolute', left: '31px', top: '31px', width: '769px', height: '769px', borderRadius: '30px', overflow: 'hidden', zIndex: 1, background: '#000' }}>
+                    {prompt.cover_video_url ? (
+                      <video
+                        src={prompt.cover_video_url}
+                        poster={previewImage || workshopGif}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload={index < 3 ? 'metadata' : 'none'}
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                      />
+                    ) : null}
                     {previewImage ? (
                       <img
                         src={previewImage}
@@ -329,6 +341,10 @@ export const PromptFirstScreen: React.FC = () => {
                         decoding="async"
                         onError={(event) => {
                           const target = event.currentTarget;
+                          if (prompt.cover_video_url) {
+                            target.style.display = 'none';
+                            return;
+                          }
                           if (target.src !== workshopGif) {
                             target.src = workshopGif;
                           }

@@ -103,6 +103,7 @@ export const ArticleScreen: React.FC = () => {
       subtitleLines={['помимо текста, из статьи всегда можно получить промпты и файлы']}
       contentTitle={contentTitle}
       contentBlocks={contentBlocks}
+      defaultVideoPosterSrc={article?.cover_image_url || null}
       downloadCount={materials.length}
       onSendMaterials={handleSendMaterials}
       badgeTheme="article"

@@ -164,6 +164,7 @@ export const AcademyLessonMaterialsScreen: React.FC = () => {
       subtitleLines={['уроки можно не только смотреть, но и читать', 'в удобном формате']}
       contentTitle={contentTitle}
       contentBlocks={contentBlocks}
+      defaultVideoPosterSrc={lesson?.cover_image_url || null}
       downloadCount={materials.length}
       onSendMaterials={handleSendMaterials}
       contentContainerRef={contentContainerRef}

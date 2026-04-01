@@ -5,7 +5,8 @@ import './index.css';
 import { initTelegram } from './app/telegram/initTelegram';
 import { UIStateProvider } from './contexts/UIStateContext';
 import { preloadAllImages, preloadCriticalFonts, preloadImageSources } from './utils/assetPreloader';
-import splashLoadingScreen from './assets/figma-welcome/splash-loading-screen.png';
+import splashBackground from './assets/figma-welcome/фон для эксперимента.png';
+import splashLogo from './assets/figma-welcome/splash-logo.png';
 
 // Disable Service Worker to prevent caching issues
 if ('serviceWorker' in navigator) {
@@ -26,6 +27,11 @@ async function bootstrapApp() {
   document.documentElement.style.background = '#7a7a7a';
   document.body.style.background = '#7a7a7a';
 
+  await Promise.all([
+    preloadImageSources([splashBackground, splashLogo]),
+    preloadCriticalFonts(),
+  ]);
+
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <UIStateProvider>
@@ -35,8 +41,6 @@ async function bootstrapApp() {
   );
 
   const warmAssets = () => {
-    void preloadImageSources([splashLoadingScreen]);
-    void preloadCriticalFonts();
     void preloadAllImages();
   };
 

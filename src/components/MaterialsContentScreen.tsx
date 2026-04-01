@@ -28,6 +28,7 @@ interface MaterialsContentScreenProps {
   onContentScroll?: React.UIEventHandler<HTMLDivElement>;
   contentContainerRef?: React.Ref<HTMLDivElement>;
   badgeTheme?: 'academy' | 'article';
+  defaultVideoPosterSrc?: string | null;
 }
 
 function buildImageSources(content: string): string[] {
@@ -101,6 +102,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   onContentScroll,
   contentContainerRef,
   badgeTheme = 'academy',
+  defaultVideoPosterSrc = null,
 }) => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -225,7 +227,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
           key={block.id}
           style={{ position: 'relative', width: `${INLINE_CONTENT_MEDIA_WIDTH}px`, margin: '30px auto' }}
         >
-          <InlineContentVideoPlayer src={videoUrl} posterSrc={posterSrc} />
+          <InlineContentVideoPlayer src={videoUrl} posterSrc={posterSrc || defaultVideoPosterSrc} />
         </div>
       );
     }
