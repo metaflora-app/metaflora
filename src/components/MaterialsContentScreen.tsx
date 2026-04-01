@@ -9,6 +9,8 @@ import { FigmaDownloadIconButton, FigmaMaterialsBadge, FigmaPromptBadge } from '
 import { InteractiveTiltCard } from './InteractiveTiltCard';
 import playIcon from '../assets/about-academy-player/play-icon.svg';
 
+const INLINE_CONTENT_MEDIA_WIDTH = 764;
+
 interface ContentBlockLike {
   id: string;
   type: string;
@@ -157,7 +159,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       return (
         <div
           key={block.id}
-          style={{ position: 'relative', width: '760px', margin: '30px auto' }}
+          style={{ position: 'relative', width: `${INLINE_CONTENT_MEDIA_WIDTH}px`, margin: '30px auto' }}
         >
           <InlineContentVideoPlayer src={videoUrl} posterSrc={posterSrc} />
         </div>
@@ -337,9 +339,8 @@ const InlineContentVideoPlayer: React.FC<{
     <div
       style={{
         position: 'relative',
-        width: '760px',
+        width: `${INLINE_CONTENT_MEDIA_WIDTH}px`,
         aspectRatio: `${aspectRatio}`,
-        maxHeight: '1100px',
         borderRadius: '20px',
         overflow: 'hidden',
         background: '#000',
