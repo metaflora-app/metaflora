@@ -17,6 +17,7 @@ import {
   getTrackedReels,
   refreshTrackedAccounts,
   scrapeAccountReels,
+  setCachedFavoriteState,
   showMessage,
   toggleFavorite,
   untrackAccount,
@@ -61,7 +62,8 @@ export const LabaTrackedScreen: React.FC = () => {
   const accountScrollerRef = React.useRef<HTMLDivElement | null>(null);
   const hasAppliedInitialAccountScrollRef = React.useRef(false);
   const selectionFromScrollRef = React.useRef(false);
-  const accountScrollRafRef = React.useRef<number | null>(null);
+  const accountScrollTimeoutRef = React.useRef<number | null>(null);
+  const reelsRequestTokenRef = React.useRef(0);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -127,10 +129,13 @@ export const LabaTrackedScreen: React.FC = () => {
       if (!userId) return;
 
       const cachedTracked = getCachedTrackedReels(userId, selectedAccountId);
+      const requestToken = reelsRequestTokenRef.current + 1;
+      reelsRequestTokenRef.current = requestToken;
       if (cachedTracked.length > 0) {
         setReels(cachedTracked);
         setLoadingReels(false);
       } else {
+        setReels([]);
         setLoadingReels(true);
       }
       try {
@@ -139,6 +144,9 @@ export const LabaTrackedScreen: React.FC = () => {
         if (trackedReels.length === 0 && shouldHydrateTrackedReels) {
           await scrapeAccountReels(selectedAccountId, userId);
           trackedReels = await getTrackedReels(selectedAccountId, userId);
+        }
+        if (reelsRequestTokenRef.current !== requestToken) {
+          return;
         }
         cacheTrackedReels(userId, selectedAccountId, trackedReels);
         setReels(trackedReels);
@@ -153,10 +161,15 @@ export const LabaTrackedScreen: React.FC = () => {
           showMessage('рилс успешно найдены', 'popup');
         }
       } catch (error: any) {
+        if (reelsRequestTokenRef.current !== requestToken) {
+          return;
+        }
         console.error('Ошибка загрузки reels:', error);
         showMessage(error.message || 'ошибка загрузки reels', 'popup');
       } finally {
-        setLoadingReels(false);
+        if (reelsRequestTokenRef.current === requestToken) {
+          setLoadingReels(false);
+        }
       }
     };
 
@@ -173,28 +186,51 @@ export const LabaTrackedScreen: React.FC = () => {
     const userId = telegramUserId;
     if (!userId) return;
     const targetReel = reels.find((item) => item.id === reelId);
+    const currentIsFavorite = likedCards.has(reelId);
+    const nextIsFavorite = !currentIsFavorite;
+    const nextReels = reels.map((item) => item.id === reelId ? { ...item, isFavorite: nextIsFavorite } : item);
+
+    setReels(nextReels);
+    setLikedCards((prev) => {
+      const next = new Set(prev);
+      if (nextIsFavorite) next.add(reelId);
+      else next.delete(reelId);
+      return next;
+    });
+    if (targetReel) {
+      setCachedFavoriteState(userId, { ...targetReel, isFavorite: nextIsFavorite }, nextIsFavorite);
+    }
+    showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
 
     try {
-      const nextIsFavorite = await toggleFavorite(reelId, userId);
-      setReels((prev) => prev.map((item) => item.id === reelId ? { ...item, isFavorite: nextIsFavorite } : item));
+      const confirmedIsFavorite = await toggleFavorite(reelId, userId);
+      if (confirmedIsFavorite === nextIsFavorite) {
+        return;
+      }
+
+      const rollbackReels = reels.map((item) => item.id === reelId ? { ...item, isFavorite: confirmedIsFavorite } : item);
+      setReels(rollbackReels);
       setLikedCards((prev) => {
         const next = new Set(prev);
-        if (nextIsFavorite) next.add(reelId);
+        if (confirmedIsFavorite) next.add(reelId);
         else next.delete(reelId);
         return next;
       });
-      const cachedFavorites = getCachedFavorites(userId);
-      if (nextIsFavorite && targetReel) {
-        cacheFavorites(userId, [
-          { ...targetReel, isFavorite: true },
-          ...cachedFavorites.filter((item) => item.id !== reelId),
-        ]);
-      } else {
-        cacheFavorites(userId, cachedFavorites.filter((item) => item.id !== reelId));
+      if (targetReel) {
+        setCachedFavoriteState(userId, { ...targetReel, isFavorite: confirmedIsFavorite }, confirmedIsFavorite);
       }
-      showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
     } catch (error) {
       console.error('Ошибка избранного:', error);
+      setReels(reels);
+      setLikedCards((prev) => {
+        const next = new Set(prev);
+        if (currentIsFavorite) next.add(reelId);
+        else next.delete(reelId);
+        return next;
+      });
+      if (targetReel) {
+        setCachedFavoriteState(userId, { ...targetReel, isFavorite: currentIsFavorite }, currentIsFavorite);
+      }
     }
   };
 
@@ -202,40 +238,61 @@ export const LabaTrackedScreen: React.FC = () => {
     const userId = telegramUserId;
     if (!userId) return;
 
+    const previousAccounts = accounts;
+    const previousReels = reels;
+    const nextAccounts = accounts.filter((account) => account.id !== accountId);
+    const nextSelectedAccountId = selectedAccountId === accountId
+      ? nextAccounts[0]?.id || null
+      : selectedAccountId;
+
+    setAccounts(nextAccounts);
+    cacheTrackedAccounts(userId, nextAccounts);
+    setSelectedAccountId(nextSelectedAccountId);
+    if (selectedAccountId === accountId) {
+      setReels([]);
+      setLoadingReels(Boolean(nextSelectedAccountId));
+    }
+    clearTrackedReelsCache(userId, accountId);
+    if (pendingTrackedAccountIdRef.current === accountId) {
+      pendingTrackedAccountIdRef.current = null;
+    }
+    setShowAvatarRemoveForId((current) => (current === accountId ? null : current));
+    showMessage('аккаунт удален из отслеживаемых', 'popup');
+
     try {
       await untrackAccount(accountId, userId);
-      clearTrackedReelsCache(userId, accountId);
-      setReels([]);
-      setLoadingReels(false);
-      if (pendingTrackedAccountIdRef.current === accountId) {
-        pendingTrackedAccountIdRef.current = null;
-      }
-      setShowAvatarRemoveForId((current) => (current === accountId ? null : current));
-
-      const nextAccounts = await refreshTrackedAccounts(userId);
-      setAccounts(nextAccounts);
-      setSelectedAccountId((current) => {
-        const currentAfterDelete = current === accountId ? null : current;
-        return currentAfterDelete && nextAccounts.some((item) => item.id === currentAfterDelete)
-          ? currentAfterDelete
-          : nextAccounts[0]?.id || null;
+      void refreshTrackedAccounts(userId).then((freshAccounts) => {
+        setAccounts(freshAccounts);
+        cacheTrackedAccounts(userId, freshAccounts);
+        setSelectedAccountId((current) => (
+          current && freshAccounts.some((item) => item.id === current)
+            ? current
+            : freshAccounts[0]?.id || null
+        ));
+      }).catch((error) => {
+        console.error('Ошибка синхронизации tracked accounts после удаления:', error);
       });
-
-      showMessage('аккаунт удален из отслеживаемых', 'popup');
     } catch (error) {
       console.error('Ошибка удаления аккаунта:', error);
+      setAccounts(previousAccounts);
+      cacheTrackedAccounts(userId, previousAccounts);
+      setSelectedAccountId(selectedAccountId);
+      if (selectedAccountId === accountId) {
+        setReels(previousReels);
+        setLoadingReels(false);
+      }
     }
   };
 
   const handleAccountScrollerScroll = React.useCallback(() => {
-    if (accountScrollRafRef.current !== null) {
-      window.cancelAnimationFrame(accountScrollRafRef.current);
+    if (accountScrollTimeoutRef.current !== null) {
+      window.clearTimeout(accountScrollTimeoutRef.current);
     }
 
-    accountScrollRafRef.current = window.requestAnimationFrame(() => {
+    accountScrollTimeoutRef.current = window.setTimeout(() => {
       const scroller = accountScrollerRef.current;
       if (!scroller || accounts.length === 0) {
-        accountScrollRafRef.current = null;
+        accountScrollTimeoutRef.current = null;
         return;
       }
 
@@ -248,14 +305,14 @@ export const LabaTrackedScreen: React.FC = () => {
         setSelectedAccountId(nextAccountId);
       }
 
-      accountScrollRafRef.current = null;
-    });
+      accountScrollTimeoutRef.current = null;
+    }, 110);
   }, [accounts, selectedAccountId]);
 
   React.useEffect(() => {
     return () => {
-      if (accountScrollRafRef.current !== null) {
-        window.cancelAnimationFrame(accountScrollRafRef.current);
+      if (accountScrollTimeoutRef.current !== null) {
+        window.clearTimeout(accountScrollTimeoutRef.current);
       }
     };
   }, []);
@@ -342,7 +399,7 @@ export const LabaTrackedScreen: React.FC = () => {
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
             {loadingReels
-              ? Array.from({ length: 40 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
+              ? Array.from({ length: 8 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
               : reels.map((reel) => (
                   <LabaFeedCard
                     key={reel.id}
@@ -401,6 +458,9 @@ const TrackedAccountCard: React.FC<{
         cursor: 'pointer',
         overflow: 'hidden',
         opacity: selected ? 1 : 0.92,
+        contentVisibility: 'auto',
+        containIntrinsicSize: '268px',
+        contain: 'layout paint style',
       }}
     >
       <img src={trackedAddUnderlay} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />
@@ -439,6 +499,8 @@ const TrackedAccountCard: React.FC<{
             <img
               src={avatarUrl}
               alt={account.username}
+              loading="lazy"
+              decoding="async"
               onError={() => {
                 if (avatarIndex < avatarSources.length - 1) {
                   setAvatarIndex((current) => current + 1);

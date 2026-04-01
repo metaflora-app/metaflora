@@ -71,6 +71,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
   const [isAnalysisPressed, setIsAnalysisPressed] = React.useState(false);
+  const [isCoverLoaded, setIsCoverLoaded] = React.useState(false);
+  const [isAvatarLoaded, setIsAvatarLoaded] = React.useState(false);
+  const coverSrc = coverSources[coverIndex] || figmaCardCover;
+  const avatarSrc = avatarSources[avatarIndex] || null;
 
   React.useEffect(() => {
     setCoverIndex(0);
@@ -80,8 +84,34 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
     setAvatarIndex(0);
   }, [avatarSources]);
 
-  const coverSrc = coverSources[coverIndex] || figmaCardCover;
-  const avatarSrc = avatarSources[avatarIndex] || null;
+  React.useEffect(() => {
+    setIsCoverLoaded(false);
+  }, [coverSrc]);
+
+  React.useEffect(() => {
+    if (isCoverLoaded || coverIndex >= coverSources.length - 1) return;
+    const timeoutId = window.setTimeout(() => {
+      setCoverIndex((current) => (current === coverIndex ? current + 1 : current));
+    }, 2800);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [coverIndex, coverSources.length, coverSrc, isCoverLoaded]);
+
+  React.useEffect(() => {
+    setIsAvatarLoaded(false);
+  }, [avatarSrc]);
+
+  React.useEffect(() => {
+    if (isAvatarLoaded || avatarIndex >= avatarSources.length - 1) return;
+    const timeoutId = window.setTimeout(() => {
+      setAvatarIndex((current) => (current === avatarIndex ? current + 1 : current));
+    }, 2200);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [avatarIndex, avatarSources.length, avatarSrc, isAvatarLoaded]);
+
   const resolvedActionButtonImageSrc =
     actionButtonImageSrc ?? (typeof actionCost === 'number' ? undefined : shortTrackedActiveButton);
 
@@ -94,6 +124,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         minHeight: `${CARD_HEIGHT}px`,
         margin: '0 auto',
         cursor: onOpenAnalysis ? 'pointer' : 'default',
+        contentVisibility: 'auto',
+        containIntrinsicSize: `${CARD_HEIGHT}px`,
+        contain: 'layout paint style',
       }}
     >
       <div
@@ -124,6 +157,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         <img
           src={coverSrc}
           alt=""
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setIsCoverLoaded(true)}
           onError={(event) => {
             const target = event.currentTarget;
             if (coverIndex < coverSources.length - 1) {
@@ -290,6 +326,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           <img
             src={avatarSrc}
             alt=""
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setIsAvatarLoaded(true)}
             onError={() => {
               if (avatarIndex < avatarSources.length - 1) {
                 setAvatarIndex((current) => current + 1);

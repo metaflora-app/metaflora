@@ -202,6 +202,7 @@ export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' |
 }
 
 export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string[] {
+  const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
   const instagramReelId = String(reel.instagramReelId || '').trim();
   const instagramPageUrl = instagramReelId ? `https://www.instagram.com/p/${instagramReelId}/` : null;
   const proxiedReelUrl =
@@ -209,9 +210,14 @@ export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUr
       ? buildProxyImageUrl(reel.reelUrl)
       : null;
 
+  if (directCoverUrl) {
+    return uniqueImageSources([
+      directCoverUrl,
+      reel.coverImageUrl,
+    ]);
+  }
+
   return uniqueImageSources([
-    convertInstagramImageUrl(reel.coverImageUrl),
-    reel.coverImageUrl,
     instagramPageUrl ? buildProxyImageUrl(instagramPageUrl) : null,
     proxiedReelUrl,
   ]);
@@ -222,11 +228,27 @@ export function getReelAvatarSources(
 ): string[] {
   const reelId = String(reel.id || '').trim();
   const directUrl = String(reel.accountProfilePicUrl || '').trim();
+  const normalizedUsername = String(reel.accountUsername || '').trim().replace(/^@+/, '');
 
   return uniqueImageSources([
-    reelId ? buildReelMediaUrl(reelId, 'avatar') : null,
     directUrl,
+    reelId ? buildReelMediaUrl(reelId, 'avatar') : null,
+    normalizedUsername ? buildProxyImageUrl(`https://www.instagram.com/${normalizedUsername}/`) : null,
   ]);
+}
+
+export function setCachedFavoriteState(userId: number, reel: Reel | null | undefined, nextIsFavorite: boolean): Reel[] {
+  const cachedFavorites = getCachedFavorites(userId);
+  if (!reel) {
+    return cachedFavorites;
+  }
+
+  const nextFavorites = nextIsFavorite
+    ? [{ ...reel, isFavorite: true }, ...cachedFavorites.filter((item) => item.id !== reel.id)]
+    : cachedFavorites.filter((item) => item.id !== reel.id);
+
+  cacheFavorites(userId, nextFavorites);
+  return nextFavorites;
 }
 
 export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: string | null): string | null {

@@ -19,6 +19,7 @@ import {
   getTelegramUserId,
   getViralityColor,
   refreshTrackedAccounts,
+  setCachedFavoriteState,
   showMessage,
   toggleFavorite,
   trackAccount,
@@ -131,18 +132,40 @@ export const LabaAnalysisScreen: React.FC = () => {
   const handleToggleFavorite = async (reelId: string) => {
     const userId = getTelegramUserId();
     if (!userId) return;
+    const currentIsFavorite = likedCards.has(reelId);
+    const nextIsFavorite = !currentIsFavorite;
+
+    setLikedCards((prev) => {
+      const next = new Set(prev);
+      if (nextIsFavorite) next.add(reelId);
+      else next.delete(reelId);
+      return next;
+    });
+    setCachedFavoriteState(userId, { ...reel, isFavorite: nextIsFavorite }, nextIsFavorite);
+    showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
 
     try {
-      const nextIsFavorite = await toggleFavorite(reelId, userId);
+      const confirmedIsFavorite = await toggleFavorite(reelId, userId);
+      if (confirmedIsFavorite === nextIsFavorite) {
+        return;
+      }
+
       setLikedCards((prev) => {
         const next = new Set(prev);
-        if (nextIsFavorite) next.add(reelId);
+        if (confirmedIsFavorite) next.add(reelId);
         else next.delete(reelId);
         return next;
       });
-      showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
+      setCachedFavoriteState(userId, { ...reel, isFavorite: confirmedIsFavorite }, confirmedIsFavorite);
     } catch (error) {
       console.error('Ошибка избранного:', error);
+      setLikedCards((prev) => {
+        const next = new Set(prev);
+        if (currentIsFavorite) next.add(reelId);
+        else next.delete(reelId);
+        return next;
+      });
+      setCachedFavoriteState(userId, { ...reel, isFavorite: currentIsFavorite }, currentIsFavorite);
       showMessage('ошибка избранного', 'popup');
     }
   };

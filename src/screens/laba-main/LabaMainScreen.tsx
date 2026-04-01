@@ -20,6 +20,7 @@ import {
   getTopReels,
   refreshTrackedAccounts,
   searchReels,
+  setCachedFavoriteState,
   showMessage,
   toggleFavorite,
   trackAccount,
@@ -249,28 +250,54 @@ export const LabaMainScreen: React.FC = () => {
     const userId = getTelegramUserId();
     if (!userId) return;
     const targetReel = reels.find((item) => item.id === reelId);
+    const currentIsFavorite = likedCards.has(reelId);
+    const nextIsFavorite = !currentIsFavorite;
+    const nextReels = reels.map((item) => item.id === reelId ? { ...item, isFavorite: nextIsFavorite } : item);
+
+    setReels(nextReels);
+    setLabaReelsCache(nextReels);
+    setLikedCards((prev) => {
+      const next = new Set(prev);
+      if (nextIsFavorite) next.add(reelId);
+      else next.delete(reelId);
+      return next;
+    });
+    if (targetReel) {
+      setCachedFavoriteState(userId, { ...targetReel, isFavorite: nextIsFavorite }, nextIsFavorite);
+    }
+    showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
 
     try {
-      const nextIsFavorite = await toggleFavorite(reelId, userId);
-      setReels((prev) => prev.map((item) => item.id === reelId ? { ...item, isFavorite: nextIsFavorite } : item));
+      const confirmedIsFavorite = await toggleFavorite(reelId, userId);
+      if (confirmedIsFavorite === nextIsFavorite) {
+        return;
+      }
+
+      const rollbackReels = reels.map((item) => item.id === reelId ? { ...item, isFavorite: confirmedIsFavorite } : item);
+      setReels(rollbackReels);
+      setLabaReelsCache(rollbackReels);
       setLikedCards((prev) => {
         const next = new Set(prev);
-        if (nextIsFavorite) next.add(reelId);
+        if (confirmedIsFavorite) next.add(reelId);
         else next.delete(reelId);
         return next;
       });
-      const cachedFavorites = getCachedFavorites(userId);
-      if (nextIsFavorite && targetReel) {
-        cacheFavorites(userId, [
-          { ...targetReel, isFavorite: true },
-          ...cachedFavorites.filter((item) => item.id !== reelId),
-        ]);
-      } else {
-        cacheFavorites(userId, cachedFavorites.filter((item) => item.id !== reelId));
+      if (targetReel) {
+        setCachedFavoriteState(userId, { ...targetReel, isFavorite: confirmedIsFavorite }, confirmedIsFavorite);
       }
-      showMessage(nextIsFavorite ? 'рилс добавлен в избранное' : 'рилс удален из избранного', 'popup');
     } catch (error) {
       console.error('Ошибка избранного:', error);
+      setReels(reels);
+      setLabaReelsCache(reels);
+      setLikedCards((prev) => {
+        const next = new Set(prev);
+        if (currentIsFavorite) next.add(reelId);
+        else next.delete(reelId);
+        return next;
+      });
+      if (targetReel) {
+        setCachedFavoriteState(userId, { ...targetReel, isFavorite: currentIsFavorite }, currentIsFavorite);
+      }
     }
   };
 
@@ -500,7 +527,7 @@ export const LabaMainScreen: React.FC = () => {
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '34px' }}>
             {loading || searching
-              ? Array.from({ length: searching ? 40 : 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
+              ? Array.from({ length: searching ? 8 : 2 }).map((_, index) => <LabaFeedPlaceholderCard key={index} />)
               : visibleReels.map((reel) => (
                   <LabaFeedCard
                     key={reel.id}

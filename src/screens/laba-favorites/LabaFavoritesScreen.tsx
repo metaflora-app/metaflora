@@ -12,6 +12,7 @@ import {
   getFavorites,
   getTelegramUserId,
   refreshTrackedAccounts,
+  setCachedFavoriteState,
   showMessage,
   toggleFavorite,
   trackAccount,
@@ -156,23 +157,27 @@ export const LabaFavoritesScreen: React.FC = () => {
     if (!userId) return;
 
     const removedReel = reels.find((item) => item.id === reelId);
+    if (!removedReel) return;
+    const nextReels = reels.filter((item) => item.id !== reelId);
+
+    setReels(nextReels);
+    cacheFavorites(userId, nextReels);
+    showMessage('рилс удален из избранного', 'popup');
 
     try {
       const nextIsFavorite = await toggleFavorite(reelId, userId);
       if (!nextIsFavorite) {
-        const nextReels = reels.filter((item) => item.id !== reelId);
-        setReels(nextReels);
-        cacheFavorites(userId, nextReels);
-        showMessage('рилс удален из избранного', 'popup');
         return;
       }
-      cacheFavorites(userId, reels);
-      showMessage('рилс добавлен в избранное', 'popup');
+
+      const restoredReels = [removedReel, ...nextReels];
+      setReels(restoredReels);
+      setCachedFavoriteState(userId, { ...removedReel, isFavorite: true }, true);
     } catch (error) {
       console.error('Ошибка удаления из избранного:', error);
-      if (removedReel) {
-        setReels((prev) => [removedReel, ...prev]);
-      }
+      const restoredReels = [removedReel, ...nextReels];
+      setReels(restoredReels);
+      cacheFavorites(userId, restoredReels);
     }
   };
 
