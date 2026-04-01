@@ -56,7 +56,7 @@ export const LabaTrackedScreen: React.FC = () => {
     () => new Set((telegramUserId ? getCachedFavorites(telegramUserId) : []).map((reel) => reel.id))
   );
   const [showAvatarRemoveForId, setShowAvatarRemoveForId] = React.useState<string | null>(null);
-  const pendingTrackedAccountIdRef = React.useRef<string | null>(navigationState?.trackedAccountId ?? null);
+  const pendingTrackedAccountIdRef = React.useRef<string | null>(navigationState?.trackingStarted ? navigationState.trackedAccountId ?? null : null);
   const hasShownTrackingSuccessPopupRef = React.useRef(false);
   const accountScrollerRef = React.useRef<HTMLDivElement | null>(null);
   const hasAppliedInitialAccountScrollRef = React.useRef(false);
