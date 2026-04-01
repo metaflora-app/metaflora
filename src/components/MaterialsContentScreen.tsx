@@ -155,7 +155,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       return (
         <div
           key={block.id}
-          style={{ position: 'relative', width: '100%', margin: '30px auto' }}
+          style={{ position: 'relative', width: '760px', margin: '30px auto' }}
         >
           <InlineContentVideoPlayer src={videoUrl} posterSrc={posterSrc} />
         </div>
@@ -334,7 +334,7 @@ const InlineContentVideoPlayer: React.FC<{
     <div
       style={{
         position: 'relative',
-        width: '100%',
+        width: '760px',
         aspectRatio: `${aspectRatio}`,
         maxHeight: '1100px',
         borderRadius: '20px',
