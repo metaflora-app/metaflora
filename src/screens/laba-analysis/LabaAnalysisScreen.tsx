@@ -419,6 +419,7 @@ const AnalysisPreviewCard: React.FC<{
           background: 'transparent',
           padding: 0,
           cursor: 'pointer',
+          opacity: 0,
         }}
       >
         <OpenReelButton />
@@ -537,11 +538,11 @@ const AnalysisPreviewCard: React.FC<{
         />
       </div>
 
-      <div style={{ position: 'absolute', left: '290px', top: '920px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', left: '290px', top: '926px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
         @{displayUsername}
       </div>
 
-      <div style={{ position: 'absolute', left: '287px', top: '971px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', left: '287px', top: '977px', width: '350px', height: '32px', fontFamily: textFont, fontWeight: 400, fontSize: '32px', lineHeight: '32px', color: '#fff', whiteSpace: 'nowrap' }}>
         {formatFollowersLabel(reel.accountFollowers)}
       </div>
 
@@ -588,7 +589,7 @@ const ActionButton: React.FC<{
           background: 'transparent',
           cursor: 'pointer',
           borderRadius: '62px',
-          overflow: 'hidden',
+          overflow: 'visible',
           transform: isPressed ? 'scale(0.985)' : 'scale(1)',
         }}
       >
@@ -601,6 +602,7 @@ const ActionButton: React.FC<{
             objectFit: 'fill',
             display: 'block',
             pointerEvents: 'none',
+            borderRadius: '62px',
           }}
         />
       </button>
@@ -715,48 +717,42 @@ const ActionButton: React.FC<{
           overflow: 'hidden',
         }}
       >
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          minWidth: '199px',
-          height: '29px',
-          fontFamily: textFont,
-          fontWeight: 700,
-          fontSize: '27px',
-          lineHeight: '1',
-          color: '#fff',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        <span>{label}</span>
-        {typeof cost === 'number' ? (
-          <>
-            <span style={{ position: 'relative', width: '19px', height: '19px', display: 'inline-block', overflow: 'hidden', transform: 'translateY(0)' }}>
-              <img
-                src={followMetacoin}
-                alt=""
-                className="motion-metacoin"
-                style={{
-                  position: 'absolute',
-                  height: '130.34%',
-                  left: '-20%',
-                  top: '-14.48%',
-                  width: '140%',
-                  maxWidth: 'none',
-                }}
-              />
-            </span>
-            <span>{cost}</span>
-          </>
-        ) : null}
-      </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '16.5px',
+            transform: 'translateX(-50%)',
+            width: '199px',
+            height: '29px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: textFont,
+            fontWeight: 700,
+            fontSize: '27px',
+            lineHeight: '1',
+            color: '#fff',
+            whiteSpace: 'pre',
+          }}
+        >
+          {`${label}    ${cost ?? ''}`}
+        </div>
+        <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
+          <img
+            src={followMetacoin}
+            alt=""
+            className="motion-metacoin"
+            style={{
+              position: 'absolute',
+              height: '130.34%',
+              left: '-20%',
+              top: '-14.48%',
+              width: '140%',
+              maxWidth: 'none',
+            }}
+          />
+        </div>
       </div>
     </button>
   );

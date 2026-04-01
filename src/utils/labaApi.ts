@@ -477,7 +477,7 @@ export async function getTrackedReels(accountId: string, userId: number): Promis
  */
 export async function untrackAccount(accountId: string, userId: number): Promise<boolean> {
   const response = await fetch(`${API_URL}/api/laba/untrack-account`, {
-    method: 'DELETE',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ accountId, userId }),
   });

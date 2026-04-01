@@ -201,6 +201,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             zIndex: 3,
             borderRadius: openAnalysisButtonSrc ? '62px' : '32px',
             overflow: 'hidden',
+            opacity: openAnalysisButtonSrc ? 1 : 0,
           }}
         >
           {openAnalysisButtonSrc ? <div className="premium-button-inner" /> : null}
@@ -329,7 +330,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '284px',
-          top: '920px',
+          top: '926px',
           width: '398px',
           fontFamily: textFont,
           fontWeight: 700,
@@ -346,7 +347,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         style={{
           position: 'absolute',
           left: '281px',
-          top: '971px',
+          top: '977px',
           width: '350px',
           height: '32px',
           fontFamily: textFont,
@@ -570,7 +571,7 @@ const ActionButton: React.FC<{
           background: 'transparent',
           cursor: 'pointer',
           borderRadius: '62px',
-          overflow: 'hidden',
+          overflow: 'visible',
           transform: isPressed ? 'scale(0.985)' : 'scale(1)',
         }}
       >
@@ -583,6 +584,7 @@ const ActionButton: React.FC<{
             objectFit: 'fill',
             display: 'block',
             pointerEvents: 'none',
+            borderRadius: '62px',
           }}
         />
       </button>
