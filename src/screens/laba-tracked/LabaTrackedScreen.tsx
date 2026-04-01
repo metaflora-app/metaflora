@@ -26,7 +26,6 @@ import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
 import avatarUnfollowButtonFull from '../../assets/laba-tracked/avatar-unfollow-button-full.png';
 import desktopAiAnalysisButton from '../../assets/laba-main-buttons/desktop-ai-analysis.png';
-import shortTrackedActiveButton from '../../assets/laba-main-buttons/кнопка следить очень короткая актив.png';
 
 const textFont = 'Cygre, sans-serif';
 
@@ -340,7 +339,6 @@ export const LabaTrackedScreen: React.FC = () => {
                     }}
                     actionLabel="не следить"
                     actionVariant="light"
-                    actionButtonImageSrc={shortTrackedActiveButton}
                     actionMotionVariant="premium"
                     openAnalysisButtonSrc={desktopAiAnalysisButton}
                     activityPillTop={674}
