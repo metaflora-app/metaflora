@@ -118,7 +118,11 @@ export const LabaTrackedScreen: React.FC = () => {
 
   React.useEffect(() => {
     const fetchReels = async () => {
-      if (!selectedAccountId) return;
+      if (!selectedAccountId) {
+        setReels([]);
+        setLoadingReels(false);
+        return;
+      }
       const userId = telegramUserId;
       if (!userId) return;
 
@@ -200,15 +204,23 @@ export const LabaTrackedScreen: React.FC = () => {
 
     try {
       await untrackAccount(accountId, userId);
-      const nextAccounts = accounts.filter((account) => account.id !== accountId);
-      cacheTrackedAccounts(userId, nextAccounts);
       clearTrackedReelsCache(userId, accountId);
-      setAccounts(nextAccounts);
+      setReels([]);
+      setLoadingReels(false);
       if (pendingTrackedAccountIdRef.current === accountId) {
         pendingTrackedAccountIdRef.current = null;
       }
-      setSelectedAccountId(nextAccounts[0]?.id || null);
       setShowAvatarRemoveForId((current) => (current === accountId ? null : current));
+
+      const nextAccounts = await refreshTrackedAccounts(userId);
+      setAccounts(nextAccounts);
+      setSelectedAccountId((current) => {
+        const currentAfterDelete = current === accountId ? null : current;
+        return currentAfterDelete && nextAccounts.some((item) => item.id === currentAfterDelete)
+          ? currentAfterDelete
+          : nextAccounts[0]?.id || null;
+      });
+
       showMessage('аккаунт удален из отслеживаемых', 'popup');
     } catch (error) {
       console.error('Ошибка удаления аккаунта:', error);
