@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { getCachedData, getWorkshopPromptsWithCache } from '../../utils/contentApi';
+import { preloadImageSources } from '../../utils/assetPreloader';
 import type { WorkshopPrompt } from '../../types/content';
 import {
   getPromptFavoriteIds,
@@ -115,6 +116,19 @@ export const PromptFirstScreen: React.FC = () => {
       mounted = false;
     };
   }, [cachedPrompts.length]);
+
+  React.useEffect(() => {
+    const prioritySources = prompts
+      .slice(0, 6)
+      .map((prompt) => getPromptPreviewImage(prompt))
+      .filter((source): source is string => Boolean(source));
+
+    if (prioritySources.length === 0) {
+      return;
+    }
+
+    void preloadImageSources(prioritySources);
+  }, [prompts]);
 
   const visiblePrompts = React.useMemo(() => {
     const items = [...prompts];
@@ -306,30 +320,15 @@ export const PromptFirstScreen: React.FC = () => {
                   />
 
                   <div style={{ position: 'absolute', left: '31px', top: '31px', width: '769px', height: '769px', borderRadius: '30px', overflow: 'hidden', zIndex: 1, background: '#000' }}>
-                    {prompt.cover_video_url ? (
-                      <video
-                        src={prompt.cover_video_url}
-                        poster={previewImage || undefined}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="none"
-                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
-                      />
-                    ) : null}
                     {previewImage ? (
                       <img
                         src={previewImage}
                         alt={prompt.title}
-                        loading="lazy"
+                        loading={index < 3 ? 'eager' : 'lazy'}
+                        fetchPriority={index < 2 ? 'high' : 'auto'}
                         decoding="async"
                         onError={(event) => {
                           const target = event.currentTarget;
-                          if (prompt.cover_video_url) {
-                            target.style.display = 'none';
-                            return;
-                          }
                           if (target.src !== workshopGif) {
                             target.src = workshopGif;
                           }
@@ -340,6 +339,7 @@ export const PromptFirstScreen: React.FC = () => {
                       <img
                         src={workshopGif}
                         alt={prompt.title}
+                        loading={index < 2 ? 'eager' : 'lazy'}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     ) : null}

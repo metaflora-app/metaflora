@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { preloadAllImages, preloadCriticalFonts } from '../../utils/assetPreloader';
 import { getOrCreateUser } from '../../utils/supabase';
-import logo from '../../assets/figma-welcome/splash-logo.png';
-import splashBackground from '../../assets/figma-welcome/фон для эксперимента.png';
+import splashLoadingScreen from '../../assets/figma-welcome/splash-loading-screen.png';
 
 export const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -43,7 +42,7 @@ export const SplashScreen: React.FC = () => {
     <div style={{ width: '100vw', height: '100dvh', position: 'relative', background: '#020101', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '1180px', height: '2550px', transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <img
-          src={splashBackground}
+          src={splashLoadingScreen}
           alt=""
           fetchPriority="high"
           style={{
@@ -52,20 +51,6 @@ export const SplashScreen: React.FC = () => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-          }}
-        />
-        <img
-          src={logo}
-          alt="МЕТАФЛОРА*"
-          fetchPriority="high"
-          className="soft-logo-reveal"
-          style={{
-            position: 'absolute',
-            left: '371px',
-            top: '772px',
-            width: '438px',
-            height: '309px',
-            objectFit: 'contain',
           }}
         />
       </div>

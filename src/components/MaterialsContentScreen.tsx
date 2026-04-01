@@ -36,6 +36,27 @@ function buildImageSources(content: string): string[] {
   return Array.from(new Set([converted, normalized].filter(Boolean)));
 }
 
+function parseBlockMediaContent(content: any): any {
+  if (typeof content !== 'string') {
+    return content;
+  }
+
+  const normalized = content.trim();
+  if (!normalized) {
+    return content;
+  }
+
+  if ((normalized.startsWith('{') && normalized.endsWith('}')) || (normalized.startsWith('[') && normalized.endsWith(']'))) {
+    try {
+      return JSON.parse(normalized);
+    } catch {
+      return content;
+    }
+  }
+
+  return content;
+}
+
 function useLazyActivation(rootMargin = '240px') {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const [isActive, setIsActive] = React.useState(false);
@@ -146,8 +167,12 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     }
 
     if (block.type === 'image') {
-      const imageSources = buildImageSources(block.content);
-      const imageUrl = imageSources[0] || String(block.content || '');
+      const parsedContent = parseBlockMediaContent(block.content);
+      const imageValue = typeof parsedContent === 'string'
+        ? parsedContent
+        : parsedContent?.url || parsedContent?.src || parsedContent?.image_url || parsedContent?.cover_image_url || '';
+      const imageSources = buildImageSources(imageValue);
+      const imageUrl = imageSources[0] || String(imageValue || '');
       return (
         <InteractiveTiltCard
           key={block.id}
@@ -180,9 +205,18 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
     }
 
     if (block.type === 'video') {
-      const videoUrl = typeof block.content === 'string' ? block.content : block.content?.url;
-      const posterSrc = typeof block.content === 'object'
-        ? block.content?.poster_url || block.content?.poster || block.content?.cover_image_url || null
+      const parsedContent = parseBlockMediaContent(block.content);
+      const videoUrl = typeof parsedContent === 'string'
+        ? parsedContent
+        : parsedContent?.url || parsedContent?.video_url || parsedContent?.src || null;
+      const posterSrc = typeof parsedContent === 'object'
+        ? parsedContent?.poster_url
+          || parsedContent?.poster
+          || parsedContent?.cover_image_url
+          || parsedContent?.preview_image_url
+          || parsedContent?.image_url
+          || parsedContent?.thumbnail_url
+          || null
         : null;
       if (!videoUrl) return null;
 

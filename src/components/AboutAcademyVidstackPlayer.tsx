@@ -227,12 +227,16 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     const player = getPlayer();
     if (!player) return;
 
-    if (media.paused) {
-      await player.play();
-      return;
-    }
+    try {
+      if (media.paused) {
+        await player.play();
+        return;
+      }
 
-    await player.pause();
+      await player.pause();
+    } catch (error) {
+      console.error('Video toggle failed:', error);
+    }
   }, [getPlayer, media.paused]);
 
   const handleSeek = React.useCallback((delta: number) => {
@@ -289,9 +293,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     });
   }, [getPlayer, media.playbackRate]);
 
-  const isMediaFrameReady = media.currentTime > 0.08 || (!media.paused && media.currentTime > 0.08);
-  const shouldShowPreview = Boolean(posterSrc) && !isMediaFrameReady;
-  const shouldHideMediaSurface = !isMediaFrameReady;
+  const shouldShowPreview = Boolean(posterSrc) && media.paused && media.currentTime <= 0.08;
 
   return (
     <div
@@ -311,6 +313,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       <MediaPlayer
         ref={playerRef}
         src={src}
+        poster={posterSrc || undefined}
         title={title}
         viewType="video"
         streamType="on-demand"
@@ -349,7 +352,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             width: '100%',
             height: '100%',
             background: 'transparent',
-            opacity: shouldHideMediaSurface ? 0 : 1,
           }}
         />
 

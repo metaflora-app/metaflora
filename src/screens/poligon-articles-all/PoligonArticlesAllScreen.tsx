@@ -189,7 +189,11 @@ const PoligonArticlesAllScreen: React.FC = () => {
                 const top = 30 + index * 279;
 
                 return (
-                  <InteractiveTiltCard key={article.id} className="pricing-card-shell" disabled maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: '249px' }}>
+                  <InteractiveTiltCard key={article.id} className="pricing-card-shell" maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: '249px' }}>
+                    <div className="pricing-card-sheen-zone">
+                      <div className="pricing-card-sheen" />
+                      <div className="pricing-card-sheen pricing-card-sheen-soft" />
+                    </div>
                     <img
                       src={background}
                       alt=""
