@@ -34,7 +34,7 @@ const sortOptions = ['>просмотров', '<просмотров', '>лай�
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
 const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
-const TOP_REEL_CATEGORIES: TopReelCategory[] = ['нейросети', 'маркетинг', 'контент', 'продвижение'];
+const DEFAULT_TOP_REELS_CATEGORY: TopReelCategory = 'нейросети';
 
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export const LabaMainScreen: React.FC = () => {
     [labaMainSearchQuery]
   );
   const initialCachedTopReels = React.useMemo(
-    () => TOP_REEL_CATEGORIES.flatMap((category) => getCachedTopReels(category)),
+    () => getCachedTopReels(DEFAULT_TOP_REELS_CATEGORY),
     []
   );
   const initialTrackedAccounts = React.useMemo(() => {
@@ -82,18 +82,10 @@ export const LabaMainScreen: React.FC = () => {
   const loadTopReels = React.useCallback(async () => {
     setLoading(true);
     try {
-      const results = await Promise.all([
-        getTopReels('нейросети'),
-        getTopReels('маркетинг'),
-        getTopReels('контент'),
-        getTopReels('продвижение'),
-      ]);
-      results.forEach((items, index) => {
-        cacheTopReels(TOP_REEL_CATEGORIES[index], items);
-      });
-      const allReels = results.flat();
-      setReels(allReels);
-      setLabaReelsCache(allReels);
+      const items = await getTopReels(DEFAULT_TOP_REELS_CATEGORY);
+      cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, items);
+      setReels(items);
+      setLabaReelsCache(items);
       setHasSearchResults(false);
     } catch (error) {
       console.error('Ошибка загрузки reels:', error);
@@ -104,10 +96,10 @@ export const LabaMainScreen: React.FC = () => {
   }, [setLabaReelsCache]);
 
   React.useEffect(() => {
-    if (initialReels.length === 0) {
+    if (!labaMainSearchQuery.trim()) {
       void loadTopReels();
     }
-  }, [initialReels.length, loadTopReels]);
+  }, [labaMainSearchQuery, loadTopReels]);
 
   React.useEffect(() => {
     const hydrateFavorites = async () => {
