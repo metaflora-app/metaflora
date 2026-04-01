@@ -130,8 +130,9 @@ export const LabaTrackedScreen: React.FC = () => {
         setLoadingReels(true);
       }
       try {
+        const shouldHydrateTrackedReels = pendingTrackedAccountIdRef.current === selectedAccountId;
         let trackedReels = await getTrackedReels(selectedAccountId, userId);
-        if (trackedReels.length === 0) {
+        if (trackedReels.length === 0 && shouldHydrateTrackedReels) {
           await scrapeAccountReels(selectedAccountId, userId);
           trackedReels = await getTrackedReels(selectedAccountId, userId);
         }
@@ -203,6 +204,9 @@ export const LabaTrackedScreen: React.FC = () => {
       cacheTrackedAccounts(userId, nextAccounts);
       clearTrackedReelsCache(userId, accountId);
       setAccounts(nextAccounts);
+      if (pendingTrackedAccountIdRef.current === accountId) {
+        pendingTrackedAccountIdRef.current = null;
+      }
       setSelectedAccountId(nextAccounts[0]?.id || null);
       setShowAvatarRemoveForId((current) => (current === accountId ? null : current));
       showMessage('аккаунт удален из отслеживаемых', 'popup');
