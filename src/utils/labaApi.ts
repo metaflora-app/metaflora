@@ -279,7 +279,13 @@ export async function searchReels(keyword: string, userId: number): Promise<Reel
  * Бесплатно
  */
 export async function getTopReels(category: TopReelCategory = 'нейросети'): Promise<Reel[]> {
-  const response = await fetch(`${API_URL}/api/laba/top-reels?category=${encodeURIComponent(category)}`);
+  const response = await fetch(`${API_URL}/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`, {
+    cache: 'no-store',
+    headers: {
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
+    },
+  });
   const data: TopReelsResponse = await response.json();
 
   if (!data.success) {

@@ -4,12 +4,12 @@ import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getAcademyLessonById, getAcademyVideos, getDemoLessonById, getDemoVideos } from '../../utils/contentApi';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
+import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 import { getTelegramUserId } from '../../utils/labaApi';
 import { markLessonVideoWatched, markVideoViewed } from '../../utils/userProgress';
 
 import materialsButton from '../../assets/about-screens/большая кнопка получить материалы.png';
-import expandPlashka from '../../assets/tour-video/плашка развернуть видео.png';
 import lessonPoster from '../../assets/shared-redesign/обложка урока.png';
 
 function getVideoPositionKey(lessonType: string, lessonId: string) {
@@ -37,7 +37,8 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     return cached ? JSON.parse(cached) : null;
   });
   const [loading, setLoading] = useState(true);
-  const canUseCustomPlayer = Boolean(video?.video_url);
+  const canUseNativeVideoPlayer = Boolean(video?.video_url);
+  const canUseLegacyVideoPlayer = Boolean(!video?.video_url && video?.video_id);
 
 
   useEffect(() => {
@@ -113,18 +114,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     });
   }, [lessonId, userId]);
 
-  const handleExpand = React.useCallback(() => {
-    if (!lessonId) return;
-
-    const fullscreenParams = new URLSearchParams({
-      lesson: lessonId,
-      type: lessonType,
-      title: lesson?.video_title || lesson?.title || '',
-      poster: video?.poster_url || lesson?.cover_image_url || '',
-    });
-
-    navigate(`/academy-lesson-video-fullscreen?${fullscreenParams.toString()}`);
-  }, [lesson?.cover_image_url, lesson?.title, lesson?.video_title, lessonId, lessonType, navigate, video?.poster_url]);
   const visibleTitle = lesson?.video_title || lesson?.title || video?.title || '';
 
   return (
@@ -151,16 +140,21 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           </p>
         </div>
 
-        {loading ? null : canUseCustomPlayer && video ? (
+        {loading ? null : canUseNativeVideoPlayer && video ? (
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={visibleTitle}
             posterSrc={video.poster_url || lesson?.cover_image_url || lessonPoster}
             initialTime={initialTime}
-            onExpand={handleExpand}
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}
             onTimeChange={persistVideoPosition}
+          />
+        ) : !loading && canUseLegacyVideoPlayer && video ? (
+          <AboutVideoPlayer
+            videoId={video.video_id || undefined}
+            onPlaybackStart={handlePlaybackStart}
+            onWatchThreshold={handleWatchThreshold}
           />
         ) : (
           <div style={{ position: 'absolute', left: '142px', top: '401px', width: '894px', height: '1457px' }}>
@@ -187,38 +181,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
                 Видео не найдено
               </div>
             </div>
-
-            <button
-              type="button"
-              onClick={handleExpand}
-              style={{
-                position: 'absolute',
-                left: '31.43%',
-                right: '31.43%',
-                top: '91.15%',
-                bottom: '3.43%',
-                width: '37.14%',
-                height: '5.42%',
-                border: 'none',
-                background: 'transparent',
-                padding: 0,
-                cursor: 'pointer',
-                pointerEvents: canUseCustomPlayer ? 'auto' : 'none',
-                opacity: canUseCustomPlayer ? 1 : 0.5,
-                zIndex: 5,
-              }}
-            >
-              <img
-                src={expandPlashka}
-                alt="развернуть видео"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                  pointerEvents: 'none',
-                }}
-              />
-            </button>
           </div>
         )}
 

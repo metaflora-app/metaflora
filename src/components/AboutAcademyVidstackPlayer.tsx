@@ -124,6 +124,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   onPlaybackStart,
   onWatchThreshold,
   onTimeChange,
+  posterSrc,
 }) => {
   const playerRef = React.useRef<MediaPlayerElement>(null);
   const timeSliderRef = React.useRef<MediaSliderElement>(null);
@@ -134,8 +135,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const watchThresholdReachedRef = React.useRef(false);
   const [playbackRate, setPlaybackRate] = React.useState(1);
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
-  const previewVideoRef = React.useRef<HTMLVideoElement | null>(null);
-  const [previewReady, setPreviewReady] = React.useState(false);
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
   const fillPercent = React.useMemo(() => {
@@ -158,34 +157,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     watchThresholdReachedRef.current = false;
     setFlashOverlay(null);
     setPlaybackRate(1);
-    setPreviewReady(false);
   }, [initialTime, src]);
-
-  React.useEffect(() => {
-    const previewVideo = previewVideoRef.current;
-    if (!previewVideo) return;
-
-    const handleLoadedData = () => {
-      setPreviewReady(true);
-      previewVideo.currentTime = 0.01;
-      previewVideo.pause();
-    };
-
-    const handleCanPlay = () => {
-      setPreviewReady(true);
-      previewVideo.currentTime = 0.01;
-      previewVideo.pause();
-    };
-
-    previewVideo.addEventListener('loadeddata', handleLoadedData);
-    previewVideo.addEventListener('canplay', handleCanPlay);
-    previewVideo.load();
-
-    return () => {
-      previewVideo.removeEventListener('loadeddata', handleLoadedData);
-      previewVideo.removeEventListener('canplay', handleCanPlay);
-    };
-  }, [src]);
 
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
@@ -318,7 +290,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, media.playbackRate]);
 
   const isMediaFrameReady = media.currentTime > 0.08 || (!media.paused && media.currentTime > 0.08);
-  const shouldShowPreview = previewReady && !isMediaFrameReady;
+  const shouldShowPreview = Boolean(posterSrc) && !isMediaFrameReady;
   const shouldHideMediaSurface = !isMediaFrameReady;
 
   return (
@@ -353,24 +325,25 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           background: 'transparent',
         }}
       >
-        <video
-          ref={previewVideoRef}
-          src={src}
-          muted
-          playsInline
-          preload="auto"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            opacity: shouldShowPreview && previewReady ? 1 : 0,
-            transition: 'opacity 180ms ease',
-            pointerEvents: 'none',
-            zIndex: 1,
-          }}
-        />
+        {posterSrc ? (
+          <img
+            src={posterSrc}
+            alt=""
+            loading="eager"
+            decoding="async"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: shouldShowPreview ? 1 : 0,
+              transition: 'opacity 180ms ease',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          />
+        ) : null}
         <MediaOutlet
           style={{
             width: '100%',

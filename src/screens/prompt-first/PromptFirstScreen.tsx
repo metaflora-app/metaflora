@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
-import { getCachedData, getWorkshopPrompts } from '../../utils/contentApi';
+import { getCachedData, getWorkshopPromptsWithCache } from '../../utils/contentApi';
 import type { WorkshopPrompt } from '../../types/content';
 import {
   getPromptFavoriteIds,
@@ -69,7 +69,7 @@ const getPromptSortLabel = (prompt: WorkshopPrompt): PromptSortFilter => {
 };
 
 const getPromptPreviewImage = (prompt: WorkshopPrompt) =>
-  prompt.poster_image_url || prompt.cover_image_url || workshopGif;
+  prompt.poster_image_url || prompt.cover_image_url || null;
 
 export const PromptFirstScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ export const PromptFirstScreen: React.FC = () => {
         setLoading(true);
       }
       try {
-        const result = await getWorkshopPrompts({ isActive: true, limit: 50, offset: 0 });
+        const result = await getWorkshopPromptsWithCache({ isActive: true, limit: 50, offset: 0 });
         if (mounted && !result.error) {
           setPrompts(result.data);
         }
@@ -284,6 +284,7 @@ export const PromptFirstScreen: React.FC = () => {
             {promptsToRender.map((prompt, index) => {
               const isNew = prompt.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые');
               const isFavorite = favoriteIds.includes(prompt.id);
+              const previewImage = getPromptPreviewImage(prompt);
 
               return (
                 <div
@@ -308,17 +309,18 @@ export const PromptFirstScreen: React.FC = () => {
                     {prompt.cover_video_url ? (
                       <video
                         src={prompt.cover_video_url}
+                        poster={previewImage || undefined}
                         autoPlay
                         loop
                         muted
                         playsInline
-                        preload="metadata"
+                        preload="none"
                         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
                       />
                     ) : null}
-                    {getPromptPreviewImage(prompt) !== workshopGif ? (
+                    {previewImage ? (
                       <img
-                        src={getPromptPreviewImage(prompt)}
+                        src={previewImage}
                         alt={prompt.title}
                         loading="lazy"
                         decoding="async"
@@ -334,13 +336,13 @@ export const PromptFirstScreen: React.FC = () => {
                         }}
                         style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
                       />
-                    ) : (
+                    ) : !prompt.cover_video_url ? (
                       <img
                         src={workshopGif}
                         alt={prompt.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
-                    )}
+                    ) : null}
                   </div>
 
                   <FigmaLikeButton

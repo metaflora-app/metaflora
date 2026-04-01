@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showPopupMessage } from '../../app/telegram/telegramHelpers';
-import { getPolygonArticles } from '../../utils/contentApi';
+import { getPolygonArticlesWithCache } from '../../utils/contentApi';
 import type { PolygonArticle } from '../../types/content';
 import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { FigmaReadButton } from '../../components/FigmaPills';
+import { convertPngToJpeg } from '../../utils/imageConverter';
 import returnButton from '../../assets/poligon-redesign/кнопка вернуть.png';
 import systemActive from '../../assets/poligon-redesign/кнопка система актив.png';
 import systemInactive from '../../assets/poligon-redesign/кнопка система неактив.png';
@@ -39,6 +40,13 @@ const FILTER_BUTTONS: Array<{
 const FALLBACK_BACKGROUNDS = [bgAcademy, bgLaba, bgWorkshop, bgPoligon];
 const SCROLL_THRESHOLD = 6;
 
+function getArticleCoverSources(coverUrl: string | null | undefined): string[] {
+  const normalized = String(coverUrl || '').trim();
+  if (!normalized) return [];
+  const jpegCandidate = convertPngToJpeg(normalized);
+  return Array.from(new Set([jpegCandidate, normalized].filter(Boolean)));
+}
+
 const PoligonArticlesAllScreen: React.FC = () => {
   const navigate = useNavigate();
   const [activeFilters, setActiveFilters] = useState<ArticleFilter[]>([]);
@@ -53,7 +61,7 @@ const PoligonArticlesAllScreen: React.FC = () => {
       setError(null);
 
       try {
-        const result = await getPolygonArticles({
+        const result = await getPolygonArticlesWithCache({
           isActive: true,
           limit: 100,
           offset: 0,
@@ -176,16 +184,29 @@ const PoligonArticlesAllScreen: React.FC = () => {
               </div>
             ) : (
               visibleArticles.map((article, index) => {
-                const background = article.cover_image_url || FALLBACK_BACKGROUNDS[index % FALLBACK_BACKGROUNDS.length];
+                const coverSources = getArticleCoverSources(article.cover_image_url);
+                const background = coverSources[0] || FALLBACK_BACKGROUNDS[index % FALLBACK_BACKGROUNDS.length];
                 const top = 30 + index * 279;
 
                 return (
-                  <InteractiveTiltCard key={article.id} className="pricing-card-shell" maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: '249px' }}>
-                    <div className="pricing-card-sheen-zone">
-                      <div className="pricing-card-sheen" />
-                      <div className="pricing-card-sheen pricing-card-sheen-soft" />
-                    </div>
-                    <img src={background} alt="" style={{ position: 'absolute', left: 0, top: 0, width: '449px', height: '249px', borderRadius: '26px', objectFit: 'cover' }} />
+                  <InteractiveTiltCard key={article.id} className="pricing-card-shell" disabled maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: '249px' }}>
+                    <img
+                      src={background}
+                      alt=""
+                      loading={index < 2 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      onError={(event) => {
+                        const target = event.currentTarget;
+                        const nextSource = coverSources.find((source) => source !== target.src);
+                        if (nextSource) {
+                          target.src = nextSource;
+                          return;
+                        }
+
+                        target.src = FALLBACK_BACKGROUNDS[index % FALLBACK_BACKGROUNDS.length];
+                      }}
+                      style={{ position: 'absolute', left: 0, top: 0, width: '449px', height: '249px', borderRadius: '26px', objectFit: 'cover' }}
+                    />
 
                     <div style={{ position: 'absolute', left: '449px', top: 0, width: '445px', height: '249px', background: '#000', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', boxSizing: 'border-box' }}>
                       <div style={{ position: 'absolute', left: '27px', top: '18px', width: '390px', height: '205px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

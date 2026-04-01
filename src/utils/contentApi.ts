@@ -23,6 +23,7 @@ export async function getWorkshopPrompts(
   filters?: { tags?: string[]; isActive?: boolean; limit?: number; offset?: number }
 ): Promise<ContentListResponse<WorkshopPrompt>> {
   try {
+    const cacheKey = `workshop_prompts_${JSON.stringify(filters || {})}`;
     const params = new URLSearchParams();
     if (filters?.tags?.length) params.append('tags', filters.tags.join(','));
     if (filters?.isActive !== undefined) params.append('is_active', String(filters.isActive));
@@ -35,7 +36,12 @@ export async function getWorkshopPrompts(
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
-    return await response.json();
+    const result: ContentListResponse<WorkshopPrompt> = await response.json();
+    if (!result.error && result.data.length > 0) {
+      setCachedData(cacheKey, result);
+    }
+
+    return result;
   } catch (error) {
     console.error('Error fetching workshop prompts:', error);
     return { data: [], count: 0, error: String(error) };
@@ -109,6 +115,7 @@ export async function getPolygonArticles(
   filters?: { tags?: string[]; keywords?: string[]; isActive?: boolean; limit?: number; offset?: number }
 ): Promise<ContentListResponse<PolygonArticle>> {
   try {
+    const cacheKey = `polygon_articles_${JSON.stringify(filters || {})}`;
     const params = new URLSearchParams();
     params.append('t', String(Date.now()));
     if (filters?.tags?.length) params.append('tags', filters.tags.join(','));
@@ -123,7 +130,12 @@ export async function getPolygonArticles(
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
-    return await response.json();
+    const result: ContentListResponse<PolygonArticle> = await response.json();
+    if (!result.error && result.data.length > 0) {
+      setCachedData(cacheKey, result);
+    }
+
+    return result;
   } catch (error) {
     console.error('Error fetching polygon articles:', error);
     return { data: [], count: 0, error: String(error) };

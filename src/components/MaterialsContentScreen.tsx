@@ -36,6 +36,39 @@ function buildImageSources(content: string): string[] {
   return Array.from(new Set([converted, normalized].filter(Boolean)));
 }
 
+function useLazyActivation(rootMargin = '240px') {
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const [isActive, setIsActive] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isActive) return;
+    const node = containerRef.current;
+    if (!node) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsActive(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting || entry.intersectionRatio > 0)) {
+          setIsActive(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin }
+    );
+
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+    };
+  }, [isActive, rootMargin]);
+
+  return { containerRef, isActive };
+}
+
 export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   homeRoute,
   heading,
@@ -52,6 +85,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const [expandedImageSources, setExpandedImageSources] = React.useState<string[] | null>(null);
   const [expandedImageIndex, setExpandedImageIndex] = React.useState(0);
+  const enableScrollMask = contentBlocks.length <= 6;
   const handleCopyPrompt = React.useCallback(async (promptText: string) => {
     const copied = await copyToClipboard(promptText);
     if (!copied) return;
@@ -117,21 +151,17 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       return (
         <InteractiveTiltCard
           key={block.id}
-          className="pricing-card-shell"
+          disabled
           maxRotateX={3}
           maxRotateY={4}
           maxScale={1.008}
           style={{ position: 'relative', width: '760px', margin: '30px auto' }}
         >
-          <div className="pricing-card-sheen-zone">
-            <div className="pricing-card-sheen" />
-            <div className="pricing-card-sheen pricing-card-sheen-soft" />
-          </div>
           <img
             src={imageUrl}
             alt="изображение"
-            loading="eager"
-            crossOrigin="anonymous"
+            loading="lazy"
+            decoding="async"
             onClick={() => {
               setExpandedImageSources(imageSources);
               setExpandedImageIndex(0);
@@ -297,8 +327,8 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
                 padding: '40px 25px 110px',
                 touchAction: 'pan-y',
                 overscrollBehaviorX: 'none',
-                WebkitMaskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)',
-                maskImage: 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)',
+                WebkitMaskImage: enableScrollMask ? 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)' : undefined,
+                maskImage: enableScrollMask ? 'linear-gradient(to bottom, black calc(100% - 70px), transparent 100%)' : undefined,
               }}
             >
               <h2 style={{ margin: '0 0 34px', fontFamily: 'Cygre', fontWeight: 700, fontSize: '52px', lineHeight: '1', color: 'white', textAlign: 'center' }}>
@@ -319,13 +349,39 @@ const InlineContentVideoPlayer: React.FC<{
   src: string;
   posterSrc?: string | null;
 }> = ({ src, posterSrc }) => {
+  const { containerRef, isActive } = useLazyActivation('320px');
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [aspectRatio, setAspectRatio] = React.useState<number>(9 / 16);
+  const [playRequested, setPlayRequested] = React.useState(false);
+  const shouldLoadVideo = isActive || playRequested;
+
+  React.useEffect(() => {
+    if (!playRequested || !shouldLoadVideo) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = async () => {
+      try {
+        await video.play();
+      } catch (error) {
+        console.error('Inline content video play failed:', error);
+      } finally {
+        setPlayRequested(false);
+      }
+    };
+
+    void tryPlay();
+  }, [playRequested, shouldLoadVideo]);
 
   const handleTogglePlayback = React.useCallback(async () => {
     const video = videoRef.current;
     if (!video) return;
+
+    if (!shouldLoadVideo) {
+      setPlayRequested(true);
+      return;
+    }
 
     if (video.paused) {
       await video.play();
@@ -333,10 +389,11 @@ const InlineContentVideoPlayer: React.FC<{
     }
 
     video.pause();
-  }, []);
+  }, [shouldLoadVideo]);
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: 'relative',
         width: `${INLINE_CONTENT_MEDIA_WIDTH}px`,
@@ -348,10 +405,10 @@ const InlineContentVideoPlayer: React.FC<{
     >
       <video
         ref={videoRef}
-        src={src}
+        src={shouldLoadVideo ? src : undefined}
         poster={posterSrc || undefined}
         playsInline
-        preload="metadata"
+        preload={shouldLoadVideo ? 'metadata' : 'none'}
         onLoadedMetadata={(event) => {
           const video = event.currentTarget;
           if (video.videoWidth > 0 && video.videoHeight > 0) {
@@ -369,6 +426,23 @@ const InlineContentVideoPlayer: React.FC<{
           background: '#000',
         }}
       />
+
+      {!shouldLoadVideo && posterSrc ? (
+        <img
+          src={posterSrc}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            pointerEvents: 'none',
+          }}
+        />
+      ) : null}
 
       <button
         type="button"

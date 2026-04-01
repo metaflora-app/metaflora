@@ -28,7 +28,9 @@ export const PromptCardScreen: React.FC = () => {
   });
   const [isFavorite, setIsFavorite] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const promptTextRef = useRef<HTMLDivElement | null>(null);
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [promptTextHeight, setPromptTextHeight] = useState(0);
 
   useEffect(() => {
     const loadPrompt = async () => {
@@ -59,13 +61,33 @@ export const PromptCardScreen: React.FC = () => {
   const isNew = useMemo(() => prompt?.filter_tags?.some((tag) => tag === 'новое' || tag === 'новые') ?? false, [prompt]);
   const mediaType = useMemo(() => (prompt?.media_type === 'video' && prompt?.cover_video_url ? 'video' : 'image'), [prompt]);
   const contentHeight = useMemo(() => {
-    const lineEstimate = promptText
-      .split('\n')
-      .reduce((sum, line) => sum + Math.max(1, Math.ceil(line.trim().length / 38)), 0);
-    const textBlockHeight = lineEstimate * 36;
     const promptTextTop = 1057;
-    const bottomGap = 110;
-    return Math.max(1569, promptTextTop + textBlockHeight + bottomGap);
+    const bottomGap = 64;
+    return Math.max(1569, promptTextTop + promptTextHeight + bottomGap);
+  }, [promptTextHeight]);
+
+  React.useLayoutEffect(() => {
+    const node = promptTextRef.current;
+    if (!node) return;
+
+    const updateHeight = () => {
+      setPromptTextHeight(node.getBoundingClientRect().height);
+    };
+
+    updateHeight();
+
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      updateHeight();
+    });
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
   }, [promptText]);
 
   useEffect(() => {
@@ -224,7 +246,7 @@ export const PromptCardScreen: React.FC = () => {
                 />
               </button>
 
-              <div onClick={handleCopy} style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)', cursor: 'pointer', paddingBottom: '40px' }}>
+              <div ref={promptTextRef} onClick={handleCopy} style={{ position: 'absolute', left: '50%', top: '1057px', width: '729px', transform: 'translateX(-50%)', cursor: 'pointer', paddingBottom: '20px' }}>
                 <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{promptText}</p>
               </div>
             </div>

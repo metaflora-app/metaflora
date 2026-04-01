@@ -53,15 +53,14 @@ export const LabaMainScreen: React.FC = () => {
     () => getCachedTopReels(DEFAULT_TOP_REELS_CATEGORY),
     []
   );
+  const hasActiveSearch = labaMainSearchQuery.trim().length > 0;
   const initialTrackedAccounts = React.useMemo(() => {
     const userId = getTelegramUserId();
     return userId ? getCachedTrackedAccounts(userId) : [];
   }, []);
-  const initialReels = labaReelsCache.length > 0
-    ? labaReelsCache
-    : initialCachedSearchReels.length > 0
-      ? initialCachedSearchReels
-      : initialCachedTopReels;
+  const initialReels = hasActiveSearch
+    ? (labaReelsCache.length > 0 ? labaReelsCache : initialCachedSearchReels)
+    : initialCachedTopReels;
 
   const [reels, setReels] = React.useState<Reel[]>(initialReels);
   const [loading, setLoading] = React.useState(initialReels.length === 0);
@@ -83,9 +82,13 @@ export const LabaMainScreen: React.FC = () => {
     setLoading(true);
     try {
       const items = await getTopReels(DEFAULT_TOP_REELS_CATEGORY);
-      cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, items);
-      setReels(items);
-      setLabaReelsCache(items);
+      if (items.length > 0) {
+        cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, items);
+        setReels(items);
+        setLabaReelsCache(items);
+      } else {
+        setReels((prev) => (prev.length > 0 ? prev : initialCachedTopReels));
+      }
       setHasSearchResults(false);
     } catch (error) {
       console.error('Ошибка загрузки reels:', error);
@@ -93,7 +96,7 @@ export const LabaMainScreen: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [setLabaReelsCache]);
+  }, [initialCachedTopReels, setLabaReelsCache]);
 
   React.useEffect(() => {
     if (!labaMainSearchQuery.trim()) {
