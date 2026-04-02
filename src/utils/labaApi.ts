@@ -36,6 +36,7 @@ const LABA_API_FALLBACK_URLS = Array.from(new Set([
 ].filter(Boolean)));
 const LABA_CACHE_PREFIX = 'metaflora_laba_cache_v1_';
 const LABA_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
+const LABA_MEDIA_VERSION = '20260402d';
 
 interface LabaCachePayload<T> {
   timestamp: number;
@@ -152,11 +153,11 @@ export function clearTrackedReelsCache(userId: number, accountId: string): void 
 // ================================================
 
 function buildProxyImageUrl(baseUrl: string, url: string): string {
-  return `${baseUrl}/api/proxy-image?url=${encodeURIComponent(url)}`;
+  return `${baseUrl}/api/proxy-image?url=${encodeURIComponent(url)}&v=${LABA_MEDIA_VERSION}`;
 }
 
 function buildReelMediaUrl(baseUrl: string, reelId: string, kind: 'cover' | 'avatar'): string {
-  return `${baseUrl}/api/laba/reel-media?reelId=${encodeURIComponent(reelId)}&kind=${kind}`;
+  return `${baseUrl}/api/laba/reel-media?reelId=${encodeURIComponent(reelId)}&kind=${kind}&v=${LABA_MEDIA_VERSION}`;
 }
 
 function buildApiUrl(baseUrl: string, path: string): string {
@@ -290,6 +291,12 @@ function uniqueImageSources(sources: Array<string | null | undefined>): string[]
   return result;
 }
 
+function appendMediaVersion(url: string | null | undefined): string | null {
+  const normalized = String(url || '').trim();
+  if (!normalized || /[?&]v=20260402d\b/.test(normalized)) return normalized || null;
+  return `${normalized}${normalized.includes('?') ? '&' : '?'}v=${LABA_MEDIA_VERSION}`;
+}
+
 /**
  * Если есть instagram page URL, всегда используем его как первичный live source.
  * Так backend сам вытаскивает свежий og:image и не зависит от протухших CDN ссылок.
@@ -303,7 +310,7 @@ export function convertInstagramImageUrl(url: string | null | undefined): string
     return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], url);
   }
 
-  return url;
+  return appendMediaVersion(url);
 }
 
 export function getReelCoverSrc(reel: Pick<Reel, 'id' | 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string | null {
@@ -312,10 +319,6 @@ export function getReelCoverSrc(reel: Pick<Reel, 'id' | 'instagramReelId' | 'ree
     return buildReelMediaUrl(LABA_API_FALLBACK_URLS[0], reelId, 'cover');
   }
   const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
-  if (directCoverUrl) {
-    return directCoverUrl;
-  }
-
   const instagramReelId = String(reel.instagramReelId || '').trim();
   if (instagramReelId) {
     return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], `https://www.instagram.com/p/${instagramReelId}/`);
@@ -325,7 +328,7 @@ export function getReelCoverSrc(reel: Pick<Reel, 'id' | 'instagramReelId' | 'ree
     return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], reel.reelUrl);
   }
 
-  return null;
+  return directCoverUrl;
 }
 
 export function getReelCoverSources(reel: Pick<Reel, 'id' | 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string[] {
@@ -340,10 +343,9 @@ export function getReelCoverSources(reel: Pick<Reel, 'id' | 'instagramReelId' | 
 
   return uniqueImageSources([
     ...(reelId ? buildAllReelMediaUrls(reelId, 'cover') : []),
-    directCoverUrl,
     ...(instagramPageUrl ? buildAllProxyImageUrls(instagramPageUrl) : []),
     ...proxiedReelUrls,
-    reel.coverImageUrl,
+    directCoverUrl,
   ]);
 }
 
@@ -351,12 +353,13 @@ export function getReelAvatarSources(
   reel: Pick<Reel, 'id' | 'accountUsername' | 'accountProfilePicUrl'>
 ): string[] {
   const reelId = String(reel.id || '').trim();
-  const directUrl = String(reel.accountProfilePicUrl || '').trim();
+  const directUrl = appendMediaVersion(reel.accountProfilePicUrl);
   const normalizedUsername = String(reel.accountUsername || '').trim().replace(/^@+/, '');
 
   return uniqueImageSources([
-    directUrl,
     ...(reelId ? buildAllReelMediaUrls(reelId, 'avatar') : []),
+    directUrl,
+    ...(directUrl ? buildAllProxyImageUrls(directUrl) : []),
     ...(normalizedUsername ? buildAllProxyImageUrls(`https://www.instagram.com/${normalizedUsername}/`) : []),
   ]);
 }
@@ -382,7 +385,7 @@ export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: st
 
 export function getInstagramAvatarSources(username?: string | null, fallbackUrl?: string | null): string[] {
   const normalizedUsername = String(username || '').trim().replace(/^@+/, '');
-  const directUrl = String(fallbackUrl || '').trim();
+  const directUrl = appendMediaVersion(fallbackUrl);
   return uniqueImageSources([
     directUrl,
     ...(directUrl ? buildAllProxyImageUrls(directUrl) : []),
