@@ -22,6 +22,8 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
 }) => {
   const [videoStarted, setVideoStarted] = useState(autoPlay);
   const thresholdReachedRef = React.useRef(false);
+  const preloadSrc = `https://kinescope.io/embed/${videoId}?autoplay=0&token=e7dc4869-562f-492a-811b-506296b20fb7`;
+  const playbackSrc = `https://kinescope.io/embed/${videoId}?autoplay=1&token=e7dc4869-562f-492a-811b-506296b20fb7`;
 
   useEffect(() => {
     thresholdReachedRef.current = false;
@@ -119,6 +121,8 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
           <img
             src={`https://kinescope.io/${videoId}/poster.jpg`}
             alt="Постер видео"
+            loading="eager"
+            decoding="async"
             style={{
               position: 'absolute',
               width: '100%',
@@ -129,14 +133,34 @@ export const AboutVideoPlayer: React.FC<AboutVideoPlayerProps> = ({
             }}
           />
         )}
+
+        {!videoStarted && (
+          <iframe
+            src={preloadSrc}
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;"
+            frameBorder="0"
+            allowFullScreen
+            loading="eager"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              top: 0,
+              left: 0,
+              opacity: 0,
+              pointerEvents: 'none',
+            }}
+          />
+        )}
         
         {/* Iframe с autoplay */}
         {videoStarted && (
           <iframe 
-            src={`https://kinescope.io/embed/${videoId}?autoplay=1&token=e7dc4869-562f-492a-811b-506296b20fb7`}
+            src={playbackSrc}
             allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
             frameBorder="0" 
             allowFullScreen
+            loading="eager"
             style={{
               position: 'absolute',
               width: '100%',

@@ -78,17 +78,29 @@ export const LabaMainScreen: React.FC = () => {
   );
   const [trackedAccounts, setTrackedAccounts] = React.useState(initialTrackedAccounts);
   const reelsScrollRef = React.useRef<HTMLDivElement | null>(null);
+  const topReelsRetryTimeoutRef = React.useRef<number | null>(null);
 
-  const loadTopReels = React.useCallback(async () => {
+  const loadTopReels = React.useCallback(async (attempt = 0) => {
     setLoading(true);
     try {
       const items = await getTopReels(DEFAULT_TOP_REELS_CATEGORY);
       if (items.length > 0) {
+        if (topReelsRetryTimeoutRef.current !== null) {
+          window.clearTimeout(topReelsRetryTimeoutRef.current);
+          topReelsRetryTimeoutRef.current = null;
+        }
         cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, items);
         setReels(items);
         setLabaReelsCache(items);
       } else {
-        setReels((prev) => (prev.length > 0 ? prev : initialCachedTopReels));
+        cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, []);
+        setReels([]);
+        setLabaReelsCache([]);
+        if (attempt < 4) {
+          topReelsRetryTimeoutRef.current = window.setTimeout(() => {
+            void loadTopReels(attempt + 1);
+          }, 3500);
+        }
       }
       setHasSearchResults(false);
     } catch (error) {
@@ -97,13 +109,21 @@ export const LabaMainScreen: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [initialCachedTopReels, setLabaReelsCache]);
+  }, [setLabaReelsCache]);
 
   React.useEffect(() => {
     if (!labaMainSearchQuery.trim()) {
       void loadTopReels();
     }
   }, [labaMainSearchQuery, loadTopReels]);
+
+  React.useEffect(() => {
+    return () => {
+      if (topReelsRetryTimeoutRef.current !== null) {
+        window.clearTimeout(topReelsRetryTimeoutRef.current);
+      }
+    };
+  }, []);
 
   React.useEffect(() => {
     const hydrateFavorites = async () => {

@@ -5,6 +5,7 @@ import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { getCachedData, getWorkshopPromptsWithCache } from '../../utils/contentApi';
 import { preloadImageSources } from '../../utils/assetPreloader';
 import type { WorkshopPrompt } from '../../types/content';
+import { MagnifiedText } from '../../components/MagnifiedText';
 import {
   getPromptFavoriteIds,
   getRecentPromptIds,
@@ -17,7 +18,6 @@ import newButtonInactive from '../../assets/prompt-redesign/кнопка нов�
 import recentButtonInactive from '../../assets/prompt-redesign/кнопка недавние неактив.png';
 import favoriteButtonInactive from '../../assets/prompt-redesign/кнопка избранное неактив.png';
 import activeFilterTemplate from '../../assets/prompt-redesign/кнопка активная шаблон.png';
-import workshopGif from '../../assets/prompt-redesign/мастерская в окошке флоры.gif';
 import promptScrollWindowDesktopPng from '../../assets/prompt-redesign/prompt-scroll-window-desktop.png';
 import promptCardBlackBgPng from '../../assets/prompt-redesign/prompt-card-black-bg.png';
 import tinyLogo from '../../assets/prompt-redesign/лого очень маленькое.png';
@@ -162,6 +162,9 @@ export const PromptFirstScreen: React.FC = () => {
   const promptsToRender = React.useMemo(() => {
     return visiblePrompts;
   }, [visiblePrompts]);
+  const heroPrompt = promptsToRender[0] ?? prompts[0] ?? null;
+  const heroPreviewImage = heroPrompt ? getPromptPreviewImage(heroPrompt) : null;
+  const heroVideoUrl = heroPrompt?.cover_video_url || null;
 
   const handleToggleFavorite = (promptId: string) => {
     const nextIsFavorite = togglePromptFavorite(promptId);
@@ -187,9 +190,10 @@ export const PromptFirstScreen: React.FC = () => {
         <Header onLogoClick={() => navigate('/main-dashboard-premium')} />
 
         <div style={{ position: 'absolute', left: '85px', top: '193px', width: '1020px' }}>
-          <p style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}>
-            МЕТАФЛОРА* цех
-          </p>
+          <MagnifiedText
+            text="МЕТАФЛОРА* цех"
+            style={{ margin: 0, fontFamily: 'Cygre', fontWeight: 700, fontSize: '80px', lineHeight: '1', color: 'white' }}
+          />
         </div>
 
         <div style={{ position: 'absolute', left: '85px', top: '273px', width: '980px' }}>
@@ -199,19 +203,43 @@ export const PromptFirstScreen: React.FC = () => {
         </div>
 
         <div style={{ position: 'absolute', left: '141px', top: '402px', width: '894px', height: '302px', border: '4px solid rgba(255,255,255,0.3)', borderRadius: '30px', overflow: 'hidden' }}>
-          <img
-            src={workshopGif}
-            alt="мастерская в окошке флоры"
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: '50%',
-              width: '100%',
-              height: 'auto',
-              transform: 'translateY(-50%)',
-              display: 'block',
-            }}
-          />
+          {heroVideoUrl ? (
+            <video
+              src={heroVideoUrl}
+              poster={heroPreviewImage || undefined}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+                background: '#000',
+              }}
+            />
+          ) : heroPreviewImage ? (
+            <img
+              src={heroPreviewImage}
+              alt={heroPrompt?.title || 'превью промпта'}
+              loading="eager"
+              decoding="async"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+          ) : (
+            <div style={{ position: 'absolute', inset: 0, background: '#000' }} />
+          )}
         </div>
 
         {FILTER_BUTTONS.map((button) => {
@@ -323,7 +351,7 @@ export const PromptFirstScreen: React.FC = () => {
                     {prompt.cover_video_url ? (
                       <video
                         src={prompt.cover_video_url}
-                        poster={previewImage || workshopGif}
+                        poster={previewImage || undefined}
                         autoPlay
                         loop
                         muted
@@ -345,19 +373,12 @@ export const PromptFirstScreen: React.FC = () => {
                             target.style.display = 'none';
                             return;
                           }
-                          if (target.src !== workshopGif) {
-                            target.src = workshopGif;
-                          }
+                          target.style.display = 'none';
                         }}
                         style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
                       />
                     ) : !prompt.cover_video_url ? (
-                      <img
-                        src={workshopGif}
-                        alt={prompt.title}
-                        loading={index < 2 ? 'eager' : 'lazy'}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
+                      <div style={{ width: '100%', height: '100%', background: '#000' }} />
                     ) : null}
                   </div>
 

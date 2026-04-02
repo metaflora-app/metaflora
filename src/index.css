@@ -295,6 +295,8 @@ body {
     transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 320ms ease;
   will-change: transform, filter;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .premium-button-shell::before,
@@ -368,8 +370,8 @@ body {
 }
 
 .premium-button-shell.is-pressed {
-  transform: scale(1.38);
-  filter: brightness(1.12);
+  transform: scale(1.02);
+  filter: brightness(1.05);
 }
 
 .premium-button-content {
@@ -391,12 +393,14 @@ body {
     filter 220ms ease;
   transform-origin: center;
   will-change: transform;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .motion-press-grow:active,
 .motion-press-grow.is-pressed {
-  transform: scale(1.22);
-  filter: brightness(1.08);
+  transform: scale(1.015);
+  filter: brightness(1.04);
 }
 
 .laba-feed-scroll {

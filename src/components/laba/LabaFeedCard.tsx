@@ -124,9 +124,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         minHeight: `${CARD_HEIGHT}px`,
         margin: '0 auto',
         cursor: onOpenAnalysis ? 'pointer' : 'default',
-        contentVisibility: 'auto',
-        containIntrinsicSize: `${CARD_HEIGHT}px`,
-        contain: 'layout paint style',
       }}
     >
       <div

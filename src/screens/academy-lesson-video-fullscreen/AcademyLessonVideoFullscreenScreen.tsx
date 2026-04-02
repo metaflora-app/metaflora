@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { getAcademyVideos, getDemoVideos } from '../../utils/contentApi';
 import type { AcademyVideo } from '../../types/content';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
@@ -76,11 +75,7 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
 
   const handleWatchThreshold = React.useCallback(() => {
     if (!userId || !lessonId) return;
-    void markLessonVideoWatched(userId, lessonId).then((result) => {
-      if (result.justCompleted) {
-        showPopupMessage('урок завершен на 100%');
-      }
-    });
+    void markLessonVideoWatched(userId, lessonId);
   }, [lessonId, userId]);
 
   if (!lessonId) {

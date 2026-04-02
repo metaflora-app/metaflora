@@ -64,6 +64,7 @@ export const LabaTrackedScreen: React.FC = () => {
   const selectionFromScrollRef = React.useRef(false);
   const accountScrollTimeoutRef = React.useRef<number | null>(null);
   const reelsRequestTokenRef = React.useRef(0);
+  const hiddenAccountIdsRef = React.useRef<Set<string>>(new Set());
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -74,7 +75,9 @@ export const LabaTrackedScreen: React.FC = () => {
         setLoadingAccounts(true);
       }
       try {
-        const trackedAccounts = await refreshTrackedAccounts(userId);
+        const trackedAccounts = (await refreshTrackedAccounts(userId)).filter(
+          (item) => !hiddenAccountIdsRef.current.has(item.id)
+        );
         setAccounts(trackedAccounts);
         setSelectedAccountId((current) => {
           if (preselectedAccountId && trackedAccounts.some((item) => item.id === preselectedAccountId)) {
@@ -245,6 +248,7 @@ export const LabaTrackedScreen: React.FC = () => {
       ? nextAccounts[0]?.id || null
       : selectedAccountId;
 
+    hiddenAccountIdsRef.current.add(accountId);
     setAccounts(nextAccounts);
     cacheTrackedAccounts(userId, nextAccounts);
     setSelectedAccountId(nextSelectedAccountId);
@@ -261,19 +265,23 @@ export const LabaTrackedScreen: React.FC = () => {
 
     try {
       await untrackAccount(accountId, userId);
-      void refreshTrackedAccounts(userId).then((freshAccounts) => {
-        setAccounts(freshAccounts);
-        cacheTrackedAccounts(userId, freshAccounts);
-        setSelectedAccountId((current) => (
-          current && freshAccounts.some((item) => item.id === current)
-            ? current
-            : freshAccounts[0]?.id || null
-        ));
-      }).catch((error) => {
-        console.error('Ошибка синхронизации tracked accounts после удаления:', error);
-      });
+      window.setTimeout(() => {
+        void refreshTrackedAccounts(userId).then((freshAccounts) => {
+          const visibleAccounts = freshAccounts.filter((item) => !hiddenAccountIdsRef.current.has(item.id));
+          setAccounts(visibleAccounts);
+          cacheTrackedAccounts(userId, visibleAccounts);
+          setSelectedAccountId((current) => (
+            current && visibleAccounts.some((item) => item.id === current)
+              ? current
+              : visibleAccounts[0]?.id || null
+          ));
+        }).catch((error) => {
+          console.error('Ошибка синхронизации tracked accounts после удаления:', error);
+        });
+      }, 900);
     } catch (error) {
       console.error('Ошибка удаления аккаунта:', error);
+      hiddenAccountIdsRef.current.delete(accountId);
       setAccounts(previousAccounts);
       cacheTrackedAccounts(userId, previousAccounts);
       setSelectedAccountId(selectedAccountId);
@@ -458,9 +466,6 @@ const TrackedAccountCard: React.FC<{
         cursor: 'pointer',
         overflow: 'hidden',
         opacity: selected ? 1 : 0.92,
-        contentVisibility: 'auto',
-        containIntrinsicSize: '268px',
-        contain: 'layout paint style',
       }}
     >
       <img src={trackedAddUnderlay} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', pointerEvents: 'none' }} />

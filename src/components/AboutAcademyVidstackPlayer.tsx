@@ -314,6 +314,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         ref={playerRef}
         src={src}
         poster={posterSrc || undefined}
+        preload="auto"
         title={title}
         viewType="video"
         streamType="on-demand"

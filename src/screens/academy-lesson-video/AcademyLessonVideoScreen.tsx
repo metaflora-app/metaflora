@@ -39,6 +39,29 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const canUseNativeVideoPlayer = Boolean(video?.video_url);
   const canUseLegacyVideoPlayer = Boolean(!video?.video_url && video?.video_id);
+  const hasDownloadMaterials = React.useMemo(() => {
+    if (!lesson) return false;
+    if (Array.isArray(lesson.materials) && lesson.materials.length > 0) {
+      return true;
+    }
+
+    return Boolean(
+      lesson.content_blocks?.some((block: any) => {
+        if (block?.type !== 'materials') return false;
+        const content = block.content;
+        if (Array.isArray(content)) return content.length > 0;
+        if (typeof content === 'string') {
+          try {
+            const parsed = JSON.parse(content);
+            return Array.isArray(parsed) && parsed.length > 0;
+          } catch {
+            return false;
+          }
+        }
+        return false;
+      })
+    );
+  }, [lesson]);
 
 
   useEffect(() => {
@@ -108,11 +131,11 @@ export const AcademyLessonVideoScreen: React.FC = () => {
   const handleWatchThreshold = React.useCallback(() => {
     if (!userId || !lessonId) return;
     void markLessonVideoWatched(userId, lessonId).then((result) => {
-      if (result.justCompleted) {
+      if (result.justCompleted && !hasDownloadMaterials) {
         showPopupMessage('урок завершен на 100%');
       }
     });
-  }, [lessonId, userId]);
+  }, [hasDownloadMaterials, lessonId, userId]);
 
   const visibleTitle = lesson?.video_title || lesson?.title || video?.title || '';
 
