@@ -33,11 +33,6 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
     sessionStorage.setItem(getVideoPositionKey(lessonType, lessonId), String(seconds));
   }, [lessonId, lessonType]);
 
-  const restorePosition = React.useMemo(() => {
-    if (!lessonId) return 0;
-    return Number(sessionStorage.getItem(getVideoPositionKey(lessonType, lessonId)) || '0');
-  }, [lessonId, lessonType]);
-
   React.useEffect(() => {
     if (!lessonId) {
       setLoading(false);
@@ -130,7 +125,6 @@ export const AcademyLessonVideoFullscreenScreen: React.FC = () => {
             title={video.title || title}
             posterSrc={video.poster_url || poster || lessonPoster}
             controlsVariant="full"
-            initialTime={restorePosition}
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}
             onTimeChange={persistPosition}
