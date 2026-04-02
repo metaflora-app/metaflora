@@ -119,11 +119,6 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     sessionStorage.setItem(getVideoPositionKey(lessonType, lessonId), String(seconds));
   }, [lessonId, lessonType]);
 
-  const initialTime = React.useMemo(() => {
-    if (!lessonId) return 0;
-    return Number(sessionStorage.getItem(getVideoPositionKey(lessonType, lessonId)) || '0');
-  }, [lessonId, lessonType]);
-
   const handlePlaybackStart = React.useCallback(() => {
     if (!userId || !lessonId) return;
     void markVideoViewed(userId, lessonId);
@@ -168,8 +163,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
           <AboutAcademyVidstackPlayer
             src={video.video_url as string}
             title={visibleTitle}
-            posterSrc={lessonPoster}
-            initialTime={initialTime}
+            posterSrc={video.poster_url || lessonPoster}
             onPlaybackStart={handlePlaybackStart}
             onWatchThreshold={handleWatchThreshold}
             onTimeChange={persistVideoPosition}
