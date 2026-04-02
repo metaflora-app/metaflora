@@ -347,6 +347,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
   const shouldShowPreview = Boolean(posterSrc) && media.paused && media.currentTime <= 0.08;
 
+
   return (
     <div
       className="about-academy-vidstack"
