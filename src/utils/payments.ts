@@ -1,7 +1,7 @@
 import { openLink } from '../app/telegram/telegramHelpers';
 import { getOrCreateUser } from './supabase';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
+const API_BASE_URL = 'https://metaflora-service.ru';
 const PENDING_PAYMENT_KEY = 'metaflora_pending_yookassa_payment';
 
 export type CheckoutProductId =

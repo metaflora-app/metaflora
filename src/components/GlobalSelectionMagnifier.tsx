@@ -1,12 +1,28 @@
 import React from 'react';
 
-const LENS_SIZE = 240;
-const LENS_ZOOM = 1.38;
+const LENS_SIZE = 176;
+const LENS_ZOOM = 1.14;
 
 interface SelectionSnapshot {
   text: string;
   rect: DOMRect;
   style: React.CSSProperties;
+}
+
+function limitSelectionText(text: string): string {
+  const normalized = String(text || '').replace(/\s+/g, ' ').trim();
+  if (normalized.length <= 64) {
+    return normalized;
+  }
+  return `${normalized.slice(0, 64).trim()}...`;
+}
+
+function clampFontSize(fontSize: string | undefined): string {
+  const numeric = Number.parseFloat(String(fontSize || ''));
+  if (!Number.isFinite(numeric)) {
+    return '22px';
+  }
+  return `${Math.min(Math.max(numeric, 16), 22)}px`;
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -51,13 +67,13 @@ export const GlobalSelectionMagnifier: React.FC = () => {
 
       const computed = window.getComputedStyle(anchorElement);
       setSelection({
-        text,
+        text: limitSelectionText(text),
         rect,
         style: {
           fontFamily: computed.fontFamily || 'Cygre, sans-serif',
-          fontSize: computed.fontSize || '32px',
+          fontSize: clampFontSize(computed.fontSize),
           fontWeight: computed.fontWeight as React.CSSProperties['fontWeight'],
-          lineHeight: computed.lineHeight || '1.1',
+          lineHeight: '1.15',
           letterSpacing: computed.letterSpacing,
           color: computed.color || '#fff',
           textAlign: computed.textAlign as React.CSSProperties['textAlign'],
@@ -133,10 +149,10 @@ export const GlobalSelectionMagnifier: React.FC = () => {
         borderRadius: '50%',
         overflow: 'hidden',
         border: '2px solid rgba(255,255,255,0.34)',
-        background: 'rgba(255,255,255,0.05)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        boxShadow: '0 0 26px rgba(255,255,255,0.12)',
+        background: 'rgba(255,255,255,0.02)',
+        backdropFilter: 'blur(5px)',
+        WebkitBackdropFilter: 'blur(5px)',
+        boxShadow: '0 0 18px rgba(255,255,255,0.08)',
         pointerEvents: 'none',
         zIndex: 2147483646,
       }}
@@ -147,10 +163,10 @@ export const GlobalSelectionMagnifier: React.FC = () => {
           position: 'absolute',
           left: '50%',
           top: '50%',
-          width: '78%',
+          width: '74%',
           transform: `translate(-50%, -50%) scale(${LENS_ZOOM})`,
           transformOrigin: 'center',
-          textShadow: '0 0 6px rgba(255,255,255,0.08)',
+          textShadow: '0 0 4px rgba(255,255,255,0.05)',
           wordBreak: 'break-word',
           whiteSpace: 'pre-wrap',
         }}

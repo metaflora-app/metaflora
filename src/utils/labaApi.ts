@@ -27,10 +27,10 @@ import {
 import { showAlert, showPopupMessage } from '../app/telegram/telegramHelpers';
 
 // Laba endpoints are served from the dedicated Railway service backend.
-const API_URL = import.meta.env.VITE_API_URL || 'https://metaflora-service.ru';
+const API_URL = 'https://metaflora-service.ru';
 const LABA_API_FALLBACK_URLS = Array.from(new Set([
   API_URL,
-  'https://metaflora-service.ru',
+  import.meta.env.VITE_API_URL,
   'https://service-production-f0b1.up.railway.app',
 ].filter(Boolean)));
 const LABA_CACHE_PREFIX = 'metaflora_laba_cache_v1_';
@@ -335,17 +335,23 @@ export async function searchReels(keyword: string, userId: number): Promise<Reel
  * Бесплатно
  */
 export async function getTopReels(category: TopReelCategory = 'нейросети'): Promise<Reel[]> {
-  const data = await fetchLabaJson<TopReelsResponse>(`/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`, {
-    cache: 'no-store',
-    headers: {
-      'Cache-Control': 'no-cache',
-      Pragma: 'no-cache',
-    },
-  });
+  let data: TopReelsResponse;
+  try {
+    data = await fetchLabaJson<TopReelsResponse>(`/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+      },
+    });
+  } catch (error) {
+    console.error('Top reels request failed:', error);
+    return getCachedTopReels(category);
+  }
 
   if (!data.success) {
     console.error('Ошибка загрузки топ reels:', data.error);
-    return [];
+    return getCachedTopReels(category);
   }
 
   return data.reels || [];

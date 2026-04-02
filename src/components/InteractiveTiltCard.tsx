@@ -22,9 +22,12 @@ export const InteractiveTiltCard: React.FC<InteractiveTiltCardProps> = ({
   disabled = false,
 }) => {
   const [tilt, setTilt] = React.useState({ rotateX: 0, rotateY: 0, scale: 1 });
+  const shouldIgnoreTouchTilt = React.useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    return event.pointerType && event.pointerType !== 'mouse';
+  }, []);
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (disabled) {
+    if (disabled || shouldIgnoreTouchTilt(event)) {
       return;
     }
 
@@ -58,6 +61,7 @@ export const InteractiveTiltCard: React.FC<InteractiveTiltCardProps> = ({
         transformStyle: 'preserve-3d',
         transition: 'transform 240ms cubic-bezier(0.22, 1, 0.36, 1)',
         willChange: 'transform',
+        touchAction: 'manipulation',
         ...style,
       }}
     >

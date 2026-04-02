@@ -135,6 +135,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const watchThresholdReachedRef = React.useRef(false);
   const [playbackRate, setPlaybackRate] = React.useState(1);
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
+  const [pressedControl, setPressedControl] = React.useState<string | null>(null);
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
   const fillPercent = React.useMemo(() => {
@@ -265,6 +266,13 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       await player.pause();
     } catch (error) {
       console.error('Video toggle failed:', error);
+      if (media.paused) {
+        window.setTimeout(() => {
+          void player.play().catch((retryError) => {
+            console.error('Video retry play failed:', retryError);
+          });
+        }, 180);
+      }
     }
   }, [getPlayer, media.paused]);
 
@@ -415,7 +423,13 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           <button
             type="button"
             aria-label={media.paused ? 'Воспроизвести видео' : 'Поставить видео на паузу'}
-            onClick={handleTogglePlay}
+            onPointerDown={() => setPressedControl('overlay-play')}
+            onPointerUp={() => {
+              setPressedControl(null);
+              void handleTogglePlay();
+            }}
+            onPointerLeave={() => setPressedControl(null)}
+            onPointerCancel={() => setPressedControl(null)}
             style={{
               position: 'absolute',
               left: `${OVERLAY_PLAY_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
@@ -453,7 +467,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
         {flashOverlay || media.paused ? (
           <div
-            className={`vid-control-button ${media.paused && !flashOverlay ? 'is-pulsing' : ''}`}
+            className={`vid-control-button ${media.paused && !flashOverlay ? 'is-pulsing' : ''} ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
             style={{
               ...overlayControlStyle,
               zIndex: 4,
@@ -486,7 +500,11 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           aria-label={`Скорость воспроизведения ${media.playbackRate}x`}
           title={`Скорость ${media.playbackRate}x`}
           onClick={handleCyclePlaybackRate}
-          className="vid-control-button"
+          className={`vid-control-button ${pressedControl === 'speed' ? 'is-pressed' : ''}`}
+          onPointerDown={() => setPressedControl('speed')}
+          onPointerUp={() => setPressedControl(null)}
+          onPointerLeave={() => setPressedControl(null)}
+          onPointerCancel={() => setPressedControl(null)}
           style={getControlStyle(306.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={speedIcon} alt="" style={iconStyle} />
@@ -496,7 +514,11 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           type="button"
           onClick={handleEnterFullscreen}
           aria-label="Развернуть видео на полный экран"
-          className="vid-control-button"
+          className={`vid-control-button ${pressedControl === 'fullscreen' ? 'is-pressed' : ''}`}
+          onPointerDown={() => setPressedControl('fullscreen')}
+          onPointerUp={() => setPressedControl(null)}
+          onPointerLeave={() => setPressedControl(null)}
+          onPointerCancel={() => setPressedControl(null)}
           style={getControlStyle(406.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={fullscreenIcon} alt="" style={iconStyle} />
@@ -506,7 +528,11 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           type="button"
           onClick={handleToggleMute}
           aria-label={media.muted || media.volume === 0 ? 'Включить звук' : 'Выключить звук'}
-          className="vid-control-button"
+          className={`vid-control-button ${pressedControl === 'mute' ? 'is-pressed' : ''}`}
+          onPointerDown={() => setPressedControl('mute')}
+          onPointerUp={() => setPressedControl(null)}
+          onPointerLeave={() => setPressedControl(null)}
+          onPointerCancel={() => setPressedControl(null)}
           style={getControlStyle(506.92, BOTTOM_CONTROL_TOP)}
         >
           <img src={media.muted || media.volume === 0 ? muteIcon : volumeIcon} alt="" style={iconStyle} />

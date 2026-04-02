@@ -120,6 +120,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       return (
         <div
           key={block.id}
+          className="selection-magnifier-text"
           style={{
             margin: '0 0 30px',
             fontFamily: 'Cygre',
@@ -142,6 +143,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
       return (
         <div
           key={block.id}
+          className="selection-magnifier-text"
           style={{
             marginBottom: '30px',
             fontFamily: 'Cygre',
@@ -162,7 +164,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
 
     if (block.type === 'text') {
       return (
-        <div key={block.id} style={{ marginBottom: '30px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+        <div key={block.id} className="selection-magnifier-text" style={{ marginBottom: '30px', fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'white', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
           {block.content}
         </div>
       );
@@ -262,7 +264,7 @@ export const MaterialsContentScreen: React.FC<MaterialsContentScreenProps> = ({
               display: 'block',
             }}
           >
-            <div style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere', width: '100%', userSelect: 'text' }}>
+            <div className="selection-magnifier-text" style={{ fontFamily: 'Cygre', fontWeight: 400, fontSize: '35px', lineHeight: '1', color: 'rgba(255,255,255,0.6)', textAlign: 'center', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'anywhere', width: '100%' }}>
               {promptText}
             </div>
           </div>

@@ -28,6 +28,9 @@ const ServiceCard: React.FC<CardProps> = ({
   textInset = '0 0 0 50.22%',
 }) => {
   const [isPressed, setIsPressed] = React.useState(false);
+  const handleActivate = React.useCallback(() => {
+    onOpen?.();
+  }, [onOpen]);
 
   return (
   <InteractiveTiltCard className="pricing-card-shell" maxRotateX={3} maxRotateY={4} maxScale={1.01} style={{ position: 'absolute', left: '141px', top: `${top}px`, width: '894px', height: `${height}px` }}>
@@ -70,11 +73,19 @@ const ServiceCard: React.FC<CardProps> = ({
     <button
       type="button"
       className={`premium-button-shell ${isPressed ? 'is-pressed' : ''}`}
-      onClick={onOpen}
       onPointerDown={() => setIsPressed(true)}
-      onPointerUp={() => setIsPressed(false)}
+      onPointerUp={() => {
+        setIsPressed(false);
+        handleActivate();
+      }}
       onPointerLeave={() => setIsPressed(false)}
       onPointerCancel={() => setIsPressed(false)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleActivate();
+        }
+      }}
       style={{
         position: 'absolute',
         top: '34.14%',
@@ -119,16 +130,27 @@ const ServiceCard: React.FC<CardProps> = ({
 interface SmBtnProps { label: string; x: number; y: number; onClick?: () => void; }
 const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => {
   const [isPressed, setIsPressed] = React.useState(false);
+  const handleActivate = React.useCallback(() => {
+    onClick?.();
+  }, [onClick]);
 
   return (
   <button
     type="button"
     className={`premium-button-shell ${isPressed ? 'is-pressed' : ''}`}
-    onClick={onClick}
     onPointerDown={() => setIsPressed(true)}
-    onPointerUp={() => setIsPressed(false)}
+    onPointerUp={() => {
+      setIsPressed(false);
+      handleActivate();
+    }}
     onPointerLeave={() => setIsPressed(false)}
     onPointerCancel={() => setIsPressed(false)}
+    onKeyDown={(event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handleActivate();
+      }
+    }}
     style={{
     position: 'absolute',
     left: `${x}px`,
