@@ -293,14 +293,6 @@ async function fetchLatestTopReelsCategoryFromSupabase(): Promise<TopReelCategor
   return data.category as TopReelCategory;
 }
 
-function buildAllProxyImageUrls(url: string): string[] {
-  return LABA_API_FALLBACK_URLS.map((baseUrl) => buildProxyImageUrl(baseUrl, url));
-}
-
-function buildAllReelMediaUrls(reelId: string, kind: 'cover' | 'avatar'): string[] {
-  return LABA_API_FALLBACK_URLS.map((baseUrl) => buildReelMediaUrl(baseUrl, reelId, kind));
-}
-
 function uniqueImageSources(sources: Array<string | null | undefined>): string[] {
   const seen = new Set<string>();
   const result: string[] = [];
@@ -342,50 +334,29 @@ export function getReelCoverSrc(reel: Pick<Reel, 'id' | 'instagramReelId' | 'ree
   if (reelId) {
     return buildReelMediaUrl(LABA_API_FALLBACK_URLS[0], reelId, 'cover');
   }
-  const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
-  const instagramReelId = String(reel.instagramReelId || '').trim();
-  if (instagramReelId) {
-    return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], `https://www.instagram.com/p/${instagramReelId}/`);
-  }
-
-  if (reel.reelUrl && /^https?:\/\/(www\.)?instagram\.com\//i.test(reel.reelUrl)) {
-    return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], reel.reelUrl);
-  }
-
-  return directCoverUrl;
+  return convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
 }
 
 export function getReelCoverSources(reel: Pick<Reel, 'id' | 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string[] {
   const reelId = String(reel.id || '').trim();
-  const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
-  const instagramReelId = String(reel.instagramReelId || '').trim();
-  const instagramPageUrl = instagramReelId ? `https://www.instagram.com/p/${instagramReelId}/` : null;
-  const proxiedReelUrls =
-    reel.reelUrl && /^https?:\/\/(www\.)?instagram\.com\//i.test(reel.reelUrl)
-      ? buildAllProxyImageUrls(reel.reelUrl)
-      : [];
+  if (reelId) {
+    return [buildReelMediaUrl(LABA_API_FALLBACK_URLS[0], reelId, 'cover')];
+  }
 
-  return uniqueImageSources([
-    ...(reelId ? buildAllReelMediaUrls(reelId, 'cover') : []),
-    ...(instagramPageUrl ? buildAllProxyImageUrls(instagramPageUrl) : []),
-    ...proxiedReelUrls,
-    directCoverUrl,
-  ]);
+  const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
+  return uniqueImageSources([directCoverUrl]);
 }
 
 export function getReelAvatarSources(
   reel: Pick<Reel, 'id' | 'accountUsername' | 'accountProfilePicUrl'>
 ): string[] {
   const reelId = String(reel.id || '').trim();
-  const directUrl = appendMediaVersion(reel.accountProfilePicUrl);
-  const normalizedUsername = String(reel.accountUsername || '').trim().replace(/^@+/, '');
+  if (reelId) {
+    return [buildReelMediaUrl(LABA_API_FALLBACK_URLS[0], reelId, 'avatar')];
+  }
 
-  return uniqueImageSources([
-    ...(reelId ? buildAllReelMediaUrls(reelId, 'avatar') : []),
-    directUrl,
-    ...(directUrl ? buildAllProxyImageUrls(directUrl) : []),
-    ...(normalizedUsername ? buildAllProxyImageUrls(`https://www.instagram.com/${normalizedUsername}/`) : []),
-  ]);
+  const directUrl = appendMediaVersion(reel.accountProfilePicUrl);
+  return uniqueImageSources([directUrl]);
 }
 
 export function setCachedFavoriteState(userId: number, reel: Reel | null | undefined, nextIsFavorite: boolean): Reel[] {
@@ -408,13 +379,8 @@ export function getInstagramAvatarSrc(username?: string | null, fallbackUrl?: st
 }
 
 export function getInstagramAvatarSources(username?: string | null, fallbackUrl?: string | null): string[] {
-  const normalizedUsername = String(username || '').trim().replace(/^@+/, '');
   const directUrl = appendMediaVersion(fallbackUrl);
-  return uniqueImageSources([
-    directUrl,
-    ...(directUrl ? buildAllProxyImageUrls(directUrl) : []),
-    ...(normalizedUsername ? buildAllProxyImageUrls(`https://www.instagram.com/${normalizedUsername}/`) : []),
-  ]);
+  return uniqueImageSources([directUrl]);
 }
 
 export function formatFollowersLabel(followersCount: number | null | undefined): string {
