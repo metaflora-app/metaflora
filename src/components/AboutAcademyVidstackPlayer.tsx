@@ -201,6 +201,12 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     }) | null;
   }, []);
 
+  const getNativeVideoElement = React.useCallback(() => {
+    const playerRoot = playerRef.current as unknown as HTMLElement | null;
+    if (!playerRoot) return null;
+    return playerRoot.querySelector('video') as HTMLVideoElement | null;
+  }, []);
+
   React.useEffect(() => {
     const player = getPlayer();
     if (!player || !autoPlay) return;
@@ -256,9 +262,21 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const handleTogglePlay = React.useCallback(async () => {
     const player = getPlayer();
     if (!player) return;
+    const nativeVideo = getNativeVideoElement();
 
     try {
       if (media.paused) {
+        if (nativeVideo && nativeVideo.readyState < 2) {
+          const playWhenReady = () => {
+            nativeVideo.removeEventListener('canplay', playWhenReady);
+            nativeVideo.removeEventListener('loadeddata', playWhenReady);
+            void player.play().catch((retryError) => {
+              console.error('Deferred video play failed:', retryError);
+            });
+          };
+          nativeVideo.addEventListener('canplay', playWhenReady, { once: true });
+          nativeVideo.addEventListener('loadeddata', playWhenReady, { once: true });
+        }
         await player.play();
         return;
       }
@@ -274,7 +292,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         }, 180);
       }
     }
-  }, [getPlayer, media.paused]);
+  }, [getNativeVideoElement, getPlayer, media.paused]);
 
   const handleSeek = React.useCallback((delta: number) => {
     const player = getPlayer();
@@ -467,10 +485,12 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             aria-label="Воспроизвести видео"
             className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
             onPointerDown={() => setPressedControl('overlay-play')}
-            onPointerUp={() => setPressedControl(null)}
+            onPointerUp={() => {
+              setPressedControl(null);
+              void handleTogglePlay();
+            }}
             onPointerLeave={() => setPressedControl(null)}
             onPointerCancel={() => setPressedControl(null)}
-            onClick={() => void handleTogglePlay()}
             style={{
               ...overlayControlStyle,
               zIndex: 5,

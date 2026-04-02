@@ -179,6 +179,30 @@ async function fetchJsonWithTimeout<T>(baseUrl: string, path: string, init?: Req
   }
 }
 
+async function fetchFirstSuccessfulJson<T>(baseUrls: string[], path: string, init?: RequestInit, timeoutMs = 4500): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    let settled = false;
+    let pending = baseUrls.length;
+    let lastError: unknown = new Error('no api hosts configured');
+
+    for (const baseUrl of baseUrls) {
+      void fetchJsonWithTimeout<T>(baseUrl, path, init, timeoutMs)
+        .then((payload) => {
+          if (settled) return;
+          settled = true;
+          resolve(payload);
+        })
+        .catch((error) => {
+          lastError = error;
+          pending -= 1;
+          if (!settled && pending === 0) {
+            reject(lastError);
+          }
+        });
+    }
+  });
+}
+
 async function fetchLabaJson<T>(path: string, init?: RequestInit): Promise<T> {
   let lastError: unknown;
 
@@ -351,24 +375,13 @@ export async function getTopReels(category: TopReelCategory = 'нейросет�
   let data: TopReelsResponse | null = null;
   try {
     const path = `/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`;
-    let lastError: unknown;
-    for (const baseUrl of LABA_API_FALLBACK_URLS) {
-      try {
-        data = await fetchJsonWithTimeout<TopReelsResponse>(baseUrl, path, {
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-          },
-        }, 3000);
-        break;
-      } catch (error) {
-        lastError = error;
-      }
-    }
-    if (!data) {
-      throw lastError instanceof Error ? lastError : new Error('top reels request failed');
-    }
+    data = await fetchFirstSuccessfulJson<TopReelsResponse>(LABA_API_FALLBACK_URLS, path, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+      },
+    }, 3000);
   } catch (error) {
     console.error('Top reels request failed:', error);
     return getCachedTopReels(category);
