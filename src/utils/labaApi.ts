@@ -25,6 +25,7 @@ import {
   TopReelCategory,
 } from '../types/laba';
 import { showAlert, showPopupMessage } from '../app/telegram/telegramHelpers';
+import { supabase } from './supabase';
 
 // Laba endpoints are served from the dedicated Railway service backend.
 const API_URL = 'https://metaflora-service.ru';
@@ -217,6 +218,56 @@ async function fetchLabaJson<T>(path: string, init?: RequestInit): Promise<T> {
   throw lastError instanceof Error ? lastError : new Error('не удалось связаться с laba api');
 }
 
+async function fetchTopReelsDirectFromSupabase(category: TopReelCategory): Promise<Reel[]> {
+  const { data: topReelsData, error: topError } = await supabase
+    .from('laba_top_reels')
+    .select('reel_id, position')
+    .eq('category', category)
+    .order('position', { ascending: true });
+
+  if (topError || !topReelsData?.length) {
+    return [];
+  }
+
+  const reelIds = topReelsData.map((item: any) => item.reel_id).filter(Boolean);
+  if (!reelIds.length) {
+    return [];
+  }
+
+  const { data: reelsData, error: reelsError } = await supabase
+    .from('laba_reels')
+    .select('*')
+    .in('id', reelIds);
+
+  if (reelsError || !reelsData?.length) {
+    return [];
+  }
+
+  const reelsMap = new Map(reelsData.map((reel: any) => [reel.id, reel]));
+  return reelIds
+    .map((id: string) => reelsMap.get(id))
+    .filter(Boolean)
+    .map((reel: any) => ({
+      id: reel.id,
+      instagramReelId: reel.instagram_reel_id,
+      reelUrl: reel.reel_url,
+      coverImageUrl: reel.cover_image_url || '',
+      videoUrl: reel.video_url || '',
+      caption: reel.caption || null,
+      viewsCount: reel.views_count || 0,
+      likesCount: reel.likes_count || 0,
+      commentsCount: reel.comments_count || 0,
+      publishedAt: reel.published_at,
+      viralityScore: reel.virality_score || null,
+      isNew: Boolean(reel.is_new),
+      accountUsername: reel.account_username || '',
+      accountFollowers: reel.account_followers || 0,
+      accountProfilePicUrl: reel.account_profile_pic_url || null,
+      trackedAccountId: null,
+      isFavorite: false,
+    } satisfies Reel));
+}
+
 function buildAllProxyImageUrls(url: string): string[] {
   return LABA_API_FALLBACK_URLS.map((baseUrl) => buildProxyImageUrl(baseUrl, url));
 }
@@ -384,15 +435,22 @@ export async function getTopReels(category: TopReelCategory = 'нейросет�
     }, 3000);
   } catch (error) {
     console.error('Top reels request failed:', error);
-    return getCachedTopReels(category);
+    const directFallback = await fetchTopReelsDirectFromSupabase(category);
+    return directFallback.length ? directFallback : getCachedTopReels(category);
   }
 
   if (!data.success) {
     console.error('Ошибка загрузки топ reels:', data.error);
-    return getCachedTopReels(category);
+    const directFallback = await fetchTopReelsDirectFromSupabase(category);
+    return directFallback.length ? directFallback : getCachedTopReels(category);
   }
 
-  return data.reels || [];
+  if (data.reels?.length) {
+    return data.reels;
+  }
+
+  const directFallback = await fetchTopReelsDirectFromSupabase(category);
+  return directFallback.length ? directFallback : [];
 }
 
 /**
