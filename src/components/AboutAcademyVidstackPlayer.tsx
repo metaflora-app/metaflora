@@ -136,6 +136,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const [playbackRate, setPlaybackRate] = React.useState(1);
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
   const [pressedControl, setPressedControl] = React.useState<string | null>(null);
+  const [isPlayPending, setIsPlayPending] = React.useState(false);
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
   const fillPercent = React.useMemo(() => {
@@ -158,6 +159,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     watchThresholdReachedRef.current = false;
     setFlashOverlay(null);
     setPlaybackRate(1);
+    setIsPlayPending(false);
   }, [initialTime, src]);
 
   React.useEffect(() => {
@@ -247,6 +249,12 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     onPlaybackStart();
   }, [media.paused, onPlaybackStart]);
 
+  React.useEffect(() => {
+    if (!media.paused || media.currentTime > 0.08) {
+      setIsPlayPending(false);
+    }
+  }, [media.currentTime, media.paused]);
+
   const showOverlay = React.useCallback((state: Exclude<FlashOverlayState, null>) => {
     if (overlayTimeoutRef.current !== null) {
       window.clearTimeout(overlayTimeoutRef.current);
@@ -266,6 +274,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     try {
       if (media.paused) {
+        setIsPlayPending(true);
         if (nativeVideo) {
           nativeVideo.preload = 'auto';
           nativeVideo.playsInline = true;
@@ -277,6 +286,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         return;
       }
 
+      setIsPlayPending(false);
       await player.pause();
     } catch (error) {
       console.error('Video toggle failed:', error);
@@ -286,7 +296,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             console.error('Video retry play failed:', retryError);
           });
         }, 180);
+        return;
       }
+      setIsPlayPending(false);
     }
   }, [getNativeVideoElement, getPlayer, media.paused]);
 
@@ -345,7 +357,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, media.playbackRate]);
 
 
-  const shouldShowPreview = Boolean(posterSrc) && media.paused && media.currentTime <= 0.08;
+  const shouldShowPreview = Boolean(posterSrc) && (isPlayPending || (media.paused && media.currentTime <= 0.08));
 
 
   return (
@@ -477,7 +489,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           />
         </div>
 
-        {media.paused && !flashOverlay ? (
+        {(media.paused || isPlayPending) && !flashOverlay ? (
           <button
             type="button"
             aria-label="Воспроизвести видео"
@@ -485,7 +497,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             onPointerDown={(event) => {
               event.preventDefault();
               setPressedControl('overlay-play');
-              void handleTogglePlay();
+              if (!isPlayPending) {
+                void handleTogglePlay();
+              }
             }}
             onPointerLeave={() => setPressedControl(null)}
             onPointerCancel={() => setPressedControl(null)}
@@ -495,6 +509,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
               left: `${OVERLAY_PLAY_LEFT}px`,
               top: `${OVERLAY_CONTROL_TOP}px`,
               cursor: 'pointer',
+              opacity: isPlayPending ? 0 : 1,
+              pointerEvents: isPlayPending ? 'none' : 'auto',
             }}
           >
             <img src={playIcon} alt="" style={overlayIconStyle} />
