@@ -420,30 +420,26 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             }}
           />
 
-          <button
-            type="button"
-            aria-label={media.paused ? 'Воспроизвести видео' : 'Поставить видео на паузу'}
-            onPointerDown={() => setPressedControl('overlay-play')}
-            onPointerUp={() => {
-              setPressedControl(null);
-              void handleTogglePlay();
-            }}
-            onPointerLeave={() => setPressedControl(null)}
-            onPointerCancel={() => setPressedControl(null)}
-            style={{
-              position: 'absolute',
-              left: `${OVERLAY_PLAY_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
-              top: `${TAP_ZONE_TOP}px`,
-              width: `${TAP_ZONE_WIDTH}px`,
-              height: `${TAP_ZONE_HEIGHT}px`,
-              border: 0,
-              background: 'transparent',
-              padding: 0,
-              cursor: 'pointer',
-              touchAction: 'manipulation',
-              pointerEvents: 'auto',
-            }}
-          />
+          {!media.paused ? (
+            <button
+              type="button"
+              aria-label="Поставить видео на паузу"
+              onClick={() => void handleTogglePlay()}
+              style={{
+                position: 'absolute',
+                left: `${OVERLAY_PLAY_LEFT - ((TAP_ZONE_WIDTH - CONTROL_SIZE) / 2)}px`,
+                top: `${TAP_ZONE_TOP}px`,
+                width: `${TAP_ZONE_WIDTH}px`,
+                height: `${TAP_ZONE_HEIGHT}px`,
+                border: 0,
+                background: 'transparent',
+                padding: 0,
+                cursor: 'pointer',
+                touchAction: 'manipulation',
+                pointerEvents: 'auto',
+              }}
+            />
+          ) : null}
 
           <button
             type="button"
@@ -465,30 +461,39 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           />
         </div>
 
-        {flashOverlay || media.paused ? (
+        {media.paused && !flashOverlay ? (
+          <button
+            type="button"
+            aria-label="Воспроизвести видео"
+            className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
+            onPointerDown={() => setPressedControl('overlay-play')}
+            onPointerUp={() => setPressedControl(null)}
+            onPointerLeave={() => setPressedControl(null)}
+            onPointerCancel={() => setPressedControl(null)}
+            onClick={() => void handleTogglePlay()}
+            style={{
+              ...overlayControlStyle,
+              zIndex: 5,
+              left: `${OVERLAY_PLAY_LEFT}px`,
+              top: `${OVERLAY_CONTROL_TOP}px`,
+              cursor: 'pointer',
+            }}
+          >
+            <img src={playIcon} alt="" style={overlayIconStyle} />
+          </button>
+        ) : flashOverlay ? (
           <div
-            className={`vid-control-button ${media.paused && !flashOverlay ? 'is-pulsing' : ''} ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
+            className="vid-control-button"
             style={{
               ...overlayControlStyle,
               zIndex: 4,
-              left:
-                flashOverlay === 'seek-backward'
-                  ? `${OVERLAY_BACKWARD_LEFT}px`
-                  : flashOverlay === 'seek-forward'
-                    ? `${OVERLAY_FORWARD_LEFT}px`
-                    : `${OVERLAY_PLAY_LEFT}px`,
+              left: flashOverlay === 'seek-backward' ? `${OVERLAY_BACKWARD_LEFT}px` : `${OVERLAY_FORWARD_LEFT}px`,
               top: `${OVERLAY_CONTROL_TOP}px`,
               pointerEvents: 'none',
             }}
           >
             <img
-              src={
-                flashOverlay === 'seek-backward'
-                  ? seekBackwardIcon
-                  : flashOverlay === 'seek-forward'
-                    ? seekForwardIcon
-                    : playIcon
-              }
+              src={flashOverlay === 'seek-backward' ? seekBackwardIcon : seekForwardIcon}
               alt=""
               style={overlayIconStyle}
             />

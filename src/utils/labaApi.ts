@@ -162,16 +162,29 @@ function buildApiUrl(baseUrl: string, path: string): string {
   return `${baseUrl}${path}`;
 }
 
+async function fetchJsonWithTimeout<T>(baseUrl: string, path: string, init?: RequestInit, timeoutMs = 4500): Promise<T> {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(buildApiUrl(baseUrl, path), {
+      ...init,
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return await response.json() as T;
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
 async function fetchLabaJson<T>(path: string, init?: RequestInit): Promise<T> {
   let lastError: unknown;
 
   for (const baseUrl of LABA_API_FALLBACK_URLS) {
     try {
-      const response = await fetch(buildApiUrl(baseUrl, path), init);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-      return await response.json() as T;
+      return await fetchJsonWithTimeout<T>(baseUrl, path, init);
     } catch (error) {
       lastError = error;
     }
@@ -335,15 +348,27 @@ export async function searchReels(keyword: string, userId: number): Promise<Reel
  * Бесплатно
  */
 export async function getTopReels(category: TopReelCategory = 'нейросети'): Promise<Reel[]> {
-  let data: TopReelsResponse;
+  let data: TopReelsResponse | null = null;
   try {
-    data = await fetchLabaJson<TopReelsResponse>(`/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache',
-        Pragma: 'no-cache',
-      },
-    });
+    const path = `/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`;
+    let lastError: unknown;
+    for (const baseUrl of LABA_API_FALLBACK_URLS) {
+      try {
+        data = await fetchJsonWithTimeout<TopReelsResponse>(baseUrl, path, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+          },
+        }, 3000);
+        break;
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    if (!data) {
+      throw lastError instanceof Error ? lastError : new Error('top reels request failed');
+    }
   } catch (error) {
     console.error('Top reels request failed:', error);
     return getCachedTopReels(category);

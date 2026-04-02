@@ -73,11 +73,11 @@ const ServiceCard: React.FC<CardProps> = ({
     <button
       type="button"
       className={`premium-button-shell ${isPressed ? 'is-pressed' : ''}`}
-      onPointerDown={() => setIsPressed(true)}
-      onPointerUp={() => {
-        setIsPressed(false);
+      onPointerDown={() => {
+        setIsPressed(true);
         handleActivate();
       }}
+      onPointerUp={() => setIsPressed(false)}
       onPointerLeave={() => setIsPressed(false)}
       onPointerCancel={() => setIsPressed(false)}
       onKeyDown={(event) => {
@@ -138,11 +138,11 @@ const SmBtn: React.FC<SmBtnProps> = ({ label, x, y, onClick }) => {
   <button
     type="button"
     className={`premium-button-shell ${isPressed ? 'is-pressed' : ''}`}
-    onPointerDown={() => setIsPressed(true)}
-    onPointerUp={() => {
-      setIsPressed(false);
+    onPointerDown={() => {
+      setIsPressed(true);
       handleActivate();
     }}
+    onPointerUp={() => setIsPressed(false)}
     onPointerLeave={() => setIsPressed(false)}
     onPointerCancel={() => setIsPressed(false)}
     onKeyDown={(event) => {

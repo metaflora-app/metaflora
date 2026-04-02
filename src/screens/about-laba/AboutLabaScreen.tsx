@@ -8,6 +8,7 @@ import serviceBtn from '../../assets/about-screens/кнопка перейти �
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const [isPressed, setIsPressed] = React.useState(false);
 
   return (
     <div style={{ position: 'relative', width: '100vw', minHeight: '100vh', background: '#020101', overflow: 'hidden' }}>
@@ -25,8 +26,14 @@ export const AboutLabaScreen: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => navigate('/laba-search')}
-          className="motion-press-grow"
+          className={`motion-press-grow ${isPressed ? 'is-pressed' : ''}`}
+          onPointerDown={() => {
+            setIsPressed(true);
+            navigate('/laba-search');
+          }}
+          onPointerUp={() => setIsPressed(false)}
+          onPointerLeave={() => setIsPressed(false)}
+          onPointerCancel={() => setIsPressed(false)}
           style={{
             position: 'absolute',
             left: '143px',

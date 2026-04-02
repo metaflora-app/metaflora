@@ -421,6 +421,12 @@ iframe {
   user-select: text;
 }
 
+.selection-magnifier-text::selection,
+.selection-magnifier-text *::selection {
+  color: transparent;
+  background: transparent;
+}
+
 .laba-feed-scroll {
   scrollbar-width: none;
   -ms-overflow-style: none;
