@@ -37,6 +37,9 @@ const LABA_API_FALLBACK_URLS = Array.from(new Set([
 const LABA_CACHE_PREFIX = 'metaflora_laba_cache_v1_';
 const LABA_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
 const LABA_MEDIA_VERSION = '20260402d';
+const TOP_REELS_FEED_CACHE_KEY = 'top_reels_feed_all';
+
+export const ALL_TOP_REELS_CATEGORIES: TopReelCategory[] = ['нейросети', 'маркетинг', 'контент', 'продвижение'];
 
 interface LabaCachePayload<T> {
   timestamp: number;
@@ -97,6 +100,14 @@ export function getCachedTopReels(category: TopReelCategory): Reel[] {
 
 export function cacheTopReels(category: TopReelCategory, reels: Reel[]): void {
   writeLabaCache(`top_reels_${sanitizeCacheKeyPart(category)}`, reels);
+}
+
+export function getCachedTopReelsFeed(): Reel[] {
+  return readLabaCache<Reel[]>(TOP_REELS_FEED_CACHE_KEY) || [];
+}
+
+export function cacheTopReelsFeed(reels: Reel[]): void {
+  writeLabaCache(TOP_REELS_FEED_CACHE_KEY, reels);
 }
 
 export function getCachedSearchReels(query: string): Reel[] {
@@ -454,6 +465,27 @@ export async function getTopReels(category: TopReelCategory = 'нейросет�
 
   const directFallback = await fetchTopReelsDirectFromSupabase(category);
   return directFallback.length ? directFallback : [];
+}
+
+export async function getTopReelsFeed(categories: TopReelCategory[] = ALL_TOP_REELS_CATEGORIES): Promise<Reel[]> {
+  const results = await Promise.all(categories.map((category) => getTopReels(category)));
+  const merged: Reel[] = [];
+  const seen = new Set<string>();
+
+  for (const items of results) {
+    for (const reel of items) {
+      if (!reel?.id || seen.has(reel.id)) continue;
+      seen.add(reel.id);
+      merged.push(reel);
+    }
+  }
+
+  if (merged.length > 0) {
+    cacheTopReelsFeed(merged);
+    return merged;
+  }
+
+  return getCachedTopReelsFeed();
 }
 
 /**
