@@ -39,8 +39,6 @@ const LABA_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
 const LABA_MEDIA_VERSION = '20260402d';
 const TOP_REELS_FEED_CACHE_KEY = 'top_reels_feed_all';
 
-export const ALL_TOP_REELS_CATEGORIES: TopReelCategory[] = ['нейросети', 'маркетинг', 'контент', 'продвижение'];
-
 interface LabaCachePayload<T> {
   timestamp: number;
   data: T;
@@ -280,6 +278,21 @@ async function fetchTopReelsDirectFromSupabase(category: TopReelCategory): Promi
     } satisfies Reel));
 }
 
+async function fetchLatestTopReelsCategoryFromSupabase(): Promise<TopReelCategory | null> {
+  const { data, error } = await supabase
+    .from('laba_top_reels')
+    .select('category, updated_at')
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data?.category) {
+    return null;
+  }
+
+  return data.category as TopReelCategory;
+}
+
 function buildAllProxyImageUrls(url: string): string[] {
   return LABA_API_FALLBACK_URLS.map((baseUrl) => buildProxyImageUrl(baseUrl, url));
 }
@@ -467,22 +480,14 @@ export async function getTopReels(category: TopReelCategory = 'нейросет�
   return directFallback.length ? directFallback : [];
 }
 
-export async function getTopReelsFeed(categories: TopReelCategory[] = ALL_TOP_REELS_CATEGORIES): Promise<Reel[]> {
-  const results = await Promise.all(categories.map((category) => getTopReels(category)));
-  const merged: Reel[] = [];
-  const seen = new Set<string>();
+export async function getTopReelsFeed(): Promise<Reel[]> {
+  const latestCategory = await fetchLatestTopReelsCategoryFromSupabase();
+  const targetCategory = latestCategory || 'нейросети';
+  const items = await getTopReels(targetCategory);
 
-  for (const items of results) {
-    for (const reel of items) {
-      if (!reel?.id || seen.has(reel.id)) continue;
-      seen.add(reel.id);
-      merged.push(reel);
-    }
-  }
-
-  if (merged.length > 0) {
-    cacheTopReelsFeed(merged);
-    return merged;
+  if (items.length > 0) {
+    cacheTopReelsFeed(items);
+    return items;
   }
 
   return getCachedTopReelsFeed();
