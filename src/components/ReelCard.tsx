@@ -58,7 +58,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
 
   const avatarUrl = avatarSources[avatarIndex] || null;
   const coverUrl = coverSources[coverIndex] || null;
-  
+
   return (
     <div style={{
       position: 'absolute',
