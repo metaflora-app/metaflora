@@ -266,16 +266,12 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     try {
       if (media.paused) {
-        if (nativeVideo && nativeVideo.readyState < 2) {
-          const playWhenReady = () => {
-            nativeVideo.removeEventListener('canplay', playWhenReady);
-            nativeVideo.removeEventListener('loadeddata', playWhenReady);
-            void player.play().catch((retryError) => {
-              console.error('Deferred video play failed:', retryError);
-            });
-          };
-          nativeVideo.addEventListener('canplay', playWhenReady, { once: true });
-          nativeVideo.addEventListener('loadeddata', playWhenReady, { once: true });
+        if (nativeVideo) {
+          nativeVideo.preload = 'auto';
+          nativeVideo.playsInline = true;
+          nativeVideo.muted = player.muted;
+          await nativeVideo.play();
+          return;
         }
         await player.play();
         return;
