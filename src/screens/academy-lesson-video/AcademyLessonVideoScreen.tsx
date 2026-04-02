@@ -36,7 +36,7 @@ export const AcademyLessonVideoScreen: React.FC = () => {
     const cached = lessonId ? sessionStorage.getItem(`${lessonType}_video_${lessonId}`) : null;
     return cached ? JSON.parse(cached) : null;
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !(lesson && video));
   const canUseNativeVideoPlayer = Boolean(video?.video_url);
   const canUseLegacyVideoPlayer = Boolean(!video?.video_url && video?.video_id);
   const hasDownloadMaterials = React.useMemo(() => {
@@ -70,36 +70,37 @@ export const AcademyLessonVideoScreen: React.FC = () => {
       const cachedVideo = sessionStorage.getItem(`${lessonType}_video_${lessonId}`);
       setLesson(cachedLesson ? JSON.parse(cachedLesson) : null);
       setVideo(cachedVideo ? JSON.parse(cachedVideo) : null);
-      loadLesson(lessonId);
+      void loadLesson(lessonId, Boolean(cachedLesson || cachedVideo));
     } else {
       setLoading(false);
     }
   }, [lessonId, lessonType]);
 
-  const loadLesson = async (id: string) => {
-    setLoading(true);
+  const loadLesson = async (id: string, keepCachedView = false) => {
+    if (!keepCachedView) {
+      setLoading(true);
+    }
     try {
-      const result = lessonType === 'demo' 
-        ? await getDemoLessonById(id)
-        : await getAcademyLessonById(id);
+      const [result, videoResult] = await Promise.all([
+        lessonType === 'demo'
+          ? getDemoLessonById(id)
+          : getAcademyLessonById(id),
+        lessonType === 'demo'
+          ? getDemoVideos(id)
+          : getAcademyVideos(id),
+      ]);
+
       if (!result.error && result.data) {
         setLesson(result.data);
-        // Сохраняем в кэш (отдельно для academy и demo)
         sessionStorage.setItem(`${lessonType}_lesson_${id}`, JSON.stringify(result.data));
       }
-      
-      // Загрузить видео
-      const videoResult = lessonType === 'demo'
-        ? await getDemoVideos(id)
-        : await getAcademyVideos(id);
-      
+
       console.log('📹 Video API response:', videoResult);
-      
+
       if (!videoResult.error && videoResult.data && videoResult.data.length > 0) {
         console.log('📹 First video:', videoResult.data[0]);
         console.log('📹 video_id:', videoResult.data[0].video_id);
         setVideo(videoResult.data[0]);
-        // Сохраняем в кэш (отдельно для academy и demo)
         sessionStorage.setItem(`${lessonType}_video_${id}`, JSON.stringify(videoResult.data[0]));
       } else {
         console.log('❌ No video found for lesson:', id);

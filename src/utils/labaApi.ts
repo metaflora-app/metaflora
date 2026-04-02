@@ -27,7 +27,12 @@ import {
 import { showAlert, showPopupMessage } from '../app/telegram/telegramHelpers';
 
 // Laba endpoints are served from the dedicated Railway service backend.
-const API_URL = import.meta.env.VITE_API_URL || 'https://service-production-f0b1.up.railway.app';
+const API_URL = import.meta.env.VITE_API_URL || 'https://metaflora-service.ru';
+const LABA_API_FALLBACK_URLS = Array.from(new Set([
+  API_URL,
+  'https://metaflora-service.ru',
+  'https://service-production-f0b1.up.railway.app',
+].filter(Boolean)));
 const LABA_CACHE_PREFIX = 'metaflora_laba_cache_v1_';
 const LABA_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
 
@@ -145,12 +150,42 @@ export function clearTrackedReelsCache(userId: number, accountId: string): void 
 // УТИЛИТЫ ДЛЯ РАБОТЫ С ИЗОБРАЖЕНИЯМИ
 // ================================================
 
-function buildProxyImageUrl(url: string): string {
-  return `${API_URL}/api/proxy-image?url=${encodeURIComponent(url)}`;
+function buildProxyImageUrl(baseUrl: string, url: string): string {
+  return `${baseUrl}/api/proxy-image?url=${encodeURIComponent(url)}`;
 }
 
-function buildReelMediaUrl(reelId: string, kind: 'cover' | 'avatar'): string {
-  return `${API_URL}/api/laba/reel-media?reelId=${encodeURIComponent(reelId)}&kind=${kind}`;
+function buildReelMediaUrl(baseUrl: string, reelId: string, kind: 'cover' | 'avatar'): string {
+  return `${baseUrl}/api/laba/reel-media?reelId=${encodeURIComponent(reelId)}&kind=${kind}`;
+}
+
+function buildApiUrl(baseUrl: string, path: string): string {
+  return `${baseUrl}${path}`;
+}
+
+async function fetchLabaJson<T>(path: string, init?: RequestInit): Promise<T> {
+  let lastError: unknown;
+
+  for (const baseUrl of LABA_API_FALLBACK_URLS) {
+    try {
+      const response = await fetch(buildApiUrl(baseUrl, path), init);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return await response.json() as T;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('не удалось связаться с laba api');
+}
+
+function buildAllProxyImageUrls(url: string): string[] {
+  return LABA_API_FALLBACK_URLS.map((baseUrl) => buildProxyImageUrl(baseUrl, url));
+}
+
+function buildAllReelMediaUrls(reelId: string, kind: 'cover' | 'avatar'): string[] {
+  return LABA_API_FALLBACK_URLS.map((baseUrl) => buildReelMediaUrl(baseUrl, reelId, kind));
 }
 
 function uniqueImageSources(sources: Array<string | null | undefined>): string[] {
@@ -174,16 +209,20 @@ function uniqueImageSources(sources: Array<string | null | undefined>): string[]
 export function convertInstagramImageUrl(url: string | null | undefined): string | null {
   if (!url || url === '') return null;
 
-  if (url.startsWith(`${API_URL}/api/proxy-image`)) return url;
+  if (LABA_API_FALLBACK_URLS.some((baseUrl) => url.startsWith(`${baseUrl}/api/proxy-image`))) return url;
 
   if (/^https?:\/\/(www\.)?instagram\.com\//i.test(url)) {
-    return buildProxyImageUrl(url);
+    return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], url);
   }
 
   return url;
 }
 
-export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string | null {
+export function getReelCoverSrc(reel: Pick<Reel, 'id' | 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string | null {
+  const reelId = String(reel.id || '').trim();
+  if (reelId) {
+    return buildReelMediaUrl(LABA_API_FALLBACK_URLS[0], reelId, 'cover');
+  }
   const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
   if (directCoverUrl) {
     return directCoverUrl;
@@ -191,35 +230,32 @@ export function getReelCoverSrc(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' |
 
   const instagramReelId = String(reel.instagramReelId || '').trim();
   if (instagramReelId) {
-    return buildProxyImageUrl(`https://www.instagram.com/p/${instagramReelId}/`);
+    return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], `https://www.instagram.com/p/${instagramReelId}/`);
   }
 
   if (reel.reelUrl && /^https?:\/\/(www\.)?instagram\.com\//i.test(reel.reelUrl)) {
-    return buildProxyImageUrl(reel.reelUrl);
+    return buildProxyImageUrl(LABA_API_FALLBACK_URLS[0], reel.reelUrl);
   }
 
   return null;
 }
 
-export function getReelCoverSources(reel: Pick<Reel, 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string[] {
+export function getReelCoverSources(reel: Pick<Reel, 'id' | 'instagramReelId' | 'reelUrl' | 'coverImageUrl'>): string[] {
+  const reelId = String(reel.id || '').trim();
   const directCoverUrl = convertInstagramImageUrl(reel.coverImageUrl) || reel.coverImageUrl || null;
   const instagramReelId = String(reel.instagramReelId || '').trim();
   const instagramPageUrl = instagramReelId ? `https://www.instagram.com/p/${instagramReelId}/` : null;
-  const proxiedReelUrl =
+  const proxiedReelUrls =
     reel.reelUrl && /^https?:\/\/(www\.)?instagram\.com\//i.test(reel.reelUrl)
-      ? buildProxyImageUrl(reel.reelUrl)
-      : null;
-
-  if (directCoverUrl) {
-    return uniqueImageSources([
-      directCoverUrl,
-      reel.coverImageUrl,
-    ]);
-  }
+      ? buildAllProxyImageUrls(reel.reelUrl)
+      : [];
 
   return uniqueImageSources([
-    instagramPageUrl ? buildProxyImageUrl(instagramPageUrl) : null,
-    proxiedReelUrl,
+    ...(!directCoverUrl && reelId ? buildAllReelMediaUrls(reelId, 'cover') : []),
+    directCoverUrl,
+    reel.coverImageUrl,
+    ...(instagramPageUrl ? buildAllProxyImageUrls(instagramPageUrl) : []),
+    ...proxiedReelUrls,
   ]);
 }
 
@@ -232,8 +268,8 @@ export function getReelAvatarSources(
 
   return uniqueImageSources([
     directUrl,
-    reelId ? buildReelMediaUrl(reelId, 'avatar') : null,
-    normalizedUsername ? buildProxyImageUrl(`https://www.instagram.com/${normalizedUsername}/`) : null,
+    ...(reelId ? buildAllReelMediaUrls(reelId, 'avatar') : []),
+    ...(normalizedUsername ? buildAllProxyImageUrls(`https://www.instagram.com/${normalizedUsername}/`) : []),
   ]);
 }
 
@@ -261,8 +297,8 @@ export function getInstagramAvatarSources(username?: string | null, fallbackUrl?
   const directUrl = String(fallbackUrl || '').trim();
   return uniqueImageSources([
     directUrl,
-    directUrl ? buildProxyImageUrl(directUrl) : null,
-    normalizedUsername ? buildProxyImageUrl(`https://www.instagram.com/${normalizedUsername}/`) : null,
+    ...(directUrl ? buildAllProxyImageUrls(directUrl) : []),
+    ...(normalizedUsername ? buildAllProxyImageUrls(`https://www.instagram.com/${normalizedUsername}/`) : []),
   ]);
 }
 
@@ -281,13 +317,11 @@ export function formatFollowersLabel(followersCount: number | null | undefined):
  * Стоимость: 25 метакоинов
  */
 export async function searchReels(keyword: string, userId: number): Promise<Reel[]> {
-  const response = await fetch(`${API_URL}/api/laba/search-reels`, {
+  const data = await fetchLabaJson<SearchReelsResponse>('/api/laba/search-reels', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ keyword, userId }),
   });
-
-  const data: SearchReelsResponse = await response.json();
 
   if (!data.success) {
     throw new Error(data.error || 'ошибка поиска');
@@ -301,14 +335,13 @@ export async function searchReels(keyword: string, userId: number): Promise<Reel
  * Бесплатно
  */
 export async function getTopReels(category: TopReelCategory = 'нейросети'): Promise<Reel[]> {
-  const response = await fetch(`${API_URL}/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`, {
+  const data = await fetchLabaJson<TopReelsResponse>(`/api/laba/top-reels?category=${encodeURIComponent(category)}&t=${Date.now()}`, {
     cache: 'no-store',
     headers: {
       'Cache-Control': 'no-cache',
       Pragma: 'no-cache',
     },
   });
-  const data: TopReelsResponse = await response.json();
 
   if (!data.success) {
     console.error('Ошибка загрузки топ reels:', data.error);

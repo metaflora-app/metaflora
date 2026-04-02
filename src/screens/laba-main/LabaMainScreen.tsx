@@ -60,7 +60,7 @@ export const LabaMainScreen: React.FC = () => {
     return userId ? getCachedTrackedAccounts(userId) : [];
   }, []);
   const initialReels = hasActiveSearch
-    ? (labaReelsCache.length > 0 ? labaReelsCache : initialCachedSearchReels)
+    ? (initialCachedSearchReels.length > 0 ? initialCachedSearchReels : labaReelsCache)
     : initialCachedTopReels;
 
   const [reels, setReels] = React.useState<Reel[]>(initialReels);
@@ -91,11 +91,9 @@ export const LabaMainScreen: React.FC = () => {
         }
         cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, items);
         setReels(items);
-        setLabaReelsCache(items);
       } else {
         cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, []);
         setReels([]);
-        setLabaReelsCache([]);
         if (attempt < 4) {
           topReelsRetryTimeoutRef.current = window.setTimeout(() => {
             void loadTopReels(attempt + 1);
@@ -113,9 +111,10 @@ export const LabaMainScreen: React.FC = () => {
 
   React.useEffect(() => {
     if (!labaMainSearchQuery.trim()) {
+      setLabaReelsCache([]);
       void loadTopReels();
     }
-  }, [labaMainSearchQuery, loadTopReels]);
+  }, [labaMainSearchQuery, loadTopReels, setLabaReelsCache]);
 
   React.useEffect(() => {
     return () => {

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 interface UIState {
   // Pricing
@@ -49,6 +49,7 @@ interface UIState {
 }
 
 const UIStateContext = createContext<UIState | undefined>(undefined);
+const LABA_MAIN_SEARCH_QUERY_KEY = 'metaflora_laba_main_search_query_v1';
 
 export function UIStateProvider({ children }: { children: ReactNode }) {
   // Pricing
@@ -92,9 +93,17 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
   const [labaTrackedAccounts, setLabaTrackedAccounts] = useState<string[]>([]);
   const [labaFavorites, setLabaFavorites] = useState<string[]>([]);
   const [labaReelsCache, setLabaReelsCache] = useState<any[]>([]);
-  const [labaMainSearchQuery, setLabaMainSearchQuery] = useState('');
+  const [labaMainSearchQuery, setLabaMainSearchQuery] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return window.localStorage.getItem(LABA_MAIN_SEARCH_QUERY_KEY) || '';
+  });
   const [labaAccountLinkQuery, setLabaAccountLinkQuery] = useState('');
   const [labaAccountNicknameQuery, setLabaAccountNicknameQuery] = useState('');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(LABA_MAIN_SEARCH_QUERY_KEY, labaMainSearchQuery);
+  }, [labaMainSearchQuery]);
 
   const addToTracked = (accountId: string) => {
     setLabaTrackedAccounts(prev => [...new Set([...prev, accountId])]);

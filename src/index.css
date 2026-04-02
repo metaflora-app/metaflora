@@ -36,6 +36,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+button,
+img,
+svg,
+iframe {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Анимация переливающегося контура */
@@ -292,11 +302,13 @@ body {
 
 .premium-button-shell {
   transition:
-    transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 320ms ease;
+    transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 120ms ease;
   will-change: transform, filter;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .premium-button-shell::before,
@@ -370,8 +382,8 @@ body {
 }
 
 .premium-button-shell.is-pressed {
-  transform: scale(1.02);
-  filter: brightness(1.05);
+  transform: scale(1.075);
+  filter: brightness(1.08);
 }
 
 .premium-button-content {
@@ -389,18 +401,20 @@ body {
 
 .motion-press-grow {
   transition:
-    transform 560ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 220ms ease;
+    transform 120ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 120ms ease;
   transform-origin: center;
   will-change: transform;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .motion-press-grow:active,
 .motion-press-grow.is-pressed {
-  transform: scale(1.015);
-  filter: brightness(1.04);
+  transform: scale(1.09);
+  filter: brightness(1.08);
 }
 
 .laba-feed-scroll {

@@ -159,6 +159,35 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     setPlaybackRate(1);
   }, [initialTime, src]);
 
+  React.useEffect(() => {
+    if (!src) return;
+
+    let preloadLink: HTMLLinkElement | null = null;
+    let preconnectLink: HTMLLinkElement | null = null;
+
+    try {
+      const srcUrl = new URL(src, window.location.href);
+      preconnectLink = document.createElement('link');
+      preconnectLink.rel = 'preconnect';
+      preconnectLink.href = srcUrl.origin;
+      document.head.appendChild(preconnectLink);
+
+      preloadLink = document.createElement('link');
+      preloadLink.rel = 'preload';
+      preloadLink.as = 'video';
+      preloadLink.href = srcUrl.toString();
+      preloadLink.crossOrigin = 'anonymous';
+      document.head.appendChild(preloadLink);
+    } catch {
+      return;
+    }
+
+    return () => {
+      preconnectLink?.remove();
+      preloadLink?.remove();
+    };
+  }, [src]);
+
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
       play: () => Promise<void>;
