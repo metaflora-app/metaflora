@@ -75,6 +75,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const [isAvatarLoaded, setIsAvatarLoaded] = React.useState(false);
   const coverSrc = coverSources[coverIndex] || figmaCardCover;
   const avatarSrc = avatarSources[avatarIndex] || null;
+  const shouldShowInstagramLogo = Boolean(avatarSrc && isAvatarLoaded);
 
   React.useEffect(() => {
     setCoverIndex(0);
@@ -156,6 +157,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           alt=""
           loading="lazy"
           decoding="async"
+          referrerPolicy="no-referrer"
           onLoad={() => setIsCoverLoaded(true)}
           onError={(event) => {
             const target = event.currentTarget;
@@ -325,6 +327,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             alt=""
             loading="lazy"
             decoding="async"
+            referrerPolicy="no-referrer"
             onLoad={() => setIsAvatarLoaded(true)}
             onError={() => {
               if (avatarIndex < avatarSources.length - 1) {
@@ -349,15 +352,17 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           opacity: 0.6,
         }}
       >
-        <img
-          src={instagramLogo}
-          alt=""
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-        />
+        {shouldShowInstagramLogo ? (
+          <img
+            src={instagramLogo}
+            alt=""
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+        ) : null}
       </div>
 
       <div
