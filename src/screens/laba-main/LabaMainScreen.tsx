@@ -5,19 +5,18 @@ import { LabaFilterButton } from '../../components/laba/LabaFilterButton';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
-import { LABA_COSTS, Reel, TopReelCategory } from '../../types/laba';
+import { LABA_COSTS, Reel } from '../../types/laba';
 import {
   cacheFavorites,
   cacheSearchReels,
-  cacheTopReels,
   findTrackedAccountByUsername,
   getCachedFavorites,
   getCachedTrackedAccounts,
   getCachedSearchReels,
-  getCachedTopReels,
+  getCachedTopReelsFeed,
   getFavorites,
   getTelegramUserId,
-  getTopReels,
+  getTopReelsFeed,
   refreshTrackedAccounts,
   searchReels,
   setCachedFavoriteState,
@@ -35,8 +34,6 @@ const sortOptions = ['>просмотров', '<просмотров', '>лай�
 const dateOptions = ['7 дней', '14 дней', '30 дней', '6 месяцев', '1 год'];
 const languageOptions = ['русский', 'английский', 'испанский', 'турецкий'];
 const accountOptions = ['0-10к', '10к-100к', '100к-300к', '300к-1млн', '>1млн'];
-const DEFAULT_TOP_REELS_CATEGORY: TopReelCategory = 'нейросети';
-
 export const LabaMainScreen: React.FC = () => {
   const navigate = useNavigate();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
@@ -51,7 +48,7 @@ export const LabaMainScreen: React.FC = () => {
     [labaMainSearchQuery]
   );
   const initialCachedTopReels = React.useMemo(
-    () => getCachedTopReels(DEFAULT_TOP_REELS_CATEGORY),
+    () => getCachedTopReelsFeed(),
     []
   );
   const hasActiveSearch = labaMainSearchQuery.trim().length > 0;
@@ -83,16 +80,14 @@ export const LabaMainScreen: React.FC = () => {
   const loadTopReels = React.useCallback(async (attempt = 0) => {
     setLoading(true);
     try {
-      const items = await getTopReels(DEFAULT_TOP_REELS_CATEGORY);
+      const items = await getTopReelsFeed();
       if (items.length > 0) {
         if (topReelsRetryTimeoutRef.current !== null) {
           window.clearTimeout(topReelsRetryTimeoutRef.current);
           topReelsRetryTimeoutRef.current = null;
         }
-        cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, items);
         setReels(items);
       } else {
-        cacheTopReels(DEFAULT_TOP_REELS_CATEGORY, []);
         setReels([]);
         if (attempt < 4) {
           topReelsRetryTimeoutRef.current = window.setTimeout(() => {
