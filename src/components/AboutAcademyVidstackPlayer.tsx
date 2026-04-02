@@ -484,9 +484,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             type="button"
             aria-label="Воспроизвести видео"
             className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
-            onPointerDown={() => setPressedControl('overlay-play')}
-            onPointerUp={() => {
-              setPressedControl(null);
+            onPointerDown={(event) => {
+              event.preventDefault();
+              setPressedControl('overlay-play');
               void handleTogglePlay();
             }}
             onPointerLeave={() => setPressedControl(null)}
