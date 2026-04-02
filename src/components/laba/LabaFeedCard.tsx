@@ -39,7 +39,6 @@ const CARD_INSET_TOP = 31;
 const COVER_SIZE = 769;
 
 const textFont = 'Cygre, sans-serif';
-const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
 const openReelChevronOne = 'https://www.figma.com/api/mcp/asset/c438e6ad-9b13-4d96-a92b-f79405621e12';
 const openReelChevronTwo = 'https://www.figma.com/api/mcp/asset/ca4f9322-b09a-4358-a069-4bf92288177c';
 const openReelChevronThree = 'https://www.figma.com/api/mcp/asset/1355747b-76c8-4fd1-a9a1-c9a669881457';
@@ -71,9 +70,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
   const [isAnalysisPressed, setIsAnalysisPressed] = React.useState(false);
-  const [isCoverLoaded, setIsCoverLoaded] = React.useState(false);
   const [isAvatarLoaded, setIsAvatarLoaded] = React.useState(false);
-  const coverSrc = coverSources[coverIndex] || figmaCardCover;
+  const coverSrc = coverSources[coverIndex] || null;
   const avatarSrc = avatarSources[avatarIndex] || null;
   const shouldShowInstagramLogo = Boolean(avatarSrc && isAvatarLoaded);
 
@@ -86,32 +84,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   }, [avatarSources]);
 
   React.useEffect(() => {
-    setIsCoverLoaded(false);
-  }, [coverSrc]);
-
-  React.useEffect(() => {
-    if (isCoverLoaded || coverIndex >= coverSources.length - 1) return;
-    const timeoutId = window.setTimeout(() => {
-      setCoverIndex((current) => (current === coverIndex ? current + 1 : current));
-    }, 2800);
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [coverIndex, coverSources.length, coverSrc, isCoverLoaded]);
-
-  React.useEffect(() => {
     setIsAvatarLoaded(false);
   }, [avatarSrc]);
-
-  React.useEffect(() => {
-    if (isAvatarLoaded || avatarIndex >= avatarSources.length - 1) return;
-    const timeoutId = window.setTimeout(() => {
-      setAvatarIndex((current) => (current === avatarIndex ? current + 1 : current));
-    }, 2200);
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [avatarIndex, avatarSources.length, avatarSrc, isAvatarLoaded]);
 
   const resolvedActionButtonImageSrc =
     actionButtonImageSrc ?? (typeof actionCost === 'number' ? undefined : shortTrackedActiveButton);
@@ -152,25 +126,21 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           background: 'rgba(255,255,255,0.08)',
         }}
       >
-        <img
-          src={coverSrc}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          referrerPolicy="no-referrer"
-          onLoad={() => setIsCoverLoaded(true)}
-          onError={(event) => {
-            const target = event.currentTarget;
-            if (coverIndex < coverSources.length - 1) {
-              setCoverIndex((current) => current + 1);
-              return;
-            }
-            if (target.src !== figmaCardCover) {
-              target.src = figmaCardCover;
-            }
-          }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        {coverSrc ? (
+          <img
+            src={coverSrc}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            onError={() => {
+              if (coverIndex < coverSources.length - 1) {
+                setCoverIndex((current) => current + 1);
+              }
+            }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : null}
       </div>
 
       <FigmaLikeButton
