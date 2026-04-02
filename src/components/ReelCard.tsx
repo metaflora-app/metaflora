@@ -57,7 +57,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
   }, [coverSources]);
 
   const avatarUrl = avatarSources[avatarIndex] || null;
-  const coverUrl = coverSources[coverIndex] || reel.coverImageUrl;
+  const coverUrl = coverSources[coverIndex] || null;
   
   return (
     <div style={{
@@ -88,26 +88,28 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
         borderRadius: '25px',
         overflow: 'hidden',
       }}>
-        <img 
-          src={coverUrl}
-          alt=""
-          loading="lazy"
-          onError={(e) => {
-            if (coverIndex < coverSources.length - 1) {
-              setCoverIndex((current) => current + 1);
-              return;
-            }
-            console.error('[COVER] ❌ Ошибка загрузки обложки:', coverUrl);
-          }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            borderRadius: '25px',
-          }}
-        />
+        {coverUrl ? (
+          <img 
+            src={coverUrl}
+            alt=""
+            loading="lazy"
+            onError={() => {
+              if (coverIndex < coverSources.length - 1) {
+                setCoverIndex((current) => current + 1);
+                return;
+              }
+              console.error('[COVER] ❌ Ошибка загрузки обложки:', coverUrl);
+            }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '25px',
+            }}
+          />
+        ) : null}
       </div>
 
       {/* Badge "новое" - ТОЧНАЯ КОПИЯ из PromptFirstScreen */}
