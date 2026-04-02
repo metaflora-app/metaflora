@@ -339,11 +339,11 @@ export function getReelCoverSources(reel: Pick<Reel, 'id' | 'instagramReelId' | 
       : [];
 
   return uniqueImageSources([
-    ...(!directCoverUrl && reelId ? buildAllReelMediaUrls(reelId, 'cover') : []),
+    ...(reelId ? buildAllReelMediaUrls(reelId, 'cover') : []),
     directCoverUrl,
-    reel.coverImageUrl,
     ...(instagramPageUrl ? buildAllProxyImageUrls(instagramPageUrl) : []),
     ...proxiedReelUrls,
+    reel.coverImageUrl,
   ]);
 }
 
