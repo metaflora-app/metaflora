@@ -5,6 +5,7 @@ import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstac
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
 import aboutWorkshopVideo from '../../assets/about-screens/about-workshop.mp4';
+import aboutMetafloraPoster from '../../assets/about-screens/about-metaflora-poster.png';
 
 export const AboutPromptScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const AboutPromptScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer src={aboutWorkshopVideo} title="как устроена МЕТАФЛОРА* цех" controlsVariant="full" />
+        <AboutAcademyVidstackPlayer src={aboutWorkshopVideo} posterSrc={aboutMetafloraPoster} title="как устроена МЕТАФЛОРА* цех" controlsVariant="full" />
 
         <button
           type="button"
