@@ -53,7 +53,7 @@ export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
-  const { setLabaMainSearchQuery, setLabaReelsCache } = useUIState();
+  useUIState();
   const reel = (location.state as { reel?: Reel } | null)?.reel;
 
   const [analysis, setAnalysis] = React.useState<Analysis | null>(null);
@@ -88,13 +88,6 @@ export const LabaAnalysisScreen: React.FC = () => {
   React.useEffect(() => {
     if (!reel) navigate('/laba-main');
   }, [navigate, reel]);
-
-  React.useEffect(() => {
-    return () => {
-      setLabaMainSearchQuery('');
-      setLabaReelsCache([]);
-    };
-  }, [setLabaMainSearchQuery, setLabaReelsCache]);
 
   React.useEffect(() => {
     let cancelled = false;

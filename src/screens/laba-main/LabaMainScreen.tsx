@@ -117,10 +117,8 @@ export const LabaMainScreen: React.FC = () => {
       if (topReelsRetryTimeoutRef.current !== null) {
         window.clearTimeout(topReelsRetryTimeoutRef.current);
       }
-      setLabaMainSearchQuery('');
-      setLabaReelsCache([]);
     };
-  }, [setLabaMainSearchQuery, setLabaReelsCache]);
+  }, []);
 
   React.useEffect(() => {
     const hydrateFavorites = async () => {
