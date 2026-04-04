@@ -11,10 +11,6 @@ import systemBg from '../../assets/academy-redesign/фон система.png';
 import promptingBg from '../../assets/academy-redesign/фон промптинг.png';
 import artBg from '../../assets/academy-redesign/фон искусство.png';
 import automationBg from '../../assets/academy-redesign/фон автоматизация.png';
-import progressRed from '../../assets/academy-progress-redesign/progress-red.png';
-import progressYellow from '../../assets/academy-progress-redesign/progress-yellow.png';
-import progressGreenPassive from '../../assets/academy-progress-redesign/progress-green-passive.png';
-import progressGreenFull from '../../assets/academy-progress-redesign/progress-green-full.png';
 
 interface CourseCardConfig {
   key: string;
@@ -90,6 +86,10 @@ const courseCards: CourseCardConfig[] = [
   },
 ];
 
+const progressRed = 'https://www.figma.com/api/mcp/asset/673c8961-0339-48af-9b54-8ff71a952544';
+const progressYellow = 'https://www.figma.com/api/mcp/asset/3b851238-fd21-47f3-8607-915de61d9da3';
+const progressGreenPassive = 'https://www.figma.com/api/mcp/asset/fe23c749-20a5-4d40-ae9d-e6672701ecb4';
+const progressGreenFull = 'https://www.figma.com/api/mcp/asset/f63c7374-0033-4cfc-8c7a-9e62ed267fbf';
 const ACADEMY_PROGRESS_CACHE_KEY = 'academy_courses_progress_summary_v1';
 
 function getAcademyProgressStorage(): Storage | null {
@@ -151,24 +151,33 @@ const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ v
   const normalized = Math.max(0, Math.min(100, value));
   const progressAsset = getProgressAsset(normalized);
 
-  if (!progressAsset) {
-    return null;
-  }
-
   return (
-    <img
-      src={progressAsset}
-      alt=""
-      aria-label="прогресс"
+    <div
       style={{
         position: 'absolute',
         left: `${left}px`,
         top: `${top}px`,
         width: '57px',
         height: '20px',
-        objectFit: 'contain',
+        background: '#141a25',
+        borderRadius: '999px',
+        overflow: 'hidden',
       }}
-    />
+    >
+      {progressAsset ? (
+        <img
+          src={progressAsset}
+          alt="прогресс"
+          aria-label="прогресс"
+          style={{
+            width: '57px',
+            height: '20px',
+            objectFit: 'fill',
+            display: 'block',
+          }}
+        />
+      ) : null}
+    </div>
   );
 };
 
