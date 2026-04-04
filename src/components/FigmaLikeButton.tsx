@@ -1,8 +1,5 @@
 import React from 'react';
 
-const figmaLikeInactive = 'https://www.figma.com/api/mcp/asset/c8310fa1-7e0d-4dc7-a30c-c005fd95bf6c';
-const figmaLikeActive = 'https://www.figma.com/api/mcp/asset/54705681-a8db-43a0-89e6-c7054609697b';
-
 interface FigmaLikeButtonProps {
   active: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -65,22 +62,28 @@ export const FigmaLikeButton: React.FC<FigmaLikeButtonProps> = ({
         className={effectVariant === 'tiktok' ? 'tiktok-like-icon' : undefined}
         style={{
           position: 'relative',
-          width: '20px',
-          height: '20px',
+          width: '34px',
+          height: '34px',
           margin: 'auto',
         }}
       >
-        <img
-          src={active ? figmaLikeActive : figmaLikeInactive}
-          alt="лайк"
+        <svg
+          viewBox="0 0 36 36"
+          aria-hidden="true"
           style={{
-            position: 'absolute',
-            inset: '-30% -35% -30% -40%',
-            width: 'calc(100% + 15px)',
-            height: 'calc(100% + 12px)',
-            maxWidth: 'none',
+            width: '100%',
+            height: '100%',
+            display: 'block',
           }}
-        />
+        >
+          <path
+            d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z"
+            stroke={active ? '#FF4D6D' : '#FFFFFF'}
+            strokeWidth="2.6"
+            fill={active ? '#FF4D6D' : 'none'}
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
     </button>
   );
