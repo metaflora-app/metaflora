@@ -162,35 +162,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     setIsPlayPending(false);
   }, [initialTime, src]);
 
-  React.useEffect(() => {
-    if (!src) return;
-
-    let preloadLink: HTMLLinkElement | null = null;
-    let preconnectLink: HTMLLinkElement | null = null;
-
-    try {
-      const srcUrl = new URL(src, window.location.href);
-      preconnectLink = document.createElement('link');
-      preconnectLink.rel = 'preconnect';
-      preconnectLink.href = srcUrl.origin;
-      document.head.appendChild(preconnectLink);
-
-      preloadLink = document.createElement('link');
-      preloadLink.rel = 'preload';
-      preloadLink.as = 'video';
-      preloadLink.href = srcUrl.toString();
-      preloadLink.crossOrigin = 'anonymous';
-      document.head.appendChild(preloadLink);
-    } catch {
-      return;
-    }
-
-    return () => {
-      preconnectLink?.remove();
-      preloadLink?.remove();
-    };
-  }, [src]);
-
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
       play: () => Promise<void>;
@@ -279,8 +250,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           nativeVideo.preload = 'auto';
           nativeVideo.playsInline = true;
           nativeVideo.muted = player.muted;
-          await nativeVideo.play();
-          return;
+          nativeVideo.load();
         }
         await player.play();
         return;
@@ -290,14 +260,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       await player.pause();
     } catch (error) {
       console.error('Video toggle failed:', error);
-      if (media.paused) {
-        window.setTimeout(() => {
-          void player.play().catch((retryError) => {
-            console.error('Video retry play failed:', retryError);
-          });
-        }, 180);
-        return;
-      }
       setIsPlayPending(false);
     }
   }, [getNativeVideoElement, getPlayer, media.paused]);
@@ -339,9 +301,33 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     }
 
     const player = getPlayer();
-    if (!player) return;
-    await player.enterFullscreen('prefer-media');
-  }, [getPlayer, onExpand]);
+    const nativeVideo = getNativeVideoElement();
+    if (!player && !nativeVideo) return;
+
+    try {
+      if (nativeVideo) {
+        const webkitVideo = nativeVideo as HTMLVideoElement & {
+          webkitEnterFullscreen?: () => void;
+        };
+
+        if (typeof webkitVideo.webkitEnterFullscreen === 'function') {
+          webkitVideo.webkitEnterFullscreen();
+          return;
+        }
+
+        if (typeof nativeVideo.requestFullscreen === 'function') {
+          await nativeVideo.requestFullscreen();
+          return;
+        }
+      }
+
+      if (player) {
+        await player.enterFullscreen('prefer-media');
+      }
+    } catch (error) {
+      console.error('Failed to enter fullscreen:', error);
+    }
+  }, [getNativeVideoElement, getPlayer, onExpand]);
 
   const handleCyclePlaybackRate = React.useCallback(() => {
     setPlaybackRate((currentRate) => {
@@ -379,7 +365,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         ref={playerRef}
         src={src}
         poster={posterSrc || undefined}
-        preload="auto"
+        preload="metadata"
         title={title}
         viewType="video"
         streamType="on-demand"
@@ -503,6 +489,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             }}
             onPointerLeave={() => setPressedControl(null)}
             onPointerCancel={() => setPressedControl(null)}
+            onPointerUp={() => setPressedControl(null)}
             style={{
               ...overlayControlStyle,
               zIndex: 5,
