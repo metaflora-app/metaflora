@@ -138,13 +138,24 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const [flashOverlay, setFlashOverlay] = React.useState<FlashOverlayState>(null);
   const [pressedControl, setPressedControl] = React.useState<string | null>(null);
   const [isPlayPending, setIsPlayPending] = React.useState(false);
+  const [nativeDuration, setNativeDuration] = React.useState(0);
+  const [nativeCurrentTime, setNativeCurrentTime] = React.useState(0);
+  const [hasDismissedPoster, setHasDismissedPoster] = React.useState(false);
   const media = useMediaStore(playerRef);
   const slider = useSliderStore(timeSliderRef);
+  const effectiveCurrentTime = React.useMemo(
+    () => (Number.isFinite(media.currentTime) && media.currentTime > 0 ? media.currentTime : nativeCurrentTime),
+    [media.currentTime, nativeCurrentTime],
+  );
+  const effectiveDuration = React.useMemo(
+    () => (Number.isFinite(media.duration) && media.duration > 0 ? media.duration : nativeDuration),
+    [media.duration, nativeDuration],
+  );
   const fillPercent = React.useMemo(() => {
     if (typeof slider.fillPercent === 'number') return slider.fillPercent;
-    if (!media.duration) return 0;
-    return (media.currentTime / media.duration) * 100;
-  }, [media.currentTime, media.duration, slider.fillPercent]);
+    if (!effectiveDuration) return 0;
+    return (effectiveCurrentTime / effectiveDuration) * 100;
+  }, [effectiveCurrentTime, effectiveDuration, slider.fillPercent]);
 
   React.useEffect(() => {
     return () => {
@@ -161,6 +172,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     setFlashOverlay(null);
     setPlaybackRate(1);
     setIsPlayPending(false);
+    setNativeDuration(0);
+    setNativeCurrentTime(0);
+    setHasDismissedPoster(false);
   }, [initialTime, src]);
 
   React.useEffect(() => {
@@ -225,9 +239,11 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     if (player) {
       player.muted = false;
+      (player as MediaPlayerElement & { volume?: number }).volume = 1;
     }
 
     if (nativeVideo) {
+      nativeVideo.removeAttribute('muted');
       nativeVideo.muted = false;
       nativeVideo.defaultMuted = false;
       nativeVideo.volume = 1;
@@ -235,6 +251,43 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       nativeVideo.preload = 'auto';
     }
   }, [getNativeVideoElement, getPlayer, src]);
+
+  React.useEffect(() => {
+    const nativeVideo = getNativeVideoElement();
+    if (!nativeVideo) {
+      return undefined;
+    }
+
+    const syncMetrics = () => {
+      setNativeCurrentTime(Number.isFinite(nativeVideo.currentTime) ? nativeVideo.currentTime : 0);
+      setNativeDuration(Number.isFinite(nativeVideo.duration) ? nativeVideo.duration : 0);
+    };
+
+    const handlePlay = () => {
+      setHasDismissedPoster(true);
+      setIsPlayPending(false);
+      syncMetrics();
+    };
+
+    const handlePause = () => {
+      syncMetrics();
+    };
+
+    syncMetrics();
+    nativeVideo.addEventListener('loadedmetadata', syncMetrics);
+    nativeVideo.addEventListener('durationchange', syncMetrics);
+    nativeVideo.addEventListener('timeupdate', syncMetrics);
+    nativeVideo.addEventListener('play', handlePlay);
+    nativeVideo.addEventListener('pause', handlePause);
+
+    return () => {
+      nativeVideo.removeEventListener('loadedmetadata', syncMetrics);
+      nativeVideo.removeEventListener('durationchange', syncMetrics);
+      nativeVideo.removeEventListener('timeupdate', syncMetrics);
+      nativeVideo.removeEventListener('play', handlePlay);
+      nativeVideo.removeEventListener('pause', handlePause);
+    };
+  }, [getNativeVideoElement, src]);
 
   React.useEffect(() => {
     const player = getPlayer();
@@ -257,18 +310,18 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, initialTime, media.duration]);
 
   React.useEffect(() => {
-    onTimeChange?.(media.currentTime);
+    onTimeChange?.(effectiveCurrentTime);
 
     if (
       onWatchThreshold &&
       !watchThresholdReachedRef.current &&
-      media.duration > 0 &&
-      media.currentTime / media.duration >= 0.8
+      effectiveDuration > 0 &&
+      effectiveCurrentTime / effectiveDuration >= 0.8
     ) {
       watchThresholdReachedRef.current = true;
       onWatchThreshold();
     }
-  }, [media.currentTime, media.duration, onTimeChange, onWatchThreshold]);
+  }, [effectiveCurrentTime, effectiveDuration, onTimeChange, onWatchThreshold]);
 
   React.useEffect(() => {
     if (!onPlaybackStart || playbackStartedRef.current || media.paused) return;
@@ -277,10 +330,10 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [media.paused, onPlaybackStart]);
 
   React.useEffect(() => {
-    if (!media.paused || media.currentTime > 0.08) {
+    if (!media.paused || effectiveCurrentTime > 0.08) {
       setIsPlayPending(false);
     }
-  }, [media.currentTime, media.paused]);
+  }, [effectiveCurrentTime, media.paused]);
 
   const showOverlay = React.useCallback((state: Exclude<FlashOverlayState, null>) => {
     if (overlayTimeoutRef.current !== null) {
@@ -302,14 +355,18 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     try {
       if (media.paused) {
         setIsPlayPending(true);
+        setHasDismissedPoster(true);
         if (nativeVideo) {
           nativeVideo.preload = 'auto';
           nativeVideo.playsInline = true;
+          nativeVideo.removeAttribute('muted');
           nativeVideo.muted = false;
           nativeVideo.defaultMuted = false;
           nativeVideo.volume = 1;
           await nativeVideo.play();
         } else {
+          player.muted = false;
+          (player as MediaPlayerElement & { volume?: number }).volume = 1;
           await player.play();
         }
         return;
@@ -353,9 +410,24 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
   const handleToggleMute = React.useCallback(() => {
     const player = getPlayer();
-    if (!player) return;
-    player.muted = !player.muted;
-  }, [getPlayer]);
+    const nativeVideo = getNativeVideoElement();
+    if (!player && !nativeVideo) return;
+
+    const nextMuted = !(nativeVideo?.muted ?? player?.muted ?? false);
+
+    if (player) {
+      player.muted = nextMuted;
+    }
+
+    if (nativeVideo) {
+      if (!nextMuted) {
+        nativeVideo.removeAttribute('muted');
+        nativeVideo.defaultMuted = false;
+        nativeVideo.volume = 1;
+      }
+      nativeVideo.muted = nextMuted;
+    }
+  }, [getNativeVideoElement, getPlayer]);
 
   const handleEnterFullscreen = React.useCallback(async () => {
     if (onExpand) {
@@ -406,7 +478,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, media.playbackRate]);
 
 
-  const shouldShowPreview = Boolean(posterSrc) && (isPlayPending || media.currentTime <= 0.08);
+  const shouldShowPreview = Boolean(posterSrc) && !hasDismissedPoster && (isPlayPending || effectiveCurrentTime <= 0.08);
 
 
   return (
@@ -642,7 +714,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             textAlign: 'center',
           }}
         >
-          {formatTimeLabel(media.currentTime)}
+          {formatTimeLabel(effectiveCurrentTime)}
         </div>
 
         <div
@@ -725,7 +797,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             textAlign: 'center',
           }}
         >
-          {formatTimeLabel(media.duration)}
+          {formatTimeLabel(effectiveDuration)}
         </div>
       </MediaPlayer>
     </div>
