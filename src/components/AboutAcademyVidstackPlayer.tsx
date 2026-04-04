@@ -725,6 +725,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             width: `${TIMELINE_WIDTH}px`,
             height: '21px',
             pointerEvents: 'none',
+            zIndex: 4,
           }}
         >
           <div
@@ -734,12 +735,23 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
               top: '10px',
               width: `${TIMELINE_WIDTH}px`,
               height: '10px',
-              backgroundImage: `url(${timelineTrack})`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-              backgroundSize: '100% 10px',
+              borderRadius: '999px',
+              overflow: 'hidden',
+              background: 'rgba(255, 255, 255, 0.3)',
             }}
-          />
+          >
+            <img
+              src={timelineTrack}
+              alt=""
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'fill',
+                display: 'block',
+                opacity: 1,
+              }}
+            />
+          </div>
           <div
             style={{
               position: 'absolute',
@@ -748,7 +760,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
               height: '10px',
               width: `${fillPercent}%`,
               borderRadius: '999px',
-              background: 'rgba(255, 255, 255, 0.45)',
+              background: 'rgba(255, 255, 255, 0.78)',
             }}
           />
           <div
@@ -759,12 +771,19 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
               width: '21px',
               height: '21px',
               transform: 'translateX(-50%)',
-              backgroundImage: `url(${timelineThumb})`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-              backgroundSize: 'contain',
             }}
-          />
+          >
+            <img
+              src={timelineThumb}
+              alt=""
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                display: 'block',
+              }}
+            />
+          </div>
         </div>
 
         <MediaTimeSlider

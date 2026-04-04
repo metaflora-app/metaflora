@@ -18,7 +18,7 @@ import openReelChevronTwo from '../../assets/laba-analysis/open-reel-chevron-2.p
 import openReelChevronThree from '../../assets/laba-analysis/open-reel-chevron-3.png';
 
 type ActionVariant = 'dark' | 'light';
-const figmaInstagramLogo = 'https://www.figma.com/api/mcp/asset/c99678de-525f-4c82-9a03-9a1491db0852';
+const figmaInstagramLogo = 'https://www.figma.com/api/mcp/asset/588e2e9b-8b11-4a23-b964-82029581a2db';
 
 interface LabaFeedCardProps {
   reel: Reel;
