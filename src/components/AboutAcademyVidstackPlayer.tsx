@@ -8,6 +8,7 @@ import {
   useSliderStore,
 } from '@vidstack/react';
 import type { MediaPlayerElement, MediaSliderElement } from 'vidstack';
+import { prewarmVideoSource } from '../utils/videoPreloader';
 
 import fullscreenIcon from '../assets/about-academy-player/fullscreen-icon.svg';
 import muteIcon from '../assets/about-academy-player/mute-icon.svg';
@@ -196,6 +197,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       createdLinks.forEach((link) => link.remove());
     };
   }, [posterSrc, src]);
+  React.useEffect(() => {
+    prewarmVideoSource(src, posterSrc);
+  }, [posterSrc, src]);
 
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
@@ -214,6 +218,23 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     if (!playerRoot) return null;
     return playerRoot.querySelector('video') as HTMLVideoElement | null;
   }, []);
+
+  React.useEffect(() => {
+    const player = getPlayer();
+    const nativeVideo = getNativeVideoElement();
+
+    if (player) {
+      player.muted = false;
+    }
+
+    if (nativeVideo) {
+      nativeVideo.muted = false;
+      nativeVideo.defaultMuted = false;
+      nativeVideo.volume = 1;
+      nativeVideo.playsInline = true;
+      nativeVideo.preload = 'auto';
+    }
+  }, [getNativeVideoElement, getPlayer, src]);
 
   React.useEffect(() => {
     const player = getPlayer();
@@ -284,17 +305,22 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         if (nativeVideo) {
           nativeVideo.preload = 'auto';
           nativeVideo.playsInline = true;
-          nativeVideo.muted = player.muted;
-          if (nativeVideo.networkState === HTMLMediaElement.NETWORK_EMPTY) {
-            nativeVideo.load();
-          }
+          nativeVideo.muted = false;
+          nativeVideo.defaultMuted = false;
+          nativeVideo.volume = 1;
+          await nativeVideo.play();
+        } else {
+          await player.play();
         }
-        await player.play();
         return;
       }
 
       setIsPlayPending(false);
-      await player.pause();
+      if (nativeVideo) {
+        nativeVideo.pause();
+      } else {
+        await player.pause();
+      }
     } catch (error) {
       console.error('Video toggle failed:', error);
       setIsPlayPending(false);
@@ -403,6 +429,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         src={src}
         poster={posterSrc || undefined}
         preload="auto"
+        muted={false}
         title={title}
         viewType="video"
         streamType="on-demand"
@@ -517,9 +544,8 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             type="button"
             aria-label="Воспроизвести видео"
             className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
-            onPointerDown={(event) => {
-              event.preventDefault();
-              setPressedControl('overlay-play');
+            onPointerDown={() => setPressedControl('overlay-play')}
+            onClick={() => {
               if (!isPlayPending) {
                 void handleTogglePlay();
               }

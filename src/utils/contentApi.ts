@@ -233,9 +233,7 @@ export async function getAcademyLessonById(id: string): Promise<ContentItemRespo
 
 export async function getAcademyVideos(lessonId: string): Promise<ContentListResponse<AcademyVideo>> {
   try {
-    // Добавляем timestamp для обхода кэша браузера
-    const timestamp = new Date().getTime();
-    const response = await fetch(`${API_BASE_URL}/api/content/academy-videos/${lessonId}?t=${timestamp}`);
+    const response = await fetch(`${API_BASE_URL}/api/content/academy-videos/${lessonId}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -436,9 +434,7 @@ export async function getDemoLessonById(
 
 export async function getDemoVideos(lessonId: string): Promise<ContentListResponse<AcademyVideo>> {
   try {
-    // Добавляем timestamp для обхода кэша браузера
-    const timestamp = new Date().getTime();
-    const response = await fetch(`${API_BASE_URL}/api/content/demo-videos/${lessonId}?t=${timestamp}`);
+    const response = await fetch(`${API_BASE_URL}/api/content/demo-videos/${lessonId}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

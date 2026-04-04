@@ -7,6 +7,7 @@ import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstac
 import { AboutVideoPlayer } from '../../components/AboutVideoPlayer';
 import type { AcademyLesson, AcademyVideo } from '../../types/content';
 import { getTelegramUserId } from '../../utils/labaApi';
+import { prewarmVideoSource } from '../../utils/videoPreloader';
 import { markLessonVideoWatched, markVideoViewed } from '../../utils/userProgress';
 
 import materialsButton from '../../assets/about-screens/большая кнопка получить материалы.png';
@@ -132,6 +133,14 @@ export const AcademyLessonVideoScreen: React.FC = () => {
       }
     });
   }, [hasDownloadMaterials, lessonId, userId]);
+
+  useEffect(() => {
+    if (!video?.video_url) {
+      return;
+    }
+
+    prewarmVideoSource(video.video_url, video.poster_url || lessonPoster);
+  }, [video?.poster_url, video?.video_url]);
 
   const visibleTitle = lesson?.video_title || lesson?.title || video?.title || '';
 
