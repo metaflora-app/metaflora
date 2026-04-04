@@ -86,10 +86,6 @@ const courseCards: CourseCardConfig[] = [
   },
 ];
 
-const progressRed = 'https://www.figma.com/api/mcp/asset/cc2c8bf3-8abd-4bad-81a0-640b9afcfd36';
-const progressYellow = 'https://www.figma.com/api/mcp/asset/8deaedb2-f168-4271-a404-a4b8637406b7';
-const progressGreenPassive = 'https://www.figma.com/api/mcp/asset/d14ae309-fe39-4ec0-b554-cc46cf3db046';
-const progressGreenFull = 'https://www.figma.com/api/mcp/asset/eb67b842-0834-4fb0-a869-504c231ae2a1';
 const ACADEMY_PROGRESS_CACHE_KEY = 'academy_courses_progress_summary_v1';
 
 function getAcademyProgressStorage(): Storage | null {
@@ -127,29 +123,29 @@ const readAcademyProgressCache = (): {
   }
 };
 
-const getProgressAsset = (value: number): string | null => {
+const getProgressFillColor = (value: number): string | null => {
   if (value <= 0) {
     return null;
   }
 
   if (value >= 100) {
-    return progressGreenFull;
+    return '#9DFF63';
   }
 
   if (value >= 80) {
-    return progressGreenPassive;
+    return '#75FF67';
   }
 
   if (value >= 30) {
-    return progressYellow;
+    return '#F1D15B';
   }
 
-  return progressRed;
+  return '#FF6767';
 };
 
 const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ value, left, top }) => {
   const normalized = Math.max(0, Math.min(100, value));
-  const asset = getProgressAsset(normalized);
+  const fillColor = getProgressFillColor(normalized);
 
   return (
     <div
@@ -159,20 +155,21 @@ const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ v
         top: `${top}px`,
         width: '57px',
         height: '20px',
-        background: '#141a25',
+        background: 'rgba(18, 24, 31, 0.92)',
+        border: '1px solid rgba(255,255,255,0.18)',
         borderRadius: '999px',
         overflow: 'hidden',
       }}
     >
-      {asset ? (
-        <img
-          src={asset}
-          alt="прогресс"
+      {fillColor ? (
+        <div
+          aria-label="прогресс"
           style={{
-            width: '57px',
-            height: '20px',
-            objectFit: 'fill',
-            display: 'block',
+            width: `${Math.max(10, Math.round((57 * normalized) / 100))}px`,
+            height: '100%',
+            borderRadius: '999px',
+            background: fillColor,
+            boxShadow: `0 0 10px ${fillColor}66`,
           }}
         />
       ) : null}
