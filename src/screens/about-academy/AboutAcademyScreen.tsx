@@ -4,6 +4,7 @@ import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
+import aboutAcademyVideo from '../../assets/about-screens/about-academy.mp4';
 
 export const AboutAcademyScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export const AboutAcademyScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer controlsVariant="full" />
+        <AboutAcademyVidstackPlayer src={aboutAcademyVideo} controlsVariant="full" />
 
         <button
           type="button"
