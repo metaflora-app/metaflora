@@ -4,7 +4,7 @@ import App from './App';
 import './index.css';
 import { initTelegram } from './app/telegram/initTelegram';
 import { UIStateProvider } from './contexts/UIStateContext';
-import { preloadAllImages, preloadCriticalFonts, preloadImageSources } from './utils/assetPreloader';
+import { preloadCriticalFonts, preloadImageSources } from './utils/assetPreloader';
 import splashBackground from './assets/figma-welcome/фон для эксперимента.png';
 import splashLogo from './assets/figma-welcome/splash-logo.png';
 
@@ -40,13 +40,6 @@ async function bootstrapApp() {
     </React.StrictMode>,
   );
 
-  const warmAssets = () => {
-    void preloadAllImages();
-  };
-
-  window.requestAnimationFrame(() => {
-    warmAssets();
-  });
 }
 
 void bootstrapApp();

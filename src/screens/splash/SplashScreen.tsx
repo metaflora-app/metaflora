@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { preloadAllImages, preloadCriticalFonts } from '../../utils/assetPreloader';
+import { preloadCriticalFonts } from '../../utils/assetPreloader';
 import { getOrCreateUser } from '../../utils/supabase';
 import logo from '../../assets/figma-welcome/splash-logo.png';
 import splashBackground from '../../assets/figma-welcome/фон для эксперимента.png';
@@ -14,7 +14,6 @@ export const SplashScreen: React.FC = () => {
 
     const init = async () => {
       void preloadCriticalFonts();
-      void preloadAllImages();
       const userPromise = getOrCreateUser().catch(() => null);
       const [user] = await Promise.all([
         userPromise,

@@ -8,12 +8,14 @@ import {
   getReelAvatarSources,
   getReelCoverSources,
 } from '../../utils/labaApi';
-import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 import shortTrackedActiveButton from '../../assets/laba-main-buttons/кнопка следить очень короткая актив.png';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
+import openReelChevronOne from '../../assets/laba-analysis/open-reel-chevron-1.png';
+import openReelChevronTwo from '../../assets/laba-analysis/open-reel-chevron-2.png';
+import openReelChevronThree from '../../assets/laba-analysis/open-reel-chevron-3.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -68,10 +70,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
   const [isAnalysisPressed, setIsAnalysisPressed] = React.useState(false);
-  const [isAvatarLoaded, setIsAvatarLoaded] = React.useState(false);
   const coverSrc = coverSources[coverIndex] || null;
   const avatarSrc = avatarSources[avatarIndex] || null;
-  const shouldShowInstagramLogo = Boolean(avatarSrc && isAvatarLoaded);
 
   React.useEffect(() => {
     setCoverIndex(0);
@@ -80,10 +80,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   React.useEffect(() => {
     setAvatarIndex(0);
   }, [avatarSources]);
-
-  React.useEffect(() => {
-    setIsAvatarLoaded(false);
-  }, [avatarSrc]);
 
   const resolvedActionButtonImageSrc =
     actionButtonImageSrc ?? (typeof actionCost === 'number' ? undefined : shortTrackedActiveButton);
@@ -322,7 +318,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             loading="lazy"
             decoding="async"
             referrerPolicy="no-referrer"
-            onLoad={() => setIsAvatarLoaded(true)}
             onError={() => {
               if (avatarIndex < avatarSources.length - 1) {
                 setAvatarIndex((current) => current + 1);
@@ -331,30 +326,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
               setAvatarIndex(avatarSources.length);
             }}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        ) : null}
-      </div>
-
-      <div
-        style={{
-          position: 'absolute',
-          left: '268px',
-          top: '846px',
-          width: '64px',
-          height: '78px',
-          overflow: 'hidden',
-          opacity: 0.6,
-        }}
-      >
-        {shouldShowInstagramLogo ? (
-          <img
-            src={instagramLogo}
-            alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
           />
         ) : null}
       </div>
@@ -803,13 +774,13 @@ const OpenReelButton: React.FC = () => (
         backdropFilter: 'blur(12px)',
       }}
     />
-    <ChevronIcon left="14px" opacity={0.45} />
-    <ChevronIcon left="22px" opacity={0.72} />
-    <ChevronIcon left="32px" opacity={1} />
+    <ChevronIcon left="14px" opacity={0.45} src={openReelChevronOne} />
+    <ChevronIcon left="22px" opacity={0.72} src={openReelChevronTwo} />
+    <ChevronIcon left="32px" opacity={1} src={openReelChevronThree} />
   </div>
 );
 
-const ChevronIcon: React.FC<{ left: string; opacity: number }> = ({ left, opacity }) => (
+const ChevronIcon: React.FC<{ left: string; opacity: number; src: string }> = ({ left, opacity, src }) => (
   <div
     style={{
       position: 'absolute',
@@ -822,27 +793,17 @@ const ChevronIcon: React.FC<{ left: string; opacity: number }> = ({ left, opacit
       justifyContent: 'center',
     }}
   >
-    <div style={{ position: 'relative', width: '32px', height: '32px' }}>
-      <svg
-        viewBox="0 0 32 32"
-        aria-hidden="true"
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'block',
-          opacity,
-        }}
-      >
-        <path
-          d="M10 7L20 16L10 25"
-          fill="none"
-          stroke="#FFFFFF"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
+    <img
+      src={src}
+      alt=""
+      style={{
+        width: '32px',
+        height: '32px',
+        display: 'block',
+        objectFit: 'contain',
+        opacity,
+      }}
+    />
   </div>
 );
 

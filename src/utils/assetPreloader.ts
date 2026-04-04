@@ -1,12 +1,9 @@
-// Asset preloader - forces all images to load before navigation
-
-// Generate list of ALL images at build time
-const allImages = Object.values(
+// Asset preloader - keep startup light and only warm assets opportunistically.
+const allImageLoaders = Object.values(
   import.meta.glob('../assets/**/*.{png,jpg,jpeg,webp,gif}', {
-    eager: true,
     import: 'default',
   })
-) as string[];
+) as Array<() => Promise<string>>;
 
 let preloadPromise: Promise<void> | null = null;
 let isPreloaded = false;
@@ -60,7 +57,7 @@ export const preloadAllImages = (): Promise<void> => {
 
   preloadPromise = new Promise((resolve) => {
     let loadedCount = 0;
-    const totalImages = allImages.length;
+    const totalImages = Math.min(allImageLoaders.length, 48);
 
     if (totalImages === 0) {
       isPreloaded = true;
@@ -68,23 +65,17 @@ export const preloadAllImages = (): Promise<void> => {
       return;
     }
 
-    allImages.forEach((src) => {
-      const img = new Image();
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === totalImages) {
-          isPreloaded = true;
-          resolve();
-        }
-      };
-      img.onerror = () => {
-        loadedCount++;
-        if (loadedCount === totalImages) {
-          isPreloaded = true;
-          resolve();
-        }
-      };
-      img.src = src;
+    allImageLoaders.slice(0, totalImages).forEach((loadImage) => {
+      loadImage()
+        .then((src) => preloadImageSource(src))
+        .catch(() => undefined)
+        .finally(() => {
+          loadedCount++;
+          if (loadedCount === totalImages) {
+            isPreloaded = true;
+            resolve();
+          }
+        });
     });
   });
 

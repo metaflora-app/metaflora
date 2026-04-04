@@ -162,6 +162,41 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     setIsPlayPending(false);
   }, [initialTime, src]);
 
+  React.useEffect(() => {
+    if (typeof document === 'undefined') {
+      return undefined;
+    }
+
+    const head = document.head;
+    const createdLinks: HTMLLinkElement[] = [];
+    const preloadTargets: Array<{ href: string; as: 'video' | 'image' }> = [];
+
+    if (src) {
+      preloadTargets.push({ href: src, as: 'video' });
+    }
+
+    if (posterSrc) {
+      preloadTargets.push({ href: posterSrc, as: 'image' });
+    }
+
+    for (const target of preloadTargets) {
+      if (!target.href) continue;
+      const existing = head.querySelector(`link[rel="preload"][href="${target.href}"]`);
+      if (existing) continue;
+
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = target.as;
+      link.href = target.href;
+      head.appendChild(link);
+      createdLinks.push(link);
+    }
+
+    return () => {
+      createdLinks.forEach((link) => link.remove());
+    };
+  }, [posterSrc, src]);
+
   const getPlayer = React.useCallback(() => {
     return playerRef.current as (MediaPlayerElement & {
       play: () => Promise<void>;
@@ -250,7 +285,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           nativeVideo.preload = 'auto';
           nativeVideo.playsInline = true;
           nativeVideo.muted = player.muted;
-          nativeVideo.load();
+          if (nativeVideo.networkState === HTMLMediaElement.NETWORK_EMPTY) {
+            nativeVideo.load();
+          }
         }
         await player.play();
         return;
@@ -343,7 +380,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, media.playbackRate]);
 
 
-  const shouldShowPreview = Boolean(posterSrc) && (isPlayPending || (media.paused && media.currentTime <= 0.08));
+  const shouldShowPreview = Boolean(posterSrc) && (isPlayPending || media.currentTime <= 0.08);
 
 
   return (
@@ -365,7 +402,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         ref={playerRef}
         src={src}
         poster={posterSrc || undefined}
-        preload="metadata"
+        preload="auto"
         title={title}
         viewType="video"
         streamType="on-demand"

@@ -11,6 +11,10 @@ import systemBg from '../../assets/academy-redesign/фон система.png';
 import promptingBg from '../../assets/academy-redesign/фон промптинг.png';
 import artBg from '../../assets/academy-redesign/фон искусство.png';
 import automationBg from '../../assets/academy-redesign/фон автоматизация.png';
+import progressRed from '../../assets/academy-progress-redesign/progress-red.png';
+import progressYellow from '../../assets/academy-progress-redesign/progress-yellow.png';
+import progressGreenPassive from '../../assets/academy-progress-redesign/progress-green-passive.png';
+import progressGreenFull from '../../assets/academy-progress-redesign/progress-green-full.png';
 
 interface CourseCardConfig {
   key: string;
@@ -123,57 +127,48 @@ const readAcademyProgressCache = (): {
   }
 };
 
-const getProgressFillColor = (value: number): string | null => {
+const getProgressAsset = (value: number): string | null => {
   if (value <= 0) {
     return null;
   }
 
   if (value >= 100) {
-    return '#9DFF63';
+    return progressGreenFull;
   }
 
   if (value >= 80) {
-    return '#75FF67';
+    return progressGreenPassive;
   }
 
   if (value >= 30) {
-    return '#F1D15B';
+    return progressYellow;
   }
 
-  return '#FF6767';
+  return progressRed;
 };
 
 const ProgressBar: React.FC<{ value: number; left: number; top: number }> = ({ value, left, top }) => {
   const normalized = Math.max(0, Math.min(100, value));
-  const fillColor = getProgressFillColor(normalized);
+  const progressAsset = getProgressAsset(normalized);
+
+  if (!progressAsset) {
+    return null;
+  }
 
   return (
-    <div
+    <img
+      src={progressAsset}
+      alt=""
+      aria-label="прогресс"
       style={{
         position: 'absolute',
         left: `${left}px`,
         top: `${top}px`,
         width: '57px',
         height: '20px',
-        background: 'rgba(18, 24, 31, 0.92)',
-        border: '1px solid rgba(255,255,255,0.18)',
-        borderRadius: '999px',
-        overflow: 'hidden',
+        objectFit: 'contain',
       }}
-    >
-      {fillColor ? (
-        <div
-          aria-label="прогресс"
-          style={{
-            width: `${Math.max(10, Math.round((57 * normalized) / 100))}px`,
-            height: '100%',
-            borderRadius: '999px',
-            background: fillColor,
-            boxShadow: `0 0 10px ${fillColor}66`,
-          }}
-        />
-      ) : null}
-    </div>
+    />
   );
 };
 
