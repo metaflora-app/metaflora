@@ -15,7 +15,6 @@ import {
   getInstagramAvatarSources,
   getTelegramUserId,
   getTrackedReels,
-  openUrl,
   refreshTrackedAccounts,
   scrapeAccountReels,
   setCachedFavoriteState,
@@ -415,7 +414,6 @@ export const LabaTrackedScreen: React.FC = () => {
                     reel={reel}
                     isFavorite={likedCards.has(reel.id)}
                     onToggleFavorite={handleToggleFavorite}
-                    onOpenReel={() => openUrl(reel.reelUrl)}
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: likedCards.has(reel.id) } } })}
                     onAction={() => {
                       if (selectedAccountId) void removeAccount(selectedAccountId);

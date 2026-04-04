@@ -11,7 +11,6 @@ import {
   getCachedTrackedAccounts,
   getFavorites,
   getTelegramUserId,
-  openUrl,
   refreshTrackedAccounts,
   setCachedFavoriteState,
   showMessage,
@@ -312,7 +311,6 @@ export const LabaFavoritesScreen: React.FC = () => {
                     isFavorite
                     onToggleFavorite={handleToggleFavorite}
                     onAction={() => void handleTrackFromCard(reel)}
-                    onOpenReel={() => openUrl(reel.reelUrl)}
                     onOpenAnalysis={() => navigate('/laba-analysis', { state: { reel: { ...reel, isFavorite: true } } })}
                     actionLabel={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? 'к аккаунту' : 'следить'}
                     actionCost={findTrackedAccountByUsername(trackedAccounts, reel.accountUsername) ? undefined : 100}

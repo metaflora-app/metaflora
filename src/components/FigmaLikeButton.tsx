@@ -1,5 +1,7 @@
 import React from 'react';
 
+const figmaLikeHeart = 'https://www.figma.com/api/mcp/asset/27daf796-51d4-4b0a-ba59-fc2dc792900f';
+
 interface FigmaLikeButtonProps {
   active: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -62,26 +64,27 @@ export const FigmaLikeButton: React.FC<FigmaLikeButtonProps> = ({
         className={effectVariant === 'tiktok' ? 'tiktok-like-icon' : undefined}
         style={{
           position: 'relative',
-          width: '34px',
-          height: '34px',
+          width: '20px',
+          height: '20px',
           margin: 'auto',
         }}
       >
-        <svg
-          viewBox="0 0 36 36"
-          aria-hidden="true"
+        <img
+          src={figmaLikeHeart}
+          alt="лайк"
           style={{
-            width: '100%',
-            height: '100%',
+            position: 'absolute',
+            inset: '-30% -35% -30% -40%',
+            width: 'calc(100% + 15px)',
+            height: 'calc(100% + 12px)',
+            maxWidth: 'none',
             display: 'block',
+            opacity: active ? 1 : 0.3,
+            filter: active
+              ? 'drop-shadow(0 0 10px rgba(255, 76, 109, 0.46)) drop-shadow(0 0 18px rgba(255, 76, 109, 0.22))'
+              : 'none',
           }}
-        >
-          <path
-            d="M18 30L6 18C3 15 3 9 6 6C9 3 15 3 18 6C21 3 27 3 30 6C33 9 33 15 30 18L18 30Z"
-            fill={active ? '#FF4D6D' : '#FFFFFF'}
-            opacity={active ? 1 : 0.96}
-          />
-        </svg>
+        />
       </div>
     </button>
   );
