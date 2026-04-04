@@ -18,6 +18,7 @@ import openReelChevronTwo from '../../assets/laba-analysis/open-reel-chevron-2.p
 import openReelChevronThree from '../../assets/laba-analysis/open-reel-chevron-3.png';
 
 type ActionVariant = 'dark' | 'light';
+const figmaInstagramLogo = 'https://www.figma.com/api/mcp/asset/c99678de-525f-4c82-9a03-9a1491db0852';
 
 interface LabaFeedCardProps {
   reel: Reel;
@@ -70,8 +71,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
   const [isAnalysisPressed, setIsAnalysisPressed] = React.useState(false);
+  const [isAvatarLoaded, setIsAvatarLoaded] = React.useState(false);
   const coverSrc = coverSources[coverIndex] || null;
   const avatarSrc = avatarSources[avatarIndex] || null;
+  const shouldShowInstagramLogo = Boolean(avatarSrc && isAvatarLoaded);
 
   React.useEffect(() => {
     setCoverIndex(0);
@@ -80,6 +83,10 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   React.useEffect(() => {
     setAvatarIndex(0);
   }, [avatarSources]);
+
+  React.useEffect(() => {
+    setIsAvatarLoaded(false);
+  }, [avatarSrc]);
 
   const resolvedActionButtonImageSrc =
     actionButtonImageSrc ?? (typeof actionCost === 'number' ? undefined : shortTrackedActiveButton);
@@ -318,6 +325,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
             loading="lazy"
             decoding="async"
             referrerPolicy="no-referrer"
+            onLoad={() => setIsAvatarLoaded(true)}
             onError={() => {
               if (avatarIndex < avatarSources.length - 1) {
                 setAvatarIndex((current) => current + 1);
@@ -326,6 +334,30 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
               setAvatarIndex(avatarSources.length);
             }}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : null}
+      </div>
+
+      <div
+        style={{
+          position: 'absolute',
+          left: '268px',
+          top: '846px',
+          width: '64px',
+          height: '78px',
+          overflow: 'hidden',
+          opacity: 0.6,
+        }}
+      >
+        {shouldShowInstagramLogo ? (
+          <img
+            src={figmaInstagramLogo}
+            alt=""
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
           />
         ) : null}
       </div>
