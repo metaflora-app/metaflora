@@ -8,7 +8,7 @@ import btnFree from '../../assets/welcome-elements/кнопка попробов
 import welcomeCard1 from '../../assets/welcome-redesign/заглушка-1.png';
 import welcomeCard2 from '../../assets/welcome-redesign/заглушка-2.png';
 import welcomeCard3 from '../../assets/welcome-redesign/заглушка-3.png';
-import welcomeCard4 from '../../assets/welcome-redesign/заглушка-4.png';
+import welcomeCard4 from '../../assets/welcome-redesign/новая-заглушка-4.png';
 
 export const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ export const WelcomeScreen: React.FC = () => {
 
     if (order === 0) {
       return {
-        left: 243,
+        left: 198,
         top: 700,
         zIndex: 4,
         className: 'welcome-stack-front',
@@ -42,7 +42,7 @@ export const WelcomeScreen: React.FC = () => {
 
     if (order === 1) {
       return {
-        left: 543,
+        left: 498,
         top: 745,
         zIndex: 1,
         className: 'welcome-stack-back-right',
@@ -51,7 +51,7 @@ export const WelcomeScreen: React.FC = () => {
 
     if (order === 2) {
       return {
-        left: 427,
+        left: 382,
         top: 803,
         zIndex: 2,
         className: 'welcome-stack-mid',
@@ -59,7 +59,7 @@ export const WelcomeScreen: React.FC = () => {
     }
 
     return {
-      left: 80,
+      left: 35,
       top: 803,
       zIndex: 1,
       className: 'welcome-stack-back-left',
@@ -139,6 +139,8 @@ export const WelcomeScreen: React.FC = () => {
                 background: 'transparent',
                 padding: 0,
                 cursor: 'pointer',
+                transition:
+                  'left 920ms cubic-bezier(0.22, 1, 0.36, 1), top 920ms cubic-bezier(0.22, 1, 0.36, 1), z-index 320ms ease',
               }}
             >
               <img
