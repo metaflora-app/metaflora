@@ -793,23 +793,28 @@ input::placeholder {
 .welcome-stack-card {
   will-change: transform;
   transform-origin: center;
-  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease, z-index 260ms ease;
+  transition:
+    left 920ms cubic-bezier(0.22, 1, 0.36, 1),
+    top 920ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 920ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 320ms ease,
+    z-index 320ms ease;
 }
 
 .welcome-stack-card.welcome-stack-back-left {
-  animation: welcomeStackFloatBackLeft 7.2s ease-in-out infinite;
+  animation: welcomeStackFloatBackLeft 9.2s ease-in-out infinite;
 }
 
 .welcome-stack-card.welcome-stack-back-right {
-  animation: welcomeStackFloatBackRight 7.8s ease-in-out infinite;
+  animation: welcomeStackFloatBackRight 9.6s ease-in-out infinite;
 }
 
 .welcome-stack-card.welcome-stack-mid {
-  animation: welcomeStackFloatMid 6.7s ease-in-out infinite;
+  animation: welcomeStackFloatMid 8.8s ease-in-out infinite;
 }
 
 .welcome-stack-card.welcome-stack-front {
-  animation: welcomeStackFloatFront 6.1s ease-in-out infinite;
+  animation: welcomeStackFloatFront 8.2s ease-in-out infinite;
 }
 
 @keyframes vidControlPulse {
