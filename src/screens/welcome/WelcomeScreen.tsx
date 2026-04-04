@@ -22,10 +22,10 @@ export const WelcomeScreen: React.FC = () => {
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
   const cards = [
-    { src: welcomeCard1, width: 700, height: 957 },
-    { src: welcomeCard2, width: 674, height: 826 },
-    { src: welcomeCard3, width: 639, height: 822 },
-    { src: welcomeCard4, width: 674, height: 826 },
+    { src: welcomeCard1, width: 700, height: 957, objectFit: 'cover' as const },
+    { src: welcomeCard2, width: 674, height: 826, objectFit: 'cover' as const },
+    { src: welcomeCard3, width: 639, height: 822, objectFit: 'cover' as const },
+    { src: welcomeCard4, width: 570, height: 826, objectFit: 'cover' as const },
   ];
 
   const getCardSlot = (index: number) => {
@@ -33,7 +33,7 @@ export const WelcomeScreen: React.FC = () => {
 
     if (order === 0) {
       return {
-        left: 198,
+        left: 148,
         top: 700,
         zIndex: 4,
         className: 'welcome-stack-front',
@@ -42,7 +42,7 @@ export const WelcomeScreen: React.FC = () => {
 
     if (order === 1) {
       return {
-        left: 498,
+        left: 438,
         top: 745,
         zIndex: 1,
         className: 'welcome-stack-back-right',
@@ -51,7 +51,7 @@ export const WelcomeScreen: React.FC = () => {
 
     if (order === 2) {
       return {
-        left: 382,
+        left: 318,
         top: 803,
         zIndex: 2,
         className: 'welcome-stack-mid',
@@ -59,7 +59,7 @@ export const WelcomeScreen: React.FC = () => {
     }
 
     return {
-      left: 35,
+      left: -28,
       top: 803,
       zIndex: 1,
       className: 'welcome-stack-back-left',
@@ -146,7 +146,7 @@ export const WelcomeScreen: React.FC = () => {
               <img
                 src={card.src}
                 alt=""
-                style={{ width: `${card.width}px`, height: `${card.height}px`, objectFit: 'cover', borderRadius: '62px', display: 'block', pointerEvents: 'none' }}
+                style={{ width: `${card.width}px`, height: `${card.height}px`, objectFit: card.objectFit, borderRadius: '62px', display: 'block', pointerEvents: 'none' }}
               />
             </button>
           );
