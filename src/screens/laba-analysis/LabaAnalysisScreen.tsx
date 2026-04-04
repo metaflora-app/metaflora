@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FigmaLikeButton } from '../../components/FigmaLikeButton';
 import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
+import { useUIState } from '../../contexts/UIStateContext';
 import { openLink, showConfirm, showPopupMessage } from '../../app/telegram/telegramHelpers';
 import { Analysis, Reel, Scenario } from '../../types/laba';
 import {
@@ -32,15 +33,11 @@ import commentsIcon from '../../assets/laba-icons/иконка коммента�
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 import shortTrackedActiveButton from '../../assets/laba-main-buttons/кнопка следить очень короткая актив.png';
+import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 type ActionVariant = 'dark' | 'light';
 
 const textFont = 'Cygre, sans-serif';
-const figmaCardCover = 'https://www.figma.com/api/mcp/asset/7f9e903d-46e2-4ee5-a7da-bed29379226d';
-const openReelChevronOne = 'https://www.figma.com/api/mcp/asset/c438e6ad-9b13-4d96-a92b-f79405621e12';
-const openReelChevronTwo = 'https://www.figma.com/api/mcp/asset/ca4f9322-b09a-4358-a069-4bf92288177c';
-const openReelChevronThree = 'https://www.figma.com/api/mcp/asset/1355747b-76c8-4fd1-a9a1-c9a669881457';
-const followMetacoin = 'https://www.figma.com/api/mcp/asset/a79513b9-0b71-424b-9846-a5db2e047107';
 const PREVIEW_CARD_WIDTH = 831;
 const PREVIEW_CARD_HEIGHT = 1064;
 const PREVIEW_CARD_INSET_X = 43;
@@ -56,6 +53,7 @@ export const LabaAnalysisScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const { setLabaMainSearchQuery, setLabaReelsCache } = useUIState();
   const reel = (location.state as { reel?: Reel } | null)?.reel;
 
   const [analysis, setAnalysis] = React.useState<Analysis | null>(null);
@@ -90,6 +88,13 @@ export const LabaAnalysisScreen: React.FC = () => {
   React.useEffect(() => {
     if (!reel) navigate('/laba-main');
   }, [navigate, reel]);
+
+  React.useEffect(() => {
+    return () => {
+      setLabaMainSearchQuery('');
+      setLabaReelsCache([]);
+    };
+  }, [setLabaMainSearchQuery, setLabaReelsCache]);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -393,7 +398,7 @@ const AnalysisPreviewCard: React.FC<{
     setAvatarIndex(0);
   }, [avatarSources]);
 
-  const coverSrc = coverSources[coverIndex] || figmaCardCover;
+  const coverSrc = coverSources[coverIndex] || null;
   const avatarSrc = avatarSources[avatarIndex] || null;
 
   return (
@@ -410,21 +415,20 @@ const AnalysisPreviewCard: React.FC<{
           background: 'rgba(255,255,255,0.08)',
         }}
       >
-        <img
-          src={coverSrc}
-          alt=""
-          onError={(event) => {
-            const target = event.currentTarget;
-            if (coverIndex < coverSources.length - 1) {
-              setCoverIndex((current) => current + 1);
-              return;
-            }
-            if (target.src !== figmaCardCover) {
-              target.src = figmaCardCover;
-            }
-          }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        {coverSrc ? (
+          <img
+            src={coverSrc}
+            alt=""
+            onError={() => {
+              if (coverIndex < coverSources.length - 1) {
+                setCoverIndex((current) => current + 1);
+                return;
+              }
+              setCoverIndex(coverSources.length);
+            }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : null}
       </div>
 
       <button
@@ -762,16 +766,15 @@ const ActionButton: React.FC<{
         </div>
         <div style={{ position: 'absolute', left: '146px', top: '29.5px', width: '19px', height: '19px', overflow: 'hidden' }}>
           <img
-            src={followMetacoin}
+            src={metacoinSmall}
             alt=""
             className="motion-metacoin"
             style={{
               position: 'absolute',
-              height: '130.34%',
-              left: '-20%',
-              top: '-14.48%',
-              width: '140%',
-              maxWidth: 'none',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
             }}
           />
         </div>
@@ -791,13 +794,13 @@ const OpenReelButton: React.FC = () => (
         backdropFilter: 'blur(12px)',
       }}
     />
-    <ChevronIcon src={openReelChevronOne} left="14px" />
-    <ChevronIcon src={openReelChevronTwo} left="22px" />
-    <ChevronIcon src={openReelChevronThree} left="32px" />
+    <ChevronIcon left="14px" opacity={0.45} />
+    <ChevronIcon left="22px" opacity={0.72} />
+    <ChevronIcon left="32px" opacity={1} />
   </div>
 );
 
-const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => (
+const ChevronIcon: React.FC<{ left: string; opacity: number }> = ({ left, opacity }) => (
   <div
     style={{
       position: 'absolute',
@@ -811,16 +814,25 @@ const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => 
     }}
   >
     <div style={{ position: 'relative', width: '32px', height: '32px' }}>
-      <img
-        src={src}
-        alt=""
+      <svg
+        viewBox="0 0 32 32"
+        aria-hidden="true"
         style={{
           width: '100%',
           height: '100%',
-          objectFit: 'contain',
           display: 'block',
+          opacity,
         }}
-      />
+      >
+        <path
+          d="M10 7L20 16L10 25"
+          fill="none"
+          stroke="#FFFFFF"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     </div>
   </div>
 );
