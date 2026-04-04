@@ -13,6 +13,7 @@ import commentsIcon from '../../assets/laba-icons/иконка коммента�
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
 import shortTrackedActiveButton from '../../assets/laba-main-buttons/кнопка следить очень короткая актив.png';
+import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
 
 type ActionVariant = 'dark' | 'light';
 
@@ -22,6 +23,7 @@ interface LabaFeedCardProps {
   onToggleFavorite: (reelId: string) => void;
   onAction?: () => void;
   onOpenAnalysis?: () => void;
+  onOpenReel?: () => void;
   actionLabel: string;
   actionCost?: number;
   actionVariant?: ActionVariant;
@@ -39,17 +41,13 @@ const CARD_INSET_TOP = 31;
 const COVER_SIZE = 769;
 
 const textFont = 'Cygre, sans-serif';
-const openReelChevronOne = 'https://www.figma.com/api/mcp/asset/c438e6ad-9b13-4d96-a92b-f79405621e12';
-const openReelChevronTwo = 'https://www.figma.com/api/mcp/asset/ca4f9322-b09a-4358-a069-4bf92288177c';
-const openReelChevronThree = 'https://www.figma.com/api/mcp/asset/1355747b-76c8-4fd1-a9a1-c9a669881457';
-const followMetacoin = 'https://www.figma.com/api/mcp/asset/a79513b9-0b71-424b-9846-a5db2e047107';
-
 export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   reel,
   isFavorite,
   onToggleFavorite,
   onAction,
   onOpenAnalysis,
+  onOpenReel,
   actionLabel,
   actionCost,
   actionVariant = 'dark',
@@ -227,6 +225,32 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
               zIndex: 2,
             }}
           />
+        </button>
+      ) : null}
+
+      {onOpenReel ? (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            onOpenReel();
+          }}
+          aria-label="открыть рилс"
+          className="motion-press-grow"
+          style={{
+            position: 'absolute',
+            left: '380px',
+            top: '374px',
+            width: '72px',
+            height: '72px',
+            border: 'none',
+            background: 'transparent',
+            padding: 0,
+            cursor: 'pointer',
+            zIndex: 4,
+          }}
+        >
+          <OpenReelButton />
         </button>
       ) : null}
 
@@ -750,16 +774,15 @@ const ActionButton: React.FC<{
         </div>
         <div style={{ position: 'absolute', left: '146px', top: '26px', width: '19px', height: '19px', overflow: 'hidden' }}>
           <img
-            src={followMetacoin}
+            src={metacoinSmall}
             alt=""
             className="motion-metacoin"
             style={{
               position: 'absolute',
-              height: '130.34%',
-              left: '-20%',
-              top: '-14.48%',
-              width: '140%',
-              maxWidth: 'none',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
             }}
           />
         </div>
@@ -780,13 +803,13 @@ const OpenReelButton: React.FC = () => (
         backdropFilter: 'blur(12px)',
       }}
     />
-    <ChevronIcon src={openReelChevronOne} left="14px" />
-    <ChevronIcon src={openReelChevronTwo} left="22px" />
-    <ChevronIcon src={openReelChevronThree} left="32px" />
+    <ChevronIcon left="14px" opacity={0.45} />
+    <ChevronIcon left="22px" opacity={0.72} />
+    <ChevronIcon left="32px" opacity={1} />
   </div>
 );
 
-const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => (
+const ChevronIcon: React.FC<{ left: string; opacity: number }> = ({ left, opacity }) => (
   <div
     style={{
       position: 'absolute',
@@ -800,16 +823,25 @@ const ChevronIcon: React.FC<{ src: string; left: string }> = ({ src, left }) => 
     }}
   >
     <div style={{ position: 'relative', width: '32px', height: '32px' }}>
-      <img
-        src={src}
-        alt=""
+      <svg
+        viewBox="0 0 32 32"
+        aria-hidden="true"
         style={{
           width: '100%',
           height: '100%',
-          objectFit: 'contain',
           display: 'block',
+          opacity,
         }}
-      />
+      >
+        <path
+          d="M10 7L20 16L10 25"
+          fill="none"
+          stroke="#FFFFFF"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     </div>
   </div>
 );
