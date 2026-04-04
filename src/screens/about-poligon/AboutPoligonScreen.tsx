@@ -5,6 +5,7 @@ import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstac
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
 import aboutPoligonVideo from '../../assets/about-screens/about-poligon.mp4';
+import aboutMetafloraPoster from '../../assets/about-screens/about-metaflora-poster.png';
 
 export const AboutPoligonScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const AboutPoligonScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer src={aboutPoligonVideo} title="как устроена МЕТАФЛОРА* полигон" controlsVariant="full" />
+        <AboutAcademyVidstackPlayer src={aboutPoligonVideo} posterSrc={aboutMetafloraPoster} title="как устроена МЕТАФЛОРА* полигон" controlsVariant="full" />
 
         <button
           type="button"
