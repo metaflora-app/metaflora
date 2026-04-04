@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { InstagramLogoMark } from './laba/InstagramLogoMark';
 import { Reel } from '../types/laba';
 import {
-  FIGMA_INSTAGRAM_LOGO_URL,
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
@@ -253,20 +253,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
       {/* Аватарка убрана - она должна быть на карточке АККАУНТА, не reel */}
 
       {/* Instagram logo - ПО FIGMA: left 7.32%, right 77.07%, top 448px, aspect 42/51 */}
-      <img 
-        src={FIGMA_INSTAGRAM_LOGO_URL}
-        alt=""
-        style={{
-          position: 'absolute',
-          left: '7.32%',
-          right: '77.07%',
-          top: '448px',
-          height: 'auto',
-          aspectRatio: '42/51',
-          opacity: 0.6,
-          objectFit: 'contain',
-        }}
-      />
+      <InstagramLogoMark style={{ left: '30px', top: '448px' }} />
 
       {/* Account username - ПО FIGMA: inset 67.26% 9.51% 27.37% 9.02%, fontSize 40px, БЕЗ center */}
       <div style={{

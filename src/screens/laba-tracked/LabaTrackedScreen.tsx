@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { InstagramLogoMark } from '../../components/laba/InstagramLogoMark';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { LabaFeedCard, LabaFeedPlaceholderCard } from '../../components/laba/LabaFeedCard';
 import { Reel, TrackedAccount } from '../../types/laba';
@@ -8,7 +9,6 @@ import {
   cacheTrackedAccounts,
   cacheTrackedReels,
   clearTrackedReelsCache,
-  FIGMA_INSTAGRAM_LOGO_URL,
   formatFollowersLabel,
   getCachedFavorites,
   getCachedTrackedAccounts,
@@ -530,9 +530,7 @@ const TrackedAccountCard: React.FC<{
         ) : null}
       </button>
 
-      <div style={{ position: 'absolute', left: '278px', top: '47px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
-        <img src={FIGMA_INSTAGRAM_LOGO_URL} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-      </div>
+      <InstagramLogoMark style={{ left: '278px', top: '47px' }} />
 
       <div style={{ position: 'absolute', left: '296px', top: '118px', width: '500px', height: '42px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>
         @{account.username}

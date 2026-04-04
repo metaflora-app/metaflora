@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { InstagramLogoMark } from '../../components/laba/InstagramLogoMark';
 import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
 import {
-  FIGMA_INSTAGRAM_LOGO_URL,
   findTrackedAccountByUsername,
   formatFollowersLabel,
   getCachedTrackedAccounts,
@@ -311,13 +311,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
                 ) : null}
               </div>
 
-              <div style={{ position: 'absolute', left: '247px', top: '627px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
-                <img
-                  src={FIGMA_INSTAGRAM_LOGO_URL}
-                  alt=""
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              </div>
+              <InstagramLogoMark style={{ left: '247px', top: '627px' }} />
 
               <p style={{ position: 'absolute', left: '257px', top: '700px', margin: 0, width: '334px', fontFamily: textFont, fontWeight: 700, fontSize: '40px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
                 @{foundAccount.username}

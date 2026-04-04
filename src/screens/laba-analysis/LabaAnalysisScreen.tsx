@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FigmaLikeButton } from '../../components/FigmaLikeButton';
+import { InstagramLogoMark } from '../../components/laba/InstagramLogoMark';
 import { MainBackdropNew, SecondaryBlackBackdrop } from '../../components/MainBackdropNew';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import { useUIState } from '../../contexts/UIStateContext';
@@ -9,7 +10,6 @@ import { Analysis, Reel, Scenario } from '../../types/laba';
 import {
   analyzeReel,
   findTrackedAccountByUsername,
-  FIGMA_INSTAGRAM_LOGO_URL,
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
@@ -545,17 +545,7 @@ const AnalysisPreviewCard: React.FC<{
         ) : null}
       </div>
 
-      <div style={{ position: 'absolute', left: '271px', top: '846px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
-        <img
-          src={FIGMA_INSTAGRAM_LOGO_URL}
-          alt=""
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-          }}
-        />
-      </div>
+      <InstagramLogoMark style={{ left: '271px', top: '846px' }} />
 
       <div style={{ position: 'absolute', left: '290px', top: '926px', width: '398px', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '42px', color: '#fff', whiteSpace: 'nowrap' }}>
         @{displayUsername}

@@ -153,9 +153,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   );
   const fillPercent = React.useMemo(() => {
     if (typeof slider.fillPercent === 'number') return slider.fillPercent;
-    if (!media.duration) return 0;
-    return (media.currentTime / media.duration) * 100;
-  }, [media.currentTime, media.duration, slider.fillPercent]);
+    if (!effectiveDuration) return 0;
+    return (effectiveCurrentTime / effectiveDuration) * 100;
+  }, [effectiveCurrentTime, effectiveDuration, slider.fillPercent]);
 
   React.useEffect(() => {
     return () => {
@@ -714,7 +714,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             textAlign: 'center',
           }}
         >
-          {formatTimeLabel(media.currentTime)}
+          {formatTimeLabel(effectiveCurrentTime)}
         </div>
 
         <div
@@ -797,7 +797,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             textAlign: 'center',
           }}
         >
-          {formatTimeLabel(media.duration)}
+          {formatTimeLabel(effectiveDuration)}
         </div>
       </MediaPlayer>
     </div>

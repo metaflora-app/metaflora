@@ -1,8 +1,8 @@
 import React from 'react';
 import { FigmaLikeButton } from '../FigmaLikeButton';
+import { InstagramLogoMark } from './InstagramLogoMark';
 import type { Reel } from '../../types/laba';
 import {
-  FIGMA_INSTAGRAM_LOGO_URL,
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
@@ -338,29 +338,9 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         ) : null}
       </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          left: '268px',
-          top: '846px',
-          width: '64px',
-          height: '78px',
-          overflow: 'hidden',
-          opacity: 0.6,
-        }}
-      >
-        {shouldShowInstagramLogo ? (
-          <img
-            src={FIGMA_INSTAGRAM_LOGO_URL}
-            alt=""
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-            }}
-          />
-        ) : null}
-      </div>
+      {shouldShowInstagramLogo ? (
+        <InstagramLogoMark style={{ left: '268px', top: '846px' }} />
+      ) : null}
 
       <div
         style={{
