@@ -185,6 +185,11 @@ async function fetchJsonWithTimeout<T>(baseUrl: string, path: string, init?: Req
       throw new Error(`HTTP ${response.status}`);
     }
     return await response.json() as T;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error('запрос к laba занял слишком много времени');
+    }
+    throw error;
   } finally {
     window.clearTimeout(timeoutId);
   }
@@ -214,12 +219,12 @@ async function fetchFirstSuccessfulJson<T>(baseUrls: string[], path: string, ini
   });
 }
 
-async function fetchLabaJson<T>(path: string, init?: RequestInit): Promise<T> {
+async function fetchLabaJson<T>(path: string, init?: RequestInit, timeoutMs = 4500): Promise<T> {
   let lastError: unknown;
 
   for (const baseUrl of LABA_API_FALLBACK_URLS) {
     try {
-      return await fetchJsonWithTimeout<T>(baseUrl, path, init);
+      return await fetchJsonWithTimeout<T>(baseUrl, path, init, timeoutMs);
     } catch (error) {
       lastError = error;
     }
@@ -402,7 +407,7 @@ export async function searchReels(keyword: string, userId: number): Promise<Reel
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ keyword, userId }),
-  });
+  }, 45000);
 
   if (!data.success) {
     throw new Error(data.error || 'ошибка поиска');
