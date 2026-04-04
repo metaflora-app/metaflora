@@ -4,6 +4,7 @@ import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
+import aboutPoligonVideo from '../../assets/about-screens/about-poligon.mp4';
 
 export const AboutPoligonScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export const AboutPoligonScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* полигон" controlsVariant="full" />
+        <AboutAcademyVidstackPlayer src={aboutPoligonVideo} title="как устроена МЕТАФЛОРА* полигон" controlsVariant="full" />
 
         <button
           type="button"
