@@ -4,6 +4,7 @@ import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
+import aboutLabaVideo from '../../assets/about-screens/about-laba.mp4';
 
 export const AboutLabaScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export const AboutLabaScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer title="как устроена МЕТАФЛОРА* лаба" controlsVariant="full" />
+        <AboutAcademyVidstackPlayer src={aboutLabaVideo} title="как устроена МЕТАФЛОРА* лаба" controlsVariant="full" />
 
         <button
           type="button"
