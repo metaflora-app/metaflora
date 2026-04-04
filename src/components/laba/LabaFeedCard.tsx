@@ -2,6 +2,7 @@ import React from 'react';
 import { FigmaLikeButton } from '../FigmaLikeButton';
 import type { Reel } from '../../types/laba';
 import {
+  FIGMA_INSTAGRAM_LOGO_URL,
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
@@ -18,7 +19,6 @@ import openReelChevronTwo from '../../assets/laba-analysis/open-reel-chevron-2.p
 import openReelChevronThree from '../../assets/laba-analysis/open-reel-chevron-3.png';
 
 type ActionVariant = 'dark' | 'light';
-const figmaInstagramLogo = 'https://www.figma.com/api/mcp/asset/588e2e9b-8b11-4a23-b964-82029581a2db';
 
 interface LabaFeedCardProps {
   reel: Reel;
@@ -351,7 +351,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
       >
         {shouldShowInstagramLogo ? (
           <img
-            src={figmaInstagramLogo}
+            src={FIGMA_INSTAGRAM_LOGO_URL}
             alt=""
             style={{
               width: '100%',

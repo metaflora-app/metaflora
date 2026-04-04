@@ -8,6 +8,7 @@ import {
   cacheTrackedAccounts,
   cacheTrackedReels,
   clearTrackedReelsCache,
+  FIGMA_INSTAGRAM_LOGO_URL,
   formatFollowersLabel,
   getCachedFavorites,
   getCachedTrackedAccounts,
@@ -22,7 +23,6 @@ import {
   toggleFavorite,
   untrackAccount,
 } from '../../utils/labaApi';
-import instaLogoIcon from '../../assets/laba-icons/лого инста.png';
 import reelsScrollWindow from '../../assets/laba-main/reels-scroll-window.png';
 import trackedAddUnderlay from '../../assets/laba-tracked/tracked-add-underlay.png';
 import avatarUnfollowButtonFull from '../../assets/laba-tracked/avatar-unfollow-button-full.png';
@@ -531,7 +531,7 @@ const TrackedAccountCard: React.FC<{
       </button>
 
       <div style={{ position: 'absolute', left: '278px', top: '47px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
-        <img src={instaLogoIcon} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <img src={FIGMA_INSTAGRAM_LOGO_URL} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
 
       <div style={{ position: 'absolute', left: '296px', top: '118px', width: '500px', height: '42px', display: 'flex', alignItems: 'center', fontFamily: textFont, fontWeight: 700, fontSize: '52px', lineHeight: '1', color: '#fff', textAlign: 'left', whiteSpace: 'nowrap' }}>

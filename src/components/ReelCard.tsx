@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Reel } from '../types/laba';
 import {
+  FIGMA_INSTAGRAM_LOGO_URL,
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
@@ -15,7 +16,6 @@ import newBadgePNG from '../assets/laba-main/плашка новое.png';
 import viewsIcon from '../assets/laba-icons/иконка просмотры.png';
 import likesIcon from '../assets/laba-icons/иконка лайки.png';
 import commentsIcon from '../assets/laba-icons/иконка комментарии.png';
-import instaLogo from '../assets/laba-icons/лого инста.png';
 
 interface ReelCardProps {
   reel: Reel;
@@ -254,7 +254,7 @@ export const ReelCard: React.FC<ReelCardProps> = React.memo(({
 
       {/* Instagram logo - ПО FIGMA: left 7.32%, right 77.07%, top 448px, aspect 42/51 */}
       <img 
-        src={instaLogo}
+        src={FIGMA_INSTAGRAM_LOGO_URL}
         alt=""
         style={{
           position: 'absolute',

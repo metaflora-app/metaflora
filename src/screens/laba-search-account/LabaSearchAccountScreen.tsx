@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { LabaSearchInput } from '../../components/laba/LabaSearchInput';
 import { useUIState } from '../../contexts/UIStateContext';
 import {
+  FIGMA_INSTAGRAM_LOGO_URL,
   findTrackedAccountByUsername,
   formatFollowersLabel,
   getCachedTrackedAccounts,
@@ -16,7 +17,6 @@ import {
 import type { InstagramAccount } from '../../types/laba';
 import { Footer, Header, ThreeBg } from '../../components/ScreenLayout';
 import metacoinSmall from '../../assets/metacoins-redesign/новый метакоин маленький.png';
-import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import searchIcon from '../../assets/laba-icons/иконка поиска.png';
 import searchUnderlay from '../../assets/laba-search-account/главная подложка новая.png';
 
@@ -313,7 +313,7 @@ export const LabaSearchAccountScreen: React.FC = () => {
 
               <div style={{ position: 'absolute', left: '247px', top: '627px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
                 <img
-                  src={instagramLogo}
+                  src={FIGMA_INSTAGRAM_LOGO_URL}
                   alt=""
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />

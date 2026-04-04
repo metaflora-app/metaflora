@@ -54,12 +54,22 @@ export const LabaFavoritesScreen: React.FC = () => {
       setLoading(true);
     }
     try {
-      const favoriteReels = await getFavorites(userId);
-      cacheFavorites(userId, favoriteReels);
-      setReels(favoriteReels);
+      const cachedFavorites = getCachedFavorites(userId);
+      const cachedById = new Map(cachedFavorites.map((reel) => [reel.id, reel]));
+      const favoriteReels = await getFavorites(userId, { hydrateStats: false });
+      const hydratedFavorites = favoriteReels.map((reel) => {
+        const cachedReel = cachedById.get(reel.id);
+        return {
+          ...reel,
+          accountFollowers: reel.accountFollowers > 0 ? reel.accountFollowers : cachedReel?.accountFollowers ?? reel.accountFollowers,
+          accountProfilePicUrl: reel.accountProfilePicUrl || cachedReel?.accountProfilePicUrl || null,
+        };
+      });
+      cacheFavorites(userId, hydratedFavorites);
+      setReels(hydratedFavorites);
     } catch (error) {
       console.error('Ошибка загрузки избранного:', error);
-      showMessage('ошибка загрузки избранного', 'popup');
+      setReels(getCachedFavorites(userId));
     } finally {
       setLoading(false);
     }

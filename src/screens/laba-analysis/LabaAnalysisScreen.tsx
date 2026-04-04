@@ -9,6 +9,7 @@ import { Analysis, Reel, Scenario } from '../../types/laba';
 import {
   analyzeReel,
   findTrackedAccountByUsername,
+  FIGMA_INSTAGRAM_LOGO_URL,
   formatCount,
   formatFollowersLabel,
   formatTimeAgo,
@@ -28,7 +29,6 @@ import {
 import { copyToClipboard } from '../../utils/clipboard';
 import blurFrameMakeAnalysis from '../../assets/laba-analysis/analysis-disabled-blur-frame.png';
 import blurFrameMakeScenario from '../../assets/laba-analysis/blur-frame-make-scenario.png';
-import instagramLogo from '../../assets/laba-icons/лого инста.png';
 import commentsIcon from '../../assets/laba-icons/иконка комментарии.png';
 import likesIcon from '../../assets/laba-icons/иконка лайки.png';
 import viewsIcon from '../../assets/laba-icons/иконка просмотры.png';
@@ -547,7 +547,7 @@ const AnalysisPreviewCard: React.FC<{
 
       <div style={{ position: 'absolute', left: '271px', top: '846px', width: '64px', height: '78px', overflow: 'hidden', opacity: 0.6 }}>
         <img
-          src={instagramLogo}
+          src={FIGMA_INSTAGRAM_LOGO_URL}
           alt=""
           style={{
             width: '100%',
