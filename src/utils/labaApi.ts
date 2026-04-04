@@ -685,8 +685,12 @@ export async function toggleFavorite(reelId: string, userId: number): Promise<bo
 /**
  * Получить избранные reels
  */
-export async function getFavorites(userId: number): Promise<Reel[]> {
-  const response = await fetch(`${API_URL}/api/laba/favorites?userId=${userId}`);
+export async function getFavorites(
+  userId: number,
+  options?: { hydrateStats?: boolean }
+): Promise<Reel[]> {
+  const hydrateStats = options?.hydrateStats !== false;
+  const response = await fetch(`${API_URL}/api/laba/favorites?userId=${userId}&hydrateStats=${hydrateStats ? '1' : '0'}`);
   const data: FavoritesResponse = await response.json();
 
   if (!data.success) {
