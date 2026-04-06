@@ -1,5 +1,22 @@
-const warmedVideoElements = new Map<string, HTMLVideoElement>();
+const activeVideoPrewarmers = new Map<string, { video: HTMLVideoElement; stop: () => void }>();
+const warmedVideoSources = new Set<string>();
 const warmedPosterUrls = new Set<string>();
+const MAX_ACTIVE_PREWARMS = 4;
+const PREWARM_STOP_DELAY_MS = 4500;
+
+function stopVideoPrewarm(src: string) {
+  const activePrewarmer = activeVideoPrewarmers.get(src);
+  if (!activePrewarmer) {
+    return;
+  }
+
+  const { video } = activePrewarmer;
+  video.pause();
+  video.removeAttribute('src');
+  video.load();
+  activeVideoPrewarmers.delete(src);
+  warmedVideoSources.add(src);
+}
 
 export function prewarmVideoSource(src?: string | null, posterSrc?: string | null) {
   if (typeof document === 'undefined') {
@@ -7,24 +24,33 @@ export function prewarmVideoSource(src?: string | null, posterSrc?: string | nul
   }
 
   const normalizedSrc = String(src || '').trim();
-  if (normalizedSrc && !warmedVideoElements.has(normalizedSrc)) {
+  if (normalizedSrc && !warmedVideoSources.has(normalizedSrc) && !activeVideoPrewarmers.has(normalizedSrc)) {
     const video = document.createElement('video');
+    let timeoutId: number | null = null;
+
+    const stop = () => {
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+      stopVideoPrewarm(normalizedSrc);
+    };
+
     video.preload = 'auto';
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
     video.src = normalizedSrc;
     video.load();
-    warmedVideoElements.set(normalizedSrc, video);
+    video.addEventListener('loadeddata', stop, { once: true });
+    video.addEventListener('canplay', stop, { once: true });
+    timeoutId = window.setTimeout(stop, PREWARM_STOP_DELAY_MS);
+    activeVideoPrewarmers.set(normalizedSrc, { video, stop });
 
-    if (warmedVideoElements.size > 8) {
-      const oldestKey = warmedVideoElements.keys().next().value;
+    if (activeVideoPrewarmers.size > MAX_ACTIVE_PREWARMS) {
+      const oldestKey = activeVideoPrewarmers.keys().next().value;
       if (oldestKey) {
-        const oldestVideo = warmedVideoElements.get(oldestKey);
-        oldestVideo?.pause();
-        oldestVideo?.removeAttribute('src');
-        oldestVideo?.load();
-        warmedVideoElements.delete(oldestKey);
+        activeVideoPrewarmers.get(oldestKey)?.stop();
       }
     }
   }

@@ -5,6 +5,8 @@ import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
 
 import btnFree from '../../assets/welcome-elements/кнопка попробовать бесплатно.png';
+import excursionVideo from '../../assets/tour-video/excursion.mp4';
+import excursionPoster from '../../assets/tour-video/excursion-poster.png';
 
 export const TourVideoScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -32,7 +34,12 @@ export const TourVideoScreen: React.FC = () => {
           </p>
         </div>
 
-        <AboutAcademyVidstackPlayer title="экскурсия по платформе за 4 минуты" controlsVariant="full" />
+        <AboutAcademyVidstackPlayer
+          src={excursionVideo}
+          posterSrc={excursionPoster}
+          title="экскурсия по платформе за 4 минуты"
+          controlsVariant="full"
+        />
 
         <img src={btnFree} alt="попробовать бесплатно" onClick={() => navigate('/demo-access')} className="button-inner-glow motion-press-grow" style={{
           position: 'absolute', left: '143px', top: '1902px', width: '894px', height: '139px', cursor: 'pointer',
