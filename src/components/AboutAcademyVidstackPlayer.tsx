@@ -362,7 +362,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           nativeVideo.muted = false;
           nativeVideo.defaultMuted = false;
           nativeVideo.volume = 1;
-          nativeVideo.load();
           await nativeVideo.play();
         } else if (player) {
           player.muted = false;
@@ -383,6 +382,16 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       setIsPlayPending(false);
     }
   }, [getNativeVideoElement, getPlayer, media.paused]);
+
+  const handleOverlayPlayPress = React.useCallback((event: React.SyntheticEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isPlayPending) {
+      return;
+    }
+    setPressedControl('overlay-play');
+    void handleTogglePlay();
+  }, [handleTogglePlay, isPlayPending]);
 
   const handleSeek = React.useCallback((delta: number) => {
     const player = getPlayer();
@@ -612,51 +621,30 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         </div>
 
         {(media.paused || isPlayPending) && !flashOverlay ? (
-          <>
-            <button
-              type="button"
-              aria-label="Воспроизвести видео"
-              onClick={() => {
-                if (!isPlayPending) {
-                  void handleTogglePlay();
-                }
-              }}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                zIndex: 4,
-                border: 0,
-                background: 'transparent',
-                padding: 0,
-                cursor: 'pointer',
-              }}
-            />
-            <button
-              type="button"
-              aria-label="Воспроизвести видео"
-              className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
-              onPointerDown={() => setPressedControl('overlay-play')}
-              onClick={() => {
-                if (!isPlayPending) {
-                  void handleTogglePlay();
-                }
-              }}
-              onPointerLeave={() => setPressedControl(null)}
-              onPointerCancel={() => setPressedControl(null)}
-              onPointerUp={() => setPressedControl(null)}
-              style={{
-                ...overlayControlStyle,
-                zIndex: 5,
-                left: `${OVERLAY_PLAY_LEFT}px`,
-                top: `${OVERLAY_CONTROL_TOP}px`,
-                cursor: 'pointer',
-                opacity: isPlayPending ? 0 : 1,
-                pointerEvents: isPlayPending ? 'none' : 'auto',
-              }}
-            >
-              <img src={playIcon} alt="" style={overlayIconStyle} />
-            </button>
-          </>
+          <button
+            type="button"
+            aria-label="Воспроизвести видео"
+            className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
+            onPointerDown={handleOverlayPlayPress}
+            onTouchStart={handleOverlayPlayPress}
+            onClick={(event) => {
+              event.preventDefault();
+            }}
+            onPointerLeave={() => setPressedControl(null)}
+            onPointerCancel={() => setPressedControl(null)}
+            onPointerUp={() => setPressedControl(null)}
+            style={{
+              ...overlayControlStyle,
+              zIndex: 5,
+              left: `${OVERLAY_PLAY_LEFT}px`,
+              top: `${OVERLAY_CONTROL_TOP}px`,
+              cursor: 'pointer',
+              opacity: isPlayPending ? 0 : 1,
+              pointerEvents: isPlayPending ? 'none' : 'auto',
+            }}
+          >
+            <img src={playIcon} alt="" style={overlayIconStyle} />
+          </button>
         ) : flashOverlay ? (
           <div
             className="vid-control-button"
