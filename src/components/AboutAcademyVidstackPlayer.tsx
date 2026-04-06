@@ -131,6 +131,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const timeSliderRef = React.useRef<MediaSliderElement>(null);
   const overlayTimeoutRef = React.useRef<number | null>(null);
   const playIntentRef = React.useRef(false);
+  const playRetryTimeoutRef = React.useRef<number | null>(null);
   const lastTapRef = React.useRef({ left: 0, right: 0 });
   const initialSeekDoneRef = React.useRef(false);
   const playbackStartedRef = React.useRef(false);
@@ -163,6 +164,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       if (overlayTimeoutRef.current !== null) {
         window.clearTimeout(overlayTimeoutRef.current);
       }
+      if (playRetryTimeoutRef.current !== null) {
+        window.clearTimeout(playRetryTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -177,6 +181,10 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     setNativeCurrentTime(0);
     setHasDismissedPoster(false);
     playIntentRef.current = false;
+    if (playRetryTimeoutRef.current !== null) {
+      window.clearTimeout(playRetryTimeoutRef.current);
+      playRetryTimeoutRef.current = null;
+    }
   }, [initialTime, src]);
 
   React.useEffect(() => {
@@ -269,10 +277,20 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
         if (nativeVideo.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
           nativeVideo.load();
+          if (playRetryTimeoutRef.current !== null) {
+            window.clearTimeout(playRetryTimeoutRef.current);
+          }
+          playRetryTimeoutRef.current = window.setTimeout(() => {
+            void attemptPendingPlay();
+          }, 180);
           return;
         }
 
         await nativeVideo.play();
+        if (playRetryTimeoutRef.current !== null) {
+          window.clearTimeout(playRetryTimeoutRef.current);
+          playRetryTimeoutRef.current = null;
+        }
         return;
       }
 
@@ -299,6 +317,10 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     const handlePlay = () => {
       playIntentRef.current = false;
+      if (playRetryTimeoutRef.current !== null) {
+        window.clearTimeout(playRetryTimeoutRef.current);
+        playRetryTimeoutRef.current = null;
+      }
       setHasDismissedPoster(true);
       setIsPlayPending(false);
       syncMetrics();
@@ -411,6 +433,10 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       }
 
       playIntentRef.current = false;
+      if (playRetryTimeoutRef.current !== null) {
+        window.clearTimeout(playRetryTimeoutRef.current);
+        playRetryTimeoutRef.current = null;
+      }
       setIsPlayPending(false);
       if (nativeVideo) {
         nativeVideo.pause();
@@ -586,7 +612,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             position: 'absolute',
             inset: 0,
             zIndex: 3,
-            pointerEvents: 'none',
+            pointerEvents: media.paused || isPlayPending ? 'none' : 'auto',
           }}
         >
           <button
@@ -650,31 +676,51 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
         </div>
 
         {(media.paused || isPlayPending) && !flashOverlay ? (
-          <button
-            type="button"
-            aria-label="Воспроизвести видео"
-            className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
-            onPointerDown={() => setPressedControl('overlay-play')}
-            onClick={() => {
-              if (!isPlayPending) {
-                void handleTogglePlay();
-              }
-            }}
-            onPointerLeave={() => setPressedControl(null)}
-            onPointerCancel={() => setPressedControl(null)}
-            onPointerUp={() => setPressedControl(null)}
-            style={{
-              ...overlayControlStyle,
-              zIndex: 5,
-              left: `${OVERLAY_PLAY_LEFT}px`,
-              top: `${OVERLAY_CONTROL_TOP}px`,
-              cursor: 'pointer',
-              opacity: isPlayPending ? 0 : 1,
-              pointerEvents: isPlayPending ? 'none' : 'auto',
-            }}
-          >
-            <img src={playIcon} alt="" style={overlayIconStyle} />
-          </button>
+          <>
+            <button
+              type="button"
+              aria-label="Воспроизвести видео"
+              onClick={() => {
+                if (!isPlayPending) {
+                  void handleTogglePlay();
+                }
+              }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 4,
+                border: 0,
+                background: 'transparent',
+                padding: 0,
+                cursor: 'pointer',
+              }}
+            />
+            <button
+              type="button"
+              aria-label="Воспроизвести видео"
+              className={`vid-control-button is-pulsing ${pressedControl === 'overlay-play' ? 'is-pressed' : ''}`}
+              onPointerDown={() => setPressedControl('overlay-play')}
+              onClick={() => {
+                if (!isPlayPending) {
+                  void handleTogglePlay();
+                }
+              }}
+              onPointerLeave={() => setPressedControl(null)}
+              onPointerCancel={() => setPressedControl(null)}
+              onPointerUp={() => setPressedControl(null)}
+              style={{
+                ...overlayControlStyle,
+                zIndex: 5,
+                left: `${OVERLAY_PLAY_LEFT}px`,
+                top: `${OVERLAY_CONTROL_TOP}px`,
+                cursor: 'pointer',
+                opacity: isPlayPending ? 0 : 1,
+                pointerEvents: isPlayPending ? 'none' : 'auto',
+              }}
+            >
+              <img src={playIcon} alt="" style={overlayIconStyle} />
+            </button>
+          </>
         ) : flashOverlay ? (
           <div
             className="vid-control-button"

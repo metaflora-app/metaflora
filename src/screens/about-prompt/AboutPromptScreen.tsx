@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
+import { completeAboutIntro } from '../../utils/aboutIntro';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
 import aboutWorkshopVideo from '../../assets/about-screens/about-workshop.mp4';
@@ -29,9 +30,11 @@ export const AboutPromptScreen: React.FC = () => {
         <button
           type="button"
           className={`motion-press-grow ${isPressed ? 'is-pressed' : ''}`}
+          onClick={() => {
+            void completeAboutIntro('prompt', navigate);
+          }}
           onPointerDown={() => {
             setIsPressed(true);
-            navigate('/prompt-first');
           }}
           onPointerUp={() => setIsPressed(false)}
           onPointerLeave={() => setIsPressed(false)}

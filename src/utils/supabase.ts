@@ -20,6 +20,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 let userCache: any = null;
 let cacheTime = 0;
 const CACHE_DURATION = 30000; // 30 seconds
+const ABOUT_INTRO_SERVICES = ['academy', 'laba', 'prompt', 'poligon'] as const;
+
+export type AboutIntroService = (typeof ABOUT_INTRO_SERVICES)[number];
 
 // Get Telegram user ID
 export function getTelegramUserId(): number | null {
@@ -138,6 +141,81 @@ export async function getOrCreateUser(forceRefresh = false) {
   } catch (error) {
     console.error('❌ Critical error in getOrCreateUser:', error);
     return userCache; // Return cached user on error
+  }
+}
+
+function getAboutIntroLocalKey(service: AboutIntroService): string {
+  return `${service}_intro_seen`;
+}
+
+export function hasSeenAboutIntroLocally(service: AboutIntroService): boolean {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem(getAboutIntroLocalKey(service)) === 'true';
+}
+
+export function markAboutIntroSeenLocally(service: AboutIntroService) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(getAboutIntroLocalKey(service), 'true');
+}
+
+export async function getSeenAboutIntros(): Promise<Partial<Record<AboutIntroService, boolean>>> {
+  const user = await getOrCreateUser(false);
+  if (!user?.id) {
+    return {};
+  }
+
+  try {
+    const response = await fetch(`${API_PROXY_URL}/api/user/${user.id}/about-intros`, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error(`about intros status ${response.status}`);
+    }
+
+    const payload = await response.json();
+    const seen = payload?.seen || {};
+
+    ABOUT_INTRO_SERVICES.forEach((service) => {
+      if (seen[service]) {
+        markAboutIntroSeenLocally(service);
+      }
+    });
+
+    return seen;
+  } catch (error) {
+    console.error('❌ Failed to fetch about intro seen state:', error);
+    return ABOUT_INTRO_SERVICES.reduce<Partial<Record<AboutIntroService, boolean>>>((acc, service) => {
+      acc[service] = hasSeenAboutIntroLocally(service);
+      return acc;
+    }, {});
+  }
+}
+
+export async function markAboutIntroSeen(service: AboutIntroService): Promise<boolean> {
+  const user = await getOrCreateUser(false);
+  if (!user?.id) {
+    markAboutIntroSeenLocally(service);
+    return false;
+  }
+
+  markAboutIntroSeenLocally(service);
+
+  try {
+    const response = await fetch(`${API_PROXY_URL}/api/user/${user.id}/about-intros`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ service }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`about intros update status ${response.status}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to persist about intro seen state:', error);
+    return false;
   }
 }
 

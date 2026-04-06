@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getOrCreateUser } from '../../utils/supabase';
+import { getOrCreateUser, getSeenAboutIntros, hasSeenAboutIntroLocally } from '../../utils/supabase';
 import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 
@@ -198,13 +198,29 @@ export const MainDashboardPremiumScreen: React.FC = () => {
   const [userName, setUserName] = React.useState('');
   const [subscriptionEndDate, setSubscriptionEndDate] = React.useState('31.12');
   const [profilePhotoUrl, setProfilePhotoUrl] = React.useState(userPhoto);
+  const [seenAboutIntros, setSeenAboutIntros] = React.useState({
+    academy: hasSeenAboutIntroLocally('academy'),
+    laba: hasSeenAboutIntroLocally('laba'),
+    prompt: hasSeenAboutIntroLocally('prompt'),
+    poligon: hasSeenAboutIntroLocally('poligon'),
+  });
 
   const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 1180, 1) : 1;
+  const openService = React.useCallback((
+    service: 'academy' | 'laba' | 'prompt' | 'poligon',
+    introPath: string,
+    targetPath: string,
+  ) => {
+    navigate(seenAboutIntros[service] ? targetPath : introPath);
+  }, [navigate, seenAboutIntros]);
 
   React.useEffect(() => {
     const load = async () => {
       try {
-        const user = await getOrCreateUser();
+        const [user, seenState] = await Promise.all([
+          getOrCreateUser(),
+          getSeenAboutIntros(),
+        ]);
         if (user) {
           setMetacoinsBalance(user.metacoins_balance);
           if (user.username) setUserName(`@${user.username}`);
@@ -214,6 +230,12 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           }
           if (user.profile_photo_url) setProfilePhotoUrl(user.profile_photo_url);
         }
+        setSeenAboutIntros((current) => ({
+          academy: Boolean(seenState.academy ?? current.academy),
+          laba: Boolean(seenState.laba ?? current.laba),
+          prompt: Boolean(seenState.prompt ?? current.prompt),
+          poligon: Boolean(seenState.poligon ?? current.poligon),
+        }));
       } finally {
         setLoading(false);
       }
@@ -268,7 +290,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           bgSrc={academyBg}
           top={538}
           content={<><p style={{ margin: 0 }}>в академии собраны</p><p style={{ margin: 0 }}>4 больших курса</p><p style={{ margin: 0 }}>и более 40 уроков</p><p style={{ margin: 0 }}>с гайдами, чек-</p><p style={{ margin: 0 }}>листами, шаблонами</p><p style={{ margin: 0 }}>и промптами</p></>}
-          onOpen={() => navigate('/about-academy')}
+          onOpen={() => openService('academy', '/about-academy', '/academy-courses-all')}
         />
         <ServiceCard
           bgSrc={labaBg}
@@ -277,7 +299,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           photoInset="0.4% 49.78% 0 0"
           textInset="0.4% 0 0 50.22%"
           content={<><p style={{ margin: 0 }}>в лабе ИИ-выполняет</p><p style={{ margin: 0 }}>всю черновую работу:</p><p style={{ margin: 0 }}>поиск аккаунтов,</p><p style={{ margin: 0 }}>анализ видео</p><p style={{ margin: 0 }}>и написание</p><p style={{ margin: 0 }}>виральных сценариев</p></>}
-          onOpen={() => navigate('/about-laba')}
+          onOpen={() => openService('laba', '/about-laba', '/laba-search')}
         />
         <ServiceCard
           bgSrc={tsekhBg}
@@ -285,7 +307,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           photoInset="0 49.66% 0 0.11%"
           textInset="0 0 0 50.32%"
           content={<><p style={{ margin: 0 }}>десятки промптов,</p><p style={{ margin: 0 }}>позволяющих задать</p><p style={{ margin: 0 }}>роль агента или</p><p style={{ margin: 0 }}>воспроизвести</p><p style={{ margin: 0 }}>генерацию из цеха</p><p style={{ margin: 0 }}>в один клик</p></>}
-          onOpen={() => navigate('/about-prompt')}
+          onOpen={() => openService('prompt', '/about-prompt', '/prompt-first')}
         />
         <ServiceCard
           bgSrc={poligonBg}
@@ -293,7 +315,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           photoInset="0 50% 0 0"
           textInset="0 0 0 49.97%"
           content={<><p style={{ margin: 0 }}>если нужен разбор</p><p style={{ margin: 0 }}>новинки или</p><p style={{ margin: 0 }}>подробный кейс —</p><p style={{ margin: 0 }}>это в полигон. статьи</p><p style={{ margin: 0 }}>публикуются</p><p style={{ margin: 0 }}>еженедельно</p></>}
-          onOpen={() => navigate('/about-poligon')}
+          onOpen={() => openService('poligon', '/about-poligon', '/poligon-articles-all')}
         />
         <ServiceCard
           bgSrc={chatBg}

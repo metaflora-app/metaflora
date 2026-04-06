@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
 import { AboutAcademyVidstackPlayer } from '../../components/AboutAcademyVidstackPlayer';
+import { completeAboutIntro } from '../../utils/aboutIntro';
 
 import serviceBtn from '../../assets/about-screens/кнопка перейти к сервису.png';
 import aboutPoligonVideo from '../../assets/about-screens/about-poligon.mp4';
@@ -29,9 +30,11 @@ export const AboutPoligonScreen: React.FC = () => {
         <button
           type="button"
           className={`motion-press-grow ${isPressed ? 'is-pressed' : ''}`}
+          onClick={() => {
+            void completeAboutIntro('poligon', navigate);
+          }}
           onPointerDown={() => {
             setIsPressed(true);
-            navigate('/poligon-articles-all');
           }}
           onPointerUp={() => setIsPressed(false)}
           onPointerLeave={() => setIsPressed(false)}
