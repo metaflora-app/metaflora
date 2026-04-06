@@ -557,7 +557,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             position: 'absolute',
             inset: 0,
             zIndex: 2,
-            pointerEvents: media.paused || isPlayPending ? 'none' : 'auto',
+            pointerEvents: 'none',
           }}
         >
           <button
@@ -712,6 +712,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             position: 'absolute',
             left: `${TIME_LEFT}px`,
             top: `${TIME_TOP}px`,
+            zIndex: 6,
             width: '87px',
             height: '21px',
             fontFamily: 'Cygre',
@@ -730,6 +731,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             position: 'absolute',
             left: `${TIMELINE_LEFT}px`,
             top: `${TIMELINE_TOP}px`,
+            zIndex: 6,
             width: `${TIMELINE_WIDTH}px`,
             height: '21px',
             pointerEvents: 'none',
@@ -783,10 +785,13 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             position: 'absolute',
             left: `${TIMELINE_LEFT}px`,
             top: `${TIMELINE_TOP}px`,
+            zIndex: 7,
             width: `${TIMELINE_WIDTH}px`,
             height: '21px',
             opacity: 0,
             cursor: 'pointer',
+            pointerEvents: 'auto',
+            touchAction: 'none',
           }}
         />
 
@@ -795,6 +800,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
             position: 'absolute',
             left: `${DURATION_LEFT}px`,
             top: `${TIME_TOP}px`,
+            zIndex: 6,
             width: '87px',
             height: '21px',
             fontFamily: 'Cygre',
