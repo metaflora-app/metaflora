@@ -556,7 +556,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
           style={{
             position: 'absolute',
             inset: 0,
-            zIndex: 3,
+            zIndex: 2,
             pointerEvents: media.paused || isPlayPending ? 'none' : 'auto',
           }}
         >
