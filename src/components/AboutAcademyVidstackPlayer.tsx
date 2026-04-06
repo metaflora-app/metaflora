@@ -130,8 +130,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   const playerRef = React.useRef<MediaPlayerElement>(null);
   const timeSliderRef = React.useRef<MediaSliderElement>(null);
   const overlayTimeoutRef = React.useRef<number | null>(null);
-  const playIntentRef = React.useRef(false);
-  const playRetryTimeoutRef = React.useRef<number | null>(null);
   const lastTapRef = React.useRef({ left: 0, right: 0 });
   const initialSeekDoneRef = React.useRef(false);
   const playbackStartedRef = React.useRef(false);
@@ -164,9 +162,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       if (overlayTimeoutRef.current !== null) {
         window.clearTimeout(overlayTimeoutRef.current);
       }
-      if (playRetryTimeoutRef.current !== null) {
-        window.clearTimeout(playRetryTimeoutRef.current);
-      }
     };
   }, []);
 
@@ -180,11 +175,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     setNativeDuration(0);
     setNativeCurrentTime(0);
     setHasDismissedPoster(false);
-    playIntentRef.current = false;
-    if (playRetryTimeoutRef.current !== null) {
-      window.clearTimeout(playRetryTimeoutRef.current);
-      playRetryTimeoutRef.current = null;
-    }
   }, [initialTime, src]);
 
   React.useEffect(() => {
@@ -258,52 +248,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     }
   }, [getNativeVideoElement, getPlayer, src]);
 
-  const attemptPendingPlay = React.useCallback(async () => {
-    if (!playIntentRef.current) {
-      return;
-    }
-
-    const player = getPlayer();
-    const nativeVideo = getNativeVideoElement();
-
-    try {
-      if (nativeVideo) {
-        nativeVideo.preload = 'auto';
-        nativeVideo.playsInline = true;
-        nativeVideo.removeAttribute('muted');
-        nativeVideo.muted = false;
-        nativeVideo.defaultMuted = false;
-        nativeVideo.volume = 1;
-
-        if (nativeVideo.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
-          nativeVideo.load();
-          if (playRetryTimeoutRef.current !== null) {
-            window.clearTimeout(playRetryTimeoutRef.current);
-          }
-          playRetryTimeoutRef.current = window.setTimeout(() => {
-            void attemptPendingPlay();
-          }, 180);
-          return;
-        }
-
-        await nativeVideo.play();
-        if (playRetryTimeoutRef.current !== null) {
-          window.clearTimeout(playRetryTimeoutRef.current);
-          playRetryTimeoutRef.current = null;
-        }
-        return;
-      }
-
-      if (player) {
-        player.muted = false;
-        (player as MediaPlayerElement & { volume?: number }).volume = 1;
-        await player.play();
-      }
-    } catch (error) {
-      console.error('Pending video start failed:', error);
-    }
-  }, [getNativeVideoElement, getPlayer]);
-
   React.useEffect(() => {
     const nativeVideo = getNativeVideoElement();
     if (!nativeVideo) {
@@ -316,11 +260,6 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
     };
 
     const handlePlay = () => {
-      playIntentRef.current = false;
-      if (playRetryTimeoutRef.current !== null) {
-        window.clearTimeout(playRetryTimeoutRef.current);
-        playRetryTimeoutRef.current = null;
-      }
       setHasDismissedPoster(true);
       setIsPlayPending(false);
       syncMetrics();
@@ -330,20 +269,10 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       syncMetrics();
     };
 
-    const handleLoadedData = () => {
-      syncMetrics();
-      void attemptPendingPlay();
-    };
-
-    const handleCanPlay = () => {
-      syncMetrics();
-      void attemptPendingPlay();
-    };
-
     syncMetrics();
     nativeVideo.addEventListener('loadedmetadata', syncMetrics);
-    nativeVideo.addEventListener('loadeddata', handleLoadedData);
-    nativeVideo.addEventListener('canplay', handleCanPlay);
+    nativeVideo.addEventListener('loadeddata', syncMetrics);
+    nativeVideo.addEventListener('canplay', syncMetrics);
     nativeVideo.addEventListener('durationchange', syncMetrics);
     nativeVideo.addEventListener('timeupdate', syncMetrics);
     nativeVideo.addEventListener('play', handlePlay);
@@ -351,14 +280,14 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     return () => {
       nativeVideo.removeEventListener('loadedmetadata', syncMetrics);
-      nativeVideo.removeEventListener('loadeddata', handleLoadedData);
-      nativeVideo.removeEventListener('canplay', handleCanPlay);
+      nativeVideo.removeEventListener('loadeddata', syncMetrics);
+      nativeVideo.removeEventListener('canplay', syncMetrics);
       nativeVideo.removeEventListener('durationchange', syncMetrics);
       nativeVideo.removeEventListener('timeupdate', syncMetrics);
       nativeVideo.removeEventListener('play', handlePlay);
       nativeVideo.removeEventListener('pause', handlePause);
     };
-  }, [attemptPendingPlay, getNativeVideoElement, src]);
+  }, [getNativeVideoElement, src]);
 
   React.useEffect(() => {
     const player = getPlayer();
@@ -425,18 +354,24 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
 
     try {
       if (media.paused) {
-        playIntentRef.current = true;
         setIsPlayPending(true);
-        setHasDismissedPoster(true);
-        await attemptPendingPlay();
+        if (nativeVideo) {
+          nativeVideo.preload = 'auto';
+          nativeVideo.playsInline = true;
+          nativeVideo.removeAttribute('muted');
+          nativeVideo.muted = false;
+          nativeVideo.defaultMuted = false;
+          nativeVideo.volume = 1;
+          nativeVideo.load();
+          await nativeVideo.play();
+        } else if (player) {
+          player.muted = false;
+          (player as MediaPlayerElement & { volume?: number }).volume = 1;
+          await player.play();
+        }
         return;
       }
 
-      playIntentRef.current = false;
-      if (playRetryTimeoutRef.current !== null) {
-        window.clearTimeout(playRetryTimeoutRef.current);
-        playRetryTimeoutRef.current = null;
-      }
       setIsPlayPending(false);
       if (nativeVideo) {
         nativeVideo.pause();
@@ -445,8 +380,9 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
       }
     } catch (error) {
       console.error('Video toggle failed:', error);
+      setIsPlayPending(false);
     }
-  }, [attemptPendingPlay, getNativeVideoElement, getPlayer, media.paused]);
+  }, [getNativeVideoElement, getPlayer, media.paused]);
 
   const handleSeek = React.useCallback((delta: number) => {
     const player = getPlayer();
@@ -542,7 +478,7 @@ export const AboutAcademyVidstackPlayer: React.FC<AboutAcademyVidstackPlayerProp
   }, [getPlayer, media.playbackRate]);
 
 
-  const shouldShowPreview = Boolean(posterSrc) && !hasDismissedPoster && effectiveCurrentTime <= 0.08;
+  const shouldShowPreview = Boolean(posterSrc) && (!hasDismissedPoster || isPlayPending) && effectiveCurrentTime <= 0.08;
 
 
   return (
