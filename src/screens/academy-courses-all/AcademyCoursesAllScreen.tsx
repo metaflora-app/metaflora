@@ -86,10 +86,10 @@ const courseCards: CourseCardConfig[] = [
   },
 ];
 
-const progressRed = 'https://www.figma.com/api/mcp/asset/673c8961-0339-48af-9b54-8ff71a952544';
-const progressYellow = 'https://www.figma.com/api/mcp/asset/3b851238-fd21-47f3-8607-915de61d9da3';
-const progressGreenPassive = 'https://www.figma.com/api/mcp/asset/fe23c749-20a5-4d40-ae9d-e6672701ecb4';
-const progressGreenFull = 'https://www.figma.com/api/mcp/asset/f63c7374-0033-4cfc-8c7a-9e62ed267fbf';
+const progressRed = 'https://www.figma.com/api/mcp/asset/42d3dc73-9c2c-48e2-aedd-5ae847e900cf';
+const progressYellow = 'https://www.figma.com/api/mcp/asset/0cea9209-77d9-4841-98ff-05dc13d26bf4';
+const progressGreenPassive = 'https://www.figma.com/api/mcp/asset/4c21757c-4780-416e-8136-9f3c1dae1fb1';
+const progressGreenFull = 'https://www.figma.com/api/mcp/asset/73ba6b88-9f1d-47c9-92b1-0a28e6922e7e';
 const ACADEMY_PROGRESS_CACHE_KEY = 'academy_courses_progress_summary_v1';
 
 function getAcademyProgressStorage(): Storage | null {

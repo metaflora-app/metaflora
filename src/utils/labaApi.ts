@@ -388,7 +388,7 @@ export function getInstagramAvatarSources(username?: string | null, fallbackUrl?
   return uniqueImageSources([directUrl]);
 }
 
-export const FIGMA_INSTAGRAM_LOGO_URL = 'https://www.figma.com/api/mcp/asset/588e2e9b-8b11-4a23-b964-82029581a2db';
+export const FIGMA_INSTAGRAM_LOGO_URL = 'https://www.figma.com/api/mcp/asset/f0077255-2482-43f7-b282-9e00b1299fcd';
 
 export function formatFollowersLabel(followersCount: number | null | undefined): string {
   if (followersCount == null || Number.isNaN(Number(followersCount))) return 'закрытый профиль';
