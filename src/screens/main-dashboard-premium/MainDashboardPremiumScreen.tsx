@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { openLink } from '../../app/telegram/telegramHelpers';
 import { getOrCreateUser, getSeenAboutIntros, hasSeenAboutIntroLocally } from '../../utils/supabase';
 import { InteractiveTiltCard } from '../../components/InteractiveTiltCard';
 import { ThreeBg, Header, Footer } from '../../components/ScreenLayout';
@@ -11,6 +12,8 @@ import labaBg from '../../assets/main-dashboard/фон лаба.png';
 import tsekhBg from '../../assets/main-dashboard/фон цех.png';
 import poligonBg from '../../assets/main-dashboard/фон полигон.png';
 import chatBg from '../../assets/main-dashboard/фон чат.png';
+
+const METAFLORA_COMMUNITY_CHAT_URL = 'https://t.me/+CRYuVIZ5YuY5YmMy';
 
 interface CardProps {
   bgSrc: string;
@@ -323,6 +326,7 @@ export const MainDashboardPremiumScreen: React.FC = () => {
           photoInset="0 50.45% 0 0"
           textInset="0 0 0 49.56%"
           content={<><p style={{ margin: 0 }}>сильное комьюнити</p><p style={{ margin: 0 }}>ИИ-специалистов —</p><p style={{ margin: 0 }}>от новичков до</p><p style={{ margin: 0 }}>сеньоров, которые</p><p style={{ margin: 0 }}>обязательно заберут</p><p style={{ margin: 0 }}>под свое крыло</p></>}
+          onOpen={() => openLink(METAFLORA_COMMUNITY_CHAT_URL)}
         />
 
         <Footer />

@@ -1,10 +1,9 @@
 import React from 'react';
 import { FigmaLikeButton } from '../FigmaLikeButton';
-import { InstagramLogoMark } from './InstagramLogoMark';
+import { LabaAccountHeaderRow } from './LabaAccountHeaderRow';
 import type { Reel } from '../../types/laba';
 import {
   formatCount,
-  formatFollowersLabel,
   formatTimeAgo,
   getReelAvatarSources,
   getReelCoverSources,
@@ -71,10 +70,8 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   const [coverIndex, setCoverIndex] = React.useState(0);
   const [avatarIndex, setAvatarIndex] = React.useState(0);
   const [isAnalysisPressed, setIsAnalysisPressed] = React.useState(false);
-  const [isAvatarLoaded, setIsAvatarLoaded] = React.useState(false);
   const coverSrc = coverSources[coverIndex] || null;
   const avatarSrc = avatarSources[avatarIndex] || null;
-  const shouldShowInstagramLogo = Boolean(avatarSrc && isAvatarLoaded);
 
   React.useEffect(() => {
     setCoverIndex(0);
@@ -83,10 +80,6 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
   React.useEffect(() => {
     setAvatarIndex(0);
   }, [avatarSources]);
-
-  React.useEffect(() => {
-    setIsAvatarLoaded(false);
-  }, [avatarSrc]);
 
   const resolvedActionButtonImageSrc =
     actionButtonImageSrc ?? (typeof actionCost === 'number' ? undefined : shortTrackedActiveButton);
@@ -306,44 +299,23 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
         {formatTimeAgo(reel.publishedAt)}
       </div>
 
-      <div
-        style={{
-          position: 'absolute',
+      <LabaAccountHeaderRow
+        username={displayUsername}
+        followersCount={reel.accountFollowers}
+        avatarSrc={avatarSrc}
+        avatarContainerStyle={{
           left: '62px',
           top: '838px',
           width: '190px',
           height: '190px',
           borderRadius: '50%',
-          overflow: 'hidden',
-          background: 'rgba(255,255,255,0.12)',
         }}
-      >
-        {avatarSrc ? (
-          <img
-            src={avatarSrc}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            referrerPolicy="no-referrer"
-            onLoad={() => setIsAvatarLoaded(true)}
-            onError={() => {
-              if (avatarIndex < avatarSources.length - 1) {
-                setAvatarIndex((current) => current + 1);
-                return;
-              }
-              setAvatarIndex(avatarSources.length);
-            }}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        ) : null}
-      </div>
-
-      {shouldShowInstagramLogo ? (
-        <InstagramLogoMark style={{ left: '268px', top: '846px' }} />
-      ) : null}
-
-      <div
-        style={{
+        logoStyle={{
+          left: '268px',
+          top: '846px',
+          display: 'block',
+        }}
+        usernameStyle={{
           position: 'absolute',
           left: '284px',
           top: '926px',
@@ -355,12 +327,7 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           color: '#fff',
           whiteSpace: 'nowrap',
         }}
-      >
-        @{displayUsername}
-      </div>
-
-      <div
-        style={{
+        followersStyle={{
           position: 'absolute',
           left: '281px',
           top: '977px',
@@ -373,9 +340,15 @@ export const LabaFeedCard: React.FC<LabaFeedCardProps> = ({
           color: '#fff',
           whiteSpace: 'nowrap',
         }}
-      >
-        {formatFollowersLabel(reel.accountFollowers)}
-      </div>
+        onAvatarError={() => {
+          if (avatarIndex < avatarSources.length - 1) {
+            setAvatarIndex((current) => current + 1);
+            return;
+          }
+          setAvatarIndex(avatarSources.length);
+        }}
+        avatarImgProps={{ referrerPolicy: 'no-referrer' }}
+      />
 
       <ActionButton
         label={actionLabel}
