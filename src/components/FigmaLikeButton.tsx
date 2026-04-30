@@ -1,6 +1,6 @@
 import React from 'react';
 
-const figmaLikeHeart = 'https://www.figma.com/api/mcp/asset/7e38e0b0-0c28-43f7-b6a3-faee2af225fa';
+const figmaLikeHeart = 'https://www.figma.com/api/mcp/asset/d1b1c1d3-1263-4906-9cc2-5d8f9b7a873a';
 
 interface FigmaLikeButtonProps {
   active: boolean;
