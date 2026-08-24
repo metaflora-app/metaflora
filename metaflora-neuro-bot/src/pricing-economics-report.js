@@ -9,6 +9,7 @@ import {
 } from './finance-ledger.js';
 import {
   FINANCE_POLICY,
+  financePolicyForProduct,
   providerLiabilityRublesForMetacoins
 } from './finance-policy.js';
 import { minimumTariffRublesPerMetacoin } from './model-pricing.js';
@@ -25,11 +26,11 @@ function productDefinitions() {
 
   const subscriptions = SUBSCRIPTION_PLANS
     .filter(({ priceKopecks }) => priceKopecks > 0)
-    .flatMap(({ id, name }) => [1, 3].map((months) => {
+    .flatMap(({ id, name, durationMonths }) => durationMonths.map((months) => {
       const offer = getSubscriptionOffer(id, months);
       return Object.freeze({
         id: `plan:${id}:${months}`,
-        kind: 'subscription',
+        kind: 'plan',
         name,
         months,
         priceKopecks: offer.priceKopecks,
@@ -58,11 +59,20 @@ function exactProviderLiability(metacoins) {
 }
 
 function economicsRow(product) {
+  const productPolicy = financePolicyForProduct({
+    kind: product.kind,
+    productId: product.id.replace(/^(?:plan|package):/u, '').replace(/:\d+$/u, ''),
+    durationMonths: product.months ?? 1
+  });
   const allocations = createFinanceAllocations({
     externalPaymentId: `economics-${product.id.replace(/[^a-z0-9]/giu, '-')}`,
     amountKopecks: product.priceKopecks,
     metacoinsGranted: product.metacoins,
     enforceExactGrossMargin: true,
+    targetGrossMarginPercent: productPolicy.targetGrossMarginPercent,
+    polzaReservePercent: productPolicy.polzaReservePercent,
+    routeraiReservePercent: productPolicy.routeraiReservePercent,
+    allocateRemainingToRouter: productPolicy.allocateRemainingToRouter,
     source: 'pricing_report'
   });
   const totals = summarizeFinanceAllocations(allocations);

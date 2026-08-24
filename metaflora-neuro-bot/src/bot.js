@@ -1105,14 +1105,19 @@ export function createUpdateHandler({
   };
   const runNonBlocking = (operation, context) => {
     try {
-      return operation();
+      const pending = operation();
+      void Promise.resolve(pending).catch((error) => onError(error, context));
+      return pending;
     } catch (error) {
       onError(error, context);
       return null;
     }
   };
   const referralAccountFor = async (telegramId) => {
-    await referralService.releaseDueEarnings?.();
+    runNonBlocking(
+      () => referralService.releaseDueEarnings?.(),
+      { telegramId, action: 'release_due_referral_earnings' }
+    );
     return await referralService.account(telegramId);
   };
   const partnerOnboardingFor = async (telegramId) => {
@@ -1134,7 +1139,7 @@ export function createUpdateHandler({
   };
   const enabledPaymentMethods = (checkout) => paymentRails?.enabledMethods?.(checkout)
     ?? ['sbp'];
-  const startYooKassaCheckout = async ({
+  const startTBankCheckout = async ({
     chatId,
     actorId,
     kind,
@@ -1666,7 +1671,10 @@ export function createUpdateHandler({
     if (typeof telegram.deleteMessage === 'function') {
       for (const previousId of previousIds) {
         try {
-          await telegram.deleteMessage(chatId, previousId);
+          const deletion = telegram.deleteMessage(chatId, previousId);
+          void Promise.resolve(deletion).catch((error) => {
+            reportTelegramCleanupError(error, { chatId, previousId });
+          });
         } catch (error) {
           reportTelegramCleanupError(error, { chatId, previousId });
         }
@@ -2417,7 +2425,7 @@ export function createUpdateHandler({
       }
       onError(error, { chatId: request.chatId, modelId: request.selected?.id, action: 'generation' });
       const message = error instanceof ProviderRequestError
-        ? buildProviderErrorMessage(request.selected)
+        ? buildProviderErrorMessage(request.selected, error)
         : buildAggregatorErrorMessage(request.selected);
       try {
         await deliverUi(request.chatId, message);
@@ -2735,7 +2743,7 @@ export function createUpdateHandler({
       }
       onError(error, { chatId: request.chatId, agentId: request.agent?.id, action: 'agent_generation' });
       const message = error instanceof ProviderRequestError
-        ? buildAgentProviderErrorMessage(request.agent)
+        ? buildAgentProviderErrorMessage(request.agent, error)
         : buildAggregatorErrorMessage();
       try {
         await deliverUi(request.chatId, message);
@@ -3092,11 +3100,10 @@ export function createUpdateHandler({
     const incomingChat = update.callback_query?.message?.chat ?? update.message?.chat;
     if (incomingChat?.type && incomingChat.type !== 'private') {
       if (update.callback_query) {
-        try {
-          await telegram.answerCallbackQuery(update.callback_query.id);
-        } catch (error) {
-          onError(error, update);
-        }
+        runNonBlocking(
+          () => telegram.answerCallbackQuery(update.callback_query.id),
+          { update, action: 'answer_callback_query' }
+        );
       }
       await telegram.sendMessage(incomingChat.id, {
         text: 'профиль, баланс и генерации доступны в личном чате с ботом.',
@@ -3112,11 +3119,10 @@ export function createUpdateHandler({
 
     if (update.callback_query) {
       const callback = update.callback_query;
-      try {
-        await telegram.answerCallbackQuery(callback.id);
-      } catch (error) {
-        onError(error, update);
-      }
+      runNonBlocking(
+        () => telegram.answerCallbackQuery(callback.id),
+        { update, action: 'answer_callback_query' }
+      );
 
       const chatId = callback.message?.chat?.id;
       if (!chatId) return;
@@ -4453,7 +4459,7 @@ export function createUpdateHandler({
           kind === 'package' ? 'balance' : 'profile'
         );
         const expectedAmountValue = kind === 'plan' ? planExpectedAmount : maybeOrigin;
-        await startYooKassaCheckout({
+        await startTBankCheckout({
           chatId,
           actorId,
           kind,
@@ -5754,7 +5760,7 @@ export function createUpdateHandler({
           email: customerEmail
         });
         receiptDrafts.delete(String(actorId));
-        await startYooKassaCheckout({
+        await startTBankCheckout({
           chatId,
           actorId,
           ...receiptDraft,

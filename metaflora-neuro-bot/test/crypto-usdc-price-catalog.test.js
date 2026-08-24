@@ -30,8 +30,8 @@ const APPROVED_GROSS_USDC_MICROS = Object.freeze({
 test('the documented USDC catalog covers every production plan and package', () => {
   const prices = examplePrices();
   const expected = [
-    ...SUBSCRIPTION_PLANS.filter((plan) => plan.priceKopecks > 0)
-      .flatMap((plan) => [1, 3].map((months) => `plan:${plan.id}:${months}`)),
+    ...SUBSCRIPTION_PLANS.filter((plan) => plan.priceKopecks > 0 && plan.id !== 'ultimate_test')
+      .flatMap((plan) => plan.durationMonths.map((months) => `plan:${plan.id}:${months}`)),
     ...METACOIN_PACKAGES.map((item) => `package:${item.id}`)
   ].sort();
   assert.deepEqual(Object.keys(prices).sort(), expected);

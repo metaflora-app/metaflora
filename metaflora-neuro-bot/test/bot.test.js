@@ -135,6 +135,36 @@ test('Telegram command menu contains the requested dropdown commands', async () 
   }));
 });
 
+test('billing navigation never waits for the background referral release sweep', async () => {
+  const telegram = createTelegramMock();
+  const referralService = {
+    registerUser({ id }) { return { telegramId: String(id) }; },
+    markStarted() {},
+    releaseDueEarnings() { return new Promise(() => {}); },
+    account() {
+      return {
+        subscriptionPlanId: 'newcomer',
+        subscriptionExpiresAt: null,
+        metacoinBalance: 0
+      };
+    }
+  };
+  const handler = createUpdateHandler({ telegram, config: {}, referralService });
+  const completed = await Promise.race([
+    handler({
+      callback_query: {
+        id: 'billing-fast',
+        from: { id: 42 },
+        data: 'billing:plans:profile',
+        message: { message_id: 7, chat: { id: 42, type: 'private' } }
+      }
+    }).then(() => true),
+    new Promise((resolve) => setTimeout(() => resolve(false), 50))
+  ]);
+  assert.equal(completed, true);
+  assert.match(telegram.sent.at(-1)?.message?.text ?? '', /актуальные тарифы/u);
+});
+
 test('legal gate keeps the device menu visible and unlocks only after both acceptances', async () => {
   const telegram = createTelegramMock();
   const timers = [];
@@ -546,6 +576,86 @@ test('a slow history capture never delays an interactive menu callback', async (
 
   assert.equal(telegram.sent.at(-1).chatId, 11);
   assert.match(telegram.sent.at(-1).message.text, /инструмент/u);
+});
+
+test('a stalled callback acknowledgement never delays interactive navigation', async () => {
+  const neverSettles = new Promise(() => {});
+  const telegram = createTelegramMock({
+    answerCallbackQuery() { return neverSettles; }
+  });
+  const handleUpdate = createUpdateHandler({ telegram, config: {} });
+
+  await Promise.race([
+    handleUpdate({
+      update_id: 8_044,
+      callback_query: {
+        id: 'stalled-callback-ack',
+        from: { id: 11 },
+        data: 'task:tools',
+        message: { message_id: 111, chat: { id: 11, type: 'private' } }
+      }
+    }),
+    new Promise((_, reject) => setTimeout(
+      () => reject(new Error('menu callback was blocked by acknowledgement')),
+      100
+    ))
+  ]);
+
+  assert.equal(telegram.sent.at(-1).chatId, 11);
+  assert.match(telegram.sent.at(-1).message.text, /инструмент/u);
+});
+
+test('a stalled deletion of the previous media card never delays the next menu', async () => {
+  let releaseDeletion;
+  const pendingDeletion = new Promise((resolve) => { releaseDeletion = resolve; });
+  let stallDeletion = false;
+  const photos = [];
+  const telegram = createTelegramMock({
+    deleteMessage() { return stallDeletion ? pendingDeletion : Promise.resolve(true); },
+    async sendPhoto(chatId, source, message) {
+      photos.push({ chatId, source, message });
+      return { message_id: 700 + photos.length, photo: [{ file_id: `photo-${photos.length}` }] };
+    }
+  });
+  const handleUpdate = createUpdateHandler({
+    telegram,
+    config: {},
+    menuMedia: {
+      menu: { data: Buffer.from('menu'), mimeType: 'image/jpeg', size: 4, fileName: 'menu.jpg' },
+      image: { data: Buffer.from('image'), mimeType: 'image/jpeg', size: 5, fileName: 'image.jpg' }
+    }
+  });
+  await handleUpdate({
+    update_id: 8_045,
+    message: {
+      message_id: 8_045,
+      chat: { id: 11, type: 'private' },
+      from: { id: 11 },
+      text: '/start'
+    }
+  });
+  stallDeletion = true;
+
+  await Promise.race([
+    handleUpdate({
+      update_id: 8_046,
+      callback_query: {
+        id: 'open-image-with-slow-delete',
+        from: { id: 11 },
+        data: 'task:image',
+        message: { message_id: 701, chat: { id: 11, type: 'private' } }
+      }
+    }),
+    new Promise((_, reject) => setTimeout(
+      () => reject(new Error('next menu was blocked by deletion of the previous card')),
+      100
+    ))
+  ]);
+
+  assert.equal(photos.length, 2);
+  assert.match(photos.at(-1).message.caption, /изображен/u);
+  releaseDeletion(true);
+  await flushAsyncWork();
 });
 
 test('stopping welcome while a request is running suppresses the late answer', async () => {

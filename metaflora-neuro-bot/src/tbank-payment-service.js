@@ -5,8 +5,8 @@ import {
   buildMetacoinPurchaseSuccessMessage,
   buildPlanPurchaseSuccessMessage
 } from './billing-ui.js';
-import { createFinanceAllocations, requiredFinanceReserveCarry, summarizeFinanceAllocations } from './finance-ledger.js';
-import { FINANCE_POLICY } from './finance-policy.js';
+import { createFinanceAllocations, summarizeFinanceAllocations } from './finance-ledger.js';
+import { FINANCE_POLICY, financePolicyForProduct } from './finance-policy.js';
 import { walletEntriesForAllocations } from './finance-wallet.js';
 
 const TELEGRAM_ID = /^[1-9]\d{0,19}$/u;
@@ -338,6 +338,11 @@ export function createTBankPaymentService({
           telegramId: metadata.telegramUserId,
           baseMetacoins: referralBaseMetacoins
         }) ?? { totalBonusMetacoins: 0 };
+        const productFinancePolicy = financePolicyForProduct({
+          kind: metadata.kind,
+          productId: metadata.productId,
+          durationMonths: metadata.durationMonths ?? 1
+        });
         const referralCostProbe = summarizeFinanceAllocations(createFinanceAllocations({
           externalPaymentId: `${callback.orderId}:referral-cost`,
           amountKopecks: callback.amountKopecks,
@@ -347,8 +352,10 @@ export function createTBankPaymentService({
           providerWeights: financePolicy.providerWeights,
           metacoinsGranted: referralBaseMetacoins + Number(bonusPreview.totalBonusMetacoins ?? 0),
           enforceExactGrossMargin: financePolicy.enforceExactGrossMargin === true,
-          targetGrossMarginPercent: financePolicy.targetGrossMarginPercent
-            ?? FINANCE_POLICY.targetGrossMarginPercent,
+          targetGrossMarginPercent: productFinancePolicy.targetGrossMarginPercent,
+          polzaReservePercent: productFinancePolicy.polzaReservePercent,
+          routeraiReservePercent: productFinancePolicy.routeraiReservePercent,
+          allocateRemainingToRouter: productFinancePolicy.allocateRemainingToRouter,
           ...(metadata.isUpgrade ? {
             providerMinimumsKopecks: financePolicy.providerMinimumsKopecks
               ?? FINANCE_POLICY.providerMinimumsKopecks,
@@ -464,13 +471,13 @@ export function createTBankPaymentService({
             ?? FINANCE_POLICY.providerMinimumsKopecks,
           allowOwnerShareForProviderMinimums: true
         } : {}),
-        targetGrossMarginPercent: financePolicy.targetGrossMarginPercent
-          ?? FINANCE_POLICY.targetGrossMarginPercent,
+        targetGrossMarginPercent: productFinancePolicy.targetGrossMarginPercent,
+        polzaReservePercent: productFinancePolicy.polzaReservePercent,
+        routeraiReservePercent: productFinancePolicy.routeraiReservePercent,
+        allocateRemainingToRouter: productFinancePolicy.allocateRemainingToRouter,
         source: 'tbank_payment_callback'
       };
-      const reserveCarryInKopecks = metadata.isUpgrade
-        ? requiredFinanceReserveCarry(financeInput)
-        : 0;
+      const reserveCarryInKopecks = 0;
       const allocations = createFinanceAllocations({ ...financeInput, reserveCarryInKopecks });
       await auditRepository.recordFinanceAllocations({
         externalPaymentId: callback.orderId,

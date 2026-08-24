@@ -37,7 +37,8 @@ export const METACOIN_PRICING_POLICY = Object.freeze({
 function paidSubscriptionOffers() {
   return SUBSCRIPTION_PLANS
     .filter(({ priceKopecks }) => priceKopecks > 0)
-    .flatMap(({ id }) => [getSubscriptionOffer(id, 1), getSubscriptionOffer(id, 3)]);
+    .flatMap(({ id }) => [getSubscriptionOffer(id, 1), getSubscriptionOffer(id, 3)])
+    .filter(Boolean);
 }
 
 export function minimumTariffRublesPerMetacoin() {

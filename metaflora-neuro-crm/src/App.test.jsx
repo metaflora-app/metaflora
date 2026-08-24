@@ -47,6 +47,7 @@ describe("CRM App smoke", () => {
     expect(displaySubscriptionPlan("final_test_130")).toBe("архивный тариф");
     expect(displaySubscriptionPlan("финальный новый")).toBe("архивный тариф");
     expect(displaySubscriptionPlan("business")).toBe("исследователь");
+    expect(displaySubscriptionPlan("ultimate_test")).toBe("ultimate тестовый");
   });
 
   it("opens every key section from the persistent sidebar", () => {

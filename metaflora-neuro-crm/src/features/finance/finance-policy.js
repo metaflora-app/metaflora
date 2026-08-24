@@ -9,11 +9,6 @@ export const PAYOUT_PROVIDERS = freezeRows([
     status: "СБП-выплаты через отдельный payout-контур",
     methods: Object.freeze(["sbp"]),
   }),
-  Object.freeze({
-    id: "yookassa_payouts",
-    label: "ЮKassa Payouts API",
-    status: "нужно подключение",
-  }),
 ]);
 
 export const PAYOUT_METHODS = freezeRows([

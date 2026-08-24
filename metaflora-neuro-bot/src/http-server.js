@@ -46,17 +46,6 @@ function sendRedirect(response, location) {
   response.end();
 }
 
-function sendPayoutHtml(response, status, body) {
-  response.writeHead(status, {
-    'content-type': 'text/html; charset=utf-8',
-    'content-length': Buffer.byteLength(body),
-    'cache-control': 'no-store',
-    'x-content-type-options': 'nosniff',
-    'content-security-policy': "default-src 'none'; script-src https://yookassa.ru 'unsafe-inline'; connect-src 'self'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"
-  });
-  response.end(body);
-}
-
 function escapeHtml(value) {
   return String(value ?? '')
     .replaceAll('&', '&amp;')
@@ -76,16 +65,9 @@ function browserJson(value) {
   return JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026');
 }
 
-function payoutSetupPage(setup, { payoutAgentId, token }) {
+function payoutSetupPage(setup, { token }) {
   const amount = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 }).format(Number(setup.amountKopecks) / 100);
   const expiresAt = escapeHtml(new Date(setup.expiresAt).toLocaleString('ru-RU'));
-  if (setup.method === 'bank_card') {
-    return `<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>реквизиты для выплаты</title><style>body{font:16px system-ui,sans-serif;max-width:560px;margin:40px auto;padding:0 20px;color:#17231a}main{padding:24px;border-radius:20px;background:#f2f8ef}button{border:0;border-radius:12px;padding:13px 18px;background:#367d48;color:#fff;font-size:16px}p{line-height:1.5}.muted{color:#637064}</style><main><h1>указать карту</h1><p>сумма к выводу: <strong>${escapeHtml(amount)} ₽</strong></p><p class="muted">карта передаётся напрямую в защищённый виджет YooKassa. бот не получает номер карты.</p><div id="payout-data"></div><p class="muted">ссылка действует до ${expiresAt}.</p></main><script src="https://yookassa.ru/payouts-data/3.1.0/widget.js"></script><script>
-const token=${browserJson(token)}; const root=document.getElementById('payout-data');
-function finish(data){fetch('/payout/setup/'+token+'/complete',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)}).then((r)=>r.json()).then((body)=>{root.textContent=body.ok?'готово: заявка отправлена в обработку.':'не получилось сохранить реквизиты.'}).catch(()=>{root.textContent='не получилось сохранить реквизиты.'});}
-if(window.PayoutsData){new PayoutsData({type:'payout',account_id:${browserJson(payoutAgentId)},success_callback:finish,error_callback:()=>{root.textContent='виджет не принял данные карты. попробуй ещё раз.'}}).render('payout-data');}else{root.textContent='виджет YooKassa пока недоступен.';}
-</script></html>`;
-  }
   return `<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>реквизиты для выплаты</title><style>body{font:16px system-ui,sans-serif;max-width:560px;margin:40px auto;padding:0 20px;color:#17231a}main{padding:24px;border-radius:20px;background:#f2f8ef}input,select,button{box-sizing:border-box;width:100%;border:1px solid #b5c9b6;border-radius:12px;padding:13px;margin:7px 0;font:inherit}button{border:0;background:#367d48;color:#fff}.muted{color:#637064}#message{min-height:24px}</style><main><h1>указать СБП</h1><p>сумма к выводу: <strong>${escapeHtml(amount)} ₽</strong></p><label>телефон<input id="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000-00-00"></label><label>банк<select id="bank"><option>загружаем банки…</option></select></label><button id="submit" type="button">отправить реквизиты</button><p id="message" class="muted">ссылка действует до ${expiresAt}.</p></main><script>
 const token=${browserJson(token)}; const bank=document.getElementById('bank'); const message=document.getElementById('message');
 fetch('/payout/setup/'+token+'/banks').then((r)=>r.json()).then((body)=>{bank.replaceChildren(...(body.banks||[]).map((item)=>{const option=document.createElement('option');option.value=item.bankId;option.textContent=item.name;return option;}));}).catch(()=>{bank.innerHTML='<option>банки временно недоступны</option>';});
@@ -162,10 +144,11 @@ function verifySignedCallback(raw, request, secret, now) {
     && timingSafeEqual(actualBuffer, expectedBuffer);
 }
 
-function safeWebhookPath(value) {
+function safeLegacyWebhookPath(value) {
   const path = String(value ?? '');
-  if (!/^\/webhooks\/yookassa\/[A-Za-z0-9_-]{20,128}$/u.test(path)) {
-    throw new TypeError('A secure YooKassa webhook path is required.');
+  if (!path) return '';
+  if (!/^\/webhooks\/legacy-payment\/[A-Za-z0-9_-]{20,128}$/u.test(path)) {
+    throw new TypeError('A secure legacy payment webhook path is required.');
   }
   return path;
 }
@@ -196,19 +179,18 @@ export function createHttpHandler({
   tbankPayoutAuthorityEnabled = false,
   tbankPayoutNotificationService = null,
   tbankPayoutWebhookPath = '',
-  payoutAgentId = '',
   onPayoutSetupCompleted = async () => {},
   now = () => new Date(),
   onError = () => {}
 } = {}) {
-  if (!paymentService?.processWebhook) throw new TypeError('Payment service is required.');
+  if (paymentService && !paymentService?.processWebhook) throw new TypeError('Legacy payment service is invalid.');
   if (tbankPaymentService && Buffer.byteLength(String(tbankCallbackSecret), 'utf8') < 32) {
     throw new TypeError('A strong T-Bank callback secret is required.');
   }
   if (cryptoUsdcPaymentService && Buffer.byteLength(String(cryptoUsdcSharedSecret), 'utf8') < 32) {
     throw new TypeError('A strong Crypto USDC callback secret is required.');
   }
-  const securedWebhookPath = safeWebhookPath(webhookPath);
+  const securedWebhookPath = safeLegacyWebhookPath(webhookPath);
   const securedTbankPayoutWebhookPath = safeTbankPayoutWebhookPath(tbankPayoutWebhookPath);
   return async (request, response) => {
     try {
@@ -218,7 +200,7 @@ export function createHttpHandler({
         return;
       }
       if (request.method === 'GET' && url.pathname === '/payments/return') {
-        sendHtml(response, 200, '<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>оплата принята</title><body><main><h1>оплата обрабатывается</h1><p>можно вернуться в Telegram. бот сообщит, когда YooKassa подтвердит платёж.</p></main></body></html>');
+        sendHtml(response, 200, '<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>оплата принята</title><body><main><h1>оплата обрабатывается</h1><p>можно вернуться в Telegram. бот сообщит после подтверждения платежа банком.</p></main></body></html>');
         return;
       }
       const offerOpenMatch = request.method === 'GET'
@@ -279,6 +261,10 @@ export function createHttpHandler({
           sendJson(response, 404, { ok: false, error: 'payout_setup_not_found' });
           return;
         }
+        if (setup.method !== 'sbp') {
+          sendJson(response, 404, { ok: false, error: 'payout_method_not_supported' });
+          return;
+        }
         if (payoutBanksMatch) {
           if (setup.method !== 'sbp' || !payoutService?.listSbpBanks) {
             sendJson(response, 404, { ok: false });
@@ -315,11 +301,7 @@ export function createHttpHandler({
           sendJson(response, 200, { ok: true, withdrawalId: String(withdrawal.withdrawalId) });
           return;
         }
-        if (setup.method === 'bank_card' && !String(payoutAgentId)) {
-          sendJson(response, 503, { ok: false, error: 'payout_card_widget_not_configured' });
-          return;
-        }
-        sendPayoutHtml(response, 200, payoutSetupPage(setup, { payoutAgentId, token }));
+        sendHtml(response, 200, payoutSetupPage(setup, { token }));
         return;
       }
       const mediaMatch = request.method === 'GET'
@@ -379,7 +361,7 @@ export function createHttpHandler({
         sendText(response, 200, 'OK');
         return;
       }
-      if (request.method === 'POST' && url.pathname === securedWebhookPath) {
+      if (request.method === 'POST' && securedWebhookPath && url.pathname === securedWebhookPath) {
         const event = await jsonBody(request);
         await paymentService.processWebhook(event);
         sendJson(response, 200, { ok: true });
@@ -411,7 +393,6 @@ export function startHttpServer({
   tbankPayoutAuthorityEnabled,
   tbankPayoutNotificationService,
   tbankPayoutWebhookPath,
-  payoutAgentId,
   onPayoutSetupCompleted,
   now,
   onError = () => {}
@@ -434,7 +415,6 @@ export function startHttpServer({
     tbankPayoutAuthorityEnabled,
     tbankPayoutNotificationService,
     tbankPayoutWebhookPath,
-    payoutAgentId,
     onPayoutSetupCompleted,
     now,
     onError

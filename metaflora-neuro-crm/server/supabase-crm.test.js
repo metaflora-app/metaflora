@@ -1425,14 +1425,14 @@ test("a missing optional relation produces a controlled empty/default projection
     sensitiveFieldsRedacted: true,
     finance: {
       payout: {
-        id: "yookassa_payouts",
-        label: "ЮKassa Payouts API",
+        id: "tbank_mass_payouts",
+        label: "Т‑Бизнес массовые выплаты",
         enabled: false,
         credentialsConfigured: false,
         ready: false,
         status: "отключена",
-        methods: ["card_ru", "sbp"],
-        activation: "включи отдельный договор выплат и добавь payout-реквизиты в Railway",
+        methods: ["sbp"],
+        activation: "подключи массовые выплаты Т‑Бизнеса и добавь payout-реквизиты в Railway",
       },
       apiReserve: {
         percent: 46.5,
@@ -1467,10 +1467,10 @@ test("a missing optional relation produces a controlled empty/default projection
         note: "однократная авторизация в постоянном профиле; каждая доля от 100 ₽ отправляется отдельно, без накопления",
       },
       providerTopups: {
-      mode: "yookassa_confirmed_queue",
+      mode: "tbank_confirmed_queue",
       automatic: false,
       status: "очередь создаётся после payment.succeeded; внешний шлюз не подключён",
-      confirmationGate: "yookassa_payment_succeeded",
+      confirmationGate: "tbank_payment_confirmed",
       fundingGateway: "не настроен",
       note: "CRM фиксирует оплату и создаёт заявку. Для реального списания бизнес-карты нужен внешний банк/эквайер или API автопополнения провайдера; CRM не хранит PAN/CVV",
         providers: [

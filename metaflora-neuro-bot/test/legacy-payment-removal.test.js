@@ -32,7 +32,7 @@ test('legacy test tariffs stay unreachable even when the former flag is supplied
 
   assert.deepEqual(
     getPurchasableSubscriptionPlans(formerEnvironment).map(({ id }) => id),
-    ['newcomer', 'amateur', 'author', 'researcher', 'expert']
+    ['newcomer', 'ultimate_test', 'amateur', 'author', 'researcher', 'expert']
   );
   for (const id of removedIds) assert.equal(getSubscriptionPlan(id, formerEnvironment), null);
 });

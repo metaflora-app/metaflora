@@ -61,6 +61,7 @@ const INITIAL_DASHBOARD_DATA = IS_TEST_MODE
 
 const PLAN_CYCLE = {
   новичок: "любитель",
+  "ultimate тестовый": "новичок",
   любитель: "автор",
   автор: "исследователь",
   исследователь: "эксперт",
@@ -73,6 +74,7 @@ const SUBSCRIPTION_PLAN_LABELS = {
   team: "автор",
   business: "исследователь",
   expert: "эксперт",
+  ultimate_test: "ultimate тестовый",
 };
 
 const PLAN_ID_BY_LABEL = Object.freeze({
@@ -81,6 +83,7 @@ const PLAN_ID_BY_LABEL = Object.freeze({
   автор: "author",
   исследователь: "researcher",
   эксперт: "expert",
+  "ultimate тестовый": "ultimate_test",
   free: "newcomer",
   pro: "amateur",
   team: "author",
@@ -93,6 +96,7 @@ const PLAN_LABEL_BY_ID = Object.freeze({
   author: "автор",
   researcher: "исследователь",
   expert: "эксперт",
+  ultimate_test: "ultimate тестовый",
 });
 
 const ARCHIVED_PLAN_LABEL = "архивный тариф";

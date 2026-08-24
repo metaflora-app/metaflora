@@ -20,6 +20,38 @@ export const FINANCE_POLICY = Object.freeze({
   providerMinimumsKopecks: Object.freeze({ routerai: 10_000 })
 });
 
+const PRODUCT_RESERVE_OVERRIDES = Object.freeze({
+  'plan:amateur:1': Object.freeze({ polzaReservePercent: 6.1 }),
+  'plan:author:1': Object.freeze({ polzaReservePercent: 7 }),
+  'package:coins_150:1': Object.freeze({ polzaReservePercent: 6.1 }),
+  'package:coins_400:1': Object.freeze({ polzaReservePercent: 8 }),
+  'plan:ultimate_test:1': Object.freeze({
+    polzaReservePercent: 6,
+    allocateRemainingToRouter: true,
+    targetGrossMarginPercent: 0
+  })
+});
+
+export function financePolicyForProduct({ kind, productId, durationMonths = 1 } = {}) {
+  const normalizedKind = String(kind ?? '').trim().toLowerCase();
+  const normalizedProductId = String(productId ?? '').trim().toLowerCase();
+  const months = Number(durationMonths ?? 1);
+  if (!['plan', 'package'].includes(normalizedKind)) throw new TypeError('Unknown product kind.');
+  if (!/^[a-z0-9_]{2,64}$/u.test(normalizedProductId)) throw new TypeError('Invalid product id.');
+  if (![1, 3].includes(months)) throw new TypeError('Invalid product duration.');
+  const override = PRODUCT_RESERVE_OVERRIDES[
+    `${normalizedKind}:${normalizedProductId}:${months}`
+  ] ?? {};
+  return Object.freeze({
+    paymentFeePercent: FINANCE_POLICY.paymentFeePercent,
+    polzaReservePercent: override.polzaReservePercent ?? FINANCE_POLICY.polzaReservePercent,
+    routeraiReservePercent: FINANCE_POLICY.routeraiReservePercent,
+    targetGrossMarginPercent: override.targetGrossMarginPercent
+      ?? FINANCE_POLICY.targetGrossMarginPercent,
+    allocateRemainingToRouter: override.allocateRemainingToRouter === true
+  });
+}
+
 function finitePercent(value, label) {
   if (!Number.isFinite(value) || value < 0 || value > 100) {
     throw new RangeError(`${label} must be between 0 and 100.`);

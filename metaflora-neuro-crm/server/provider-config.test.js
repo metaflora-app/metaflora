@@ -109,9 +109,8 @@ test("enables RouterAI browser balance only with a complete trusted connector", 
 
 test("finance configuration exposes payout readiness without exposing secrets", () => {
   const configuration = getFinanceConfiguration({
-    YOOKASSA_PAYOUTS_ENABLED: "true",
-    YOOKASSA_PAYOUT_AGENT_ID: "payout-agent-secret",
-    YOOKASSA_PAYOUT_SECRET_KEY: "payout-secret-key",
+    TBANK_PAYOUTS_ENABLED: "true",
+    TBANK_PAYOUT_CREDENTIALS_CONFIGURED: "true",
     PAYMENT_FEE_PERCENT: "3.5",
     API_RESERVE_PERCENT: "12",
     API_RESERVE_PROVIDER_WEIGHTS_JSON: '{"polza":349,"routerai":116}',
@@ -119,14 +118,14 @@ test("finance configuration exposes payout readiness without exposing secrets", 
 
   assert.deepEqual(configuration, {
     payout: {
-      id: "yookassa_payouts",
-      label: "ЮKassa Payouts API",
+      id: "tbank_mass_payouts",
+      label: "Т‑Бизнес массовые выплаты",
       enabled: true,
       credentialsConfigured: true,
       ready: true,
       status: "готова к тестовой выплате",
-      methods: ["card_ru", "sbp"],
-      activation: "проведи тестовую выплату на небольшую сумму",
+      methods: ["sbp"],
+      activation: "проведи тестовую выплату через СБП",
     },
     apiReserve: {
       percent: 12,
@@ -161,10 +160,10 @@ test("finance configuration exposes payout readiness without exposing secrets", 
       note: "однократная авторизация в постоянном профиле; каждая доля от 100 ₽ отправляется отдельно, без накопления",
     },
     providerTopups: {
-      mode: "yookassa_confirmed_queue",
+      mode: "tbank_confirmed_queue",
       automatic: false,
       status: "очередь создаётся после payment.succeeded; внешний шлюз не подключён",
-      confirmationGate: "yookassa_payment_succeeded",
+      confirmationGate: "tbank_payment_confirmed",
       fundingGateway: "не настроен",
       note: "CRM фиксирует оплату и создаёт заявку. Для реального списания бизнес-карты нужен внешний банк/эквайер или API автопополнения провайдера; CRM не хранит PAN/CVV",
       providers: [
@@ -198,8 +197,7 @@ test("finance configuration exposes payout readiness without exposing secrets", 
     },
   });
   const serialized = JSON.stringify(configuration);
-  assert.equal(serialized.includes("payout-agent-secret"), false);
-  assert.equal(serialized.includes("payout-secret-key"), false);
+  assert.equal(serialized.includes("TBANK_PAYOUT_CREDENTIALS_CONFIGURED"), false);
 });
 
 test("finance configuration exposes T-Business payouts without exposing secrets", () => {

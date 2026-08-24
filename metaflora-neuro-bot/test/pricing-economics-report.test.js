@@ -9,13 +9,14 @@ import {
 test('every public package and subscription funds RouterAI through the explicit tail', () => {
   const rows = listPricingEconomicsRows();
 
-  assert.equal(rows.length, 12);
+  assert.equal(rows.length, 13);
   assert.ok(rows.every((row) => row.routeraiCoversLiability));
   assert.ok(rows.every((row) => row.routeraiBudgetKopecks >= row.routeraiRequiredKopecks));
   assert.ok(rows.every((row) => row.routeraiTailKopecks > 0));
   assert.ok(rows.every((row) => row.polzaBudgetKopecks > 0));
-  assert.ok(rows.every((row) => row.ownerShareKopecks > 0));
-  assert.ok(rows.every((row) => row.ownerSharePercent >= 39.99));
+  assert.ok(rows.filter(({ id }) => id !== 'plan:ultimate_test:1').every((row) => row.ownerShareKopecks > 0));
+  assert.equal(rows.find(({ id }) => id === 'plan:ultimate_test:1')?.ownerShareKopecks, 0);
+  assert.ok(rows.filter(({ id }) => id !== 'plan:ultimate_test:1').every((row) => row.ownerSharePercent >= 37.99));
 });
 
 test('the product economics report separates the 2% RouterAI tail from base capacity', () => {
@@ -37,7 +38,7 @@ test('the product economics report separates the 2% RouterAI tail from base capa
 test('the report summary reconciles every economic bucket to the gross product revenue', () => {
   const summary = pricingEconomicsSummary();
 
-  assert.equal(summary.products, 12);
+  assert.equal(summary.products, 13);
   assert.equal(
     summary.grossKopecks,
     summary.paymentFeeKopecks

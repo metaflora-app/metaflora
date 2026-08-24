@@ -331,8 +331,8 @@ export function ProviderTopupsPanel({ providerTopups = [], settings = {} }) {
                       {topup.status === "succeeded"
                         ? "баланс провайдера подтверждён"
                         : topup.confirmationStatus === "posted"
-                          ? "ЮKassa подтвердила; ждёт funding-шлюза"
-                          : "ждёт payment.succeeded"}
+                          ? "банк подтвердил; ждёт funding-шлюза"
+                          : "ждёт подтверждения банка"}
                     </span>
                   </td>
                   <td>

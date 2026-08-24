@@ -34,10 +34,11 @@ export function AuditPage({ audit }) {
 }
 
 export function SubscriptionsPage({ users, onOpenUser }) {
-  const currentPlanNames = new Set(["новичок", "любитель", "автор", "исследователь", "эксперт"]);
+  const currentPlanNames = new Set(["новичок", "ultimate тестовый", "любитель", "автор", "исследователь", "эксперт"]);
   const currentUsers = users.filter((user) => currentPlanNames.has(user.plan));
   const plans = [
     ["новичок", currentUsers.filter((user) => user.plan === "новичок").length, "бесплатно", "free"],
+    ["ultimate тестовый", currentUsers.filter((user) => user.plan === "ultimate тестовый").length, "300 ₽", "test"],
     ["любитель", currentUsers.filter((user) => user.plan === "любитель").length, "749 ₽", "starter"],
     ["автор", currentUsers.filter((user) => user.plan === "автор").length, "1 490 ₽", "creator"],
     ["исследователь", currentUsers.filter((user) => user.plan === "исследователь").length, "2 490 ₽", "top"],
@@ -148,7 +149,7 @@ export function SettingsPage({ settings, onToggle }) {
         <div className="integration-list">
           {[
             ["Supabase", "подключится через BFF", "configured"],
-            ["ЮKassa checkout", "ключ только в bot server env", "configured"],
+            ["Т-Банк / СБП checkout", "ключ только в bot server env", "configured"],
             [payout.label || "payouts", payout.status || "статус не передан", payout.ready ? "configured" : "pending"],
             ["Telegram", "admin allowlist", "configured"],
             ["provider API", "ключи не видны клиенту", "pending"],

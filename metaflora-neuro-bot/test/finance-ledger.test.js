@@ -7,15 +7,63 @@ import {
 } from '../src/finance-ledger.js';
 import {
   FINANCE_POLICY,
+  financePolicyForProduct,
   providerBudgetPercent,
   providerLiabilityRublesForMetacoins
 } from '../src/finance-policy.js';
 import { minimumTariffRublesPerMetacoin } from '../src/model-pricing.js';
 import {
+  calculatePlanUpgrade,
   getSubscriptionOffer,
   METACOIN_PACKAGES,
   SUBSCRIPTION_PLANS
 } from '../src/billing-catalog.js';
+
+test('every full-balance paid-plan upgrade covers its complete RouterAI liability without fabricated carry', () => {
+  const plans = SUBSCRIPTION_PLANS.filter(({ id }) => !['newcomer', 'ultimate_test'].includes(id));
+  for (const durationMonths of [1, 3]) {
+    for (let currentIndex = 0; currentIndex < plans.length; currentIndex += 1) {
+      for (let targetIndex = currentIndex + 1; targetIndex < plans.length; targetIndex += 1) {
+        const current = plans[currentIndex];
+        const target = plans[targetIndex];
+        const currentOffer = getSubscriptionOffer(current.id, durationMonths);
+        const upgrade = calculatePlanUpgrade({
+          currentPlanId: current.id,
+          targetPlanId: target.id,
+          remainingPlanMetacoins: currentOffer.metacoins,
+          currentSubscriptionMetacoinsTotal: currentOffer.metacoins,
+          currentSubscriptionPriceKopecks: currentOffer.priceKopecks,
+          currentDurationMonths: durationMonths,
+          targetDurationMonths: durationMonths
+        });
+        const policy = financePolicyForProduct({
+          kind: 'plan',
+          productId: target.id,
+          durationMonths
+        });
+        const allocations = createFinanceAllocations({
+          externalPaymentId: `upgrade-${durationMonths}-${current.id}-${target.id}`,
+          amountKopecks: upgrade.amountKopecks,
+          metacoinsGranted: upgrade.metacoinsGranted,
+          enforceExactGrossMargin: true,
+          targetGrossMarginPercent: policy.targetGrossMarginPercent,
+          polzaReservePercent: policy.polzaReservePercent,
+          routeraiReservePercent: policy.routeraiReservePercent,
+          providerMinimumsKopecks: FINANCE_POLICY.providerMinimumsKopecks,
+          allowOwnerShareForProviderMinimums: true,
+          reserveCarryInKopecks: 0
+        });
+        const summary = summarizeFinanceAllocations(allocations);
+        assert.equal(
+          summary.gross,
+          summary.paymentFee + summary.apiReserve + summary.ownerShare,
+          `${current.id} -> ${target.id} (${durationMonths}m)`
+        );
+        assert.ok(summary.ownerShare >= 0, `${current.id} -> ${target.id} (${durationMonths}m)`);
+      }
+    }
+  }
+});
 
 test('production finance policy is the immutable 50.5/6/3.5/40 split', () => {
   assert.deepEqual({
@@ -26,6 +74,43 @@ test('production finance policy is the immutable 50.5/6/3.5/40 split', () => {
   }, { routerai: 50.5, polza: 6, fee: 3.5, owner: 40 });
   assert.equal(FINANCE_POLICY.apiReservePercent, 56.5);
   assert.equal(providerBudgetPercent(), 56.5);
+});
+
+test('product finance policy reaches the Polza minimum on the requested purchase cadence', () => {
+  const cases = [
+    { kind: 'plan', productId: 'amateur', amountKopecks: 74_900, purchases: 3, percent: 6.1 },
+    { kind: 'plan', productId: 'author', amountKopecks: 149_000, purchases: 1, percent: 7 },
+    { kind: 'package', productId: 'coins_150', amountKopecks: 54_900, purchases: 3, percent: 6.1 },
+    { kind: 'package', productId: 'coins_400', amountKopecks: 129_000, purchases: 1, percent: 8 }
+  ];
+
+  for (const item of cases) {
+    const policy = financePolicyForProduct(item);
+    const perPurchase = Math.ceil(item.amountKopecks * policy.polzaReservePercent / 100);
+    assert.equal(policy.polzaReservePercent, item.percent, item.productId);
+    assert.ok(perPurchase * item.purchases >= 10_000, item.productId);
+    if (item.purchases > 1) assert.ok(perPurchase * (item.purchases - 1) < 10_000, item.productId);
+  }
+});
+
+test('ultimate test tariff has no owner margin and sends every residual kopeck to RouterAI', () => {
+  const policy = financePolicyForProduct({ kind: 'plan', productId: 'ultimate_test' });
+  const allocations = createFinanceAllocations({
+    externalPaymentId: 'ultimate-test-policy',
+    amountKopecks: 30_000,
+    metacoinsGranted: 100,
+    ...policy
+  });
+  const byProvider = Object.fromEntries(allocations
+    .filter(({ category }) => category === 'api_reserve')
+    .map(({ provider, amountKopecks }) => [provider, amountKopecks]));
+  const summary = summarizeFinanceAllocations(allocations);
+
+  assert.equal(byProvider.polza, 1_800);
+  assert.equal(byProvider.routerai, 27_150);
+  assert.equal(summary.paymentFee, 1_050);
+  assert.equal(summary.ownerShare, 0);
+  assert.equal(summary.gross - summary.paymentFee - summary.apiReserve, 0);
 });
 
 test('every RouterAI-funded product carries a two-percent provider tail above its base capacity', () => {
@@ -40,7 +125,7 @@ test('every RouterAI-funded product carries a two-percent provider tail above it
       .flatMap(({ id }) => [1, 3].map((months) => ({
         id: `plan:${id}:${months}`,
         ...getSubscriptionOffer(id, months)
-      })))
+      })).filter(({ priceKopecks }) => Number.isSafeInteger(priceKopecks)))
   ];
 
   assert.equal(FINANCE_POLICY.failoverReservePercent, 2);
@@ -64,8 +149,8 @@ test('every package and one/three-month offer fully covers worst-case RouterAI l
       .filter(({ priceKopecks }) => priceKopecks > 0)
       .flatMap(({ id }) => [1, 3].map((months) => {
         const offer = getSubscriptionOffer(id, months);
-        return { id: `plan:${id}:${months}`, ...offer };
-      }))
+        return offer ? { id: `plan:${id}:${months}`, ...offer } : null;
+      }).filter(Boolean))
   ];
   for (const product of products) {
     const allocations = createFinanceAllocations({

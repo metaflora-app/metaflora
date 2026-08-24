@@ -375,6 +375,34 @@ test('credits metacoins once and only after a locally matched CONFIRMED callback
   );
 });
 
+test('ultimate test tariff charges 300 rubles, credits 100 metacoins and keeps no owner margin', async () => {
+  const { paymentService, referralService, auditRepository } = service();
+  const checkout = await paymentService.createCheckout({
+    kind: 'plan', productId: 'ultimate_test', durationMonths: 1,
+    telegramUserId: '42', telegramChatId: '43', idempotencyKey: 'ultimate_test_checkout',
+    receiptEmail: 'buyer@example.com'
+  });
+  const ticket = decodeTicket(checkout.confirmationUrl);
+
+  assert.equal(ticket.amountKopecks, 30_000);
+  assert.equal(ticket.metacoins, 100);
+  await paymentService.processCallback({
+    provider: 'tbank', status: 'CONFIRMED', paymentId: 'ultimate-provider-payment',
+    orderId: ticket.orderId, amountKopecks: ticket.amountKopecks, terminalKey: 'terminal'
+  });
+
+  const activation = referralService.calls.find(([kind]) => kind === 'plan')[1];
+  assert.equal(activation.planId, 'ultimate_test');
+  assert.equal(activation.creditedMetacoins, 100);
+  const finance = auditRepository.calls.find(([name]) => name === 'finance-allocations')[1];
+  const amount = (category, provider = null) => finance.allocations.find((row) =>
+    row.category === category && (provider === null || row.provider === provider))?.amountKopecks ?? 0;
+  assert.equal(amount('api_reserve', 'polza'), 1_800);
+  assert.equal(amount('api_reserve', 'routerai'), 27_150);
+  assert.equal(amount('payment_fee'), 1_050);
+  assert.equal(amount('owner_share'), 0);
+});
+
 test('atomically accepts only one of two concurrent CONFIRMED callbacks for the same order', async () => {
   const { paymentService, referralService, auditRepository } = service();
   const checkout = await paymentService.createCheckout({
@@ -472,10 +500,11 @@ test('confirmed credited upgrade funds both provider minimums by reducing only o
   const finance = auditRepository.calls.find(([name]) => name === 'finance-allocations')[1];
   const amount = (category, provider = null) => finance.allocations.find((row) =>
     row.category === category && (provider === null || row.provider === provider))?.amountKopecks ?? 0;
-  assert.equal(amount('api_reserve', 'polza'), 4_446);
+  assert.equal(amount('api_reserve', 'polza'), 5_187);
   assert.equal(amount('api_reserve', 'routerai'), 37_421);
-  assert.equal(amount('owner_share'), 29_639);
+  assert.equal(amount('owner_share'), 28_898);
   assert.equal(finance.metadata.upgrade, true);
+  assert.equal(finance.metadata.reserveCarryInKopecks, 0);
   assert.equal(referralService.calls.find(([kind]) => kind === 'plan')[1].creditedMetacoins, 170);
 });
 

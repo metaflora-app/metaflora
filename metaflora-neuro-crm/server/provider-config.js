@@ -279,29 +279,15 @@ export function getFinanceConfiguration(env = process.env, workerContext = {}) {
     && hasUsableValue(env.TBANK_PAYOUT_CERT_SERIAL)
     && hasUsableValue(env.TBANK_PAYOUT_NOTIFICATION_PASSWORD))
     || String(env.TBANK_PAYOUT_CREDENTIALS_CONFIGURED ?? "").trim().toLowerCase() === "true";
-  const yookassaPayoutsEnabled = String(env.YOOKASSA_PAYOUTS_ENABLED ?? "").trim().toLowerCase() === "true";
-  const yookassaCredentialsConfigured = (hasUsableValue(env.YOOKASSA_PAYOUT_AGENT_ID)
-    && hasUsableValue(env.YOOKASSA_PAYOUT_SECRET_KEY))
-    || String(env.YOOKASSA_PAYOUT_CREDENTIALS_CONFIGURED ?? "").trim().toLowerCase() === "true";
-  const payoutProvider = tbankPayoutsEnabled || tbankCredentialsConfigured
-    ? Object.freeze({
-      id: "tbank_mass_payouts",
-      label: "Т‑Бизнес массовые выплаты",
-      enabled: tbankPayoutsEnabled,
-      credentialsConfigured: tbankCredentialsConfigured,
-      methods: Object.freeze(["sbp"]),
-      activationReady: "проведи тестовую выплату через СБП",
-      activationPending: "подключи массовые выплаты Т‑Бизнеса и добавь payout-реквизиты в Railway",
-    })
-    : Object.freeze({
-      id: "yookassa_payouts",
-      label: "ЮKassa Payouts API",
-      enabled: yookassaPayoutsEnabled,
-      credentialsConfigured: yookassaCredentialsConfigured,
-      methods: Object.freeze(["card_ru", "sbp"]),
-      activationReady: "проведи тестовую выплату на небольшую сумму",
-      activationPending: "включи отдельный договор выплат и добавь payout-реквизиты в Railway",
-    });
+  const payoutProvider = Object.freeze({
+    id: "tbank_mass_payouts",
+    label: "Т‑Бизнес массовые выплаты",
+    enabled: tbankPayoutsEnabled,
+    credentialsConfigured: tbankCredentialsConfigured,
+    methods: Object.freeze(["sbp"]),
+    activationReady: "проведи тестовую выплату через СБП",
+    activationPending: "подключи массовые выплаты Т‑Бизнеса и добавь payout-реквизиты в Railway",
+  });
   const payoutsEnabled = payoutProvider.enabled;
   const credentialsConfigured = payoutProvider.credentialsConfigured;
   const ready = payoutsEnabled && credentialsConfigured;
@@ -353,12 +339,12 @@ export function getFinanceConfiguration(env = process.env, workerContext = {}) {
     ...(browserFundingConfigured ? { browserFunding } : {}),
     routerAiBrowserFunding,
     providerTopups: Object.freeze({
-      mode: "yookassa_confirmed_queue",
+      mode: "tbank_confirmed_queue",
       automatic: automaticProviderTopups,
       status: automaticProviderTopups
         ? "payment.succeeded ставит заявки в очередь; workers отправляют их в Polza/RouterAI и проверяют результат"
         : "очередь создаётся после payment.succeeded; внешний шлюз не подключён",
-      confirmationGate: "yookassa_payment_succeeded",
+      confirmationGate: "tbank_payment_confirmed",
       fundingGateway: browserFunding.enabled
         ? routerAiBrowserFunding.enabled
           ? "Polza + RouterAI persistent browser workers"

@@ -16,11 +16,9 @@ import { VoiceProfileStore } from './voice-profile-store.js';
 import { createHistoryRepository } from './history-factory.js';
 import { createHistoryService } from './history-service.js';
 import { createProviderAuditedFetch } from './api-audit.js';
-import { createYooKassaClient } from './yookassa-client.js';
 import { createPayoutService } from './payout-service.js';
 import { createTBankPayoutClient } from './tbank-payout-client.js';
 import { createReferralPayoutWorkerRuntime } from './referral-payout-worker-runtime.js';
-import { createPaymentService } from './payment-service.js';
 import { createTBankPaymentService } from './tbank-payment-service.js';
 import { createCryptoUsdcPaymentService } from './crypto-usdc-payment-service.js';
 import { createPaymentRailRegistry } from './payment-rail-registry.js';
@@ -103,7 +101,7 @@ function payoutAmountText(amountKopecks) {
   });
 }
 
-const selectedPayoutConfig = config.tbankPayouts.enabled ? config.tbankPayouts : config.yookassaPayouts;
+const selectedPayoutConfig = config.tbankPayouts;
 const referralSupabaseClient = config.historyStorage.enabled
   && config.historyStorage.storageUrl
   && config.historyStorage.serviceRoleKey
@@ -143,28 +141,6 @@ const upgradeReservationCleanupTimer = setInterval(() => {
   }
 }, 60_000);
 upgradeReservationCleanupTimer.unref();
-const yookassaPaymentService = config.yookassa.enabled
-  ? createPaymentService({
-    client: createYooKassaClient({
-      shopId: config.yookassa.shopId,
-      secretKey: config.yookassa.secretKey
-    }),
-    referralService,
-    referralOfferTrackingSecret: config.referralPayout.offerTrackingSecret,
-    referralOfferUrl: config.referralPayout.offerUrl,
-    referralOfferDocumentSha256: config.referralPayout.offerDocumentSha256,
-    auditRepository: historyRepository,
-    financePolicy: config.finance,
-    returnUrl: config.yookassa.returnUrl,
-    onAuditError: (error, context) => {
-      console.error(`payment audit error action=${context?.action ?? 'unknown'}: ${error.message}`);
-    },
-    notify: ({ telegramChatId, message }) => telegram.sendMessage(
-      telegramChatId,
-      message
-    )
-  })
-  : null;
 const tbankPaymentService = config.tbank.enabled
   ? createTBankPaymentService({
     referralService,
@@ -176,7 +152,7 @@ const tbankPaymentService = config.tbank.enabled
     notify: ({ telegramChatId, message }) => telegram.sendMessage(telegramChatId, message)
   })
   : null;
-const paymentService = tbankPaymentService ?? yookassaPaymentService;
+const paymentService = tbankPaymentService;
 const cryptoUsdcPaymentService = config.cryptoUsdc.enabled
   ? createCryptoUsdcPaymentService({
     repository: historyRepository,
@@ -303,15 +279,10 @@ const payoutClient = config.tbankPayouts.enabled
     certificateSerialNumber: config.tbankPayouts.certificateSerialNumber,
     notificationPassword: config.tbankPayouts.notificationPassword
   })
-  : config.yookassaPayouts.agentId && config.yookassaPayouts.secretKey
-    ? createYooKassaClient({
-    shopId: config.yookassaPayouts.agentId,
-    secretKey: config.yookassaPayouts.secretKey
-  })
-    : null;
-const payoutProviderName = config.tbankPayouts.enabled ? 'tbank_mass_payouts' : 'yookassa_payouts';
+  : null;
+const payoutProviderName = 'tbank_mass_payouts';
 const automaticPayoutsEnabled = Boolean(
-  (config.yookassaPayouts.enabled || config.tbankPayouts.enabled)
+  config.tbankPayouts.enabled
   && payoutClient
   && selectedPayoutConfig.encryptionKey
 );
@@ -407,9 +378,8 @@ const tbankPayoutNotificationService = referralPayoutWorker
     processNotification: (payload) => referralPayoutWorker.repository.reconcileTBankNotification(payload, payoutClient)
   })
   : null;
-console.info(`YooKassa checkout ${yookassaPaymentService ? 'enabled' : 'disabled'}.`);
 console.info(`T-Bank/SBP checkout ${tbankPaymentService ? 'enabled' : 'disabled'}.`);
-console.info(`${config.tbankPayouts.enabled ? 'T-Business' : 'YooKassa'} payouts ${automaticPayoutsEnabled ? 'enabled' : 'disabled'}; referral queue ${referralPayoutWorker ? 'supabase' : 'local'}.`);
+console.info(`T-Business payouts ${automaticPayoutsEnabled ? 'enabled' : 'disabled'}; referral queue ${referralPayoutWorker ? 'supabase' : 'local'}.`);
 console.info(JSON.stringify({
   level: 'info',
   event: 'provider_funding.worker_configured',
@@ -731,12 +701,6 @@ async function start() {
   const menuMedia = await loadMenuMedia();
   httpServer = await startHttpServer({
     port: config.http.port,
-    webhookPath: config.yookassa.webhookPath || '/webhooks/yookassa/disabled_webhook_route',
-    paymentService: yookassaPaymentService ?? {
-      async processWebhook() {
-        return Object.freeze({ status: 'ignored' });
-      }
-    },
     tbankPaymentService,
     tbankCallbackSecret: config.tbank.callbackSecret,
     cryptoUsdcPaymentService,
@@ -748,7 +712,6 @@ async function start() {
     tbankPayoutAuthorityEnabled: config.tbankPayouts.enabled,
     tbankPayoutNotificationService,
     tbankPayoutWebhookPath: config.tbankPayouts.webhookPath,
-    payoutAgentId: config.tbankPayouts.enabled ? '' : config.yookassaPayouts.agentId,
     onPayoutSetupCompleted: async (withdrawal) => {
       const audit = historyRepository.recordFinancePayout?.({
         withdrawalId: withdrawal.withdrawalId,
@@ -766,7 +729,7 @@ async function start() {
       }
       if (config.botOwnerId) {
         await telegram.sendMessage(config.botOwnerId, {
-          text: `💸 новая заявка на выплату\n\nзаявка: <code>${String(withdrawal.withdrawalId)}</code>\nсумма: <b>${(withdrawal.amountKopecks / 100).toLocaleString('ru-RU')} ₽</b>\nспособ: ${withdrawal.method === 'bank_card' ? 'российская карта' : 'СБП'}\nреквизиты: <code>${String(withdrawal.destinationHint ?? 'скрыто')}</code>\n\nзаявка передана в автоматическую очередь ${config.tbankPayouts.enabled ? 'Т‑Бизнеса' : 'YooKassa'}.`,
+          text: `💸 новая заявка на выплату\n\nзаявка: <code>${String(withdrawal.withdrawalId)}</code>\nсумма: <b>${(withdrawal.amountKopecks / 100).toLocaleString('ru-RU')} ₽</b>\nспособ: СБП\nреквизиты: <code>${String(withdrawal.destinationHint ?? 'скрыто')}</code>\n\nзаявка передана в очередь выплат Т‑Бизнеса.`,
           parse_mode: 'HTML'
         });
       }

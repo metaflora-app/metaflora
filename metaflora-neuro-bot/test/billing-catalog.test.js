@@ -19,7 +19,7 @@ test('every paid tariff advertises Seedance 2.5 first and never promotes Seedanc
   }
 });
 
-test('subscription catalog keeps the approved five-plan ladder', () => {
+test('subscription catalog keeps the public ladder and the approved ultimate test tariff', () => {
   assert.deepEqual(
     SUBSCRIPTION_PLANS.map(({ id, name, priceKopecks, metacoins }) => ({
       id,
@@ -29,6 +29,7 @@ test('subscription catalog keeps the approved five-plan ladder', () => {
     })),
     [
       { id: 'newcomer', name: 'новичок', priceKopecks: 0, metacoins: 0 },
+      { id: 'ultimate_test', name: 'ultimate тестовый', priceKopecks: 30_000, metacoins: 100 },
       { id: 'amateur', name: 'любитель', priceKopecks: 74_900, metacoins: 130 },
       { id: 'author', name: 'автор', priceKopecks: 149_000, metacoins: 300 },
       { id: 'researcher', name: 'исследователь', priceKopecks: 249_000, metacoins: 850 },
@@ -149,7 +150,9 @@ test('every supported paid-plan upgrade has one positive deterministic checkout 
     for (let currentIndex = 0; currentIndex < paidPlans.length - 1; currentIndex += 1) {
       const current = paidPlans[currentIndex];
       const currentOffer = getSubscriptionOffer(current.id, months);
+      if (!currentOffer) continue;
       for (const target of paidPlans.slice(currentIndex + 1)) {
+        if (!getSubscriptionOffer(target.id, months)) continue;
         for (const remaining of [0, Math.floor(currentOffer.metacoins / 2), currentOffer.metacoins]) {
           const input = {
             currentPlanId: current.id,
@@ -203,11 +206,13 @@ test('metacoin package descriptions name concrete use instead of a repeated suit
   assert.ok(new Set(METACOIN_PACKAGES.map(({ audience }) => audience)).size === METACOIN_PACKAGES.length);
 });
 
-test('removed test tariff ids cannot be restored by the former environment flag', () => {
+test('removed legacy test tariff ids cannot be restored by the former environment flag', () => {
   const environment = { TEST_TARIFF_ENABLED: 'true' };
   assert.deepEqual(getPurchasableSubscriptionPlans(environment), SUBSCRIPTION_PLANS);
   for (const id of ['test_140', 'test_110', 'final_test_130']) {
     assert.equal(getSubscriptionPlan(id, environment), null);
     assert.equal(getSubscriptionOffer(id, 1, environment), null);
   }
+  assert.equal(getSubscriptionPlan('ultimate_test')?.priceKopecks, 30_000);
+  assert.equal(getSubscriptionOffer('ultimate_test', 3), null);
 });

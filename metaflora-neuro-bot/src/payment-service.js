@@ -11,7 +11,7 @@ import {
   buildPlanPurchaseSuccessMessage
 } from './billing-ui.js';
 import { createFinanceAllocations, requiredFinanceReserveCarry, summarizeFinanceAllocations } from './finance-ledger.js';
-import { FINANCE_POLICY } from './finance-policy.js';
+import { FINANCE_POLICY, financePolicyForProduct } from './finance-policy.js';
 import { walletEntriesForAllocations } from './finance-wallet.js';
 
 const TELEGRAM_ID = /^[1-9]\d{0,19}$/u;
@@ -456,6 +456,11 @@ export function createPaymentService({
         telegramId: metadata.telegramUserId,
         baseMetacoins: referralBaseMetacoins
       }) ?? { totalBonusMetacoins: 0 };
+      const productFinancePolicy = financePolicyForProduct({
+        kind: metadata.kind,
+        productId: metadata.productId,
+        durationMonths: metadata.durationMonths ?? 1
+      });
       const referralCostProbe = summarizeFinanceAllocations(createFinanceAllocations({
         externalPaymentId: `${eventPaymentId}:referral-cost`,
         amountKopecks,
@@ -465,8 +470,10 @@ export function createPaymentService({
         providerWeights: financePolicy.providerWeights,
         metacoinsGranted: referralBaseMetacoins + Number(bonusPreview.totalBonusMetacoins ?? 0),
         enforceExactGrossMargin: financePolicy.enforceExactGrossMargin === true,
-        targetGrossMarginPercent: financePolicy.targetGrossMarginPercent
-          ?? FINANCE_POLICY.targetGrossMarginPercent,
+        targetGrossMarginPercent: productFinancePolicy.targetGrossMarginPercent,
+        polzaReservePercent: productFinancePolicy.polzaReservePercent,
+        routeraiReservePercent: productFinancePolicy.routeraiReservePercent,
+        allocateRemainingToRouter: productFinancePolicy.allocateRemainingToRouter,
         ...(metadata.isUpgrade ? {
           providerMinimumsKopecks: financePolicy.providerMinimumsKopecks
             ?? FINANCE_POLICY.providerMinimumsKopecks,
@@ -590,8 +597,10 @@ export function createPaymentService({
               ?? FINANCE_POLICY.providerMinimumsKopecks,
             allowOwnerShareForProviderMinimums: true
           } : {}),
-          targetGrossMarginPercent: financePolicy.targetGrossMarginPercent
-            ?? FINANCE_POLICY.targetGrossMarginPercent,
+          targetGrossMarginPercent: productFinancePolicy.targetGrossMarginPercent,
+          polzaReservePercent: productFinancePolicy.polzaReservePercent,
+          routeraiReservePercent: productFinancePolicy.routeraiReservePercent,
+          allocateRemainingToRouter: productFinancePolicy.allocateRemainingToRouter,
           source: 'payment_webhook'
         };
         const reserveCarryInKopecks = metadata.isUpgrade

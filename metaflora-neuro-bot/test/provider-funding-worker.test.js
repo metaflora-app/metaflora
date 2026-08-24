@@ -374,6 +374,39 @@ test('worker combines confirmed sub-minimum allocations into one verified Polza 
   assert.ok(completions.every(([, value]) => value.observedTransactionId === 'tx-small-batch'));
 });
 
+test('three amateur purchases become one Polza top-up above the 100-ruble minimum', async () => {
+  const jobs = [1, 2, 3].map((index) => baseJob({
+    id: `amateur-${index}`,
+    allocationKey: `amateur-payment-${index}:reserve:polza`,
+    paymentId: `amateur-payment-${index}`,
+    claimToken: `amateur-claim-${index}`,
+    amountKopecks: 4_569
+  }));
+  const repository = repositoryDouble(jobs);
+  const batches = [];
+  const provider = {
+    async chargeBatch(input) {
+      batches.push(input);
+      return { transactionId: 'tx-amateur-batch' };
+    },
+    async verifyTransaction(input) {
+      return { transactionId: input.transactionId, amountKopecks: 13_707, currency: 'RUB' };
+    },
+    async getBalance() {
+      return { balanceKopecks: 30_000, currency: 'RUB' };
+    }
+  };
+
+  const result = await new ProviderFundingWorker(
+    enabledOptions(repository, { polza: provider })
+  ).run();
+
+  assert.deepEqual(result, { status: 'processed', claimed: 3, succeeded: 3, failed: 0, skipped: 0 });
+  assert.equal(batches.length, 1);
+  assert.equal(batches[0].amountKopecks, 13_707);
+  assert.equal(batches[0].requests.length, 3);
+});
+
 test('worker batches sub-52-ruble GPTunnel reserves instead of sending invalid tiny top-ups', async () => {
   const jobs = [
     baseJob({ provider: 'gptunnel', id: 'gt-small-1', allocationKey: 'payment-gt-1:reserve:gptunnel', paymentId: 'payment-gt-1', claimToken: 'gt-claim-1', amountKopecks: 2_600 }),

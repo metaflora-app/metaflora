@@ -285,9 +285,17 @@ export class TelegramClient {
     }
   }
 
+  completeApiAuditInBackground(auditCall, value) {
+    void Promise.resolve(auditCall)
+      .then((callId) => this.completeApiAudit(callId, value))
+      .catch((error) => {
+        this.onAuditError(error, { action: 'history.telegram_api.background_complete' });
+      });
+  }
+
   async request(method, payload = {}, timeoutMs = 15_000) {
     const started = performance.now();
-    const auditCallId = await this.startApiAudit(method, payload);
+    const auditCall = this.startApiAudit(method, payload);
     let response;
     try {
       response = await this.fetchImpl(`${telegramBaseUrl}/bot${this.token}/${method}`, {
@@ -300,7 +308,7 @@ export class TelegramClient {
         ])
       });
     } catch (error) {
-      await this.completeApiAudit(auditCallId, {
+      this.completeApiAuditInBackground(auditCall, {
         status: error?.name === 'TimeoutError' ? 'cancelled' : 'failed',
         errorMessage: error?.message ?? 'network failure',
         durationMs: Math.round(performance.now() - started)
@@ -312,7 +320,7 @@ export class TelegramClient {
     try {
       body = await response.json();
     } catch {
-      await this.completeApiAudit(auditCallId, {
+      this.completeApiAuditInBackground(auditCall, {
         status: 'failed',
         httpStatus: response.status,
         errorMessage: 'invalid JSON response',
@@ -324,7 +332,7 @@ export class TelegramClient {
       const description = typeof body.description === 'string'
         ? `: ${body.description.replaceAll(this.token, '[redacted]')}`
         : '';
-      await this.completeApiAudit(auditCallId, {
+      this.completeApiAuditInBackground(auditCall, {
         status: 'failed',
         httpStatus: response.status,
         telegramErrorCode: Number.isInteger(body.error_code) ? body.error_code : null,
@@ -334,7 +342,7 @@ export class TelegramClient {
       });
       throw new Error(`Telegram ${method} failed${description}.`);
     }
-    await this.completeApiAudit(auditCallId, {
+    this.completeApiAuditInBackground(auditCall, {
       status: 'succeeded',
       httpStatus: response.status,
       responsePayload: { result: body.result },
@@ -345,7 +353,7 @@ export class TelegramClient {
 
   async requestMultipart(method, formData, timeoutMs = 60_000) {
     const started = performance.now();
-    const auditCallId = await this.startApiAudit(method, multipartAuditPayload(formData));
+    const auditCall = this.startApiAudit(method, multipartAuditPayload(formData));
     let response;
     try {
       response = await this.fetchImpl(`${telegramBaseUrl}/bot${this.token}/${method}`, {
@@ -357,7 +365,7 @@ export class TelegramClient {
         ])
       });
     } catch (error) {
-      await this.completeApiAudit(auditCallId, {
+      this.completeApiAuditInBackground(auditCall, {
         status: error?.name === 'TimeoutError' ? 'cancelled' : 'failed',
         errorMessage: error?.message ?? 'network failure',
         durationMs: Math.round(performance.now() - started)
@@ -370,7 +378,7 @@ export class TelegramClient {
       const description = typeof body?.description === 'string'
         ? `: ${body.description.replaceAll(this.token, '[redacted]')}`
         : '';
-      await this.completeApiAudit(auditCallId, {
+      this.completeApiAuditInBackground(auditCall, {
         status: 'failed',
         httpStatus: response.status,
         telegramErrorCode: Number.isInteger(body?.error_code) ? body.error_code : null,
@@ -380,7 +388,7 @@ export class TelegramClient {
       });
       throw new Error(`Telegram ${method} failed${description}.`);
     }
-    await this.completeApiAudit(auditCallId, {
+    this.completeApiAuditInBackground(auditCall, {
       status: 'succeeded',
       httpStatus: response.status,
       responsePayload: { result: body.result },

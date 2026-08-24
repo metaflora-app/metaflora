@@ -4,12 +4,13 @@ import {
   MODEL_CATALOG_COUNT
 } from './catalog-counts.js';
 
-const plan = (id, name, priceKopecks, metacoins, features) => Object.freeze({
+const plan = (id, name, priceKopecks, metacoins, features, options = {}) => Object.freeze({
   id,
   name,
   priceKopecks,
   metacoins,
-  features: Object.freeze(features)
+  features: Object.freeze(features),
+  durationMonths: Object.freeze([...(options.durationMonths ?? [1, 3])])
 });
 
 const coinPackage = (id, metacoins, priceKopecks, audience) => Object.freeze({
@@ -26,6 +27,13 @@ export const SUBSCRIPTION_PLANS = Object.freeze([
     '1 генерация в неделю через ElevenLabs Music',
     '5 озвучек в неделю через ElevenLabs Voice'
   ]),
+  plan('ultimate_test', 'ultimate тестовый', 30_000, 100, [
+    'метакоины: 100 на каждый месяц',
+    `${MODEL_CATALOG_COUNT} моделей: Seedance 2.5, GPT-5.6, Claude Opus 5, Nano Banana Pro и другие`,
+    `${AI_TOOL_COUNT} ИИ-инструмента: удаление фона, восстановление фото, синхронизация губ, разбор документов и другие`,
+    `${AI_AGENT_COUNT} ИИ-агентов: ИИ-юрист, копирайтер, разработчик, исследователь и другие`,
+    'внутренний тариф для сквозной проверки оплаты, баланса и генераций'
+  ], { durationMonths: [1] }),
   plan('amateur', 'любитель', 74_900, 130, [
     'метакоины: 130 на каждый месяц',
     `${MODEL_CATALOG_COUNT} моделей: Seedance 2.5, GPT-5.6, Claude Opus 5, Nano Banana Pro и другие`,
@@ -96,6 +104,7 @@ export function getSubscriptionOffer(planId, months = 1) {
   const selectedPlan = getSubscriptionPlan(planId);
   if (!selectedPlan || selectedPlan.priceKopecks === 0) return null;
   if (![1, 3].includes(months)) throw new TypeError('Unsupported subscription duration.');
+  if (!selectedPlan.durationMonths.includes(months)) return null;
   if (months === 1) {
     return Object.freeze({
       planId: selectedPlan.id,

@@ -370,12 +370,35 @@ test('Telegram client records every API call without exposing the bot token', as
   });
 
   await telegram.sendMessage(10, { text: 'готово' });
+  await new Promise((resolve) => setImmediate(resolve));
 
   assert.equal(started[0].method, 'sendMessage');
   assert.equal(started[0].telegramChatId, 10);
   assert.equal(JSON.stringify(started).includes(token), false);
   assert.equal(completed[0].status, 'succeeded');
   assert.equal(completed[0].responsePayload.result.message_id, 77);
+});
+
+test('Telegram API delivery never waits for a stalled audit repository', async () => {
+  const requests = [];
+  const neverSettles = new Promise(() => {});
+  const telegram = new TelegramClient('test-token', recordingFetch(requests), {
+    auditRepository: {
+      startTelegramApiCall() { return neverSettles; },
+      completeTelegramApiCall() { return neverSettles; }
+    }
+  });
+
+  const result = await Promise.race([
+    telegram.sendMessage(10, { text: 'меню' }),
+    new Promise((_, reject) => setTimeout(
+      () => reject(new Error('Telegram delivery was blocked by audit storage')),
+      100
+    ))
+  ]);
+
+  assert.equal(result.message_id, 1);
+  assert.equal(requests.length, 1);
 });
 
 test('Telegram multipart audit keeps the chat correlation for generated media', async () => {

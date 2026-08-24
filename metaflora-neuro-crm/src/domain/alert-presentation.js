@@ -12,7 +12,7 @@ const PROVIDER_LABELS = Object.freeze({
   falai: "fal.ai",
   elevenlabs: "ElevenLabs",
   suno: "Suno",
-  yookassa: "ЮKassa",
+  yookassa: "платёжный архив",
 });
 
 const PROVIDER_IDS = Object.freeze({

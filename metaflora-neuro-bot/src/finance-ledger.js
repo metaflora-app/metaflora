@@ -159,6 +159,9 @@ export function createFinanceAllocations({
   metacoinsGranted = null,
   enforceExactGrossMargin = false,
   targetGrossMarginPercent = FINANCE_POLICY.targetGrossMarginPercent,
+  polzaReservePercent = FINANCE_POLICY.polzaReservePercent,
+  routeraiReservePercent = FINANCE_POLICY.routeraiReservePercent,
+  allocateRemainingToRouter = false,
   providerReserveOverrideKopecks = null,
   providerReserveOverrideWeights = null,
   allowTestOnlyReserveOverride = false,
@@ -176,6 +179,8 @@ export function createFinanceAllocations({
   const reservePercent = percentage(apiReservePercent, 'API reserve');
   const exactMarginEnabled = enforceExactGrossMargin === true;
   const targetMarginPercent = percentage(targetGrossMarginPercent, 'target gross margin');
+  const polzaPercent = percentage(polzaReservePercent, 'Polza reserve');
+  const routerPercent = percentage(routeraiReservePercent, 'RouterAI reserve');
   percentage(primaryProviderBufferPercent, 'primary provider buffer');
   const hasReserveOverride = providerReserveOverrideKopecks !== null
     && providerReserveOverrideKopecks !== undefined;
@@ -209,7 +214,7 @@ export function createFinanceAllocations({
         minimumTariffRublesPerMetacoin: minimumTariffRublesPerMetacoin(),
         paymentFeePercent: feePercent,
         targetGrossMarginPercent: FINANCE_POLICY.targetGrossMarginPercent,
-        routeraiReservePercent: FINANCE_POLICY.routeraiReservePercent,
+        routeraiReservePercent: routerPercent,
         primaryProviderBufferPercent
       })
     : null;
@@ -232,12 +237,14 @@ export function createFinanceAllocations({
     && Object.hasOwn(weights, 'polza')
     && Object.hasOwn(weights, 'routerai');
   const productAwarePolza = productAwareAllocation
-    ? Math.ceil(gross * FINANCE_POLICY.polzaReservePercent / 100)
+    ? Math.ceil(gross * polzaPercent / 100)
     : 0;
   const productAwareRouter = productAwareAllocation
-    ? Math.max(
+    ? allocateRemainingToRouter === true
+      ? gross + reserveCarry - fee - referral - productAwarePolza
+      : Math.max(
         providerMinimums.routerai ?? 10_000,
-        Math.ceil(gross * FINANCE_POLICY.routeraiReservePercent / 100),
+        Math.ceil(gross * routerPercent / 100),
         Math.max(0, liabilityApiReserve - reserveCarry)
       )
     : 0;

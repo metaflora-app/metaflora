@@ -7,7 +7,7 @@ import { describe, expect, it, vi } from "vitest";
 import { SettingsPage, SubscriptionsPage } from "./SystemPages.jsx";
 
 describe("SubscriptionsPage", () => {
-  it("shows only current customer tariffs and hides obsolete test plans", () => {
+  it("shows current tariffs including ultimate and hides obsolete test plans", () => {
     const { container } = render(
       <SubscriptionsPage
         users={[
@@ -21,11 +21,13 @@ describe("SubscriptionsPage", () => {
       />,
     );
 
-    expect(container.querySelectorAll(".plan-card")).toHaveLength(5);
+    expect(container.querySelectorAll(".plan-card")).toHaveLength(6);
     expect(screen.getByRole("heading", { name: "новичок" }).closest("article"))
       .toHaveTextContent("1 пользователь");
     expect(screen.getByRole("heading", { name: "исследователь" }).closest("article"))
       .toHaveTextContent("топ");
+    expect(screen.getByRole("heading", { name: "ultimate тестовый" }).closest("article"))
+      .toHaveTextContent("300 ₽");
 
     expect(screen.queryByRole("heading", { name: "тестовый" })).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "новый тестовый" })).not.toBeInTheDocument();
@@ -84,7 +86,8 @@ describe("SettingsPage", () => {
       />,
     );
 
-    expect(screen.getByText("ЮKassa checkout")).toBeInTheDocument();
+    expect(screen.getByText("Т-Банк / СБП checkout")).toBeInTheDocument();
+    expect(screen.queryByText(/ЮKassa|YooKassa/u)).not.toBeInTheDocument();
     expect(screen.getByText("Т‑Бизнес массовые выплаты")).toBeInTheDocument();
     expect(screen.getByText("готова к тестовой выплате")).toBeInTheDocument();
     expect(screen.getByText("provider top-up")).toBeInTheDocument();

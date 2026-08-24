@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   buildAggregatorErrorMessage,
+  buildAgentProviderErrorMessage,
   buildProviderErrorMessage,
   ProviderRequestError
 } from '../src/request-errors.js';
@@ -51,6 +52,61 @@ test('provider error offers retry, another model and support', () => {
   assert.ok(actions.some(({ url }) => url === 'https://t.me/metaflora_support'));
   assert.ok(actions.some(({ callback_data }) => callback_data === 'task:profile'));
   assert.ok(actions.some(({ callback_data }) => callback_data === 'task:menu'));
+  assert.ok(actions.some(({ text, callback_data }) => (
+    text === '‹ назад' && callback_data === 'model:flux_pro'
+  )));
+});
+
+test('provider alerts translate safe error classes without naming infrastructure', () => {
+  const cases = [
+    [
+      new ProviderRequestError('private', { httpStatus: 422, providerCode: 'CONTENT_POLICY' }),
+      /не прошёл проверку/u
+    ],
+    [
+      new ProviderRequestError('private', { httpStatus: 413, providerCode: 'PROMPT_TOO_LONG' }),
+      /слишком длинный/u
+    ],
+    [
+      new ProviderRequestError('private', { httpStatus: 422, providerCode: 'INVALID_REFERENCE' }),
+      /референс/u
+    ],
+    [
+      new ProviderRequestError('private', { httpStatus: 429, providerCode: 'RATE_LIMITED' }),
+      /слишком много запросов/u
+    ]
+  ];
+
+  for (const [error, expected] of cases) {
+    const message = buildProviderErrorMessage({ id: 'flux_pro', category: 'image' }, error);
+    assert.match(message.text, expected);
+    assert.doesNotMatch(message.text, /routerai|polza|provider|api key/iu);
+    const actions = buttons(message);
+    assert.ok(actions.some(({ url }) => url === 'https://t.me/metaflora_support'));
+    assert.ok(actions.some(({ callback_data }) => callback_data === 'task:menu'));
+  }
+});
+
+test('provider availability and agent errors use the same safe taxonomy', () => {
+  const unavailable = buildProviderErrorMessage(
+    { id: 'flux_pro', category: 'image' },
+    new ProviderRequestError('hidden', {
+      provider: 'routerai',
+      httpStatus: 503,
+      providerCode: 'NO_PROVIDER_AVAILABLE'
+    })
+  );
+  assert.match(unavailable.text, /модель временно недоступна/u);
+  assert.doesNotMatch(unavailable.text, /routerai|polza|provider/iu);
+
+  const agent = buildAgentProviderErrorMessage(
+    { id: 'lawyer', category: 'business' },
+    new ProviderRequestError('hidden', { httpStatus: 413, providerCode: 'PROMPT_TOO_LONG' })
+  );
+  assert.match(agent.text, /слишком длинный/u);
+  assert.doesNotMatch(agent.text, /routerai|polza|provider/iu);
+  assert.ok(buttons(agent).some(({ callback_data }) => callback_data === 'agent:lawyer'));
+  assert.ok(buttons(agent).some(({ url }) => url === 'https://t.me/metaflora_support'));
 });
 
 test('provider error returns tool models to their tool category', () => {

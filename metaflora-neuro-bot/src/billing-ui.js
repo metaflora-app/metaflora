@@ -290,7 +290,9 @@ export function buildPlanDetailsMessage(productId, source, sourceOrigin = 'profi
   if (item.id === account.subscriptionPlanId && isPaidSubscriptionActive(account)) {
     return buildActiveSubscriptionMessage({ planId: item.id, account, origin });
   }
-  const quarterly = getSubscriptionOffer(item.id, 3);
+  const quarterly = item.durationMonths.includes(3)
+    ? getSubscriptionOffer(item.id, 3)
+    : null;
   const features = item.features.filter((feature) => !/метакоин|бета-модели/i.test(feature));
   const monthlyLine = `${formatRubles(item.priceKopecks)} · <b>${item.metacoins.toLocaleString('ru-RU')} метакоинов</b>`;
   const quarterlyBlock = quarterly

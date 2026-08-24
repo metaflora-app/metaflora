@@ -61,7 +61,7 @@ async function request(handler, { method = 'GET', url = '/', contentType, header
 test('HTTP handler exposes health and payment return endpoints', async () => {
   const handler = createHttpHandler({
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
-    webhookPath: '/webhooks/yookassa/test_token_1234567890'
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890'
   });
   const health = await request(handler, { url: '/health' });
   assert.equal(health.status, 200);
@@ -75,7 +75,7 @@ test('HTTP handler exposes health and payment return endpoints', async () => {
 test('generated media route serves the stored bytes without exposing a provider URL', async () => {
   const token = 'A'.repeat(32);
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     mediaStorage: {
       async read(value) {
@@ -101,7 +101,7 @@ test('generated media route serves the stored bytes without exposing a provider 
 test('short generated media route serves the same stored bytes', async () => {
   const shortCode = 'Ab12_cd3';
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     mediaStorage: {
       async readShort(value) {
@@ -126,7 +126,7 @@ test('short generated media route serves the same stored bytes', async () => {
 test('YooKassa webhook is parsed and processed before returning success', async () => {
   const received = [];
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: {
       async processWebhook(event) {
         received.push(event);
@@ -136,7 +136,7 @@ test('YooKassa webhook is parsed and processed before returning success', async 
   });
   const response = await request(handler, {
     method: 'POST',
-    url: '/webhooks/yookassa/test_token_1234567890',
+    url: '/webhooks/legacy-payment/test_token_1234567890',
     contentType: 'application/json',
     body: JSON.stringify({
       type: 'notification',
@@ -152,7 +152,7 @@ test('YooKassa webhook is parsed and processed before returning success', async 
 test('T-Business payout webhook is processed before the mandatory OK acknowledgement', async () => {
   const received = [];
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     tbankPayoutWebhookPath: '/webhooks/tbank/payouts/webhook_token_1234567890',
     payoutService: { async processNotification(payload) { received.push(payload); return { status: 'succeeded' }; } }
@@ -172,7 +172,7 @@ test('T-Business payout webhook is processed before the mandatory OK acknowledge
 test('T-Business authority webhook reconciles Supabase and never calls the legacy payout service', async () => {
   const calls = [];
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     tbankPayoutWebhookPath: '/webhooks/tbank/payouts/webhook_token_1234567890',
     tbankPayoutAuthorityEnabled: true,
@@ -196,7 +196,7 @@ test('T-Business authority webhook reconciles Supabase and never calls the legac
 test('T-Business authority webhook fails closed when Supabase reconciler is unavailable', async () => {
   let legacyCalls = 0;
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     tbankPayoutWebhookPath: '/webhooks/tbank/payouts/webhook_token_1234567890',
     tbankPayoutAuthorityEnabled: true,
@@ -212,7 +212,7 @@ test('T-Business authority webhook fails closed when Supabase reconciler is unav
 
 test('T-Business payout webhook does not acknowledge an invalid notification', async () => {
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     tbankPayoutWebhookPath: '/webhooks/tbank/payouts/webhook_token_1234567890',
     payoutService: { async processNotification() { const error = new Error('invalid signature'); error.statusCode = 401; throw error; } }
@@ -229,7 +229,7 @@ test('T-Bank callback verifies raw-body HMAC before processing CONFIRMED', async
   const received = [];
   const nowSeconds = 1_786_269_600;
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     tbankPaymentService: { async processCallback(value) { received.push(value); } },
     tbankCallbackSecret: TBANK_CALLBACK_SECRET,
@@ -255,7 +255,7 @@ test('T-Bank callback rejects forged and stale signatures before payment process
   let calls = 0;
   const nowSeconds = 1_786_269_600;
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     tbankPaymentService: { async processCallback() { calls += 1; } },
     tbankCallbackSecret: TBANK_CALLBACK_SECRET,
@@ -285,7 +285,7 @@ test('crypto callback verifies raw-body HMAC and rejects forged requests', async
   const received = [];
   const nowSeconds = 1_786_269_600;
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     cryptoUsdcPaymentService: { async processCallback(value) { received.push(value); } },
     cryptoUsdcSharedSecret: CRYPTO_CALLBACK_SECRET,
@@ -310,7 +310,7 @@ test('crypto callback verifies raw-body HMAC and rejects forged requests', async
 test('webhook rejects invalid content without invoking payment processing', async () => {
   let calls = 0;
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: {
       async processWebhook() {
         calls += 1;
@@ -319,7 +319,7 @@ test('webhook rejects invalid content without invoking payment processing', asyn
   });
   const wrongType = await request(handler, {
     method: 'POST',
-    url: '/webhooks/yookassa/test_token_1234567890',
+    url: '/webhooks/legacy-payment/test_token_1234567890',
     contentType: 'text/plain',
     body: '{}'
   });
@@ -327,7 +327,7 @@ test('webhook rejects invalid content without invoking payment processing', asyn
 
   const invalidJson = await request(handler, {
     method: 'POST',
-    url: '/webhooks/yookassa/test_token_1234567890',
+    url: '/webhooks/legacy-payment/test_token_1234567890',
     contentType: 'application/json',
     body: '{'
   });
@@ -338,7 +338,7 @@ test('webhook rejects invalid content without invoking payment processing', asyn
 test('webhook rejects the public legacy path before parsing or provider calls', async () => {
   let calls = 0;
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: {
       async processWebhook() {
         calls += 1;
@@ -347,7 +347,7 @@ test('webhook rejects the public legacy path before parsing or provider calls', 
   });
   const response = await request(handler, {
     method: 'POST',
-    url: '/webhooks/yookassa',
+    url: '/webhooks/legacy-payment',
     contentType: 'application/json',
     body: JSON.stringify({
       type: 'notification',
@@ -363,7 +363,7 @@ test('webhook rejects the public legacy path before parsing or provider calls', 
 test('AgentPet endpoint analyzes bounded JSON through its dedicated service', async () => {
   const received = [];
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     agentPetService: {
       async analyze(event) {
@@ -394,14 +394,12 @@ test('AgentPet endpoint analyzes bounded JSON through its dedicated service', as
   assert.equal(received.length, 1);
 });
 
-test('payout setup page keeps card data in the YooKassa widget and completes with a token', async () => {
-  const completed = [];
+test('legacy card payout setup is unavailable in the T-Business-only runtime', async () => {
   const setupToken = 'A'.repeat(32);
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
-    payoutAgentId: 'payout-agent-123',
     referralService: {
       getPayoutSetup(token) {
         assert.equal(token, setupToken);
@@ -412,20 +410,13 @@ test('payout setup page keeps card data in the YooKassa widget and completes wit
           status: 'pending',
           expiresAt
         };
-      },
-      completePayoutSetup(value) {
-        completed.push(value);
-        return { withdrawalId: 'withdrawal-1', status: 'pending', destinationHint: '•••• 1111' };
       }
     }
   });
 
   const page = await request(handler, { url: `/payout/setup/${setupToken}` });
-  assert.equal(page.status, 200);
-  assert.match(page.text, /payouts-data\/3\.1\.0\/widget\.js/u);
-  assert.match(page.text, /payout-agent-123/u);
-  assert.match(page.text, /указать карту/u);
-  assert.doesNotMatch(page.text, /4111111111111111/u);
+  assert.equal(page.status, 404);
+  assert.deepEqual(page.json(), { ok: false, error: 'payout_method_not_supported' });
 
   const response = await request(handler, {
     method: 'POST',
@@ -433,16 +424,15 @@ test('payout setup page keeps card data in the YooKassa widget and completes wit
     contentType: 'application/json',
     body: JSON.stringify({ payout_token: 'synonym.token-1234567890', first6: '411111', last4: '1111' })
   });
-  assert.equal(response.status, 200);
-  assert.deepEqual(response.json(), { ok: true, withdrawalId: 'withdrawal-1' });
-  assert.equal(completed[0].destinationData.payoutToken, 'synonym.token-1234567890');
+  assert.equal(response.status, 404);
+  assert.deepEqual(response.json(), { ok: false, error: 'payout_method_not_supported' });
 });
 
 test('SBP payout setup returns a bounded bank list and never exposes provider credentials', async () => {
   const setupToken = 'B'.repeat(32);
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
   const handler = createHttpHandler({
-    webhookPath: '/webhooks/yookassa/test_token_1234567890',
+    webhookPath: '/webhooks/legacy-payment/test_token_1234567890',
     paymentService: { processWebhook: async () => ({ status: 'ignored' }) },
     referralService: {
       getPayoutSetup: () => ({ setupToken, amountKopecks: 100_000, method: 'sbp', status: 'pending', expiresAt })
