@@ -87,6 +87,6 @@ test('Seedance 2.0 has RouterAI as its primary executable route', () => {
   assert.deepEqual(status, {
     provider: 'routerai',
     status: 'primary',
-    reason: 'RouterAI is the primary provider for this model.'
+    reason: 'The primary route is confirmed for this model.'
   });
 });

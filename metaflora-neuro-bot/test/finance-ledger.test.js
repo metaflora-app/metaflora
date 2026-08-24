@@ -111,7 +111,7 @@ test('production allocation rounds provider reserves upward and fails closed bel
     amountKopecks: 10_000,
     metacoinsGranted: 1,
     enforceExactGrossMargin: true
-  }), /RouterAI minimum/i);
+  }), /Provider minimum/i);
 });
 
 test('finance allocations reconcile a payment into API reserve, referral liability and owner share', () => {

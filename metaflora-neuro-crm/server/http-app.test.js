@@ -398,7 +398,7 @@ test("product catalog is admin-only and returns the versioned safe manifest", as
   assert.equal(body.data.schemaVersion, "1.2.0");
   assert.equal(body.data.entertainmentProfile.ready, 15);
   assert.equal(body.data.entertainmentProfile.quizReady, true);
-  assert.deepEqual(body.data.summary, { models: 394, agents: 50, tools: 42, workflows: 30, voices: 80, entertainments: 15 });
+  assert.deepEqual(body.data.summary, { models: 393, agents: 50, tools: 42, workflows: 30, voices: 80, entertainments: 15 });
   assert.equal(JSON.stringify(body).includes("systemPrompt"), false);
   assert.equal(JSON.stringify(body).includes("providerModelId"), false);
   assert.equal(JSON.stringify(body).includes("voiceId"), false);

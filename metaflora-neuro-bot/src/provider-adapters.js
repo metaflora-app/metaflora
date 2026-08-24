@@ -671,17 +671,16 @@ function routeraiVideoSubmissionBody(route, request) {
   }
   const input = mappedInput(route, request.input);
   const prompt = typeof input.prompt === 'string' ? input.prompt.trim() : '';
-  const isFluxVideoUpscale = route.model === 'black-forest-labs/flux-video-upscale';
-  if (!prompt && !isFluxVideoUpscale) throw new Error('Media route prompt is not configured.');
+  if (!prompt) throw new Error('Media route prompt is not configured.');
   const isSeedance25References = route.model === 'bytedance/seedance-2.5'
     && input._constructorMode === 'references';
   const isMinimaxH3References = route.model === 'minimax/hailuo-3'
     && input._constructorMode === 'references';
-  if (!isSeedance25References && !isMinimaxH3References && !isFluxVideoUpscale && (
+  if (!isSeedance25References && !isMinimaxH3References && (
     (Array.isArray(input.video_urls) && input.video_urls.length > 0)
     || (Array.isArray(input.audio_urls) && input.audio_urls.length > 0)
   )) {
-    throw new Error('RouterAI video input type is not allowed.');
+    throw new Error('Video input type is not allowed.');
   }
   const imageUrls = input.image_urls ?? [];
   const videoUrls = input.video_urls ?? [];
@@ -689,14 +688,7 @@ function routeraiVideoSubmissionBody(route, request) {
   if ([imageUrls, videoUrls, audioUrls].some((urls) => (
     !Array.isArray(urls) || urls.some((url) => !isAllowedGptunnelMediaUrl(url))
   ))) {
-    throw new Error('RouterAI media input URL is not allowed.');
-  }
-  if (isFluxVideoUpscale && (
-    videoUrls.length !== 1
-    || imageUrls.length !== 0
-    || audioUrls.length !== 0
-  )) {
-    throw new Error('FLUX Video Upscale requires exactly one source video.');
+    throw new Error('Media input URL is not allowed.');
   }
   const parameters = Object.fromEntries(Object.entries(input).filter(([key, value]) => (
     ROUTERAI_VIDEO_PARAMETER_KEYS.has(key)
@@ -717,7 +709,7 @@ function routeraiVideoSubmissionBody(route, request) {
     model: route.model,
     ...(prompt ? { prompt } : {}),
     ...parameters,
-    ...((isSeedance25References || isMinimaxH3References || isFluxVideoUpscale)
+    ...((isSeedance25References || isMinimaxH3References)
       && (imageUrls.length + videoUrls.length + audioUrls.length > 0)
       ? { input_references: [
         ...imageUrls.map((url) => routeraiMediaReference('image', url)),
@@ -834,11 +826,11 @@ async function routeraiSubmissionBody(route, request, runtime) {
   const prompt = String(input.prompt ?? input.input ?? '').trim();
   if (operation === 'transcription') {
     if (Array.isArray(input.audio_urls) && input.audio_urls.length !== 1) {
-      throw new Error('RouterAI transcription requires exactly one audio input.');
+      throw new Error('Transcription requires exactly one audio input.');
     }
     const audioUrl = Array.isArray(input.audio_urls) ? input.audio_urls[0] : input.audio_url;
     if (typeof audioUrl !== 'string' || audioUrl.trim().length === 0) {
-      throw new Error('RouterAI transcription audio input is required.');
+      throw new Error('Transcription audio input is required.');
     }
     const downloaded = await downloadFileInput(
       runtime?.fetchImpl ?? fetch,
@@ -846,7 +838,7 @@ async function routeraiSubmissionBody(route, request, runtime) {
       routeRuntimeValue(route, 'maxInputBytes') ?? 50 * 1024 * 1024
     );
     if (!downloaded.blob.type.startsWith('audio/')) {
-      throw new Error('RouterAI transcription input must be audio.');
+      throw new Error('Transcription input must be audio.');
     }
     const formData = new FormData();
     formData.set('file', downloaded.blob, downloaded.fileName);
@@ -856,7 +848,7 @@ async function routeraiSubmissionBody(route, request, runtime) {
     }
     return formData;
   }
-  if (!prompt) throw new Error(`RouterAI ${operation} input is required.`);
+  if (!prompt) throw new Error(`${operation} input is required.`);
   if (operation === 'speech') {
     return {
       model: route.model,
@@ -870,10 +862,10 @@ async function routeraiSubmissionBody(route, request, runtime) {
     if (
       (Array.isArray(input.video_urls) && input.video_urls.length > 0)
       || (Array.isArray(input.audio_urls) && input.audio_urls.length > 0)
-    ) throw new Error('RouterAI image input type is not allowed.');
+    ) throw new Error('Image input type is not allowed.');
     const imageUrls = input.image_urls ?? [];
     if (!Array.isArray(imageUrls) || imageUrls.some((url) => !isAllowedGptunnelMediaUrl(url))) {
-      throw new Error('RouterAI media input URL is not allowed.');
+      throw new Error('Media input URL is not allowed.');
     }
     const content = imageUrls.length === 0
       ? prompt
@@ -897,7 +889,7 @@ async function routeraiSubmissionBody(route, request, runtime) {
       (Array.isArray(input.image_urls) && input.image_urls.length > 0)
       || (Array.isArray(input.video_urls) && input.video_urls.length > 0)
       || (Array.isArray(input.audio_urls) && input.audio_urls.length > 0)
-    ) throw new Error('RouterAI chat audio input type is not allowed.');
+    ) throw new Error('Chat audio input type is not allowed.');
     return {
       model: route.model,
       messages: [{ role: 'user', content: prompt }],
@@ -906,14 +898,14 @@ async function routeraiSubmissionBody(route, request, runtime) {
       ...scalarRouteraiInput(input, ROUTERAI_CHAT_AUDIO_PARAMETER_KEYS)
     };
   }
-  if (operation !== 'image') throw new Error('RouterAI media operation is not configured.');
+  if (operation !== 'image') throw new Error('Media operation is not configured.');
   if (
     (Array.isArray(input.video_urls) && input.video_urls.length > 0)
     || (Array.isArray(input.audio_urls) && input.audio_urls.length > 0)
-  ) throw new Error('RouterAI image input type is not allowed.');
+  ) throw new Error('Image input type is not allowed.');
   const imageUrls = input.image_urls ?? [];
   if (!Array.isArray(imageUrls) || imageUrls.some((url) => !isAllowedGptunnelMediaUrl(url))) {
-    throw new Error('RouterAI media input URL is not allowed.');
+    throw new Error('Media input URL is not allowed.');
   }
   const providerImageInput = {
     ...input,
@@ -1017,7 +1009,7 @@ async function routeraiParseSubmissionResponse(response, route) {
       ...(providerCostRubles === null ? {} : { providerCostRubles })
     };
   }
-  if (operation !== 'image') throw new Error('RouterAI media operation is not synchronous.');
+  if (operation !== 'image') throw new Error('Media operation is not synchronous.');
   const body = await response.json();
   const encoded = body?.data?.[0]?.b64_json;
   const data = polzaAudioData(encoded);

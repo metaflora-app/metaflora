@@ -9,8 +9,8 @@ describe("generated catalog integrity after RouterAI migration", () => {
       .filter(({ source }) => source !== "tool")
       .map(({ id }) => id));
     expect(generatedManifest.models.map(({ id }) => id).filter((id) => !sourceIds.has(id))).toEqual([]);
-    expect(generatedManifest.summary.models).toBe(394);
-    expect(generatedManifest.models).toHaveLength(394);
+    expect(generatedManifest.summary.models).toBe(393);
+    expect(generatedManifest.models).toHaveLength(393);
   });
 
   it("includes the August RouterAI additions", () => {
@@ -21,7 +21,7 @@ describe("generated catalog integrity after RouterAI migration", () => {
     expect(modelsById.get("hy_mt2_30b_a3b")?.name).toBe("Hy-MT2-30B-A3B");
     expect(modelsById.get("gpt_4o_transcribe")?.name).toBe("GPT-4o Transcribe");
     expect(modelsById.get("ox_alpha")?.name).toBe("Ox Alpha");
-    expect(modelsById.get("flux_video_upscale")?.name).toBe("FLUX Video Upscale");
+    expect(modelsById.has("flux_video_upscale")).toBe(false);
     expect(modelsById.get("nemotron_35_asr_streaming")?.name).toBe("Nemotron 3.5 ASR Streaming Multilingual 0.6B");
     expect(modelsById.get("gpt_56_sol")?.name).toBe("GPT-5.6 Sol");
     expect(modelsById.get("gpt_56_sol_pro")?.name).toBe("GPT-5.6 Sol Pro");

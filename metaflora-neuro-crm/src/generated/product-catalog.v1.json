@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.2.0",
   "release": {
-    "version": "catalog-c178b928691265b3",
-    "sourceHash": "c178b928691265b3"
+    "version": "catalog-a42afa5298066378",
+    "sourceHash": "a42afa5298066378"
   },
   "summary": {
-    "models": 394,
+    "models": 393,
     "agents": 50,
     "tools": 42,
     "workflows": 30,
@@ -38,7 +38,7 @@
       "scope": "all",
       "state": "ready",
       "evidence": [
-        "configured:273"
+        "configured:259"
       ]
     },
     {
@@ -2387,8 +2387,7 @@
       "category": "image",
       "modes": [],
       "settings": [
-        "n",
-        "ou"
+        "o"
       ]
     },
     {
@@ -2396,19 +2395,14 @@
       "name": "MAI Image 2.5",
       "category": "image",
       "modes": [],
-      "settings": [
-        "o"
-      ]
+      "settings": []
     },
     {
       "id": "mai_image_25_pro",
       "name": "MAI Image 2.5 Pro",
       "category": "image",
       "modes": [],
-      "settings": [
-        "n",
-        "ou"
-      ]
+      "settings": []
     },
     {
       "id": "krea_2_large",
@@ -2524,9 +2518,8 @@
       "modes": [],
       "settings": [
         "r",
-        "nu",
-        "out",
-        "enab"
+        "ou",
+        "ena"
       ]
     },
     {
@@ -2536,9 +2529,8 @@
       "modes": [],
       "settings": [
         "r",
-        "nu",
-        "out",
-        "web_"
+        "ou",
+        "web"
       ]
     },
     {
@@ -2556,9 +2548,8 @@
       "category": "image",
       "modes": [],
       "settings": [
-        "r",
-        "qu",
-        "out"
+        "q",
+        "ou"
       ]
     },
     {
@@ -2566,14 +2557,20 @@
       "name": "GPT-5 Image",
       "category": "image",
       "modes": [],
-      "settings": []
+      "settings": [
+        "q",
+        "nu"
+      ]
     },
     {
       "id": "gpt_5_image_mini",
       "name": "GPT-5 Image Mini",
       "category": "image",
       "modes": [],
-      "settings": []
+      "settings": [
+        "q",
+        "nu"
+      ]
     },
     {
       "id": "polza_black_forest_labs_flux_2_flex_04e0hqr",
@@ -2581,7 +2578,7 @@
       "category": "image",
       "modes": [],
       "settings": [
-        "a"
+        "o"
       ]
     },
     {
@@ -2590,7 +2587,7 @@
       "category": "image",
       "modes": [],
       "settings": [
-        "a"
+        "o"
       ]
     },
     {
@@ -2598,18 +2595,14 @@
       "name": "Seedream 4.5",
       "category": "image",
       "modes": [],
-      "settings": [
-        "q"
-      ]
+      "settings": []
     },
     {
       "id": "polza_bytedance_seedream_5_lite_0walvx6",
       "name": "Seedream 5.0 Lite",
       "category": "image",
       "modes": [],
-      "settings": [
-        "q"
-      ]
+      "settings": []
     },
     {
       "id": "polza_google_gemini_2_5_flash_image_1lygu5x",
@@ -2623,10 +2616,7 @@
       "name": "Nano Banana 2 (Gemini 3.1 Flash Image Preview)",
       "category": "image",
       "modes": [],
-      "settings": [
-        "a",
-        "ou"
-      ]
+      "settings": []
     },
     {
       "id": "polza_openai_gpt_5_image_0flywi3",
@@ -2647,10 +2637,7 @@
       "name": "Seedream 5.0 Pro",
       "category": "image",
       "modes": [],
-      "settings": [
-        "q",
-        "ou"
-      ]
+      "settings": []
     },
     {
       "id": "polza_topaz_image_upscale_1qyj2i9",
@@ -2666,17 +2653,6 @@
       "modes": [],
       "settings": [
         "r"
-      ]
-    },
-    {
-      "id": "flux_video_upscale",
-      "name": "FLUX Video Upscale",
-      "category": "video",
-      "modes": [
-        "r"
-      ],
-      "settings": [
-        "s"
       ]
     },
     {
@@ -2785,10 +2761,9 @@
         "re"
       ],
       "settings": [
-        "r",
+        "d",
         "as",
-        "gen",
-        "mult"
+        "gen"
       ]
     },
     {
@@ -2800,10 +2775,9 @@
         "re"
       ],
       "settings": [
-        "r",
+        "d",
         "as",
-        "gen",
-        "mult"
+        "gen"
       ]
     },
     {
@@ -2815,10 +2789,9 @@
         "re"
       ],
       "settings": [
-        "r",
+        "d",
         "as",
-        "gen",
-        "mult"
+        "gen"
       ]
     },
     {
@@ -2835,62 +2808,42 @@
       "name": "HappyHorse 1.0",
       "category": "video",
       "modes": [],
-      "settings": [
-        "r",
-        "as"
-      ]
+      "settings": []
     },
     {
       "id": "polza_alibaba_happyhorse_1_1_0p4ziac",
       "name": "HappyHorse 1.1",
       "category": "video",
       "modes": [],
-      "settings": [
-        "r",
-        "as"
-      ]
+      "settings": []
     },
     {
       "id": "polza_bytedance_seedance_1_5_pro_1oqdnek",
       "name": "Seedance 1.5 Pro",
       "category": "video",
       "modes": [],
-      "settings": [
-        "r",
-        "as",
-        "gen",
-        "fixe"
-      ]
+      "settings": []
     },
     {
       "id": "polza_google_veo3_0n9pka0",
       "name": "Veo 3.1 Quality",
       "category": "video",
       "modes": [],
-      "settings": [
-        "g",
-        "en"
-      ]
+      "settings": []
     },
     {
       "id": "polza_google_veo3_fast_0js3z3z",
       "name": "Veo 3.1 Fast",
       "category": "video",
       "modes": [],
-      "settings": [
-        "g",
-        "en"
-      ]
+      "settings": []
     },
     {
       "id": "polza_kling_v3_0r3wzac",
       "name": "Kling 3.0",
       "category": "video",
       "modes": [],
-      "settings": [
-        "a",
-        "ge"
-      ]
+      "settings": []
     },
     {
       "id": "polza_topaz_video_upscale_11v3tgv",
@@ -2904,10 +2857,7 @@
       "name": "Wan 2.6",
       "category": "video",
       "modes": [],
-      "settings": [
-        "r",
-        "mu"
-      ]
+      "settings": []
     },
     {
       "id": "polza_google_lyria_3_clip_preview_067fyr0",
@@ -3139,18 +3089,14 @@
       "name": "gpt 4o mini transcribe",
       "category": "voice",
       "modes": [],
-      "settings": [
-        "r"
-      ]
+      "settings": []
     },
     {
       "id": "polza_openai_gpt_4o_transcribe_0x5etzz",
       "name": "gpt 4o transcribe",
       "category": "voice",
       "modes": [],
-      "settings": [
-        "r"
-      ]
+      "settings": []
     },
     {
       "id": "polza_openai_whisper_1_11ajggw",

@@ -95,10 +95,10 @@ const polzaMediaRoute = (model, inputMap) => ({
 
 function defaultFallbackStatus(id, brand) {
   const reason = id === 'audio_music'
-    ? 'RouterAI music uses a separate contract; no universal tool fallback is enabled.'
+    ? 'Music uses a separate contract; no universal tool fallback is enabled.'
     : brand === 'elevenlabs'
-      ? 'No exact RouterAI voice model, input, and result contract is confirmed for this tool.'
-      : 'No exact RouterAI model, input, and output contract is confirmed for this tool.';
+      ? 'No exact voice model, input, and result contract is confirmed for this tool.'
+      : 'No exact model, input, and output contract is confirmed for this tool.';
   return {
     provider: 'routerai',
     status: 'incompatible',
@@ -871,7 +871,7 @@ const catalog = [
     fallbackStatus: {
       provider: 'routerai',
       status: 'incompatible',
-      reason: 'No confirmed RouterAI audio-isolation model and result contract is available.'
+      reason: 'No confirmed audio-isolation model and result contract is available.'
     },
     inputMap: {
       media: { audio: 'audio_url', video: 'video_url' }

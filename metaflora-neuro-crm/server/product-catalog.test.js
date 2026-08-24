@@ -54,7 +54,6 @@ test("generated catalog exposes RouterAI additions and excludes retired provider
     "north_mini_code_free",
     "nemotron_3_nano_omni_free",
     "ox_alpha",
-    "flux_video_upscale",
     "nemotron_35_asr_streaming",
     "gpt_56_sol",
     "gpt_56_sol_pro",
@@ -128,5 +127,5 @@ test("generated catalog preserves Suno and removes unsupported specialist cards"
   ]) assert.equal(modelsById.has(id), false, `${id} must stay removed`);
 
   assert.equal(manifest.summary.models, manifest.models.length);
-  assert.equal(manifest.models.length, 394, "only the verified removals and additions may change the public catalog");
+  assert.equal(manifest.models.length, 393, "only the verified removals and additions may change the public catalog");
 });

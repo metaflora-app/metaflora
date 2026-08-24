@@ -29,7 +29,7 @@ const account = Object.freeze({
   subscriptionPlanId: 'amateur',
   subscriptionMetacoinsTotal: 130,
   subscriptionMetacoinsRemaining: 110,
-  subscriptionExpiresAt: '2026-08-24T00:00:00.000Z',
+  subscriptionExpiresAt: '2026-09-24T00:00:00.000Z',
   packageId: 'coins_50',
   packageMetacoinsRemaining: 50,
   spentMetacoins1d: 4,
@@ -52,7 +52,7 @@ test('profile keeps only account information and a short metacoin footnote', () 
 
   assert.match(message.text, /^👤 <b>профиль<\/b>/);
   assert.match(message.text, /<b>тариф «любитель»<\/b>/);
-  assert.match(message.text, /<b>дата окончания:<\/b> 24\.08\.2026/u);
+  assert.match(message.text, /<b>дата окончания:<\/b> 24\.09\.2026/u);
   assert.match(message.text, /<b>баланс:<\/b>.*160 метакоинов/);
   assert.match(message.text, /<b>потрачено за 1 день:<\/b> 4/);
   assert.match(message.text, /<b>реферальная ссылка:<\/b>.*ref_ivan_A1B2C3/s);
@@ -566,7 +566,7 @@ test('switching to a lower paid plan creates a normal checkout immediately', () 
     account: {
       ...account,
       subscriptionPlanId: 'author',
-      subscriptionExpiresAt: '2026-08-24T00:00:00.000Z'
+      subscriptionExpiresAt: '2026-09-24T00:00:00.000Z'
     }
   });
 
@@ -586,7 +586,7 @@ test('active plan cannot be purchased twice before its expiration', () => {
 
   for (const message of [details, invoice]) {
     assert.match(message.text, /уже активен/i);
-    assert.match(message.text, /24 августа 2026/u);
+    assert.match(message.text, /24 сентября 2026/u);
     assert.doesNotMatch(message.text, /счёт на оплату|оплатить картой|оплатить Telegram Stars/i);
     assert.ok(buttons(message).some(({ callback_data }) => callback_data === 'billing:plans:profile'));
   }

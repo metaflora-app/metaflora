@@ -279,7 +279,6 @@ const categoryModels = Object.freeze({
     ...catalogExpansion.image
   ],
   video: [
-    ['flux_video_upscale', 'FLUX Video Upscale'],
     ['wan_27', 'Wan 2.7'],
     ['veo_31_lite', 'Veo 3.1 Lite'],
     ['kling_video_o1', 'Kling Video O1'],

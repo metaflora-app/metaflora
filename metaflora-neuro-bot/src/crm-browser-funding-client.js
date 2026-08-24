@@ -176,7 +176,7 @@ export function createCrmBrowserFundingClient({
       if (configuredProvider === 'routerai') {
         throw new CrmBrowserFundingError(
           'provider_batch_forbidden',
-          'RouterAI does not support batch funding.',
+          'This provider does not support batch funding.',
           { retryable: false, externalChargeStarted: false }
         );
       }

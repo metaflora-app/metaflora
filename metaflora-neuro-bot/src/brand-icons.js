@@ -307,7 +307,6 @@ const modelReleaseDates = Object.freeze({
   gpt_56_sol: '2026-07-09T00:00:00.000Z',
   gpt_56_sol_pro: '2026-07-09T00:00:00.000Z',
   ox_alpha: '2026-08-20T00:00:00.000Z',
-  flux_video_upscale: '2026-08-19T00:00:00.000Z',
   nemotron_35_asr_streaming: '2026-08-13T00:00:00.000Z',
   glm_53: '2026-08-18T00:00:00.000Z',
   gemini_37_flash: '2026-08-13T00:00:00.000Z',

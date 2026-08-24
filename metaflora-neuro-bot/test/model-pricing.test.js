@@ -270,7 +270,6 @@ test('every catalog model has a non-negative metacoin price', () => {
     if (range.max === 0) zeroPriced.push(model.id);
   }
   assert.deepEqual(zeroPriced.sort(), [
-    'flux_video_upscale',
     'gemma_4_31b_free',
     'gpt_oss_20b_free',
     'nemotron_3_nano_omni_free',

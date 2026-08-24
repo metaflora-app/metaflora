@@ -185,14 +185,6 @@ export const ROUTERAI_DIRECT_MODELS = Object.freeze({
   runway_gen_45: video('Runway Gen-4.5', 'runway/gen-4.5', 12.8503752, ['contentModeration']),
   runway_aleph_2: video('Runway Aleph 2.0', 'runway/aleph-2', 29.9842088, ['contentModeration', 'keyframes']),
   grok_imagine_video_15: video('Grok Imagine Video 1.5', 'x-ai/grok-imagine-video-1.5', 8.5669168, []),
-  flux_video_upscale: video(
-    'FLUX Video Upscale',
-    'black-forest-labs/flux-video-upscale',
-    0,
-    ['input_references', 'generate_audio', 'safety_tolerance'],
-    '2026-08-21'
-  ),
-
   mai_voice_2: speech('MAI Voice 2', 'microsoft/mai-voice-2', 2.35590212, ['temperature', 'top_p']),
   mai_voice_2_flash: speech('MAI Voice 2 Flash', 'microsoft/mai-voice-2-flash', 1.6062969, ['temperature', 'top_p']),
   grok_voice_tts_10: speech('Grok Voice TTS 1.0', 'x-ai/grok-voice-tts-1.0', 1.6062969, ['temperature', 'top_p', 'seed', 'response_format']),

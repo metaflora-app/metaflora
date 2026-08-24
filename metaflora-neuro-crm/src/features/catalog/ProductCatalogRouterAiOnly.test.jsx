@@ -10,7 +10,7 @@ import { ProductCatalogPage } from "./ProductCatalogPage.jsx";
 afterEach(cleanup);
 
 describe("final public catalog", () => {
-  it.each(["Ox Alpha", "FLUX Video Upscale", "Nemotron 3.5 ASR", "Suno", "Topaz"])(
+  it.each(["Ox Alpha", "Nemotron 3.5 ASR", "Suno", "Topaz"])(
     "renders the supported %s card",
     (query) => {
       render(<ProductCatalogPage manifest={generatedManifest} />);

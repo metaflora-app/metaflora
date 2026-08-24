@@ -186,7 +186,6 @@ const routeraiMediaRoutes = new Map(Object.entries({
   'alibaba/happyhorse-1.0': routeraiVideoRoute('alibaba/happyhorse-1.0'),
   'alibaba/happyhorse-1.1': routeraiVideoRoute('alibaba/happyhorse-1.1'),
   'minimax/hailuo-3': routeraiVideoRoute('minimax/hailuo-3'),
-  'black-forest-labs/flux-video-upscale': routeraiVideoRoute('black-forest-labs/flux-video-upscale'),
   ...Object.fromEntries([
     'black-forest-labs/flux.2-max', 'microsoft/mai-image-2.5', 'microsoft/mai-image-2.5-pro',
     'krea/krea-2-large', 'krea/krea-2-medium', 'krea/krea-2-medium-turbo',

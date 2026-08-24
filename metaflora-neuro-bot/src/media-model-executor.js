@@ -502,7 +502,7 @@ function routesForModel(model, type, collected) {
       && !ROUTERAI_SPEECH_MODEL_IDS.has(routeraiModelId)
       && !ROUTERAI_TRANSCRIPTION_MODEL_IDS.has(routeraiModelId)
     ) {
-      throw new TypeError('Media model RouterAI route is not confirmed.');
+      throw new TypeError('Media model route is not confirmed.');
     }
     return [routeFor('routerai', model, type, collected)];
   }
@@ -511,9 +511,9 @@ function routesForModel(model, type, collected) {
 
 function incompatibleFallbackReason(model, collected) {
   if (collected.video.length || collected.audio.length) {
-    return 'No confirmed RouterAI fallback contract covers this media reference type.';
+    return 'No confirmed fallback contract covers this media reference type.';
   }
-  return 'No exact RouterAI model, input, and output contract is confirmed for this operation.';
+  return 'No exact model, input, and output contract is confirmed for this operation.';
 }
 
 export function getMediaFallbackStatus(model, collected = EMPTY_MEDIA_INPUTS) {
@@ -530,8 +530,8 @@ export function getMediaFallbackStatus(model, collected = EMPTY_MEDIA_INPUTS) {
       provider: 'routerai',
       status: normalizedModel.provider === 'routerai' ? 'primary' : 'incompatible',
       reason: normalizedModel.provider === 'routerai'
-        ? 'RouterAI is the primary provider for this model.'
-        : 'The media model provider is not eligible for a RouterAI fallback.'
+        ? 'The primary route is confirmed for this model.'
+        : 'The media model provider is not eligible for the fallback route.'
     });
   }
   const spec = routeraiFallbackSpecFor(normalizedModel);
@@ -540,7 +540,7 @@ export function getMediaFallbackStatus(model, collected = EMPTY_MEDIA_INPUTS) {
       provider: 'routerai',
       status: 'compatible',
       model: spec.model,
-      reason: 'The RouterAI video task, input, and result contract is confirmed for this operation.'
+      reason: 'The video task, input, and result contract is confirmed for this operation.'
     }
     : {
       provider: 'routerai',

@@ -23,11 +23,6 @@ const researchedCardProfiles = Object.freeze({
 const referenceKinds = (...kinds) => Object.freeze(kinds);
 
 const inputContracts = Object.freeze({
-  flux_video_upscale: {
-    minimum: { video: 1 },
-    maximum: { video: 1 },
-    referenceKinds: referenceKinds('video')
-  },
   nemotron_35_asr_streaming: {
     minimum: { audio: 1 },
     maximum: { audio: 1 },

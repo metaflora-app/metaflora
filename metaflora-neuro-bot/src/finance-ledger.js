@@ -242,7 +242,7 @@ export function createFinanceAllocations({
       )
     : 0;
   if (productAwareAllocation && productAwareRouter + reserveCarry < liabilityApiReserve) {
-    throw new RangeError('RouterAI reserve cannot cover the maximum metacoin liability.');
+    throw new RangeError('Provider reserve cannot cover the maximum metacoin liability.');
   }
   const productAwareReserve = productAwarePolza + productAwareRouter;
   const baseApiReserve = hasReserveOverride
@@ -263,7 +263,7 @@ export function createFinanceAllocations({
     : weights;
   const ownerShare = gross + reserveCarry - fee - referral - apiReserve;
   if (ownerShare < 0 && productAwareAllocation && productAwareRouter === 10_000) {
-    throw new RangeError('RouterAI minimum cannot be funded by this payment.');
+    throw new RangeError('Provider minimum cannot be funded by this payment.');
   }
   if (ownerShare < 0) throw new RangeError('payment allocation leaves a negative owner share.');
 

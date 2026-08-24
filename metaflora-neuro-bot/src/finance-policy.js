@@ -73,8 +73,8 @@ export function providerLiabilityRublesForMetacoins({
   );
   finitePercent(paymentFeePercent, 'payment fee');
   finitePercent(targetGrossMarginPercent, 'gross margin');
-  const routerShare = finitePercent(routeraiReservePercent, 'RouterAI reserve');
-  const bufferPercent = finitePercent(primaryProviderBufferPercent, 'RouterAI provider buffer');
+  const routerShare = finitePercent(routeraiReservePercent, 'primary provider reserve');
+  const bufferPercent = finitePercent(primaryProviderBufferPercent, 'primary provider buffer');
   const total = metacoins * tariff * routerShare / 100;
   const primary = total / (1 + (bufferPercent / 100));
   return Object.freeze({

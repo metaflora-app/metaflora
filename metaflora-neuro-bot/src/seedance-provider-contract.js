@@ -92,7 +92,7 @@ export function serializeSeedanceProviderRequest(provider, request) {
     && request.modelId !== 'seedance_25'
     && (input.reference_video_urls?.length > 0 || input.reference_audio_urls?.length > 0)
   ) {
-    throw new TypeError('RouterAI Seedance 2.0 accepts only image frame references.');
+    throw new TypeError('Seedance 2.0 accepts only image frame references.');
   }
 
   const inputReferences = route.provider === 'routerai'
