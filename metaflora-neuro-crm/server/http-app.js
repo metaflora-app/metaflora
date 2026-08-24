@@ -440,6 +440,7 @@ export function createCrmRequestHandler({
   changeSubscription = null,
   probeProvider = null,
   createPromo = null,
+  deletePromo = null,
   adminUsername,
   adminPassword,
   csrfToken = "",
@@ -845,6 +846,46 @@ export function createCrmRequestHandler({
           return;
         }
         sendJson(response, 503, { success: false, error: "promo creation is unavailable" });
+      }
+      return;
+    }
+
+    const deletePromoMatch = url.pathname.match(/^\/api\/admin\/promos\/([^/]+)$/u);
+    if (deletePromoMatch) {
+      if (request.method !== "DELETE") {
+        sendJson(response, 405, { success: false, error: "method not allowed" });
+        return;
+      }
+      if (!isAuthorizedWriteRequest(request)) {
+        sendJson(response, 403, { success: false, error: "write action is not allowed" });
+        return;
+      }
+      if (typeof deletePromo !== "function") {
+        sendJson(response, 503, { success: false, error: "write adapter is not configured" });
+        return;
+      }
+      try {
+        const promoId = decodeURIComponent(deletePromoMatch[1]).toUpperCase();
+        if (!/^[A-Z0-9][A-Z0-9_-]{2,31}$/u.test(promoId)) {
+          throw new TypeError("invalid promo identifier");
+        }
+        const result = await deletePromo(promoId);
+        if (!result) {
+          sendJson(response, 404, { success: false, error: "промокод не найден" });
+          return;
+        }
+        sendJson(response, 200, { success: true, data: result });
+      } catch (error) {
+        if (error instanceof URIError || error instanceof TypeError) {
+          sendJson(response, 400, { success: false, error: "invalid promo identifier" });
+          return;
+        }
+        console.error(JSON.stringify({
+          level: "error",
+          event: "crm.promo.delete.failed",
+          message: error instanceof Error ? error.message : "unknown error",
+        }));
+        sendJson(response, 503, { success: false, error: "promo deletion is unavailable" });
       }
       return;
     }

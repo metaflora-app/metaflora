@@ -2244,6 +2244,38 @@ export class SupabaseCrmReadAdapter {
     return deepFreeze(createPromoProjection([body[0]], [], this.#now())[0]);
   }
 
+  async deletePromo(promoCode) {
+    const normalizedCode = String(promoCode ?? "").trim().toUpperCase();
+    if (!/^[A-Z0-9][A-Z0-9_-]{2,31}$/u.test(normalizedCode)) {
+      throw new TypeError("promo code is invalid");
+    }
+    const url = new URL("/rest/v1/promo_codes", this.#baseUrl);
+    url.searchParams.set("code", `eq.${normalizedCode}`);
+    let response;
+    try {
+      response = await this.#fetch(url, {
+        method: "DELETE",
+        headers: {
+          apikey: this.#serviceRoleKey,
+          Authorization: `Bearer ${this.#serviceRoleKey}`,
+          "Accept-Profile": this.schema,
+          "Content-Profile": this.schema,
+          Prefer: "return=representation",
+          Accept: "application/json",
+        },
+      });
+    } catch {
+      throw new SupabaseCrmRequestError("Promo deletion is temporarily unavailable.");
+    }
+    const body = await response.json().catch(() => null);
+    if (!response.ok || !Array.isArray(body)) {
+      throw new SupabaseCrmRequestError("Promo deletion failed.", response.status);
+    }
+    if (!body[0]) return null;
+    const deletedCode = String(body[0].code);
+    return deepFreeze({ id: deletedCode, code: deletedCode, deleted: true });
+  }
+
   async changeSubscription(command) {
     const value = validateSubscriptionCommand(command);
     const url = new URL("/rest/v1/rpc/crm_change_subscription", this.#baseUrl);

@@ -3085,7 +3085,10 @@ export function createUpdateHandler({
   };
 
   const handleUpdate = async (update) => {
-    await historyService?.captureUpdate?.(update);
+    runNonBlocking(
+      () => historyService?.captureUpdate?.(update),
+      { action: 'history_capture_update' }
+    );
     const incomingChat = update.callback_query?.message?.chat ?? update.message?.chat;
     if (incomingChat?.type && incomingChat.type !== 'private') {
       if (update.callback_query) {

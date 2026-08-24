@@ -28,6 +28,7 @@ import {
   loadUserDetails,
   probeProvider as probeProviderApi,
   createPromoCode,
+  deletePromoCode,
   requestLoginCode,
   verifyLoginCode,
 } from "./data/admin-client";
@@ -754,6 +755,14 @@ export function App() {
     appendAudit("promo.status_changed", promoId, status);
   }
 
+  async function deletePromo(promoId) {
+    const promo = promos.find((item) => item.id === promoId);
+    if (!IS_TEST_MODE) await deletePromoCode(promoId);
+    setPromos((items) => items.filter((item) => item.id !== promoId));
+    appendAudit("promo.deleted", promoId, "permanent deletion");
+    notify("промокод удалён", promo?.code ?? promoId);
+  }
+
   function openRecord(kind, data) {
     setSelectedRecord({ kind, data });
     appendAudit(`${kind}.viewed`, data.id, "metadata only");
@@ -859,9 +868,10 @@ export function App() {
         <PromoCodesPanel
           promos={promos}
           models={productCatalogManifest.models}
-          targetMarginPercent={50}
+          targetMarginPercent={40}
           onCreate={createPromo}
           onStatusChange={changePromoStatus}
+          onDelete={deletePromo}
         />
       );
     }

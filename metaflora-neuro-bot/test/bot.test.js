@@ -517,6 +517,37 @@ test('a pending welcome answer does not block another user from opening the menu
   await flushAsyncWork();
 });
 
+test('a slow history capture never delays an interactive menu callback', async () => {
+  const neverSettles = new Promise(() => {});
+  const telegram = createTelegramMock();
+  const handleUpdate = createUpdateHandler({
+    telegram,
+    config: {},
+    historyService: {
+      captureUpdate() { return neverSettles; }
+    }
+  });
+
+  await Promise.race([
+    handleUpdate({
+      update_id: 8_043,
+      callback_query: {
+        id: 'open-tools-with-slow-audit',
+        from: { id: 11 },
+        data: 'task:tools',
+        message: { message_id: 110, chat: { id: 11, type: 'private' } }
+      }
+    }),
+    new Promise((_, reject) => setTimeout(
+      () => reject(new Error('menu callback was blocked by history capture')),
+      100
+    ))
+  ]);
+
+  assert.equal(telegram.sent.at(-1).chatId, 11);
+  assert.match(telegram.sent.at(-1).message.text, /инструмент/u);
+});
+
 test('stopping welcome while a request is running suppresses the late answer', async () => {
   let resolveWelcome;
   const pendingWelcome = new Promise((resolve) => { resolveWelcome = resolve; });

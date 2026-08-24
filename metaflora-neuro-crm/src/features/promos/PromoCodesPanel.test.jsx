@@ -197,6 +197,30 @@ describe("PromoCodesPanel", () => {
     expect(onStatusChange).toHaveBeenCalledWith("promo-1", "paused");
   });
 
+  it("requires explicit confirmation before permanently deleting a promo", async () => {
+    const onDelete = vi.fn().mockResolvedValue(undefined);
+    render(
+      <PromoCodesPanel
+        promos={[{
+          id: "promo-1",
+          code: "CINEMA15",
+          active: true,
+          discountType: "percent",
+          discountValue: 15,
+        }]}
+        onDelete={onDelete}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "удалить промокод CINEMA15" }));
+    const dialog = screen.getByRole("dialog", { name: "удалить CINEMA15" });
+    expect(within(dialog).getByText(/удалится навсегда/i)).toBeInTheDocument();
+    expect(onDelete).not.toHaveBeenCalled();
+
+    fireEvent.click(within(dialog).getByRole("button", { name: "удалить навсегда" }));
+    expect(onDelete).toHaveBeenCalledWith("promo-1");
+  });
+
   it("does not crash on an invalid expiration date", () => {
     render(
       <PromoCodesPanel

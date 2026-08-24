@@ -38,10 +38,16 @@ export function SubscriptionsPage({ users, onOpenUser }) {
   const currentUsers = users.filter((user) => currentPlanNames.has(user.plan));
   const plans = [
     ["новичок", currentUsers.filter((user) => user.plan === "новичок").length, "бесплатно", "free"],
-    ["любитель", currentUsers.filter((user) => user.plan === "любитель").length, "449 ₽", "starter"],
-    ["автор", currentUsers.filter((user) => user.plan === "автор").length, "749 ₽", "creator"],
-    ["исследователь", currentUsers.filter((user) => user.plan === "исследователь").length, "1 990 ₽", "top"],
-    ["эксперт", currentUsers.filter((user) => user.plan === "эксперт").length, "2 990 ₽", "expert"],
+    ["любитель", currentUsers.filter((user) => user.plan === "любитель").length, "749 ₽", "starter"],
+    ["автор", currentUsers.filter((user) => user.plan === "автор").length, "1 490 ₽", "creator"],
+    ["исследователь", currentUsers.filter((user) => user.plan === "исследователь").length, "2 490 ₽", "top"],
+    ["эксперт", currentUsers.filter((user) => user.plan === "эксперт").length, "3 990 ₽", "expert"],
+  ];
+  const packages = [
+    [150, "549 ₽"],
+    [400, "1 290 ₽"],
+    [1_000, "2 990 ₽"],
+    [2_500, "6 990 ₽"],
   ];
 
   const pluralizeUsers = (count) => {
@@ -72,6 +78,20 @@ export function SubscriptionsPage({ users, onOpenUser }) {
             </footer>
           </article>
         ))}
+      </section>
+      <section className="panel metacoin-packages" aria-label="пакеты метакоинов">
+        <header className="panel__header">
+          <div><span className="eyebrow">разовые покупки</span><h2>пакеты метакоинов</h2></div>
+        </header>
+        <div className="metacoin-package-grid">
+          {packages.map(([coins, price]) => (
+            <article className="metacoin-package-card" key={coins}>
+              <span>пакет</span>
+              <strong>{coins.toLocaleString("ru-RU")} метакоинов</strong>
+              <small>{price}</small>
+            </article>
+          ))}
+        </div>
       </section>
       <section className="panel">
         <header className="panel__header">

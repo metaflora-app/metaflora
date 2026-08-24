@@ -1,3 +1,4 @@
+import { X } from "@phosphor-icons/react";
 import { useState } from "react";
 
 const STATUS_LABELS = { active: "активен", paused: "приостановлен", scheduled: "запланирован", expired: "завершён", exhausted: "исчерпан" };
@@ -9,16 +10,46 @@ const promoValue = (promo) => {
   return type === "discount_percent" ? `${value}%` : `${Number(value).toLocaleString("ru-RU")} метакоинов`;
 };
 
-function PromoCard({ promo, onStatusChange }) {
+function PromoCard({ promo, onStatusChange, onDelete }) {
   const status = promoStatus(promo);
   const nextStatus = status === "active" ? "paused" : ["paused", "scheduled"].includes(status) ? "active" : null;
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  async function deletePermanently() {
+    setIsDeleting(true);
+    setDeleteError("");
+    try {
+      await onDelete(promo.id);
+      setConfirmingDelete(false);
+    } catch {
+      setDeleteError("не удалось удалить промокод");
+    } finally {
+      setIsDeleting(false);
+    }
+  }
   return <article className="promo-card" data-status={status}>
-    <header><code>{promo.code}</code><span className={`status-badge status-badge--${status}`}>{STATUS_LABELS[status] ?? status}</span></header>
+    <header>
+      <code>{promo.code}</code>
+      <span className={`status-badge status-badge--${status}`}>{STATUS_LABELS[status] ?? status}</span>
+      {onDelete ? <button type="button" className="promo-card__delete" aria-label={`удалить промокод ${promo.code}`} onClick={() => setConfirmingDelete(true)}><X size={18} /></button> : null}
+    </header>
     <strong className="promo-card__value">{promoValue(promo)}</strong>
     {promo.modelIds?.length ? <p className="promo-card__scope">{promo.modelIds.length} моделей</p> : null}
     <div className="promo-card__usage"><div><span>использования</span><span>{promo.redemptionCount ?? 0}{Number.isFinite(promo.maxRedemptions) ? ` / ${promo.maxRedemptions}` : ""}</span></div></div>
     {promo.expiresAt ? <time dateTime={promo.expiresAt}>{Number.isNaN(new Date(promo.expiresAt).getTime()) ? "дата не указана" : `до ${new Intl.DateTimeFormat("ru-RU").format(new Date(promo.expiresAt))}`}</time> : <span className="promo-card__lifetime">без срока</span>}
     {nextStatus && onStatusChange ? <button type="button" className="button-quiet" aria-label={`${nextStatus === "paused" ? "приостановить" : "активировать"} ${promo.code}`} onClick={() => onStatusChange(promo.id, nextStatus)}>{nextStatus === "paused" ? "приостановить" : "активировать"}</button> : null}
+    {confirmingDelete ? <div className="promo-delete-dialog" role="dialog" aria-modal="true" aria-label={`удалить ${promo.code}`}>
+      <div className="promo-delete-dialog__surface">
+        <h3>удалить {promo.code}?</h3>
+        <p>Промокод удалится навсегда. Это действие нельзя отменить.</p>
+        {deleteError ? <p className="form-error" role="alert">{deleteError}</p> : null}
+        <div>
+          <button type="button" className="button-quiet" disabled={isDeleting} onClick={() => setConfirmingDelete(false)}>отмена</button>
+          <button type="button" className="button-danger" disabled={isDeleting} onClick={deletePermanently}>{isDeleting ? "удаляем…" : "удалить навсегда"}</button>
+        </div>
+      </div>
+    </div> : null}
   </article>;
 }
 
@@ -61,7 +92,7 @@ function PromoCreateForm({ onCreate, models = [], targetMarginPercent = 50 }) {
   </form>;
 }
 
-export function PromoCodesPanel({ promos = [], models = [], targetMarginPercent = 50, onCreate, onStatusChange, className = "" }) {
-  return <section className={`promo-codes-panel ${className}`.trim()}><header className="feature-heading"><div><p className="eyebrow">рост</p><h2>промокоды</h2></div><span className="feature-heading__meta">{promos.filter((promo) => promoStatus(promo) === "active").length} активных</span></header>{onCreate ? <PromoCreateForm onCreate={onCreate} models={models} targetMarginPercent={targetMarginPercent} /> : null}<div className="promo-grid">{promos.length ? promos.map((promo) => <PromoCard key={promo.id} promo={promo} onStatusChange={onStatusChange} />) : <p className="empty-state">промокодов пока нет</p>}</div></section>;
+export function PromoCodesPanel({ promos = [], models = [], targetMarginPercent = 50, onCreate, onStatusChange, onDelete, className = "" }) {
+  return <section className={`promo-codes-panel ${className}`.trim()}><header className="feature-heading"><div><p className="eyebrow">рост</p><h2>промокоды</h2></div><span className="feature-heading__meta">{promos.filter((promo) => promoStatus(promo) === "active").length} активных</span></header>{onCreate ? <PromoCreateForm onCreate={onCreate} models={models} targetMarginPercent={targetMarginPercent} /> : null}<div className="promo-grid">{promos.length ? promos.map((promo) => <PromoCard key={promo.id} promo={promo} onStatusChange={onStatusChange} onDelete={onDelete} />) : <p className="empty-state">промокодов пока нет</p>}</div></section>;
 }
 export { PromoCard, PromoCreateForm };

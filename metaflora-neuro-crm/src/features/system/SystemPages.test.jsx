@@ -35,6 +35,29 @@ describe("SubscriptionsPage", () => {
     expect(screen.queryByText("архивный тариф")).not.toBeInTheDocument();
     expect(screen.queryByText("Архив")).not.toBeInTheDocument();
   });
+
+  it("shows the current tariff and metacoin package catalog", () => {
+    render(<SubscriptionsPage users={[]} onOpenUser={vi.fn()} />);
+
+    expect(screen.getByRole("heading", { name: "любитель" }).closest("article"))
+      .toHaveTextContent("749 ₽");
+    expect(screen.getByRole("heading", { name: "автор" }).closest("article"))
+      .toHaveTextContent("1 490 ₽");
+    expect(screen.getByRole("heading", { name: "исследователь" }).closest("article"))
+      .toHaveTextContent("2 490 ₽");
+    expect(screen.getByRole("heading", { name: "эксперт" }).closest("article"))
+      .toHaveTextContent("3 990 ₽");
+
+    const packages = screen.getByRole("region", { name: "пакеты метакоинов" });
+    for (const [coins, price] of [
+      ["150 метакоинов", "549 ₽"],
+      ["400 метакоинов", "1 290 ₽"],
+      ["1 000 метакоинов", "2 990 ₽"],
+      ["2 500 метакоинов", "6 990 ₽"],
+    ]) {
+      expect(within(packages).getByText(coins).closest("article")).toHaveTextContent(price);
+    }
+  });
 });
 
 describe("SettingsPage", () => {

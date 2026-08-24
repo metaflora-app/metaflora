@@ -210,3 +210,23 @@ export async function createPromoCode(promo, fetchImpl = globalThis.fetch) {
   const dashboard = await readEnvelope(dashboardResponse);
   return Array.isArray(dashboard?.promos) ? dashboard.promos : [];
 }
+
+export async function deletePromoCode(promoId, fetchImpl = globalThis.fetch) {
+  const request = requireFetch(fetchImpl);
+  const cleanPromoId = String(promoId ?? "").trim().toUpperCase();
+  if (!/^[A-Z0-9][A-Z0-9_-]{2,31}$/u.test(cleanPromoId)) {
+    throw new TypeError("invalid promo code");
+  }
+  const { csrfToken } = await loadAdminSession(request);
+  const response = await request(`/api/admin/promos/${encodeURIComponent(cleanPromoId)}`, {
+    method: "DELETE",
+    credentials: "same-origin",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "x-csrf-token": csrfToken,
+    },
+    body: "{}",
+  });
+  return readEnvelope(response);
+}

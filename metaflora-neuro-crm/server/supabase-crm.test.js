@@ -483,6 +483,27 @@ test("persists a promo through the server adapter without exposing credentials",
   assert.equal(JSON.stringify(created).includes(ENV.SUPABASE_SERVICE_ROLE_KEY), false);
 });
 
+test("permanently deletes exactly one promo by its validated code", async () => {
+  let captured;
+  const adapter = new SupabaseCrmReadAdapter({
+    supabaseUrl: ENV.SUPABASE_URL,
+    serviceRoleKey: ENV.SUPABASE_SERVICE_ROLE_KEY,
+    fetchImpl: async (url, options = {}) => {
+      captured = { url: String(url), options };
+      return Response.json([{ code: "CINEMA15" }]);
+    },
+  });
+
+  assert.deepEqual(await adapter.deletePromo("cinema15"), {
+    id: "CINEMA15",
+    code: "CINEMA15",
+    deleted: true,
+  });
+  assert.equal(captured.options.method, "DELETE");
+  assert.match(captured.url, /promo_codes\?code=eq\.CINEMA15$/u);
+  await assert.rejects(() => adapter.deletePromo("../promo-1"), /promo code/u);
+});
+
 test("projects persisted promo model scope for the dashboard", async () => {
   const rows = {
     ...TABLE_ROWS,

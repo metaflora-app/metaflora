@@ -159,6 +159,53 @@ test("promo creation accepts an arbitrary positive metacoin grant", async () => 
   });
 });
 
+test("promo deletion is admin-only, CSRF-protected, and validates the code", async () => {
+  const deleted = [];
+  const handler = createCrmRequestHandler({
+    getDashboardData: async () => ({}),
+    deletePromo: async (promoId) => {
+      deleted.push(promoId);
+      return { id: promoId, deleted: true };
+    },
+    adminUsername: "admin",
+    adminPassword: "password",
+    csrfToken: "csrf-test-token",
+    allowedOrigins: ["https://crm.metaflora.ru"],
+    staticRoot: "/definitely/missing-promo-static-root",
+  });
+
+  const anonymous = createResponse();
+  await handler(createJsonRequest({}, {
+    method: "DELETE",
+    url: "/api/admin/promos/CINEMA15",
+    headers: { "content-type": "application/json" },
+  }), anonymous);
+  assert.equal(anonymous.status, 401);
+
+  const invalidCsrf = createResponse();
+  await handler(createJsonRequest({}, {
+    method: "DELETE",
+    url: "/api/admin/promos/CINEMA15",
+    headers: adminHeaders({ "x-csrf-token": "wrong-token" }),
+  }), invalidCsrf);
+  assert.equal(invalidCsrf.status, 403);
+
+  const invalid = createResponse();
+  await handler(createJsonRequest({}, {
+    method: "DELETE",
+    url: "/api/admin/promos/%2Fetc",
+  }), invalid);
+  assert.equal(invalid.status, 400);
+
+  const response = createResponse();
+  await handler(createJsonRequest({}, {
+    method: "DELETE",
+    url: "/api/admin/promos/cinema15",
+  }), response);
+  assert.equal(response.status, 200);
+  assert.deepEqual(deleted, ["CINEMA15"]);
+});
+
 test("Telegram OTP endpoints issue a secure session cookie without Basic auth", async () => {
   const calls = [];
   const otpAuthService = {

@@ -13,6 +13,31 @@ import {
 import * as adminClient from "./admin-client.js";
 
 describe("admin client", () => {
+  it("deletes a promo through the protected endpoint", async () => {
+    const fetchImpl = vi.fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true, data: { csrfToken: "csrf-token-123" } }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true, data: { id: "CINEMA15", deleted: true } }),
+      });
+
+    await expect(adminClient.deletePromoCode("cinema15", fetchImpl)).resolves.toEqual({
+      id: "CINEMA15",
+      deleted: true,
+    });
+    expect(fetchImpl.mock.calls[1]).toEqual([
+      "/api/admin/promos/CINEMA15",
+      expect.objectContaining({
+        method: "DELETE",
+        credentials: "same-origin",
+        headers: expect.objectContaining({ "x-csrf-token": "csrf-token-123" }),
+      }),
+    ]);
+  });
+
   it("creates a promo through CSRF and refreshes the persisted promo list", async () => {
     const persistedPromos = [{
       id: "MODELS42",

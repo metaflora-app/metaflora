@@ -3128,6 +3128,102 @@ kbd {
   background: transparent;
 }
 
+.promo-card > header .promo-card__delete {
+  min-width: 28px;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted);
+  background: transparent;
+}
+
+.promo-card > header .promo-card__delete:hover {
+  border-color: rgb(255 92 106 / 45%);
+  color: var(--danger);
+  background: rgb(255 92 106 / 8%);
+}
+
+.promo-delete-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(0 0 0 / 72%);
+  backdrop-filter: blur(8px);
+}
+
+.promo-delete-dialog__surface {
+  width: min(440px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--panel-2);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+}
+
+.promo-delete-dialog__surface h3,
+.promo-delete-dialog__surface p {
+  margin: 0;
+}
+
+.promo-delete-dialog__surface > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.promo-delete-dialog .button-danger {
+  border-color: rgb(255 92 106 / 55%);
+  color: #fff;
+  background: rgb(180 42 56 / 80%);
+}
+
+.metacoin-package-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metacoin-package-card {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--panel-2);
+}
+
+.metacoin-package-card > span {
+  color: var(--muted-2);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.metacoin-package-card > strong {
+  font-size: 15px;
+}
+
+.metacoin-package-card > small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .metacoin-package-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* safe automation */
 
 .automation-rail {

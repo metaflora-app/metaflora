@@ -89,6 +89,7 @@ const handler = createCrmRequestHandler({
   changeSubscription: (command) => adapter.changeSubscription(command),
   probeProvider: (providerId) => adapter.probeProvider(providerId),
   createPromo: (command) => adapter.createPromo(command),
+  deletePromo: (promoId) => adapter.deletePromo(promoId),
   adminUsername,
   otpAuthService,
   csrfToken: process.env.CRM_CSRF_TOKEN?.trim() ?? "",
