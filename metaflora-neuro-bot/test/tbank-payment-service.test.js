@@ -163,6 +163,27 @@ test('issues an opaque checkout URL with trusted e-mail receipt data', async () 
   assert.equal(auditRepository.calls[0][1].providerPayload.ticket, undefined);
 });
 
+test('accepts the exact client quote and rejects a stale T-Bank amount', async () => {
+  const { paymentService } = service();
+  const base = {
+    kind: 'package', productId: 'coins_150', telegramUserId: '42', telegramChatId: '43',
+    receiptEmail: 'buyer@example.com'
+  };
+
+  const checkout = await paymentService.createCheckout({
+    ...base,
+    idempotencyKey: 'matching_quote',
+    expectedAmountKopecks: 54_900
+  });
+  assert.equal(checkout.amountKopecks, 54_900);
+
+  await assert.rejects(() => paymentService.createCheckout({
+    ...base,
+    idempotencyKey: 'stale_quote',
+    expectedAmountKopecks: 54_899
+  }), (error) => error?.code === 'checkout_quote_changed');
+});
+
 test('T-Bank persists the upgrade marker inside the trusted local checkout', async () => {
   const referralService = referralMock();
   referralService.account = () => ({

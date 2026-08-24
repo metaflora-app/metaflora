@@ -216,7 +216,7 @@ export function createTBankPaymentService({
         now: now()
       });
       if (expectedAmountKopecks !== undefined
-        && integer(expectedAmountKopecks, 'expected amount', { positive: true }) !== quote.amountKopecks) {
+        && positiveInteger(expectedAmountKopecks, 'expected amount') !== quote.amountKopecks) {
         const error = new Error('Checkout quote changed before payment creation.');
         error.code = 'checkout_quote_changed';
         throw error;

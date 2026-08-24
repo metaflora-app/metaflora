@@ -721,7 +721,12 @@ export function buildCheckoutUnavailableMessage(backData = 'billing:home') {
   return {
     text: '<b>оплата по СБП временно недоступна</b>\n\nплатёж не создан, деньги не списаны. попробуй ещё раз позже или обратись в поддержку.',
     parse_mode: 'HTML',
-    reply_markup: { inline_keyboard: billingNavigation(backData) }
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: '↗ написать в поддержку', url: 'https://t.me/metaflora_support' }],
+        ...billingNavigation(backData)
+      ]
+    }
   };
 }
 

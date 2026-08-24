@@ -17,6 +17,7 @@ import {
   buildProfileCabinetMessage,
   buildPromoEntryMessage,
   buildPromoMessage,
+  buildCheckoutUnavailableMessage,
   buildReceiptEmailPrompt,
   buildPaymentRedirectMessage
 } from '../src/billing-ui.js';
@@ -324,6 +325,18 @@ test('payment failure card explains the reason without claiming a credit', () =>
   assert.ok(buttons(insufficient).some(
     ({ text, callback_data }) => text === '🧯 поддержка' && callback_data === 'task:support'
   ));
+});
+
+test('checkout-unavailable card offers direct support alongside navigation', () => {
+  const message = buildCheckoutUnavailableMessage('billing:plans:profile');
+  const actions = buttons(message);
+
+  assert.match(message.text, /платёж не создан, деньги не списаны/u);
+  assert.ok(actions.some(
+    ({ text, url }) => text === '↗ написать в поддержку' && url === 'https://t.me/metaflora_support'
+  ));
+  assert.ok(actions.some(({ callback_data }) => callback_data === 'billing:plans:profile'));
+  assert.ok(actions.some(({ callback_data }) => callback_data === 'task:menu'));
 });
 
 test('success cards reject unconfirmed payment data', () => {
