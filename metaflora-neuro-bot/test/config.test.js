@@ -384,6 +384,12 @@ test('removed tariff flag is ignored while provider funding worker settings stay
   });
 });
 
+test('provider funding polling defaults to a non-chat-critical interval', () => {
+  const config = loadConfig({ METAFLORA_ENV_FILE: '/definitely/missing' });
+
+  assert.equal(config.providerFunding.intervalMs, 30_000);
+});
+
 test('RouterAI funding reuses the shared connector only by explicit opt-in and has a dedicated kill switch', () => {
   const config = loadConfig({
     METAFLORA_ENV_FILE: '/definitely/missing',

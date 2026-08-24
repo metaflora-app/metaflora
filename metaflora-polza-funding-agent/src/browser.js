@@ -136,8 +136,13 @@ export class BrowserManager {
   async status() {
     if (!this.page || this.page.isClosed()) return { persistent: true, profileMode: "persistent", authorization: "unknown", automation: "unavailable", cardEnrollment: "unknown", loginPerPayment: false };
     const url = this.page.url();
-    const authenticated = url.startsWith(new URL(this.dashboardUrl).origin) && !isLoginUrl(url)
+    const sameOrigin = url.startsWith(new URL(this.dashboardUrl).origin);
+    const loginPage = isLoginUrl(url);
+    const dashboardMarker = sameOrigin && !loginPage
       && await this.page.locator('text=/выйти|платежи|API-ключи|организация/iu').first().isVisible().catch(() => false);
+    const hasAccessToken = sameOrigin && !loginPage
+      && await this.page.evaluate(() => Boolean(localStorage.getItem("accessToken")?.trim())).catch(() => false);
+    const authenticated = dashboardMarker || hasAccessToken;
     const cookies = await this.context.cookies(new URL(this.dashboardUrl).origin).catch(() => []);
     const persistentExpirations = cookies.map((cookie) => Number(cookie.expires)).filter((expires) => Number.isFinite(expires) && expires > 0);
     return {
@@ -147,6 +152,7 @@ export class BrowserManager {
       automation: authenticated ? "ready" : "blocked",
       cardEnrollment: authenticated ? "ready" : "unknown",
       loginPerPayment: false,
+      sessionEvidence: dashboardMarker ? "dashboard" : hasAccessToken ? "access_token" : "none",
       cookieCount: cookies.length,
       sessionCookieCount: cookies.filter((cookie) => Number(cookie.expires) <= 0).length,
       persistentCookieExpiresAt: persistentExpirations.length ? new Date(Math.max(...persistentExpirations) * 1000).toISOString() : null

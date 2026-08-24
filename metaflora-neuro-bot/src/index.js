@@ -658,7 +658,7 @@ function startProviderFundingWorker() {
     try {
       await refreshProviderFundingReadiness();
       const result = await providerFundingWorker.run();
-      if (result.claimed > 0 || result.status !== 'disabled') {
+      if (result.claimed > 0 || !['processed', 'disabled'].includes(result.status)) {
         console.info(`Provider funding run: ${JSON.stringify(result)}.`);
       }
     } catch (error) {

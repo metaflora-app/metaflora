@@ -134,6 +134,7 @@ test('balance home separates tariffs from a one-time metacoin purchase', () => {
   assert.match(message.text, /<b>разовая покупка<\/b>/i);
   assert.match(message.text, /<b>метакоины не сгорают<\/b> и переносятся/i);
   assert.match(message.text, /только при активной платной подписке/i);
+  assert.doesNotMatch(message.text, /сначала выбери, что пополняем|оплата доступна по СБП/i);
   assert.doesNotMatch(message.text, /e-mail.*чека|чек.*e-mail/i);
   assert.doesNotMatch(message.text, /для нескольких|для регулярных|для работы с|для большого|для постоянной/i);
   assert.doesNotMatch(message.text, /провайдер|маршрут|себестоим/i);

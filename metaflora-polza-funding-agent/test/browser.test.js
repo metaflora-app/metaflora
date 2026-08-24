@@ -79,6 +79,49 @@ test("starts Chromium with a persistent profile and suppresses the crash-restore
   assert.ok(launch.options.args.includes("--hide-crash-restore-bubble"));
 });
 
+test("recognizes a persisted Polza access token when dashboard copy changes", async () => {
+  const manager = new BrowserManager({
+    profileDir: "/data/polza-profile",
+    dashboardUrl: "https://polza.ai/dashboard",
+    mcp: {}
+  });
+  manager.page = {
+    isClosed: () => false,
+    url: () => "https://polza.ai/dashboard/billing",
+    locator: () => control({ isVisible: async () => false }),
+    evaluate: async () => true
+  };
+  manager.context = {
+    cookies: async () => [{ name: "session", expires: 1_900_000_000 }]
+  };
+
+  const status = await manager.status();
+
+  assert.equal(status.authorization, "authorized");
+  assert.equal(status.automation, "ready");
+  assert.equal(status.sessionEvidence, "access_token");
+});
+
+test("never treats a login page as authorized even if stale storage remains", async () => {
+  const manager = new BrowserManager({
+    profileDir: "/data/polza-profile",
+    dashboardUrl: "https://polza.ai/dashboard",
+    mcp: {}
+  });
+  manager.page = {
+    isClosed: () => false,
+    url: () => "https://polza.ai/login",
+    locator: () => control({ isVisible: async () => false }),
+    evaluate: async () => true
+  };
+  manager.context = { cookies: async () => [] };
+
+  const status = await manager.status();
+
+  assert.equal(status.authorization, "required_once");
+  assert.equal(status.automation, "blocked");
+});
+
 test("keeps only safe payment identifiers from a provider response", () => {
   assert.deepEqual(
     { ...paymentResponseSummary({ data: { paymentId: "pay-1", status: "pending", secret: "hidden" } }) },

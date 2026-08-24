@@ -281,7 +281,7 @@ export function loadConfig(environment = process.env) {
   );
   const providerFundingIntervalMs = boundedInteger(
     value('PROVIDER_FUNDING_INTERVAL_MS'),
-    5_000,
+    30_000,
     { minimum: 1_000, maximum: 600_000, label: 'PROVIDER_FUNDING_INTERVAL_MS' }
   );
   const providerFundingCaps = Object.freeze({
