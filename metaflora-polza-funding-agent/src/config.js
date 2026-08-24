@@ -1,3 +1,5 @@
+import path from "node:path";
+
 function required(name) {
   const value = String(process.env[name] ?? "").trim();
   if (!value) throw new Error(`${name} is required`);
@@ -16,6 +18,12 @@ function optional(name) {
 
 export function loadConfig() {
   const port = positive("PORT", 3000);
+  const profileDir = String(process.env.BROWSER_PROFILE_DIR || "/data/polza-profile");
+  const railwayEnvironmentId = optional("RAILWAY_ENVIRONMENT_ID");
+  const relativeToDataVolume = path.relative("/data", path.resolve(profileDir));
+  if (railwayEnvironmentId && (!relativeToDataVolume || relativeToDataVolume.startsWith("..") || path.isAbsolute(relativeToDataVolume))) {
+    throw new Error("BROWSER_PROFILE_DIR must use a persistent /data volume on Railway");
+  }
   const baseSmartWalletOwnerPrivateKey = optional("BASE_SMART_WALLET_OWNER_PRIVATE_KEY");
   const cryptoOwnerPayoutAddress = optional("CRYPTO_OWNER_PAYOUT_ADDRESS");
   const cryptoDirectSettlementEnabled = String(process.env.CRYPTO_DIRECT_SETTLEMENT_ENABLED || "false") === "true";
@@ -31,7 +39,7 @@ export function loadConfig() {
     adminPassword: required("FUNDING_ADMIN_PASSWORD"),
     mcpToken: required("POLZA_MCP_TOKEN"),
     mcpEndpoint: String(process.env.POLZA_MCP_ENDPOINT || "https://polza.ai/api/mcp"),
-    profileDir: String(process.env.BROWSER_PROFILE_DIR || "/data/polza-profile"),
+    profileDir,
     browserExecutablePath: optional("BROWSER_EXECUTABLE_PATH") || "/usr/bin/google-chrome",
     dashboardUrl: String(process.env.POLZA_DASHBOARD_URL || "https://polza.ai/dashboard"),
     gptunnelEnabled: String(process.env.GPTUNNEL_BROWSER_FUNDING_ENABLED || "false") === "true",

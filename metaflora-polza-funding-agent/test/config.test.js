@@ -34,3 +34,21 @@ test("accepts an explicit browser executable path", async () => {
     assert.equal(loadConfig().browserExecutablePath, "/opt/chrome/google-chrome");
   });
 });
+
+test("Railway refuses an ephemeral browser profile outside its persistent volume", async () => {
+  await withEnvironment({
+    RAILWAY_ENVIRONMENT_ID: "production-environment",
+    BROWSER_PROFILE_DIR: "/tmp/polza-profile",
+  }, () => {
+    assert.throws(() => loadConfig(), /persistent \/data volume/u);
+  });
+});
+
+test("Railway accepts the persistent Polza profile under the mounted volume", async () => {
+  await withEnvironment({
+    RAILWAY_ENVIRONMENT_ID: "production-environment",
+    BROWSER_PROFILE_DIR: "/data/polza-profile",
+  }, () => {
+    assert.equal(loadConfig().profileDir, "/data/polza-profile");
+  });
+});
