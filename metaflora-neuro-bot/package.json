@@ -1,0 +1,25 @@
+{
+  "name": "metaflora-neuro-bot",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "generate:icons": "node scripts/generate-model-icons.js",
+    "promo:generate": "node scripts/generate-promo.js",
+    "audit:capabilities": "node scripts/audit-capabilities.js",
+    "start": "node src/index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "devDependencies": {
+    "@lobehub/icons-static-svg": "^1.94.0",
+    "sharp": "^0.35.3"
+  },
+  "dependencies": {
+    "@fal-ai/client": "^1.10.1",
+    "@supabase/supabase-js": "^2.110.8",
+    "pg": "^8.22.0"
+  }
+}

@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "strategy": "primary-model-brand",
+  "agents": [
+    {
+      "id": "business_lawyer",
+      "customEmojiKey": "openai",
+      "fallback": "⚖️",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "accountant",
+      "customEmojiKey": "deepseek",
+      "fallback": "🧮",
+      "primaryModel": "deepseek_v4_pro"
+    },
+    {
+      "id": "strategist",
+      "customEmojiKey": "openai",
+      "fallback": "♟️",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "business_analyst",
+      "customEmojiKey": "anthropic",
+      "fallback": "📊",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "marketer",
+      "customEmojiKey": "openai",
+      "fallback": "📣",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "seo_marketer",
+      "customEmojiKey": "perplexity",
+      "fallback": "🔎",
+      "primaryModel": "sonar_research"
+    },
+    {
+      "id": "smm_manager",
+      "customEmojiKey": "openai",
+      "fallback": "📱",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "sales_expert",
+      "customEmojiKey": "anthropic",
+      "fallback": "🤝",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "recruiter",
+      "customEmojiKey": "openai",
+      "fallback": "🧑‍💼",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "business_secretary",
+      "customEmojiKey": "yandex",
+      "fallback": "📋",
+      "primaryModel": "yandexgpt_51_pro"
+    },
+    {
+      "id": "product_manager",
+      "customEmojiKey": "openai",
+      "fallback": "🧭",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "marketplace_manager",
+      "customEmojiKey": "google",
+      "fallback": "🛒",
+      "primaryModel": "gemini_31_pro"
+    },
+    {
+      "id": "copywriter",
+      "customEmojiKey": "anthropic",
+      "fallback": "✍️",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "editor",
+      "customEmojiKey": "anthropic",
+      "fallback": "📝",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "article_author",
+      "customEmojiKey": "anthropic",
+      "fallback": "📰",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "screenwriter",
+      "customEmojiKey": "anthropic",
+      "fallback": "🎬",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "prompt_engineer",
+      "customEmojiKey": "openai",
+      "fallback": "🧠",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "art_director",
+      "customEmojiKey": "google",
+      "fallback": "🎨",
+      "primaryModel": "gemini_31_pro"
+    },
+    {
+      "id": "presentation_designer",
+      "customEmojiKey": "google",
+      "fallback": "📽️",
+      "primaryModel": "gemini_31_pro"
+    },
+    {
+      "id": "video_director",
+      "customEmojiKey": "google",
+      "fallback": "🎥",
+      "primaryModel": "gemini_31_pro"
+    },
+    {
+      "id": "content_manager",
+      "customEmojiKey": "openai",
+      "fallback": "🗂️",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "fact_checker",
+      "customEmojiKey": "perplexity",
+      "fallback": "✅",
+      "primaryModel": "sonar_research"
+    },
+    {
+      "id": "developer",
+      "customEmojiKey": "kimi",
+      "fallback": "💻",
+      "primaryModel": "kimi_k27_code"
+    },
+    {
+      "id": "architect",
+      "customEmojiKey": "openai",
+      "fallback": "🏗️",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "code_reviewer",
+      "customEmojiKey": "anthropic",
+      "fallback": "🔍",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "qa_engineer",
+      "customEmojiKey": "openai",
+      "fallback": "🧪",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "debugger",
+      "customEmojiKey": "deepseek",
+      "fallback": "🐞",
+      "primaryModel": "deepseek_v4_pro"
+    },
+    {
+      "id": "data_analyst",
+      "customEmojiKey": "deepseek",
+      "fallback": "📈",
+      "primaryModel": "deepseek_v4_pro"
+    },
+    {
+      "id": "ux_researcher",
+      "customEmojiKey": "anthropic",
+      "fallback": "🗣️",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "ux_auditor",
+      "customEmojiKey": "google",
+      "fallback": "👁️",
+      "primaryModel": "gemini_31_pro"
+    },
+    {
+      "id": "tutor",
+      "customEmojiKey": "openai",
+      "fallback": "🎓",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "language_teacher",
+      "customEmojiKey": "anthropic",
+      "fallback": "🗨️",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "examiner",
+      "customEmojiKey": "openai",
+      "fallback": "📚",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "methodologist",
+      "customEmojiKey": "anthropic",
+      "fallback": "🧩",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "translator",
+      "customEmojiKey": "anthropic",
+      "fallback": "🌐",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "abstract_writer",
+      "customEmojiKey": "openai",
+      "fallback": "📖",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "literary_analyst",
+      "customEmojiKey": "anthropic",
+      "fallback": "📜",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "career_consultant",
+      "customEmojiKey": "openai",
+      "fallback": "🪜",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "proofreader",
+      "customEmojiKey": "yandex",
+      "fallback": "🖊️",
+      "primaryModel": "yandexgpt_51_pro"
+    },
+    {
+      "id": "paraphraser",
+      "customEmojiKey": "yandex",
+      "fallback": "🔁",
+      "primaryModel": "yandexgpt_51_pro"
+    },
+    {
+      "id": "resume_helper",
+      "customEmojiKey": "anthropic",
+      "fallback": "📄",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "document_analyst",
+      "customEmojiKey": "google",
+      "fallback": "🗃️",
+      "primaryModel": "gemini_31_pro"
+    },
+    {
+      "id": "spreadsheet_analyst",
+      "customEmojiKey": "deepseek",
+      "fallback": "📑",
+      "primaryModel": "deepseek_v4_pro"
+    },
+    {
+      "id": "researcher",
+      "customEmojiKey": "perplexity",
+      "fallback": "🔬",
+      "primaryModel": "sonar_research"
+    },
+    {
+      "id": "idea_generator",
+      "customEmojiKey": "openai",
+      "fallback": "💡",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "psychologist",
+      "customEmojiKey": "anthropic",
+      "fallback": "🫂",
+      "primaryModel": "claude_sonnet_5"
+    },
+    {
+      "id": "medical_navigator",
+      "customEmojiKey": "google",
+      "fallback": "🩺",
+      "primaryModel": "gemini_31_pro"
+    },
+    {
+      "id": "travel_guide",
+      "customEmojiKey": "perplexity",
+      "fallback": "🗺️",
+      "primaryModel": "sonar_research"
+    },
+    {
+      "id": "meal_planner",
+      "customEmojiKey": "openai",
+      "fallback": "🥗",
+      "primaryModel": "gpt_56_terra"
+    },
+    {
+      "id": "personal_assistant",
+      "customEmojiKey": "openai",
+      "fallback": "🗓️",
+      "primaryModel": "gpt_56_terra"
+    }
+  ]
+}

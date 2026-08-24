@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="GPTunnel">
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="#111827"/>
+  <path d="M13 15.5h22v6H20v5h12v6H20v6.5h-7V15.5Z" fill="url(#g)"/>
+  <path d="m29 27 7-5v10l-7-5Z" fill="#f8fafc"/>
+</svg>

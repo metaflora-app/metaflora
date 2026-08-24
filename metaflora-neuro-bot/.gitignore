@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+data/
+coverage/
+*.log
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+supabase/.temp/

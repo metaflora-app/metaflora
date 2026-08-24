@@ -1,0 +1,4786 @@
+{
+  "schemaVersion": "1.2.0",
+  "release": {
+    "version": "catalog-c178b928691265b3",
+    "sourceHash": "c178b928691265b3"
+  },
+  "summary": {
+    "models": 394,
+    "agents": 50,
+    "tools": 42,
+    "workflows": 30,
+    "voices": 80,
+    "entertainments": 15
+  },
+  "coverage": [
+    {
+      "id": "voice-library",
+      "label": "библиотека голосов и свой голос",
+      "scope": "voice",
+      "state": "early_access",
+      "evidence": [
+        "active",
+        "early_access"
+      ]
+    },
+    {
+      "id": "video-dubbing",
+      "label": "озвучка видео и управление исходным звуком",
+      "scope": "video",
+      "state": "early_access",
+      "evidence": [
+        "early_access"
+      ]
+    },
+    {
+      "id": "quick-settings",
+      "label": "быстрые настройки генерации",
+      "scope": "all",
+      "state": "ready",
+      "evidence": [
+        "configured:273"
+      ]
+    },
+    {
+      "id": "video-builder",
+      "label": "режимы видео",
+      "scope": "video",
+      "state": "partial",
+      "evidence": [
+        "text_to_video:true",
+        "first_frame:false",
+        "references:false",
+        "extend:false"
+      ]
+    },
+    {
+      "id": "llm-settings",
+      "label": "расширенные настройки текста",
+      "scope": "llm",
+      "state": "ready",
+      "evidence": [
+        "length:true",
+        "reasoning:true",
+        "reasoningSummary:true",
+        "documents:true",
+        "instructions:true"
+      ]
+    },
+    {
+      "id": "scenario-catalog",
+      "label": "каталог прикладных сценариев",
+      "scope": "tools",
+      "state": "ready",
+      "evidence": [
+        "runnable:7/7"
+      ]
+    },
+    {
+      "id": "music-studio",
+      "label": "музыкальный конструктор",
+      "scope": "music",
+      "state": "ready",
+      "evidence": [
+        "runnable:1",
+        "result:true",
+        "style:true",
+        "lyrics:true",
+        "duration:true",
+        "prompt:true"
+      ]
+    },
+    {
+      "id": "entertainment-catalog",
+      "label": "развлекательные сценарии",
+      "scope": "entertainment",
+      "state": "ready",
+      "evidence": [
+        "runnable:15/15"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "id": "gpt_oss_20b_free",
+      "name": "gpt-oss-20b free",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gpt_56_sol",
+      "name": "GPT-5.6 Sol",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_56_sol_pro",
+      "name": "GPT-5.6 Sol Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_56_luna",
+      "name": "GPT-5.6 Luna",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_56_luna_pro",
+      "name": "GPT-5.6 Luna Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_56_terra",
+      "name": "GPT-5.6 Terra",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_56_terra_pro",
+      "name": "GPT-5.6 Terra Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_55",
+      "name": "GPT-5.5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_55_pro",
+      "name": "GPT-5.5 Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_54",
+      "name": "GPT-5.4",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_54_pro",
+      "name": "GPT-5.4 Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_54_mini",
+      "name": "GPT-5.4 Mini",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_54_nano",
+      "name": "GPT-5.4 Nano",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_53_codex",
+      "name": "GPT-5.3 Codex",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_52",
+      "name": "GPT-5.2",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_52_pro",
+      "name": "GPT-5.2 Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_52_codex",
+      "name": "GPT-5.2 Codex",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_5",
+      "name": "GPT-5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_5_pro",
+      "name": "GPT-5 Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_5_mini",
+      "name": "GPT-5 Mini",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_5_nano",
+      "name": "GPT-5 Nano",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_41",
+      "name": "GPT-4.1",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_41_mini",
+      "name": "GPT-4.1 Mini",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_41_nano",
+      "name": "GPT-4.1 Nano",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_4o",
+      "name": "GPT-4o",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_4o_mini",
+      "name": "GPT-4o Mini",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "o3",
+      "name": "o3",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "o4_mini",
+      "name": "o4-mini",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_3_5_turbo_0co57vx",
+      "name": "GPT-3.5 Turbo",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_3_5_turbo_0613_1v92a1q",
+      "name": "GPT-3.5 Turbo (older v0613)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_3_5_turbo_16k_07xocx8",
+      "name": "GPT-3.5 Turbo 16k",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_3_5_turbo_instruct_0y7wapq",
+      "name": "GPT-3.5 Turbo Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4_11i15p8",
+      "name": "GPT-4",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4_turbo_0156sfd",
+      "name": "GPT-4 Turbo",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4_turbo_preview_19115k8",
+      "name": "GPT-4 Turbo Preview",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4o_2024_05_13_11j4fxv",
+      "name": "GPT-4o (2024-05-13)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4o_2024_08_06_14xkizo",
+      "name": "GPT-4o (2024-08-06)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4o_2024_11_20_0elmiqm",
+      "name": "GPT-4o (2024-11-20)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4o_mini_2024_07_18_1oot32i",
+      "name": "GPT-4o-mini (2024-07-18)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_5_1_1heohhi",
+      "name": "GPT-5.1",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_5_1_codex_05j454w",
+      "name": "GPT-5.1-Codex",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_5_1_codex_max_11mn1en",
+      "name": "GPT-5.1-Codex-Max",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_5_1_codex_mini_1hgyrvs",
+      "name": "GPT-5.1-Codex-Mini",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_5_2_chat_03emqn8",
+      "name": "GPT-5.2 Chat",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_oss_120b_040pk5v",
+      "name": "gpt-oss-120b",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_oss_20b_0tvrssm",
+      "name": "gpt-oss-20b",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_oss_safeguard_20b_0a6zoxt",
+      "name": "gpt-oss-safeguard-20b",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_o1_0une1j4",
+      "name": "o1",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_o1_pro_0ly9re6",
+      "name": "o1-pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_o3_mini_0x11w4m",
+      "name": "o3 Mini",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_o3_mini_high_1ovf0y9",
+      "name": "o3 Mini High",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_o4_mini_high_0esvkig",
+      "name": "o4 Mini High",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_opus_5",
+      "name": "Claude Opus 5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_sonnet_5",
+      "name": "Claude Sonnet 5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_fable_5",
+      "name": "Claude Fable 5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_opus_48",
+      "name": "Claude Opus 4.8",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_opus_48_fast",
+      "name": "Claude Opus 4.8 Fast",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_opus_47",
+      "name": "Claude Opus 4.7",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_opus_46",
+      "name": "Claude Opus 4.6",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "claude_haiku_45",
+      "name": "Claude Haiku 4.5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_anthropic_claude_3_haiku_1ej3rol",
+      "name": "Claude 3 Haiku",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_anthropic_claude_opus_4_0nqr4av",
+      "name": "Claude Opus 4",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_anthropic_claude_opus_4_1_1tapjke",
+      "name": "Claude Opus 4.1",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_anthropic_claude_opus_4_5_1uenyca",
+      "name": "Claude Opus 4.5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_anthropic_claude_opus_4_7_fast_1ykp211",
+      "name": "Claude Opus 4.7 (Fast)",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_anthropic_claude_opus_5_fast_1fdx3ph",
+      "name": "Claude Opus 5 (Fast)",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_anthropic_claude_sonnet_4_18t369v",
+      "name": "Claude Sonnet 4",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_anthropic_claude_sonnet_4_5_0g9kl6u",
+      "name": "Claude Sonnet 4.5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_anthropic_claude_sonnet_4_6_0fzkzhv",
+      "name": "Claude Sonnet 4.6",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gemini_37_flash",
+      "name": "Gemini 3.7 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gemini_36_flash",
+      "name": "Gemini 3.6 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gemini_35_flash",
+      "name": "Gemini 3.5 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gemini_35_flash_lite",
+      "name": "Gemini 3.5 Flash Lite",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gemini_31_pro",
+      "name": "Gemini 3.1 Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gemini_31_flash_lite",
+      "name": "Gemini 3.1 Flash Lite",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gemini_31_custom_preview",
+      "name": "Gemini 3.1 Custom Tools Preview",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gemini_3_flash_preview",
+      "name": "Gemini 3 Flash Preview",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gemini_25_pro",
+      "name": "Gemini 2.5 Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gemini_25_flash",
+      "name": "Gemini 2.5 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_google_gemini_2_5_flash_lite_0kfobh8",
+      "name": "Gemini 2.5 Flash Lite",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemini_2_5_pro_preview_1xwpf2t",
+      "name": "Gemini 2.5 Pro Preview 06-05",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemini_2_5_pro_preview_05_06_0fuoidw",
+      "name": "Gemini 2.5 Pro Preview 05-06",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemini_3_1_flash_lite_preview_0jb7kzg",
+      "name": "Gemini 3.1 Flash Lite Preview",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemma_2_27b_it_0k23cu5",
+      "name": "Gemma 2 27B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemma_3_12b_it_1pke7j8",
+      "name": "Gemma 3 12B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemma_3_27b_it_1q8qiv0",
+      "name": "Gemma 3 27B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemma_3_4b_it_111pfux",
+      "name": "Gemma 3 4B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemma_3n_e4b_it_1i4dmwg",
+      "name": "Gemma 3n 4B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemma_4_26b_a4b_it_00at0ug",
+      "name": "Gemma 4 26B A4B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_google_gemma_4_31b_it_109qxwk",
+      "name": "Gemma 4 31B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "grok_46",
+      "name": "SpaceXAI: Grok 4.6",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "grok_45",
+      "name": "Grok 4.5",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "grok_43",
+      "name": "Grok 4.3",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "grok_420",
+      "name": "Grok 4.20",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "grok_build",
+      "name": "Grok Build 0.1",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_x_ai_grok_4_20_multi_agent_07n1fe1",
+      "name": "Grok 4.20 Multi-Agent",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "kimi_k3",
+      "name": "Kimi K3",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "kimi_k27_code",
+      "name": "Kimi K2.7 Code",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "kimi_k26",
+      "name": "Kimi K2.6",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "kimi_k25",
+      "name": "Kimi K2.5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "kimi_k2_thinking",
+      "name": "Kimi K2 Thinking",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_moonshotai_kimi_k2_1uc7uwl",
+      "name": "Kimi K2 0711",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_moonshotai_kimi_k2_0905_0sfyk6s",
+      "name": "Kimi K2 0905",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "deepseek_v4_pro_0813",
+      "name": "DeepSeek: DeepSeek V4 Pro 0813",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "deepseek_v4_pro",
+      "name": "DeepSeek V4 Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "deepseek_v4_flash",
+      "name": "DeepSeek V4 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "deepseek_v4_flash_0731",
+      "name": "DeepSeek V4 Flash 0731",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "deepseek_v32",
+      "name": "DeepSeek V3.2",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "deepseek_v32_exp",
+      "name": "DeepSeek V3.2 Exp",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "deepseek_r1",
+      "name": "DeepSeek R1",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_deepseek_deepseek_chat_0bo2bsb",
+      "name": "DeepSeek V3",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_deepseek_deepseek_chat_v3_0324_1609q1r",
+      "name": "DeepSeek V3 0324",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_deepseek_deepseek_chat_v3_1_0hmri6w",
+      "name": "DeepSeek V3.1",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_deepseek_deepseek_r1_0528_04xle6m",
+      "name": "R1 0528",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_deepseek_deepseek_r1_distill_llama_70b_0eddeo0",
+      "name": "R1 Distill Llama 70B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_deepseek_deepseek_v3_1_terminus_1rex4hj",
+      "name": "DeepSeek V3.1 Terminus",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "qwen_38_27b",
+      "name": "Qwen3.8 27B",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "qwen_37_max",
+      "name": "Qwen 3.7 Max",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "qwen_38_max",
+      "name": "Qwen 3.8 Max",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "qwen_37_flash",
+      "name": "Qwen 3.7 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "qwen_36_flash",
+      "name": "Qwen 3.6 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "qwen_36_max_preview",
+      "name": "Qwen 3.6 Max Preview",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "qwen_3_coder",
+      "name": "Qwen 3 Coder",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "qwen_3_coder_next",
+      "name": "Qwen 3 Coder Next",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "qwen_3_vl",
+      "name": "Qwen 3 VL",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_qwen_qwen_2_5_72b_instruct_0pijhdz",
+      "name": "Qwen2.5 72B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen_2_5_7b_instruct_141gbd9",
+      "name": "Qwen2.5 7B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen_2_5_coder_32b_instruct_14ogvg3",
+      "name": "Qwen2.5 Coder 32B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen_plus_10tmwiv",
+      "name": "Qwen-Plus",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen_plus_2025_07_28_0ygi3yq",
+      "name": "Qwen Plus 0728",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen_plus_2025_07_28_thinking_171qjw8",
+      "name": "Qwen Plus 0728 (thinking)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen2_5_vl_72b_instruct_05swzhl",
+      "name": "Qwen2.5 VL 72B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_14b_0s14591",
+      "name": "Qwen3 14B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_235b_a22b_17sqt5c",
+      "name": "Qwen3 235B A22B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_235b_a22b_2507_1grhvqv",
+      "name": "Qwen3 235B A22B Instruct 2507",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_235b_a22b_thinking_2507_1nw8rb6",
+      "name": "Qwen3 235B A22B Thinking 2507",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_30b_a3b_0xvak0k",
+      "name": "Qwen3 30B A3B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_30b_a3b_instruct_2507_1injimw",
+      "name": "Qwen3 30B A3B Instruct 2507",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_30b_a3b_thinking_2507_0nee6fq",
+      "name": "Qwen3 30B A3B Thinking 2507",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_32b_065mzvd",
+      "name": "Qwen3 32B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_8b_0ibilum",
+      "name": "Qwen3 8B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_coder_30b_a3b_instruct_0589hg9",
+      "name": "Qwen3 Coder 30B A3B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_coder_flash_0v7gv1e",
+      "name": "Qwen3 Coder Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_coder_plus_075gyzs",
+      "name": "Qwen3 Coder Plus",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_max_1oqg31q",
+      "name": "Qwen3 Max",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_max_thinking_0nxx77l",
+      "name": "Qwen3 Max Thinking",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_next_80b_a3b_instruct_07yzz8e",
+      "name": "Qwen3 Next 80B A3B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_next_80b_a3b_thinking_1b5a874",
+      "name": "Qwen3 Next 80B A3B Thinking",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_vl_235b_a22b_thinking_0yxlf8y",
+      "name": "Qwen3 VL 235B A22B Thinking",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_vl_30b_a3b_instruct_02d55o4",
+      "name": "Qwen3 VL 30B A3B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_vl_30b_a3b_thinking_1sngise",
+      "name": "Qwen3 VL 30B A3B Thinking",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_vl_32b_instruct_05rv16v",
+      "name": "Qwen3 VL 32B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_vl_8b_instruct_1x279cs",
+      "name": "Qwen3 VL 8B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_vl_8b_thinking_1usbnja",
+      "name": "Qwen3 VL 8B Thinking",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_122b_a10b_0us6wyz",
+      "name": "Qwen3.5-122B-A10B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_27b_1bcx7ua",
+      "name": "Qwen3.5-27B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_35b_a3b_0e33ptc",
+      "name": "Qwen3.5-35B-A3B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_397b_a17b_11i1bqe",
+      "name": "Qwen3.5 397B A17B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_9b_1iq9cn0",
+      "name": "Qwen3.5-9B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_flash_02_23_1bnwf20",
+      "name": "Qwen3.5-Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_plus_02_15_0t2651x",
+      "name": "Qwen3.5 Plus 2026-02-15",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_5_plus_20260420_02m6ozm",
+      "name": "Qwen3.5 Plus 2026-04-20",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_6_27b_0llaqyb",
+      "name": "Qwen3.6 27B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_qwen_qwen3_6_35b_a3b_1d6bcut",
+      "name": "Qwen3.6 35B A3B",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_qwen_qwen3_6_plus_10p6bcg",
+      "name": "Qwen3.6 Plus",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "glm_53",
+      "name": "GLM 5.3",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "glm_52",
+      "name": "GLM 5.2",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_4_5_188dzjz",
+      "name": "GLM 4.5",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_4_5_air_05nem5u",
+      "name": "GLM 4.5 Air",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_4_5v_0hehotn",
+      "name": "GLM 4.5V",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_4_6_18idl8y",
+      "name": "GLM 4.6",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_4_6v_0cerzu4",
+      "name": "GLM 4.6V",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_4_7_18sd6xx",
+      "name": "GLM 4.7",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_4_7_flash_0fofa0y",
+      "name": "GLM 4.7 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_5_1xphcfl",
+      "name": "GLM 5",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_5_turbo_04qtxrk",
+      "name": "GLM 5 Turbo",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_5_1_18dwyb8",
+      "name": "GLM 5.1",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_z_ai_glm_5v_turbo_0r4729g",
+      "name": "GLM 5V Turbo",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "ox_alpha",
+      "name": "Ox Alpha",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "nemotron_3_ultra_free",
+      "name": "Nemotron 3 Ultra free",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "nemotron_3_super_free",
+      "name": "Nemotron 3 Super free",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "gemma_4_31b_free",
+      "name": "Gemma 4 31B free",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "north_mini_code_free",
+      "name": "North Mini Code free",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "nemotron_3_nano_omni_free",
+      "name": "Nemotron 3 Nano Omni free",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "minimax_m3",
+      "name": "MiniMax M3",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "minimax_m27",
+      "name": "MiniMax M2.7",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "minimax_m25",
+      "name": "MiniMax M2.5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "hy_mt2_30b_a3b",
+      "name": "Hy-MT2-30B-A3B",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "hy_mt2_18b",
+      "name": "Hy-MT2-1.8B",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "tencent_hy3",
+      "name": "Tencent Hy3",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "step_37_flash",
+      "name": "Step 3.7 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "mistral_small_4",
+      "name": "Mistral Small 4",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "mistral_medium_35",
+      "name": "Mistral Medium 3.5",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "mistral_large_3",
+      "name": "Mistral Large 3",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "codestral",
+      "name": "Codestral",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "nemotron_3_ultra",
+      "name": "Nemotron 3 Ultra",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "llama_4_maverick",
+      "name": "Llama 4 Maverick",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "llama_4_scout",
+      "name": "Llama 4 Scout",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "yandexgpt_51_pro",
+      "name": "YandexGPT Pro 5.1",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "yandexgpt_5_pro",
+      "name": "YandexGPT Pro 5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "yandexgpt_5_lite",
+      "name": "YandexGPT Lite 5",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "alice_ai",
+      "name": "Alice AI",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_allenai_olmo_3_32b_think_13pzha4",
+      "name": "Olmo 3 32B Think",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_amazon_nova_2_lite_v1_1yd21jc",
+      "name": "Nova 2 Lite",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_amazon_nova_lite_v1_1bekudz",
+      "name": "Nova Lite 1.0",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_amazon_nova_micro_v1_1bhu4sh",
+      "name": "Nova Micro 1.0",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_amazon_nova_premier_v1_1h5mawh",
+      "name": "Nova Premier 1.0",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_amazon_nova_pro_v1_1uhqmp8",
+      "name": "Nova Pro 1.0",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_baidu_ernie_4_5_vl_424b_a47b_0cswa9l",
+      "name": "ERNIE 4.5 VL 424B A47B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_bytedance_seed_seed_1_6_07gts0u",
+      "name": "Seed 1.6",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_bytedance_seed_seed_1_6_flash_1p5zcxx",
+      "name": "Seed 1.6 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_bytedance_seed_seed_2_0_lite_051jv1s",
+      "name": "Seed-2.0-Lite",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_bytedance_seed_seed_2_0_mini_1gcurxf",
+      "name": "Seed-2.0-Mini",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_bytedance_ui_tars_1_5_7b_10vo5nv",
+      "name": "UI-TARS 7B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_cohere_command_a_0hp7l6x",
+      "name": "Command A",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_cohere_command_r_08_2024_1lfdp2y",
+      "name": "Command R (08-2024)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_cohere_command_r_plus_08_2024_1czrh55",
+      "name": "Command R+ (08-2024)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_cohere_command_r7b_12_2024_0acbm9i",
+      "name": "Command R7B (12-2024)",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_ibm_granite_granite_4_0_h_micro_1p5m93c",
+      "name": "Granite 4.0 Micro",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_ibm_granite_granite_4_1_8b_1hc9e7s",
+      "name": "Granite 4.1 8B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_inception_mercury_2_0clangd",
+      "name": "Mercury 2",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_inclusionai_ring_2_6_1t_1olax7x",
+      "name": "Ring-2.6-1T",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mancer_weaver_1ssc57c",
+      "name": "Weaver (alpha)",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_meta_llama_llama_3_1_70b_instruct_1wuwo4i",
+      "name": "Llama 3.1 70B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_meta_llama_llama_3_1_8b_instruct_0ee485h",
+      "name": "Llama 3.1 8B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_meta_llama_llama_3_2_1b_instruct_14pmj1f",
+      "name": "Llama 3.2 1B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_meta_llama_llama_3_2_3b_instruct_0kje5px",
+      "name": "Llama 3.2 3B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_meta_llama_llama_3_3_70b_instruct_0ulkbl8",
+      "name": "Llama 3.3 70B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_meta_llama_llama_guard_4_12b_0jnqpf1",
+      "name": "Llama Guard 4 12B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_microsoft_phi_4_0r9tlk2",
+      "name": "Phi 4",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_microsoft_wizardlm_2_8x22b_0zs8dkk",
+      "name": "WizardLM-2 8x22B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_minimax_minimax_01_0gjp1t8",
+      "name": "MiniMax-01",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_minimax_minimax_m1_1lekxrx",
+      "name": "MiniMax M1",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_minimax_minimax_m2_1kkm4p0",
+      "name": "MiniMax M2",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_minimax_minimax_m2_her_190qofm",
+      "name": "MiniMax M2-her",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_minimax_minimax_m2_1_16p42m5",
+      "name": "MiniMax M2.1",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_ministral_14b_2512_0frpqfq",
+      "name": "Ministral 3 14B 2512",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_ministral_3b_2512_1364nne",
+      "name": "Ministral 3 3B 2512",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_ministral_8b_2512_1ii6w8f",
+      "name": "Ministral 3 8B 2512",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_large_1mtfm0o",
+      "name": "Mistral Large",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_large_2407_1y1czok",
+      "name": "Mistral Large 2407",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_medium_3_0a23p5m",
+      "name": "Mistral Medium 3",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_medium_3_1_1radc0n",
+      "name": "Mistral Medium 3.1",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_nemo_0jcvmrs",
+      "name": "Mistral Nemo",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_saba_1qovftw",
+      "name": "Saba",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_small_24b_instruct_2501_0pkarcj",
+      "name": "Mistral Small 3",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_small_3_1_24b_instruct_04bv9gx",
+      "name": "Mistral Small 3.1 24B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mistral_small_3_2_24b_instruct_1eo3udi",
+      "name": "Mistral Small 3.2 24B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_mixtral_8x22b_instruct_00ijxnt",
+      "name": "Mixtral 8x22B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_mistralai_voxtral_small_24b_2507_1rl9yy2",
+      "name": "Voxtral Small 24B 2507",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_morph_morph_v3_fast_1jmcfwp",
+      "name": "Morph V3 Fast",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_morph_morph_v3_large_0nzs12y",
+      "name": "Morph V3 Large",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_nousresearch_hermes_3_llama_3_1_405b_0ukvbil",
+      "name": "Hermes 3 405B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_nousresearch_hermes_3_llama_3_1_70b_1h25gi1",
+      "name": "Hermes 3 70B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_nousresearch_hermes_4_405b_121pr3p",
+      "name": "Hermes 4 405B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_nousresearch_hermes_4_70b_14jfuap",
+      "name": "Hermes 4 70B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_nvidia_nemotron_3_nano_30b_a3b_1ppuxpn",
+      "name": "Nemotron 3 Nano 30B A3B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_perceptron_perceptron_mk1_0z22dx8",
+      "name": "Perceptron Mk1",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_rekaai_reka_edge_0687wu8",
+      "name": "Reka Edge",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_relace_relace_apply_3_16dghh3",
+      "name": "Relace Apply 3",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_relace_relace_search_1wp36zh",
+      "name": "Relace Search",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_sao10k_l3_lunaris_8b_0rcx54m",
+      "name": "Llama 3 8B Lunaris",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_sao10k_l3_1_euryale_70b_1cdhmv7",
+      "name": "Llama 3.1 Euryale 70B v2.2",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_sao10k_l3_3_euryale_70b_110lqs9",
+      "name": "Llama 3.3 Euryale 70B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_stepfun_step_3_5_flash_13uz291",
+      "name": "Step 3.5 Flash",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_tencent_hunyuan_a13b_instruct_0gvrrxe",
+      "name": "Hunyuan A13B Instruct",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_undi95_remm_slerp_l2_13b_02djqjg",
+      "name": "ReMM SLERP 13B",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_writer_palmyra_x5_16m63ih",
+      "name": "Palmyra X5",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_xiaomi_mimo_v2_5_03lawsj",
+      "name": "MiMo-V2.5",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_xiaomi_mimo_v2_5_pro_1llqbvl",
+      "name": "MiMo-V2.5-Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "sonar",
+      "name": "Perplexity Sonar",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "sonar_pro",
+      "name": "Perplexity Sonar Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "sonar_search",
+      "name": "Sonar Pro Search",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "sonar_research",
+      "name": "Sonar Deep Research",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "sonar_reasoning",
+      "name": "Sonar Reasoning Pro",
+      "category": "llm",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "flux_2_max",
+      "name": "FLUX.2 Max",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "mai_image_25",
+      "name": "MAI Image 2.5",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "o"
+      ]
+    },
+    {
+      "id": "mai_image_25_pro",
+      "name": "MAI Image 2.5 Pro",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "krea_2_large",
+      "name": "Krea 2 Large",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "krea_2_medium",
+      "name": "Krea 2 Medium",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "krea_2_turbo",
+      "name": "Krea 2 Medium Turbo",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "o"
+      ]
+    },
+    {
+      "id": "qwen_image_3",
+      "name": "Qwen Image 3",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "qwen_image_3_pro",
+      "name": "Qwen Image 3 Pro",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "recraft_41_pro",
+      "name": "Recraft 4.1 Pro",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "recraft_41_vector",
+      "name": "Recraft 4.1 Vector",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n"
+      ]
+    },
+    {
+      "id": "recraft_41_pro_vector",
+      "name": "Recraft 4.1 Pro Vector",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n"
+      ]
+    },
+    {
+      "id": "grok_image_20",
+      "name": "Grok Imagine Image 2.0",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "riverflow_25_pro",
+      "name": "Riverflow 2.5 Pro",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "riverflow_25_fast",
+      "name": "Riverflow 2.5 Fast",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "n",
+        "ou"
+      ]
+    },
+    {
+      "id": "nano_banana_pro",
+      "name": "Nano Banana Pro",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "r",
+        "nu",
+        "out",
+        "enab"
+      ]
+    },
+    {
+      "id": "nano_banana_2",
+      "name": "Nano Banana 2",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "r",
+        "nu",
+        "out",
+        "web_"
+      ]
+    },
+    {
+      "id": "nano_banana_2_lite",
+      "name": "Nano Banana 2 Lite",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "o"
+      ]
+    },
+    {
+      "id": "gpt_image_2",
+      "name": "GPT Image 2",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "r",
+        "qu",
+        "out"
+      ]
+    },
+    {
+      "id": "gpt_5_image",
+      "name": "GPT-5 Image",
+      "category": "image",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "gpt_5_image_mini",
+      "name": "GPT-5 Image Mini",
+      "category": "image",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_black_forest_labs_flux_2_flex_04e0hqr",
+      "name": "Flux-2 Flex",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "a"
+      ]
+    },
+    {
+      "id": "polza_black_forest_labs_flux_2_pro_03wfchj",
+      "name": "Flux-2 Pro",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "a"
+      ]
+    },
+    {
+      "id": "polza_bytedance_seedream_4_5_0y4bpwh",
+      "name": "Seedream 4.5",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "q"
+      ]
+    },
+    {
+      "id": "polza_bytedance_seedream_5_lite_0walvx6",
+      "name": "Seedream 5.0 Lite",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "q"
+      ]
+    },
+    {
+      "id": "polza_google_gemini_2_5_flash_image_1lygu5x",
+      "name": "Gemini 2.5 Flash Image (Nano Banana)",
+      "category": "image",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_google_gemini_3_1_flash_image_preview_0dr952r",
+      "name": "Nano Banana 2 (Gemini 3.1 Flash Image Preview)",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "a",
+        "ou"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_5_image_0flywi3",
+      "name": "GPT-5 Image",
+      "category": "image",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_5_image_mini_07s0n7h",
+      "name": "GPT-5 Image Mini",
+      "category": "image",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_seedream_5_pro_text_to_image_14hhcqr",
+      "name": "Seedream 5.0 Pro",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "q",
+        "ou"
+      ]
+    },
+    {
+      "id": "polza_topaz_image_upscale_1qyj2i9",
+      "name": "Topaz Upscale",
+      "category": "image",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_x_ai_grok_imagine_image_1e8vbmb",
+      "name": "Grok Image",
+      "category": "image",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "flux_video_upscale",
+      "name": "FLUX Video Upscale",
+      "category": "video",
+      "modes": [
+        "r"
+      ],
+      "settings": [
+        "s"
+      ]
+    },
+    {
+      "id": "wan_27",
+      "name": "Wan 2.7",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": []
+    },
+    {
+      "id": "veo_31_lite",
+      "name": "Veo 3.1 Lite",
+      "category": "video",
+      "modes": [
+        "f"
+      ],
+      "settings": []
+    },
+    {
+      "id": "kling_video_o1",
+      "name": "Kling Video O1",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": []
+    },
+    {
+      "id": "sora_2_pro",
+      "name": "Sora 2 Pro",
+      "category": "video",
+      "modes": [
+        "f"
+      ],
+      "settings": []
+    },
+    {
+      "id": "runway_gen_45",
+      "name": "Runway Gen-4.5",
+      "category": "video",
+      "modes": [
+        "f"
+      ],
+      "settings": []
+    },
+    {
+      "id": "runway_aleph_2",
+      "name": "Runway Aleph 2.0",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": []
+    },
+    {
+      "id": "minimax_h3",
+      "name": "MiniMax H3",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": [
+        "a",
+        "ge"
+      ]
+    },
+    {
+      "id": "seedance_25",
+      "name": "Seedance 2.5",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": [
+        "r",
+        "as",
+        "gen"
+      ]
+    },
+    {
+      "id": "flux_3",
+      "name": "FLUX 3",
+      "category": "video",
+      "modes": [
+        "f"
+      ],
+      "settings": [
+        "r",
+        "as",
+        "gen"
+      ]
+    },
+    {
+      "id": "seedance_20",
+      "name": "Seedance 2.0",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": [
+        "r",
+        "as",
+        "gen",
+        "mult"
+      ]
+    },
+    {
+      "id": "seedance_20_fast",
+      "name": "Seedance 2.0 Fast",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": [
+        "r",
+        "as",
+        "gen",
+        "mult"
+      ]
+    },
+    {
+      "id": "seedance_20_mini",
+      "name": "Seedance 2.0 Mini",
+      "category": "video",
+      "modes": [
+        "f",
+        "re"
+      ],
+      "settings": [
+        "r",
+        "as",
+        "gen",
+        "mult"
+      ]
+    },
+    {
+      "id": "grok_imagine_video_15",
+      "name": "Grok Imagine Video 1.5",
+      "category": "video",
+      "modes": [
+        "f"
+      ],
+      "settings": []
+    },
+    {
+      "id": "polza_alibaba_happyhorse_1_0_0pez3zb",
+      "name": "HappyHorse 1.0",
+      "category": "video",
+      "modes": [],
+      "settings": [
+        "r",
+        "as"
+      ]
+    },
+    {
+      "id": "polza_alibaba_happyhorse_1_1_0p4ziac",
+      "name": "HappyHorse 1.1",
+      "category": "video",
+      "modes": [],
+      "settings": [
+        "r",
+        "as"
+      ]
+    },
+    {
+      "id": "polza_bytedance_seedance_1_5_pro_1oqdnek",
+      "name": "Seedance 1.5 Pro",
+      "category": "video",
+      "modes": [],
+      "settings": [
+        "r",
+        "as",
+        "gen",
+        "fixe"
+      ]
+    },
+    {
+      "id": "polza_google_veo3_0n9pka0",
+      "name": "Veo 3.1 Quality",
+      "category": "video",
+      "modes": [],
+      "settings": [
+        "g",
+        "en"
+      ]
+    },
+    {
+      "id": "polza_google_veo3_fast_0js3z3z",
+      "name": "Veo 3.1 Fast",
+      "category": "video",
+      "modes": [],
+      "settings": [
+        "g",
+        "en"
+      ]
+    },
+    {
+      "id": "polza_kling_v3_0r3wzac",
+      "name": "Kling 3.0",
+      "category": "video",
+      "modes": [],
+      "settings": [
+        "a",
+        "ge"
+      ]
+    },
+    {
+      "id": "polza_topaz_video_upscale_11v3tgv",
+      "name": "Topaz Video Upscale",
+      "category": "video",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_wan_2_6_0jepobw",
+      "name": "Wan 2.6",
+      "category": "video",
+      "modes": [],
+      "settings": [
+        "r",
+        "mu"
+      ]
+    },
+    {
+      "id": "polza_google_lyria_3_clip_preview_067fyr0",
+      "name": "Lyria 3 Clip Preview",
+      "category": "audio",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_google_lyria_3_pro_preview_190ii7b",
+      "name": "Lyria 3 Pro Preview",
+      "category": "audio",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_suno_generate_1xai46g",
+      "name": "Suno Music Generate",
+      "category": "audio",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_suno_mashup_0e1mpc3",
+      "name": "Suno Mashup",
+      "category": "audio",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_suno_sounds_1lwz9xr",
+      "name": "Suno Sounds",
+      "category": "audio",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "nemotron_35_asr_streaming",
+      "name": "Nemotron 3.5 ASR Streaming Multilingual 0.6B",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "mai_voice_2",
+      "name": "MAI Voice 2",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "mai_voice_2_flash",
+      "name": "MAI Voice 2 Flash",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "grok_voice_tts_10",
+      "name": "Grok Voice TTS 1.0",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "voxtral_mini_tts",
+      "name": "Voxtral Mini TTS",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "qwen_audio_tts_flash",
+      "name": "Qwen Audio 3.0 TTS Flash",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "qwen_audio_tts_plus",
+      "name": "Qwen Audio 3.0 TTS Plus",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "fish_audio_s21_pro",
+      "name": "Fish Audio S2.1 Pro",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "orpheus_3b",
+      "name": "Orpheus 3B",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "kokoro_82m",
+      "name": "Kokoro 82M",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "sesame_csm_1b",
+      "name": "Sesame CSM 1B",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "t"
+      ]
+    },
+    {
+      "id": "gpt_4o_transcribe",
+      "name": "GPT-4o Transcribe",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_deepgram_aura_2_0ljfibt",
+      "name": "Aura-2",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_fish_audio_s1_1bosl4l",
+      "name": "S1",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_fish_audio_s2_pro_1i37ksq",
+      "name": "S2 Pro",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_fish_audio_s2_1_pro_1c06cw3",
+      "name": "S2.1 Pro",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_google_chirp_3_0jnfwj9",
+      "name": "Chirp 3",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_google_gemini_3_1_flash_tts_preview_0xmvzzn",
+      "name": "Gemini 3.1 Flash TTS Preview",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_microsoft_mai_voice_2_1a7p115",
+      "name": "MAI-Voice-2",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_microsoft_mai_voice_2_flash_1kf6xem",
+      "name": "MAI-Voice-2-Flash",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_minimax_speech_2_8_hd_0ecxgh9",
+      "name": "Speech 2.8 HD",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_minimax_speech_2_8_turbo_0lihsuf",
+      "name": "Speech 2.8 Turbo",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_mistralai_voxtral_mini_transcribe_17z9ztc",
+      "name": "Voxtral Mini Transcribe",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_nvidia_parakeet_tdt_0_6b_v3_03q1bi6",
+      "name": "Parakeet TDT 0.6B v3",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_gpt_4o_mini_transcribe_0unydp9",
+      "name": "gpt 4o mini transcribe",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_gpt_4o_transcribe_0x5etzz",
+      "name": "gpt 4o transcribe",
+      "category": "voice",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_openai_whisper_1_11ajggw",
+      "name": "Whisper 1",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_whisper_large_v3_1usmdy8",
+      "name": "Whisper Large V3",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_openai_whisper_large_v3_turbo_1cm1pdp",
+      "name": "Whisper Large V3 Turbo",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_qwen_qwen3_asr_flash_2026_02_10_1u0z33j",
+      "name": "Qwen3 ASR Flash",
+      "category": "voice",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "longcat_20",
+      "name": "LongCat 2.0",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "ling_30_flash",
+      "name": "InclusionAI Ling 3.0 Flash",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "reka_flash_3",
+      "name": "Reka Flash 3",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "seed_20_code",
+      "name": "ByteDance Seed 2.0 Code",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "nemotron_35_lightning",
+      "name": "NVIDIA Nemotron 3.5 Lightning",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "solar_pro_4",
+      "name": "Solar Pro 4",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "muse_glimmer_30b",
+      "name": "Meta Muse Glimmer 30B",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "muse_spark_12",
+      "name": "Meta Muse Spark 1.2",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "dolphin_mistral_venice",
+      "name": "Dolphin Mistral Venice",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "sakana_namazu",
+      "name": "Sakana Namazu",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "w"
+      ]
+    },
+    {
+      "id": "inkling_small",
+      "name": "Thinking Machines Inkling Small",
+      "category": "beta",
+      "modes": [],
+      "settings": [
+        "r"
+      ]
+    },
+    {
+      "id": "polza_aion_labs_aion_2_0_0egnqe8",
+      "name": "Aion-2.0",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_aion_labs_aion_3_0_0ga4bbb",
+      "name": "Aion-3.0",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_aion_labs_aion_3_0_mini_0zek5eh",
+      "name": "Aion-3.0-Mini",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_aion_labs_aion_rp_llama_3_1_8b_0rjzero",
+      "name": "Aion-RP 1.0 (8B)",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_anthracite_org_magnum_v4_72b_0f0g8d2",
+      "name": "Magnum v4 72B",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_arcee_ai_trinity_large_thinking_1wqbuyv",
+      "name": "Trinity Large Thinking",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_arcee_ai_virtuoso_large_05g4qfk",
+      "name": "Virtuoso Large",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_deepcogito_cogito_v2_1_671b_0t53pzr",
+      "name": "Cogito v2.1 671B",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_gryphe_mythomax_l2_13b_0irq0n6",
+      "name": "MythoMax 13B",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_kwaipilot_kat_coder_air_v2_5_17axmwv",
+      "name": "KAT-Coder-Air V2.5",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_kwaipilot_kat_coder_pro_v2_1qi16qj",
+      "name": "KAT-Coder-Pro V2",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_kwaipilot_kat_coder_pro_v2_5_1nw51im",
+      "name": "KAT-Coder-Pro V2.5",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_poolside_laguna_s_2_1_1wdax1p",
+      "name": "Laguna S 2.1",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_poolside_laguna_xs_2_1_17fcsg9",
+      "name": "Laguna XS 2.1",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_thedrummer_cydonia_24b_v4_1_13w7gjv",
+      "name": "Cydonia 24B V4.1",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_thedrummer_rocinante_12b_1iz3l66",
+      "name": "Rocinante 12B",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_thedrummer_skyfall_36b_v2_0mp6r7q",
+      "name": "Skyfall 36B V2",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_thedrummer_unslopnemo_12b_1q34gvh",
+      "name": "UnslopNemo 12B",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_thinkingmachines_inkling_1sez1yg",
+      "name": "Inkling",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "polza_upstage_solar_pro_3_11rzppu",
+      "name": "Solar Pro 3",
+      "category": "beta",
+      "modes": [],
+      "settings": []
+    }
+  ],
+  "agents": [
+    {
+      "id": "business_lawyer",
+      "name": "ии-юрист",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "accountant",
+      "name": "бухгалтер",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "strategist",
+      "name": "стратег",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "business_analyst",
+      "name": "бизнес-аналитик",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "marketer",
+      "name": "маркетолог",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "seo_marketer",
+      "name": "seo-маркетолог",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "smm_manager",
+      "name": "smm-менеджер",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "sales_expert",
+      "name": "эксперт продаж",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "recruiter",
+      "name": "рекрутер",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "business_secretary",
+      "name": "деловой секретарь",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "product_manager",
+      "name": "продакт-менеджер",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "marketplace_manager",
+      "name": "менеджер маркетплейсов",
+      "category": "business",
+      "active": true
+    },
+    {
+      "id": "copywriter",
+      "name": "копирайтер",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "editor",
+      "name": "редактор",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "article_author",
+      "name": "автор статей",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "screenwriter",
+      "name": "сценарист",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "prompt_engineer",
+      "name": "промпт-инженер",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "art_director",
+      "name": "арт-директор",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "presentation_designer",
+      "name": "дизайнер презентаций",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "video_director",
+      "name": "видеорежиссёр",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "content_manager",
+      "name": "контент-менеджер",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "fact_checker",
+      "name": "фактчекер",
+      "category": "content",
+      "active": true
+    },
+    {
+      "id": "developer",
+      "name": "разработчик",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "architect",
+      "name": "архитектор",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "code_reviewer",
+      "name": "ревьюер кода",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "qa_engineer",
+      "name": "qa-инженер",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "debugger",
+      "name": "отладчик",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "data_analyst",
+      "name": "аналитик данных",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "ux_researcher",
+      "name": "ux-исследователь",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "ux_auditor",
+      "name": "ux-аудитор",
+      "category": "development",
+      "active": true
+    },
+    {
+      "id": "tutor",
+      "name": "репетитор",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "language_teacher",
+      "name": "преподаватель языка",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "examiner",
+      "name": "экзаменатор",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "methodologist",
+      "name": "методист",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "translator",
+      "name": "переводчик",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "abstract_writer",
+      "name": "рефератер",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "literary_analyst",
+      "name": "литературный аналитик",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "career_consultant",
+      "name": "карьерный консультант",
+      "category": "education",
+      "active": true
+    },
+    {
+      "id": "proofreader",
+      "name": "корректор",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "paraphraser",
+      "name": "перефразировщик",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "resume_helper",
+      "name": "резюме",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "document_analyst",
+      "name": "аналитик документов",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "spreadsheet_analyst",
+      "name": "аналитик таблиц",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "researcher",
+      "name": "исследователь",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "idea_generator",
+      "name": "генератор идей",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "psychologist",
+      "name": "психолог",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "medical_navigator",
+      "name": "медицинский навигатор",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "travel_guide",
+      "name": "путеводитель",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "meal_planner",
+      "name": "планировщик питания",
+      "category": "personal",
+      "active": true
+    },
+    {
+      "id": "personal_assistant",
+      "name": "личный помощник",
+      "category": "personal",
+      "active": true
+    }
+  ],
+  "tools": [
+    {
+      "id": "photo_generate",
+      "name": "создать изображение",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "r",
+        "nu",
+        "out",
+        "safe"
+      ]
+    },
+    {
+      "id": "photo_edit",
+      "name": "изменить изображение",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "r",
+        "nu",
+        "out",
+        "safe"
+      ]
+    },
+    {
+      "id": "photo_pose_transfer",
+      "name": "изменить позу",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "o"
+      ]
+    },
+    {
+      "id": "photo_colorize",
+      "name": "раскрасить фото",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "photo_restore",
+      "name": "восстановить фото",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "photo_remove_bg",
+      "name": "убрать фон",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "photo_object_remove",
+      "name": "убрать объект",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m"
+      ]
+    },
+    {
+      "id": "photo_expand",
+      "name": "расширить кадр",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "n"
+      ]
+    },
+    {
+      "id": "photo_face_restore",
+      "name": "восстановить лицо",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "o",
+        "al",
+        "ups"
+      ]
+    },
+    {
+      "id": "photo_try_on",
+      "name": "примерить одежду",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "photo_product",
+      "name": "фото товара",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "photo_ocr",
+      "name": "распознать текст",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m"
+      ]
+    },
+    {
+      "id": "photo_upscale",
+      "name": "увеличить фото",
+      "category": "photo",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m",
+        "ou"
+      ]
+    },
+    {
+      "id": "video_generate",
+      "name": "создать видео",
+      "category": "video",
+      "active": true,
+      "modes": [
+        "text_to_video"
+      ],
+      "settings": [
+        "",
+        "g",
+        "as",
+        "neg"
+      ]
+    },
+    {
+      "id": "video_image_to_video",
+      "name": "оживить изображение",
+      "category": "video",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "g",
+        "ne"
+      ]
+    },
+    {
+      "id": "video_extend",
+      "name": "продолжить видео",
+      "category": "video",
+      "active": true,
+      "modes": [
+        "extend_video"
+      ],
+      "settings": [
+        "",
+        "r",
+        "ge",
+        "saf"
+      ]
+    },
+    {
+      "id": "video_understand",
+      "name": "разобрать видео",
+      "category": "video",
+      "active": true,
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "video_edit",
+      "name": "изменить видео",
+      "category": "video",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "video_live_photo",
+      "name": "оживить фото",
+      "category": "video",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "video_lipsync",
+      "name": "синхронизировать губы",
+      "category": "video",
+      "active": true,
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "video_talking_head",
+      "name": "говорящий портрет",
+      "category": "video",
+      "active": true,
+      "modes": [],
+      "settings": [
+        ""
+      ]
+    },
+    {
+      "id": "video_remove_bg",
+      "name": "убрать фон из видео",
+      "category": "video",
+      "active": true,
+      "modes": [
+        "text_to_video"
+      ],
+      "settings": [
+        "",
+        "p",
+        "ba"
+      ]
+    },
+    {
+      "id": "video_remove_object",
+      "name": "убрать объект из видео",
+      "category": "video",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "a",
+        "ou"
+      ]
+    },
+    {
+      "id": "video_upscale",
+      "name": "улучшить видео",
+      "category": "video",
+      "active": true,
+      "modes": [
+        "text_to_video"
+      ],
+      "settings": [
+        "",
+        "u"
+      ]
+    },
+    {
+      "id": "audio_stt",
+      "name": "расшифровать речь",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "t",
+        "di"
+      ]
+    },
+    {
+      "id": "audio_tts",
+      "name": "озвучить текст",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "s",
+        "si",
+        "spe",
+        "lang",
+        "outpu"
+      ]
+    },
+    {
+      "id": "audio_voice_clone",
+      "name": "клонировать голос",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "r"
+      ]
+    },
+    {
+      "id": "audio_isolation",
+      "name": "очистить голос",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "audio_stems",
+      "name": "разделить на дорожки",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "s",
+        "ou"
+      ]
+    },
+    {
+      "id": "audio_sfx",
+      "name": "создать звуковой эффект",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "p",
+        "ou"
+      ]
+    },
+    {
+      "id": "audio_music",
+      "name": "создать музыку",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "f",
+        "re",
+        "out"
+      ]
+    },
+    {
+      "id": "audio_voice_change",
+      "name": "изменить голос",
+      "category": "audio",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "r",
+        "se",
+        "out"
+      ]
+    },
+    {
+      "id": "document_ocr",
+      "name": "прочитать документ",
+      "category": "document",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m"
+      ]
+    },
+    {
+      "id": "document_table",
+      "name": "извлечь таблицу",
+      "category": "document",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m"
+      ]
+    },
+    {
+      "id": "document_formula",
+      "name": "распознать формулы",
+      "category": "document",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m"
+      ]
+    },
+    {
+      "id": "document_chart",
+      "name": "разобрать диаграмму",
+      "category": "document",
+      "active": true,
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "data_extract",
+      "name": "извлечь данные с изображения",
+      "category": "document",
+      "active": true,
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "data_image_description",
+      "name": "описать изображение",
+      "category": "document",
+      "active": true,
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "three_d_image",
+      "name": "3d по фото",
+      "category": "3d",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "t",
+        "ta",
+        "sym",
+        "shou",
+        "enabl"
+      ]
+    },
+    {
+      "id": "three_d_text",
+      "name": "3d по описанию",
+      "category": "3d",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m",
+        "to",
+        "tar"
+      ]
+    },
+    {
+      "id": "three_d_extract",
+      "name": "извлечь объект в 3d",
+      "category": "3d",
+      "active": true,
+      "modes": [],
+      "settings": []
+    },
+    {
+      "id": "three_d_multi_image",
+      "name": "собрать 3d по нескольким фото",
+      "category": "3d",
+      "active": true,
+      "modes": [],
+      "settings": [
+        "",
+        "m"
+      ]
+    }
+  ],
+  "workflows": [
+    {
+      "id": "music_song",
+      "name": "создать песню",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "v",
+        "du"
+      ]
+    },
+    {
+      "id": "music_instrumental",
+      "name": "создать инструментал",
+      "category": "music",
+      "availability": "active",
+      "modes": [],
+      "settings": [
+        "s",
+        "du"
+      ]
+    },
+    {
+      "id": "music_video_score",
+      "name": "написать музыку к видео",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "k",
+        "cu"
+      ]
+    },
+    {
+      "id": "music_jingle",
+      "name": "создать заставку",
+      "category": "music",
+      "availability": "active",
+      "modes": [],
+      "settings": [
+        "d",
+        "in"
+      ]
+    },
+    {
+      "id": "music_loop",
+      "name": "создать музыкальную петлю",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "d",
+        "en"
+      ]
+    },
+    {
+      "id": "music_hum_to_track",
+      "name": "собрать трек из напева",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "k",
+        "vo"
+      ]
+    },
+    {
+      "id": "music_extend",
+      "name": "продолжить трек",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "s",
+        "ex"
+      ]
+    },
+    {
+      "id": "music_rework",
+      "name": "сделать новую версию",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "s",
+        "ke"
+      ]
+    },
+    {
+      "id": "music_remix",
+      "name": "сделать ремикс",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "t",
+        "ke"
+      ]
+    },
+    {
+      "id": "music_mashup",
+      "name": "соединить треки",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "t",
+        "du"
+      ]
+    },
+    {
+      "id": "music_cover",
+      "name": "перепеть демо",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "p",
+        "pi"
+      ]
+    },
+    {
+      "id": "audio_stems",
+      "name": "разделить на дорожки",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "f",
+        "zi"
+      ]
+    },
+    {
+      "id": "audio_karaoke",
+      "name": "сделать караоке",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "r",
+        "sy"
+      ]
+    },
+    {
+      "id": "audio_master",
+      "name": "подготовить мастер",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "i",
+        "fo"
+      ]
+    },
+    {
+      "id": "audio_scene_sfx",
+      "name": "озвучить сцену",
+      "category": "music",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "k",
+        "se"
+      ]
+    },
+    {
+      "id": "voice_tts",
+      "name": "озвучить текст",
+      "category": "voice",
+      "availability": "active",
+      "modes": [],
+      "settings": [
+        "s",
+        "fo"
+      ]
+    },
+    {
+      "id": "voice_longform",
+      "name": "озвучить большой текст",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "s",
+        "ch"
+      ]
+    },
+    {
+      "id": "voice_dialogue",
+      "name": "озвучить диалог",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "p",
+        "se"
+      ]
+    },
+    {
+      "id": "voice_ad",
+      "name": "записать рекламу",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "d",
+        "va"
+      ]
+    },
+    {
+      "id": "voice_design",
+      "name": "создать голос",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "v",
+        "qu"
+      ]
+    },
+    {
+      "id": "voice_clone",
+      "name": "клонировать мой голос",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "r",
+        "ri"
+      ]
+    },
+    {
+      "id": "voice_change",
+      "name": "изменить голос",
+      "category": "voice",
+      "availability": "active",
+      "modes": [],
+      "settings": [
+        "b",
+        "si"
+      ]
+    },
+    {
+      "id": "voice_dub_video",
+      "name": "дублировать видео",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "s",
+        "so",
+        "sub"
+      ]
+    },
+    {
+      "id": "voice_translate_preserve",
+      "name": "перевести с тем же голосом",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "m",
+        "re"
+      ]
+    },
+    {
+      "id": "voice_replace_phrase",
+      "name": "заменить фразу в записи",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "e",
+        "ma"
+      ]
+    },
+    {
+      "id": "voice_transcribe",
+      "name": "расшифровать речь",
+      "category": "voice",
+      "availability": "active",
+      "modes": [],
+      "settings": [
+        "d",
+        "fo"
+      ]
+    },
+    {
+      "id": "voice_meeting",
+      "name": "разобрать встречу",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "a",
+        "sp"
+      ]
+    },
+    {
+      "id": "voice_subtitles",
+      "name": "сделать субтитры",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "l",
+        "tr"
+      ]
+    },
+    {
+      "id": "voice_cleanup",
+      "name": "очистить запись",
+      "category": "voice",
+      "availability": "active",
+      "modes": [],
+      "settings": [
+        "r",
+        "re"
+      ]
+    },
+    {
+      "id": "voice_shorten",
+      "name": "сократить речь",
+      "category": "voice",
+      "availability": "early_access",
+      "modes": [],
+      "settings": [
+        "e",
+        "re"
+      ]
+    }
+  ],
+  "entertainments": [
+    {
+      "id": "ent_congratulator",
+      "name": "🎙 поздравлятор",
+      "category": "entertainment",
+      "description": "готовит персональное поздравление с характером адресата, поводом и нужной длительностью: от короткого тоста до текста для озвучки.",
+      "inputHint": "назови повод, адресата, ваши отношения, желаемый тон и длительность",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "guided",
+      "entryOptions": 4,
+      "accepts": [
+        "text",
+        "audio"
+      ],
+      "output": "audio"
+    },
+    {
+      "id": "ent_calorie_estimator",
+      "name": "🍽 калории по фото",
+      "category": "entertainment",
+      "description": "оценивает состав блюда, размер порции, диапазон калорий и БЖУ по фотографии. удобно, когда нужно быстро понять порядок цифр по обычному снимку.",
+      "inputHint": "пришли чёткое фото блюда и, если знаешь, перечисли ингредиенты и вес",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "guided",
+      "entryOptions": 0,
+      "accepts": [
+        "image"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_trainer",
+      "name": "💪 тренер",
+      "category": "entertainment",
+      "description": "собирает программу домашних или зальных тренировок под цель, опыт, доступное оборудование, график и желаемый темп нагрузки.",
+      "inputHint": "укажи цель, опыт, доступные дни, оборудование и известные ограничения",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "guided",
+      "entryOptions": 5,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_lila",
+      "name": "🎲 игра «лила»",
+      "category": "entertainment",
+      "description": "ведёт игру на поле из 72 клеток: ты формулируешь запрос, кубик задаёт ход, а ИИ-мастер разбирает выпавшую клетку в контексте вопроса.",
+      "inputHint": "сформулируй тему для игры и напиши, насколько глубокий разбор тебе комфортен",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "guided",
+      "entryOptions": 1,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_language_tutor",
+      "name": "🗣 языковой собеседник",
+      "category": "entertainment",
+      "description": "устраивает живую разговорную практику на выбранном языке, подстраивает сложность, мягко исправляет ошибки и собирает полезный словарь.",
+      "inputHint": "назови язык, свой уровень, тему разговора и как часто тебя исправлять",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "guided",
+      "entryOptions": 7,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_meme_sticker",
+      "name": "🎭 мем-стикер",
+      "category": "entertainment",
+      "description": "придумывает короткий мем или набор подписей для стикера под ситуацию, эмоцию и аудиторию, сохраняя текст читаемым и уместным.",
+      "inputHint": "опиши ситуацию, героя, настроение, формат и слова, которые нельзя использовать",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "guided",
+      "entryOptions": 3,
+      "accepts": [
+        "text",
+        "image"
+      ],
+      "output": "image"
+    },
+    {
+      "id": "ent_story_quest",
+      "name": "🗺 сюжетный квест",
+      "category": "entertainment",
+      "description": "ведёт интерактивное приключение короткими сценами, предлагает осмысленные варианты действий и сохраняет выбранный жанр без жестокого или опасного контента.",
+      "inputHint": "назови жанр, героя, место действия, желаемую длину и допустимый возрастной рейтинг",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 4,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_sound_postcard",
+      "name": "🎧 звуковая открытка",
+      "category": "entertainment",
+      "description": "пишет компактный сценарий звуковой открытки с репликой, атмосферой, музыкой и шумами, который затем можно передать в озвучку или монтаж.",
+      "inputHint": "назови адресата, повод, длительность, настроение, голос и желаемые звуки",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 4,
+      "accepts": [
+        "text",
+        "audio"
+      ],
+      "output": "audio"
+    },
+    {
+      "id": "ent_visual_age",
+      "name": "🔢 визуальный возраст",
+      "category": "entertainment",
+      "description": "даёт игровой диапазон воспринимаемого возраста и объясняет, какие детали образа создают такое впечатление, без оценки здоровья.",
+      "inputHint": "пришли фотографию и укажи, нужен бережный или шутливый разбор",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 3,
+      "accepts": [
+        "image"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_quiz",
+      "name": "🧪 квиз",
+      "category": "entertainment",
+      "description": "проводит короткий интерактивный квиз по выбранной теме, выдаёт вопросы по одному, считает очки и объясняет ответы после попытки.",
+      "inputHint": "назови тему, сложность, количество вопросов и формат вариантов ответа",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "guided",
+      "entryOptions": 6,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_chef",
+      "name": "👨‍🍳 повар",
+      "category": "entertainment",
+      "description": "превращает список продуктов в выполнимый рецепт с заменами, временем, посудой и понятными шагами без вымышленных ингредиентов.",
+      "inputHint": "перечисли продукты, порции, технику, время и пищевые ограничения",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 4,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_diet_day",
+      "name": "🥗 меню на день",
+      "category": "entertainment",
+      "description": "собирает меню на день под бюджет, предпочтения и доступное время: блюда, примерные порции, покупки и простой порядок готовки.",
+      "inputHint": "укажи число людей, бюджет, продукты дома, аллергии и время на готовку",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 4,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_story_oracle",
+      "name": "🔮 оракул историй",
+      "category": "entertainment",
+      "description": "создаёт символическую мини-историю по вопросу пользователя и предлагает несколько интерпретаций для размышления.",
+      "inputHint": "задай вопрос и выбери атмосферу: добрая, загадочная, ироничная или эпическая",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 4,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_character_test",
+      "name": "🎭 тест персонажа",
+      "category": "entertainment",
+      "description": "проводит авторский тест и подбирает похожий типаж из выбранной вселенной, объясняя результат через ответы пользователя.",
+      "inputHint": "назови вселенную или жанр и выбери длину теста",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 3,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    },
+    {
+      "id": "ent_party_game",
+      "name": "🎉 игра для компании",
+      "category": "entertainment",
+      "description": "собирает безопасную игру для компании под количество людей, возраст, место и доступное время, с правилами и готовыми заданиями.",
+      "inputHint": "укажи число игроков, возраст, место, длительность и нежелательные темы",
+      "runnable": true,
+      "readiness": "ready",
+      "flowKind": "selectable",
+      "entryOptions": 4,
+      "accepts": [
+        "text"
+      ],
+      "output": "text"
+    }
+  ],
+  "entertainmentProfile": {
+    "cover": {
+      "key": "entertainment-section",
+      "sourceFile": "гембла.png",
+      "alt": "развлечения с ИИ"
+    },
+    "ready": 15,
+    "total": 15,
+    "quizReady": true
+  },
+  "musicProfile": {
+    "constructorReady": true,
+    "runnableWorkflows": 1,
+    "stylePresetCount": 24,
+    "settings": [
+      "result",
+      "style",
+      "lyrics",
+      "duration",
+      "prompt"
+    ],
+    "activeRoutes": 6
+  },
+  "voiceProfile": {
+    "curatedCount": 80,
+    "customVoiceSupported": true,
+    "sensitiveFieldsExposed": false
+  }
+}
